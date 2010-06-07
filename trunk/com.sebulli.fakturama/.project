@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>com.sebulli.fakturama</name>
+	<comment></comment>
+	<projects>
+		<project>ag.ion.bion.workbench.office.editor.activation</project>
+		<project>ag.ion.bion.workbench.office.editor.activation.nl1</project>
+		<project>ag.ion.bion.workbench.office.editor.core</project>
+		<project>ag.ion.bion.workbench.office.editor.ui</project>
+		<project>ag.ion.bion.workbench.office.editor.ui.nl1</project>
+		<project>ag.ion.noa4e.search</project>
+		<project>ag.ion.noa4e.search.nl1</project>
+		<project>ag.ion.noa4e.ui</project>
+		<project>ag.ion.noa4e.ui.nl1</project>
+		<project>hsqldb</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.pde.ManifestBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.pde.SchemaBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.pde.PluginNature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+</projectDescription>
