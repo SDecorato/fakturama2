@@ -1,0 +1,69 @@
+/*
+ * 
+ *	Fakturama - Free Invoicing Software 
+ *  Copyright (C) 2010  Gerd Bartelt
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *   
+ */
+
+package com.sebulli.fakturama.actions;
+
+import java.util.Locale;
+
+import org.eclipse.jface.action.Action;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+
+import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.editors.BrowserEditor;
+import com.sebulli.fakturama.editors.BrowserEditorInput;
+import com.sebulli.fakturama.logger.Logger;
+
+public class OpenBrowserEditorAction extends Action {
+
+	// private final IWorkbenchWindow window;
+
+	public OpenBrowserEditorAction() {
+		super("www.sebulli.com");
+		// The id is used to refer to the action in a menu or toolbar
+		setId(ICommandIds.CMD_OPEN_BROWSER_EDITOR);
+		// Associate the action with a pre-defined command, to allow key
+		// bindings.
+		setActionDefinitionId(ICommandIds.CMD_OPEN_BROWSER_EDITOR);
+		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/www_16.png"));
+	}
+
+	@Override
+	public void run() {
+		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		String url = "http://www.sebulli.com/fakturama/app.php";
+
+		url += "?version=" + Activator.getDefault().getBundle().getVersion();
+		url += "&lang=" + Locale.getDefault().getCountry();
+
+		BrowserEditorInput input = new BrowserEditorInput(url);
+		try {
+			if (workbenchWindow != null) {
+				IWorkbenchPage page = workbenchWindow.getActivePage();
+				if (page != null)
+					page.openEditor(input, BrowserEditor.ID);
+			}
+		} catch (PartInitException e) {
+			Logger.logError(e, "Error opening Editor: " + BrowserEditor.ID);
+		}
+	}
+}
