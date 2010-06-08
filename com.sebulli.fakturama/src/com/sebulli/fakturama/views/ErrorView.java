@@ -38,7 +38,7 @@ public class ErrorView extends ViewPart {
 
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
-		Label labelItemNr = new Label(top, SWT.BORDER);
+		Label labelItemNr = new Label(top, SWT.NONE);
 		labelItemNr.setText("Fehler:");
 		errorText = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(errorText);

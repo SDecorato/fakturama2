@@ -130,12 +130,12 @@ public class PaymentEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
 
-		Label labelTitle = new Label(top, SWT.BORDER);
+		Label labelTitle = new Label(top, SWT.NONE);
 		labelTitle.setText("Zahlungsmethode");
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
-		Label labelName = new Label(top, SWT.BORDER);
+		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText("Name");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -143,7 +143,7 @@ public class PaymentEditor extends Editor {
 		superviceControl(textName, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
-		Label labelCategory = new Label(top, SWT.BORDER);
+		Label labelCategory = new Label(top, SWT.NONE);
 		labelCategory.setText("Kategorie");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
@@ -151,7 +151,7 @@ public class PaymentEditor extends Editor {
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
-		Label labelDescription = new Label(top, SWT.BORDER);
+		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText("Beschreibung");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
@@ -159,7 +159,7 @@ public class PaymentEditor extends Editor {
 		superviceControl(textDescription, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDescription);
 
-		Label labelDiscountValue = new Label(top, SWT.BORDER);
+		Label labelDiscountValue = new Label(top, SWT.NONE);
 		labelDiscountValue.setText("Skonto");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscountValue);
 		textDiscountValue = new Text(top, SWT.BORDER);
@@ -167,7 +167,7 @@ public class PaymentEditor extends Editor {
 		superviceControl(textDiscountValue, 12);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDiscountValue);
 
-		Label labelDiscountDays = new Label(top, SWT.BORDER);
+		Label labelDiscountDays = new Label(top, SWT.NONE);
 		labelDiscountDays.setText("Tage Skonto");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscountDays);
 		textDiscountDays = new Text(top, SWT.BORDER);
@@ -175,7 +175,7 @@ public class PaymentEditor extends Editor {
 		superviceControl(textDiscountDays, 8);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDiscountDays);
 
-		Label labelNetDays = new Label(top, SWT.BORDER);
+		Label labelNetDays = new Label(top, SWT.NONE);
 		labelNetDays.setText("Tage Netto");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNetDays);
 		textNetDays = new Text(top, SWT.BORDER);
@@ -184,7 +184,7 @@ public class PaymentEditor extends Editor {
 
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textNetDays);
 
-		Label labelStdVat = new Label(top, SWT.BORDER);
+		Label labelStdVat = new Label(top, SWT.NONE);
 		labelStdVat.setText("Standard");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
 

@@ -208,12 +208,12 @@ public class ShippingEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
 
-		Label labelTitle = new Label(top, SWT.BORDER);
+		Label labelTitle = new Label(top, SWT.NONE);
 		labelTitle.setText("Versandkosten");
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
-		Label labelName = new Label(top, SWT.BORDER);
+		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText("Name");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -221,7 +221,7 @@ public class ShippingEditor extends Editor {
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
-		Label labelCategory = new Label(top, SWT.BORDER);
+		Label labelCategory = new Label(top, SWT.NONE);
 		labelCategory.setText("Kategorie");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
@@ -229,7 +229,7 @@ public class ShippingEditor extends Editor {
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
-		Label labelDescription = new Label(top, SWT.BORDER);
+		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText("Beschreibung");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
@@ -237,7 +237,7 @@ public class ShippingEditor extends Editor {
 		superviceControl(textDescription, 250);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDescription);
 
-		Label labelValue = new Label(top, SWT.BORDER);
+		Label labelValue = new Label(top, SWT.NONE);
 		labelValue.setText("Wert");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelValue);
 
@@ -247,13 +247,13 @@ public class ShippingEditor extends Editor {
 		GridLayoutFactory.swtDefaults().margins(0, 0).numColumns((useNet && useGross) ? 2 : 1).applyTo(netGrossComposite);
 
 		if (useNet) {
-			Label netValueLabel = new Label(netGrossComposite, SWT.BORDER);
+			Label netValueLabel = new Label(netGrossComposite, SWT.NONE);
 			netValueLabel.setText("Netto");
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(netValueLabel);
 		}
 
 		if (useGross) {
-			Label grossValueLabel = new Label(netGrossComposite, SWT.BORDER);
+			Label grossValueLabel = new Label(netGrossComposite, SWT.NONE);
 			grossValueLabel.setText("Brutto");
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(grossValueLabel);
 		}
@@ -273,7 +273,7 @@ public class ShippingEditor extends Editor {
 			grossText.setNetText(netText.getNetText());
 		}
 
-		Label labelVat = new Label(top, SWT.BORDER);
+		Label labelVat = new Label(top, SWT.NONE);
 		labelVat.setText("MwSt.");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVat);
 
@@ -317,7 +317,7 @@ public class ShippingEditor extends Editor {
 			vatId = -1;
 		}
 
-		Label labelAutoVat = new Label(top, SWT.BORDER);
+		Label labelAutoVat = new Label(top, SWT.NONE);
 		labelAutoVat.setText("Berechnung");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAutoVat);
 
@@ -347,7 +347,7 @@ public class ShippingEditor extends Editor {
 			autoVat = DataSetShipping.SHIPPINGVATGROSS;
 		}
 
-		Label labelStdVat = new Label(top, SWT.BORDER);
+		Label labelStdVat = new Label(top, SWT.NONE);
 		labelStdVat.setText("Standard");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
 

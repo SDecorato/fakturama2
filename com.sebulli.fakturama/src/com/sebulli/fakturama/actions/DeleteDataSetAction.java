@@ -48,7 +48,7 @@ public class DeleteDataSetAction extends Action {
 	 * default constructor
 	 */
 	public DeleteDataSetAction() {
-		super("löschen");
+		super("l√∂schen");
 		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_DELETE_DATASET);
@@ -93,8 +93,8 @@ public class DeleteDataSetAction extends Action {
 
 						// before deleting: ask !
 						MessageBox messageBox = new MessageBox(workbenchWindow.getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
-						messageBox.setText("Löschen bestätigen");
-						messageBox.setMessage("Eintrag " + uds.getStringValueByKey("name") + " wird entgültig gelöscht !");
+						messageBox.setText("L√∂schen best√§tigen");
+						messageBox.setMessage("Eintrag " + uds.getStringValueByKey("name") + " wird entg√ºltig gel√∂scht !");
 						
 						// We can delete now.
 						if (messageBox.open() == SWT.OK) {

@@ -28,7 +28,7 @@ import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 public class OpenVatsAction extends Action {
 
 	public OpenVatsAction() {
-		super("Steuersätze");
+		super("Steuers√§tze");
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_VATS);
 		// Associate the action with a pre-defined command, to allow key

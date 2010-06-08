@@ -62,7 +62,7 @@ public class ContactPreferencePage extends FieldEditorPreferencePage implements 
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Einstellungen für Kontaktdaten");
+		setDescription("Einstellungen f√ºr Kontaktdaten");
 	}
 
 	public static void setInitValues(IEclipsePreferences node) {

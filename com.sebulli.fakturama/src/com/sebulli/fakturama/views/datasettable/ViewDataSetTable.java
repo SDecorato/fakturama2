@@ -93,7 +93,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(toolbarComposite);
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(toolbarComposite);
 
-		filterLabel = new Label(searchAndToolbarComposite, SWT.BORDER);
+		filterLabel = new Label(searchAndToolbarComposite, SWT.NONE);
 		FontData[] fD = filterLabel.getFont().getFontData();
 		fD[0].setHeight(20);
 		Font font = new Font(null, fD[0]);

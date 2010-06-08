@@ -125,12 +125,12 @@ public class VatEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
 
-		Label labelTitle = new Label(top, SWT.BORDER);
+		Label labelTitle = new Label(top, SWT.NONE);
 		labelTitle.setText("Steuersatz");
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
-		Label labelName = new Label(top, SWT.BORDER);
+		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText("Name");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -138,7 +138,7 @@ public class VatEditor extends Editor {
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
-		Label labelCategory = new Label(top, SWT.BORDER);
+		Label labelCategory = new Label(top, SWT.NONE);
 		labelCategory.setText("Kategorie");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
@@ -146,7 +146,7 @@ public class VatEditor extends Editor {
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
-		Label labelDescription = new Label(top, SWT.BORDER);
+		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText("Beschreibung");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
@@ -154,7 +154,7 @@ public class VatEditor extends Editor {
 		superviceControl(textDescription, 250);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDescription);
 
-		Label labelValue = new Label(top, SWT.BORDER);
+		Label labelValue = new Label(top, SWT.NONE);
 		labelValue.setText("Wert");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelValue);
 		textValue = new Text(top, SWT.BORDER);
@@ -162,7 +162,7 @@ public class VatEditor extends Editor {
 		superviceControl(textValue, 16);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textValue);
 
-		Label labelStdVat = new Label(top, SWT.BORDER);
+		Label labelStdVat = new Label(top, SWT.NONE);
 		labelStdVat.setText("Standard");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
 

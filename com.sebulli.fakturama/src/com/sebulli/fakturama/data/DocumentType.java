@@ -125,7 +125,7 @@ public enum DocumentType {
 		case 3:
 			return "Bestellung";
 		case 4:
-			return "Auftragsbestätigung";
+			return "Auftragsbest√§tigung";
 		case 5:
 			return "Rechnung";
 		case 6:
@@ -151,7 +151,7 @@ public enum DocumentType {
 		case 3:
 			return "Bestellungen";
 		case 4:
-			return "Auftragsbestätigungen";
+			return "Auftragsbest√§tigungen";
 		case 5:
 			return "Rechnungen";
 		case 6:
@@ -350,7 +350,7 @@ public enum DocumentType {
 		case ORDER:
 			return "neue Bestellung";
 		case CONFIRMATION:
-			return "neue Auftragsbestätigung";
+			return "neue Auftragsbest√§tigung";
 		case INVOICE:
 			return "neue Rechnung";
 		case DELIVERY:
