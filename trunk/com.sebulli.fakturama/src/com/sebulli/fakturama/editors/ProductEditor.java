@@ -270,7 +270,7 @@ public class ProductEditor extends Editor {
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(productDescGroup);
 		productDescGroup.setText("Beschreibung");
 
-		Label labelItemNr = new Label(useItemNr ? productDescGroup : invisible, SWT.BORDER);
+		Label labelItemNr = new Label(useItemNr ? productDescGroup : invisible, SWT.NONE);
 		labelItemNr.setText("Artikelnummer");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelItemNr);
 		textItemNr = new Text(useItemNr ? productDescGroup : invisible, SWT.BORDER);
@@ -278,7 +278,7 @@ public class ProductEditor extends Editor {
 		superviceControl(textItemNr, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textItemNr);
 
-		Label labelName = new Label(productDescGroup, SWT.BORDER);
+		Label labelName = new Label(productDescGroup, SWT.NONE);
 		labelName.setText("Name");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(productDescGroup, SWT.BORDER);
@@ -286,7 +286,7 @@ public class ProductEditor extends Editor {
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
-		Label labelCategory = new Label(productDescGroup, SWT.BORDER);
+		Label labelCategory = new Label(productDescGroup, SWT.NONE);
 		labelCategory.setText("Kategorie");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(productDescGroup, SWT.BORDER);
@@ -294,7 +294,7 @@ public class ProductEditor extends Editor {
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
-		Label labelDescription = new Label(useDescription ? productDescGroup : invisible, SWT.BORDER);
+		Label labelDescription = new Label(useDescription ? productDescGroup : invisible, SWT.NONE);
 		labelDescription.setText("Beschreibung");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(useDescription ? productDescGroup : invisible, SWT.BORDER | SWT.MULTI);
@@ -302,7 +302,7 @@ public class ProductEditor extends Editor {
 		superviceControl(textDescription, 250);
 		GridDataFactory.fillDefaults().hint(10, 80).grab(true, false).applyTo(textDescription);
 
-		Label labelPrice = new Label(productDescGroup, SWT.BORDER);
+		Label labelPrice = new Label(productDescGroup, SWT.NONE);
 
 		if (useNet && useGross)
 			labelPrice.setText("Preis");
@@ -358,7 +358,7 @@ public class ProductEditor extends Editor {
 			}
 		}
 
-		Label labelVat = new Label(useVat ? productDescGroup : invisible, SWT.BORDER);
+		Label labelVat = new Label(useVat ? productDescGroup : invisible, SWT.NONE);
 		labelVat.setText("MwSt.");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVat);
 
@@ -405,7 +405,7 @@ public class ProductEditor extends Editor {
 		}
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboVat);
 
-		Label labelWeight = new Label(useWeight ? productDescGroup : invisible, SWT.BORDER);
+		Label labelWeight = new Label(useWeight ? productDescGroup : invisible, SWT.NONE);
 		labelWeight.setText("Gewicht (kg)");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelWeight);
 		textWeight = new Text(useWeight ? productDescGroup : invisible, SWT.BORDER);
@@ -423,7 +423,7 @@ public class ProductEditor extends Editor {
 		GridLayoutFactory.swtDefaults().margins(10, 10).numColumns(1).applyTo(photoComposite);
 		GridDataFactory.fillDefaults().indent(0, 10).align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(photoComposite);
 
-		labelProductPicture = new Label(photoComposite, SWT.BORDER);
+		labelProductPicture = new Label(photoComposite, SWT.NONE);
 		pictureName = product.getStringValueByKey("picturename");
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelProductPicture);
 
@@ -435,13 +435,13 @@ public class ProductEditor extends Editor {
 		setPicture();
 
 		Button selectPictureButton = new Button(productPictureGroup, SWT.PUSH);
-		selectPictureButton.setText("Bild auswählen");
+		selectPictureButton.setText("Bild ausw√§hlen");
 		selectPictureButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 				fileDialog.setFilterPath(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
-				fileDialog.setText("Produktbild auswählen");
+				fileDialog.setText("Produktbild ausw√§hlen");
 				String selectedFile = fileDialog.open();
 
 				if (selectedFile != null) {

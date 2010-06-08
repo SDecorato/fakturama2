@@ -221,7 +221,7 @@ public class SalesExporter {
 				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, net);
 				Double roundingError = document.getSummary().getTotalNet().asDouble() * payedFactor - net;
 				if (Math.abs(roundingError) > 0.01)
-					setCellTextInRedBold(spreadsheet1, row, col + columnsWithVatHeading, "Runden prüfen");
+					setCellTextInRedBold(spreadsheet1, row, col + columnsWithVatHeading, "Runden pr√ºfen");
 				row++;
 			}
 		}

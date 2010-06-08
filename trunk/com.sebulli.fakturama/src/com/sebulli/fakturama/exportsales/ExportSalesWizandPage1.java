@@ -38,7 +38,7 @@ public class ExportSalesWizandPage1 extends WizardPage {
 	protected ExportSalesWizandPage1() {
 		super("ExportVatSummaryWizandPage1");
 		setTitle("USt. Liste als Tabelle");
-		setMessage("Zeitraum w둯len");
+		setMessage("Zeitraum w채hlen");
 	}
 
 	public void createControl(Composite parent) {
@@ -50,19 +50,19 @@ public class ExportSalesWizandPage1 extends WizardPage {
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
 		setControl(top);
 
-		Label labelDescription = new Label(top, SWT.BORDER);
-		labelDescription.setText("W둯len Sie den Zeitraum der Zahlungseing둵ge.\n" + "Es werden alle Rechnungen exportiert, die bezahlt sind,\n"
-				+ "und deren Zahlungseing둵ge in diesem Zeitraum liegen.");
+		Label labelDescription = new Label(top, SWT.NONE);
+		labelDescription.setText("W채hlen Sie den Zeitraum der Zahlungseing채nge.\n" + "Es werden alle Rechnungen exportiert, die bezahlt sind,\n"
+				+ "und deren Zahlungseing채nge in diesem Zeitraum liegen.");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelDescription);
 
-		Label labelSpacer = new Label(top, SWT.BORDER);
+		Label labelSpacer = new Label(top, SWT.NONE);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelSpacer);
 
-		Label labelBegin = new Label(top, SWT.BORDER);
+		Label labelBegin = new Label(top, SWT.NONE);
 		labelBegin.setText("Anfang:");
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelBegin);
 
-		Label labelEnd = new Label(top, SWT.BORDER);
+		Label labelEnd = new Label(top, SWT.NONE);
 		labelEnd.setText("Ende:");
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(20, 0).applyTo(labelEnd);
 

@@ -48,7 +48,7 @@ public class DataSetVAT extends UniDataSet {
 
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
-		// TODO: auch auf Name prüfen in Preference Page übernehmen
+		// TODO: auch auf Name pr√ºfen in Preference Page √ºbernehmen
 		// if (!
 		// uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
 		// return false;

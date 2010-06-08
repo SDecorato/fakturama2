@@ -100,7 +100,7 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 		if (path.length() != 0) {
 			File file = new File(path + "/Contents//MacOS/soffice");
 			if (!file.isFile()) {
-				msg = "keine gültige OpenOffice App";
+				msg = "keine g√ºltige OpenOffice App";
 			}
 		}
 

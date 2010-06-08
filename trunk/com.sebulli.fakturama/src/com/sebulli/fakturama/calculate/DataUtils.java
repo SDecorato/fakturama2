@@ -108,7 +108,7 @@ public class DataUtils {
 	}
 
 	public static String DoubleToFormatedPrice(Double d) {
-		return DoubleToFormatedValue(d, true) + " Û";
+		return DoubleToFormatedValue(d, true) + " â‚¬";
 	}
 
 	public static String DoubleToFormatedPercent(Double d) {
@@ -120,7 +120,7 @@ public class DataUtils {
 	}
 
 	public static String DoubleToFormatedPriceRound(Double d) {
-		return DoubleToFormatedValue(round(d), true) + " Û";
+		return DoubleToFormatedValue(round(d), true) + " â‚¬";
 	}
 
 	public static String CalculateGrossFromNet(String net, Double vat, UniData netvalue) {

@@ -154,11 +154,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(printActionTB);
 
 		closeAction = ActionFactory.CLOSE.create(window);
-		closeAction.setText("Schließen");
+		closeAction.setText("Schlie√üen");
 		register(closeAction);
 
 		closeAllAction = ActionFactory.CLOSE_ALL.create(window);
-		closeAllAction.setText("Alle schließen");
+		closeAllAction.setText("Alle schlie√üen");
 		register(closeAllAction);
 
 		saveAction = ActionFactory.SAVE.create(window);
@@ -174,7 +174,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(saveAllAction);
 
 		aboutAction = ActionFactory.ABOUT.create(window);
-		aboutAction.setText("Über Fakturama");
+		aboutAction.setText("√úber Fakturama");
 		register(aboutAction);
 
 		openBrowserEditorAction = new OpenBrowserEditorAction();

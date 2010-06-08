@@ -40,7 +40,7 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_OWNER", "Inhaber", getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_STREET", "Straße Nr.", getFieldEditorParent()));
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_STREET", "Stra√üe Nr.", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_ZIP", "PLZ.", getFieldEditorParent()));
 

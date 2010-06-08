@@ -49,7 +49,7 @@ public class OpenOfficeStarter {
 		if (!file.isFile()) {
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
 			messageBox.setText("Fehler");
-			messageBox.setMessage("OpenOffice-Pfad:\n\n" + orgPath + "\n\nist nicht gültig");
+			messageBox.setMessage("OpenOffice-Pfad:\n\n" + orgPath + "\n\nist nicht g√ºltig");
 			messageBox.open();
 			return null;
 		}

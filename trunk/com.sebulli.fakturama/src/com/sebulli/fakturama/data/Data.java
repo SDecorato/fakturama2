@@ -81,7 +81,7 @@ public enum Data {
 
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
 			messageBox.setText("Hinweis");
-			messageBox.setMessage("Keine Verbindung zur Datenbank möglich.");
+			messageBox.setMessage("Keine Verbindung zur Datenbank m√∂glich.");
 			messageBox.open();
 
 			// PlatformUI.getWorkbench().close();
@@ -101,7 +101,7 @@ public enum Data {
 
 		vats.addNewDataSet(new DataSetVAT("keine", "", "keine MwSt.", 0.0));
 		vats.addNewDataSet(new DataSetVAT("MwSt.", "", "19% MwSt. Deutschland", 0.19));
-		vats.addNewDataSet(new DataSetVAT("erm. MwSt", "", "7% MwSt. ermäßigt", 0.073));
+		vats.addNewDataSet(new DataSetVAT("erm. MwSt", "", "7% MwSt. erm√§√üigt", 0.073));
 
 		items.addNewDataSet(new DataSetItem("etwas", "etwas", "", 1.0, "das ist etwas ", 42.0, 0));
 		items.addNewDataSet(new DataSetItem("nochwas", "nochwas", "", 2.5, "das ist nochwas ", 99.50, 0));

@@ -32,7 +32,7 @@ import com.sebulli.fakturama.preferences.ProjectSettings;
 public class SelectWorkspaceAction extends Action {
 
 	public SelectWorkspaceAction() {
-		super("Arbeitsverzeichnis auswählen");
+		super("Arbeitsverzeichnis ausw√§hlen");
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_SELECT_WORKSPACE);
 		// Associate the action with a pre-defined command, to allow key
@@ -45,8 +45,8 @@ public class SelectWorkspaceAction extends Action {
 	public void run() {
 		DirectoryDialog directoryDialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		directoryDialog.setFilterPath("/");
-		directoryDialog.setMessage("Bitte wählen Sie ein Dateiverzeichnis aus, in dem die Firmendaten abgelegt werden.");
-		directoryDialog.setText("Arbeitsverzeichnis auswählen");
+		directoryDialog.setMessage("Bitte w√§hlen Sie ein Dateiverzeichnis aus, in dem die Firmendaten abgelegt werden.");
+		directoryDialog.setText("Arbeitsverzeichnis ausw√§hlen");
 		String selectedDirectory = directoryDialog.open();
 
 		if (selectedDirectory != null) {

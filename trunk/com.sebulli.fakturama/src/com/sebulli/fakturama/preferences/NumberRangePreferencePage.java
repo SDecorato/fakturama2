@@ -42,38 +42,38 @@ public class NumberRangePreferencePage extends FieldEditorPreferencePage impleme
 	@Override
 	public void createFieldEditors() {
 		addField(new StringFieldEditor("NUMBERRANGE_CONTACT_FORMAT", "Format Kundennummer:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_CONTACT_NR", "n둩hste Kundennummer:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_CONTACT_NR", "n채chste Kundennummer:", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("NUMBERRANGE_PRODUCT_FORMAT", "Format Artikelnr:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_PRODUCT_NR", "n둩hste Artikelnr:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_PRODUCT_NR", "n채chste Artikelnr:", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("NUMBERRANGE_INVOICE_FORMAT", "Format Rechnungsnr.:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_INVOICE_NR", "n둩hste Rechnungsnr:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_INVOICE_NR", "n채chste Rechnungsnr:", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("NUMBERRANGE_DELIVERY_FORMAT", "Format Lieferscheinnr.:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_DELIVERY_NR", "n둩hste Lieferscheinnr:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_DELIVERY_NR", "n채chste Lieferscheinnr:", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("NUMBERRANGE_OFFER_FORMAT", "Format Angebotsnr.:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_OFFER_NR", "n둩hste Angebotsnr:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_OFFER_NR", "n채chste Angebotsnr:", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("NUMBERRANGE_ORDER_FORMAT", "Format Bestellungnr.:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_ORDER_NR", "n둩hste Bestellungnr:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_ORDER_NR", "n채chste Bestellungnr:", getFieldEditorParent()));
 
-		addField(new StringFieldEditor("NUMBERRANGE_CONFIRMATION_FORMAT", "Format Auftragsbest둻igungsnr.:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_CONFIRMATION_NR", "n둩hste Auftragsbest둻igungsnr:", getFieldEditorParent()));
+		addField(new StringFieldEditor("NUMBERRANGE_CONFIRMATION_FORMAT", "Format Auftragsbest채tigungsnr.:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_CONFIRMATION_NR", "n채chste Auftragsbest채tigungsnr:", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("NUMBERRANGE_CREDIT_FORMAT", "Format Gutschriftnr.:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_CREDIT_NR", "n둩hste Gutschriftnr:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_CREDIT_NR", "n채chste Gutschriftnr:", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("NUMBERRANGE_DUNNING_FORMAT", "Format Mahnungsnr.:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_DUNNING_NR", "n둩hste Mahnungsnr:", getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_DUNNING_NR", "n채chste Mahnungsnr:", getFieldEditorParent()));
 	}
 
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Nummernkreise f웦 Dokumente" + "\n\n"
-				+ "Beispiel f웦 Format:  RE{6nr}\nNummer wird 6 stellig angezeigt, mit f웘rendem \"RE\" : RE000001" + "\n");
+		setDescription("Nummernkreise f체r Dokumente" + "\n\n"
+				+ "Beispiel f체r Format:  RE{6nr}\nNummer wird 6 stellig angezeigt, mit f체hrendem \"RE\" : RE000001" + "\n");
 	}
 
 	public static void syncWithPreferencesFromDatabase(boolean write) {

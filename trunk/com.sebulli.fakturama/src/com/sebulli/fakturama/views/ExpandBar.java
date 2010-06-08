@@ -30,6 +30,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
 import com.sebulli.fakturama.Activator;
@@ -54,17 +55,20 @@ public class ExpandBar extends Composite {
 		Composite headbar = new Composite(top, SWT.BORDER);
 		GridLayoutFactory.swtDefaults().numColumns(3).margins(2, 2).applyTo(headbar);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(headbar);
-		headbar.setBackground(new Color(null, 255, 255, 255));
-
+		changeBackground(headbar);
+		
 		image = new Label(headbar, SWT.NONE);
 		image.setText("icon");
+		changeBackground(image);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(image);
 
 		text = new Label(headbar, SWT.NONE);
+		changeBackground(text);
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).grab(true, false).applyTo(text);
 
 		arrow = new Label(headbar, SWT.NONE);
 		setArrowImage();
+		changeBackground(arrow);
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).applyTo(arrow);
 		arrow.addMouseListener(new MouseAdapter() {
 			@Override
@@ -83,6 +87,13 @@ public class ExpandBar extends Composite {
 
 	}
 
+	private void changeBackground(Control widget) {
+		Color white = new Color (null, 255, 255, 255);
+		widget.setBackground(white);
+		white.dispose();
+		
+	}
+	
 	private void setArrowImage() {
 		if (collapsed) {
 			try {

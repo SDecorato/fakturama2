@@ -49,7 +49,7 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 		addField(new ComboFieldEditor("PRODUCT_SCALED_PRICES", "Staffelpreise:", new String[][] { { "keine", "1" }, { "2", "2" }, { "3", "3" }, { "4", "4" },
 				{ "5", "5" } }, getFieldEditorParent()));
 
-		addField(new BooleanFieldEditor("PRODUCT_USE_VAT", "Mehrwertsteuer auswählen", getFieldEditorParent()));
+		addField(new BooleanFieldEditor("PRODUCT_USE_VAT", "Mehrwertsteuer ausw√§hlen", getFieldEditorParent()));
 
 		addField(new BooleanFieldEditor("PRODUCT_USE_WEIGHT", "Gewichtsangabe benutzen", getFieldEditorParent()));
 

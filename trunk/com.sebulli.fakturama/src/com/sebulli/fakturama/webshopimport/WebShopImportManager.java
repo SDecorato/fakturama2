@@ -180,7 +180,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			if (address.isEmpty())
 				runResult = "keine Webshop URL angegeben";
 			else {
-				runResult = "Fehler beim Öffnen von:\n" + address;
+				runResult = "Fehler beim √ñffnen von:\n" + address;
 				if (!importXMLContent.isEmpty())
 					runResult += "\n\n" + importXMLContent;
 			}
@@ -605,8 +605,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			error += "stimmt nicht mit berechneter Summe:\n";
 			error += DataUtils.DoubleToFormatedPriceRound(calcTotal) + "\n";
 			;
-			error += "überein.\n\n";
-			error += "Bitte prüfen !";
+			error += "√ºberein.\n\n";
+			error += "Bitte pr√ºfen !";
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
 			messageBox.setText("Fehler beim Importieren vom Webshop");
 			messageBox.setMessage(error);

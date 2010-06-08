@@ -189,7 +189,7 @@ public class DocumentEditor extends Editor {
 		if ((addressId > 0) && (addressModified)) {
 			if (DataUtils.similarity(addressById, txtAddress.getText()) < 0.75) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
-				messageBox.setText("Bitte ŸberprŸfen");
+				messageBox.setText("Bitte Ã¼berprÃ¼fen");
 				messageBox.setMessage("Diesem Dokument ist die Adresse zugeordnet:\n\n" + addressById
 						+ "\n\nSie haben eine davon abweichende Adresse eingegeben.");
 				messageBox.open();
@@ -313,7 +313,7 @@ public class DocumentEditor extends Editor {
 				if (!setNextNr(document.getStringValueByKey("name"))) {
 					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 					messageBox.setText("Fehler in Dokumentennummer");
-					messageBox.setMessage("Dokument hat nicht die nŠchste freie Nummer: " + getNextNr());
+					messageBox.setMessage("Dokument hat nicht die nÃ¤chste freie Nummer: " + getNextNr());
 					messageBox.open();
 				}
 			}
@@ -593,7 +593,7 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(payedDataContainer);
 
 		if (payed) {
-			Label payedDateLabel = new Label(payedDataContainer, SWT.BORDER);
+			Label payedDateLabel = new Label(payedDataContainer, SWT.NONE);
 			payedDateLabel.setText("am");
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedDateLabel);
 
@@ -601,7 +601,7 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().applyTo(dtPayedDate);
 			superviceControl(dtPayedDate);
 
-			Label payedValueLabel = new Label(payedDataContainer, SWT.BORDER);
+			Label payedValueLabel = new Label(payedDataContainer, SWT.NONE);
 			payedValueLabel.setText("Betrag");
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedValueLabel);
 
@@ -611,7 +611,7 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().hint(60, -1).applyTo(txtPayValue.getText());
 		} else {
 			payedValue.setValue(0.0);
-			Label issueDateLabel = new Label(payedDataContainer, SWT.BORDER);
+			Label issueDateLabel = new Label(payedDataContainer, SWT.NONE);
 			issueDateLabel.setText("zahlbar in");
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(issueDateLabel);
 
@@ -632,7 +632,7 @@ public class DocumentEditor extends Editor {
 
 			GridDataFactory.swtDefaults().hint(50, -1).applyTo(spDueDays);
 
-			Label dueDaysLabel = new Label(payedDataContainer, SWT.BORDER);
+			Label dueDaysLabel = new Label(payedDataContainer, SWT.NONE);
 			dueDaysLabel.setText("Tagen bis");
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(dueDaysLabel);
 
@@ -684,7 +684,7 @@ public class DocumentEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(4, 1).applyTo(invisible);
 
-		Label labelName = new Label(top, SWT.BORDER);
+		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText("Nr.");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 
@@ -697,7 +697,7 @@ public class DocumentEditor extends Editor {
 		superviceControl(txtName, 32);
 		GridDataFactory.swtDefaults().hint(100, -1).applyTo(txtName);
 
-		Label labelDate = new Label(nrDateComposite, SWT.BORDER);
+		Label labelDate = new Label(nrDateComposite, SWT.NONE);
 		labelDate.setText("Datum");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
@@ -732,7 +732,7 @@ public class DocumentEditor extends Editor {
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(titleComposite);
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.BOTTOM).span(1, 2).grab(true, false).applyTo(titleComposite);
 
-		Label labelDocumentType = new Label(titleComposite, SWT.BORDER);
+		Label labelDocumentType = new Label(titleComposite, SWT.NONE);
 
 		String documentTypeString = DocumentType.getString(document.getIntValueByKey("category"));
 		if (documentType == DocumentType.DUNNING)
@@ -741,7 +741,7 @@ public class DocumentEditor extends Editor {
 		makeLargeLabel(labelDocumentType);
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelDocumentType);
 
-		Label labelDocumentTypeIcon = new Label(titleComposite, SWT.BORDER);
+		Label labelDocumentTypeIcon = new Label(titleComposite, SWT.NONE);
 		try {
 			labelDocumentTypeIcon
 					.setImage((Activator.getImageDescriptor("/icons/48/" + documentType.getTypeAsString().toLowerCase() + "_48.png").createImage()));
@@ -797,7 +797,7 @@ public class DocumentEditor extends Editor {
 
 		tbmDuplicate.update(true);
 
-		Label labelCustomerRef = new Label(top, SWT.BORDER);
+		Label labelCustomerRef = new Label(top, SWT.NONE);
 		labelCustomerRef.setText("Kd-Ref.");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCustomerRef);
 
@@ -810,11 +810,11 @@ public class DocumentEditor extends Editor {
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addressComposite);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addressComposite);
 
-		Label labelAddress = new Label(addressComposite, SWT.BORDER | SWT.RIGHT);
+		Label labelAddress = new Label(addressComposite, SWT.NONE | SWT.RIGHT);
 		labelAddress.setText("Adresse");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelAddress);
 
-		Label selectAddressButton = new Label(addressComposite, SWT.BORDER | SWT.RIGHT);
+		Label selectAddressButton = new Label(addressComposite, SWT.NONE | SWT.RIGHT);
 		try {
 			selectAddressButton.setImage((Activator.getImageDescriptor("/icons/16/contact_16.png").createImage()));
 		} catch (Exception e) {
@@ -824,7 +824,7 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(selectAddressButton);
 		selectAddressButton.addMouseListener(new MouseAdapter() {
 			public void mouseDown(MouseEvent e) {
-				SelectContactDialog dialog = new SelectContactDialog("Adresse auswŠhlen");
+				SelectContactDialog dialog = new SelectContactDialog("Adresse auswÃ¤hlen");
 				DataSetContact contact;
 				if (dialog.open() == Dialog.OK) {
 					contact = (DataSetContact) dialog.getSelection();
@@ -854,7 +854,7 @@ public class DocumentEditor extends Editor {
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(xtraSettingsComposite);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).grab(true, false).applyTo(xtraSettingsComposite);
 
-		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.BORDER);
+		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelInvoiceRef.setText("Rechnung:");
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(labelInvoiceRef);
 		txtInvoiceRef = new Text(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.BORDER);
@@ -866,7 +866,7 @@ public class DocumentEditor extends Editor {
 		txtInvoiceRef.setEditable(false);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtInvoiceRef);
 
-		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.BORDER);
+		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelNoVat.setText("MwSt:");
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelNoVat);
 
@@ -914,11 +914,11 @@ public class DocumentEditor extends Editor {
 			GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addButtonComposite);
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addButtonComposite);
 
-			Label labelItems = new Label(addButtonComposite, SWT.BORDER | SWT.RIGHT);
+			Label labelItems = new Label(addButtonComposite, SWT.NONE | SWT.RIGHT);
 			labelItems.setText("Artikel");
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelItems);
 
-			Label addButton = new Label(addButtonComposite, SWT.BORDER);
+			Label addButton = new Label(addButtonComposite, SWT.NONE);
 			try {
 				addButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
 			} catch (Exception e) {
@@ -928,7 +928,7 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addButton);
 			addButton.addMouseListener(new MouseAdapter() {
 				public void mouseDown(MouseEvent e) {
-					SelectProductDialog dialog = new SelectProductDialog("Artikel auswŠhlen");
+					SelectProductDialog dialog = new SelectProductDialog("Artikel auswÃ¤hlen");
 					DataSetProduct product;
 					if (dialog.open() == Dialog.OK) {
 						product = (DataSetProduct) dialog.getSelection();
@@ -944,7 +944,7 @@ public class DocumentEditor extends Editor {
 				}
 			});
 
-			Label deleteButton = new Label(addButtonComposite, SWT.BORDER);
+			Label deleteButton = new Label(addButtonComposite, SWT.NONE);
 			try {
 				deleteButton.setImage((Activator.getImageDescriptor("/icons/16/delete_16.png").createImage()));
 			} catch (Exception e) {
@@ -1018,14 +1018,14 @@ public class DocumentEditor extends Editor {
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addMessageButtonComposite);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addMessageButtonComposite);
 
-		Label messageLabel = new Label(addMessageButtonComposite, SWT.BORDER);
+		Label messageLabel = new Label(addMessageButtonComposite, SWT.NONE);
 		if (documentType.hasItems())
 			messageLabel.setText("Bemerkung");
 		else
 			messageLabel.setText("Text");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(messageLabel);
 
-		Label addMessageButton = new Label(addMessageButtonComposite, SWT.BORDER);
+		Label addMessageButton = new Label(addMessageButtonComposite, SWT.NONE);
 		try {
 			addMessageButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
 		} catch (Exception e) {
@@ -1035,7 +1035,7 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addMessageButton);
 		addMessageButton.addMouseListener(new MouseAdapter() {
 			public void mouseDown(MouseEvent e) {
-				SelectTextDialog dialog = new SelectTextDialog("Text auswŠhlen");
+				SelectTextDialog dialog = new SelectTextDialog("Text auswÃ¤hlen");
 				DataSetText text;
 				if (dialog.open() == Dialog.OK) {
 					text = (DataSetText) dialog.getSelection();
@@ -1088,7 +1088,7 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(netLabel);
 
 			itemsSum = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
-			itemsSum.setText("?.??Û");
+			itemsSum.setText("---");
 			GridDataFactory.swtDefaults().hint(70, -1).align(SWT.END, SWT.TOP).applyTo(itemsSum);
 
 			Label discountLabel = new Label(totalComposite, SWT.NONE);
@@ -1186,7 +1186,7 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(vatLabel);
 
 			vatValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
-			vatValue.setText("?.??Û");
+			vatValue.setText("---");
 			GridDataFactory.swtDefaults().hint(70, -1).align(SWT.END, SWT.TOP).applyTo(vatValue);
 
 			Label totalLabel = new Label(totalComposite, SWT.NONE);
@@ -1194,12 +1194,12 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(totalLabel);
 
 			totalValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
-			totalValue.setText("?.??Û");
+			totalValue.setText("---");
 			GridDataFactory.swtDefaults().hint(70, -1).align(SWT.END, SWT.TOP).applyTo(totalValue);
 		}
 
 		if (documentType.hasPrice()) {
-			Label payedLabel = new Label(top, SWT.BORDER);
+			Label payedLabel = new Label(top, SWT.NONE);
 			payedLabel.setText("bezahlt");
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedLabel);
 
