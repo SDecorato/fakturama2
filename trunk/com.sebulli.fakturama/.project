@@ -3,16 +3,6 @@
 	<name>com.sebulli.fakturama</name>
 	<comment></comment>
 	<projects>
-		<project>ag.ion.bion.workbench.office.editor.activation</project>
-		<project>ag.ion.bion.workbench.office.editor.activation.nl1</project>
-		<project>ag.ion.bion.workbench.office.editor.core</project>
-		<project>ag.ion.bion.workbench.office.editor.ui</project>
-		<project>ag.ion.bion.workbench.office.editor.ui.nl1</project>
-		<project>ag.ion.noa4e.search</project>
-		<project>ag.ion.noa4e.search.nl1</project>
-		<project>ag.ion.noa4e.ui</project>
-		<project>ag.ion.noa4e.ui.nl1</project>
-		<project>hsqldb</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
