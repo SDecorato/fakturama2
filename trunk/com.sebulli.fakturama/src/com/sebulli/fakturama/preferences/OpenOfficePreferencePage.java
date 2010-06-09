@@ -37,13 +37,14 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 
 	@Override
 	public void createFieldEditors() {
+		String defaultValue = Activator.getDefault().getPreferenceStore().getDefaultString("OPENOFFICE_PATH");
+		if ( !defaultValue.isEmpty() )
+			defaultValue = " (z.B.: " + defaultValue + ")";
+		
 		if (Platform.getOS().equalsIgnoreCase("macosx"))
 			addField(new AppFieldEditor("OPENOFFICE_PATH", "OpenOffice App", getFieldEditorParent()));
-		else if (Platform.getOS().equalsIgnoreCase("win32"))
-			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", "OpenOffice Ordner (z.B.: C:\\Program Files\\OpenOffice.org 3)", getFieldEditorParent()));
-		else
-			// TODO: for linux 
-			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", "OpenOffice Ordner", getFieldEditorParent()));
+		else 
+			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", "OpenOffice Ordner" + defaultValue, getFieldEditorParent()));
 	}
 
 	@Override
@@ -56,9 +57,13 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	}
 
 	public static void setInitValues(IEclipsePreferences node) {
-		// TODO: for linux
+
+		if (Platform.getOS().equalsIgnoreCase("linux"))
+			node.put("OPENOFFICE_PATH", "/usr/lib/openoffice");
+
 		if (Platform.getOS().equalsIgnoreCase("macosx"))
 			node.put("OPENOFFICE_PATH", "/Applications/OpenOffice.org.app");
+		
 		if (Platform.getOS().equalsIgnoreCase("win32"))
 			node.put("OPENOFFICE_PATH", "C:\\Program Files\\OpenOffice.org 3");
 	}

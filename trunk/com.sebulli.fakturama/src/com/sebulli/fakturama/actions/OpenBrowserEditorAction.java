@@ -33,29 +33,55 @@ import com.sebulli.fakturama.editors.BrowserEditor;
 import com.sebulli.fakturama.editors.BrowserEditorInput;
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This action opens the project website in an editor.
+ *  
+ * @author Gerd Bartelt
+ */
 public class OpenBrowserEditorAction extends Action {
 
-	// private final IWorkbenchWindow window;
 
+	/**
+	 * Constructor
+	 */
 	public OpenBrowserEditorAction() {
 		super("www.sebulli.com");
+		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_BROWSER_EDITOR);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_OPEN_BROWSER_EDITOR);
+
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/www_16.png"));
 	}
 
+	/**
+	 * Runs the action
+	 * 
+	 * Sets the URL and open the editor. 
+	 */
 	@Override
 	public void run() {
+		
+		// Get the active workbench window
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		
+		// Sets the URL
 		String url = "http://www.sebulli.com/fakturama/app.php";
 
+		// Add version and language a a GET parameter
+		// The language is uses, if the project website can generate
+		// localized content.
 		url += "?version=" + Activator.getDefault().getBundle().getVersion();
 		url += "&lang=" + Locale.getDefault().getCountry();
 
+		// Sets the URL as input for the editor.
 		BrowserEditorInput input = new BrowserEditorInput(url);
+		
+		// Open the editor
 		try {
 			if (workbenchWindow != null) {
 				IWorkbenchPage page = workbenchWindow.getActivePage();

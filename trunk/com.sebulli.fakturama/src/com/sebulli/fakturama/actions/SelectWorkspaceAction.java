@@ -44,7 +44,7 @@ public class SelectWorkspaceAction extends Action {
 	@Override
 	public void run() {
 		DirectoryDialog directoryDialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-		directoryDialog.setFilterPath("/");
+		directoryDialog.setFilterPath( System.getProperty("user.home") );
 		directoryDialog.setMessage("Bitte wählen Sie ein Dateiverzeichnis aus, in dem die Firmendaten abgelegt werden.");
 		directoryDialog.setText("Arbeitsverzeichnis auswählen");
 		String selectedDirectory = directoryDialog.open();

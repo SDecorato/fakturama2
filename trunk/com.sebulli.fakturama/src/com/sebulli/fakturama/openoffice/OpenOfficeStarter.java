@@ -47,6 +47,10 @@ public class OpenOfficeStarter {
 			path += "/Contents//MacOS";
 			file = new File(path + "/soffice");
 		}
+
+		if (Platform.getOS().equalsIgnoreCase("linux")) {
+			file = new File(path + "/program/soffice");
+		}
 		
 		
 		if (!file.isFile()) {

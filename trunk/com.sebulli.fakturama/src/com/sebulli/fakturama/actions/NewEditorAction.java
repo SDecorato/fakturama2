@@ -25,28 +25,47 @@ import org.eclipse.jface.action.Action;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.editors.Editor;
 
+/**
+ * Parent class for all newXX actions. 
+ * 
+ * Stores the information about the category or the parent editor.
+ *  
+ * @author Gerd Bartelt
+ */
 public class NewEditorAction extends Action {
 	protected String category = "";
 	protected UniDataSet parent = null;
 	protected Editor parentEditor = null;
 
+	/**
+	 * Default constructor
+	 * 
+	 * @param text Name of the action
+	 */
 	public NewEditorAction(String text) {
-		this(text, null);
+		super(text);
 	}
 
+	/**
+	 * Constructor with additional parameter "category"
+	 * 
+	 * @param text Name of the action
+	 * @param category Category of the new action
+	 */
 	public NewEditorAction(String text, String category) {
 		super(text);
 		if (category != null)
 			this.category = category;
 	}
 
-	public NewEditorAction(String text, String category, UniDataSet parent) {
-		super(text);
-		if (category != null)
-			this.category = category;
-		this.parent = parent;
-	}
 
+	/**
+	 * Constructor with a 2nd additional parameter "parentEditor"
+	 * 
+	 * @param text Name of the action
+	 * @param category Category of the new action
+	 * @param parentEditor Parent editor, which is duplicated
+	 */
 	public NewEditorAction(String text, String category, Editor parentEditor) {
 		super(text);
 		if (category != null)
@@ -55,6 +74,11 @@ public class NewEditorAction extends Action {
 
 	}
 
+	/**
+	 * Setter for the property "category"
+	 * 
+	 * @param category The category of the new action.
+	 */
 	public void setCategory(String category) {
 		this.category = category;
 	}
