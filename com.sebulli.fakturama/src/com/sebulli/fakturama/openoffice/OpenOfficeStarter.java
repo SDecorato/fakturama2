@@ -37,15 +37,18 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.logger.Logger;
 
 public class OpenOfficeStarter {
-	private final static String OPEN_OFFICE_ORG_PATH = "/Applications/OpenOffice.org.app/Contents//MacOS";
 
 	static public IOfficeApplication openOfficeAplication() {
 		String orgPath = Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_PATH");
 		String path = orgPath;
-		if (Platform.getOS().equalsIgnoreCase("macosx"))
-			path += "/Contents//MacOS";
+		File file = new File(path + "\\program\\soffice.exe");
 
-		File file = new File(path + "/soffice");
+		if (Platform.getOS().equalsIgnoreCase("macosx")) {
+			path += "/Contents//MacOS";
+			file = new File(path + "/soffice");
+		}
+		
+		
 		if (!file.isFile()) {
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
 			messageBox.setText("Fehler");
@@ -55,7 +58,7 @@ public class OpenOfficeStarter {
 		}
 
 		Map<String, String> configuration = new HashMap<String, String>();
-		configuration.put(IOfficeApplication.APPLICATION_HOME_KEY, OPEN_OFFICE_ORG_PATH);
+		configuration.put(IOfficeApplication.APPLICATION_HOME_KEY, path);
 		configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY, "local");
 		IOfficeApplication officeAplication = null;
 		try {
