@@ -38,7 +38,7 @@ public class DummyEditorInput implements IEditorInput {
 
 	@Override
 	public String getName() {
-		return null;
+		return "Dummy";
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class DummyEditorInput implements IEditorInput {
 
 	@Override
 	public String getToolTipText() {
-		return null;
+		return "Dummy";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -56,5 +56,5 @@ public class DummyEditorInput implements IEditorInput {
 	public Object getAdapter(Class adapter) {
 		return null;
 	}
-
+	
 }

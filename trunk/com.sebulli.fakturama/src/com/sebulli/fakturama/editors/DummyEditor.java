@@ -29,6 +29,9 @@ import org.eclipse.ui.PartInitException;
 public class DummyEditor extends Editor {
 	public static final String ID = "com.sebulli.fakturama.editors.dummyEditor";
 
+	public DummyEditor () {
+	}
+	
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 	}
@@ -39,6 +42,9 @@ public class DummyEditor extends Editor {
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		setSite(site);
+		setInput(input);
+		setPartName("");
 	}
 
 	@Override
