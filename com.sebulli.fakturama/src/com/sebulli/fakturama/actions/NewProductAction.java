@@ -28,27 +28,48 @@ import com.sebulli.fakturama.editors.ProductEditor;
 import com.sebulli.fakturama.editors.UniDataSetEditorInput;
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This action creates a new product in an editor.
+ *  
+ * @author Gerd Bartelt
+ */
 public class NewProductAction extends NewEditorAction {
 
+	/**
+	 * Constructor
+	 */
 	public NewProductAction() {
 		super("neues Produkt");
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_PRODUCT);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_NEW_PRODUCT);
+		
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/product_16.png"));
 	}
 
+	/**
+	 * Runs the action
+	 * 
+	 * Opens a new product editor. 
+	 */
 	@Override
 	public void run() {
+
+		// cancel, if the data base is not opened.
 		if (!Data.INSTANCE.getDataBaseOpened())
 			return;
 
+		// Sets the editors input
 		UniDataSetEditorInput input = new UniDataSetEditorInput(category);
+
+		// Open a new Contact Editor 
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, ProductEditor.ID);
-
 		} catch (PartInitException e) {
 			Logger.logError(e, "Error opening Editor: " + ProductEditor.ID);
 		}

@@ -25,32 +25,73 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DocumentType;
-import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
 import com.sebulli.fakturama.editors.UniDataSetEditorInput;
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This action creates a new contact in an editor.
+ *  
+ * @author Gerd Bartelt
+ */
 public class NewDocumentAction extends NewEditorAction {
 	private int iconSize = 16;
 
+	/**
+	 * Default Constructor with no parameters.
+	 * If no parameters are set, an order document is created.
+	 */
 	public NewDocumentAction() {
-		super("neues Dokument", null);
+		super("neues Dokument");
 		category = DocumentType.ORDER.getString();
 		setText(DocumentType.ORDER.getString());
 		setSettings(ICommandIds.CMD_NEW_ORDER, "");
 	}
 
+	/**
+	 * Constructor
+	 * Creates an Action with default icon size of 16x16 pixel
+	 * 
+	 * @param documentType Type of document to create
+	 */
+	public NewDocumentAction(DocumentType documentType) {
+		super("");
+		this.iconSize = 16;
+		setDocumentType(documentType);
+	}
+
+	/**
+	 * Constructor
+	 * Creates an Action with default icon size of 16x16 pixel
+	 * 
+	 * @param documentType Type of document to create
+	 * @param editor Parent editor. The Editors content is saved and duplicated. 
+	 * @param iconSize Size of icon (16, 32 or 48)
+	 */
+	public NewDocumentAction(DocumentType documentType, Editor editor, int iconSize) {
+		super("", null, editor);
+		this.iconSize = iconSize;
+		setDocumentType(documentType);
+	}
+	
+	/**
+	 * Sets Command ID and icon name of this action
+	 * 
+	 * @param cmd Command ID
+	 * @param image Icon name 
+	 */
 	private void setSettings(String cmd, String image) {
 		setId(cmd);
 		setActionDefinitionId(cmd);
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor(image));
 	}
-
-	public NewDocumentAction(DocumentType documentType) {
-		this(documentType, (UniDataSet) null, 16);
-	}
-
+	
+	/**
+	 * Sets Document Type and generates icon name
+	 * 
+	 * @param documentType
+	 */
 	private void setDocumentType(DocumentType documentType) {
 		category = documentType.getString();
 		setText(documentType.getString());
@@ -61,35 +102,39 @@ public class NewDocumentAction extends NewEditorAction {
 				+ documentType.getTypeAsString().toLowerCase() + iconSizeString + ".png");
 	}
 
-	public NewDocumentAction(DocumentType documentType, Editor editor, int iconSize) {
-		super("", null, editor);
-		this.iconSize = iconSize;
-		setDocumentType(documentType);
-	}
-
-	public NewDocumentAction(DocumentType documentType, UniDataSet parent, int iconSize) {
-		super("", null, parent);
-		this.iconSize = iconSize;
-		setDocumentType(documentType);
-	}
-
+	/**
+	 * Run the action
+	 * If a parent editor is set: Save the content and duplicate it.
+	 * 
+	 * Open a new document editor.
+	 */
 	@Override
 	public void run() {
+
+		// cancel, if the data base is not opened.
 		if (!Data.INSTANCE.getDataBaseOpened())
 			return;
 
+		// Does a parent editor exist ?
 		if (parentEditor != null) {
+			
+			//if yes and if it was an Document Editor ...
 			if (parentEditor instanceof DocumentEditor) {
+				
+				// Mark parent document, save it and use it as base
+				// for a new document editor.
 				((DocumentEditor) parentEditor).childDocumentGenerated();
+				parentEditor.doSave(null);
+				parent = ((DocumentEditor) parentEditor).getDocument();
 			}
-			parentEditor.doSave(null);
-			parent = ((DocumentEditor) parentEditor).getDocument();
 		}
-
+		
+		// Set the editors input
 		UniDataSetEditorInput input = new UniDataSetEditorInput(category, parent);
+		
+		// Open the editor
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, DocumentEditor.ID);
-
 		} catch (PartInitException e) {
 			Logger.logError(e, "Error opening Editor: " + DocumentEditor.ID);
 		}

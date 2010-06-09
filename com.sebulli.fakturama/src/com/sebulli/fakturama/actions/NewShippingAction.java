@@ -28,27 +28,49 @@ import com.sebulli.fakturama.editors.ShippingEditor;
 import com.sebulli.fakturama.editors.UniDataSetEditorInput;
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This action creates a new shipping in an editor.
+ *  
+ * @author Gerd Bartelt
+ */
 public class NewShippingAction extends NewEditorAction {
 
+
+	/**
+	 * Constructor
+	 */
 	public NewShippingAction() {
 		super("neue Versandkosten");
+		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_SHIPPING);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_NEW_SHIPPING);
+
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/shipping_16.png"));
 	}
 
+	/**
+	 * Runs the action
+	 * 
+	 * Opens a new shipping editor. 
+	 */
 	@Override
 	public void run() {
+		
+		// cancel, if the data base is not opened.
 		if (!Data.INSTANCE.getDataBaseOpened())
 			return;
 
+		// Sets the editors input
 		UniDataSetEditorInput input = new UniDataSetEditorInput(category);
+		
+		// Open a new Contact Editor 
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, ShippingEditor.ID);
-
 		} catch (PartInitException e) {
 			Logger.logError(e, "Error opening Editor: " + ShippingEditor.ID);
 		}
