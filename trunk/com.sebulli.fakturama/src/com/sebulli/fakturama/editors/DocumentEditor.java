@@ -755,7 +755,7 @@ public class DocumentEditor extends Editor {
 		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(toolBarComposite);
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.BOTTOM).grab(true, false).span(1, 3).applyTo(toolBarComposite);
 
-		Group copyGroup = new Group(toolBarComposite, SWT.BORDER);
+		Group copyGroup = new Group(toolBarComposite, SWT.NONE);
 		copyGroup.setText("aus " + documentType.getString() + " erzeugen");
 		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(copyGroup);
 		GridDataFactory.fillDefaults().minSize(200, -1).align(SWT.END, SWT.BOTTOM).grab(true, false).applyTo(copyGroup);
