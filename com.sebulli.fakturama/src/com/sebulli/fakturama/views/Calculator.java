@@ -28,7 +28,6 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
@@ -92,19 +91,11 @@ public class Calculator extends ViewPart {
 		displayText.setTextLimit(10);
 		displayText.setText(displayString);
 		displayText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 4, 1));
-
-		FontData[] fD = displayText.getFont().getFontData();
-		fD[0].setHeight(32);
-		Font font = new Font(null, fD[0]);
+		
+		FontData fD = displayText.getFont().getFontData()[0];
+		fD.setHeight(24);
+		Font font = new Font(null, fD);
 		displayText.setFont(font);
-		font.dispose();
-
-		Color foreground = new Color(null, 55, 55, 55);
-		Color background = new Color(null, 0xf0, 0xf0, 0xf0);
-		displayText.setForeground(foreground);
-		displayText.setBackground(background);
-		foreground.dispose();
-		background.dispose();
 
 		final Label clearButton = new Label(container, SWT.NONE);
 		clearButton.addMouseListener(new MouseAdapter() {
