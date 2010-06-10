@@ -56,9 +56,9 @@ public class NewContactAction extends NewEditorAction {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * 
-	 * Opens a new contact editor. 
+	 * Open a new contact editor. 
 	 */
 	@Override
 	public void run() {

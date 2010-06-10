@@ -53,9 +53,9 @@ public class NewProductAction extends NewEditorAction {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * 
-	 * Opens a new product editor. 
+	 * Open a new product editor. 
 	 */
 	@Override
 	public void run() {

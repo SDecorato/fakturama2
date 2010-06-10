@@ -53,9 +53,9 @@ public class NewPaymentAction extends NewEditorAction {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * 
-	 * Opens a new payment editor. 
+	 * Open a new payment editor. 
 	 */
 	@Override
 	public void run() {

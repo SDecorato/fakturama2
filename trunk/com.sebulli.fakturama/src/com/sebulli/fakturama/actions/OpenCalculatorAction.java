@@ -27,20 +27,35 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.Calculator;
 
+/**
+ * This action opens the calculator in a view.
+ *  
+ * @author Gerd Bartelt
+ */
 public class OpenCalculatorAction extends Action {
 
-	// private final IWorkbenchWindow window;
-
+	/**
+	 * Constructor
+	 */
 	public OpenCalculatorAction() {
 		super("Rechner");
+		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_CALCULATOR);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_OPEN_CALCULATOR);
+		
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/calculator_16.png"));
 	}
 
+	/**
+	 * Run the action
+	 * 
+	 * Open the calculators view. 
+	 */
 	@Override
 	public void run() {
 		try {

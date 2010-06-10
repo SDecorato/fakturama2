@@ -53,9 +53,9 @@ public class NewTextAction extends NewEditorAction {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * 
-	 * Opens a new text editor. 
+	 * Open a new text editor. 
 	 */
 	@Override
 	public void run() {

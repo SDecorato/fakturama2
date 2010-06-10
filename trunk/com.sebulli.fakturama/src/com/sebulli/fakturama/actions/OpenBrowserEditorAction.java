@@ -40,7 +40,6 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class OpenBrowserEditorAction extends Action {
 
-
 	/**
 	 * Constructor
 	 */
@@ -59,9 +58,9 @@ public class OpenBrowserEditorAction extends Action {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * 
-	 * Sets the URL and open the editor. 
+	 * Set the URL and open the editor. 
 	 */
 	@Override
 	public void run() {

@@ -91,7 +91,7 @@ public class CreateOODocumentAction extends Action {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * Search for all available templates.
 	 * If there is more than one, display a menu to select one template.
 	 * The content of the editor is saved before exporting it.

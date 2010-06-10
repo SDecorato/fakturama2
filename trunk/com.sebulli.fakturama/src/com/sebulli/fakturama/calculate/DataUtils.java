@@ -35,65 +35,124 @@ import org.eclipse.swt.widgets.Text;
 import com.sebulli.fakturama.data.UniData;
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This class provides static functions to convert
+ * and format data like double values, dates or strings.
+ * 
+ * @author gerd
+ */
 public class DataUtils {
 
+	/**
+	 * Test, if a value is rounded to cent values.
+	 * e.g. 
+	 * 39,43000 € is a rounded value
+	 * 39,43200 € is not.
+	 * 
+	 * @param d Double value to test
+	 * @return true, if the value is rounded to cent values.
+	 */
 	public static boolean isRounded(Double d) {
 		return DoublesAreEqual(d, round(d));
 	}
 
+	/**
+	 * Test, if two double values are equal.
+	 * Because of rounding errors during calculation, 
+	 * two values with a difference of only 0.0001 are
+	 * interpreted as "equal"
+	 * 
+	 * @param d1 First value
+	 * @param d2 Second value
+	 * @return True, if the values are equal.
+	 */
 	public static boolean DoublesAreEqual(Double d1, Double d2) {
-		return (Math.abs(d1 - d2) < 0.000000001);
+		return (Math.abs(d1 - d2) < 0.0001);
 	}
 
+	/**
+	 * Test, if 2 values are equal. One value is a double and one is string.
+	 * 
+	 * @param s1 First value as String
+	 * @param d2 Second value as double
+	 * @return True, if the values are equal.
+	 */
 	public static boolean DoublesAreEqual(String s1, Double d2) {
 		return DoublesAreEqual(StringToDouble(s1), d2);
 	}
 
+	/**
+	 * Test, if 2 values are equal. Both values are doubles as formated string.
+	 * 
+	 * @param s1 First value as String
+	 * @param s2 Second value as String
+	 * @return True, if the values are equal.
+	 */
 	public static boolean DoublesAreEqual(String s1, String s2) {
 		return DoublesAreEqual(StringToDouble(s1), StringToDouble(s2));
 	}
 
+	/**
+	 * Convert a String to a double value
+	 * If there is a "%" Sign, the values are scales by 0.01
+	 * If there is a "," - it is converted to a "."
+	 * Only numbers are converted
+	 * 
+	 * @param s String to convert
+	 * @return converted value
+	 */
 	public static Double StringToDouble(String s) {
 		Double d = 0.0;
+		
+		// Test, if it is a percent value
 		boolean isPercent = s.contains("%");
+		
+		// replace the localizes decimal separators
 		s = s.replaceAll(",", ".");
+		
+		// use only numbers
 		Pattern p = Pattern.compile("[+-]?\\d*\\.?\\d*");
 		Matcher m = p.matcher(s);
 
 		if (m.find()) {
+			// extract the number
 			s = s.substring(m.start(), m.end());
 			try {
+				// try to convert it to a double value
 				d = Double.parseDouble(s);
+				
+				// scale it by 0.01, if it was a percent value
 				if (isPercent)
 					d = d / 100;
+				
 			} catch (NumberFormatException e) {
 			}
 		}
 		return d;
 	}
 
+	/**
+	 * Round a value to full cent values.
+	 * Add an offset of 0.01 cent. This is, because there
+	 * may be double values like 0.004999999999999 which should be rounded to 0.01
+	 * 
+	 * @param d value to round.
+	 * @return Rounded value
+	 */
 	public static Double round(Double d) {
-		return (Math.round((d + 0.000000001) * 100.0)) / 100.0; // add
-		// +
-		// 0.000000001
-		// that
-		// 0.004999...
-		// is
-		// rounded
-		// to
-		// 0.01
+		return (Math.round((d + 0.0001) * 100.0)) / 100.0; 
 	}
 
 	private static String DoubleToFormatedValue(Double d, boolean twoDecimals) {
 		Double d2;
 		if (d >= 0)
-			d2 = Math.floor(d * 100.0 + 0.000000001) / 100.0;
+			d2 = Math.floor(d * 100.0 + 0.0001) / 100.0;
 		else
-			d2 = Math.ceil(d * 100.0 - 0.000000001) / 100.0;
+			d2 = Math.ceil(d * 100.0 - 0.0001) / 100.0;
 
 		DecimalFormat price = new DecimalFormat("0.00");
 		String s = price.format(d2);
-		if (Math.abs(d - d2) > 0.000000002)
+		if (Math.abs(d - d2) > 0.0002)
 			return s + "..";
 		else {
 			if (!twoDecimals) {

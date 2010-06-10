@@ -81,7 +81,7 @@ public class MarkOrderAsAction extends Action {
 	}
 
 	/**
-	 * Sets command ID and icon for this action.
+	 * Set command ID and icon for this action.
 	 * 
 	 * @param cmd command ID
 	 * @param image Actions's icon
@@ -94,7 +94,7 @@ public class MarkOrderAsAction extends Action {
 
 	
 	/**
-	 * Runs the action
+	 * Run the action
 	 * Search all views to get the selected element.
 	 * If a view with an selection is found, change the state, 
 	 * if it was an order.

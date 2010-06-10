@@ -25,18 +25,36 @@ import org.eclipse.jface.action.Action;
 import com.sebulli.fakturama.views.TemporaryViews;
 import com.sebulli.fakturama.views.datasettable.ViewTextTable;
 
+/**
+ * This action opens the texts in a table view.
+ *  
+ * @author Gerd Bartelt
+ */
 public class OpenTextsAction extends Action {
 
+	/**
+	 * Constructor
+	 */
 	public OpenTextsAction() {
 		super("Texte");
+		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_TEXTS);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_OPEN_TEXTS);
+		
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/text_16.png"));
 	}
 
+	/**
+	 * Run the action
+	 * 
+	 * Open the texts in an table view
+	 * and close the other table views. 
+	 */
 	@Override
 	public void run() {
 		TemporaryViews.INSTANCE.showView(ViewTextTable.ID);
