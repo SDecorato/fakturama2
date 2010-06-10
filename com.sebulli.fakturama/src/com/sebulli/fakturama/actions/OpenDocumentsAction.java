@@ -25,20 +25,36 @@ import org.eclipse.jface.action.Action;
 import com.sebulli.fakturama.views.TemporaryViews;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 
+/**
+ * This action opens the documents in a table view.
+ *  
+ * @author Gerd Bartelt
+ */
 public class OpenDocumentsAction extends Action {
 
-	// private final IWorkbenchWindow window;
-
+	/**
+	 * Constructor
+	 */
 	public OpenDocumentsAction() {
 		super("Dokumente");
+		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_DOCUMENTS);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_OPEN_DOCUMENTS);
+		
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/letter_16.png"));
 	}
 
+	/**
+	 * Run the action
+	 * 
+	 * Open the contacts in an table view
+	 * and close the other table views. 
+	 */
 	@Override
 	public void run() {
 		TemporaryViews.INSTANCE.showView(ViewDocumentTable.ID);

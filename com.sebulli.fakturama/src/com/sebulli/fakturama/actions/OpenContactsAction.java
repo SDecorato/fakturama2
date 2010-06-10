@@ -25,20 +25,36 @@ import org.eclipse.jface.action.Action;
 import com.sebulli.fakturama.views.TemporaryViews;
 import com.sebulli.fakturama.views.datasettable.ViewContactTable;
 
+/**
+ * This action opens the contacts in a table view.
+ *  
+ * @author Gerd Bartelt
+ */
 public class OpenContactsAction extends Action {
 
-	// private final IWorkbenchWindow window;
-
+	/**
+	 * Constructor
+	 */
 	public OpenContactsAction() {
 		super("Kontakte");
+		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_CONTACTS);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_OPEN_CONTACTS);
+		
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/contact_16.png"));
 	}
 
+	/**
+	 * Run the action
+	 * 
+	 * Open the contacts in an table view
+	 * and close the other table views. 
+	 */
 	@Override
 	public void run() {
 		TemporaryViews.INSTANCE.showView(ViewContactTable.ID);

@@ -25,18 +25,36 @@ import org.eclipse.jface.action.Action;
 import com.sebulli.fakturama.views.TemporaryViews;
 import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 
+/**
+ * This action opens the vats in a table view.
+ *  
+ * @author Gerd Bartelt
+ */
 public class OpenVatsAction extends Action {
 
+	/**
+	 * Constructor
+	 */
 	public OpenVatsAction() {
 		super("Steuersätze");
+		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_VATS);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_OPEN_VATS);
+		
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/vat_16.png"));
 	}
 
+	/**
+	 * Run the action
+	 * 
+	 * Open the vats in an table view
+	 * and close the other table views. 
+	 */
 	@Override
 	public void run() {
 		TemporaryViews.INSTANCE.showView(ViewVatTable.ID);

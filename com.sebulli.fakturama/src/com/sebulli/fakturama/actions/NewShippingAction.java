@@ -54,9 +54,9 @@ public class NewShippingAction extends NewEditorAction {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * 
-	 * Opens a new shipping editor. 
+	 * Open a new shipping editor. 
 	 */
 	@Override
 	public void run() {

@@ -60,7 +60,7 @@ public class DeleteDataSetAction extends Action {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * Search all views to get the selected element.
 	 * If a view with an selection is found, display the dialog before deleting the element
 	 */

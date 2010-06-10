@@ -53,9 +53,9 @@ public class NewVatAction extends NewEditorAction {
 	}
 
 	/**
-	 * Runs the action
+	 * Run the action
 	 * 
-	 * Opens a new vat editor. 
+	 * Open a new vat editor. 
 	 */
 	@Override
 	public void run() {
