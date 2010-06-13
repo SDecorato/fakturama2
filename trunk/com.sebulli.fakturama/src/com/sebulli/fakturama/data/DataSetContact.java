@@ -20,21 +20,92 @@
 
 package com.sebulli.fakturama.data;
 
+/**
+ * UniDataSet for all contacts 
+ * 
+ * @author Gerd Bartelt
+ */
 public class DataSetContact extends UniDataSet {
 
+	/**
+	 * Constructor
+	 */
 	public DataSetContact() {
 		this("");
 	}
 
+	/**
+	 * Constructor
+	 * Create a new contact
+	 * 
+	 * @param category Category
+	 */
 	public DataSetContact(String category) {
 		this(false, category, "", "", "", "", "");
 	}
 
+	/**
+	 * Constructor
+	 * Create a new contact
+	 * 
+	 * @param deleted
+	 * @param category 
+	 * @param firstname
+	 * @param name
+	 * @param street
+	 * @param zip
+	 * @param city
+	 */
 	public DataSetContact(boolean deleted, String category, String firstname, String name, String street, String zip, String city) {
 		this(-1, deleted, category, 0, "", firstname, name, "", street, zip, city, "", 0, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
 				-1, 0, "", "", "", "", "", "", 0, 0.0);
 	}
 
+	/**
+	 * Constructor
+	 * Create a new contact
+	 * 
+	 * @param id
+	 * @param deleted
+	 * @param category
+	 * @param gender
+	 * @param title
+	 * @param firstname
+	 * @param name
+	 * @param company
+	 * @param street
+	 * @param zip
+	 * @param city
+	 * @param country
+	 * @param delivery_gender
+	 * @param delivery_title
+	 * @param delivery_firstname
+	 * @param delivery_name
+	 * @param delivery_company
+	 * @param delivery_street
+	 * @param delivery_zip
+	 * @param delivery_city
+	 * @param delivery_country
+	 * @param account_holder
+	 * @param account
+	 * @param bank_code
+	 * @param bank_name
+	 * @param iban
+	 * @param bic
+	 * @param nr
+	 * @param note
+	 * @param date_added
+	 * @param payment
+	 * @param reliability
+	 * @param phone
+	 * @param fax
+	 * @param mobile
+	 * @param email
+	 * @param website
+	 * @param vatnr
+	 * @param vatnrvalid
+	 * @param discount
+	 */
 	public DataSetContact(int id, boolean deleted, String category, int gender, String title, String firstname, String name, String company, String street,
 			String zip, String city, String country, int delivery_gender, String delivery_title, String delivery_firstname, String delivery_name,
 			String delivery_company, String delivery_street, String delivery_zip, String delivery_city, String delivery_country, String account_holder,
@@ -84,14 +155,21 @@ public class DataSetContact extends UniDataSet {
 		this.hashMap.put("vatnr", new UniData(UniDataType.STRING, vatnr));
 		this.hashMap.put("vatnrvalid", new UniData(UniDataType.INT, vatnrvalid));
 		this.hashMap.put("discount", new UniData(UniDataType.PERCENT, discount));
-		sqlTabeName = "Contacts";
 
+		// Name of the table in the data base
+		sqlTabeName = "Contacts";
 	}
 
+	/**
+	 * Get the delivery address
+	 * 
+	 * @return Complete delivery address
+	 */
 	public String getDeliveryAddress() {
 		String address = "";
 		String line = "";
 
+		// add company
 		line = this.getStringValueByKey("delivery_company");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
@@ -99,6 +177,7 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// add name
 		line = "";
 		if (!this.getStringValueByKey("delivery_title").isEmpty())
 			line += this.getStringValueByKey("delivery_title") + " ";
@@ -112,6 +191,7 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// add street
 		line = this.getStringValueByKey("delivery_street");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
@@ -119,6 +199,7 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// add ZIP code
 		line = this.getStringValueByKey("delivery_zip");
 		if (!this.getStringValueByKey("delivery_city").isEmpty())
 			line += " " + this.getStringValueByKey("delivery_city");
@@ -128,6 +209,7 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// add country
 		line = this.getStringValueByKey("delivery_country");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
@@ -135,13 +217,20 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// return the complete address
 		return address;
 	}
 
+	/**
+	 * Get the address
+	 * 
+	 * @return Complete address
+	 */
 	public String getAddress() {
 		String address = "";
 		String line = "";
 
+		// add company
 		line = this.getStringValueByKey("company");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
@@ -149,6 +238,7 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// add name
 		line = "";
 		if (!this.getStringValueByKey("title").isEmpty())
 			line += this.getStringValueByKey("title") + " ";
@@ -162,6 +252,7 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// add street
 		line = this.getStringValueByKey("street");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
@@ -169,6 +260,7 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// add zip
 		line = this.getStringValueByKey("zip");
 		if (!this.getStringValueByKey("city").isEmpty())
 			line += " " + this.getStringValueByKey("city");
@@ -178,6 +270,7 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// add county
 		line = this.getStringValueByKey("country");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
@@ -185,9 +278,15 @@ public class DataSetContact extends UniDataSet {
 			address += line;
 		}
 
+		// return the complete address
 		return address;
 	}
 
+	/**
+	 * Get the first and the last name
+	 * 
+	 * @return First and last name
+	 */
 	public String getName() {
 		String address = "";
 		String line = "";
@@ -204,14 +303,31 @@ public class DataSetContact extends UniDataSet {
 		return address;
 	}
 
+	/**
+	 * Get the gender String
+	 * 
+	 * @return Gender as String
+	 */
 	public String getGenderString() {
 		return DataSetContact.getGenderString(this.getIntValueByKey("gender"));
 	}
 
+	
+	/**
+	 * Get the gender String
+	 * 
+	 * @return Gender as String
+	 */
 	public String getDeliveryGenderString() {
 		return DataSetContact.getGenderString(this.getIntValueByKey("delivery_gender"));
 	}
 
+	/**
+	 * Get the gender String by the gender number
+	 * 
+	 * @param i Gender number
+	 * @return Gender as string
+	 */
 	public static String getGenderString(int i) {
 		switch (i) {
 		case 0:
@@ -226,6 +342,13 @@ public class DataSetContact extends UniDataSet {
 		return "";
 	}
 
+	/**
+	 * Test, if this is equal to an other UniDataSet
+	 * Only first name, name and ZIP are compared
+	 * 
+	 * @param uds Other UniDataSet
+	 * @return True, if it's equal
+	 */
 	public boolean isTheSameAs(UniDataSet uds) {
 		if (!uds.getStringValueByKey("firstname").equals(this.getStringValueByKey("firstname")))
 			return false;

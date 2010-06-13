@@ -28,6 +28,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 
+import com.sebulli.fakturama.OSDependent;
+import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
+
 /**
  * A field editor for a file path type preference. A standard file dialog
  * appears when the user presses the change button.
@@ -70,8 +73,8 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 		if (!startingDir.isEmpty())
 			if (startingDir.contains("/"))
 				startingDir = startingDir.substring(0, 1 + startingDir.lastIndexOf("/"));
-		if (startingDir.isEmpty())
-			startingDir = "/Applications/";
+		if (startingDir.isEmpty()) 
+			startingDir = OSDependent.getProgramFolder();
 		File f = new File(startingDir);
 		if (!f.exists())
 			f = null;
@@ -98,9 +101,12 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 		else
 			path = "";
 		if (path.length() != 0) {
-			File file = new File(path + "/Contents//MacOS/soffice");
-			if (!file.isFile()) {
-				msg = "keine gültige OpenOffice App";
+			if (!OpenOfficeStarter.isValidPath(path)) {
+				if (OSDependent.isOOApp()) 
+					msg = "keine gültige OpenOffice App";
+				else
+					msg = "keine gültiger OpenOffice Programmordner";
+				
 			}
 		}
 

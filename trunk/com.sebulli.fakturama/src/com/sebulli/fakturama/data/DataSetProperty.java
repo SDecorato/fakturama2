@@ -20,22 +20,48 @@
 
 package com.sebulli.fakturama.data;
 
+/**
+ * UniDataSet for all properties 
+ * 
+ * @author Gerd Bartelt
+ */
 public class DataSetProperty extends UniDataSet {
 
+
+	/**
+	 * Constructor
+	 * Creates an new property
+	 */
 	public DataSetProperty() {
 		this(-1, "", "");
 	}
 
+	/**
+	 * Constructor
+	 * Creates an new property
+	 * 
+	 * @param name
+	 * @param value
+	 */
 	public DataSetProperty(String name, String value) {
 		this(-1, name, value);
 	}
 
+	/**
+	 * Constructor
+	 * Creates an new property
+	 * 
+	 * @param id
+	 * @param name
+	 * @param value
+	 */
 	public DataSetProperty(int id, String name, String value) {
 		this.hashMap.put("id", new UniData(UniDataType.INT, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("value", new UniData(UniDataType.STRING, value));
-		sqlTabeName = "Properties";
 
+		// Name of the table in the data base
+		sqlTabeName = "Properties";
 	}
 
 }

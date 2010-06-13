@@ -22,10 +22,12 @@ package com.sebulli.fakturama.data;
 
 import com.sebulli.fakturama.calculate.DataUtils;
 
-/*
+/**
  * This class is container for an value in different data types.
  * If you read the value in an other type than it was set, the value
  * will be converted.
+ * 
+ * @author Gerd Bartelt
  */
 public class UniData {
 	final private UniDataType dataType;
@@ -35,7 +37,7 @@ public class UniData {
 	private Double d = 0.0;
 	private String s = "";
 
-	/*
+	/**
 	 * Constructor with invalid initial values
 	 * 
 	 * @param i initial value
@@ -45,7 +47,7 @@ public class UniData {
 		// this.lastDataType = UniDataType.NONE;
 	}
 
-	/*
+	/**
 	 * Constructor with initial value as int.
 	 * 
 	 * @param i initial value
@@ -55,7 +57,7 @@ public class UniData {
 		setValue(i);
 	}
 
-	/*
+	/**
 	 * Constructor with initial value as boolean.
 	 * 
 	 * @param b initial value
@@ -65,7 +67,7 @@ public class UniData {
 		setValue(b);
 	}
 
-	/*
+	/**
 	 * Constructor with initial value as double.
 	 * 
 	 * @param d initial value
@@ -75,7 +77,7 @@ public class UniData {
 		setValue(d);
 	}
 
-	/*
+	/**
 	 * Constructor with initial value as String.
 	 * 
 	 * @param s initial value
@@ -89,7 +91,7 @@ public class UniData {
 		return this.dataType;
 	}
 
-	/*
+	/**
 	 * sets the value as integer.
 	 * 
 	 * @param b new value
@@ -116,7 +118,7 @@ public class UniData {
 		}
 	}
 
-	/*
+	/**
 	 * sets the value as boolean.
 	 * 
 	 * @param b new value
@@ -144,7 +146,7 @@ public class UniData {
 
 	}
 
-	/*
+	/**
 	 * sets the value as double.
 	 * 
 	 * @param b new value
@@ -171,7 +173,7 @@ public class UniData {
 		}
 	}
 
-	/*
+	/**
 	 * sets the value as string.
 	 * 
 	 * @param b new value
@@ -205,7 +207,7 @@ public class UniData {
 		}
 	}
 
-	/*
+	/**
 	 * Returns the value as Integer.
 	 * 
 	 * @return value as Integer
@@ -234,7 +236,7 @@ public class UniData {
 		}
 	}
 
-	/*
+	/**
 	 * Returns the value as Boolean.
 	 * 
 	 * @return value as Boolean
@@ -259,7 +261,7 @@ public class UniData {
 		}
 	}
 
-	/*
+	/**
 	 * Returns the value as Double.
 	 * 
 	 * @return value as Double
@@ -284,7 +286,7 @@ public class UniData {
 		}
 	}
 
-	/*
+	/**
 	 * Returns the value as String.
 	 * 
 	 * @return value as String
@@ -309,7 +311,7 @@ public class UniData {
 		}
 	}
 
-	/*
+	/**
 	 * Returns the value as formated String.
 	 * 
 	 * @return value as formated String
@@ -331,7 +333,7 @@ public class UniData {
 		}
 	}
 
-	/*
+	/**
 	 * Returns the data type
 	 * 
 	 * @return dataType

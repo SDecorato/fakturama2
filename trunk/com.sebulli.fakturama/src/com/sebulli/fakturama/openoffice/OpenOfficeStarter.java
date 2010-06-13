@@ -24,7 +24,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
@@ -34,35 +33,33 @@ import ag.ion.bion.officelayer.application.OfficeApplicationException;
 import ag.ion.bion.officelayer.application.OfficeApplicationRuntime;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.logger.Logger;
 
 public class OpenOfficeStarter {
 
+
+	
+	static public boolean isValidPath(String preferencePath) {
+		File file = new File(OSDependent.getOOBinary(preferencePath));
+		return file.isFile();
+	}
+	
+	
 	static public IOfficeApplication openOfficeAplication() {
-		String orgPath = Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_PATH");
-		String path = orgPath;
-		File file = new File(path + "\\program\\soffice.exe");
-
-		if (Platform.getOS().equalsIgnoreCase("macosx")) {
-			path += "/Contents//MacOS";
-			file = new File(path + "/soffice");
-		}
-
-		if (Platform.getOS().equalsIgnoreCase("linux")) {
-			file = new File(path + "/program/soffice");
-		}
+		String preferencePath = Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_PATH");
 		
 		
-		if (!file.isFile()) {
+		if (!isValidPath(preferencePath)) {
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
 			messageBox.setText("Fehler");
-			messageBox.setMessage("OpenOffice-Pfad:\n\n" + orgPath + "\n\nist nicht gültig");
+			messageBox.setMessage("OpenOffice-Pfad:\n\n" + preferencePath + "\n\nist nicht gültig");
 			messageBox.open();
 			return null;
 		}
 
 		Map<String, String> configuration = new HashMap<String, String>();
-		configuration.put(IOfficeApplication.APPLICATION_HOME_KEY, path);
+		configuration.put(IOfficeApplication.APPLICATION_HOME_KEY, OSDependent.getOOExtendetPath(preferencePath));
 		configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY, "local");
 		IOfficeApplication officeAplication = null;
 		try {

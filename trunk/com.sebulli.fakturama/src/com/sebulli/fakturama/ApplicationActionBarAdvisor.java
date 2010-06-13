@@ -20,7 +20,6 @@
 
 package com.sebulli.fakturama;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.ICoolBarManager;
@@ -256,7 +255,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	 */
 	@Override
 	protected void fillMenuBar(IMenuManager menuBar) {
-		String os = Platform.getOS();
 		MenuManager fileMenu = new MenuManager("&Datei", IWorkbenchActionConstants.M_FILE);
 		MenuManager helpMenu = new MenuManager("&Hilfe", IWorkbenchActionConstants.M_HELP);
 		MenuManager hiddenMenu = new MenuManager("Hidden", "com.sebulli.faktura.menu.hidden");
@@ -281,11 +279,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		fileMenu.add(new GroupMarker(IWorkbenchActionConstants.PRINT_EXT));
 		fileMenu.add(new Separator());
 		fileMenu.add(selectWorkspaceAction);
-		if (os.equalsIgnoreCase("macosx")) {
-			hiddenMenu.add(openPreferencesAction);
-		} else {
+		if (OSDependent.canAddPreferenceAboutMenu()) {
 			fileMenu.add(new Separator());
 			fileMenu.add(openPreferencesAction);
+		} else {
+			hiddenMenu.add(openPreferencesAction);
 		}
 		fileMenu.add(new Separator());
 		fileMenu.add(webShopImportAction);
@@ -297,11 +295,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		// Help menu
 		helpMenu.add(openBrowserEditorAction);
 
-		if (os.equalsIgnoreCase("macosx")) {
-			hiddenMenu.add(aboutAction);
-		} else {
+		if (OSDependent.canAddAboutMenuItem()) {
 			helpMenu.add(new Separator());
 			helpMenu.add(aboutAction);
+		} else {
+			hiddenMenu.add(aboutAction);
 		}
 	}
 

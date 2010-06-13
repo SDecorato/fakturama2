@@ -102,7 +102,7 @@ public class LogListener implements ILogListener {
 
 			String filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
 			if (filename.isEmpty())
-				return; // filename = System.getProperty("user.home");
+				return; 
 			filename += "/Error.log";
 
 			logFile = new File(filename);

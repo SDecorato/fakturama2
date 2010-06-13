@@ -26,11 +26,11 @@ import com.sebulli.fakturama.data.Data;
 public class PreferencesInDatabase {
 
 	private static void loadPreferenceValue(String key) {
-		Activator.getDefault().getPreferenceStore().setValue(key, Data.INSTANCE.getPreferenceValue(key));
+		Activator.getDefault().getPreferenceStore().setValue(key, Data.INSTANCE.getProperty(key));
 	}
 
 	private static void savePreferenceValue(String key) {
-		Data.INSTANCE.setPreferenceValue(key, Activator.getDefault().getPreferenceStore().getString(key));
+		Data.INSTANCE.setProperty(key, Activator.getDefault().getPreferenceStore().getString(key));
 	}
 
 	public static void syncWithPreferencesFromDatabase(String key, boolean write) {

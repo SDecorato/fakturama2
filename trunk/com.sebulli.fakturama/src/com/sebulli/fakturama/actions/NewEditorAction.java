@@ -33,8 +33,14 @@ import com.sebulli.fakturama.editors.Editor;
  * @author Gerd Bartelt
  */
 public class NewEditorAction extends Action {
+	
+	// category String
 	protected String category = "";
+	
+	// Parent UniDataSet
 	protected UniDataSet parent = null;
+	
+	// Parent Editor
 	protected Editor parentEditor = null;
 
 	/**

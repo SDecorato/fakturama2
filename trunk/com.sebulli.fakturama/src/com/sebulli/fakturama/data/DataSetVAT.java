@@ -22,20 +22,55 @@ package com.sebulli.fakturama.data;
 
 import com.sebulli.fakturama.calculate.DataUtils;
 
+/**
+ * UniDataSet for all vats 
+ * 
+ * @author Gerd Bartelt
+ */
 public class DataSetVAT extends UniDataSet {
 
+	/**
+	 * Constructor
+	 * Creates a new vat
+	 */
 	public DataSetVAT() {
 		this("");
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new vat
+	 * 
+	 * @param category of the new vat
+	 */
 	public DataSetVAT(String category) {
 		this("", category, "", 0.0);
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new vat
+	 * 
+	 * @param name
+	 * @param category
+	 * @param description
+	 * @param value
+	 */
 	public DataSetVAT(String name, String category, String description, Double value) {
 		this(-1, name, false, category, description, value);
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new vat
+	 * 
+	 * @param id
+	 * @param name
+	 * @param deleted
+	 * @param category
+	 * @param description
+	 * @param value
+	 */
 	public DataSetVAT(int id, String name, boolean deleted, String category, String description, Double value) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
@@ -43,14 +78,22 @@ public class DataSetVAT extends UniDataSet {
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
 		this.hashMap.put("description", new UniData(UniDataType.STRING, description));
 		this.hashMap.put("value", new UniData(UniDataType.PERCENT, value));
+
+		// Name of the table in the data base
 		sqlTabeName = "Vats";
 	}
 
+	/**
+	 * Test, if this is equal to an other UniDataSet
+	 * Only the values are compared
+	 * 
+	 * @param uds Other UniDataSet
+	 * @return True, if it's equal
+	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
-		// TODO: auch auf Name prüfen in Preference Page übernehmen
-		// if (!
-		// uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
+		// TODO: add to a preference page: Test also the name
+		// if ( !uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")) )
 		// return false;
 		if (!DataUtils.DoublesAreEqual(uds.getDoubleValueByKey("value"), this.getDoubleValueByKey("value")))
 			return false;

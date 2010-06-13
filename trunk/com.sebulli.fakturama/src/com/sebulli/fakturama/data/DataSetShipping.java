@@ -20,23 +20,66 @@
 
 package com.sebulli.fakturama.data;
 
+/**
+ * UniDataSet for all shippings 
+ * 
+ * @author Gerd Bartelt
+ */
 public class DataSetShipping extends UniDataSet {
-	public static final int SHIPPINGVATAUTO = 0;
+	
+	// calculate the shipping's vat with a fix vat value
+	public static final int SHIPPINGVATFIX = 0;
+	// calculate the shipping's vat with the same vat of the items. The shipping vat is a gross value.
 	public static final int SHIPPINGVATGROSS = 1;
+	// calculate the shipping's vat with the same vat of the items. The shipping vat is a net value.
 	public static final int SHIPPINGVATNET = 2;
 
+	/**
+	 * Constructor
+	 * Creates a new shipping
+	 */
 	public DataSetShipping() {
 		this("");
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new shipping
+	 * 
+	 * @param category Category of the new shipping
+	 */
 	public DataSetShipping(String category) {
 		this("", category, "", 0.0, 0, 1);
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new shipping
+	 * 
+	 * @param name
+	 * @param category
+	 * @param description
+	 * @param value
+	 * @param vatId
+	 * @param autovat
+	 */
 	public DataSetShipping(String name, String category, String description, Double value, int vatId, int autovat) {
 		this(-1, name, false, category, description, value, vatId, autovat);
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new shipping
+	 * 
+	 * @param id
+	 * @param name
+	 * @param deleted
+	 * @param category
+	 * @param description
+	 * @param value
+	 * @param vatId
+	 * @param autovat
+	 */
 	public DataSetShipping(int id, String name, boolean deleted, String category, String description, Double value, int vatId, int autovat) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
@@ -47,19 +90,17 @@ public class DataSetShipping extends UniDataSet {
 		this.hashMap.put("value", new UniData(UniDataType.PRICE, value));
 		this.hashMap.put("autovat", new UniData(UniDataType.INT, autovat));
 
+		// Name of the table in the data base
 		sqlTabeName = "Shippings";
 	}
 
-	public Double getVatAsDouble() {
-		Double vat;
-		Double net;
-		int id;
-		id = hashMap.get("vatid").getValueAsInteger();
-		net = hashMap.get("value").getValueAsDouble();
-		vat = Data.INSTANCE.getUniDataSetByTableNameAndId("vats", id).getDoubleValueByKey("value");
-		return (vat * net);
-	}
-
+	/**
+	 * Test, if this is equal to an other UniDataSet
+	 * Only the names and the values are compared
+	 * 
+	 * @param uds Other UniDataSet
+	 * @return True, if it's equal
+	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
 		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))

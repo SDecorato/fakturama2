@@ -20,29 +20,71 @@
 
 package com.sebulli.fakturama.data;
 
+/**
+ * UniDataSet for all texts 
+ * 
+ * @author Gerd Bartelt
+ */
 public class DataSetText extends UniDataSet {
 
+	/**
+	 * Constructor
+	 * Creates a new text
+	 */
 	public DataSetText() {
 		this("", "", "");
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new text
+	 * 
+	 * @param category Category of the new text
+	 */
 	public DataSetText(String category) {
 		this("", category, "");
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new text
+	 * 
+	 * @param name
+	 * @param category
+	 * @param text
+	 */
 	public DataSetText(String name, String category, String text) {
 		this(0, name, false, category, text);
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new text
+	 * 
+	 * @param id
+	 * @param name
+	 * @param deleted
+	 * @param category
+	 * @param text
+	 */
 	public DataSetText(int id, String name, boolean deleted, String category, String text) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
 		this.hashMap.put("text", new UniData(UniDataType.STRING, text));
+
+		// Name of the table in the data base
 		sqlTabeName = "Texts";
 	}
 
+	/**
+	 * Test, if this is equal to an other UniDataSet
+	 * Only the names are compared
+	 * 
+	 * @param uds Other UniDataSet
+	 * @return True, if it's equal
+	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
 		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))

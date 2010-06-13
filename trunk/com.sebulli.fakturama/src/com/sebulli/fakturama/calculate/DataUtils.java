@@ -39,7 +39,7 @@ import com.sebulli.fakturama.logger.Logger;
  * This class provides static functions to convert
  * and format data like double values, dates or strings.
  * 
- * @author gerd
+ * @author Gerd Bartelt
  */
 public class DataUtils {
 
@@ -143,97 +143,220 @@ public class DataUtils {
 		return (Math.round((d + 0.0001) * 100.0)) / 100.0; 
 	}
 
+	/**
+	 * Convert a double to a formated string value.
+	 * If the value has parts of a cent, add ".."
+	 * 
+	 * @param d Double value to convert
+	 * @param twoDecimals TRUE, if the value is displayed in the format 0.00
+	 * @return Converted value as String
+	 */
 	private static String DoubleToFormatedValue(Double d, boolean twoDecimals) {
-		Double d2;
+		
+		// Calculate the floor cent value.
+		// for negative values, use the ceil
+		Double floorValue;
 		if (d >= 0)
-			d2 = Math.floor(d * 100.0 + 0.0001) / 100.0;
+			floorValue = Math.floor(d * 100.0 + 0.0001) / 100.0;
 		else
-			d2 = Math.ceil(d * 100.0 - 0.0001) / 100.0;
+			floorValue = Math.ceil(d * 100.0 - 0.0001) / 100.0;
 
+		// Format as "0.00"
 		DecimalFormat price = new DecimalFormat("0.00");
-		String s = price.format(d2);
-		if (Math.abs(d - d2) > 0.0002)
+		String s = price.format(floorValue);
+		
+		// Are there parts of a cent ? Add ".."
+		if (Math.abs(d - floorValue) > 0.0002)
 			return s + "..";
 		else {
+			
 			if (!twoDecimals) {
+
+				// remove the last ".00" from e.g. "12.00"
 				if (s.endsWith("00"))
 					return s.substring(0, s.length() - 3);
+
+				// remove the last "0" from e.g. "12.50"
 				if (s.endsWith("0"))
 					return s.substring(0, s.length() - 1);
 			}
+
 			return s;
 		}
-
 	}
 
+	/**
+	 * Convert a double to a formated price value.
+	 * Same as conversion to a formated value. But use always 2 decimals and add
+	 * the currency sign.
+	 * 
+	 * @param d Value to convert to a price string.
+	 * @return Converted value as string
+	 */
 	public static String DoubleToFormatedPrice(Double d) {
 		return DoubleToFormatedValue(d, true) + " €";
 	}
 
+	/**
+	 * Convert a double to a formated percent value.
+	 * Same as conversion to a formated value.
+	 * But do not use 2 decimals and add the percent sign,
+	 * and scale it by 100
+	 * 
+	 * @param d Value to convert to a percent string.
+	 * @return Converted value as string
+	 */
 	public static String DoubleToFormatedPercent(Double d) {
 		return DoubleToFormatedValue(d * 100, false) + " %";
 	}
 
+	/**
+	 * Convert a double to a formated quantity value.
+	 * Same as conversion to a formated value.
+	 * But do not use 2 decimals.
+	 * 
+	 * @param d Value to convert to a quantity string.
+	 * @return Converted value as string
+	 */
 	public static String DoubleToFormatedQuantity(Double d) {
 		return DoubleToFormatedValue(d, false);
 	}
 
+	/**
+	 * Convert a double to a formated price value.
+	 * Same as conversion to a formated price value.
+	 * But round the value to full cent values
+	 * 
+	 * @param d Value to convert to a price string.
+	 * @return Converted value as string
+	 */
 	public static String DoubleToFormatedPriceRound(Double d) {
 		return DoubleToFormatedValue(round(d), true) + " €";
 	}
 
+	/**
+	 * Calculates the gross value based on a net value and the vat
+	 * 
+	 * @param net Net value as String
+	 * @param vat Vat as double
+	 * @param netvalue Net value as UniData. This is modified with the net value.
+	 * @return Gross value as string
+	 */
 	public static String CalculateGrossFromNet(String net, Double vat, UniData netvalue) {
 		netvalue.setValue(net);
 		return CalculateGrossFromNet(netvalue.getValueAsDouble(), vat);
 	}
 
+	/**
+	 * Calculates the gross value based on a net value and the vat
+	 * 
+	 * @param net Net value as double
+	 * @param vat Vat as double
+	 * @return Gross value as string
+	 */
 	public static String CalculateGrossFromNet(Double net, Double vat) {
 		Double gross = net * (1 + vat);
 		return DoubleToFormatedPrice(gross);
 	}
 
+	/**
+	 * Calculates the gross value based on a net value and the vat.
+	 * Uses the net value from a SWT text field and write the result
+	 * into a gross SWT text field
+	 * 
+	 * @param net SWT text field. This value is used as net value.
+	 * @param gross SWT text field. This filed is modified.
+	 * @param vat Vat as double
+	 * @param netvalue Net value as UniData. This is modified with the net value.
+	 */
 	public static void CalculateGrossFromNet(Text net, Text gross, Double vat, UniData netvalue) {
 		String s = "";
 
+		// If there is a net SWT text field specified, its value is used
 		if (net != null) {
 			s = CalculateGrossFromNet(net.getText(), vat, netvalue);
+		// In the other case, the UniData netvalue is used
 		} else {
 			s = CalculateGrossFromNet(netvalue.getValueAsDouble(), vat);
 		}
 
+		// Fill the SWT text field "gross" with the result
 		if (gross != null)
 			if (!gross.isFocusControl())
 				gross.setText(s);
 	}
 
+	/**
+	 * Convert a gross value to a net value.
+	 * 
+	 * @param gross Gross value as String
+	 * @param vat Vat as double
+	 * @param netvalue Net value as UniData. This is modified with the new net value.
+	 * @return Net value as string
+	 */
 	public static String CalculateNetFromGross(String gross, Double vat, UniData netvalue) {
 		return CalculateNetFromGross(StringToDouble(gross), vat, netvalue);
 	}
 
+	/**
+	 * Convert a gross value to a net value.
+	 * 
+	 * @param gross Gross value as Double
+	 * @param vat Vat as double 
+	 * @param netvalue Net value as UniData. This is modified with the new net value.
+	 * @return Net value as string
+	 */
 	public static String CalculateNetFromGross(Double gross, Double vat, UniData netvalue) {
 		netvalue.setValue(gross / (1 + vat));
 		return DoubleToFormatedPrice(netvalue.getValueAsDouble());
 	}
 
+	/**
+	 * Calculates the net value based on a gross value and the vat.
+	 * Uses the gross value from a SWT text field and write the result
+	 * into a net SWT text field
+	 * 
+	 * @param gross SWT text field. This value is used as gross value.
+	 * @param net SWT text field. This filed is modified.
+	 * @param vat Vat as double
+	 * @param netvalue Net value as UniData. This is modified with the net value.
+	 */
 	public static void CalculateNetFromGross(Text gross, Text net, Double vat, UniData netvalue) {
 		String s = "";
 
+		// If there is a gross SWT text field specified, its value is used
 		if (gross != null) {
 			s = CalculateNetFromGross(gross.getText(), vat, netvalue);
+		// In the other case: do not convert. Just format the netvalue.
 		} else {
 			s = DoubleToFormatedPrice(netvalue.getValueAsDouble());
 		}
 
+		// Fill the SWT text field "net" with the result
 		if (net != null)
 			if (!net.isFocusControl())
 				net.setText(s);
 
 	}
 
+	/**
+	 * Get the date from a SWT DateTime widget in the format:
+	 * YYYY-MM-DD
+	 * 
+	 * @param dtDate SWT DateTime widget
+	 * @return Date as formated String
+	 */
 	public static String getDateTimeAsString(DateTime dtDate) {
 		return String.format("%04d-%02d-%02d", dtDate.getYear(), dtDate.getMonth() + 1, dtDate.getDay());
 	}
 
+	/**
+	 * Get the date from a Calendar object in the format:
+	 * YYYY-MM-DD
+	 * 
+	 * @param calendar Gregorian Calendar object
+	 * @return Date as formated String
+	 */
 	public static String getDateTimeAsString(GregorianCalendar calendar) {
 		int y = calendar.get(Calendar.YEAR);
 		int m = calendar.get(Calendar.MONTH);
@@ -241,11 +364,23 @@ public class DataUtils {
 		return String.format("%04d-%02d-%02d", y, m + 1, d);
 	}
 
+	/**
+	 * Get the date from a Calendar object in the localized format.
+	 * 
+	 * @param calendar calendar Gregorian Calendar object
+	 * @return Date as formated String
+	 */
 	public static String getDateTimeAsLocalString(GregorianCalendar calendar) {
 		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
 		return df.format(calendar.getTime());
 	}
 
+	/**
+	 * Convert a date string from the format YYYY-MM-DD to to localized format.
+	 * 
+	 * @param s Date String
+	 * @return Date as formated String
+	 */
 	public static String DateAsLocalString(String s) {
 
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -259,6 +394,13 @@ public class DataUtils {
 		return df.format(calendar.getTime());
 	}
 
+	/**
+	 * Convert a date and time string from the format
+	 * YYYY-MM-DD HH:MM:SS to to localized format.
+	 * 
+	 * @param s Date and time String
+	 * @return Date and time as formated String
+	 */
 	public static String DateAndTimeAsLocalString(String s) {
 
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -272,6 +414,12 @@ public class DataUtils {
 		return df.format(calendar.getTime());
 	}
 
+	/**
+	 * Convert a date string into the format YYYY-MM-DD.
+	 * 
+	 * @param s Date String
+	 * @return Date as formated String
+	 */
 	public static String DateAsUSString(String s) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		try {
@@ -283,24 +431,50 @@ public class DataUtils {
 		return getDateTimeAsString(calendar);
 	}
 
+	/**
+	 * Adds days to a date string.
+	 * 
+	 * @param date Days to add
+	 * @param days Date as string in the format YYYY-MM-DD or DD.MM.YYYY
+	 * @return Calculated date
+	 */
 	public static String AddToDate(String date, int days) {
 		GregorianCalendar calendar = new GregorianCalendar();
+		
+		// try to parse the input date string
 		try {
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			calendar.setTime(formatter.parse(date));
 		} catch (ParseException e) {
+			
+			// use also localized formats
 			try {
+				//TODO: support other date formats
 				DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 				calendar.setTime(formatter.parse(date));
 			} catch (ParseException e2) {
-
 				Logger.logError(e2, "Error parsing Date");
 			}
 		}
+	
+		// Add the days
 		calendar.add(Calendar.DAY_OF_MONTH, days);
+		
+		// And convert it back to a String value
 		return getDateTimeAsString(calendar);
 	}
 
+
+	/**
+	 * Calculates the similarity of two string.
+	 * 
+	 * The result is a value from 0.0 to 1.0
+	 * Returns 1.0, if both strings are equal.
+	 * 
+	 * @param sA First String value
+	 * @param sB Second String value 
+	 * @return Similarity from 0.0 to 1.0
+	 */
 	public static double similarity(String sA, String sB) {
 		int i;
 		int ii;
@@ -310,12 +484,18 @@ public class DataUtils {
 		int codeA[] = new int[codesA];
 		int codeB[] = new int[codesB];
 
+		// Scans first String. 
+		// Generate a 16 Bit Code of two 8 Bit characters.
 		for (i = 0; i < codesA; i++)
 			codeA[i] = ((sA.charAt(i)) << 8) | (((sA.charAt(i) - sA.charAt(i + 1) & 0x00FF)));
 
+		// Scans second String. 
+		// Generate a 16 Bit Code of two 8 Bit characters.
 		for (i = 0; i < codesB; i++)
 			codeB[i] = ((sB.charAt(i)) << 8) | (((sB.charAt(i) - sB.charAt(i + 1) & 0x00FF)));
 
+		// Count how much of the codes from the first strings are found
+		// in the codes of the second string.
 		int founds = 0;
 		for (i = 0; i < codesA; i++)
 			for (ii = 0; ii < codesB; ii++)
@@ -324,28 +504,58 @@ public class DataUtils {
 					ii = codesB;
 				}
 
+		// Normaly only 2 following characters are scanned. 
+		// So don't forget to compare the first character of both strings
 		if (sA.charAt(0) == sB.charAt(0))
 			founds++;
 
+		// And both last characters
 		if (sA.charAt(codesA) == sB.charAt(codesB))
 			founds++;
 
+		// min is the length of the shortest string
 		if (codesA < codesB)
 			min = codesA;
 		else
 			min = codesB;
+		
+		// add an offset, so that two equal strings will result 1.0
+		// codeX is length-1
 		min += 2;
+		
+		// Calculate the ratio of the founds and the number of characters.
 		return ((double) founds / (double) min);
 
 	}
 
+	/**
+	 * Convert a discount string to a double value
+	 * The input string is interpreted as a percent value.
+	 * Positive values are converted to negative, because a discount is always negative.
+	 * 
+	 * "-3%" is converted to -0.03
+	 * "-3"  is converted to -0.03
+	 * "3"   is converted to -0.03
+	 * 
+	 * @param s String to convert
+	 * @return Result as double from -0.999 to 0.0
+	 */
 	public static double StringToDoubleDiscount(String s) {
+		
+		// The input String is always a percent value
 		s = s + "%";
+		
+		// convert it
 		double d = StringToDouble(s);
+		
+		// Convert it to negative values
 		if (d > 0)
 			d = -d;
+		
+		// A discount of more than -99.9% is invalid.
 		if (d < -0.999)
 			d = 0.0;
+
 		return d;
 	}
 

@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
@@ -109,8 +110,9 @@ public class CreateOODocumentAction extends Action {
 				
 				// Search in the folder "Templates" and also in the folder with the localized  name
 				documentEditor = (DocumentEditor) editor;
-				String templatePath1 = Data.INSTANCE.getWorkingDirectory() + "/Templates/" + documentEditor.getDocumentType().getTypeAsString() + "/";
-				String templatePath2 = Data.INSTANCE.getWorkingDirectory() + "/Vorlagen/" + documentEditor.getDocumentType().getString() + "/";
+				String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+				String templatePath1 = workspace + "/Templates/" + documentEditor.getDocumentType().getTypeAsString() + "/";
+				String templatePath2 = workspace + "/Vorlagen/" + documentEditor.getDocumentType().getString() + "/";
 
 				// Clear the list before adding new entries
 				templates.clear();

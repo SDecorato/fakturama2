@@ -575,7 +575,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				}
 
 				DataSetPayment payment = Data.INSTANCE.getPayments().addNewDataSetIfNew(
-						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")", 0, false));
+						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")",0.0, 0, 0, false));
 				dataSetDocument.setIntValueByKey("paymentid", payment.getIntValueByKey("id"));
 
 			}

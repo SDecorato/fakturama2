@@ -145,7 +145,7 @@ public class ShippingEditor extends Editor {
 
 	private void autoVatChanged() {
 		switch (autoVat) {
-		case DataSetShipping.SHIPPINGVATAUTO:
+		case DataSetShipping.SHIPPINGVATFIX:
 			comboVat.setVisible(true);
 			if (netText != null) {
 				netText.setVisible(true);

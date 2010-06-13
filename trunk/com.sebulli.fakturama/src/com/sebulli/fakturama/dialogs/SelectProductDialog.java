@@ -28,18 +28,36 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
 
+/**
+ * Dialog to select a product from a table
+ * 
+ * @author Gerd Bartelt
+ */
 public class SelectProductDialog extends SelectDataSetDialog {
 
+	/**
+	 * Constructor 
+	 * 
+	 * @param string Dialog title
+	 */
 	public SelectProductDialog(String string) {
 		super(string);
 	}
 
+	/**
+	 * Create the dialog area
+	 * 
+	 * @param parent Parent composite
+	 * @return The new created dialog area
+	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Control control = super.createDialogArea(parent);
 
+		// Set the content provider
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
+		// Create the table columns
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Artikelnr", 50, 0, true, "itemnr");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
@@ -47,7 +65,9 @@ public class SelectProductDialog extends SelectDataSetDialog {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Preis", 70, 0, true, "price1");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "MwSt.", 40, 0, true, "$vatbyid");
 
+		// Set the input
 		tableViewer.setInput(Data.INSTANCE.getProducts());
+
 		return control;
 	}
 

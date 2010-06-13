@@ -28,6 +28,7 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.actions.OpenBrowserEditorAction;
 import com.sebulli.fakturama.actions.SelectWorkspaceAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
 /**
@@ -38,7 +39,7 @@ import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 public class Startup implements IStartup {
 
 	/**
-	 * 
+	 * called after startup of the application
 	 */
 	@Override
 	public void earlyStartup() {
@@ -75,8 +76,29 @@ public class Startup implements IStartup {
 				// from the data base.
 				if (!Data.INSTANCE.getNewDBCreated() && Data.INSTANCE.getDataBaseOpened())
 					PreferencesInDatabase.loadPreferencesFromDatabase();
+				
+				// Show the working directory in the title bar
+				showWorkingDirInTitleBar();
 			}
 		});
+	}
+	
+	/**
+	 * Displays the current workspace in the title bar
+	 */
+	public static void showWorkingDirInTitleBar() {
+		try {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText(
+					"Fakturama - " + Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
+		} catch (Exception e) {
+			Logger.logError("Pages");
+			System.out.println("Pages:");
+			System.out.println(PlatformUI.getWorkbench());
+			System.out.println(PlatformUI.getWorkbench().getActiveWorkbenchWindow());
+			System.out.println(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPages().length);
+			System.out.println(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage());
+			
+		}
 	}
 
 }

@@ -25,16 +25,24 @@ import java.util.ArrayList;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-/*
- * Possible Types for class UniData
+/**
+ * Enumeration of all 8 data types, a document can be.
+ * 
+ * @author Gerd Bartelt
  */
 public enum DocumentType {
+	// all 8 data types
 	NONE, LETTER, OFFER, ORDER, CONFIRMATION, INVOICE, DELIVERY, CREDIT, DUNNING;
 
+	// 8 types.
 	private final static int MAXID = 8;
 
-	private Integer[] documentTypes = { 1, 2, 3, 4, 5, 6, 7, 8 };
-
+	/**
+	 * Convert from a DocumentType to the corresponding integer
+	 * 
+	 * @param documentType Document type to convert
+	 * @return The integer that corresponds to the DocumentType
+	 */
 	public static int getInt(DocumentType documentType) {
 		switch (documentType) {
 		case LETTER:
@@ -57,6 +65,12 @@ public enum DocumentType {
 		return 0;
 	}
 
+	/**
+	 * Convert from a document type String to the corresponding integer
+	 * 
+	 * @param documentType Document type as string to convert
+	 * @return The integer that corresponds to the DocumentType
+	 */
 	public static int getInt(String documentType) {
 		if (getString(LETTER).equals(documentType))
 			return getInt(LETTER);
@@ -78,23 +92,21 @@ public enum DocumentType {
 		return getInt(NONE);
 	}
 
+	/**
+	 * Gets the corresponding integer of an DocumentType
+	 * 
+	 * @return The integer that corresponds to the DocumentType
+	 */
 	public int getInt() {
 		return getInt(this);
 	}
 
-	private static boolean isDocumentTypeString(DocumentType documentType, String documentTypeString) {
-		if (documentTypeString.contains("/") && (documentTypeString.length() > 1))
-			documentTypeString = documentTypeString.substring(0, documentTypeString.indexOf("/"));
-
-		if (getString(documentType).equals(documentTypeString))
-			return true;
-
-		if (getPluralString(documentType).equals(documentTypeString))
-			return true;
-
-		return false;
-	}
-
+	/**
+	 * Convert from a document type string to a DocumentType 
+	 * 
+	 * @param documentType String to convert
+	 * @return  The DocumentType that corresponds to the String
+	 */
 	public static DocumentType getType(String documentType) {
 		if (isDocumentTypeString(LETTER, documentType))
 			return LETTER;
@@ -116,6 +128,13 @@ public enum DocumentType {
 		return NONE;
 	}
 
+	/**
+	 * Convert from an integer to a document type localized string
+	 * The singular style is used. 
+	 * 
+	 * @param i Integer to convert
+	 * @return  The DocumentType as localized string
+	 */
 	public static String getString(int i) {
 		switch (i) {
 		case 1:
@@ -138,10 +157,23 @@ public enum DocumentType {
 		return "";
 	}
 
+	/**
+	 * Gets the document type as localized string
+	 * The singular style is used. 
+	 * 
+	 * @return The DocumentType as localized string
+	 */
 	public String getString() {
 		return getString(this.getInt());
 	}
 
+	/**
+	 * Convert from an integer to a document type localized string
+	 * The plural style is used. 
+	 * 
+	 * @param i Integer to convert
+	 * @return  The DocumentType as localized string
+	 */
 	public static String getPluralString(int i) {
 		switch (i) {
 		case 1:
@@ -164,6 +196,12 @@ public enum DocumentType {
 		return "";
 	}
 
+	/**
+	 * Convert from an integer to a DocumentType
+	 * 
+	 * @param i Integer to convert
+	 * @return  The DocumentType
+	 */
 	public static DocumentType getType(int i) {
 		switch (i) {
 		case 1:
@@ -186,6 +224,13 @@ public enum DocumentType {
 		return NONE;
 	}
 
+	/**
+	 * Convert from an integer to a document type non-localized string
+	 * The singular style is used. 
+	 * 
+	 * @param i Integer to convert
+	 * @return  The DocumentType as non-localized string
+	 */
 	public static String getTypeAsString(int i) {
 		// do not translate !!
 		switch (i) {
@@ -209,31 +254,97 @@ public enum DocumentType {
 		return "NONE";
 	}
 
+	/**
+	 * Convert from Document Type to a document type non-localized string
+	 * The singular style is used. 
+	 * 
+	 * @param documentType DocumentType to convert
+	 * @return The DocumentType as non-localized string
+	 */
 	public static String getTypeAsString(DocumentType documentType) {
 		return getTypeAsString(getInt(documentType));
 	}
 
+	/**
+	 * Get the type as non-localized string
+	 * 
+	 * @return The DocumentType as non-localized string
+	 */
 	public String getTypeAsString() {
 		return DocumentType.getTypeAsString(this);
 	}
 
+	/**
+	 * Convert from DocumentType to a document type localized string
+	 * The singular style is used. 
+	 * 
+	 * @param documentType DocumentType to convert
+	 * @return The DocumentType as localized string
+	 */
 	public static String getString(DocumentType documentType) {
 		return getString(getInt(documentType));
 	}
 
+	/**
+	 * Convert from DocumentType to a document type localized string
+	 * The plural style is used. 
+	 * 
+	 * @param documentType DocumentType to convert
+	 * @return  The DocumentType as localized string
+	 */
 	public static String getPluralString(DocumentType documentType) {
 		return getPluralString(getInt(documentType));
 	}
 
+	/**
+	 * Get the DocumentType as plural localized string
+	 * 
+	 * @return DocumentType as localized string
+	 */
 	public String getPluralString() {
 		return getPluralString(this);
 	}
 
+	/**
+	 * Compares an DocumentType and a document type String.
+	 * The string can describe the type as a singular or plural.
+	 * 
+	 * @param documentType First compare parameter as DocumentType
+	 * @param documentTypeString Second compare parameter as String
+	 * @return True, of both are equal
+	 */
+	private static boolean isDocumentTypeString(DocumentType documentType, String documentTypeString) {
+		
+		// Remove all trailed signs starting from "/" 
+		if (documentTypeString.contains("/") && (documentTypeString.length() > 1))
+			documentTypeString = documentTypeString.substring(0, documentTypeString.indexOf("/"));
+
+		// Test, if it is as singular
+		if (getString(documentType).equals(documentTypeString))
+			return true;
+
+		// Test, if it is as plural
+		if (getPluralString(documentType).equals(documentTypeString))
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * JFace DocumentType content provider
+	 * Provides all Document types as an String array
+	 * 
+	 * @author Gerd Bartelt
+	 */
 	public static class DocumentTypeContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
+			
+			// Get all document types
 			ArrayList<String> strings = new ArrayList<String>();
 			for (int i = 1; i <= MAXID; i++)
 				strings.add(getString(i));
+			
+			// Convert them to an Array
 			return strings.toArray();
 		}
 
@@ -248,11 +359,11 @@ public enum DocumentType {
 
 	}
 
-	public Integer[] getDocumentTypes() {
-		return documentTypes;
-
-	}
-
+	/**
+	 * Defines all Document Types that contains an item table
+	 * 
+	 * @return True for all types with item table
+	 */
 	public boolean hasItems() {
 		switch (this) {
 		case LETTER:
@@ -275,6 +386,11 @@ public enum DocumentType {
 		return false;
 	}
 
+	/**
+	 * Defines all Document Types that contains a price
+	 * 
+	 * @return True for all types with a price
+	 */
 	public boolean hasPrice() {
 		switch (this) {
 		case LETTER:
@@ -297,6 +413,12 @@ public enum DocumentType {
 		return false;
 	}
 
+	/**
+	 * Defines all Document Types that contains a reference to
+	 * an invoice document.
+	 * 
+	 * @return True for all types with a reference to an invoice document.
+	 */
 	public boolean hasInvoiceReference() {
 		switch (this) {
 		case LETTER:
@@ -319,6 +441,11 @@ public enum DocumentType {
 		return false;
 	}
 
+	/**
+	 * Defines the sign of a document
+	 * 
+	 * @return 1 for documents with positive sign, -1 for those with negative sign.
+	 */
 	public int sign() {
 		switch (this) {
 		case LETTER:
@@ -341,6 +468,11 @@ public enum DocumentType {
 		return 1;
 	}
 
+	/**
+	 * Get the text to create a new instance of this document
+	 * 
+	 * @return Text as localized string.
+	 */
 	public String getNewText() {
 		switch (this) {
 		case LETTER:

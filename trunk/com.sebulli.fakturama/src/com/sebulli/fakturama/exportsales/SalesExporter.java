@@ -219,7 +219,11 @@ public class SalesExporter {
 				}
 				Double net = document.getDoubleValueByKey("payvalue") - totalVat.asRoundedDouble();
 				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, net);
-				Double roundingError = document.getSummary().getTotalNet().asDouble() * payedFactor - net;
+				
+				Double totalNet = document.getSummary().getTotalNet().asDouble();
+				totalNet += document.getSummary().getShipping().getUnitNet().asDouble();
+				
+				Double roundingError = totalNet * payedFactor - net;
 				if (Math.abs(roundingError) > 0.01)
 					setCellTextInRedBold(spreadsheet1, row, col + columnsWithVatHeading, "Runden prüfen");
 				row++;

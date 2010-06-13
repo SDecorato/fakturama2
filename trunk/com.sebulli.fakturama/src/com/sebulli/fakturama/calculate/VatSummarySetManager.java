@@ -23,31 +23,64 @@ package com.sebulli.fakturama.calculate;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
 
+/**
+ * Stores one VatSummarySet object and provides some methodes 
+ * e.g. to add an UniDataSet document
+ * 
+ * @author Gerd Bartelt
+ */
 public class VatSummarySetManager {
-	VatSummarySet vatSummaryItems;
+	VatSummarySet vatSummarySet;
 
+	/**
+	 * Constructor
+	 * Creates a new VatSummarySet
+	 */
 	public VatSummarySetManager() {
-		vatSummaryItems = new VatSummarySet();
+		vatSummarySet = new VatSummarySet();
 	}
 
+	/**
+	 * Add an UniDataSet document to the VatSummarySet
+	 * 
+	 * @param document Document to add
+	 */
 	public void add(DataSetDocument document) {
 		int parentSign = DocumentType.getType(document.getIntValueByKey("category")).sign();
 
+		// Create a new summary object and start the calculation.
+		// This will add all the entries to the VatSummarySet
 		DocumentSummary summary = new DocumentSummary();
-		summary.calculate(vatSummaryItems, document.getItems(), document.getDoubleValueByKey("shipping") * parentSign, document
+		summary.calculate(vatSummarySet, document.getItems(), document.getDoubleValueByKey("shipping") * parentSign, document
 				.getDoubleValueByKey("shippingvat"), document.getStringValueByKey("shippingvatdescription"), document.getIntValueByKey("shippingautovat"),
 				document.getDoubleValueByKey("itemsdiscount"), document.getBooleanValueByKey("novat"), document.getStringValueByKey("novatdescription"));
 	}
 
+	/**
+	 * Getter for the VatSummarySet
+	 * 
+	 * @return The VatSummarySet
+	 */
 	public VatSummarySet getVatSummaryItems() {
-		return vatSummaryItems;
+		return vatSummarySet;
 	}
 
+	/**
+	 * Get the size of the 
+	 * 
+	 * @return The size of the VatSummarySet
+	 */
 	public int size() {
-		return vatSummaryItems.size();
+		return vatSummarySet.size();
 	}
 
+	/**
+	 * Get the index of a VatSummaryItem
+	 * 
+	 * @param vatSummaryItem Item to search for
+	 * @return Index of the item or -1, of none was found
+	 */
 	public int getIndex(VatSummaryItem vatSummaryItem) {
-		return vatSummaryItems.getIndex(vatSummaryItem);
+		return vatSummarySet.getIndex(vatSummaryItem);
 	}
 }

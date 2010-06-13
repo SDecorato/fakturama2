@@ -394,9 +394,9 @@ public class DocumentEditor extends Editor {
 				int parentSign = DocumentType.getType(parent.getIntValueByKey("category")).sign();
 				DataSetItem item = Data.INSTANCE.getItems().getDatasetById(id);
 				if (parentSign != documentType.sign())
-					items.addNewDataSetKeepId(new DataSetItem(item, -1));
+					items.getDatasets().add(new DataSetItem(item, -1));
 				else
-					items.addNewDataSetKeepId(new DataSetItem(item));
+					items.getDatasets().add(new DataSetItem(item));
 			}
 		}
 	}
@@ -934,7 +934,7 @@ public class DocumentEditor extends Editor {
 						product = (DataSetProduct) dialog.getSelection();
 						if (product != null) {
 							DataSetItem newItem = new DataSetItem(documentType.sign() * 1.0, product);
-							items.addNewDataSetKeepId(newItem);
+							items.getDatasets().add(newItem);
 							tableViewerItems.refresh();
 							calculate();
 							checkDirty();
