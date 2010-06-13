@@ -82,16 +82,25 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
 	/**
 	 * Called before the window shell is closed.
-	 * The open views are closed and some (not all) of
-	 * the preferences are stored in the data base.
-	 * Then the data base is closed.
+	 * The open views are closed 
 	 */
 	@Override
 	public boolean preWindowShellClose() {
 		TemporaryViews.INSTANCE.closeAll();
-		PreferencesInDatabase.savePreferencesInDatabase();
-		Data.INSTANCE.close();
 		return true;
 	}
+	
+	/**
+	 * Called after the window shell is closed.
+	 * Some (not all) of the preferences are stored in the data base.
+	 * Then the data base is closed.
+	 */
+	@Override
+	public void postWindowClose() {
+		PreferencesInDatabase.savePreferencesInDatabase();
+		Data.INSTANCE.close();
+	}
+	
+	
 
 }
