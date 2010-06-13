@@ -26,6 +26,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.logger.Logger;
+
 /**
  * Contains the data model
  * 

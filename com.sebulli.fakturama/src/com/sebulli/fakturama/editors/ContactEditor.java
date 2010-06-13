@@ -53,11 +53,21 @@ import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.views.datasettable.ViewContactTable;
 
+/**
+ * The contact's editor
+ * 
+ * @author Gerd Bartelt
+ */
 public class ContactEditor extends Editor {
+	
+	// Editor's ID
 	public static final String ID = "com.sebulli.fakturama.editors.contactEditor";
+	
+	// This UniDataSet represents the editor's input 
 	private DataSetContact contact;
+	
+	// SWT components of the editor
 	private TabFolder tabFolder;
-
 	private Text textNote;
 	private Combo comboGender;
 	private Text txtTitle;
@@ -96,6 +106,10 @@ public class ContactEditor extends Editor {
 	private Text txtDiscount;
 	private Text txtCategory;
 	private Group deliveryGroup;
+	private Button bDelAddrEquAddr;
+	
+	// These flags are set by the preference settings.
+	// They define, if elements of the editor are displayed, or not.
 	private boolean useDelivery;
 	private boolean useBank;
 	private boolean useMisc;
@@ -105,26 +119,43 @@ public class ContactEditor extends Editor {
 	private boolean useLastNameFirst;
 	private boolean useCompany;
 	private boolean useCountry;
-	private Button bDelAddrEquAddr;
+	
+	// defines, if the contact is new created
 	private boolean newContact;
 
+	/**
+	 * Constructor
+	 * 
+	 * Associate the table view with the editor
+	 */
 	public ContactEditor() {
 		tableViewID = ViewContactTable.ID;
 		editorID = "contact";
 	}
 
+	/**
+	 * Save the editor's content
+	 * 
+	 * @param monitor Progress monitor
+	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 
 		/*
-		 * the following parameters are not saved: - id (constant) - date_added
-		 * (constant)
+		 * the following parameters are not saved: 
+		 * - id (constant)
+		 * - date_added (constant)
 		 */
 
+		// If the Check Box "Address equals delivery address" is set,
+		// all the address data is copied to the delivery addres.s
 		if (bDelAddrEquAddr.getSelection())
 			copyAddressToDeliveryAdress();
+
+		// Always set the editor's data set to "undeleted"
 		contact.setBooleanValueByKey("deleted", false);
 
+		// Set the address data
 		contact.setIntValueByKey("gender", comboGender.getSelectionIndex());
 		contact.setStringValueByKey("title", txtTitle.getText());
 		contact.setStringValueByKey("firstname", txtFirstname.getText());
@@ -135,6 +166,7 @@ public class ContactEditor extends Editor {
 		contact.setStringValueByKey("city", txtCity.getText());
 		contact.setStringValueByKey("country", txtCountry.getText());
 
+		// Set the delivery address data
 		contact.setIntValueByKey("delivery_gender", comboDeliveryGender.getSelectionIndex());
 		contact.setStringValueByKey("delivery_title", txtDeliveryTitle.getText());
 		contact.setStringValueByKey("delivery_firstname", txtDeliveryFirstname.getText());
@@ -145,6 +177,7 @@ public class ContactEditor extends Editor {
 		contact.setStringValueByKey("delivery_city", txtDeliveryCity.getText());
 		contact.setStringValueByKey("delivery_country", txtDeliveryCountry.getText());
 
+		// Set the bank data
 		contact.setStringValueByKey("account_holder", txtAccountHolder.getText());
 		contact.setStringValueByKey("account", txtAccount.getText());
 		contact.setStringValueByKey("bank_code", txtBankCode.getText());
@@ -152,13 +185,16 @@ public class ContactEditor extends Editor {
 		contact.setStringValueByKey("iban", txtIBAN.getText());
 		contact.setStringValueByKey("bic", txtBIC.getText());
 
+		// Set the customer number
 		contact.setStringValueByKey("nr", txtNr.getText());
 
+		// Set the payment ID
 		IStructuredSelection structuredSelection = (IStructuredSelection) comboPaymentViewer.getSelection();
 		if (!structuredSelection.isEmpty()) {
 			contact.setIntValueByKey("payment", ((UniDataSet) structuredSelection.getFirstElement()).getIntValueByKey("id"));
 		}
 
+		// Set the miscellaneous data
 		contact.setIntValueByKey("reliability", comboReliability.getSelectionIndex());
 		contact.setStringValueByKey("phone", txtPhone.getText());
 		contact.setStringValueByKey("fax", txtFax.getText());
@@ -169,22 +205,34 @@ public class ContactEditor extends Editor {
 		contact.setDoubleValueByKey("discount", DataUtils.StringToDoubleDiscount(txtDiscount.getText()));
 		contact.setStringValueByKey("category", txtCategory.getText());
 
+		// Set the note
 		contact.setStringValueByKey("note", textNote.getText());
 
+		// If it is a new contact, add it to the contact list and
+		// to the data base
 		if (newContact) {
 			contact = Data.INSTANCE.getContacts().addNewDataSet(contact);
 			newContact = false;
-		} else {
+		} 
+		// If it's not new, update at least the data base
+		else {
 			Data.INSTANCE.getContacts().updateDataSet(contact);
 		}
 
+		// Refresh the table view of all contacts
 		refreshView();
 	}
 
+	/**
+	 * There is no saveAs function
+	 */
 	@Override
 	public void doSaveAs() {
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setSite(site);
