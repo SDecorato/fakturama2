@@ -28,23 +28,44 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
 
+/**
+ * Dialog to select a text from a table
+ * 
+ * @author Gerd Bartelt
+ */
 public class SelectTextDialog extends SelectDataSetDialog {
 
+	/**
+	 * Constructor 
+	 * 
+	 * @param string Dialog title
+	 */
 	public SelectTextDialog(String string) {
 		super(string);
 	}
 
+	/**
+	 * Create the dialog area
+	 * 
+	 * @param parent Parent composite
+	 * @return The new created dialog area
+	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		
 		Control control = super.createDialogArea(parent);
 
+		// Set the content provider
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
+		// Create the table columns
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Text", 200, 50, false, "text");
 
+		// Set the input
 		tableViewer.setInput(Data.INSTANCE.getTexts());
+
 		return control;
 	}
 

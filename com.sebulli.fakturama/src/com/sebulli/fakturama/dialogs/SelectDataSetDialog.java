@@ -40,6 +40,11 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.UniDataSet;
 
+/**
+ * Abstract class for all dialogs to select an UniDataSet entry from a table
+ * 
+ * @author Gerd Bartelt
+ */
 public abstract class SelectDataSetDialog extends Dialog {
 	protected TableViewer tableViewer;
 	protected TableColumnLayout tableColumnLayout;
@@ -47,34 +52,61 @@ public abstract class SelectDataSetDialog extends Dialog {
 	protected UniDataSet selectedDataSet = null;
 	protected String title = "";
 
+	/**
+	 * Constructor
+	 * 
+	 * @param parentShell The parent shell
+	 */
 	protected SelectDataSetDialog(Shell parentShell) {
 		super(parentShell);
-
 	}
 
+	/**
+	 * Constructor 
+	 * Creates a new dialog and uses the shell of the active workbench window
+	 * 
+	 * @param title Title of the new dialog
+	 */
 	public SelectDataSetDialog(String title) {
 		this(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		this.title = title;
 	}
 
+	/**
+	 * Create this part of the dialog are that is common in all the different types
+	 * of SelectDataSetDialogs
+	 *  
+	 *  @param parent The parent composite
+	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite top = (Composite) super.createDialogArea(parent);
-		this.getShell().setText(title);
-		// Composite top = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
 
+		// Set the title
+		this.getShell().setText(title);
+
+		// Define the SWT layout
+		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
 		Composite tableComposite = new Composite(top, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(tableComposite);
 
+		// Define the layout of the table
 		tableColumnLayout = new TableColumnLayout();
 		tableComposite.setLayout(tableColumnLayout);
 
+		// Create the jface table viewer
 		tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION);
 		tableViewer.getTable().setLinesVisible(true);
 		tableViewer.getTable().setHeaderVisible(true);
+		
+		// Add a selection change listener
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			/**
+			 * Selection Changed method
+			 * 
+			 * @param event
+			 */
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection selection = tableViewer.getSelection();
@@ -82,12 +114,20 @@ public abstract class SelectDataSetDialog extends Dialog {
 					Object obj = ((IStructuredSelection) selection).getFirstElement();
 					selectedDataSet = (UniDataSet) obj;
 				}
-
 			}
 
 		});
 
+		// Add a double click listener.
+		// Close the dialog
+		
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+			
+			/**
+			 * Double click method
+			 * 
+			 * @param event
+			 */
 			public void doubleClick(DoubleClickEvent event) {
 				close();
 			}
@@ -96,17 +136,31 @@ public abstract class SelectDataSetDialog extends Dialog {
 		return top;
 	}
 
+	/**
+	 * Set the initial size to 400 x 300 pixel
+	 * 
+	 * @return Size as Point object
+	 */
 	@Override
 	protected Point getInitialSize() {
 		return new Point(400, 300);
 	}
 
+	/**
+	 * Configures the shell
+	 * 
+	 * @param newShell The new shell
+	 */
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Dialog");
 	}
 
+	/**
+	 * Get the selected element
+	 * 
+	 * @return The selected element or null, if none is selected
+	 */
 	public UniDataSet getSelection() {
 		return selectedDataSet;
 	}

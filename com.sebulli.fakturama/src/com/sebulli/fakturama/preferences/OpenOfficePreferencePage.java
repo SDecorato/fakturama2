@@ -20,7 +20,6 @@
 
 package com.sebulli.fakturama.preferences;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -28,6 +27,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.OSDependent;
 
 public class OpenOfficePreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
@@ -41,7 +41,7 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 		if ( !defaultValue.isEmpty() )
 			defaultValue = " (z.B.: " + defaultValue + ")";
 		
-		if (Platform.getOS().equalsIgnoreCase("macosx"))
+		if (OSDependent.isOOApp())
 			addField(new AppFieldEditor("OPENOFFICE_PATH", "OpenOffice App", getFieldEditorParent()));
 		else 
 			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", "OpenOffice Ordner" + defaultValue, getFieldEditorParent()));
@@ -56,16 +56,13 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 	}
 
-	public static void setInitValues(IEclipsePreferences node) {
-
-		if (Platform.getOS().equalsIgnoreCase("linux"))
-			node.put("OPENOFFICE_PATH", "/usr/lib/openoffice");
-
-		if (Platform.getOS().equalsIgnoreCase("macosx"))
-			node.put("OPENOFFICE_PATH", "/Applications/OpenOffice.org.app");
+	
+	public static void getProgramFolder () {
 		
-		if (Platform.getOS().equalsIgnoreCase("win32"))
-			node.put("OPENOFFICE_PATH", "C:\\Program Files\\OpenOffice.org 3");
+	}
+	
+	public static void setInitValues(IEclipsePreferences node) {
+		node.put("OPENOFFICE_PATH", OSDependent.getOODefaultPath());
 	}
 
 }

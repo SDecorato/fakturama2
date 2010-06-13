@@ -20,21 +20,76 @@
 
 package com.sebulli.fakturama.data;
 
+/**
+ * UniDataSet for all products 
+ * 
+ * @author Gerd Bartelt
+ */
 public class DataSetProduct extends UniDataSet {
 
+	/**
+	 * Constructor
+	 * Creates an new product
+	 */
 	public DataSetProduct() {
 		this("");
 	}
 
+	/**
+	 * Constructor
+	 * Creates an new product
+	 * 
+	 * @param category Category of the new product
+	 */
 	public DataSetProduct(String category) {
 		this("", "", category, "", 0.0, -1, "", "");
 	}
 
+	/**
+	 * Constructor
+	 * Creates an new product
+	 * 
+	 * @param name
+	 * @param itemnr
+	 * @param category
+	 * @param description
+	 * @param price
+	 * @param vatId
+	 * @param options
+	 * @param picturename
+	 */
 	public DataSetProduct(String name, String itemnr, String category, String description, Double price, int vatId, String options, String picturename) {
 		this(-1, name, itemnr, false, category, description, price, price, price, price, price, 1, 10, 100, 1000, 10000, vatId, options, 0.0, -1, "",
 				picturename);
 	}
 
+	/**
+	 * Constructor
+	 * Creates an new product
+	 * 
+	 * @param id
+	 * @param name
+	 * @param itemnr
+	 * @param deleted
+	 * @param category
+	 * @param description
+	 * @param price1
+	 * @param price2
+	 * @param price3
+	 * @param price4
+	 * @param price5
+	 * @param block1
+	 * @param block2
+	 * @param block3
+	 * @param block4
+	 * @param block5
+	 * @param vatId
+	 * @param options
+	 * @param weight
+	 * @param unit
+	 * @param date_added
+	 * @param picturename
+	 */
 	public DataSetProduct(int id, String name, String itemnr, boolean deleted, String category, String description, Double price1, Double price2,
 			Double price3, Double price4, Double price5, int block1, int block2, int block3, int block4, int block5, int vatId, String options, Double weight,
 			int unit, String date_added, String picturename) {
@@ -60,17 +115,30 @@ public class DataSetProduct extends UniDataSet {
 		this.hashMap.put("unit", new UniData(UniDataType.INT, unit));
 		this.hashMap.put("date_added", new UniData(UniDataType.STRING, date_added));
 		this.hashMap.put("picturename", new UniData(UniDataType.STRING, picturename));
+
+		// Name of the table in the data base
 		sqlTabeName = "Products";
 	}
 
+	/**
+	 * Get the products price.
+	 * Because the products price can be a graduated price,
+	 * it is necessary to compare all blocks. 
+	 * 
+	 * @param quantity Quantity to search for
+	 * @return The price for this quantity
+	 */
 	public double getPriceByQuantity(Double quantity) {
+		
+		// Start with first block
 		Double price = this.getDoubleValueByKey("price1");
 		int blockQuantity = 0;
 		int newQuantity;
 
+		// search all 5 blocks
 		for (int i = 1; i <= 5; i++) {
 			newQuantity = this.getIntValueByKey("block" + Integer.toString(i));
-			if ((newQuantity > blockQuantity) && (quantity >= (newQuantity - 0.000001))) {
+			if ((newQuantity > blockQuantity) && (quantity >= (newQuantity - 0.0001))) {
 				blockQuantity = newQuantity;
 				price = this.getDoubleValueByKey("price" + Integer.toString(i));
 			}
@@ -78,6 +146,13 @@ public class DataSetProduct extends UniDataSet {
 		return price;
 	}
 
+	/**
+	 * Test, if this is equal to an other UniDataSet
+	 * Only the names and the item numbers are compared
+	 * 
+	 * @param uds Other UniDataSet
+	 * @return True, if it's equal
+	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
 		if (!uds.getStringValueByKey("itemnr").equals(this.getStringValueByKey("itemnr")))

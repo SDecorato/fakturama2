@@ -26,11 +26,15 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.logger.Logger;
-import com.sebulli.fakturama.preferences.ProjectSettings;
-
+/**
+ * Contains the data model
+ * 
+ * @author Gerd Bartelt
+ */
 public enum Data {
 	INSTANCE;
-	private String workingDirectory = "";
+	
+	// Data Model
 	private DataSetArray<DataSetProperty> properties;
 	private DataSetArray<DataSetProduct> products;
 	private DataSetArray<DataSetContact> contacts;
@@ -40,17 +44,28 @@ public enum Data {
 	private DataSetArray<DataSetShipping> shippings;
 	private DataSetArray<DataSetPayment> payments;
 	private DataSetArray<DataSetText> texts;
+	
+	// Reference to data base
 	DataBase db = null;
+	
+	// True, if a new data base was created
 	boolean newDBcreated = false;
+	
+	// True, if the data base is opened
 	boolean dataBaseOpened = false;
 
+	/**
+	 * Constructor
+	 * Connect to the data base and
+	 * copy the data from the data base
+	 */
 	Data() {
-		workingDirectory = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-		ProjectSettings.showWorkingDirInTitleBar();
-
+		// connect to the data base
 		this.db = new DataBase();
-		newDBcreated = this.db.connect(workingDirectory);
-
+		newDBcreated = this.db.connect(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
+		
+		// If there is a connection to the data base
+		// read all the tables
 		if (this.db.isConnected()) {
 			properties = new DataSetArray<DataSetProperty>(db, new DataSetProperty());
 			products = new DataSetArray<DataSetProduct>(db, new DataSetProduct());
@@ -62,12 +77,15 @@ public enum Data {
 			payments = new DataSetArray<DataSetPayment>(db, new DataSetPayment());
 			texts = new DataSetArray<DataSetText>(db, new DataSetText());
 
+			// If the data base is new, create some default entries
 			if (newDBcreated)
 				fillWithInitialData();
 
+			// set the data base as opened
 			dataBaseOpened = true;
-			ProjectSettings.SETTINGS.setDataBaseOpened();
-		} else {
+		} 
+		// No connection, so create empty data sets
+		else {
 
 			properties = new DataSetArray<DataSetProperty>(null, new DataSetProperty());
 			products = new DataSetArray<DataSetProduct>(null, new DataSetProduct());
@@ -79,66 +97,63 @@ public enum Data {
 			payments = new DataSetArray<DataSetPayment>(null, new DataSetPayment());
 			texts = new DataSetArray<DataSetText>(null, new DataSetText());
 
+			// Display a warning
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
 			messageBox.setText("Hinweis");
-			messageBox.setMessage("Keine Verbindung zur Datenbank möglich.");
+			messageBox.setMessage("Keine Verbindung zur Datenbank möglich.\n\n" +
+								  "Ist Datenbank von einem andren Prozess geöffnet ?");
 			messageBox.open();
-
-			// PlatformUI.getWorkbench().close();
-
 		}
 	}
 
+	/**
+	 * If a new data base was created, fill some data with initial values
+	 */
 	public void fillWithInitialData() {
 
-		products.addNewDataSet(new DataSetProduct("Hase", "Hase", "", "Ich bin ein Hase", 42.20, 1, "", ""));
-		products.addNewDataSet(new DataSetProduct("Igel", "Igel", "", "Ich bin ein Igel", 95.10, 2, "", ""));
-		products.addNewDataSet(new DataSetProduct("Katze", "Katze", "", "Ich bin eine Katze", 9995.0, 2, "", ""));
-
-		contacts.addNewDataSet(new DataSetContact(false, "", "Max", "Mustermann", "Maxweg 1", "12345", "Maxau"));
-		contacts.addNewDataSet(new DataSetContact(false, "", "Julia", "Katze", "Katzweg 2", "23456", "Katzendorf"));
-		contacts.addNewDataSet(new DataSetContact(false, "", "Romeo", "Kater", "Katergasse 3", "34567", "Katerhausen"));
-
+		// Fill some UniDataSets
 		vats.addNewDataSet(new DataSetVAT("keine", "", "keine MwSt.", 0.0));
-		vats.addNewDataSet(new DataSetVAT("MwSt.", "", "19% MwSt. Deutschland", 0.19));
-		vats.addNewDataSet(new DataSetVAT("erm. MwSt", "", "7% MwSt. ermäßigt", 0.073));
-
-		items.addNewDataSet(new DataSetItem("etwas", "etwas", "", 1.0, "das ist etwas ", 42.0, 0));
-		items.addNewDataSet(new DataSetItem("nochwas", "nochwas", "", 2.5, "das ist nochwas ", 99.50, 0));
-
-		documents.addNewDataSet(new DataSetDocument(0, "Max Mustermann", DocumentType.INVOICE));
-		documents.addNewDataSet(new DataSetDocument(1, "Juuuulia", DocumentType.INVOICE));
-		documents.getDatasetById(1).setBooleanValueByKey("payed", true);
-		this.updateDataSet(documents.getDatasetById(1));
-
 		shippings.addNewDataSet(new DataSetShipping("frei", "", "frei Haus", 0.0, 0, 1));
-		shippings.addNewDataSet(new DataSetShipping("Post", "", "Post Paket versichert", 6.90, 1, 1));
-
-		payments.addNewDataSet(new DataSetPayment("sofort", "", "sofort oder Vorkasse", 0, false));
-		payments.addNewDataSet(new DataSetPayment("30T", "", "30 Tage netto", 30, false));
-		payments.addNewDataSet(new DataSetPayment("15T/30T", "", "15 Tage 3%, 30 Tage netto", 0.03, 15, 30, false));
-
-		texts.addNewDataSet(new DataSetText("Hallo", "Kat", "Ich bin ein Text"));
-
+		payments.addNewDataSet(new DataSetPayment("sofort", "", "sofort oder Vorkasse",0.0, 0, 0, false));
+		
+		// Set the dafault value to this entries
 		setProperty("standardvat", "0");
 		setProperty("standardshipping", "0");
 		setProperty("standardpayment", "0");
-		setProperty("standarddiscount", "0");
 	}
 
+	/**
+	 * Close the data base
+	 */
 	public void close() {
 		if (db != null)
 			db.close();
 	}
 
+	/**
+	 * Test if a new data base was created
+	 * 
+	 * @return True, if a new data base was created
+	 */
 	public boolean getNewDBCreated() {
 		return newDBcreated;
 	}
 
+	/**
+	 * Test if the data base is opened
+	 * 
+	 * @return True, if the data base is opened
+	 */
 	public boolean getDataBaseOpened() {
 		return dataBaseOpened;
 	}
 
+	/**
+	 * Get a property value
+	 * 
+	 * @param key Property key
+	 * @return Value as String
+	 */
 	public String getProperty(String key) {
 		for (DataSetProperty property : properties.getDatasets()) {
 			if (property.getStringValueByKey("name").equalsIgnoreCase(key))
@@ -148,6 +163,12 @@ public enum Data {
 		return "";
 	}
 
+	/**
+	 * Get a property value as integer
+	 * 
+	 * @param key Property key
+	 * @return Value as integer
+	 */
 	public int getPropertyAsInt(String key) {
 		try {
 			return Integer.parseInt(getProperty(key));
@@ -156,7 +177,15 @@ public enum Data {
 		}
 	}
 
+	/**
+	 * Set a property value
+	 * 
+	 * @param key Property key
+	 * @param value Property value
+	 */
 	public void setProperty(String key, String value) {
+		
+		// Set an existing property entry
 		for (DataSetProperty property : properties.getDatasets()) {
 			if (property.getStringValueByKey("name").equalsIgnoreCase(key)) {
 				property.setStringValueByKey("value", value);
@@ -164,63 +193,91 @@ public enum Data {
 				return;
 			}
 		}
+		
+		// Add a new one, if it is not yet existing
 		properties.addNewDataSet(new DataSetProperty(key, value));
 		Logger.logInfo("New property " + key + " added");
 	}
 
-	public void setPreferenceValue(String key, String value) {
-		for (DataSetProperty preferenceValue : properties.getDatasets()) {
-			if (preferenceValue.getStringValueByKey("name").equalsIgnoreCase(key)) {
-				preferenceValue.setStringValueByKey("value", value);
-				properties.updateDataSet(preferenceValue);
-				return;
-			}
-		}
-		properties.addNewDataSet(new DataSetProperty(key, value));
-		Logger.logInfo("New preference " + key + " added");
-	}
-
-	public String getPreferenceValue(String key) {
-		for (DataSetProperty preferenceValue : properties.getDatasets()) {
-			if (preferenceValue.getStringValueByKey("name").equalsIgnoreCase(key))
-				return preferenceValue.getStringValueByKey("value");
-		}
-		Logger.logInfo("Key " + key + " not in preference list");
-		return "";
-	}
-
+	/**
+	 * Getter for the DataSetArray products
+	 * 
+	 * @return All products
+	 */
 	public DataSetArray<DataSetProduct> getProducts() {
 		return products;
 	}
 
+	/**
+	 * Getter for the DataSetArray contacts
+	 * 
+	 * @return All contacts
+	 */
 	public DataSetArray<DataSetContact> getContacts() {
 		return contacts;
 	}
 
+	/**
+	 * Getter for the DataSetArray vats
+	 * 
+	 * @return All vats
+	 */
 	public DataSetArray<DataSetVAT> getVATs() {
 		return vats;
 	}
 
+	/**
+	 * Getter for the DataSetArray documents
+	 * 
+	 * @return All documents
+	 */
 	public DataSetArray<DataSetDocument> getDocuments() {
 		return documents;
 	}
 
+	/**
+	 * Getter for the DataSetArray items
+	 * 
+	 * @return All items
+	 */
 	public DataSetArray<DataSetItem> getItems() {
 		return items;
 	}
 
+	/**
+	 * Getter for the DataSetArray shippings
+	 * 
+	 * @return All shippings
+	 */
 	public DataSetArray<DataSetShipping> getShippings() {
 		return shippings;
 	}
 
+	/**
+	 * Getter for the DataSetArray payments
+	 * 
+	 * @return All payments
+	 */
 	public DataSetArray<DataSetPayment> getPayments() {
 		return payments;
 	}
 
+	/**
+	 * Getter for the DataSetArray texts
+	 * 
+	 * @return All texts
+	 */
 	public DataSetArray<DataSetText> getTexts() {
 		return texts;
 	}
 
+	/**
+	 * Get a UniDataSet value by table Name and ID.
+	 * 
+	 * @param tableName Table name
+	 * @param id ID of the table entry
+	 * @return The UniDataSet
+	 */
 	public UniDataSet getUniDataSetByTableNameAndId(String tableName, int id) {
 		try {
 			if (tableName.equalsIgnoreCase("products")) { return getProducts().getDatasetById(id); }
@@ -234,14 +291,16 @@ public enum Data {
 		} catch (IndexOutOfBoundsException e) {
 			Logger.logError(e, "Index out of bounds: " + "TableName: " + tableName + " ID:" + Integer.toString(id));
 		}
+		
+		// not found
 		return null;
-
 	}
 
-	public String getWorkingDirectory() {
-		return workingDirectory;
-	}
-
+	/**
+	 * Update the data base with the new value
+	 * 
+	 * @param uds UniDataSet to update
+	 */
 	public void updateDataSet(UniDataSet uds) {
 		db.updateUniDataSet(uds);
 	}

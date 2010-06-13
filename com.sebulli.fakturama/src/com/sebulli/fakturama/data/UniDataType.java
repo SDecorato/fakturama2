@@ -20,11 +20,22 @@
 
 package com.sebulli.fakturama.data;
 
-/*
+/**
  * Possible Types for class UniData
- */
+ * 
+ * @author Gerd Bartelt
+*/
 public enum UniDataType {
+	/**
+	 * All types
+	 */
 	NONE, INT, ID, QUANTITY, BOOLEAN, DOUBLE, STRING, PRICE, PERCENT, DATE;
+	
+	/**
+	 * Test, if a type is a numeric one
+	 * 
+	 * @return True for numeric types
+	 */
 	public boolean isNumeric() {
 		switch (this) {
 		case NONE:
@@ -51,6 +62,11 @@ public enum UniDataType {
 		return false;
 	}
 
+	/**
+	 * Test, if a type is a date 
+	 * 
+	 * @return True for date types
+	 */
 	public boolean isDate() {
 		return (this == DATE);
 	}

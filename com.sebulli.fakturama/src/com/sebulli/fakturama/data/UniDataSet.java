@@ -24,7 +24,15 @@ import java.util.HashMap;
 
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * Abstract class for all UniData set
+ * Contains a UniData HashMap to store all values of one set and
+ * provides methods to access to this has map by an key. 
+ * 
+ * @author Gerd Bartelt
+ */
 public abstract class UniDataSet {
+	
 	public static final String ID = "com.sebulli.fakturama.data.UniDataSet";
 	public String sqlTabeName = "";
 	protected HashMap<String, UniData> hashMap = new HashMap<String, UniData>();
@@ -33,30 +41,82 @@ public abstract class UniDataSet {
 	private UniData ud;
 	final UniData defaultUniData = new UniData();
 
+	
+	/**
+	 * Get the hash map that contains all the values of this set
+	 * 
+	 * @return The hash map
+	 */
 	public HashMap<String, UniData> getHashMap() {
 		return this.hashMap;
 	}
 
+	/**
+	 * Get a value of the UniDataSet by a key
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as UniDataType
+	 */
 	public UniDataType getUniDataTypeByKey(String key) {
-		extractUniDataSetByUniDataSetAndExtendedKey(this, key);
-		return ud.getDataType();
+		try {
+			return this.hashMap.get(key).getDataType();
+		} catch (Exception e) {
+			Logger.logError(e, "Error getting key. Key " + key + " not in dataset");
+			return UniDataType.NONE;
+		}
 	}
 
+	/**
+	 * Get a value of the UniDataSet by a key
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as integer
+	 */
 	public int getIntValueByKey(String key) {
-		extractUniDataSetByUniDataSetAndExtendedKey(this, key);
-		return ud.getValueAsInteger();
+		try {
+			return this.hashMap.get(key).getValueAsInteger();
+		} catch (Exception e) {
+			Logger.logError(e, "Error getting key. Key " + key + " not in dataset");
+			return 0;
+		}
 	}
 
+	/**
+	 * Get a value of the UniDataSet by a key
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as Boolean
+	 */
 	public boolean getBooleanValueByKey(String key) {
-		extractUniDataSetByUniDataSetAndExtendedKey(this, key);
-		return ud.getValueAsBoolean();
+		try {
+			return this.hashMap.get(key).getValueAsBoolean();
+		} catch (Exception e) {
+			Logger.logError(e, "Error getting key. Key " + key + " not in dataset");
+			return false;
+		}
 	}
 
+	/**
+	 * Get a value of the UniDataSet by a key
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as Double
+	 */
 	public Double getDoubleValueByKey(String key) {
-		extractUniDataSetByUniDataSetAndExtendedKey(this, key);
-		return ud.getValueAsDouble();
+		try {
+			return this.hashMap.get(key).getValueAsDouble();
+		} catch (Exception e) {
+			Logger.logError(e, "Error getting key. Key " + key + " not in dataset");
+			return 0.0;
+		}
 	}
 
+	/**
+	 * Get a string value of the UniDataSet by a key
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as String
+	 */
 	public String getStringValueByKey(String key) {
 		try {
 			return this.hashMap.get(key).getValueAsString();
@@ -67,11 +127,12 @@ public abstract class UniDataSet {
 
 	}
 
-	public String getStringValueByKeyFromOtherTable(String key) {
-		extractUniDataSetByUniDataSetAndExtendedKey(this, key);
-		return ud.getValueAsString();
-	}
-
+	/**
+	 * Get a string value of the UniDataSet by a key and format it
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as String
+	 */
 	public String getFormatedStringValueByKey(String key) {
 		try {
 			return this.hashMap.get(key).getValueAsFormatedString();
@@ -81,19 +142,60 @@ public abstract class UniDataSet {
 		}
 	}
 
+	
+	/**
+	 * Get a string value of the UniDataSet by a key 
+	 * The key can also be in an other table.
+	 * Access to values in other tables with the syntax: "id.TABLENAME:key"
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as String
+	 */
+	public String getStringValueByKeyFromOtherTable(String key) {
+		extractUniDataSetByUniDataSetAndExtendedKey(this, key);
+		return ud.getValueAsString();
+	}
+
+
+	/**
+	 * Get a string value of the UniDataSet by a key and format it
+	 * The key can also be in an other table.
+	 * Access to values in other tables with the syntax: "id.TABLENAME:key"
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as String
+	 */
 	public String getFormatedStringValueByKeyFromOtherTable(String key) {
 		extractUniDataSetByUniDataSetAndExtendedKey(this, key);
 		return ud.getValueAsFormatedString();
 	}
 
+	/**
+	 * Test, if this is equal to an other UniDataSet
+	 *
+	 * @param uds Other UniDataSet
+	 * @return True, if it's equal
+	 */
 	public boolean isTheSameAs(UniDataSet uds) {
 		return false;
 	}
 
+	/**
+	 * Test, if the has map contains a key
+	 * 
+	 * @param key The key to test
+	 * @return True, if the key exists.
+	 */
 	public boolean containsKey(String key) {
 		return (hashMap.containsKey(key));
 	}
 
+	/**
+	 * Set an integer value in the hash map by a key.
+	 * 
+	 * @param key The key
+	 * @param i The value to set
+	 */
 	public void setIntValueByKey(String key, int i) {
 		try {
 			hashMap.get(key).setValue(i);
@@ -103,6 +205,12 @@ public abstract class UniDataSet {
 
 	}
 
+	/**
+	 * Set a boolean value in the hash map by a key.
+	 * 
+	 * @param key The key
+	 * @param b The value to set
+	 */
 	public void setBooleanValueByKey(String key, boolean b) {
 		try {
 			hashMap.get(key).setValue(b);
@@ -111,6 +219,12 @@ public abstract class UniDataSet {
 		}
 	}
 
+	/**
+	 * Set a double value in the hash map by a key.
+	 * 
+	 * @param key The key
+	 * @param d The value to set
+	 */
 	public void setDoubleValueByKey(String key, double d) {
 		try {
 			hashMap.get(key).setValue(d);
@@ -119,6 +233,12 @@ public abstract class UniDataSet {
 		}
 	}
 
+	/**
+	 * Set a string value in the hash map by a key.
+	 * 
+	 * @param key The key
+	 * @param s The value to set
+	 */
 	public void setStringValueByKey(String key, String s) {
 		try {
 			hashMap.get(key).setValue(s);
@@ -127,6 +247,11 @@ public abstract class UniDataSet {
 		}
 	}
 
+	/**
+	 * Get the category value
+	 * 
+	 * @return The category value
+	 */
 	public String getCategory() {
 		try {
 			return hashMap.get("category").getValueAsString();
@@ -136,11 +261,22 @@ public abstract class UniDataSet {
 		return "";
 	}
 
+	/**
+	 * String representation of this has map
+	 * 
+	 * @return the value of the entry "name"
+	 */
 	@Override
 	public String toString() {
 		return this.hashMap.get("name").getValueAsString();
 	}
 
+	/**
+	 * Returns the hashCode of this object.
+	 * The entry "id" and the table name are used to calculate the hash.
+	 * 
+	 * @return hash code.
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -149,6 +285,12 @@ public abstract class UniDataSet {
 		return result;
 	}
 
+	/**
+	 * Compare this object with an other 
+	 * 
+	 * @param obj The other object
+	 * @return True, if they are equal
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -159,6 +301,7 @@ public abstract class UniDataSet {
 			return false;
 		UniDataSet other = (UniDataSet) obj;
 
+		// Compare all entries of the hash map
 		for (String key : this.hashMap.keySet()) {
 			if (this.hashMap.get(key) == null) {
 				if (other.hashMap.get(key) != null)
@@ -170,13 +313,23 @@ public abstract class UniDataSet {
 		return true;
 	}
 
-	// vatId.VAT:name
+	/**
+	 * To access to values in other tables with the syntax: "id.TABLENAME:key", this
+	 * extended key has to be interpreted.
+	 * This method splits the extended key and gets the value from an other table
+	 * 
+	 * @param uniDataSet
+	 * @param path
+	 */
 	private void extractUniDataSetByUniDataSetAndExtendedKey(UniDataSet uniDataSet, String path) {
+		
+		// Split the string
 		String[] pathParts = path.split("\\.");
 		String[] tableAndKey;
 		String table;
 		int id = 0;
 
+		// if it is not an extended, but an normal key, access to this objects's hash map
 		if (pathParts.length <= 1) {
 			this.key = path;
 			this.uds = uniDataSet;
@@ -188,15 +341,22 @@ public abstract class UniDataSet {
 		}
 
 		uds = uniDataSet;
-
+		
+		// search for the "TABLENAME:key" 
 		for (String pathPart : pathParts) {
 
 			tableAndKey = pathPart.split(":");
 
+			// find the "TABLENAME:key" in "id.TABLENAME:key"
 			if (tableAndKey.length == 2) {
 				table = tableAndKey[0];
 				this.key = tableAndKey[1];
+
+				// Get the value from the other table
 				this.uds = Data.INSTANCE.getUniDataSetByTableNameAndId(table, id);
+				
+				// take this ID to access to more extended keys like:
+				// "id.TABLE1:key1.TABLE2.key2"
 				if (this.uds != null)
 					id = uds.getIntValueByKey(this.key);
 				else {
@@ -204,20 +364,25 @@ public abstract class UniDataSet {
 
 				}
 			} else {
+				
+				// get the ID
 				table = "";
 				this.key = pathPart;
 				id = uds.getIntValueByKey(this.key);
 			}
 		}
 
+		// If nothing was found, set the UniData value ud to a value from this
+		// object's table
 		if (this.uds != null)
 			this.ud = this.uds.hashMap.get(this.key);
 		else
 			this.ud = null;
 
+		// And at least to a default UniData value. So there won't be an 
+		// "access to null exception"
 		if (this.ud == null)
 			this.ud = defaultUniData;
-
 	}
 
 }

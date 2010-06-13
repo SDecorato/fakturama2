@@ -28,18 +28,36 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
 
+/**
+ * Dialog to select a contact from a table
+ * 
+ * @author Gerd Bartelt
+ */
 public class SelectContactDialog extends SelectDataSetDialog {
 
+	/**
+	 * Constructor 
+	 * 
+	 * @param string Dialog title
+	 */
 	public SelectContactDialog(String string) {
 		super(string);
 	}
 
+	/**
+	 * Create the dialog area
+	 * 
+	 * @param parent Parent composite
+	 * @return The new created dialog area
+	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Control control = super.createDialogArea(parent);
 
+		// Set the content provider
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
+		// Create the table columns
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Kundennr", 60, 0, true, "nr");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Vorname", 200, 50, false, "firstname");
@@ -48,7 +66,9 @@ public class SelectContactDialog extends SelectDataSetDialog {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "PLZ", 50, 0, true, "zip");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Ort", 80, 0, true, "city");
 
+		// Set the input
 		tableViewer.setInput(Data.INSTANCE.getContacts());
+		
 		return control;
 	}
 
