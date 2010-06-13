@@ -35,28 +35,44 @@ import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
+/**
+ * Universal Handler to open an UniDataSet editor
+ * 
+ * @author Gerd Bartelt
+ */
 public class CallEditor extends AbstractHandler implements IHandler {
 
+	/**
+	 * Execute the command
+	 */
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		// Get the view
+
+		// Get the parameter of the action that calls this handler
 		String param = event.getParameter("com.sebulli.fakturama.editors.callEditorParameter");
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
+		
+		// Get the corresponding table view
 		IWorkbenchPage page = window.getActivePage();
 		String viewId = "com.sebulli.fakturama.views.datasettable.view" + param + "Table";
 		ViewDataSetTable view = (ViewDataSetTable) page.findView(viewId);
-		// Get the selection
+		
+		// Get the selection in the table view
 		ISelection selection = view.getSite().getSelectionProvider().getSelection();
 		if (selection != null && selection instanceof IStructuredSelection) {
 			Object obj = ((IStructuredSelection) selection).getFirstElement();
+			
 			// If we had a selection lets open the editor
 			if (obj != null) {
+				
+				// Define  the editor
 				String editor = "com.sebulli.fakturama.editors." + param.toLowerCase() + "Editor";
 				UniDataSet uds = (UniDataSet) obj;
 				UniDataSetEditorInput input = new UniDataSetEditorInput(uds);
+
+				// And try to open it
 				try {
 					page.openEditor(input, editor);
-
 				} catch (PartInitException e) {
 					Logger.logError(e, "Error opening Editor: " + editor);
 				}
