@@ -20,9 +20,6 @@
 
 package com.sebulli.fakturama.editors;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -599,7 +596,14 @@ public class DocumentEditor extends Editor {
 
 			dtPayedDate = new DateTime(payedDataContainer, SWT.DATE);
 			GridDataFactory.swtDefaults().applyTo(dtPayedDate);
+			
+			GregorianCalendar calendar = new GregorianCalendar();
+			calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("paydate"));
+			dtPayedDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
 			superviceControl(dtPayedDate);
+
+
 
 			Label payedValueLabel = new Label(payedDataContainer, SWT.NONE);
 			payedValueLabel.setText("Betrag");
@@ -713,19 +717,10 @@ public class DocumentEditor extends Editor {
 			}
 		});
 		GridDataFactory.swtDefaults().applyTo(dtDate);
+		
+		
 		GregorianCalendar calendar = new GregorianCalendar();
-		try {
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			calendar.setTime(formatter.parse(document.getStringValueByKey("date")));
-		} catch (ParseException e) {
-			try {
-				DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-				calendar.setTime(formatter.parse(document.getStringValueByKey("date")));
-			} catch (ParseException e2) {
-
-				Logger.logError(e2, "Error parsing Date");
-			}
-		}
+		calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
 		dtDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
 		Composite titleComposite = new Composite(top, SWT.NONE);
@@ -1158,6 +1153,7 @@ public class DocumentEditor extends Editor {
 			shipping = document.getDoubleValueByKey("shipping");
 			comboShipping.setText(document.getStringValueByKey("shippingname"));
 			shippingVat = document.getDoubleValueByKey("shippingvat");
+			shippingAutoVat = document.getIntValueByKey("shippingautovat");
 			shippingVatDescription = document.getStringValueByKey("shippingvatdescription");
 
 			shippingValue = new Text(totalComposite, SWT.NONE | SWT.RIGHT);

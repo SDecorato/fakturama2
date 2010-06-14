@@ -358,7 +358,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		order_id = getAttributeAsString(attributes, "id");
 		order_date = getAttributeAsString(attributes, "date");
 
-		if (!Data.INSTANCE.getDocuments().isNew(new DataSetDocument(DocumentType.ORDER, order_id, DataUtils.DateAsUSString(order_date))))
+		if (!Data.INSTANCE.getDocuments().isNew(new DataSetDocument(DocumentType.ORDER, order_id, DataUtils.DateAsISO8601String(order_date))))
 			return;
 
 		DataSetDocument dataSetDocument = Data.INSTANCE.getDocuments().addNewDataSet(new DataSetDocument(DocumentType.ORDER));
@@ -368,7 +368,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// currency = getAttributeAsString(attributes,"currency");
 		dataSetDocument.setStringValueByKey("name", order_id);
 		dataSetDocument.setStringValueByKey("webshopid", order_id);
-		dataSetDocument.setStringValueByKey("webshopdate", DataUtils.DateAsUSString(order_date));
+		dataSetDocument.setStringValueByKey("webshopdate", DataUtils.DateAsISO8601String(order_date));
 
 		NodeList childnodes = orderNode.getChildNodes();
 		// First get all contacts. Normally there is only one
@@ -583,7 +583,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 		dataSetDocument.setIntValueByKey("progress", 10);
 		// updateOrderProgress(dataSetDocument);
-		dataSetDocument.setStringValueByKey("date", DataUtils.DateAsUSString(order_date));
+		dataSetDocument.setStringValueByKey("date", DataUtils.DateAsISO8601String(order_date));
 		comment = dataSetDocument.getStringValueByKey("message") + comment;
 		dataSetDocument.setStringValueByKey("message", comment);
 
