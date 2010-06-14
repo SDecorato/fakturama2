@@ -415,12 +415,12 @@ public class DataUtils {
 	}
 
 	/**
-	 * Convert a date string into the format YYYY-MM-DD.
+	 * Convert a date string into the format ISO 8601 YYYY-MM-DD.
 	 * 
 	 * @param s Date String
 	 * @return Date as formated String
 	 */
-	public static String DateAsUSString(String s) {
+	public static String DateAsISO8601String(String s) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		try {
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -432,13 +432,12 @@ public class DataUtils {
 	}
 
 	/**
-	 * Adds days to a date string.
+	 * Convert date strings from the following format to a calendar
 	 * 
-	 * @param date Days to add
-	 * @param days Date as string in the format YYYY-MM-DD or DD.MM.YYYY
-	 * @return Calculated date
+	 * @param date Date as string
+	 * @return GregorianCalendar
 	 */
-	public static String AddToDate(String date, int days) {
+	public static GregorianCalendar getCalendarFromDateString (String date) {
 		GregorianCalendar calendar = new GregorianCalendar();
 		
 		// try to parse the input date string
@@ -449,14 +448,36 @@ public class DataUtils {
 			
 			// use also localized formats
 			try {
-				//TODO: support other date formats
 				DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 				calendar.setTime(formatter.parse(date));
 			} catch (ParseException e2) {
-				Logger.logError(e2, "Error parsing Date");
+
+				// use also localized formats
+				try {
+					//TODO: support other date formats
+					DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+					calendar.setTime(formatter.parse(date));
+				} catch (ParseException e3) {
+					Logger.logError(e3, "Error parsing Date");
+				}
 			}
 		}
+		return calendar;
+	}
 	
+	
+
+	
+	/**
+	 * Adds days to a date string.
+	 * 
+	 * @param date Days to add
+	 * @param days Date as string 
+	 * @return Calculated date
+	 */
+	public static String AddToDate(String date, int days) {
+		GregorianCalendar calendar = getCalendarFromDateString (date);
+		
 		// Add the days
 		calendar.add(Calendar.DAY_OF_MONTH, days);
 		
