@@ -231,39 +231,64 @@ public class ContactEditor extends Editor {
 	}
 
 	/**
+	 * Initializes the editor. 
+	 * If an existing data set is opened, the local variable "contact" is set to
+	 * This data set.
+	 * If the editor is opened to create a new one, a new data set is created and
+	 * the local variable "contact" is set to this one.
 	 * 
+	 * @param input The editor's input
+	 * @param site The editor's site
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		
+		// Set the site and the input
 		setSite(site);
 		setInput(input);
+		
+		// Set the editors data set to the editors input
 		contact = (DataSetContact) ((UniDataSetEditorInput) input).getUniDataSet();
 
+		// test, if the editor is opened to create a new data set. This is, if there 
+		// is no input set.
 		newContact = (contact == null);
 
+		// If new ..
 		if (newContact) {
+			
+			// Create a new data set
 			contact = new DataSetContact(((UniDataSetEditorInput) input).getCategory());
 			setPartName("neuer Kontakt");
+
+			// Set the payment to the standard value
 			contact.setIntValueByKey("payment", Data.INSTANCE.getPropertyAsInt("standardpayment"));
 
 		} else {
-			setPartName(contact.getStringValueByKey("firstname") + " " + contact.getStringValueByKey("name"));
+			
+			// Set the Editor's name to the first name and last name of the contact.
+			setPartName( contact.getName() );
 		}
-
 	}
 
+	/**
+	 * Returns whether the contents of this part have changed since the last save operation
+	 * 
+	 * @see org.eclipse.ui.part.EditorPart#isDirty()
+	 */
 	@Override
 	public boolean isDirty() {
 
 		/*
-		 * the following parameters are not checked: - id (constant) -
-		 * date_added (constant) - servicedate:
+		 * the following parameters are not checked: 
+		 * - id (constant) 
+		 * - date_added (constant) 
+		 * - servicedate:
 		 */
 
 		if (contact.getBooleanValueByKey("deleted")) { return true; }
 
 		if (contact.getIntValueByKey("gender") != comboGender.getSelectionIndex()) { return true; }
-		;
 		if (!contact.getStringValueByKey("title").equals(txtTitle.getText())) { return true; }
 		if (!contact.getStringValueByKey("firstname").equals(txtFirstname.getText())) { return true; }
 		if (!contact.getStringValueByKey("name").equals(txtName.getText())) { return true; }
@@ -312,12 +337,23 @@ public class ContactEditor extends Editor {
 		return false;
 	}
 
+	/**
+	 * Returns whether the "Save As" operation is supported by this part.
+
+	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
+	 * @return False, SaveAs is not allowed
+	 */
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
-	private void deliveryAdressIsEqual(boolean isEqual) {
+	/**
+	 * Defines, if the delivery address is equal to the billing address
+	 * 
+	 * @param isEqual
+	 */
+	private void deliveryAddressIsEqual(boolean isEqual) {
 		deliveryGroup.setVisible(!isEqual);
 		if (isEqual)
 			copyAddressToDeliveryAdress();
@@ -438,7 +474,7 @@ public class ContactEditor extends Editor {
 		GridDataFactory.swtDefaults().applyTo(bDelAddrEquAddr);
 		bDelAddrEquAddr.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				deliveryAdressIsEqual(bDelAddrEquAddr.getSelection());
+				deliveryAddressIsEqual(bDelAddrEquAddr.getSelection());
 				checkDirty();
 			}
 		});
