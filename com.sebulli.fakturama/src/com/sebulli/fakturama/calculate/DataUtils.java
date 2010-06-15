@@ -454,7 +454,6 @@ public class DataUtils {
 
 				// use also localized formats
 				try {
-					//TODO: support other date formats
 					DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 					calendar.setTime(formatter.parse(date));
 				} catch (ParseException e3) {
@@ -464,9 +463,6 @@ public class DataUtils {
 		}
 		return calendar;
 	}
-	
-	
-
 	
 	/**
 	 * Adds days to a date string.
@@ -525,7 +521,7 @@ public class DataUtils {
 					ii = codesB;
 				}
 
-		// Normaly only 2 following characters are scanned. 
+		// Normally only 2 following characters are scanned. 
 		// So don't forget to compare the first character of both strings
 		if (sA.charAt(0) == sB.charAt(0))
 			founds++;
@@ -534,7 +530,7 @@ public class DataUtils {
 		if (sA.charAt(codesA) == sB.charAt(codesB))
 			founds++;
 
-		// min is the length of the shortest string
+		// min. is the length of the shortest string
 		if (codesA < codesB)
 			min = codesA;
 		else

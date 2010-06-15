@@ -88,6 +88,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction exportWizardAction;
 	private IWorkbenchAction openPreferencesAction;
 	private OpenBrowserEditorAction openBrowserEditorAction;
+	private OpenBrowserEditorAction openBrowserEditorActionTB;
 	private OpenCalculatorAction openCalculatorAction;
 	private OpenContactsAction openContactsAction;
 	private OpenProductsAction openProductsAction;
@@ -178,6 +179,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		openBrowserEditorAction = new OpenBrowserEditorAction();
 		register(openBrowserEditorAction);
+
+		openBrowserEditorActionTB = new OpenBrowserEditorAction();
+		register(openBrowserEditorActionTB);
 
 		openCalculatorAction = new OpenCalculatorAction();
 		register(openCalculatorAction);
@@ -404,9 +408,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newProductCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newProductCI);
 
-		openBrowserEditorAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/www_32.png"));
-		openBrowserEditorAction.setText("www");
-		ActionContributionItem openBrowserEditorCI = new ActionContributionItem(openBrowserEditorAction);
+		openBrowserEditorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/www_32.png"));
+		openBrowserEditorActionTB.setText("www");
+		ActionContributionItem openBrowserEditorCI = new ActionContributionItem(openBrowserEditorActionTB);
 		openBrowserEditorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar3.add(openBrowserEditorCI);
 

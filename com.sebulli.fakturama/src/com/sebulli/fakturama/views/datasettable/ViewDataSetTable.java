@@ -87,11 +87,11 @@ public abstract class ViewDataSetTable extends ViewPart {
 
 		Composite searchAndToolbarComposite = new Composite(searchAndTableComposite, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(3).applyTo(searchAndToolbarComposite);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.TOP).grab(true, false).applyTo(searchAndToolbarComposite);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(searchAndToolbarComposite);
 
 		Composite toolbarComposite = new Composite(searchAndToolbarComposite, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(toolbarComposite);
-		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(toolbarComposite);
+		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(toolbarComposite);
 
 		filterLabel = new Label(searchAndToolbarComposite, SWT.NONE);
 		FontData[] fD = filterLabel.getFont().getFontData();
@@ -102,11 +102,11 @@ public abstract class ViewDataSetTable extends ViewPart {
 		GridDataFactory.fillDefaults().grab(true, false).align(SWT.CENTER, SWT.CENTER).applyTo(filterLabel);
 
 		Composite searchComposite = new Composite(searchAndToolbarComposite, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(searchComposite);
-		GridDataFactory.fillDefaults().grab(true, true).align(SWT.END, SWT.BOTTOM).applyTo(searchComposite);
+		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(searchComposite);
+		GridDataFactory.fillDefaults().grab(true, true).align(SWT.END, SWT.CENTER).applyTo(searchComposite);
 
 		ToolBar toolBar = new ToolBar(toolbarComposite, SWT.FLAT);
-		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(toolBar);
+		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(toolBar);
 		ToolBarManager tbm = new ToolBarManager(toolBar);
 
 		if (addNewAction != null) {
@@ -120,7 +120,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 		searchLabel.setText("Suchen:");
 		GridDataFactory.swtDefaults().applyTo(searchLabel);
 		final Text searchText = new Text(searchComposite, SWT.BORDER | SWT.SEARCH | SWT.CANCEL | SWT.ICON_SEARCH);
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.BOTTOM).hint(150, -1).applyTo(searchText);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).hint(150, -1).applyTo(searchText);
 		searchText.addModifyListener(new ModifyListener() {
 
 			@Override

@@ -1209,7 +1209,10 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().applyTo(bPayed);
 			bPayed.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
+					
 					createPayedComposite(bPayed.getSelection());
+					checkDirty();
+
 				}
 			});
 

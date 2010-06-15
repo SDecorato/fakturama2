@@ -288,19 +288,13 @@ public class DataSetContact extends UniDataSet {
 	 * @return First and last name
 	 */
 	public String getName() {
-		String address = "";
 		String line = "";
 
 		line = this.getStringValueByKey("firstname");
 		if (!this.getStringValueByKey("name").isEmpty())
 			line += " " + this.getStringValueByKey("name");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += "\n";
-			address += line;
-		}
 
-		return address;
+		return line;
 	}
 
 	/**
