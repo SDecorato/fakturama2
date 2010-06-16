@@ -340,16 +340,16 @@ public class ProductEditor extends Editor {
 			textBlock[i] = new Text(((i < scaledPrices) && (scaledPrices > 2)) ? pricetable : invisible, SWT.BORDER | SWT.RIGHT);
 			textBlock[i].setText(product.getFormatedStringValueByKey("block" + indexNr));
 			superviceControl(textBlock[i], 6);
-			GridDataFactory.swtDefaults().hint(40, -1).applyTo(textBlock[i]);
+			GridDataFactory.swtDefaults().hint(40, SWT.DEFAULT).applyTo(textBlock[i]);
 
 			if (useNet) {
 				netText[i] = new NetText(this, (i < scaledPrices) ? pricetable : invisible, SWT.BORDER | SWT.RIGHT, net[i], vat);
-				GridDataFactory.swtDefaults().hint(80, -1).applyTo(netText[i].getNetText());
+				GridDataFactory.swtDefaults().hint(80, SWT.DEFAULT).applyTo(netText[i].getNetText());
 			}
 
 			if (useGross) {
 				grossText[i] = new GrossText(this, (i < scaledPrices) ? pricetable : invisible, SWT.BORDER | SWT.RIGHT, net[i], vat);
-				GridDataFactory.swtDefaults().hint(80, -1).applyTo(grossText[i].getGrossText());
+				GridDataFactory.swtDefaults().hint(80, SWT.DEFAULT).applyTo(grossText[i].getGrossText());
 			}
 
 			if (useNet && useGross) {
