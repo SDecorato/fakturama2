@@ -612,7 +612,7 @@ public class DocumentEditor extends Editor {
 			if (payedValue.getValueAsDouble() == 0.0)
 				payedValue.setValue(total);
 			CurrencyText txtPayValue = new CurrencyText(this, payedDataContainer, SWT.BORDER | SWT.RIGHT, payedValue);
-			GridDataFactory.swtDefaults().hint(60, -1).applyTo(txtPayValue.getText());
+			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
 		} else {
 			payedValue.setValue(0.0);
 			Label issueDateLabel = new Label(payedDataContainer, SWT.NONE);
@@ -634,7 +634,7 @@ public class DocumentEditor extends Editor {
 				}
 			});
 
-			GridDataFactory.swtDefaults().hint(50, -1).applyTo(spDueDays);
+			GridDataFactory.swtDefaults().hint(50, SWT.DEFAULT).applyTo(spDueDays);
 
 			Label dueDaysLabel = new Label(payedDataContainer, SWT.NONE);
 			dueDaysLabel.setText("Tagen bis");
@@ -699,7 +699,7 @@ public class DocumentEditor extends Editor {
 		txtName = new Text(nrDateComposite, SWT.BORDER);
 		txtName.setText(document.getStringValueByKey("name"));
 		superviceControl(txtName, 32);
-		GridDataFactory.swtDefaults().hint(100, -1).applyTo(txtName);
+		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
 
 		Label labelDate = new Label(nrDateComposite, SWT.NONE);
 		labelDate.setText("Datum");
@@ -753,7 +753,7 @@ public class DocumentEditor extends Editor {
 		Group copyGroup = new Group(toolBarComposite, SWT.NONE);
 		copyGroup.setText("aus " + documentType.getString() + " erzeugen");
 		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(copyGroup);
-		GridDataFactory.fillDefaults().minSize(200, -1).align(SWT.END, SWT.BOTTOM).grab(true, false).applyTo(copyGroup);
+		GridDataFactory.fillDefaults().minSize(200, SWT.DEFAULT).align(SWT.END, SWT.BOTTOM).grab(true, false).applyTo(copyGroup);
 
 		ToolBar toolBarDuplicateDocument = new ToolBar(copyGroup, SWT.FLAT | SWT.WRAP);
 		// setBackground(toolBarDuplicateDocument);
@@ -1057,7 +1057,7 @@ public class DocumentEditor extends Editor {
 			txtMessage.setText(document.getStringValueByKey("message"));
 			superviceControl(txtMessage, 10000);
 			if (documentType.hasItems())
-				GridDataFactory.fillDefaults().hint(-1, 65).span(3, 1).grab(true, false).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 65).span(3, 1).grab(true, false).applyTo(txtMessage);
 			else
 				GridDataFactory.fillDefaults().span(3, 1).grab(true, true).applyTo(txtMessage);
 
@@ -1068,7 +1068,7 @@ public class DocumentEditor extends Editor {
 			txtMessage = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 			txtMessage.setText(document.getStringValueByKey("message"));
 			superviceControl(txtMessage, 10000);
-			GridDataFactory.fillDefaults().span(2, 1).hint(-1, 70).grab(true, false).applyTo(txtMessage);
+			GridDataFactory.fillDefaults().span(2, 1).hint(SWT.DEFAULT, 70).grab(true, false).applyTo(txtMessage);
 
 			Composite totalComposite = new Composite(top, SWT.NONE);
 
@@ -1084,7 +1084,7 @@ public class DocumentEditor extends Editor {
 
 			itemsSum = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
 			itemsSum.setText("---");
-			GridDataFactory.swtDefaults().hint(70, -1).align(SWT.END, SWT.TOP).applyTo(itemsSum);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsSum);
 
 			Label discountLabel = new Label(totalComposite, SWT.NONE);
 			discountLabel.setText("Rabatt:");
@@ -1093,7 +1093,7 @@ public class DocumentEditor extends Editor {
 			itemsDiscount = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
 			itemsDiscount.setText(document.getFormatedStringValueByKey("itemsdiscount"));
 			
-			GridDataFactory.swtDefaults().hint(70, -1).align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
 			itemsDiscount.addFocusListener(new FocusAdapter() {
 				public void focusLost(FocusEvent e) {
 					itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
@@ -1158,7 +1158,7 @@ public class DocumentEditor extends Editor {
 
 			shippingValue = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
 			shippingValue.setText(DataUtils.DoubleToFormatedPrice(shipping));
-			GridDataFactory.swtDefaults().hint(70, -1).align(SWT.END, SWT.CENTER).applyTo(shippingValue);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(shippingValue);
 
 			shippingValue.addFocusListener(new FocusAdapter() {
 				public void focusLost(FocusEvent e) {
@@ -1183,7 +1183,7 @@ public class DocumentEditor extends Editor {
 
 			vatValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
 			vatValue.setText("---");
-			GridDataFactory.swtDefaults().hint(70, -1).align(SWT.END, SWT.TOP).applyTo(vatValue);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(vatValue);
 
 			Label totalLabel = new Label(totalComposite, SWT.NONE);
 			totalLabel.setText("Gesamtsumme:");
@@ -1191,21 +1191,22 @@ public class DocumentEditor extends Editor {
 
 			totalValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
 			totalValue.setText("---");
-			GridDataFactory.swtDefaults().hint(70, -1).align(SWT.END, SWT.TOP).applyTo(totalValue);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(totalValue);
 		}
 
 		if (documentType.hasPrice()) {
-			Label payedLabel = new Label(top, SWT.NONE);
-			payedLabel.setText("bezahlt");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedLabel);
+
+			bPayed = new Button(top, SWT.CHECK | SWT.LEFT);
+			bPayed.setSelection(document.getBooleanValueByKey("payed"));
+			bPayed.setText("bezahlt");
 
 			payedContainer = new Composite(top, SWT.NONE);
 
-			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(3).applyTo(payedContainer);
+			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(payedContainer);
 			GridDataFactory.swtDefaults().span(2, 1).align(SWT.BEGINNING, SWT.CENTER).applyTo(payedContainer);
 
-			bPayed = new Button(payedContainer, SWT.CHECK);
-			bPayed.setSelection(document.getBooleanValueByKey("payed"));
+
+			
 			GridDataFactory.swtDefaults().applyTo(bPayed);
 			bPayed.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {

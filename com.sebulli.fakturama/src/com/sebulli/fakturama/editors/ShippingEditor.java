@@ -260,12 +260,12 @@ public class ShippingEditor extends Editor {
 
 		if (useNet) {
 			netText = new NetText(this, netGrossComposite, SWT.BORDER | SWT.RIGHT, net, vat);
-			GridDataFactory.swtDefaults().hint(60, -1).applyTo(netText.getNetText());
+			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(netText.getNetText());
 		}
 
 		if (useGross) {
 			grossText = new GrossText(this, netGrossComposite, SWT.BORDER | SWT.RIGHT, net, vat);
-			GridDataFactory.swtDefaults().hint(60, -1).applyTo(grossText.getGrossText());
+			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(grossText.getGrossText());
 		}
 
 		if (useNet && useGross) {

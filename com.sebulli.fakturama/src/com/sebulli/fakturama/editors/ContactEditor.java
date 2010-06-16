@@ -54,7 +54,7 @@ import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.views.datasettable.ViewContactTable;
 
 /**
- * The contact's editor
+ * The contact editor
  * 
  * @author Gerd Bartelt
  */
@@ -360,6 +360,9 @@ public class ContactEditor extends Editor {
 
 	}
 
+	/**
+	* Copy all the address data to the delivery address
+	*/
 	private void copyAddressToDeliveryAdress() {
 		comboDeliveryGender.select(comboGender.getSelectionIndex());
 		txtDeliveryTitle.setText(txtTitle.getText());
@@ -372,6 +375,11 @@ public class ContactEditor extends Editor {
 		txtDeliveryCountry.setText(txtCountry.getText());
 	}
 
+	/**
+	* Returns, if the address is equal to the delivery address
+	* 
+	* @return True, if both are equal
+	*/
 	private boolean isAddressEqualToDeliveryAdress() {
 		if (comboDeliveryGender.getSelectionIndex() != comboGender.getSelectionIndex()) { return false; }
 		if (!txtDeliveryTitle.getText().equals(txtTitle.getText())) { return false; }
@@ -386,8 +394,17 @@ public class ContactEditor extends Editor {
 		return true;
 	}
 
+	/**
+	* Creates the SWT controls for this workbench part
+	* 
+	* @param the parent control
+	* @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	*/
 	@Override
 	public void createPartControl(Composite parent) {
+		
+		// Some of this editos's control elements can be hidden.
+		// Get the these settings from the preference store
 		useDelivery = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_DELIVERY");
 		useBank = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_BANK");
 		useMisc = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_MISC");
@@ -398,16 +415,19 @@ public class ContactEditor extends Editor {
 		useCompany = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_COMPANY");
 		useCountry = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_COUNTRY");
 
+		// Create the top Composite
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
 
+		// Create an invisible container for all hidden components
 		Composite invisible = new Composite(top, SWT.NONE);
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).applyTo(invisible);
 
+		// Create the address tab
 		Composite tabAddress;
 		if (useDelivery || useBank || useMisc || useNote) {
-			tabFolder = new TabFolder(top, SWT.BORDER);
+			tabFolder = new TabFolder(top, SWT.NONE);
 			GridDataFactory.fillDefaults().grab(true, true).applyTo(tabFolder);
 
 			TabItem item1 = new TabItem(tabFolder, SWT.NONE);
@@ -419,6 +439,7 @@ public class ContactEditor extends Editor {
 		}
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(tabAddress);
 
+		// Create the bank tab
 		Composite tabBank;
 		if (useBank) {
 			TabItem item3 = new TabItem(tabFolder, SWT.NONE);
@@ -430,6 +451,7 @@ public class ContactEditor extends Editor {
 		}
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(tabBank);
 
+		// Create the miscellaneous tab
 		Composite tabMisc;
 		if (useMisc) {
 			TabItem item4 = new TabItem(tabFolder, SWT.NONE);
@@ -441,6 +463,7 @@ public class ContactEditor extends Editor {
 		}
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(tabMisc);
 
+		// Create to note tab
 		TabItem item5 = null;
 		Composite tabNote;
 		if (useNote) {
@@ -452,24 +475,23 @@ public class ContactEditor extends Editor {
 			tabNote = new Composite(invisible, SWT.NONE);
 		}
 		tabNote.setLayout(new FillLayout());
-
+		
+		// Composite for the customer's number
 		Composite customerNrComposite = new Composite(tabAddress, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(customerNrComposite);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(customerNrComposite);
 
-		Composite useDeliveryAdressComposite = new Composite(tabAddress, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(useDeliveryAdressComposite);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(useDeliveryAdressComposite);
-
+		// Customer's number
 		Label labelNr = new Label(customerNrComposite, SWT.NONE);
 		labelNr.setText("Kundennummer");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNr);
 		txtNr = new Text(customerNrComposite, SWT.BORDER);
 		txtNr.setText(contact.getStringValueByKey("nr"));
 		superviceControl(txtNr, 32);
-		GridDataFactory.swtDefaults().hint(100, -1).applyTo(txtNr);
+		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtNr);
 
-		bDelAddrEquAddr = new Button(useDeliveryAdressComposite, SWT.CHECK);
+		// Check button: delivery address equals address
+		bDelAddrEquAddr = new Button(tabAddress, SWT.CHECK);
 		bDelAddrEquAddr.setText("Lieferadresse ist Rechnungsadresse");
 		GridDataFactory.swtDefaults().applyTo(bDelAddrEquAddr);
 		bDelAddrEquAddr.addSelectionListener(new SelectionAdapter() {
@@ -479,12 +501,19 @@ public class ContactEditor extends Editor {
 			}
 		});
 
-		Group addressGroup = new Group(tabAddress, SWT.BORDER);
+		
+		
+		// Group: address
+		Group addressGroup = new Group(tabAddress, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(addressGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(addressGroup);
 		addressGroup.setText("Adresse");
 
-		// Controls in tab "Address"
+		
+		
+		// Controls in the group "address"
+		
+		// The title and gender's label
 		Label labelTitle = new Label((useGender || useTitle) ? addressGroup : invisible, SWT.NONE);
 		if (useGender)
 			labelTitle.setText("Geschlecht");
@@ -493,30 +522,34 @@ public class ContactEditor extends Editor {
 		if (useTitle)
 			labelTitle.setText(labelTitle.getText() + "Titel");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelTitle);
+		
+		// Gender
 		comboGender = new Combo(useGender ? addressGroup : invisible, SWT.BORDER);
 		for (int i = 0; i < 4; i++)
 			comboGender.add(DataSetContact.getGenderString(i), i);
 		comboGender.select(contact.getIntValueByKey("gender"));
+		GridDataFactory.fillDefaults().grab(false, false).hint(100, SWT.DEFAULT).span(useTitle ? 1 : 2, 1).applyTo(comboGender);
 		superviceControl(comboGender);
 
-		GridDataFactory.swtDefaults().hint(100, -1).span(useTitle ? 1 : 2, 1).applyTo(comboGender);
+		// Title
 		txtTitle = new Text(useTitle ? addressGroup : invisible, SWT.BORDER);
 		txtTitle.setText(contact.getStringValueByKey("title"));
+		GridDataFactory.fillDefaults().grab(true, false).span(useGender ? 1 : 2, 1).applyTo(txtTitle);
 		superviceControl(txtTitle, 32);
 
-		GridDataFactory.fillDefaults().grab(true, false).span(useGender ? 1 : 2, 1).applyTo(txtTitle);
+		// First and last name		
 		Label labelName = new Label(addressGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		if (useLastNameFirst) {
 			labelName.setText("Nachname, Vorname");
 			txtName = new Text(addressGroup, SWT.BORDER);
-			GridDataFactory.swtDefaults().hint(100, -1).applyTo(txtName);
+			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
 			txtFirstname = new Text(addressGroup, SWT.BORDER);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(txtFirstname);
 		} else {
 			labelName.setText("Vorname Nachname");
 			txtFirstname = new Text(addressGroup, SWT.BORDER);
-			GridDataFactory.swtDefaults().hint(100, -1).applyTo(txtFirstname);
+			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtFirstname);
 			txtName = new Text(addressGroup, SWT.BORDER);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(txtName);
 		}
@@ -525,6 +558,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtFirstname, 64);
 		superviceControl(txtName, 64);
 
+		// Company
 		Label labelCompany = new Label(useCompany ? addressGroup : invisible, SWT.NONE);
 		labelCompany.setText("Firma");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCompany);
@@ -533,6 +567,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtCompany, 64);
 		GridDataFactory.fillDefaults().hint(210, 40).grab(true, false).span(2, 1).applyTo(txtCompany);
 
+		// Street
 		Label labelStreet = new Label(addressGroup, SWT.NONE);
 		labelStreet.setText("Strasse");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStreet);
@@ -541,18 +576,20 @@ public class ContactEditor extends Editor {
 		superviceControl(txtStreet, 64);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtStreet);
 
+		// City
 		Label labelCity = new Label(addressGroup, SWT.NONE);
 		labelCity.setText("PLZ, Ort");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCity);
 		txtZip = new Text(addressGroup, SWT.BORDER);
 		txtZip.setText(contact.getStringValueByKey("zip"));
 		superviceControl(txtZip, 16);
-		GridDataFactory.swtDefaults().hint(100, -1).applyTo(txtZip);
+		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtZip);
 		txtCity = new Text(addressGroup, SWT.BORDER);
 		txtCity.setText(contact.getStringValueByKey("city"));
 		superviceControl(txtCity, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCity);
 
+		// Country
 		Label labelCountry = new Label(useCountry ? addressGroup : invisible, SWT.NONE);
 		labelCountry.setText("Land");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCountry);
@@ -561,13 +598,15 @@ public class ContactEditor extends Editor {
 		superviceControl(txtCountry, 32);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtCountry);
 
-		deliveryGroup = new Group(tabAddress, SWT.BORDER);
+		// Group: delivery address
+		deliveryGroup = new Group(tabAddress, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(deliveryGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(deliveryGroup);
 		deliveryGroup.setText("Lieferadresse");
 
-		// Controls in tab "Delivery"
+		// Controls in the group "Delivery"
 
+		// Delivery gender and titel's label
 		Label labelDeliveryTitle = new Label((useGender || useTitle) ? deliveryGroup : invisible, SWT.NONE);
 		if (useGender)
 			labelDeliveryTitle.setText("Geschlecht");
@@ -576,30 +615,34 @@ public class ContactEditor extends Editor {
 		if (useTitle)
 			labelDeliveryTitle.setText(labelDeliveryTitle.getText() + "Titel");
 
+		// Delivery Gender
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryTitle);
 		comboDeliveryGender = new Combo(useGender ? deliveryGroup : invisible, SWT.BORDER);
 		for (int i = 0; i < 4; i++)
 			comboDeliveryGender.add(DataSetContact.getGenderString(i), i);
 		comboDeliveryGender.select(contact.getIntValueByKey("delivery_gender"));
+		GridDataFactory.fillDefaults().grab(false, false).hint(100, SWT.DEFAULT).span(useTitle ? 1 : 2, 1).applyTo(comboDeliveryGender);
 		superviceControl(comboDeliveryGender);
-		GridDataFactory.fillDefaults().grab(false, false).hint(100, -1).span(useTitle ? 1 : 2, 1).applyTo(comboDeliveryGender);
+		
+		// Delivery Title
 		txtDeliveryTitle = new Text(useTitle ? deliveryGroup : invisible, SWT.BORDER);
 		txtDeliveryTitle.setText(contact.getStringValueByKey("delivery_title"));
 		superviceControl(txtDeliveryTitle, 32);
 		GridDataFactory.fillDefaults().grab(true, false).span(useGender ? 1 : 2, 1).applyTo(txtDeliveryTitle);
 
+		// Delivery first and last name
 		Label labelDeliveryName = new Label(deliveryGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryName);
 		if (useLastNameFirst) {
 			labelDeliveryName.setText("Nachname, Vorname");
 			txtDeliveryName = new Text(deliveryGroup, SWT.BORDER);
-			GridDataFactory.swtDefaults().hint(100, -1).applyTo(labelDeliveryName);
+			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(labelDeliveryName);
 			txtDeliveryFirstname = new Text(deliveryGroup, SWT.BORDER);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(txtDeliveryFirstname);
 		} else {
 			labelDeliveryName.setText("Vorname Nachname");
 			txtDeliveryFirstname = new Text(deliveryGroup, SWT.BORDER);
-			GridDataFactory.swtDefaults().hint(100, -1).applyTo(txtDeliveryFirstname);
+			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtDeliveryFirstname);
 			txtDeliveryName = new Text(deliveryGroup, SWT.BORDER);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(txtDeliveryName);
 
@@ -609,6 +652,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtDeliveryFirstname, 64);
 		superviceControl(txtDeliveryName, 64);
 
+		// Delivery company
 		Label labelDeliveryCompany = new Label(useCompany ? deliveryGroup : invisible, SWT.NONE);
 		labelDeliveryCompany.setText("Firma");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryCompany);
@@ -617,6 +661,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtDeliveryCompany, 64);
 		GridDataFactory.fillDefaults().hint(210, 40).grab(true, false).span(2, 1).applyTo(txtDeliveryCompany);
 
+		// Delivery street
 		Label labelDeliveryStreet = new Label(deliveryGroup, SWT.NONE);
 		labelDeliveryStreet.setText("Strasse");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryStreet);
@@ -625,18 +670,20 @@ public class ContactEditor extends Editor {
 		superviceControl(txtDeliveryStreet, 64);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtDeliveryStreet);
 
+		// Delivery city
 		Label labelDeliveryCity = new Label(deliveryGroup, SWT.NONE);
 		labelDeliveryCity.setText("PLZ, Ort");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryCity);
 		txtDeliveryZip = new Text(deliveryGroup, SWT.BORDER);
 		txtDeliveryZip.setText(contact.getStringValueByKey("delivery_zip"));
 		superviceControl(txtDeliveryZip, 16);
-		GridDataFactory.swtDefaults().hint(100, -1).applyTo(txtDeliveryZip);
+		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtDeliveryZip);
 		txtDeliveryCity = new Text(deliveryGroup, SWT.BORDER);
 		txtDeliveryCity.setText(contact.getStringValueByKey("delivery_city"));
 		superviceControl(txtDeliveryCity, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtDeliveryCity);
 
+		// Delivery country
 		Label labelDeliveryCountry = new Label(useCountry ? deliveryGroup : invisible, SWT.NONE);
 		labelDeliveryCountry.setText("Land");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryCountry);
@@ -645,8 +692,11 @@ public class ContactEditor extends Editor {
 		superviceControl(txtDeliveryZip, 32);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtDeliveryCountry);
 
-		// Controls in tab "Bank"
+		
+		
+		// Controls in the tab "Bank"
 
+		// Account holder
 		Label labelAccountHolder = new Label(tabBank, SWT.NONE);
 		labelAccountHolder.setText("Kontoinhaber");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAccountHolder);
@@ -655,6 +705,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtAccountHolder, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtAccountHolder);
 
+		// Account number
 		Label labelAccount = new Label(tabBank, SWT.NONE);
 		labelAccount.setText("Kontonummer");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAccount);
@@ -663,6 +714,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtAccount, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtAccount);
 
+		// Bank code
 		Label labelBankCode = new Label(tabBank, SWT.NONE);
 		labelBankCode.setText("Bankleitzahl");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelBankCode);
@@ -671,6 +723,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtBankCode, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtBankCode);
 
+		// Name of the bank
 		Label labelBankName = new Label(tabBank, SWT.NONE);
 		labelBankName.setText("Name der Bank");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelBankName);
@@ -679,6 +732,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtBankName, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtBankName);
 
+		// IBAN
 		Label labelIBAN = new Label(tabBank, SWT.NONE);
 		labelIBAN.setText("IBAN");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelIBAN);
@@ -687,6 +741,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtIBAN, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtIBAN);
 
+		// BIC
 		Label labelBIC = new Label(tabBank, SWT.NONE);
 		labelBIC.setText("BIC");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelBIC);
@@ -695,8 +750,11 @@ public class ContactEditor extends Editor {
 		superviceControl(txtBIC, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtBIC);
 
+
+		
 		// Controls in tab "Misc"
 
+		// Category 
 		Label labelCategory = new Label(tabMisc, SWT.NONE);
 		labelCategory.setText("Kategorie");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
@@ -705,6 +763,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
+		// EMail
 		Label labelEmail = new Label(tabMisc, SWT.NONE);
 		labelEmail.setText("eMail");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelEmail);
@@ -713,6 +772,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtEmail, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtEmail);
 
+		// Telephone
 		Label labelTel = new Label(tabMisc, SWT.NONE);
 		labelTel.setText("Telefon");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelTel);
@@ -721,6 +781,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtPhone, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtPhone);
 
+		// Telefax
 		Label labelFax = new Label(tabMisc, SWT.NONE);
 		labelFax.setText("Telefax");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelFax);
@@ -729,6 +790,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtFax, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtFax);
 
+		// Mobile
 		Label labelMobile = new Label(tabMisc, SWT.NONE);
 		labelMobile.setText("Mobil");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelMobile);
@@ -737,6 +799,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtMobile, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtMobile);
 
+		// Website
 		Label labelWebsite = new Label(tabMisc, SWT.NONE);
 		labelWebsite.setText("Webseite");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelWebsite);
@@ -745,6 +808,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtWebsite, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtWebsite);
 
+		// Payment
 		Label labelPayment = new Label(tabMisc, SWT.NONE);
 		labelPayment.setText("Bezahlung");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPayment);
@@ -766,6 +830,7 @@ public class ContactEditor extends Editor {
 		}
 		superviceControl(comboPayment);
 
+		// Reliability
 		Label labelReliability = new Label(tabMisc, SWT.NONE);
 		labelReliability.setText("Bonität");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelReliability);
@@ -778,6 +843,7 @@ public class ContactEditor extends Editor {
 		superviceControl(comboReliability);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboReliability);
 
+		// VAT number
 		Label labelVatNr = new Label(tabMisc, SWT.NONE);
 		labelVatNr.setText("USt.ID-Nr.");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVatNr);
@@ -786,6 +852,7 @@ public class ContactEditor extends Editor {
 		superviceControl(txtVatNr, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtVatNr);
 
+		// Customer's discount
 		Label labelDiscount = new Label(tabMisc, SWT.NONE);
 		labelDiscount.setText("Kd.Rabatt");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscount);
@@ -807,22 +874,34 @@ public class ContactEditor extends Editor {
 			}
 		});
 
+		
+		
 		// Controls in tab "Note"
 
+		// The note
 		String note = contact.getStringValueByKey("note");
 		textNote = new Text(tabNote, SWT.BORDER | SWT.MULTI);
 		textNote.setText(note);
 		superviceControl(textNote, 10000);
 
-		if (useNote && note.length() > 0)
+		// If the note is not empty, display it,
+		// when opening the editor.
+		if (useNote && !note.isEmpty())
 			tabFolder.setSelection(item5);
 
+		// Test, if the address and the delivery address
+		// are equal. If they are, set the checkbox and
+		// hide the delivery address
 		Boolean isEqual = isAddressEqualToDeliveryAdress();
 		bDelAddrEquAddr.setSelection(isEqual);
 		deliveryGroup.setVisible(!isEqual);
-
 	}
 
+	/**
+	 * Asks this part to take focus within the workbench.
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
+	 */
 	@Override
 	public void setFocus() {
 	}
