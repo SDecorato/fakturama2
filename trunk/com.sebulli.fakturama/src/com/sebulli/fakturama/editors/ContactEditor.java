@@ -134,9 +134,10 @@ public class ContactEditor extends Editor {
 	}
 
 	/**
-	 * Save the editor's content
+	 * Saves the contents of this part
 	 * 
 	 * @param monitor Progress monitor
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {

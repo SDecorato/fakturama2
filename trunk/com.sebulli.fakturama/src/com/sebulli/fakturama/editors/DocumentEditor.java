@@ -88,113 +88,163 @@ import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 
+/**
+ * The document editor for all types of document like
+ * letter, order, confirmation, invoice, delivery,
+ * credit and dunning
+ * 
+ * @author Gerd Bartelt
+ */
 public class DocumentEditor extends Editor {
+
+	// Editor's ID
 	public static final String ID = "com.sebulli.fakturama.editors.documentEditor";
 
-	CreateOODocumentAction printAction;
+	// This UniDataSet represents the editor's input 
 	private DataSetDocument document;
-	private Text txtAddress;
-	private int addressId;
+
+
+	// SWT components of the editor
 	private Text txtName;
 	private DateTime dtDate;
-	private Text txtMessage;
 	private Text txtCustomerRef;
-	private DateTime dtPayedDate;
-	private DateTime dtIssueDate;
-	private Spinner spDueDays;
-	private Button bPayed;
-	private TableViewer tableViewerItems;
-	private Combo comboShipping;
-	private ComboViewer comboViewerShipping;
+	private Text txtAddress;
 	private Combo comboNoVat;
 	private ComboViewer comboViewerNoVat;
-	private int shippingId;
-	private String paymentName = "";
-	// private String customerRef;
-	private Combo comboPayment;
-	private ComboViewer comboViewerPayment;
-	private int paymentId;
+	private Text txtInvoiceRef;
+	private TableViewer tableViewerItems;
+	private Text txtMessage;
+	private Button bPayed;
 	private Composite payedContainer;
 	private Composite payedDataContainer = null;
+	private Combo comboPayment;
+	private ComboViewer comboViewerPayment;
+	private Spinner spDueDays;
+	private DateTime dtIssueDate;
+	private DateTime dtPayedDate;
 	private Label itemsSum;
 	private Text itemsDiscount;
-	private DataSetArray<DataSetItem> items;
-	private DocumentType documentType;
-	private Double shipping = 0.0;
-	private Double shippingVat = 0.0;
-	private String shippingVatDescription = "";
-	private Double total = 0.0;
+	private Combo comboShipping;
+	private ComboViewer comboViewerShipping;
 	private Text shippingValue;
-	private Label totalValue;
 	private Label vatValue;
+	private Label totalValue;
+
+	// These flags are set by the preference settings.
+	// They define, if elements of the editor are displayed, or not.
+	private boolean useGross;
+
+	// The items of this document
+	private DataSetArray<DataSetItem> items;
+
+	// The type of this document
+	private DocumentType documentType;
+
+	// These are (non visible) values of the document
+	private int addressId;
 	private boolean noVat;
 	private String noVatName;
 	private String noVatDescription;
-	private boolean newDocument;
+	private int paymentId;
+	private String paymentName = "";
 	private UniData payedValue = new UniData(UniDataType.DOUBLE, 0.0);
+	private int shippingId;
+	private Double shipping = 0.0;
+	private Double shippingVat = 0.0;
+	private String shippingVatDescription = "";
 	private int shippingAutoVat = DataSetShipping.SHIPPINGVATGROSS;
-	private boolean useGross;
+	private Double total = 0.0;
 	private int dunningLevel = 0;
-	private Text txtInvoiceRef;
+	
+	// Action to print this document's content.
+	// Print means: Export the document in an OpenOffice document
+	CreateOODocumentAction printAction;
+	
+	// defines, if the contact is new created
+	private boolean newDocument;
 
+	/**
+	 * Constructor
+	 * 
+	 * Associate the table view with the editor
+	 */
 	public DocumentEditor() {
 		tableViewID = ViewDocumentTable.ID;
 		editorID = "document";
-
 	}
 
+	/**
+	 * Saves the contents of this part
+	 * 
+	 * @param monitor Progress monitor
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 
 		/*
-		 * the following parameters are not saved: - id (constant) - progress
-		 * (not modified by editor) - transaction (not modified by editor) -
-		 * webshopid (not modified by editor) - webshopdate (not modified by
-		 * editor) ITEMS: - id (constant) - deleted (is checked by the items
-		 * string) - shared (not modified by editor)
+		 * the following parameters are not saved: 
+		 * - id (constant) 
+		 * - progress (not modified by editor) 
+		 * - transaction (not modified by editor)
+		 * - webshopid (not modified by editor)
+		 *  - webshopdate (not modified by editor)
+		 *   ITEMS: - id (constant)
+		 *          - deleted (is checked by the items string)
+		 *          - shared (not modified by editor)
 		 */
 
-		String itemsString = "";
+		// Always set the editor's data set to "undeleted"
+		document.setBooleanValueByKey("deleted", false);
+
+		// Set the document type
 		document.setIntValueByKey("category", documentType.getInt());
 
+		// Set name and date
 		document.setStringValueByKey("name", txtName.getText());
-		document.setBooleanValueByKey("deleted", false);
 		document.setStringValueByKey("date", DataUtils.getDateTimeAsString(dtDate));
 		document.setStringValueByKey("servicedate", document.getStringValueByKey("date"));
 
+		
+		document.setIntValueByKey("addressid", addressId);
+		String addressById = "";
+
+		// Test, if the txtAddress field was modified
+		// and write the content of the txtAddress to the documents address or
+		// deliveryaddress 
 		boolean addressModified = false;
+		// if it's a delivery note, compare the delivery address 
 		if (documentType == DocumentType.DELIVERY) {
 			if (!document.getStringValueByKey("deliveryaddress").equals(txtAddress.getText()))
 				addressModified = true;
-		} else {
-			if (!document.getStringValueByKey("address").equals(txtAddress.getText()))
-				addressModified = true;
-		}
-
-		document.setIntValueByKey("addressid", addressId);
-		String addressById = "";
-		if (documentType == DocumentType.DELIVERY) {
 			document.setStringValueByKey("deliveryaddress", txtAddress.getText());
 			if (addressId > 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getDeliveryAddress();
 		} else {
+			if (!document.getStringValueByKey("address").equals(txtAddress.getText()))
+				addressModified = true;
 			document.setStringValueByKey("address", txtAddress.getText());
 			if (addressId > 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress();
 		}
 
+		// Show a warning, if the entered address is not similar to the address
+		// of the document, set by the address ID.
 		if ((addressId > 0) && (addressModified)) {
 			if (DataUtils.similarity(addressById, txtAddress.getText()) < 0.75) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
 				messageBox.setText("Bitte überprüfen");
-				messageBox.setMessage("Diesem Dokument ist die Adresse zugeordnet:\n\n" + addressById
+				messageBox.setMessage("Diesem Dokument ist folgende Adresse zugeordnet:\n\n" + addressById
 						+ "\n\nSie haben eine davon abweichende Adresse eingegeben.");
 				messageBox.open();
 			}
 		}
 
+		// Set the custeromer reference number
 		document.setStringValueByKey("customerref", txtCustomerRef.getText());
 
+		// Set the payment values depending on if the document is payed or not
+		document.setStringValueByKey("paymentname", paymentName);
 		if (bPayed != null) {
 			if (bPayed.getSelection()) {
 				document.setBooleanValueByKey("payed", true);
@@ -206,6 +256,8 @@ public class DocumentEditor extends Editor {
 				document.setDoubleValueByKey("payvalue", 0.0);
 			}
 		}
+		
+		// Set the sipping values
 		if (comboShipping != null) {
 			document.setStringValueByKey("shippingname", comboShipping.getText());
 		}
@@ -214,31 +266,50 @@ public class DocumentEditor extends Editor {
 		document.setDoubleValueByKey("shippingvat", shippingVat);
 		document.setStringValueByKey("shippingvatdescription", shippingVatDescription);
 		document.setIntValueByKey("shippingautovat", shippingAutoVat);
-		document.setStringValueByKey("paymentname", paymentName);
+		
+		// Set the discount value
 		if (itemsDiscount != null)
 			document.setDoubleValueByKey("itemsdiscount", DataUtils.StringToDoubleDiscount(itemsDiscount.getText()));
+		
+		// Set the total value.
 		document.setDoubleValueByKey("total", total);
+		
+		// Set the message
 		document.setStringValueByKey("message", txtMessage.getText());
 
+		// Set the whole vat of the document to zero
 		document.setBooleanValueByKey("novat", noVat);
 		document.setStringValueByKey("novatname", noVatName);
 		document.setStringValueByKey("novatdescription", noVatDescription);
+		
+		// Set the dunning level
 		document.setIntValueByKey("dunninglevel", dunningLevel);
 
-		ArrayList<DataSetItem> itemDatasets = items.getActiveDatasets();
-
+		// Create a new document ID, if this is a new document
 		int documentId = document.getIntValueByKey("id");
 		if (newDocument) {
 			documentId = Data.INSTANCE.getDocuments().getNextFreeId();
 		}
 
+		// Set all the items
+		ArrayList<DataSetItem> itemDatasets = items.getActiveDatasets();
+		String itemsString = "";
+
 		for (DataSetItem itemDataset : itemDatasets) {
+
+			// Get the ID of this item and
 			int id = itemDataset.getIntValueByKey("id");
+			// the ID of the owner document
 			int owner = itemDataset.getIntValueByKey("owner");
+			
 			boolean saveNewItem = true;
 			DataSetItem item = null;
+
+			// If the ID of this item is -1, this was a new item
 			if (id >= 0) {
 				item = Data.INSTANCE.getItems().getDatasetById(id);
+				// Compare all data of the item in this document editor
+				// with the item in the document.
 				boolean modified = ((!item.getStringValueByKey("name").equals(itemDataset.getStringValueByKey("name")))
 						|| (!item.getStringValueByKey("itemnr").equals(itemDataset.getStringValueByKey("itemnr")))
 						|| (!item.getStringValueByKey("description").equals(itemDataset.getStringValueByKey("description")))
@@ -252,17 +323,28 @@ public class DocumentEditor extends Editor {
 						|| (item.getBooleanValueByKey("novat") != itemDataset.getBooleanValueByKey("novat"))
 						|| (!item.getStringValueByKey("vatname").equals(itemDataset.getStringValueByKey("vatname"))) || (!item.getStringValueByKey(
 						"vatdescription").equals(itemDataset.getStringValueByKey("vatdescription"))));
+				
+				// If the item was modified and was shared with other documents,
+				// than we should make a copy and save it new.
+				// We also save it, if it was a new item with no owner yet, 
 				saveNewItem = ((owner < 0) || (modified && ((owner != document.getIntValueByKey("id")) || item.getBooleanValueByKey("shared"))));
 			} else {
+				// It was a new item with no ID set
 				saveNewItem = true;
 			}
 
+			// Create a new item
+			// The owner of this new item is the document from this editor.
+			// And because it's new, it is not shared with other documents.
 			if (saveNewItem) {
 				itemDataset.setIntValueByKey("owner", documentId);
 				itemDataset.setBooleanValueByKey("shared", false);
 				itemDataset = Data.INSTANCE.getItems().addNewDataSet(itemDataset);
 				id = itemDataset.getIntValueByKey("id");
-			} else {
+			}
+			// If it's not new, copy the items's data from the editor to the
+			// items in the data base
+			else {
 				item.setStringValueByKey("name", itemDataset.getStringValueByKey("name"));
 				item.setStringValueByKey("itemnr", itemDataset.getStringValueByKey("itemnr"));
 				item.setStringValueByKey("description", itemDataset.getStringValueByKey("description"));
@@ -276,36 +358,47 @@ public class DocumentEditor extends Editor {
 				item.setDoubleValueByKey("vatvalue", itemDataset.getDoubleValueByKey("vatvalue"));
 				item.setStringValueByKey("vatname", itemDataset.getStringValueByKey("vatname"));
 				item.setStringValueByKey("vatdescription", itemDataset.getStringValueByKey("vatdescription"));
-				// item.setBooleanValueByKey("shared",itemDataset.getBooleanValueByKey("shared")
-				// );
 				Data.INSTANCE.getItems().updateDataSet(item);
 			}
-
+			
+			// Collect all item IDs in a sting and separate them by a comma
 			if (itemsString.length() > 0)
 				itemsString += ",";
 			itemsString += Integer.toString(id);
 		}
-
+		// Set the string value
 		document.setStringValueByKey("items", itemsString);
 
+		// Set the "addressfirstline" value  to the first line of the
+		// contact address
 		if (addressId > 0) {
 			document.setStringValueByKey("addressfirstline", Data.INSTANCE.getContacts().getDatasetById(addressId).getName());
 		} else {
 			String s = txtAddress.getText().split("\n")[0];
 			document.setStringValueByKey("addressfirstline", s);
-
 		}
 
+		// If it is a new document,
 		if (newDocument) {
+			
+			// Create this in the data base
 			document = Data.INSTANCE.getDocuments().addNewDataSet(document);
+			
+			// If it's an invoice, set the "invoiceid" to the ID.
+			// So all documents will inherit this ID
 			if ((documentType == DocumentType.INVOICE) && (document.getIntValueByKey("id") != document.getIntValueByKey("invoiceid"))) {
 				document.setIntValueByKey("invoiceid", document.getIntValueByKey("id"));
 				Data.INSTANCE.getDocuments().updateDataSet(document);
 			}
 
+			// Now, it is not yet new.
 			newDocument = false;
+			
+			// Create a new editor input.
+			// So it's no longer the parent data
 			this.setInput(new UniDataSetEditorInput(document));
 
+			// Check, if the document number is the next one
 			if (documentType != DocumentType.LETTER) {
 				if (!setNextNr(document.getStringValueByKey("name"))) {
 					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
@@ -315,17 +408,32 @@ public class DocumentEditor extends Editor {
 				}
 			}
 		} else {
+			// Do not create a new data set - just update the old one
 			Data.INSTANCE.getDocuments().updateDataSet(document);
 		}
 
+		// Refresh the table view
 		refreshView();
 		checkDirty();
 	}
 
+	/**
+	 * There is no saveAs function
+	 */
 	@Override
 	public void doSaveAs() {
 	}
 
+	/**
+	 * Initializes the editor. 
+	 * If an existing data set is opened, the local variable "document" is 
+	 * set to This data set.
+	 * If the editor is opened to create a new one, a new data set is created
+	 * and the local variable "contact" is set to this one.
+	 * 
+	 * @param input The editor's input
+	 * @param site The editor's site
+	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setSite(site);
@@ -609,8 +717,11 @@ public class DocumentEditor extends Editor {
 			payedValueLabel.setText("Betrag");
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedValueLabel);
 
-			if (payedValue.getValueAsDouble() == 0.0)
+			if (payedValue.getValueAsDouble() == 0.0) {
 				payedValue.setValue(total);
+				calendar = new GregorianCalendar();
+				dtPayedDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			}
 			CurrencyText txtPayValue = new CurrencyText(this, payedDataContainer, SWT.BORDER | SWT.RIGHT, payedValue);
 			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
 		} else {
