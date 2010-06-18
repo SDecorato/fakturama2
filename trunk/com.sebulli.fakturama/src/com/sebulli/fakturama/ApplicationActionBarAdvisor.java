@@ -337,12 +337,14 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		toolbar1.add(webShopImportCI);
 
 		printActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/printoo_32.png"));
+		printActionTB.setDisabledImageDescriptor(Activator.getImageDescriptor("/icons/32/printoo_dis_32.png"));
 		printActionTB.setText("Drucken");
 		ActionContributionItem printActionTBCI = new ActionContributionItem(printActionTB);
 		printActionTBCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar1.add(printActionTBCI);
 
 		saveActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/save_32.png"));
+		saveActionTB.setDisabledImageDescriptor(Activator.getImageDescriptor("/icons/32/save_dis_32.png"));
 		saveActionTB.setText("Speichern");
 		ActionContributionItem saveCI = new ActionContributionItem(saveActionTB);
 		saveCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);

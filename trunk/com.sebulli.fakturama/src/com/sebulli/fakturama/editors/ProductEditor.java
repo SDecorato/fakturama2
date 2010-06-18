@@ -37,6 +37,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
@@ -265,7 +266,7 @@ public class ProductEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
 
-		Group productDescGroup = new Group(top, SWT.BORDER);
+		Group productDescGroup = new Group(top, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(productDescGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(productDescGroup);
 		productDescGroup.setText("Beschreibung");
@@ -414,7 +415,7 @@ public class ProductEditor extends Editor {
 
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textWeight);
 
-		Group productPictureGroup = new Group(usePicture ? top : invisible, SWT.BORDER);
+		Group productPictureGroup = new Group(usePicture ? top : invisible, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(productPictureGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(productPictureGroup);
 		productPictureGroup.setText("Produktbild");
@@ -422,13 +423,15 @@ public class ProductEditor extends Editor {
 		photoComposite = new Composite(productPictureGroup, SWT.BORDER);
 		GridLayoutFactory.swtDefaults().margins(10, 10).numColumns(1).applyTo(photoComposite);
 		GridDataFactory.fillDefaults().indent(0, 10).align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(photoComposite);
-
+		photoComposite.setBackground(new Color(null, 255, 255, 255));
+		
 		labelProductPicture = new Label(photoComposite, SWT.NONE);
 		pictureName = product.getStringValueByKey("picturename");
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelProductPicture);
 
 		textProductPicturePath = new Text(photoComposite, SWT.NONE);
 		textProductPicturePath.setEditable(false);
+		textProductPicturePath.setBackground(new Color(null, 255, 255, 255));
 		superviceControl(textProductPicturePath, 250);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(textProductPicturePath);
 		createPicturePathFromPictureName();
