@@ -23,10 +23,18 @@ package com.sebulli.fakturama.editors;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 
+/**
+ * Creates an action contribution item from an action and set the mode to 
+ * "FORCE_TEXT"
+ * 
+ * @author Gerd Bartelt
+ */
 public class NewDocumentActionContributionItem extends ActionContributionItem {
 
 	public NewDocumentActionContributionItem(IAction action) {
 		super(action);
+		
+		// Show the name of the action under the icon.
 		setMode(ActionContributionItem.MODE_FORCE_TEXT);
 	}
 

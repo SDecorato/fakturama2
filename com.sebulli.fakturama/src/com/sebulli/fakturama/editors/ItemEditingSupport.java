@@ -34,16 +34,40 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DataSetProduct;
 
+/**
+ * Item editing support for the item table of the document editor
+ * 
+ * @author Gerd Bartelt
+ */
 public class ItemEditingSupport extends EditingSupport {
+
+	// The cell editor
 	private CellEditor editor;
+
+	// The current columns
 	private int column;
+	
+	// The parent document editor that contains the item table
 	private DocumentEditor documentEditor;
 
+	/**
+	 * Contructor
+	 * Create support to edit the table entries.
+	 * 
+	 * @param documentEditor The parent document editor that contains the item table
+	 * @param viewer The column viewer
+	 * @param column The column
+	 */
 	public ItemEditingSupport(DocumentEditor documentEditor, ColumnViewer viewer, int column) {
 		super(viewer);
 
+		// Set the local variables
 		this.documentEditor = documentEditor;
+		this.column = column;
+		
 		// Create the correct editor based on the column index
+		// Column nr.5 uses a combo box cell editor.
+		// The other columns a text cell editor.
 		switch (column) {
 		case 5:
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name"));
@@ -51,9 +75,13 @@ public class ItemEditingSupport extends EditingSupport {
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
 		}
-		this.column = column;
 	}
 
+	/**
+	 * Specifies the columns with cells that are editable.
+	 * 
+	 * @see org.eclipse.jface.viewers.EditingSupport#canEdit(java.lang.Object)
+	 */
 	@Override
 	protected boolean canEdit(Object element) {
 
@@ -70,11 +98,21 @@ public class ItemEditingSupport extends EditingSupport {
 		return false;
 	}
 
+	/**
+	 * The editor to be shown
+	 * 
+	 * @see org.eclipse.jface.viewers.EditingSupport#getCellEditor(java.lang.Object)
+	 */
 	@Override
 	protected CellEditor getCellEditor(Object element) {
 		return editor;
 	}
 
+	/**
+	 * Get the value to set to the editor
+	 * 
+	 * @see org.eclipse.jface.viewers.EditingSupport#getValue(java.lang.Object)
+	 */
 	@Override
 	protected Object getValue(Object element) {
 		DataSetItem item = (DataSetItem) element;
@@ -100,59 +138,86 @@ public class ItemEditingSupport extends EditingSupport {
 		return "";
 	}
 
+	/**
+	 * Sets the new value on the given element.
+	 * 
+	 * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object, java.lang.Object)
+	 */
 	@Override
 	protected void setValue(Object element, Object value) {
 		DataSetItem item = (DataSetItem) element;
 
 		switch (this.column) {
 		case 1:
+			// Set the quantity
 			item.setStringValueByKey("quantity", String.valueOf(value));
 			int productId = item.getIntValueByKey("productid");
-			if (productId > 0) {
+			
+			// If the item is coupled with a product, get the graduated price
+			if (productId >= 0) {
 				DataSetProduct product = Data.INSTANCE.getProducts().getDatasetById(productId);
 				double price = product.getPriceByQuantity(DataUtils.StringToDouble(String.valueOf(value)));
 				item.setDoubleValueByKey("price", price);
 			}
 			break;
 		case 2:
+			// Set the item number
 			item.setStringValueByKey("itemnr", String.valueOf(value));
 			break;
 		case 3:
+			// Set the name
 			item.setStringValueByKey("name", String.valueOf(value));
 			break;
 		case 4:
+			// Set the description
 			item.setStringValueByKey("description", String.valueOf(value));
 			break;
 		case 5:
+			// Set the VAT
+			
+			// Get the selected item from the combo box
 			Integer i = (Integer) value;
 			String s;
+
+			// Get the VAT by the selected name
 			if (i >= 0) {
 				s = ((ComboBoxCellEditor) this.editor).getItems()[i];
 				i = Data.INSTANCE.getVATs().getDataSetByStringValue("name", s);
-			} else {
+			} 
+			// Get the VAT by the Value in percent
+			else {
 				s = ((CCombo) ((ComboBoxCellEditor) this.editor).getControl()).getText();
 				i = Data.INSTANCE.getVATs().getDataSetByDoubleValue("value", DataUtils.StringToDouble(s + "%"));
 			}
+			
+			// If no VAT is found, use the standard VAT
 			if (i < 0)
 				i = Integer.parseInt(Data.INSTANCE.getProperty("standardvat"));
 			item.setVat(i);
 			break;
 		case 6:
+			// Set the price as gross or net value.
+			// If the editor displays gross values, calculate the net value,
+			// because only net values are stored.
 			if (documentEditor.getUseGross())
 				item.setDoubleValueByKey("price", new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKey("vatvalue"), item
 						.getBooleanValueByKey("novat"), true).getUnitNet().asDouble());
 			else
 				item.setStringValueByKey("price", String.valueOf(value));
-
 			break;
 		case 7:
+			// Set the discount value
 			Double d = DataUtils.StringToDoubleDiscount(String.valueOf(value));
 			item.setDoubleValueByKey("discount", d);
 			break;
 		default:
 			break;
 		}
+		
+		// Recalculate the total sum of the document
 		documentEditor.calculate();
+		
+		// Update the data
 		getViewer().update(element, null);
 	}
 

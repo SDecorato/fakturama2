@@ -24,33 +24,64 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
+/**
+ * Dummy input for the dummy editor
+ * This input contains nothing. It's just used for the
+ * dummy editor to work with no errors.
+ * 
+ * @author Gerd Bartelt
+ */
 public class DummyEditorInput implements IEditorInput {
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.IEditorInput#exists()
+	 */
 	@Override
 	public boolean exists() {
 		return false;
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
+	 */
 	@Override
 	public ImageDescriptor getImageDescriptor() {
 		return null;
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.IEditorInput#getName()
+	 */
 	@Override
 	public String getName() {
 		return "Dummy";
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.IEditorInput#getPersistable()
+	 */
 	@Override
 	public IPersistableElement getPersistable() {
 		return null;
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
+	 */
 	@Override
 	public String getToolTipText() {
 		return "Dummy";
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(Class adapter) {
