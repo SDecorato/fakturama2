@@ -49,62 +49,92 @@ import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
+/**
+ * Parent class for all editors
+ * 
+ * @author Gerd Bartelt
+ */
 public abstract class Editor extends EditorPart {
 
 	protected StdComposite stdComposite = null;
 	protected String tableViewID = "";
 	protected String editorID = "";
 
+	/**
+	 * Set the font size of a label to 24pt
+	 * 
+	 * @param label The label that is modified
+	 */
 	protected void makeLargeLabel(Label label) {
 		FontData[] fD = label.getFont().getFontData();
 		fD[0].setHeight(24);
 		Font font = new Font(null, fD[0]);
 		label.setFont(font);
 		font.dispose();
-
 	}
 
-
+	/**
+	 * Class to create the widgets to show and set the standard
+	 * entry.
+	 * 
+	 */
 	protected class StdComposite {
+
+		// Text widgets that displays the standard widget
 		private Text txtStd;
+		
+		// The property key that defines the standard
 		private String propertyKey = null;
+		
+		// The unidataset of this editor 
 		private final UniDataSet uds;
+		
+		// The label for "This dataset"
 		private String thisDataset = null;
+		
+		// The data set array with this and the other unidatasets
 		private DataSetArray<?> dataSetArray;
-
-		public void setStdText() {
-			if (txtStd != null) {
-				int stdID = 0;
-				try {
-					stdID = Integer.parseInt(Data.INSTANCE.getProperty(propertyKey));
-				} catch (NumberFormatException e) {
-					stdID = 0;
-				}
-				if (uds.getIntValueByKey("id") == stdID)
-					txtStd.setText(thisDataset);
-				else
-					txtStd.setText(((UniDataSet) dataSetArray.getDatasetById(stdID)).getStringValueByKey("name"));
-			}
-
-		}
-
+	
+		/**
+		 * Constructor
+		 * Creates the widgets to set this entry as standard entry.
+		 * 
+		 * @param parent The parent widget
+		 * @param uds The editor's unidataset
+		 * @param dataSetArray This and the other unidatasets
+		 * @param propertyKey The property key that defines the standard
+		 * @param thisDataset Text for "This dataset" 
+		 */
 		public StdComposite(Composite parent, final UniDataSet uds, DataSetArray<?> dataSetArray, final String propertyKey, final String thisDataset) {
-			Composite stdComposite = new Composite(parent, SWT.NONE);
-			GridLayoutFactory.fillDefaults().numColumns(2).applyTo(stdComposite);
-			GridDataFactory.fillDefaults().applyTo(stdComposite);
+			
+			// Set the local variables
 			this.propertyKey = propertyKey;
-			txtStd = new Text(stdComposite, SWT.BORDER);
-			txtStd.setEnabled(false);
 			this.uds = uds;
 			this.thisDataset = thisDataset;
 			this.dataSetArray = dataSetArray;
+			
+			// Create a container for the text widget and the button
+			Composite stdComposite = new Composite(parent, SWT.NONE);
+			GridLayoutFactory.fillDefaults().numColumns(2).applyTo(stdComposite);
+			GridDataFactory.fillDefaults().applyTo(stdComposite);
+			
+			// Create the text widget that displays the standard entry
+			txtStd = new Text(stdComposite, SWT.BORDER);
+			txtStd.setEnabled(false);
+			GridDataFactory.swtDefaults().hint(150, -1).align(SWT.BEGINNING, SWT.CENTER).applyTo(txtStd);
 			setStdText();
 
-			GridDataFactory.swtDefaults().hint(150, -1).align(SWT.BEGINNING, SWT.CENTER).applyTo(txtStd);
-
+			// Create the button to make this entry to the standard
 			Button stdButton = new Button(stdComposite, SWT.BORDER);
 			stdButton.setText("zum Standard machen");
+			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(stdButton);
 			stdButton.addSelectionListener(new SelectionAdapter() {
+				
+				/**
+				 * Make this entry to the standard
+				 * 
+				 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+				 */
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					Data.INSTANCE.setProperty(propertyKey, uds.getStringValueByKey("id"));
@@ -113,12 +143,44 @@ public abstract class Editor extends EditorPart {
 				}
 			});
 
-			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(stdButton);
+		}
+		
+		
+		/**
+		 * Test, if this is the standard entry and set the text of
+		 * the text widget.
+		 */
+		public void setStdText() {
+			if (txtStd != null) {
+				int stdID = 0;
+
+				// Get the ID of the standard unidataset
+				try {
+					stdID = Integer.parseInt(Data.INSTANCE.getProperty(propertyKey));
+				} catch (NumberFormatException e) {
+					stdID = 0;
+				}
+				
+				// If the editor's unidataset is the standard entry
+				if (uds.getIntValueByKey("id") == stdID)
+					// Mark it as "standard" ..
+					txtStd.setText(thisDataset);
+				else
+					// .. or display the one that is the standard entry.
+					txtStd.setText(((UniDataSet) dataSetArray.getDatasetById(stdID)).getStringValueByKey("name"));
+			}
 
 		}
 
+
 	}
 
+	/**
+	 * Asks this part to take focus within the workbench
+	 * Set the focus to the standard text
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 */
 	@Override
 	public void setFocus() {
 
@@ -126,69 +188,123 @@ public abstract class Editor extends EditorPart {
 			stdComposite.setStdText();
 	}
 
+	/**
+	 * Get the next document number
+	 * 
+	 * @return The next document number
+	 */
 	protected String getNextNr() {
+		
+		// Create the string of the preference store for format and number
 		String prefStrFormat = "NUMBERRANGE_" + editorID.toUpperCase() + "_FORMAT";
 		String prefStrNr = "NUMBERRANGE_" + editorID.toUpperCase() + "_NR";
 		String format;
 		String nrExp = "";
 		String nextNr;
 		int nr;
+		
+		// Get the last (it's the next free) document number from the preferences
 		format = Activator.getDefault().getPreferenceStore().getString(prefStrFormat);
 		nr = Activator.getDefault().getPreferenceStore().getInt(prefStrNr);
 
+		// Find the placeholder for a decimal number with n digits
+		// with the format "{Xnr}", "X" is the number of digits.
 		Pattern p = Pattern.compile("\\{\\d*nr\\}");
 		Matcher m = p.matcher(format);
 
+		// replace "{Xnr}" with "%0Xd"
 		if (m.find()) {
 			nrExp = format.substring(m.start(), m.end());
 			nrExp = "%0" + nrExp.substring(1, nrExp.length() - 3) + "d";
 			format = m.replaceFirst(nrExp);
 		}
 
+		// Replace the "%0Xd" with the decimal number
 		nextNr = String.format(format, nr);
+		
+		// Return the strin with the next free document number
 		return nextNr;
 	}
 
+	/**
+	 * Set the next free document number in the preference store.
+	 * But check, if the documents number is the next free one. 
+	 * 
+	 * @param s The documents number as string.
+	 * @return TRUE, if the document number is correctly set to the
+	 * 			next free number.
+	 */
 	protected boolean setNextNr(String s) {
+		
+		// Create the string of the preference store for format and number
 		String prefStrFormat = "NUMBERRANGE_" + editorID.toUpperCase() + "_FORMAT";
 		String prefStrNr = "NUMBERRANGE_" + editorID.toUpperCase() + "_NR";
 		String format;
 		int nr;
 		boolean ok = false;
 		Integer nextnr;
+
+		// Get the next document number from the preferences, increased be one.
 		format = Activator.getDefault().getPreferenceStore().getString(prefStrFormat);
 		nextnr = Activator.getDefault().getPreferenceStore().getInt(prefStrNr) + 1;
 
+		// Find the placeholder for a decimal number with n digits
+		// with the format "{Xnr}", "X" is the number of digits.
 		Pattern p = Pattern.compile("\\{\\d*nr\\}");
 		Matcher m = p.matcher(format);
 
+		// Get the next number
 		if (m.find()) {
+
+			// Extract the number string
 			s = s.substring(m.start(), s.length() - format.length() + m.end());
+			
 			try {
+				// Convert it to an integer and increase it by one.
 				nr = Integer.parseInt(s) + 1;
+
+				// Update the value of the last document number, but only,
+				// If the number of this document is the next free number
 				if (nr == nextnr) {
 					Activator.getDefault().getPreferenceStore().setValue(prefStrNr, nr);
 					ok = true;
 				}
-
 			} catch (NumberFormatException e) {
-				Logger.logError(e, "Document nr invalid");
+				Logger.logError(e, "Document number invalid");
 			}
 		}
+		
+		// The result of the validation
 		return ok;
 	}
 
+	/**
+	 * Refresh the view that corresponds to this editor
+	 * 
+	 */
 	protected void refreshView() {
+		
+		// Find the view
 		ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(tableViewID);
+		
+		// Refresh it
 		if (view != null)
 			view.refresh();
 
 	}
 
+	/**
+	 * Request a new validation, if the document is dirty.
+	 */
 	protected void checkDirty() {
 		firePropertyChange(PROP_DIRTY);
 	}
 
+	/**
+	 * Supervice this text widget.
+	 * Set the text limit and request a new "isDirty" validation,
+	 * if the content of the text widget is modified.
+	 */
 	protected void superviceControl(Text text, int limit) {
 		text.setTextLimit(limit);
 		text.addModifyListener(new ModifyListener() {
@@ -201,6 +317,11 @@ public abstract class Editor extends EditorPart {
 		});
 	}
 
+	/**
+	 * Supervice this dateTime widget.
+	 * Set the text limit and request a new "isDirty" validation,
+	 * if the content of the text dateTime is modified.
+	 */
 	protected void superviceControl(DateTime dateTime) {
 		dateTime.addSelectionListener(new SelectionListener() {
 
@@ -216,6 +337,11 @@ public abstract class Editor extends EditorPart {
 		});
 	}
 
+	/**
+	 * Supervice this combo widget.
+	 * Set the text limit and request a new "isDirty" validation,
+	 * if the content of the text combo is modified.
+	 */
 	protected void superviceControl(Combo combo) {
 		combo.addSelectionListener(new SelectionListener() {
 

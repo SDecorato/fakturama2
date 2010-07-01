@@ -26,20 +26,41 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
+/**
+ * This is a dummy editor with no content.
+ * Is is used as a workaround, to maximize the Table View of the RCP workbench
+ * 
+ * @author Gerd Bartelt
+ */
 public class DummyEditor extends Editor {
 	public static final String ID = "com.sebulli.fakturama.editors.dummyEditor";
 
+	/**
+	 * Constructor
+	 */
 	public DummyEditor () {
 	}
 	
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.part.EditorPart#doSaveAs()
+	 */
 	@Override
 	public void doSaveAs() {
 	}
 
+	/**
+	 * Set at minimum the editor's Site, Input and Part Name
+	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
+	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		setSite(site);
@@ -47,16 +68,28 @@ public class DummyEditor extends Editor {
 		setPartName("");
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.part.EditorPart#isDirty()
+	 */
 	@Override
 	public boolean isDirty() {
 		return false;
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
+	 */
 	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
+	/**
+	 * Do nothing
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 	}
