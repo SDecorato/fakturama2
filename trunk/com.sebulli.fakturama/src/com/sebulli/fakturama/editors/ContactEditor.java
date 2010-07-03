@@ -66,7 +66,7 @@ public class ContactEditor extends Editor {
 	// This UniDataSet represents the editor's input 
 	private DataSetContact contact;
 	
-	// SWT components of the editor
+	// SWT widgets of the editor
 	private TabFolder tabFolder;
 	private Text textNote;
 	private Combo comboGender;
@@ -248,11 +248,11 @@ public class ContactEditor extends Editor {
 		setSite(site);
 		setInput(input);
 		
-		// Set the editors data set to the editors input
+		// Set the editor's data set to the editor's input
 		contact = (DataSetContact) ((UniDataSetEditorInput) input).getUniDataSet();
 
-		// test, if the editor is opened to create a new data set. This is, if there 
-		// is no input set.
+		// Test, if the editor is opened to create a new data set. This is,
+		// if there is no input set.
 		newContact = (contact == null);
 
 		// If new ..
@@ -273,7 +273,8 @@ public class ContactEditor extends Editor {
 	}
 
 	/**
-	 * Returns whether the contents of this part have changed since the last save operation
+	 * Returns whether the contents of this part have changed since the last
+	 * save operation
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isDirty()
 	 */
