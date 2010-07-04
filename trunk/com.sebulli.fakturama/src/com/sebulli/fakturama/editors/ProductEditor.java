@@ -516,7 +516,7 @@ public class ProductEditor extends Editor {
 				GridDataFactory.swtDefaults().hint(80, SWT.DEFAULT).applyTo(grossText[i].getGrossText());
 			}
 
-			// If a net and gross column was created, connect both together,
+			// If a net and gross column was created, link both together,
 			// so, if one is modified, the other will be recalculated.
 			if (useNet && useGross) {
 				netText[i].setGrossText(grossText[i].getGrossText());
@@ -535,11 +535,13 @@ public class ProductEditor extends Editor {
 		comboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			public void selectionChanged(SelectionChangedEvent event) {
+
 				// Handle selection changed event 
 				ISelection selection = event.getSelection();
 				IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 				if (!structuredSelection.isEmpty()) {
-					// get first element ...
+
+					// Get the first element ...
 					Object firstElement = structuredSelection.getFirstElement();
 					
 					// Get the selected VAT

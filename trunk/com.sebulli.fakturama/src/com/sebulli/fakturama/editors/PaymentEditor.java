@@ -57,7 +57,7 @@ public class PaymentEditor extends Editor {
 	private Text textNetDays;
 	private Text txtCategory;
 
-	// defines, if the contact is new created
+	// defines, if the payment is new created
 	private boolean newPayment;
 
 	/**
@@ -99,11 +99,13 @@ public class PaymentEditor extends Editor {
 		if (newPayment) {
 			payment = Data.INSTANCE.getPayments().addNewDataSet(payment);
 			newPayment = false;
-		} else {
+		}
+		// If it's not new, update at least the data base
+		else {
 			Data.INSTANCE.getPayments().updateDataSet(payment);
 		}
 
-		// Refresh the table view of all contacts
+		// Refresh the table view of all payments
 		refreshView();
 	}
 

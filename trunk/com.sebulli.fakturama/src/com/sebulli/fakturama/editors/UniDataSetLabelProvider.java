@@ -24,19 +24,42 @@ import org.eclipse.jface.viewers.LabelProvider;
 
 import com.sebulli.fakturama.data.UniDataSet;
 
+/**
+ * Label provider for unidataset lists
+ *  
+ * A label provider implementation which, by default, uses an element's
+ * toString value for its text and null for its image 
+ *  
+ * @author Gerd Bartelt
+ */
 public class UniDataSetLabelProvider extends LabelProvider {
 
+	/**
+	 * Returns the text string used to label the element, or null if there is
+	 * no text label for the given object
+	 * 
+	 * Returns the name, and maybe the first name and the company 
+	 */
 	@Override
 	public String getText(Object element) {
+
+		// The element is always an UniDataSet
 		UniDataSet uds = (UniDataSet) element;
+		
 		String s = "";
+		
+		// Add the first name, if it exists
 		if (uds.containsKey("firstname"))
 			s += uds.getStringValueByKey("firstname") + " ";
 
+		// Add always the name
 		s += uds.getStringValueByKey("name");
 
+		// Add the company, if it exists
 		if (uds.containsKey("company"))
 			s += " " + uds.getStringValueByKey("company");
+		
+		// Return the complete string
 		return s;
 	}
 
