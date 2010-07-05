@@ -25,22 +25,44 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
+/**
+ * Export wizard to export sales
+ * 
+ * @author Gerd Bartelt
+ */
 public class ExportSalesWizard extends Wizard implements IExportWizard {
+	
+	// The first (and only) page of this wizard
 	ExportSalesWizandPage1 page1;
 
+	/**
+	 * Constructor
+	 * Adds the first page to the wizard
+	 */
 	public ExportSalesWizard() {
 		setWindowTitle("Export");
 		page1 = new ExportSalesWizandPage1();
 		addPage(page1);
 	}
 
+	/**
+	 * Performs any actions appropriate in response to the user having pressed
+	 * the Finish button, or refuse if finishing now is not permitted.
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
+	 */
 	@Override
 	public boolean performFinish() {
 		SalesExporter salesExporter = new SalesExporter(page1.getBeginDate(), page1.getEndDate());
 		return salesExporter.export();
-
 	}
 
+	/**
+	 * Initializes this creation wizard using the passed workbench
+	 * and object selection. 
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+	 */
 	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 	}

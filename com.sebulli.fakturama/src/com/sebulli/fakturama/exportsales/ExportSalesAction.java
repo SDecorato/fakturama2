@@ -28,23 +28,44 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.actions.ICommandIds;
 import com.sebulli.fakturama.data.Data;
 
+/**
+ * This action exports the sales date to an OpenOffice Calc document.
+ *  
+ * @author Gerd Bartelt
+ */
 public class ExportSalesAction extends Action {
 
+	/**
+	 * Constructor
+	 */
 	public ExportSalesAction() {
 		super("Export USt-Liste");
+		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_EXPORT_VAT_SUMMARY);
+		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_EXPORT_VAT_SUMMARY);
+
+		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/export_sales_16.png"));
 	}
 
+	/**
+	 * Run the action
+	 * 
+	 * Open the export dialog
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
 	@Override
 	public void run() {
+
+		// cancel, if the data base is not opened.
 		if (!Data.INSTANCE.getDataBaseOpened())
 			return;
 
+		// Create a new export wizard
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		WizardDialog exportVatSummaryWizard = new WizardDialog(workbenchWindow.getShell(), new ExportSalesWizard());
 		exportVatSummaryWizard.open();
