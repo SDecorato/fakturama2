@@ -26,20 +26,42 @@ import org.eclipse.core.runtime.Status;
 
 import com.sebulli.fakturama.Activator;
 
+/**
+ * Provides functions to log exceptions as an error, or as in information
+ * 
+ * @author Gerd Bartelt
+ *
+ */
 public class Logger {
 
+	/**
+	 * Log an exception as an error
+	 * 
+	 * @param e The Exception
+	 * @param message The message that will be logged
+	 */
 	static public void logError(Exception e, String message) {
 		ILog logger = Activator.getDefault().getLog();
 		IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, message, e);
 		logger.log(status);
 	}
 
+	/**
+	 * Log an an error
+	 * 
+	 * @param message The message that will be logged
+	 */
 	static public void logError(String message) {
 		ILog logger = Activator.getDefault().getLog();
 		IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, message);
 		logger.log(status);
 	}
 
+	/**
+	 * Log an an information
+	 * 
+	 * @param message The message that will be logged
+	 */
 	static public void logInfo(String message) {
 		ILog logger = Activator.getDefault().getLog();
 		IStatus status = new Status(IStatus.INFO, Activator.PLUGIN_ID, message);
