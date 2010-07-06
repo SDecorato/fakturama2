@@ -26,10 +26,17 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
 import com.sebulli.fakturama.Activator;
 
+/**
+ * Initializes the preference pages with default values
+ * 
+ * @author Gerd Bartelt
+ */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * This method is called by the preference initializer to initialize default
+	 * preference values. Clients should get the correct node for their bundle
+	 * and then set the default values on it.
 	 * 
 	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer
 	 * #initializeDefaultPreferences()
@@ -39,6 +46,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 		IEclipsePreferences node = new DefaultScope().getNode(Activator.PLUGIN_ID);
 
+		// Initialize every single preference page
 		ContactPreferencePage.setInitValues(node);
 		NumberRangePreferencePage.setInitValues(node);
 		ProductPreferencePage.setInitValues(node);

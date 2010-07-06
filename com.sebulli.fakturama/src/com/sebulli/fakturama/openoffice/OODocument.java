@@ -47,32 +47,63 @@ import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This class opens an OpenOffice Writer template and replaces all the
+ * placeholders with the document data.
+ * 
+ * @author Gerd Bartelt
+ */
 public class OODocument {
+
+	// The UniDataSet document, that is used to fill the OpenOffice document 
 	private DataSetDocument document;
+	
+	// The UniDataSet contact of the document
 	private DataSetContact contact;
+	
+	// A list of properties that represents the placeholders of the
+	// OpenOffice Writer template
 	private Properties properties;
+	
 	ITextFieldService textFieldService;
 
+	/**
+	 * Constructor
+	 * Create a new OpenOffice document. Open it by using a template and
+	 * replace the placehlders with the UniDataSet document
+	 * 
+	 * @param document The UniDataSet document that will be converted to an
+	 * OpenOffice Writer document
+	 * @param template OpenOffice template file name
+	 */
 	public OODocument(DataSetDocument document, String template) {
+
+		// Url of the template file
 		String url = null;
+		
+		// Set a reference to the UniDatSet document
 		this.document = document;
+		
+		// Try to generate the OpenOffice document
 		try {
+			
+			// Get the OpenOffice application
 			final IOfficeApplication officeAplication = OpenOfficeStarter.openOfficeAplication();
 			if (officeAplication == null)
 				return;
 
-			// IDocument oOdocument =
-			// officeAplication.getDocumentService().constructNewDocument(IDocument.WRITER,
-			// DocumentDescriptor.DEFAULT);
-
+			// Get the template file (*ott)
 			try {
 				url = URLAdapter.adaptURL(template);
 			} catch (Exception e) {
 				Logger.logError(e, "Error in template filename:" + template);
 			}
+			
+			// Load the template
 			IDocument oOdocument = officeAplication.getDocumentService().loadDocument(url);
-
 			ITextDocument textDocument = (ITextDocument) oOdocument;
+			
+			// Get the contact of the UniDataSet document
 			int addressId = document.getIntValueByKey("addressid");
 
 			contact = null;
@@ -83,64 +114,99 @@ public class OODocument {
 				}
 			}
 
+			// Recalculate the sum of the document before exporting
 			this.document.calculate();
+			
+			// Get the placeholders of the OpenOffice template
 			textFieldService = textDocument.getTextFieldService();
 			ITextField[] placeholders = textFieldService.getPlaceholderFields();
 
+			// Fill the property list with the placeholder values
 			properties = new Properties();
 			setCommonProperties();
 
+			// A reference to the item and vat table
 			ITextTable itemsTable = null;
 			ITextTable vatListTable = null;
 			ITextTableCell vatListCell = null;
+			
+			// Scan all placeholders to find the item and the vat table
 			for (int i = 0; i < placeholders.length; i++) {
+
+				// Get the placeholder's text
 				ITextField placeholder = placeholders[i];
 				String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
 
+				// Find the item table
 				if (placeholderDisplayText.equals("<ITEM.NAME>") || placeholderDisplayText.equals("<ITEM.DESCRIPTION>")) {
 					itemsTable = placeholder.getTextRange().getCell().getTextTable();
 				}
+				
+				// Find the vat table
 				if (placeholderDisplayText.equals("<VATLIST.VALUES>") || placeholderDisplayText.equals("<VATLIST.DESCRIPTIONS>")) {
 					vatListCell = placeholder.getTextRange().getCell();
 					vatListTable = vatListCell.getTextTable();
 				}
 			}
 
+			// Get the items of the UniDataSet document
 			ArrayList<DataSetItem> itemDataSets = document.getItems().getActiveDatasets();
 			int lastTemplateRow = 0;
 
+			// Fill the item table with the items
 			if (itemsTable != null) {
+				
+				// Add the necessary rows for the items
 				lastTemplateRow = itemsTable.getRowCount();
 				itemsTable.addRow(itemDataSets.size());
+				
 				for (int i = 0; i < placeholders.length; i++) {
+					
+					// Get each placeholder
 					ITextField placeholder = placeholders[i];
 					String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
+
 					if (placeholder.getTextRange().getCell() != null) {
+						
+						// Do it only, if the placeholder is in the items table
 						ITextTable textTable = placeholder.getTextRange().getCell().getTextTable();
 						if (textTable.getName().equals(itemsTable.getName())) {
+							
+							// Fill the corresponding table column with the
+							// item's data.
 							int column = placeholder.getTextRange().getCell().getName().getColumnIndex();
-							replaceItemPlaceholder(placeholderDisplayText, column, itemDataSets, itemsTable, lastTemplateRow);
+							fillItemTableWithData(placeholderDisplayText, column, itemDataSets, itemsTable, lastTemplateRow);
 						}
 					}
 				}
 			}
-			// Properties vatList = new Properties();
-			// document.addVatsToList(vatList);
-
+			
+			// Get the VAT summary of the UniDataSet document
 			VatSummarySetManager vatSummarySetManager = new VatSummarySetManager();
 			vatSummarySetManager.add(this.document);
 
 			int vatListTemplateRow = 0;
 			if (vatListTable != null) {
+				
+				// Add the necessary rows for the VAT entries
 				vatListTemplateRow = vatListCell.getName().getRowIndex();
 				vatListTable.addRow(vatListTemplateRow + 1, vatSummarySetManager.size());
 
+				// Scan all placeholders for the VAT placeholders
 				for (int i = 0; i < placeholders.length; i++) {
+					
+					// Get the placeholder text
 					ITextField placeholder = placeholders[i];
 					String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
+					
 					if (placeholder.getTextRange().getCell() != null) {
+						
+						// Test, if the placeholder is in the VAT table
 						ITextTable textTable = placeholder.getTextRange().getCell().getTextTable();
 						if (textTable.getName().equals(vatListTable.getName())) {
+							
+							// Fill the corresponding table column with the
+							// VAT data.
 							int column = placeholder.getTextRange().getCell().getName().getColumnIndex();
 							replaceVatListPlaceholder(placeholderDisplayText, column, vatSummarySetManager.getVatSummaryItems(), vatListTable,
 									vatListTemplateRow);
@@ -149,38 +215,64 @@ public class OODocument {
 				}
 			}
 
+			// Replace all other placeholders
 			for (int i = 0; i < placeholders.length; i++) {
 				replaceText(placeholders[i]);
 			}
 
+			// remove the temporary row of the item table
 			if (itemsTable != null) {
 				itemsTable.removeRow(lastTemplateRow - 1);
 			}
 
+			// remove the temporary row of the VAT table
 			if (vatListTable != null) {
 				vatListTable.removeRow(vatListTemplateRow);
 			}
+			
+			// Do not print or close the OpenOffice document
 			// textDocument.getFrame().getDispatch(GlobalCommands.PRINT_DOCUMENT_DIRECT).dispatch();
 			// textDocument.close();
 			// officeAplication.deactivate();
+			
 		} catch (Exception e) {
 			Logger.logError(e, "Error starting OpenOffice from " + url);
 		}
 	}
 
+	/**
+	 * Replace one column of the VAT table with the VAT entries
+	 * 
+	 * @param placeholderDisplayText Name of the column, and of the VAT property
+	 * @param column Number of the column in the table
+	 * @param vatSummarySet VAT data
+	 * @param vatListTable The VAT table to fill
+	 * @param templateRow The first row of the table
+	 */
 	private void replaceVatListPlaceholder(String placeholderDisplayText, int column, VatSummarySet vatSummarySet, ITextTable vatListTable, int templateRow) {
 		int i = 0;
+		
+		// Get all VATs
 		for (Iterator<VatSummaryItem> iterator = vatSummarySet.iterator(); iterator.hasNext(); i++) {
 			VatSummaryItem vatSummaryItem = iterator.next();
 			try {
+				
+				// Get the cell and fill the cell content
 				IText iText = vatListTable.getCell(column, templateRow + i + 1).getTextService().getText();
-				replaceVatListPlaceholder(placeholderDisplayText, vatSummaryItem.getVatName(), Double.toString(vatSummaryItem.getVat()), iText, i);
+				fillVatTableWithData(placeholderDisplayText, vatSummaryItem.getVatName(), Double.toString(vatSummaryItem.getVat()), iText, i);
+
 			} catch (TextException e) {
 				Logger.logError(e, "Error replacing Vat List Placeholders");
 			}
 		}
 	}
 
+	/**
+	 * Add a user text field to the OpenOffice document
+	 * 
+	 * @param key The key of the user text field
+	 * @param value The value of the user text field
+	 */
 	private void addUserTextField(String key, String value) {
 		try {
 			textFieldService.addUserTextField(key, value);
@@ -189,38 +281,80 @@ public class OODocument {
 		}
 	}
 
+	/**
+	 * Add a user text field to the OpenOffice document
+	 * The key contains an additional index.
+	 * 
+	 * @param key The key of the user text field
+	 * @param value The value of the user text field
+	 * @param i Additional index, added to the key
+	 */
 	private void addUserTextField(String key, String value, int i) {
 		key = key + "." + Integer.toString(i);
 		addUserTextField(key, value);
 	}
 
-	private void replaceVatListPlaceholder(String placeholderDisplayText, String key, String value, IText iText, int index) {
+	/**
+	 * Fill the cell of the VAT table with the VAT data
+	 * 
+	 * @param placeholderDisplayText Column header
+	 * @param key VAT key (VAT description)
+	 * @param value VAT value
+	 * @param iText The Text that is set
+	 * @param index Index of the VAT entry
+	 */
+	private void fillVatTableWithData(String placeholderDisplayText, String key, String value, IText iText, int index) {
+
+		// Get the text of the column. This is to determine, if it is the column
+		// with the VAT description or with the VAT value
 		String textValue;
 		String textKey = placeholderDisplayText.substring(1, placeholderDisplayText.length() - 1);
 
+		// It's the VAT description
 		if (placeholderDisplayText.equals("<VATLIST.DESCRIPTIONS>")) {
 			textValue = key;
 		}
-
+		// It's the VAT value
 		else if (placeholderDisplayText.equals("<VATLIST.VALUES>")) {
 			textValue = DataUtils.DoubleToFormatedPriceRound(Double.parseDouble(value));
 		}
 
 		else
 			return;
-
+		
+		// Set the text
 		iText.setText(textValue);
+		
+		// And also add it to the user defined text fields in the OpenOffice
+		// Writer document.
 		addUserTextField(textKey, textValue, index);
 
 	}
 
-	private void replaceItemPlaceholder(String placeholderDisplayText, int column, ArrayList<DataSetItem> itemDataSets, ITextTable itemsTable,
+	/**
+	 * Fill all cells of the item table with the item data
+	 * 
+	 * @param placeholderDisplayText Column header
+	 * @param column The index of the column
+	 * @param itemDataSets Item data
+	 * @param itemsTable The item table
+	 * @param lastTemplateRow Counts the last row of the table
+	 */
+	private void fillItemTableWithData(String placeholderDisplayText, int column, ArrayList<DataSetItem> itemDataSets, ITextTable itemsTable,
 			int lastTemplateRow) {
+
+		// Get all items
 		for (int row = 0; row < itemDataSets.size(); row++) {
 			try {
+				
+				// Get a reference to the cell content
 				IText iText = itemsTable.getCell(column, lastTemplateRow + row).getTextService().getText();
+
+				// Get the item
 				DataSetItem item = itemDataSets.get(row);
-				replaceItemPlaceholder(placeholderDisplayText, item, iText, row);
+				
+				// Set the cell content
+				fillItemTableWithData(placeholderDisplayText, item, iText, row);
 
 			} catch (TextException e) {
 				Logger.logError(e, "Error replacing Placeholders");
@@ -229,74 +363,116 @@ public class OODocument {
 
 	}
 
-	private void replaceItemPlaceholder(String placeholderDisplayText, DataSetItem item, IText iText, int index) {
+	/**
+	 * Fill the cell of the item table with the item data
+	 * 
+	 * @param placeholderDisplayText Column header
+	 * @param item
+	 * @param iText The Text that is set
+	 * @param index Index of the VAT entry
+	 */
+	private void fillItemTableWithData(String placeholderDisplayText, DataSetItem item, IText iText, int index) {
 
 		String value;
+		
+		// Get the column's header
 		String key = placeholderDisplayText.substring(1, placeholderDisplayText.length() - 1);
+		
 		Price price = new Price(item);
 
+		// Get the item quantity
 		if (placeholderDisplayText.equals("<ITEM.QUANTITY>")) {
 			value = DataUtils.DoubleToFormatedQuantity(item.getDoubleValueByKey("quantity"));
 		}
 
+		// Get the item name
 		else if (placeholderDisplayText.equals("<ITEM.NAME>")) {
 			value = item.getStringValueByKey("name");
 		}
 
+		// Get the item number
 		else if (placeholderDisplayText.equals("<ITEM.NR>")) {
 			value = item.getStringValueByKey("itemnr");
 		}
 
+		// Get the item description
 		else if (placeholderDisplayText.equals("<ITEM.DESCRIPTION>")) {
 			value = item.getStringValueByKey("description");
 		}
 
+		// Get the item's VAT
 		else if (placeholderDisplayText.equals("<ITEM.VAT.PERCENT>")) {
 			value = DataUtils.DoubleToFormatedPercent(item.getDoubleValueByKey("vatvalue"));
 		}
 
+		// Get the item's VAT name
 		else if (placeholderDisplayText.equals("<ITEM.VAT.NAME>")) {
 			value = item.getStringValueByKey("vatname");
 		}
 
+		// Get the item's VAT description
 		else if (placeholderDisplayText.equals("<ITEM.VAT.DESCRIPTION>")) {
 			value = item.getStringValueByKey("vatdescription");
 		}
 
+		// Get the item net value
 		else if (placeholderDisplayText.equals("<ITEM.UNIT.NET>")) {
 			value = price.getUnitNetRounded().asFormatedString();
 		}
 
+		// Get the item VAT
 		else if (placeholderDisplayText.equals("<ITEM.UNIT.VAT>")) {
 			value = price.getUnitVatRounded().asFormatedString();
 		}
 
+		// Get the item gross value
 		else if (placeholderDisplayText.equals("<ITEM.UNIT.GROSS>")) {
 			value = price.getUnitGrossRounded().asFormatedString();
 		}
 
+		// Get the total net value
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.NET>")) {
 			value = price.getTotalNetRounded().asFormatedString();
 		}
 
+		// Get the total VAT
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.VAT>")) {
 			value = price.getTotalVatRounded().asFormatedString();
 		}
 
+		// Get the total gross value
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.GROSS>")) {
 			value = price.getTotalGrossRounded().asFormatedString();
 		} else
 			return;
 
+		// Set the text of the cell
 		iText.setText(value);
+
+		// And also add it to the user defined text fields in the OpenOffice
+		// Writer document.
 		addUserTextField(key, value, index);
 	}
 
+	/**
+	 * Set a property and add  it to the user defined text fields in the
+	 * OpenOffice  Writer document.
+	 * 
+	 * @param key The property key
+	 * @param value The property value
+	 */
 	private void setProperty(String key, String value) {
+
+		// Set the user defined text field
 		addUserTextField(key, value);
+		
+		// Add the value and use a key with brackets
 		properties.setProperty("<" + key + ">", value);
 	}
 
+	/**
+	 * Fill the property list with the placeholder values
+	 */
 	private void setCommonProperties() {
 
 		if (document != null) {
@@ -380,8 +556,18 @@ public class OODocument {
 
 	}
 
+	/**
+	 * Replace a placeholder with the content of the property in the
+	 * property list.
+	 * 
+	 * @param placeholder The placeholder and the name of the key in the
+	 * 	property list
+	 */
 	private void replaceText(ITextField placeholder) {
+		// Get the placeholder's text
 		String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
+		
+		// Replace it with the value of the property list.
 		placeholder.getTextRange().setText(properties.getProperty(placeholderDisplayText));
 	}
 }
