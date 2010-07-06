@@ -29,12 +29,25 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
 
+/**
+ * Preference page for the OpenOffice settings
+ * 
+ * @author Gerd Bartelt
+ */
 public class OpenOfficePreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
+	/**
+	 * Constructor
+	 */
 	public OpenOfficePreferencePage() {
 		super(GRID);
 	}
 
+	/**
+	 * Creates the page's field editors.
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 */
 	@Override
 	public void createFieldEditors() {
 		String defaultValue = Activator.getDefault().getPreferenceStore().getDefaultString("OPENOFFICE_PATH");
@@ -47,20 +60,30 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", "OpenOffice Ordner" + defaultValue, getFieldEditorParent()));
 	}
 
+	/**
+	 * Initializes this preference page for the given workbench. 
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("Open Office Einstellungen");
 	}
 
+	/**
+	 * Write or read the preference settings to or from the data base
+	 * 
+	 * @param write TRUE: Write to the data base
+	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 	}
 
-	
-	public static void getProgramFolder () {
-		
-	}
-	
+	/**
+	 * Set the default values for this preference page
+	 * 
+	 * @param node The preference node
+	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.put("OPENOFFICE_PATH", OSDependent.getOODefaultPath());
 	}

@@ -32,8 +32,10 @@ import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
 
 /**
- * A field editor for a file path type preference. A standard file dialog
- * appears when the user presses the change button.
+ * A field editor for a file path type preference.
+ * A standard file dialog appears when the user presses the change button.
+ * 
+ * @author Gerd Bartelt 
  */
 public class AppFieldEditor extends StringButtonFieldEditor {
 
@@ -46,12 +48,9 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 	/**
 	 * Creates a file field editor.
 	 * 
-	 * @param name
-	 *            the name of the preference this field editor works on
-	 * @param labelText
-	 *            the label text of the field editor
-	 * @param parent
-	 *            the parent of the field editor's control
+	 * @param name the name of the preference this field editor works on
+	 * @param labelText the label text of the field editor
+	 * @param parent the parent of the field editor's control
 	 */
 	public AppFieldEditor(String name, String labelText, Composite parent) {
 		init(name, labelText);
@@ -61,20 +60,29 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 		createControl(parent);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on StringButtonFieldEditor. Opens the file
-	 * chooser dialog and returns the selected file.
+	/**
+	 * Method declared on StringButtonFieldEditor.
+	 * Opens the file chooser dialog and returns the selected file.
+	 * Start with the OS dependent program directory
 	 */
 	@Override
 	protected String changePressed() {
 		String startingDir = "";
+		
+		// Start with the last URL
 		if (!getTextControl().getText().isEmpty())
 			startingDir = getTextControl().getText();
+
+		// Remove everything after the last "/"
 		if (!startingDir.isEmpty())
 			if (startingDir.contains("/"))
 				startingDir = startingDir.substring(0, 1 + startingDir.lastIndexOf("/"));
+		
+		// use the OS dependent program folder
 		if (startingDir.isEmpty()) 
 			startingDir = OSDependent.getProgramFolder();
+		
+		// Checks whether the selected folder exists
 		File f = new File(startingDir);
 		if (!f.exists())
 			f = null;
@@ -85,9 +93,10 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 		return d.getAbsolutePath();
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on StringFieldEditor. Checks whether the
-	 * text input field specifies an existing file.
+	/**
+	 * Method declared on StringFieldEditor.
+	 * Checks whether the text input field specifies an existing folder to an
+	 * OpenOffice application or to an OpenOffice App on a Mac OS
 	 */
 	@Override
 	protected boolean checkState() {
@@ -100,17 +109,19 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 			path = path.trim();
 		else
 			path = "";
+		
+		// Check whether it is a valid application
 		if (path.length() != 0) {
 			if (!OpenOfficeStarter.isValidPath(path)) {
 				if (OSDependent.isOOApp()) 
 					msg = "keine gültige OpenOffice App";
 				else
 					msg = "keine gültiger OpenOffice Programmordner";
-				
 			}
 		}
 
-		if (msg != null) { // error
+		// Display an error message
+		if (msg != null) { 
 			showErrorMessage(msg);
 			return false;
 		}
@@ -123,9 +134,8 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 	/**
 	 * Helper to open the file chooser dialog.
 	 * 
-	 * @param startingDirectory
-	 *            the directory to open the dialog on.
-	 * @return File The File the user selected or <code>null</code> if they do
+	 * @param startingDirectory the directory to open the dialog on.
+	 * @return File The File the user selected or null if they do
 	 *         not.
 	 */
 	private File getFile(File startingDirectory) {

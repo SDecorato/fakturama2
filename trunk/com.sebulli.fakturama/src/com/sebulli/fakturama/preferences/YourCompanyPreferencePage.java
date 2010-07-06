@@ -28,12 +28,25 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
 
+/**
+ * Preference page for the company settings
+ * 
+ * @author Gerd Bartelt
+ */
 public class YourCompanyPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
+	/**
+	 * Constructor
+	 */
 	public YourCompanyPreferencePage() {
 		super(GRID);
 	}
 
+	/**
+	 * Creates the page's field editors.
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 */
 	@Override
 	public void createFieldEditors() {
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_NAME", "Firmenname", getFieldEditorParent()));
@@ -58,12 +71,22 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 
 	}
 
+	/**
+	 * Initializes this preference page for the given workbench. 
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("Ihre Firmendaten");
 	}
 
+	/**
+	 * Write or read the preference settings to or from the data base
+	 * 
+	 * @param write TRUE: Write to the data base
+	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_NAME", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_OWNER", write);
@@ -77,6 +100,11 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_VATNR", write);
 	}
 
+	/**
+	 * Set the default values for this preference page
+	 * 
+	 * @param node The preference node
+	 */
 	public static void setInitValues(IEclipsePreferences node) {
 	}
 

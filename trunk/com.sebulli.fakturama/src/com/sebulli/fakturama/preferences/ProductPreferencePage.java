@@ -30,13 +30,26 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
 
+/**
+ * Preference page for the product settings
+ * 
+ * @author Gerd Bartelt
+ */
 public class ProductPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
+	/**
+	 * Constructor
+	 */
 	public ProductPreferencePage() {
 		super(GRID);
 
 	}
 
+	/**
+	 * Creates the page's field editors.
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 */
 	@Override
 	public void createFieldEditors() {
 		addField(new BooleanFieldEditor("PRODUCT_USE_ITEMNR", "Artikelnummer benutzen", getFieldEditorParent()));
@@ -56,12 +69,22 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 		addField(new BooleanFieldEditor("PRODUCT_USE_PICTURE", "Produktbild benutzen", getFieldEditorParent()));
 	}
 
+	/**
+	 * Initializes this preference page for the given workbench. 
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("Einstellungen zum Produktdialog");
 	}
 
+	/**
+	 * Set the default values for this preference page
+	 * 
+	 * @param node The preference node
+	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.putBoolean("PRODUCT_USE_ITEMNR", true);
 		node.putBoolean("PRODUCT_USE_DESCRIPTION", true);

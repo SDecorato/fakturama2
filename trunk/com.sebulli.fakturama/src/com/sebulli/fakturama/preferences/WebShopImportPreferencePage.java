@@ -29,13 +29,26 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
 
+/**
+ * Preference page for the webshop settings
+ * 
+ * @author Gerd Bartelt
+ */
 public class WebShopImportPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
+	/**
+	 * Constructor
+	 */
 	public WebShopImportPreferencePage() {
 		super(GRID);
 
 	}
 
+	/**
+	 * Creates the page's field editors.
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#createFieldEditors()
+	 */
 	@Override
 	public void createFieldEditors() {
 		addField(new StringFieldEditor("WEBSHOP_URL", "Webshop Url", getFieldEditorParent()));
@@ -55,12 +68,22 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 
 	}
 
+	/**
+	 * Initializes this preference page for the given workbench. 
+	 * 
+	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
+	 */
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription("Einstellungen zum Importieren aus dem Webshop");
 	}
 
+	/**
+	 * Set the default values for this preference page
+	 * 
+	 * @param node The preference node
+	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		// TODO: replace
 		// node.put("WEBSHOP_URL",

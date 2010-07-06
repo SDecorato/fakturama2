@@ -23,16 +23,37 @@ package com.sebulli.fakturama.preferences;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
 
+/**
+ * Write or read preference settings to or from the data base
+ * 
+ * @author Gerd Bartelt
+ */
 public class PreferencesInDatabase {
 
+	/**
+	 * Load one preference from the data base
+	 * 
+	 * @param key The key of the preference value
+	 */
 	private static void loadPreferenceValue(String key) {
 		Activator.getDefault().getPreferenceStore().setValue(key, Data.INSTANCE.getProperty(key));
 	}
 
+	/**
+	 * Save one preference to the data base
+	 * 
+	 * @param key The key of the preference value
+	 */
 	private static void savePreferenceValue(String key) {
 		Data.INSTANCE.setProperty(key, Activator.getDefault().getPreferenceStore().getString(key));
 	}
 
+	/**
+	 * Write to or read from the data base
+	 * 
+	 * @param key The key to read or to write
+	 * @param write True, if the value should be written
+	 */
 	public static void syncWithPreferencesFromDatabase(String key, boolean write) {
 		if (write)
 			savePreferenceValue(key);
@@ -40,11 +61,19 @@ public class PreferencesInDatabase {
 			loadPreferenceValue(key);
 	}
 
+	/**
+	 * Load all preference values from database of the following
+	 * preference pages.
+	 */
 	public static void loadPreferencesFromDatabase() {
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(false);
 		NumberRangePreferencePage.syncWithPreferencesFromDatabase(false);
 	}
 
+	/**
+	 * Write all preference values to database of the following
+	 * preference pages.
+	 */
 	public static void savePreferencesInDatabase() {
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(true);
 		NumberRangePreferencePage.syncWithPreferencesFromDatabase(true);
