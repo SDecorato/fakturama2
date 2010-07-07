@@ -41,12 +41,17 @@ import org.eclipse.ui.part.ViewPart;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * Calculator view
+ * 
+ * @author Gerd Bartelt
+ */
 public class Calculator extends ViewPart {
 
+	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.calculator";
-	/*
-	 * Initialize variables needed for this class.
-	 */
+
+	// Initialize variables needed for this class.
 	private Text displayText;
 	// The three calculator registers.
 	private String displayString = "0.";
@@ -61,13 +66,15 @@ public class Calculator extends ViewPart {
 	// A flag to check if display should be cleared on the next keystroke
 	private boolean clearDisplay = true;
 
-	// An ID constant for the copy to clipboard key
-	// private static final int CLIPBOARD_ID = IDialogConstants.NO_TO_ALL_ID +
-	// 1;
-
+	/**
+	 * Creates the SWT controls for this workbench part.
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 
+		// Top container
 		Composite container = new Composite(parent, SWT.NONE);
 		final GridLayout calculatorGridLayout = new GridLayout();
 		calculatorGridLayout.marginRight = 10;
@@ -92,323 +99,89 @@ public class Calculator extends ViewPart {
 		displayText.setText(displayString);
 		displayText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 4, 1));
 		
+		// Set the font of the display
 		FontData fD = displayText.getFont().getFontData()[0];
 		fD.setHeight(24);
 		Font font = new Font(null, fD);
 		displayText.setFont(font);
 
-		final Label clearButton = new Label(container, SWT.NONE);
-		clearButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('C');
-			}
-		});
-		try {
-			clearButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_C.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(clearButton);
+		// Clear button
+		createButton(container, 'C', false, "C", 1);
 
-		final Label ceButton = new Label(container, SWT.NONE);
-		ceButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('E');
-			}
-		});
-		try {
-			ceButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_CE.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(ceButton);
+		// CE Button
+		createButton(container, 'E', false, "CE", 1);
+		
+		// Back Button
+		createButton(container, 'B', false, "BACK", 1);
+		
+		// Multiply Button
+		createButton(container, '*', true, "X", 1);
 
-		final Label backButton = new Label(container, SWT.NONE);
-		backButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('B');
-			}
-		});
-		try {
-			backButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_BACK.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(backButton);
+		// Inverse Button
+		createButton(container, 'I', false, "INV", 1);
 
-		final Label multiplyButton = new Label(container, SWT.NONE);
-		multiplyButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateCalc('*');
-			}
-		});
-		try {
-			multiplyButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_X.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(multiplyButton);
+		// percent Button
+		createButton(container, '%', false, "PROZENT", 1);
 
-		final Label inverseButton = new Label(container, SWT.NONE);
-		inverseButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('I');
-			}
-		});
-		try {
-			inverseButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_INV.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(inverseButton);
+		// Divide Button
+		createButton(container, '/', true, "DIV", 1);
 
-		final Label percentButton = new Label(container, SWT.NONE);
-		percentButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('%');
-			}
-		});
-		try {
-			percentButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_PROZENT.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(percentButton);
+		// Subtract Button
+		createButton(container, '-', true, "MINUS", 1);
 
-		final Label divideButton = new Label(container, SWT.NONE);
-		divideButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateCalc('/');
-			}
-		});
-		try {
-			divideButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_DIV.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(divideButton);
+		// Button "7"
+		createButton(container, '7', false, "7", 1);
+		
+		// Button "8"
+		createButton(container, '8', false, "8", 1);
+		
+		// Button "9"
+		createButton(container, '9', false, "9", 1);
 
-		final Label SubtractButton = new Label(container, SWT.NONE);
-		SubtractButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateCalc('-');
-			}
-		});
-		try {
-			SubtractButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_MINUS.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(SubtractButton);
+		// Addition Button
+		createButton(container, '+', true, "PLUS", 2);
 
-		final Label num7Button = new Label(container, SWT.NONE);
-		num7Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('7');
-			}
-		});
-		try {
-			num7Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_7.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num7Button);
+		// Button "4"
+		createButton(container, '4', false, "4", 1);
 
-		final Label num8Button = new Label(container, SWT.NONE);
-		num8Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('8');
-			}
-		});
-		try {
-			num8Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_8.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num8Button);
+		// Button "5"
+		createButton(container, '5', false, "5", 1);
 
-		final Label num9Button = new Label(container, SWT.NONE);
-		num9Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('9');
-			}
-		});
-		try {
-			num9Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_9.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num9Button);
+		// Button "6"
+		createButton(container, '6', false, "6", 1);
 
-		final Label AdditionButton = new Label(container, SWT.NONE);
-		AdditionButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateCalc('+');
-			}
-		});
-		try {
-			AdditionButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_PLUS.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).span(1, 2).applyTo(AdditionButton);
+		// Button "1"
+		createButton(container, '1', false, "1", 1);
 
-		final Label num4Button = new Label(container, SWT.NONE);
-		num4Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('4');
-			}
-		});
-		try {
-			num4Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_4.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num4Button);
+		// Button "2"
+		createButton(container, '2', false, "2", 1);
 
-		final Label num5Button = new Label(container, SWT.NONE);
-		num5Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('5');
-			}
-		});
-		try {
-			num5Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_5.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num5Button);
+		// Button "3"
+		createButton(container, '3', false, "3", 1);
 
-		final Label num6Button = new Label(container, SWT.NONE);
-		num6Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('6');
-			}
-		});
-		try {
-			num6Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_6.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num6Button);
+		// Button "="
+		createButton(container, '=', true, "ISTGLEICH", 2);
 
-		final Label num1Button = new Label(container, SWT.NONE);
-		num1Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('1');
-			}
-		});
-		try {
-			num1Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_1.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num1Button);
+		// Button "0"
+		createButton(container, '0', false, "0", 1);
 
-		final Label num2Button = new Label(container, SWT.NONE);
-		num2Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('2');
-			}
-		});
-		try {
-			num2Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_2.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num2Button);
+		// Button "."
+		createButton(container, '.', false, "PUNKT", 1);
 
-		final Label num3Button = new Label(container, SWT.NONE);
-		num3Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('3');
-			}
-		});
-		try {
-			num3Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_3.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num3Button);
+		// Sign Button
+		createButton(container, '-', false, "PLUSMINUS", 1);
 
-		final Label equalsButton = new Label(container, SWT.NONE);
-		equalsButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateCalc('=');
-			}
-		});
-		try {
-			equalsButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_ISTGLEICH.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).span(1, 2).applyTo(equalsButton);
-
-		final Label num0Button = new Label(container, SWT.NONE);
-		num0Button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('0');
-			}
-		});
-		try {
-			num0Button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_0.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(num0Button);
-
-		final Label decimalButton = new Label(container, SWT.NONE);
-		decimalButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('.');
-			}
-		});
-		try {
-			decimalButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_PUNKT.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(decimalButton);
-
-		final Label signButton = new Label(container, SWT.NONE);
-		signButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseDown(MouseEvent e) {
-				updateDisplay('-');
-			}
-		});
-		try {
-			signButton.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_PLUSMINUS.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(signButton);
-
+		// Set the focus to the display Text and add a key listener.
+		// So, you can use the mouse or the keyboard
 		displayText.setFocus();
 		displayText.setSelection(0);
 		displayText.addKeyListener(new KeyListener() {
 
+			/**
+			 * Sent when a key is pressed on the system keyboard
+			 * 
+			 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.KeyEvent)
+			 */
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.character) {
@@ -737,4 +510,25 @@ public class Calculator extends ViewPart {
 		return tempString;
 	}
 
+	
+	private Label createButton(Composite parent, final char c, boolean isCalc, String icon, int vspan) {
+		// Create a button
+		Label button = new Label(parent, SWT.NONE);
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDown(MouseEvent e) {
+				updateDisplay(c);
+			}
+		});
+		try {
+			button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_" + icon + ".png").createImage()));
+		} catch (Exception e) {
+			Logger.logError(e, "Icon not found");
+		}
+		GridDataFactory.swtDefaults().span(1, vspan).align(SWT.CENTER, SWT.CENTER).applyTo(button);
+		
+		return button;
+	}
+	
+	
 }
