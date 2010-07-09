@@ -237,29 +237,51 @@ public class Calculator extends ViewPart {
 
 	}
 
+	/**
+	 * Set the LCD string and format zeros, decimal points and the sign
+	 * 
+	 * @param displayString The (unformated) input string
+	 * @param isResult
+	 */
 	private void setDisplayString(String displayString, boolean isResult) {
 		String LCDString = displayString;
+
+		// always display a ".", at least at the end
 		if (!LCDString.contains("."))
 			LCDString += ".";
+		
+		// never start with a "."
 		if (LCDString.startsWith("."))
 			LCDString = "0" + LCDString;
+		
+		// never start with a "-."
 		if (LCDString.startsWith("-."))
 			LCDString = LCDString.replaceFirst("-\\.", "-0.");
+		
+		// truncate to 10 digits
 		if (LCDString.length() >= 10)
 			LCDString = LCDString.substring(0, 10);
 
+		// Remove trailing zeros
 		if (isResult)
 			while (LCDString.endsWith("0"))
 				LCDString = LCDString.substring(0, LCDString.length() - 1);
+	
+		// Set the display text
 		displayText.setText(LCDString);
 	}
 
+	/**
+	 * Asks this part to take focus within the workbench.
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 */
 	@Override
 	public void setFocus() {
 		displayText.setFocus();
 	}
 
-	/*
+	/**
 	 * This method updates the display text based on user input.
 	 */
 	private void updateDisplay(final char keyPressed) {
@@ -336,9 +358,15 @@ public class Calculator extends ViewPart {
 		}
 	}
 
-	/*
+	
+	/**
 	 * This method converts the operator and display strings to double values
 	 * and performs the calculation.
+	 * 
+	 * @param valAString First operand
+	 * @param valBString Second operand
+	 * @param opChar Operator
+	 * @return The result of the calculation
 	 */
 	private String doCalc(final String valAString, final String valBString, final char opChar) {
 		String resultString = ERROR_STRING + NAN_STRING;
@@ -421,18 +449,20 @@ public class Calculator extends ViewPart {
 		return resultString;
 	}
 
-	/*
-	 * This method updates the operator and display strings, and the pending
-	 * calculation flag.
-	 */
-	private void updateCalc(char keyPressed) {
+ 
+	 /**
+	  * 
+	  * This method updates the operator and display strings, and the pending
+	  * calculation flag.
+	  * 
+	  * @param keyPressed The operator
+	  */
+	 private void updateCalc(char keyPressed) {
 		char keyVal = keyPressed;
 		String tempString = displayString;
 
-		/*
-		 * If there is no display value, the keystroke is deemed invalid and
-		 * nothing is done.
-		 */
+		// If there is no display value, the keystroke is deemed invalid and
+		// nothing is done.
 		if (tempString.length() == 0) { return; }
 
 		/*
@@ -477,7 +507,7 @@ public class Calculator extends ViewPart {
 		setDisplayString(displayString, true);
 	}
 
-	/*
+	/**
 	 * This method formats a string.
 	 */
 	private String trimString(final String newString) {
@@ -510,7 +540,16 @@ public class Calculator extends ViewPart {
 		return tempString;
 	}
 
-	
+	/**
+	 * Creates a button and assign a mouse listener
+	 * 
+	 * @param parent The parent SWT composite
+	 * @param c The character of the button
+	 * @param isCalc True, if it is an operator
+	 * @param icon The icon's substring
+	 * @param vspan Number of rows
+	 * @return A reference to the new button
+	 */
 	private Label createButton(Composite parent, final char c, boolean isCalc, String icon, int vspan) {
 		// Create a button
 		Label button = new Label(parent, SWT.NONE);
@@ -520,6 +559,8 @@ public class Calculator extends ViewPart {
 				updateDisplay(c);
 			}
 		});
+		
+		// Set the icon
 		try {
 			button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_" + icon + ".png").createImage()));
 		} catch (Exception e) {
@@ -529,6 +570,5 @@ public class Calculator extends ViewPart {
 		
 		return button;
 	}
-	
-	
+		
 }

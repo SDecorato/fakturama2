@@ -26,14 +26,32 @@ import org.eclipse.swt.widgets.Composite;
 import com.sebulli.fakturama.actions.NewPaymentAction;
 import com.sebulli.fakturama.data.Data;
 
+/**
+ * View with the table of all payments
+ * 
+ * @author Gerd Bartelt
+ *
+ */
 public class ViewPaymentTable extends ViewDataSetTable {
 
+	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewPaymentTable";
 
+	/**
+	 * Creates the SWT controls for this workbench part.
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
+
+		// Set the standard key
 		stdPropertyKey = "standardpayment";
+		
+		// Add the action to create a new entry
 		addNewAction = new NewPaymentAction();
+
+		// Mark the columns that are used by the search function.
 		searchColumns = new String[5];
 		searchColumns[0] = "name";
 		searchColumns[1] = "description";
@@ -42,10 +60,14 @@ public class ViewPaymentTable extends ViewDataSetTable {
 		searchColumns[4] = "netdays";
 
 		super.createPartControl(parent, false, true);
+
+		// Create the context menu
 		super.createDefaultContextMenu();
 
+		// Name of the editor
 		editor = "Payment";
 
+		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30,
 		// 0, true, "id");
 		stdIconColumn = new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Standard", 55, 0, true, "$stdId");
@@ -56,6 +78,7 @@ public class ViewPaymentTable extends ViewDataSetTable {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Tage Skonto", 70, 0, true, "discountdays");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Tage Netto", 70, 0, true, "netdays");
 
+		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getPayments());
 		topicTreeViewer.setInput(Data.INSTANCE.getPayments());
 
