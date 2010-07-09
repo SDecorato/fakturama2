@@ -20,15 +20,11 @@
 
 package com.sebulli.fakturama.views;
 
-import static com.sebulli.fakturama.Translate._;
-
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 
-import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.actions.ICommandIds;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.actions.NewProductAction;
@@ -43,9 +39,15 @@ import com.sebulli.fakturama.actions.OpenTextsAction;
 import com.sebulli.fakturama.actions.OpenVatsAction;
 import com.sebulli.fakturama.actions.WebShopImportAction;
 import com.sebulli.fakturama.exportsales.ExportSalesAction;
-import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This class represents the navigation view of the workbench
+ * 
+ * @author Gerd Bartelt
+ */
 public class NavigationView extends ViewPart implements ICommandIds {
+
+	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.navigationView";
 
 	/**
@@ -55,30 +57,20 @@ public class NavigationView extends ViewPart implements ICommandIds {
 	@Override
 	public void createPartControl(Composite parent) {
 
+		// Create a new expand bar manager.
 		ExpandBarManager expandBarManager = new ExpandBarManager();
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
 
-		final ExpandBar bar1 = new ExpandBar(expandBarManager, top, SWT.NONE);
-		bar1.setText(_("Importieren"));
-		try {
-			bar1.setImage(Activator.getImageDescriptor("/icons/16/import_16.png").createImage());
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(bar1);
+		// Create the first expand bar "Import"
+		final ExpandBar bar1 = new ExpandBar(expandBarManager, top, SWT.NONE,
+				"Importieren", "/icons/16/import_16.png");
 
 		bar1.addAction(new WebShopImportAction());
 
-		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE);
-		bar2.setText("Daten");
-		try {
-			bar2.setImage(Activator.getImageDescriptor("/icons/16/data_16.png").createImage());
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(bar2);
+		// Create the 2nd expand bar "Data"
+		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE,
+				"Daten", "/icons/16/data_16.png");
 
 		bar2.addAction(new OpenContactsAction());
 		bar2.addAction(new OpenProductsAction());
@@ -88,37 +80,22 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		bar2.addAction(new OpenPaymentsAction());
 		bar2.addAction(new OpenTextsAction());
 
-		final ExpandBar bar3 = new ExpandBar(expandBarManager, top, SWT.NONE);
-		bar3.setText("Neu erstellen");
-		try {
-			bar3.setImage(Activator.getImageDescriptor("/icons/16/plus_16.png").createImage());
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(bar3);
+		// Create the 3rd expand bar "Create new"
+		final ExpandBar bar3 = new ExpandBar(expandBarManager, top, SWT.NONE,
+				"Neu erstellen", "/icons/16/plus_16.png");
 
 		bar3.addAction(new NewContactAction(null));
 		bar3.addAction(new NewProductAction());
 
-		final ExpandBar bar4 = new ExpandBar(expandBarManager, top, SWT.NONE);
-		bar4.setText("exportieren");
-		try {
-			bar4.setImage(Activator.getImageDescriptor("/icons/16/export_16.png").createImage());
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(bar4);
+		// Create the 4th expand bar "export"
+		final ExpandBar bar4 = new ExpandBar(expandBarManager, top, SWT.NONE,
+				"exportieren", "/icons/16/export_16.png");
 
 		bar4.addAction(new ExportSalesAction());
 
-		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE);
-		bar5.setText("sonstiges");
-		try {
-			bar5.setImage(Activator.getImageDescriptor("/icons/16/misc_16.png").createImage());
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(bar5);
+		// Create the 5th expand bar "Miscellaneous"
+		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE,
+				"sonstiges", "/icons/16/misc_16.png");
 
 		bar5.addAction(new OpenBrowserEditorAction());
 		bar5.addAction(new OpenCalculatorAction());

@@ -36,64 +36,111 @@ import org.eclipse.swt.widgets.Label;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This class represents the expand bar, used in the navigation view
+ * 
+ * @author Gerd Bartelt
+ */
 public class ExpandBar extends Composite {
+	
+	// The SWT widgets of the expand bar 
 	private final Label image;
 	private final Label text;
 	private final Label arrow;
 	private Composite composite = null;
-	private boolean collapsed = false;
 	private Composite top;
 
-	// private ExpandBarManager expandBarManager;
+	// Private variables representing the state, collapsed or not collapsed
+	private boolean collapsed = false;
 
-	public ExpandBar(ExpandBarManager expandBarManager, Composite parent, int style) {
+	/**
+	 * Constructor
+	 * 
+	 * @param expandBarManager The expand bar manager
+	 * @param parent The parent composite
+	 * @param style The style of the Expand bar
+	 * @param description The expand bar text
+	 * @param icon File name of the icon
+	 */
+	public ExpandBar(ExpandBarManager expandBarManager, Composite parent, int style,
+			String description, String icon) {
 		super(parent, style);
-		// this.expandBarManager = expandBarManager;
+		
+		// Create the top composite of the expand bar
 		top = new Composite(this, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
 
+		// Create the headbar
 		Composite headbar = new Composite(top, SWT.BORDER);
 		GridLayoutFactory.swtDefaults().numColumns(3).margins(2, 2).applyTo(headbar);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(headbar);
 		changeBackground(headbar);
 		
+		// The icon of the headbar
 		image = new Label(headbar, SWT.NONE);
 		image.setText("icon");
 		changeBackground(image);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(image);
 
+		// The text of the headbar
 		text = new Label(headbar, SWT.NONE);
 		changeBackground(text);
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).grab(true, false).applyTo(text);
 
+		// The arrow to minimize or maximize the headbar
 		arrow = new Label(headbar, SWT.NONE);
 		setArrowImage();
 		changeBackground(arrow);
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).applyTo(arrow);
 		arrow.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mouseDown(MouseEvent e) {
+
+				// Toggle the headbar 
 				toggle();
 			}
 		});
 
-		FillLayout layout = new FillLayout();
-		setLayout(layout);
+		// Create the expandable body of the expand bar
+		setLayout(new FillLayout());
 		composite = new Composite(top, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(composite);
 		GridDataFactory.fillDefaults().indent(5, 0).applyTo(composite);
 
+		// Set the text and icon
+		setText(description);
+		try {
+			setImage(Activator.getImageDescriptor(icon).createImage());
+		} catch (Exception e) {
+			Logger.logError(e, "Icon not found");
+		}
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(this);
+
+		
+		// Add the expand bar to the manager 
 		expandBarManager.addExpandBar(this);
 
 	}
 
+	/**
+	 * Change the color of a widget to white
+	 * 
+	 * @param widget The widget
+	 */
 	private void changeBackground(Control widget) {
+		
+		// Set the background to white
 		Color white = new Color (null, 255, 255, 255);
 		widget.setBackground(white);
 		white.dispose();
 		
 	}
 	
+	/**
+	 * Set the ArrowImage to collapsed or uncollapsed, depending on the state
+	 * of the local variable "collapsed"
+	 */
 	private void setArrowImage() {
 		if (collapsed) {
 			try {
@@ -111,14 +158,24 @@ public class ExpandBar extends Composite {
 
 	}
 
+	/**
+	 * Toggle the state of the expand bar
+	 */
 	private void toggle() {
 		collapse(!collapsed);
 	}
 
+	/**
+	 * Set the state of the expand bar to collapsed or uncollapsed
+	 * @param collapseMe
+	 */
 	public void collapse(boolean collapseMe) {
+		
+		// Modifiy the local variable
 		collapsed = collapseMe;
 
 		if (collapseMe) {
+			// Set the size to 0,0
 			GridDataFactory.fillDefaults().hint(0, 0).grab(true, false).applyTo(composite);
 
 		} else {
@@ -127,23 +184,43 @@ public class ExpandBar extends Composite {
 			// this.expandBarManager.collapseOthers(this);
 
 		}
+		
+		// update the arrow 
 		setArrowImage();
+		
+		// Redraw the expand bars
 		this.getParent().layout(true);
 	}
 
+	/**
+	 * Set the image
+	 * @param image of the expand bar
+	 */
 	public void setImage(Image image) {
 		this.image.setImage(image);
 	}
 
+	/**
+	 * Set the text of the expand bar
+	 * @param text
+	 */
 	public void setText(String text) {
 		this.text.setText(text);
 	}
 
+	/**
+	 * Add a new action to the body of the expand bar
+	 * 
+	 * @param action The action to add
+	 */
 	public void addAction(final Action action) {
+		
+		// Create a new composite for the action
 		Composite actionComposite = new Composite(composite, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(2).margins(0, 0).applyTo(actionComposite);
 		GridDataFactory.fillDefaults().indent(5, 0).applyTo(actionComposite);
 
+		// Create the action's icon
 		Label actionImage = new Label(actionComposite, SWT.NONE);
 		try {
 			actionImage.setImage(action.getImageDescriptor().createImage());
@@ -152,10 +229,12 @@ public class ExpandBar extends Composite {
 		}
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(0, 0).applyTo(actionImage);
 
+		// Create the action's text
 		Label actionLabel = new Label(actionComposite, SWT.NONE);
 		actionLabel.setText(action.getText());
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(0, 0).applyTo(actionImage);
 
+		// Run the action, if the user clicks in the composite
 		actionComposite.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
@@ -163,6 +242,7 @@ public class ExpandBar extends Composite {
 			}
 		});
 
+		// Run the action, if the user clicks on the icon
 		actionImage.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
@@ -170,13 +250,13 @@ public class ExpandBar extends Composite {
 			}
 		});
 
+		// Run the action, if the user clicks on the text
 		actionLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				action.run();
 			}
 		});
-
 
 	}
 

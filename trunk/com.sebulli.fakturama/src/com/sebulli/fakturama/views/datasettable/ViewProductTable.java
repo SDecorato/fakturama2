@@ -26,14 +26,29 @@ import org.eclipse.swt.widgets.Composite;
 import com.sebulli.fakturama.actions.NewProductAction;
 import com.sebulli.fakturama.data.Data;
 
+/**
+ * View with the table of all products
+ * 
+ * @author Gerd Bartelt
+ *
+ */
 public class ViewProductTable extends ViewDataSetTable {
 
+	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewProductTable";
 
+	/**
+	 * Creates the SWT controls for this workbench part.
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 
+		// Add the action to create a new entry
 		addNewAction = new NewProductAction();
+
+		// Mark the columns that are used by the search function.
 		searchColumns = new String[4];
 		searchColumns[0] = "itemnr";
 		searchColumns[1] = "name";
@@ -41,10 +56,14 @@ public class ViewProductTable extends ViewDataSetTable {
 		searchColumns[3] = "price1";
 
 		super.createPartControl(parent, false, true);
+
+		// Create the context menu
 		super.createDefaultContextMenu();
 
+		// Name of the editor
 		editor = "Product";
 
+		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30,
 		// 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Artikelnr", 50, 0, true, "itemnr");
@@ -53,6 +72,7 @@ public class ViewProductTable extends ViewDataSetTable {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Preis", 70, 0, true, "price1");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "MwSt.", 40, 0, true, "$vatbyid");
 
+		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getProducts());
 		topicTreeViewer.setInput(Data.INSTANCE.getProducts());
 

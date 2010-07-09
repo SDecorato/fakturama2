@@ -26,13 +26,29 @@ import org.eclipse.swt.widgets.Composite;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.data.Data;
 
+/**
+ * View with the table of all contacts
+ * 
+ * @author Gerd Bartelt
+ *
+ */
 public class ViewContactTable extends ViewDataSetTable {
 
+	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewContactTable";
 
+	/**
+	 * Creates the SWT controls for this workbench part.
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
+
+		// Add the action to create a new entry
 		addNewAction = new NewContactAction(null);
+
+		// Mark the columns that are used by the search function.
 		searchColumns = new String[6];
 		searchColumns[0] = "nr";
 		searchColumns[1] = "firstname";
@@ -42,10 +58,15 @@ public class ViewContactTable extends ViewDataSetTable {
 		searchColumns[5] = "city";
 
 		super.createPartControl(parent, false, true);
+
+		// Create the context menu
 		super.createDefaultContextMenu();
 
+		// Name of the editor
 		editor = "Contact";
 
+		
+		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30,
 		// 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Kundennr", 60, 0, true, "nr");
@@ -55,6 +76,7 @@ public class ViewContactTable extends ViewDataSetTable {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "PLZ", 50, 0, true, "zip");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Ort", 80, 0, true, "city");
 
+		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getContacts());
 		topicTreeViewer.setInput(Data.INSTANCE.getContacts());
 	}
