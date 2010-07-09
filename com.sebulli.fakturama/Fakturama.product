@@ -24,10 +24,17 @@
       startupMessageRect="5,5,500,300"
       startupForegroundColor="ffffff" />
    <launcher name="Fakturama">
+      <linux icon="/com.sebulli.fakturama/icons/app/app_256.xpm"/>
       <macosx icon="/com.sebulli.fakturama/icons/app/app.icns"/>
       <solaris/>
       <win useIco="false">
-         <bmp/>
+         <bmp
+            winSmallHigh="/com.sebulli.fakturama/icons/app/app_16_32.bmp"
+            winSmallLow="/com.sebulli.fakturama/icons/app/app_16_8.bmp"
+            winMediumHigh="/com.sebulli.fakturama/icons/app/app_32_32.bmp"
+            winMediumLow="/com.sebulli.fakturama/icons/app/app_32_8.bmp"
+            winLargeHigh="/com.sebulli.fakturama/icons/app/app_48_32.bmp"
+            winLargeLow="/com.sebulli.fakturama/icons/app/app_48_8.bmp"/>
       </win>
    </launcher>
 
