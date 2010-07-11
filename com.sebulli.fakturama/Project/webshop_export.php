@@ -15,8 +15,8 @@
 define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
 
 // Define user name and password
-define ('FAKTURAMA_USERNAME',	'user');		
-define ('FAKTURAMA_PASSWORD',	'password');	
+define ('FAKTURAMA_USERNAME',	'admin');		
+define ('FAKTURAMA_PASSWORD',	'apfelbaum729');	
 
 // Language code of the product categorie which will be imported.
 // (en = English, de = German, es = Spanish ..) 
@@ -26,11 +26,11 @@ define ('FAKTURAMA_LANGUAGE', 'de');
 
 
 
-/******************************************************************************/
-/******************************************************************************/
-/******************************************************************************/
-/******************************************************************************/
-/******************************************************************************/
+/***********************************************************************************************************************************************/
+/***********************************************************************************************************************************************/
+/***********************************************************************************************************************************************/
+/***********************************************************************************************************************************************/
+/***********************************************************************************************************************************************/
 
 
 
@@ -178,8 +178,16 @@ require(DIR_WS_FUNCTIONS . 'html_output.php');
 
 
 function my_encode($s) {
+
+	// Convert to UTF-8
+	$s = utf8_encode($s);
+	
+	// Convert entities like &uuml; to ü
+	$s = html_entity_decode($s, ENT_COMPAT , "UTF-8");
+
+	// Replace quotes
 	$s = str_replace("\"", "&quot;", $s);
-	return utf8_encode($s);
+	return $s;
 }
 
 
@@ -851,7 +859,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 //				echo ("net=\"" .number_format( $shipping_value / ( 1 + $shipping_tax/100), 2)."\" ");
 				echo ("gross=\"".number_format( $shipping_value , 2)."\" ");
 				echo ("vatpercent=\"". number_format($shipping_tax,2) . "\" ");
-				echo ("vatname=\"". $shipping_tax_name . "\" ");
+				echo ("vatname=\"". my_encode($shipping_tax_name) . "\" ");
 				echo ("></shipping>\n");
 				
 				
