@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.editors.DummyEditor;
 import com.sebulli.fakturama.editors.DummyEditorInput;
 import com.sebulli.fakturama.logger.Logger;
@@ -56,7 +56,7 @@ public enum TemporaryViews {
 	public void showView(String viewId) {
 
 		// Do not show a view, if the data base is not opened
-		if (!Data.INSTANCE.getDataBaseOpened())
+		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
 		// Temporary variable to test, if there is at least one view that is

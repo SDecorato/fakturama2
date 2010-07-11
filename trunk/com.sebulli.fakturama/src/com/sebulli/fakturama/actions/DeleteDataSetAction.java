@@ -32,6 +32,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.views.TemporaryViews;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
@@ -67,8 +68,8 @@ public class DeleteDataSetAction extends Action {
 	@Override
 	public void run() {
 		
-		// Cancel, if the data base is not opened.
-		if (!Data.INSTANCE.getDataBaseOpened())
+		// cancel, if the data base is not connected.
+		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 	
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();

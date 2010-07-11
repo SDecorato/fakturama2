@@ -29,6 +29,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.views.TemporaryViews;
@@ -102,8 +103,8 @@ public class MarkOrderAsAction extends Action {
 	@Override
 	public void run() {
 		
-		// Cancel, if the data base is not opened.
-		if (!Data.INSTANCE.getDataBaseOpened())
+		// cancel, if the data base is not connected.
+		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();

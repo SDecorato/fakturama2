@@ -30,7 +30,7 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
@@ -70,8 +70,8 @@ public class WebShopImportAction extends Action {
 	@Override
 	public void run() {
 		
-		// cancel, if the data base is not opened.
-		if (!Data.INSTANCE.getDataBaseOpened())
+		// cancel, if the data base is not connected.
+		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
 		// Start a new web shop import manager in a

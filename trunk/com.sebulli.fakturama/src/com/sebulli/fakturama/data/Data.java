@@ -52,9 +52,6 @@ public enum Data {
 	// True, if a new data base was created
 	boolean newDBcreated = false;
 	
-	// True, if the data base is opened
-	boolean dataBaseOpened = false;
-
 	/**
 	 * Constructor
 	 * Connect to the data base and
@@ -82,8 +79,8 @@ public enum Data {
 			if (newDBcreated)
 				fillWithInitialData();
 
-			// set the data base as opened
-			dataBaseOpened = true;
+			// Set the data base as connected
+			DataBaseConnectionState.INSTANCE.setConnected();
 		} 
 		// No connection, so create empty data sets
 		else {
@@ -138,15 +135,6 @@ public enum Data {
 	 */
 	public boolean getNewDBCreated() {
 		return newDBcreated;
-	}
-
-	/**
-	 * Test if the data base is opened
-	 * 
-	 * @return True, if the data base is opened
-	 */
-	public boolean getDataBaseOpened() {
-		return dataBaseOpened;
 	}
 
 	/**
