@@ -39,6 +39,7 @@ import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetItem;
+import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.data.UniDataSet;
 
@@ -271,6 +272,20 @@ public class UniDataSetTableColumn {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getUnitGross().asFormatedString());
 				}
 
+				// Fill the cell with the net price of the product (quantity = 1)
+				else if (dataKey.equals("$Price1Net")) {
+					DataSetProduct product = (DataSetProduct) cell.getElement();
+					cell.setText(new Price(product.getDoubleValueByKey("price1"), product.getDoubleValueByKeyFromOtherTable("vatid.VATS:value") )
+							.getUnitNet().asFormatedString());
+				}
+
+				// Fill the cell with the gross price of the product (quantity = 1)
+				else if (dataKey.equals("$Price1Gross")) {
+					DataSetProduct product = (DataSetProduct) cell.getElement();
+					cell.setText(new Price(product.getDoubleValueByKey("price1"), product.getDoubleValueByKeyFromOtherTable("vatid.VATS:value") )
+							.getUnitGross().asFormatedString());
+				}
+
 			}
 		});
 
@@ -414,6 +429,11 @@ public class UniDataSetTableColumn {
 		
 		// VAT is numeric
 		else if (dataKey.equals("$vatbyid")) { return true; }
+
+		// Price is numeric
+		else if (dataKey.equals("$Price1Net")) { return true; }
+		else if (dataKey.equals("$Price1Gross")) { return true; }
+
 
 		return false;
 	}
