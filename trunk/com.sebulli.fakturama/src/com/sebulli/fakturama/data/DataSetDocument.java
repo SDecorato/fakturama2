@@ -92,7 +92,7 @@ public class DataSetDocument extends UniDataSet {
 						.getStringValueByKey("shippingname"), parent.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"), parent
 						.getStringValueByKey("shippingvatdescription"), parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent
 						.getStringValueByKey("message"), parent.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent
-						.getStringValueByKey("webshopdate"), parent.getBooleanValueByKey("no"), parent.getStringValueByKey("novatname"), parent
+						.getStringValueByKey("webshopdate"), parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent
 						.getStringValueByKey("novatdescription"), parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent
 						.getIntValueByKey("invoiceid"));
 
