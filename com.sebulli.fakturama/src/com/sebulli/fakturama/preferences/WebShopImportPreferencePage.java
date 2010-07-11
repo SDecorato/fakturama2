@@ -85,10 +85,7 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	 * @param node The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		// TODO: replace
-		// node.put("WEBSHOP_URL",
-		// "www.yourdomain.com/catalog/admin/webshop_export.php");
-		node.put("WEBSHOP_URL", "www.sebulli.com/fakturama/xtdemoshop/admin/webshop_export.php");
+		node.put("WEBSHOP_URL", "www.yourdomain.com/catalog/admin/webshop_export.php");
 		node.put("WEBSHOP_USER", "user");
 		node.put("WEBSHOP_PASSWORD", "password");
 		node.put("WEBSHOP_PRODUCT_CATEGORY", "Shop");
