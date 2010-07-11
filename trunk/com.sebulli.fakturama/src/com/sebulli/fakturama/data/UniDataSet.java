@@ -156,6 +156,18 @@ public abstract class UniDataSet {
 		return ud.getValueAsString();
 	}
 
+	/**
+	 * Get a Double value of the UniDataSet by a key 
+	 * The key can also be in an other table.
+	 * Access to values in other tables with the syntax: "id.TABLENAME:key"
+	 * 
+	 * @param key Key to access to the value
+	 * @return The Value as Double
+	 */
+	public Double getDoubleValueByKeyFromOtherTable(String key) {
+		extractUniDataSetByUniDataSetAndExtendedKey(this, key);
+		return ud.getValueAsDouble();
+	}
 
 	/**
 	 * Get a string value of the UniDataSet by a key and format it
