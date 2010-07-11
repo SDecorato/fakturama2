@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
 import com.sebulli.fakturama.openoffice.OODocument;
@@ -100,8 +100,8 @@ public class CreateOODocumentAction extends Action {
 	@Override
 	public void run() {
 		
-		// Cancel, if the data base is not opened.
-		if (!Data.INSTANCE.getDataBaseOpened())
+		// cancel, if the data base is not connected.
+		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
 		Editor editor = (Editor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();

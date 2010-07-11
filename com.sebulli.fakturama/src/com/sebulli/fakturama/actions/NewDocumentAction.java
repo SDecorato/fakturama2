@@ -23,7 +23,7 @@ package com.sebulli.fakturama.actions;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
@@ -111,8 +111,8 @@ public class NewDocumentAction extends NewEditorAction {
 	@Override
 	public void run() {
 
-		// cancel, if the data base is not opened.
-		if (!Data.INSTANCE.getDataBaseOpened())
+		// cancel, if the data base is not connected.
+		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
 		// Does a parent editor exist ?

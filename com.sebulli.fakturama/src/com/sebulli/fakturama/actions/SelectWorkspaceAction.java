@@ -28,7 +28,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.Startup;
-import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataBaseConnectionState;
 
 /**
  * This action opens a dialog to select the workspace.
@@ -80,7 +80,7 @@ public class SelectWorkspaceAction extends Action {
 				
 				// If there is a connection to the database,
 				// use the new working directory after a restart.
-				if (Data.INSTANCE.getDataBaseOpened()) {
+				if (DataBaseConnectionState.INSTANCE.isConnected()) {
 					
 					// Store the requested directory in a preference value
 					Activator.getDefault().getPreferenceStore().setValue("GENERAL_WORKSPACE_REQUEST", selectedDirectory);

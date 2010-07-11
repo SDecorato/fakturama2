@@ -26,7 +26,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.actions.ICommandIds;
-import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataBaseConnectionState;
 
 /**
  * This action exports the sales date to an OpenOffice Calc document.
@@ -61,8 +61,8 @@ public class ExportSalesAction extends Action {
 	@Override
 	public void run() {
 
-		// cancel, if the data base is not opened.
-		if (!Data.INSTANCE.getDataBaseOpened())
+		// cancel, if the data base is not connected.
+		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
 		// Create a new export wizard
