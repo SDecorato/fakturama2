@@ -27,6 +27,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
@@ -98,9 +99,12 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String user = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_USER");
 		String password = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PASSWORD");
 
+		
 		// remove the default setting "yourdomain.com"
-		if (address.contains("yourdomain.com"))
-			address = "";
+		if (address.contains("yourdomain.com")) {
+			runResult = "Keine gültige Webshop Adresse.";
+			return;
+		}
 		
 		// Add "http://"
 		if (!address.toLowerCase().startsWith("http://"))
@@ -132,7 +136,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 			// Send username , password and a list of unsynchronized orders to
 			// the shop
-			OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+			OutputStream outputStream = null;
+			outputStream = conn.getOutputStream();
+			OutputStreamWriter writer = new OutputStreamWriter(outputStream);
 			monitor.worked(10);
 			String postString = "username=" + user + "&password=" + password + "&action=getorders&setstate=" + orderstosynchronize.toString();
 			writer.write(postString);// &getshipped="+shippedinterval+");
@@ -194,7 +200,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 		} catch (SAXException e) {
 			runResult = importXMLContent;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			if (address.isEmpty())
 				runResult = "keine Webshop URL angegeben";
 			else {
