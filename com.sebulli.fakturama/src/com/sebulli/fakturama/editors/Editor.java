@@ -104,8 +104,9 @@ public abstract class Editor extends EditorPart {
 		 * @param dataSetArray This and the other unidatasets
 		 * @param propertyKey The property key that defines the standard
 		 * @param thisDataset Text for "This dataset" 
+		 * @param hSpan Horizontal span
 		 */
-		public StdComposite(Composite parent, final UniDataSet uds, DataSetArray<?> dataSetArray, final String propertyKey, final String thisDataset) {
+		public StdComposite(Composite parent, final UniDataSet uds, DataSetArray<?> dataSetArray, final String propertyKey, final String thisDataset, int hSpan) {
 			
 			// Set the local variables
 			this.propertyKey = propertyKey;
@@ -116,7 +117,7 @@ public abstract class Editor extends EditorPart {
 			// Create a container for the text widget and the button
 			Composite stdComposite = new Composite(parent, SWT.NONE);
 			GridLayoutFactory.fillDefaults().numColumns(2).applyTo(stdComposite);
-			GridDataFactory.fillDefaults().applyTo(stdComposite);
+			GridDataFactory.fillDefaults().span(hSpan, 1).applyTo(stdComposite);
 			
 			// Create the text widget that displays the standard entry
 			txtStd = new Text(stdComposite, SWT.BORDER);

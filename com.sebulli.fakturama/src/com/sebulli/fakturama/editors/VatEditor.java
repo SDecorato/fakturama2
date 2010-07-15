@@ -250,7 +250,7 @@ public class VatEditor extends Editor {
 		Label labelStdVat = new Label(top, SWT.NONE);
 		labelStdVat.setText("Standard");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
-		stdComposite = new StdComposite(top, vat, Data.INSTANCE.getVATs(), "standardvat", "dieser Steuersatz");
+		stdComposite = new StdComposite(top, vat, Data.INSTANCE.getVATs(), "standardvat", "dieser Steuersatz", 1);
 
 	}
 
