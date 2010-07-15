@@ -85,16 +85,20 @@ public class DataSetVAT extends UniDataSet {
 
 	/**
 	 * Test, if this is equal to an other UniDataSet
-	 * Only the values are compared
+	 * Only the name and the values are compared
+	 * If the name is not set, only the values are used.
 	 * 
 	 * @param uds Other UniDataSet
 	 * @return True, if it's equal
 	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
-		// TODO: add to a preference page: Test also the name
-		// if ( !uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")) )
-		// return false;
+		
+		// If the name of the DataSet to test is empty, than search for an entry with at least the same VAT value
+		if (!uds.getStringValueByKey("name").isEmpty())
+			if ( !uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")) )
+				return false;
+		
 		if (!DataUtils.DoublesAreEqual(uds.getDoubleValueByKey("value"), this.getDoubleValueByKey("value")))
 			return false;
 		return true;

@@ -43,6 +43,38 @@ public class DataBase {
 	private Connection con = null;
 
 	/**
+	 * Convert a UniDataType to the Types for the data base
+	 * 
+	 * @param udt
+	 * @return
+	 */
+	private String getDataBaseTypeByUniDataType (UniDataType udt) {
+		// Depending on the UniDataSet type, add an data base type
+		switch (udt) {
+		case ID:
+		case INT:
+			return "INTEGER";
+
+		case BOOLEAN:
+			return "BOOLEAN";
+
+		case DOUBLE:
+		case QUANTITY:
+		case PRICE:
+		case PERCENT:
+			return "DOUBLE";
+
+		case STRING:
+		case DATE:
+			return "VARCHAR";
+
+		default:
+			Logger.logError("Unknown UniDataType");
+		}
+		return "VARCHAR";
+	}
+	
+	/**
 	 * Generate the SQL string to create a new table in the data base  
 	 * 
 	 * @param uds UniDataSet as template for the new table
@@ -70,39 +102,7 @@ public class DataBase {
 
 					// Separate the columns by an ","	
 					s += ", " + key + " ";
-
-					// Depending on the UniDataSet type, add an data base type
-					switch (uds.hashMap.get(key).getUniDataType()) {
-					case ID:
-						s += "INTEGER";
-						break;
-					case INT:
-						s += "INTEGER";
-						break;
-					case BOOLEAN:
-						s += "BOOLEAN";
-						break;
-					case DOUBLE:
-						s += "DOUBLE";
-						break;
-					case STRING:
-						s += "VARCHAR";
-						break;
-					case PRICE:
-						s += "DOUBLE";
-						break;
-					case PERCENT:
-						s += "DOUBLE";
-						break;
-					case QUANTITY:
-						s += "DOUBLE";
-						break;
-					case DATE:
-						s += "VARCHAR";
-						break;
-					default:
-						Logger.logError("Unknown UniDataType");
-					}
+					s += getDataBaseTypeByUniDataType (uds.hashMap.get(key).getUniDataType());
 				}
 			}
 		} catch (Exception e) {
@@ -114,7 +114,7 @@ public class DataBase {
 	}
 
 	/**
-	 * Generate the SQL string to insert a new column in the data base  
+	 * Generate the SQL string with all columns to insert a new row in the data base  
 	 * 
 	 * @param uds
 	 * @return
@@ -394,6 +394,65 @@ public class DataBase {
 	}
 
 	/**
+	 * Check the table in the data base, if there is a column for each UniDataSet property.
+	 * If not, create a new column.
+	 * 
+	 * @param uds The UniDataSet to check. Defines also the table.
+	 */
+	private void checkTableAndInsertNewColumns (UniDataSet uds) {
+		ResultSet rs;
+		Statement stmt;
+		ResultSetMetaData rsmd;
+		int columns = 0;
+		
+		try {
+			
+			// Get the columns of the table, specified by the UniDataSet uds.
+			stmt = con.createStatement();
+			rs = stmt.executeQuery("SELECT * FROM "+ uds.sqlTabeName);
+			rsmd = rs.getMetaData();
+			columns = rsmd.getColumnCount();
+			
+			// Generate a list with all keys in the template UniDataSet
+			// and sort it alphabetically
+			List<String> list = new ArrayList<String>();
+			list.addAll(uds.getHashMap().keySet());
+			Collections.sort(list);
+
+			// Get all UniDataSet keys and test, if all columns exist
+			for (String key : list) {
+				
+				// Do not test the ID column.
+				if (!key.equalsIgnoreCase("id")) {
+
+					String columnname = key;
+					Boolean columnExists = false;
+					
+					// Search all column for the key.
+					for(int i = 1; i <= columns; i++) {
+						if ( rsmd.getColumnName(i).equalsIgnoreCase(columnname) ) {
+							columnExists = true;
+						}
+					}
+					
+					// Create a new column, if it does not exist yet.
+					if (!columnExists) {
+						String dType = getDataBaseTypeByUniDataType (uds.hashMap.get(key).getUniDataType());
+						stmt.executeUpdate("ALTER TABLE " + uds.sqlTabeName + " ADD " + columnname + " "+  dType);
+						Logger.logInfo("New column " + columnname + " added in table " + uds.sqlTabeName + " - Data type: " + dType);
+					}
+				}
+			}
+			
+			rs.close();
+			
+		} catch (SQLException e) {
+			Logger.logError(e, "Error inserting a new table column.");
+		}		
+		
+	}
+	
+	/**
 	 * Connect to the data base
 	 * 
 	 * @param workingDirectory Working directory
@@ -430,6 +489,18 @@ public class DataBase {
 			try {
 				rs = stmt.executeQuery("SELECT * FROM Properties");
 				rs.close();
+				
+				// Check all tables, if there is a column for each
+				// UniDataSet property.
+				checkTableAndInsertNewColumns(new DataSetProduct());
+				checkTableAndInsertNewColumns(new DataSetContact());
+				checkTableAndInsertNewColumns(new DataSetItem());
+				checkTableAndInsertNewColumns(new DataSetVAT());
+				checkTableAndInsertNewColumns(new DataSetShipping());
+				checkTableAndInsertNewColumns(new DataSetPayment());
+				checkTableAndInsertNewColumns(new DataSetText());
+				checkTableAndInsertNewColumns(new DataSetDocument());
+				
 			} catch (SQLException e) {
 				// In a new data base: create all the tables
 				try {

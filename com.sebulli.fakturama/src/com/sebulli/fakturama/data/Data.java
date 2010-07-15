@@ -112,7 +112,7 @@ public enum Data {
 		// Fill some UniDataSets
 		vats.addNewDataSet(new DataSetVAT("keine", "", "keine MwSt.", 0.0));
 		shippings.addNewDataSet(new DataSetShipping("frei", "", "frei Haus", 0.0, 0, 1));
-		payments.addNewDataSet(new DataSetPayment("sofort", "", "sofort oder Vorkasse",0.0, 0, 0, false));
+		payments.addNewDataSet(new DataSetPayment("sofort", "", "sofort oder Vorkasse",0.0, 0, 0,"Zahlung dankend erhalten.","Zahlbar: sofort", false));
 		
 		// Set the dafault value to this entries
 		setProperty("standardvat", "0");

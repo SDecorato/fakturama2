@@ -1213,14 +1213,14 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelItems);
 
 			// Item add button
-			Label addButton = new Label(addButtonComposite, SWT.NONE);
+			Label addFromListButton = new Label(addButtonComposite, SWT.NONE);
 			try {
-				addButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
+				addFromListButton.setImage((Activator.getImageDescriptor("/icons/20/plus_list_20.png").createImage()));
 			} catch (Exception e) {
 				Logger.logError(e, "Icon not found");
 			}
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addButton);
-			addButton.addMouseListener(new MouseAdapter() {
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addFromListButton);
+			addFromListButton.addMouseListener(new MouseAdapter() {
 				
 				// Open the product dialog and add the 
 				// selected product as new item.
@@ -1237,6 +1237,30 @@ public class DocumentEditor extends Editor {
 							checkDirty();
 						}
 					}
+				}
+			});
+
+			// Item add button
+			Label addButton = new Label(addButtonComposite, SWT.NONE);
+			try {
+				addButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
+			} catch (Exception e) {
+				Logger.logError(e, "Icon not found");
+			}
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addButton);
+			addButton.addMouseListener(new MouseAdapter() {
+				
+				// Add a new item with default properties 
+				public void mouseDown(MouseEvent e) {
+					DataSetItem newItem = new DataSetItem("Name", "Art.Nr.","", documentType.sign() * 1.0, "", 0.0, 0);
+
+					// Use the standard VAT value
+					newItem.setVat(Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
+					items.getDatasets().add(newItem);
+					
+					tableViewerItems.refresh();
+					calculate();
+					checkDirty();
 				}
 			});
 			
@@ -1280,9 +1304,10 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
 			// Create the table columns
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, "Menge", 50, 0, true, "quantity", new ItemEditingSupport(this,
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, "Menge", 50, 0, true, "quantity", new ItemEditingSupport(this, 
 					tableViewerItems, 1));
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "ArtNr.", 80, 0, true, "itemnr", new ItemEditingSupport(this,
+			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "ArtNr.", 80, 0, true, "itemnr", new ItemEditingSupport(this,
 					tableViewerItems, 2));
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "Name", 100, 0, true, "name", new ItemEditingSupport(this,
 					tableViewerItems, 3));
@@ -1326,7 +1351,7 @@ public class DocumentEditor extends Editor {
 		// The add message button
 		Label addMessageButton = new Label(addMessageButtonComposite, SWT.NONE);
 		try {
-			addMessageButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
+			addMessageButton.setImage((Activator.getImageDescriptor("/icons/20/plus_list_20.png").createImage()));
 		} catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}

@@ -342,7 +342,114 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		return paymentstatustext;
 
 	}
+	
+	/**
+	 * Parse an XML node and create a new product for each product entry
+	 * 
+	 * @param productNode The node with the products to import
+	 */
+	public void createProductFromXMLOrderNode(Node productNode) {
+		
+		// Temporary variables to store the products data which will be imported
+		String productModel;
+		String productName;
+		String productCategory;
+		String productNet;
+		String productGross;
+		String productVatPercent;
+		String productVatName;
+		String productDescription;
+		
+		// Get the attributes ID and date of this order
+		NamedNodeMap attributes = productNode.getAttributes();
+		productModel 		= getAttributeAsString(attributes, "model");
+		productName 		= getAttributeAsString(attributes, "name");
+		productCategory 	= getAttributeAsString(attributes, "category");
+		productNet 			= getAttributeAsString(attributes, "net");
+		productGross 			= getAttributeAsString(attributes, "gross");
+		productVatPercent 	= getAttributeAsString(attributes, "vatpercent");
+		productVatName		= getAttributeAsString(attributes, "vatname");
 
+		// Get the product description as plain text.
+		productDescription = "";
+		for (int index = 0; index < productNode.getChildNodes().getLength(); index++) {
+			Node productChild = productNode.getChildNodes().item(index);
+			if (productChild.getNodeName().equals("short_description"))
+				productDescription += productChild.getTextContent();
+		}
+		
+		// Convert VAT percent value to a factor (100% -> 1.00)
+		Double vatPercentDouble = 0.0;
+		try {
+			vatPercentDouble = Double.valueOf(productVatPercent).doubleValue() / 100;
+		} catch (Exception e) {
+		}
+
+		// Convert the gross or net string to a double value
+		Double priceNet = 0.0;
+		try {
+
+			// Use the net string, if it is set
+			if (!productNet.isEmpty()) {
+				priceNet = Double.valueOf(productNet).doubleValue();
+			}
+			
+			// Use the gross string, if it is set
+			if (!productGross.isEmpty()) {
+				priceNet = Double.valueOf(productGross).doubleValue() /  (1 + vatPercentDouble);
+			}
+			
+		} catch (Exception e) {
+		}
+
+		
+		// Add the VAT value to the data base, if it is a new one 
+		DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew( new DataSetVAT(productVatName, "", productVatName, vatPercentDouble) );
+		int vatId = vat.getIntValueByKey("id");
+		
+		// Import the item as a new product
+		DataSetProduct product;
+		
+		
+		// Get the category of the imported products from the preferences
+		String shopCategory = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PRODUCT_CATEGORY");
+		
+		// If the category is not set, use the shop category
+		if (!shopCategory.isEmpty())
+			if (!shopCategory.endsWith("/"))
+				shopCategory += "/";
+
+		// Use product name as product model, if model is empty
+		if (productModel.isEmpty() && !productName.isEmpty())
+			productModel = productName;
+
+		// Use product model as product name, if name is empty
+		if (productName.isEmpty() && !productModel.isEmpty())
+			productName = productModel;
+		
+		
+		// Create a new product object
+		product = new DataSetProduct(productName, productModel, shopCategory + productCategory, productDescription, priceNet, vatId, "", "");
+
+		// Add a new product to the data base, if it's not existing yet
+		if (Data.INSTANCE.getProducts().isNew(product)) {
+			Data.INSTANCE.getProducts().addNewDataSet(product);
+		}
+		else {
+			// Update data
+			DataSetProduct existingProduct = Data.INSTANCE.getProducts().getExistingDataSet(product);
+			existingProduct.setStringValueByKey("category", product.getStringValueByKey("category"));
+			existingProduct.setStringValueByKey("description", product.getStringValueByKey("description"));
+			existingProduct.setDoubleValueByKey("price1", product.getDoubleValueByKey("price1"));
+			existingProduct.setIntValueByKey("vatid", product.getIntValueByKey("vatid"));
+
+			// Update the modified product data
+			Data.INSTANCE.getProducts().updateDataSet(existingProduct);
+		}
+			
+	}
+	
+	
 	/**
 	 * Parse an XML node and create a new order for each order entry
 	 * 
@@ -376,13 +483,15 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String delivery_country;
 
 		// Item data
-		String item_quantity;
-		String item_model;
-		String item_name;
-		String item_gross;
-		String item_category;
-		String item_vatpercent;
-		String item_vatname;
+		String itemQuantity;
+		String itemDescription;
+		String itemModel;
+		String itemName;
+		String itemGross;
+		String itemCategory;
+		String itemVatpercent;
+		String itemVatname;
+		
 
 		// Order data
 		String order_id;
@@ -534,42 +643,34 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 			// Get the item data
 			if (childnode.getNodeName().equalsIgnoreCase("item")) {
-				item_quantity = getAttributeAsString(attributes, "quantity");
-				item_model = getAttributeAsString(attributes, "model");
-				item_name = getAttributeAsString(attributes, "name");
-				item_category = getAttributeAsString(attributes, "category");
-				item_gross = getAttributeAsString(attributes, "gross");
-				item_vatpercent = getAttributeAsString(attributes, "vatpercent");
-				item_vatname = getAttributeAsString(attributes, "vatname");
+				itemQuantity = getAttributeAsString(attributes, "quantity");
+				itemModel = getAttributeAsString(attributes, "model");
+				itemName = getAttributeAsString(attributes, "name");
+				itemCategory = getAttributeAsString(attributes, "category");
+				itemGross = getAttributeAsString(attributes, "gross");
+				itemVatpercent = getAttributeAsString(attributes, "vatpercent");
+				itemVatname = getAttributeAsString(attributes, "vatname");
 
 				// Convert VAT percent value to a factor (100% -> 1.00)
 				Double vat_percentDouble = 0.0;
 				try {
-					vat_percentDouble = Double.valueOf(item_vatpercent).doubleValue() / 100;
+					vat_percentDouble = Double.valueOf(itemVatpercent).doubleValue() / 100;
 				} catch (Exception e) {
 				}
 
 				// Calculate the net value of the price
 				Double priceNet = 0.0;
 				try {
-					priceNet = Double.valueOf(item_gross).doubleValue() / (1 + vat_percentDouble);
+					priceNet = Double.valueOf(itemGross).doubleValue() / (1 + vat_percentDouble);
 				} catch (Exception e) {
 				}
 
-				// Add the VAT value to the data base, if it is a new one 
-				DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(new DataSetVAT(item_vatname, "", item_vatname, vat_percentDouble));
+				// Add the VAT value to the data base, if it is a new one
+				DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew( new DataSetVAT(itemVatname, "", itemVatname, vat_percentDouble) );
 				int vatId = vat.getIntValueByKey("id");
-				
-				
-				// TODO: What to do, if there is still a product with the
-				// same name but a different price ??
 				
 				// Import the item as a new product
 				DataSetProduct product;
-				
-				// Get the format of the item nr and the item name from the
-				// preferences.
-				int itemNrAndNameFormat = Activator.getDefault().getPreferenceStore().getInt("WEBSHOP_ITEMNR_AND_NAME");
 				
 				// Get the category of the imported products from the preferences
 				String shopCategory = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PRODUCT_CATEGORY");
@@ -579,17 +680,38 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 					if (!shopCategory.endsWith("/"))
 						shopCategory += "/";
 
-				// Add a new product to the data base, if it's not existing yet
-				if (itemNrAndNameFormat == 0) {
-					Data.INSTANCE.getProducts().addNewDataSetIfNew(
-							product = new DataSetProduct(item_model, item_model, shopCategory + item_category, item_name, priceNet, vatId, "", ""));
-				} else {
-					Data.INSTANCE.getProducts().addNewDataSetIfNew(
-							product = new DataSetProduct(item_name, item_model, shopCategory + item_category, item_name, priceNet, vatId, "", ""));
+				// Use item name as item model, if model is empty
+				if (itemModel.isEmpty() && !itemName.isEmpty())
+					itemModel = itemName;
+
+				// Use item model as item name, if name is empty
+				if (itemName.isEmpty() && !itemModel.isEmpty())
+					itemName = itemModel;
+				
+				
+				itemDescription = "";
+				for (int index = 0; index < childnode.getChildNodes().getLength(); index++) {
+					Node itemChild = childnode.getChildNodes().item(index);
+					if (itemChild.getNodeName().equals("attribute")) {
+						attributes = itemChild.getAttributes();
+						if (!itemDescription.isEmpty())
+							itemDescription += ", ";
+						itemDescription += getAttributeAsString(attributes, "option") + ": ";
+						itemDescription += getAttributeAsString(attributes, "value");
+						System.out.println(itemName+"-"+itemDescription);
+					}
 				}
 
+				
+				
+				// Create a new product
+				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "");
+				
+				// Add the new product to the data base, if it's not existing yet
+				Data.INSTANCE.getProducts().addNewDataSetIfNew(product);
+
 				// Add this product to the list of items
-				DataSetItem item = Data.INSTANCE.getItems().addNewDataSet(new DataSetItem(Double.valueOf(item_quantity), product));
+				DataSetItem item = Data.INSTANCE.getItems().addNewDataSet(new DataSetItem(Double.valueOf(itemQuantity), product));
 				item.setIntValueByKey("owner", documentId);
 
 				// Update the modified item data
@@ -635,7 +757,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				
 				// Add the VAT entry to the data base, if there is not yet one
 				// with the same values
-				DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(new DataSetVAT(shipping_vatname, "", shipping_vatname, shippingvat_percentDouble));
+				DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew( new DataSetVAT(shipping_vatname, "", shipping_vatname, shippingvat_percentDouble) );
 				int vatId = vat.getIntValueByKey("id");
 				
 				// Add the shipping to the data base, if it's a new shipping
@@ -676,9 +798,10 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				} catch (Exception e) {
 				}
 
+				// TODO: Get the unpayed text from the web shop
 				// Add the payment to the data base, if it's a new one
 				DataSetPayment payment = Data.INSTANCE.getPayments().addNewDataSetIfNew(
-						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")",0.0, 0, 0, false));
+						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")",0.0, 0, 0,"Zahlung dankend erhalten.","", false));
 				dataSetDocument.setIntValueByKey("paymentid", payment.getIntValueByKey("id"));
 
 			}
@@ -737,8 +860,17 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		if (document == null)
 			return;
 
+		NodeList ndList;
+		
+		// Get all products and import them
+		ndList = document.getElementsByTagName("product");
+		for (int productIndex = 0; productIndex < ndList.getLength(); productIndex++) {
+			Node product = ndList.item(productIndex);
+			createProductFromXMLOrderNode(product);
+		}
+
 		// Get order by order and import it
-		NodeList ndList = document.getElementsByTagName("order");
+		ndList = document.getElementsByTagName("order");
 		for (int orderIndex = 0; orderIndex < ndList.getLength(); orderIndex++) {
 			Node order = ndList.item(orderIndex);
 			createOrderFromXMLOrderNode(order);

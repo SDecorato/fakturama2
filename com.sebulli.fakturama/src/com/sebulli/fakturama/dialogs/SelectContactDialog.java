@@ -58,7 +58,6 @@ public class SelectContactDialog extends SelectDataSetDialog {
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
 		// Create the table columns
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Kundennr", 60, 0, true, "nr");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Vorname", 200, 50, false, "firstname");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
