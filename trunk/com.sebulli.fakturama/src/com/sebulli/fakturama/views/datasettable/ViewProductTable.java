@@ -65,11 +65,11 @@ public class ViewProductTable extends ViewDataSetTable {
 		editor = "Product";
 
 		// Create the table columns
-		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30,
-		// 0, true, "id");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Artikelnr", 50, 0, true, "itemnr");
+		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Artikelnr", 50, 0, true, "itemnr");
+
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Bezeichnung", 200, 50, false, "description");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Beschreibung", 200, 50, false, "description");
 		
 		// Fill the price column with the net or the gross price ( for quantity = 1)
 		String priceKey = "";

@@ -102,6 +102,7 @@ public class LogListener implements ILogListener {
 			String methodName = "";
 			String lineArray[] = new String[MAXLINES];
 			String exceptionMessage = "";
+			String newErrorString = "";
 
 			// Add an "I:" or an "E:", depending if it is an information or
 			// an error.
@@ -109,14 +110,14 @@ public class LogListener implements ILogListener {
 
 				// Information.
 				// Do not open the error view
-				errorString += "I:";
+				newErrorString += "I:";
 				
 			} else {
 				
 				// Error
 				// Open the error view
 				showerrorview = true;
-				errorString += "E:";
+				newErrorString += "E:";
 			}
 
 			if (status.getException() != null) {
@@ -139,11 +140,14 @@ public class LogListener implements ILogListener {
 						+ methodName + "(" + lineNumber + ")" + "\n";
 
 				// Generate the error string
-				errorString += exceptionMessage;
+				newErrorString += exceptionMessage;
 			} else
 				// Generate the error string
-				errorString += status.getMessage() + "\n";
+				newErrorString += status.getMessage() + "\n";
 
+			errorString += newErrorString;
+			System.out.print(newErrorString);
+			
 			// Show the error view (only if it is not just an information message)
 			showErrorView();
 

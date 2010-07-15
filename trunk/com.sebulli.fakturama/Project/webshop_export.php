@@ -1,29 +1,22 @@
 <?php
 /*
   Copyright (c) 2010 Gerd Bartelt
-  Version 1.0.1
-  Date: 2010-07-11
+  Version 1.0.2
+  Date: 2010-07-14
 
   Released under the GNU General Public License
  */
-  
- 
+
+// Use the settings from webshop_export_settings.php, if it exists.
+if( file_exists('webshop_export_settings.php')) {
+    include('webshop_export_settings.php');
+}
+
 // Define Shop system. Allowed values are:
 // 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04 			www.xtc-modified.org
 define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
-
-// Define user name and password
-define ('FAKTURAMA_USERNAME',	'user');		
-define ('FAKTURAMA_PASSWORD',	'password');	
-
-// Language code of the product categorie which will be imported.
-// (en = English, de = German, es = Spanish ..) 
-define ('FAKTURAMA_LANGUAGE', 'de');			
-
-
-
 
 
 /***********************************************************************************************************************************************/
@@ -62,7 +55,7 @@ require('includes/configure.php');
 if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 	
 	// Define the project version
-	define('PROJECT_VERSION', 'osCommerce Online Merchant v2.2 RC2a');
+	define('PROJECT_VERSION', 'osCommerce Online Merchant v2.x');
 	// some code to solve compatibility issues
 	require(DIR_WS_FUNCTIONS . 'compatibility.php');
 	
@@ -92,10 +85,10 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
 //  define('SQL_CACHEDIR',DIR_FS_CATALOG.'cache/');
 
   // Define the project version
-  define('PROJECT_VERSION', 'xt:Commerce v3.0.4 SP2.1');
+  define('PROJECT_VERSION', 'xt:Commerce v 3.x');
 
 
-  // include needed functions
+  // Include required functions
   require_once(DIR_FS_INC . 'xtc_db_connect.inc.php');
   require_once(DIR_FS_INC . 'xtc_db_close.inc.php');
   require_once(DIR_FS_INC . 'xtc_db_error.inc.php');
@@ -189,6 +182,18 @@ function my_encode($s) {
 	$s = str_replace("\"", "&quot;", $s);
 	return $s;
 }
+
+function my_encode_with_quotes($s) {
+
+	// Convert to UTF-8
+	$s = utf8_encode($s);
+	
+	// Convert entities like &uuml; to ü
+	$s = html_entity_decode($s, ENT_COMPAT , "UTF-8");
+
+	return $s;
+}
+
 
 
 class order {
@@ -611,11 +616,82 @@ if ($getshipped_datetype == 'ever')
 	$getshipped_condition = " or TRUE";
 
 
+
+// Get the selected language or at least the 
+$language_query = sbf_db_query("SELECT
+   									langu.code
+   								FROM
+									languages langu
+								ORDER BY
+									languages_id ASC
+       							");
+        							
+$category_language = "en";
+while ($category_languages = sbf_db_fetch_array($language_query)) {
+	if (empty ($category_language))
+		$category_language = $category_languages['code'];
+	if (FAKTURAMA_LANGUAGE == $category_languages['code'])
+		$category_language = $category_languages['code'];
+}
+
+
 if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 
 		//password ok
 
-		// generate response
+
+
+		// generate list of all products
+		if ($action == 'getorders') {
+			echo (" <products>\n");
+			
+			$products_query = sbf_db_query("SELECT 
+ 												prod.products_model, prod_desc.products_name, prod_desc.products_description, prod_desc.products_short_description, 
+ 												cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
+											FROM 
+												tax_rates tax
+											RIGHT JOIN
+												zones_to_geo_zones z2geozones ON (z2geozones.geo_zone_id = tax.tax_zone_id) 
+											RIGHT JOIN
+												countries ON (countries.countries_id =  z2geozones.zone_country_id) AND (countries.countries_iso_code_2 = '". FAKTURAMA_COUNTRY. "')
+											RIGHT JOIN
+												products prod ON (prod.products_tax_class_id = tax.tax_class_id)
+											RIGHT JOIN
+												products_to_categories prod_cat ON (prod_cat.products_id = prod.products_id)
+											RIGHT JOIN
+												categories_description cat_desc ON (prod_cat.categories_id = cat_desc.categories_id)
+											RIGHT JOIN
+												products_description prod_desc ON (prod.products_id = prod_desc.products_id) 
+											LEFT JOIN
+												languages langu ON (langu.languages_id = cat_desc.language_id) AND (langu.languages_id = prod_desc.language_id)
+  											WHERE 
+  												(langu.code = '". $category_language ."')
+										   ");
+			while ($products = sbf_db_fetch_array($products_query)) {
+				echo ("    <product ");
+				echo ("model=\"".my_encode($products['products_model'])."\" ");
+				echo ("name=\"".my_encode($products['products_name'])."\" ");
+				echo ("category=\"".my_encode($products['categories_name'])."\" ");
+				echo ("gross=\"". number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2)."\" ");
+				echo ("vatpercent=\"".number_format( $products['tax_rate'], 2)."\" ");
+				echo ("vatname=\"".my_encode($products['tax_description'])."\" ");
+				echo (">\n");
+				echo ("      <short_description>\n");
+				echo (my_encode_with_quotes($products['products_short_description']));
+			
+				echo ("\n");
+				echo ("      </short_description>\n");
+				echo ("    </product>\n");
+
+			}
+			echo (" </products>\n");
+		
+		}
+		
+
+
+
+		// generate list of all orders
 		if ($action == 'getorders'){
 			$check_orders_query = sbf_db_query("SELECT
 													o.orders_id, o.orders_status, ot.text AS order_total
@@ -776,18 +852,6 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 					else
 						echo ("model=\"".my_encode($product['name'])."\" ");
 					echo ("name=\"".my_encode($product['name']));
-					/*
-	        		if ($product['attributes']){
-	          			foreach ($product['attributes'] as $attribute) {
-	            			echo ('        <attribute>'."\n");
-	            			echo ('          <option>'.$product['attributes'][$attribute].'</option>'."\n");
-	            			echo ('          <value>'.$product['attributes'][$attribute].'</value>'."\n");
-	            			echo ('          <prefix>'.$product['attributes'][$attribute].'</prefix>'."\n");
-	            			echo ('          <price>'.$product['attributes'][$attribute].'</price>'."\n");
-	            			echo ('        </attribute>'."\n");
-	          			}
-	        		}
-					*/
 					echo ("\" ");
 					echo ("category=\"".my_encode( $product['category']) ."\" ");
 					
@@ -800,6 +864,22 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 					echo ("vatname=\"".my_encode($product['tax_description'])."\" ");
 					echo (">");
 
+
+					// Export the product attributes
+	        		if ($product['attributes']){
+						$subindex = 0;
+	          			foreach ($product['attributes'] as $attribute) {
+	            			echo ("\n");
+	            			echo ("        <attribute ");
+	            			echo ("option=\"". my_encode($product['attributes'][$subindex]['option']) ."\" ");
+	            			echo ("value=\"". my_encode($product['attributes'][$subindex]['value']) ."\" ");
+	            			echo ("prefix=\"". my_encode($product['attributes'][$subindex]['prefix']) ."\" ");
+	            			echo ("price=\"". my_encode($product['attributes'][$subindex]['price']) ."\" ");
+	            			echo ("/>\n    ");
+	            			$subindex ++;
+	          			}
+	        		}
+					
 					echo ("</item>\n");
 				}
 

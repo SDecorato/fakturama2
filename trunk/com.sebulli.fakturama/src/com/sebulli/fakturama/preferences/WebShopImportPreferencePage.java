@@ -22,7 +22,6 @@ package com.sebulli.fakturama.preferences;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
-import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -62,10 +61,6 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		addField(new StringFieldEditor("WEBSHOP_CONTACT_CATEGORY", "Kunden in Kategorie:", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("WEBSHOP_SHIPPING_CATEGORY", "Versandart in Kategorie:", getFieldEditorParent()));
-
-		addField(new RadioGroupFieldEditor("WEBSHOP_ITEMNR_AND_NAME", "Artikelnummer und Name:", 2, new String[][] { { "Artikelnummer wird Produktname", "0" },
-				{ "Produktbeschreibung wird Produktname", "1" } }, getFieldEditorParent()));
-
 	}
 
 	/**
@@ -91,7 +86,6 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		node.put("WEBSHOP_PRODUCT_CATEGORY", "Shop");
 		node.put("WEBSHOP_CONTACT_CATEGORY", "Shop Kunden");
 		node.put("WEBSHOP_SHIPPING_CATEGORY", "Shop");
-		node.put("WEBSHOP_ITEMNR_AND_NAME", "0");
 	}
 
 }

@@ -59,7 +59,6 @@ public class SelectTextDialog extends SelectDataSetDialog {
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
 		// Create the table columns
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Text", 200, 50, false, "text");
 
