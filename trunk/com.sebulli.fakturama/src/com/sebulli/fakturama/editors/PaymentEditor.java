@@ -24,6 +24,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -55,6 +57,8 @@ public class PaymentEditor extends Editor {
 	private Text textDiscountValue;
 	private Text textDiscountDays;
 	private Text textNetDays;
+	private Text textPayed;
+	private Text textUnpayed;
 	private Text txtCategory;
 
 	// defines, if the payment is new created
@@ -93,6 +97,8 @@ public class PaymentEditor extends Editor {
 		payment.setDoubleValueByKey("discountvalue", DataUtils.StringToDouble(textDiscountValue.getText()));
 		payment.setStringValueByKey("discountdays", textDiscountDays.getText());
 		payment.setStringValueByKey("netdays", textNetDays.getText());
+		payment.setStringValueByKey("payedtext", textPayed.getText());
+		payment.setStringValueByKey("unpayedtext", textUnpayed.getText());
 
 		// If it is a new payment, add it to the payment list and
 		// to the data base
@@ -175,6 +181,8 @@ public class PaymentEditor extends Editor {
 		if (!payment.getStringValueByKey("discountdays").equals(textDiscountDays.getText())) { return true; }
 		if (!payment.getStringValueByKey("netdays").equals(textNetDays.getText())) { return true; }
 		if (!payment.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!payment.getStringValueByKey("payedtext").equals(textPayed.getText())) { return true; }
+		if (!payment.getStringValueByKey("unpayedtext").equals(textUnpayed.getText())) { return true; }
 
 		return false;
 	}
@@ -201,7 +209,7 @@ public class PaymentEditor extends Editor {
 
 		// Create the top Composite
 		Composite top = new Composite(parent, SWT.NONE);
-		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
+		GridLayoutFactory.swtDefaults().numColumns(4).applyTo(top);
 
 		// There is no invisible component, so no container has to be created
 		// Composite invisible = new Composite(top, SWT.NONE);
@@ -211,7 +219,7 @@ public class PaymentEditor extends Editor {
 		// Large payment label
 		Label labelTitle = new Label(top, SWT.NONE);
 		labelTitle.setText("Zahlungsmethode");
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(4, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
 		// Payment name
@@ -221,7 +229,7 @@ public class PaymentEditor extends Editor {
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(payment.getStringValueByKey("name"));
 		superviceControl(textName, 32);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
+		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textName);
 
 		// Payment category
 		Label labelCategory = new Label(top, SWT.NONE);
@@ -230,7 +238,7 @@ public class PaymentEditor extends Editor {
 		txtCategory = new Text(top, SWT.BORDER);
 		txtCategory.setText(payment.getStringValueByKey("category"));
 		superviceControl(txtCategory, 64);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
+		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(txtCategory);
 
 		// Payment description
 		Label labelDescription = new Label(top, SWT.NONE);
@@ -239,7 +247,7 @@ public class PaymentEditor extends Editor {
 		textDescription = new Text(top, SWT.BORDER);
 		textDescription.setText(payment.getStringValueByKey("description"));
 		superviceControl(textDescription, 64);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDescription);
+		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textDescription);
 
 		// Payment discount value
 		Label labelDiscountValue = new Label(top, SWT.NONE);
@@ -248,7 +256,7 @@ public class PaymentEditor extends Editor {
 		textDiscountValue = new Text(top, SWT.BORDER);
 		textDiscountValue.setText(DataUtils.DoubleToFormatedPercent(payment.getDoubleValueByKey("discountvalue")));
 		superviceControl(textDiscountValue, 12);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDiscountValue);
+		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textDiscountValue);
 
 		// Payment days to pay the discount
 		Label labelDiscountDays = new Label(top, SWT.NONE);
@@ -257,7 +265,7 @@ public class PaymentEditor extends Editor {
 		textDiscountDays = new Text(top, SWT.BORDER);
 		textDiscountDays.setText(payment.getStringValueByKey("discountdays"));
 		superviceControl(textDiscountDays, 8);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDiscountDays);
+		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textDiscountDays);
 
 		// Payment days to pay the net value
 		Label labelNetDays = new Label(top, SWT.NONE);
@@ -266,13 +274,68 @@ public class PaymentEditor extends Editor {
 		textNetDays = new Text(top, SWT.BORDER);
 		textNetDays.setText(payment.getStringValueByKey("netdays"));
 		superviceControl(textNetDays, 8);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(textNetDays);
+		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textNetDays);
 
+		// Label for the "payed" text message
+		Label labelPayed = new Label(top, SWT.NONE);
+		labelPayed.setText("Text 'bezahlt'");
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPayed);
+
+		// Create text field for the "payed" text message
+		textPayed = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		textPayed.setText(payment.getStringValueByKey("payedtext"));
+		superviceControl(textPayed, 500);
+		GridDataFactory.fillDefaults().hint(SWT.DEFAULT,200).grab(true, true).applyTo(textPayed);
+
+		// Label for the "payed" text message
+		Label labelUnpayed = new Label(top, SWT.NONE);
+		labelUnpayed.setText("Text 'Nicht bezahlt'");
+		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(labelUnpayed);
+		
+		// Create text field for "unpayed" text message
+		textUnpayed = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		textUnpayed.setText(payment.getStringValueByKey("unpayedtext"));
+		superviceControl(textUnpayed, 500);
+		GridDataFactory.fillDefaults().hint(SWT.DEFAULT,200).grab(true, true).applyTo(textUnpayed);
+
+		// Empty label
+		new Label(top, SWT.NONE);
+		
+		// Info label with the possible placeholders
+		Label labelPlaceholderInfo1 = new Label(top, SWT.WRAP);
+		labelPlaceholderInfo1.setText("Platzhalter: " + 
+				"<PAYED.VALUE>, <PAYED.DATE>");
+		
+		// Use a small font for this information
+		FontData[] fD = labelPlaceholderInfo1.getFont().getFontData();
+		fD[0].setHeight(8);
+		Font font = new Font(null, fD[0]);
+		labelPlaceholderInfo1.setFont(font);
+		font.dispose();
+
+		// Empty label
+		new Label(top, SWT.NONE);
+		
+		// Info label with the possible placeholders
+		Label labelPlaceholderInfo2 = new Label(top, SWT.WRAP);
+		labelPlaceholderInfo2.setText("Platzhalter: " + 
+				"<DUE.DAYS>, <DUE.DATE>");
+		
+		// Use a small font for this information
+		fD = labelPlaceholderInfo2.getFont().getFontData();
+		fD[0].setHeight(8);
+		font = new Font(null, fD[0]);
+		labelPlaceholderInfo2.setFont(font);
+		font.dispose();
+
+		
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo2);
+		
 		// Create the composite to make this payment to the standard payment. 
-		Label labelStdVat = new Label(top, SWT.NONE);
-		labelStdVat.setText("Standard");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
-		stdComposite = new StdComposite(top, payment, Data.INSTANCE.getPayments(), "standardpayment", "diese Zahlmethode");
+		Label labelStd = new Label(top, SWT.NONE);
+		labelStd.setText("Standard");
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStd);
+		stdComposite = new StdComposite(top, payment, Data.INSTANCE.getPayments(), "standardpayment", "diese Zahlmethode" ,3);
 
 	}
 

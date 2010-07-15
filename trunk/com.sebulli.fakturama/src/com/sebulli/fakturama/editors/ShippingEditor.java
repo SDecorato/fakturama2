@@ -501,7 +501,7 @@ public class ShippingEditor extends Editor {
 		labelStdVat.setText("Standard");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
 
-		stdComposite = new StdComposite(top, shipping, Data.INSTANCE.getShippings(), "standardshipping", "diese Versandkosten");
+		stdComposite = new StdComposite(top, shipping, Data.INSTANCE.getShippings(), "standardshipping", "diese Versandkosten", 1);
 
 	}
 
