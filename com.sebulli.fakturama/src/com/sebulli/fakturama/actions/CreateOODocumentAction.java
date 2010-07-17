@@ -129,11 +129,12 @@ public class CreateOODocumentAction extends Action {
 						template = templates.get(i);
 						MenuItem item = new MenuItem(menu, SWT.PUSH);
 						item.setText(template.getName());
+						item.setData(template.getPathAndFilename());
 						item.addListener(SWT.Selection, new Listener() {
 							public void handleEvent(Event e) {
 								// save the document and open the exporter
 								documentEditor.doSave(null);
-								new OODocument(documentEditor.getDocument(), template.getPathAndFilename());
+								new OODocument(documentEditor.getDocument(),(String) e.widget.getData() );
 							}
 						});
 					}

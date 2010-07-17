@@ -66,13 +66,33 @@ public abstract class Editor extends EditorPart {
 	 * @param label The label that is modified
 	 */
 	protected void makeLargeLabel(Label label) {
+		resizeLabel (label, 24);
+	}
+
+	/**
+	 * Set the font size of a label to 9pt
+	 * 
+	 * @param label The label that is modified
+	 */
+	protected void makeSmallLabel(Label label) {
+		resizeLabel (label, 9);
+	}
+
+	/**
+	 * Set the font size of a label to x px
+	 * 
+	 * @param label The label that is modified
+	 * @size Size of the label in px
+	 */
+	protected void resizeLabel(Label label, int size) {
 		FontData[] fD = label.getFont().getFontData();
-		fD[0].setHeight(24);
+		fD[0].setHeight(size);
 		Font font = new Font(null, fD[0]);
 		label.setFont(font);
 		font.dispose();
 	}
 
+	
 	/**
 	 * Class to create the widgets to show and set the standard
 	 * entry.

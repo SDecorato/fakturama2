@@ -20,12 +20,16 @@
 
 package com.sebulli.fakturama.openoffice;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
 import ag.ion.bion.officelayer.application.IOfficeApplication;
+import ag.ion.bion.officelayer.desktop.IFrame;
 import ag.ion.bion.officelayer.document.IDocument;
+import ag.ion.bion.officelayer.filter.PDFFilter;
 import ag.ion.bion.officelayer.text.IText;
 import ag.ion.bion.officelayer.text.ITextDocument;
 import ag.ion.bion.officelayer.text.ITextField;
@@ -35,6 +39,7 @@ import ag.ion.bion.officelayer.text.ITextTableCell;
 import ag.ion.bion.officelayer.text.TextException;
 import ag.ion.noa.document.URLAdapter;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
@@ -46,6 +51,9 @@ import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
+import com.sun.star.awt.XTopWindow;
+import com.sun.star.frame.XFrame;
+import com.sun.star.uno.UnoRuntime;
 
 /**
  * This class opens an OpenOffice Writer template and replaces all the
@@ -103,6 +111,15 @@ public class OODocument {
 			IDocument oOdocument = officeAplication.getDocumentService().loadDocument(url);
 			ITextDocument textDocument = (ITextDocument) oOdocument;
 			
+			// Bring the open office window on top.
+			IFrame officeFrame = textDocument.getFrame(); 
+			XFrame xFrame = officeFrame.getXFrame(); 
+			XTopWindow topWindow = (XTopWindow) 
+			UnoRuntime.queryInterface(XTopWindow.class,	xFrame. getContainerWindow()); 
+			topWindow.toFront(); 
+			xFrame.activate(); 
+
+			
 			// Get the contact of the UniDataSet document
 			int addressId = document.getIntValueByKey("addressid");
 
@@ -128,6 +145,7 @@ public class OODocument {
 			// A reference to the item and vat table
 			ITextTable itemsTable = null;
 			ITextTable vatListTable = null;
+			ITextTableCell itemCell = null;
 			ITextTableCell vatListCell = null;
 			
 			// Scan all placeholders to find the item and the vat table
@@ -139,7 +157,8 @@ public class OODocument {
 
 				// Find the item table
 				if (placeholderDisplayText.equals("<ITEM.NAME>") || placeholderDisplayText.equals("<ITEM.DESCRIPTION>")) {
-					itemsTable = placeholder.getTextRange().getCell().getTextTable();
+					itemCell = placeholder.getTextRange().getCell();
+					itemsTable = itemCell.getTextTable();
 				}
 				
 				// Find the vat table
@@ -151,14 +170,16 @@ public class OODocument {
 
 			// Get the items of the UniDataSet document
 			ArrayList<DataSetItem> itemDataSets = document.getItems().getActiveDatasets();
-			int lastTemplateRow = 0;
+			int lastItemTemplateRow = 0;
+			int lastVatTemplateRow = 0;
 
 			// Fill the item table with the items
 			if (itemsTable != null) {
 				
 				// Add the necessary rows for the items
-				lastTemplateRow = itemsTable.getRowCount();
-				itemsTable.addRow(itemDataSets.size());
+				int itemCellRow = itemCell.getName().getRowIndex();
+				lastItemTemplateRow = itemCellRow + itemDataSets.size();
+				itemsTable.addRow(itemCellRow, itemDataSets.size());
 				
 				for (int i = 0; i < placeholders.length; i++) {
 					
@@ -175,7 +196,9 @@ public class OODocument {
 							// Fill the corresponding table column with the
 							// item's data.
 							int column = placeholder.getTextRange().getCell().getName().getColumnIndex();
-							fillItemTableWithData(placeholderDisplayText, column, itemDataSets, itemsTable, lastTemplateRow);
+							ITextTableCell itemC = placeholder.getTextRange().getCell();
+							String itemCellText = itemC.getTextService().getText().getText();
+							fillItemTableWithData(placeholderDisplayText, column, itemDataSets, itemsTable, itemCellRow, itemCellText);
 						}
 					}
 				}
@@ -190,7 +213,8 @@ public class OODocument {
 				
 				// Add the necessary rows for the VAT entries
 				vatListTemplateRow = vatListCell.getName().getRowIndex();
-				vatListTable.addRow(vatListTemplateRow + 1, vatSummarySetManager.size());
+				lastVatTemplateRow = vatListTemplateRow + vatSummarySetManager.size();
+				vatListTable.addRow(vatListTemplateRow, vatSummarySetManager.size());
 
 				// Scan all placeholders for the VAT placeholders
 				for (int i = 0; i < placeholders.length; i++) {
@@ -208,8 +232,10 @@ public class OODocument {
 							// Fill the corresponding table column with the
 							// VAT data.
 							int column = placeholder.getTextRange().getCell().getName().getColumnIndex();
+							ITextTableCell c = placeholder.getTextRange().getCell();
+							String cellText = c.getTextService().getText().getText();
 							replaceVatListPlaceholder(placeholderDisplayText, column, vatSummarySetManager.getVatSummaryItems(), vatListTable,
-									vatListTemplateRow);
+									vatListTemplateRow, cellText);
 						}
 					}
 				}
@@ -222,18 +248,78 @@ public class OODocument {
 
 			// remove the temporary row of the item table
 			if (itemsTable != null) {
-				itemsTable.removeRow(lastTemplateRow - 1);
+				itemsTable.removeRow(lastItemTemplateRow );
 			}
 
 			// remove the temporary row of the VAT table
 			if (vatListTable != null) {
-				vatListTable.removeRow(vatListTemplateRow);
+				vatListTable.removeRow(lastVatTemplateRow );
 			}
 			
-			// Do not print or close the OpenOffice document
-			// textDocument.getFrame().getDispatch(GlobalCommands.PRINT_DOCUMENT_DIRECT).dispatch();
-			// textDocument.close();
-			// officeAplication.deactivate();
+			// Create the path of the file to save
+			String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+			savePath += "/Dokumente/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+			
+			// Create the directories, if they don't exist.
+			File directory = new File(savePath);
+			if (!directory.exists())
+				directory.mkdirs();
+			
+			// Use the document name as filename
+			savePath += this.document.getStringValueByKey("name");
+
+			// Add the time String, if this file is still existing
+			/*
+			File file = new File(savePath + ".odt");
+			if (file.exists()) {
+				DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+				savePath += "_" + dfmt.format(new Date());
+			}
+			*/
+			
+			// Save the document
+			FileOutputStream fs = new FileOutputStream(new File(savePath + ".odt")); 
+			textDocument.getPersistenceService().storeAs(fs);
+
+			// Create the path of the file to export as PDF
+			savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+			savePath += "/PDF/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+			
+			// Create the directories, if they don't exist.
+			directory = new File(savePath);
+			if (!directory.exists())
+				directory.mkdirs();
+			
+			// Use the document name as filename
+			savePath += this.document.getStringValueByKey("name");
+
+			// Add the time String, if this file is still existing
+			/*
+			File file = new File(savePath + ".odt");
+			if (file.exists()) {
+				DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+				savePath += "_" + dfmt.format(new Date());
+			}
+			*/
+			
+			// Save the document
+			fs = new FileOutputStream(new File(savePath + ".pdf")); 
+			textDocument.getPersistenceService().export(fs, new PDFFilter());
+			
+			// Print and close the OpenOffice document
+			/*
+			textDocument.getFrame().getDispatch(GlobalCommands.PRINT_DOCUMENT_DIRECT).dispatch();
+            try {
+                Thread.sleep(2000);
+            }
+            catch (Exception e1) {
+                e1.printStackTrace();
+            }
+			textDocument.close();
+			*/
+			
+			//officeAplication.deactivate();
+			
 			
 		} catch (Exception e) {
 			Logger.logError(e, "Error starting OpenOffice from " + url);
@@ -248,8 +334,10 @@ public class OODocument {
 	 * @param vatSummarySet VAT data
 	 * @param vatListTable The VAT table to fill
 	 * @param templateRow The first row of the table
+ 	 * @param cellText The cell's text.
 	 */
-	private void replaceVatListPlaceholder(String placeholderDisplayText, int column, VatSummarySet vatSummarySet, ITextTable vatListTable, int templateRow) {
+	private void replaceVatListPlaceholder(String placeholderDisplayText, int column, VatSummarySet vatSummarySet, ITextTable vatListTable,
+			int templateRow, String cellText) {
 		int i = 0;
 		
 		// Get all VATs
@@ -258,8 +346,8 @@ public class OODocument {
 			try {
 				
 				// Get the cell and fill the cell content
-				IText iText = vatListTable.getCell(column, templateRow + i + 1).getTextService().getText();
-				fillVatTableWithData(placeholderDisplayText, vatSummaryItem.getVatName(), Double.toString(vatSummaryItem.getVat()), iText, i);
+				IText iText = vatListTable.getCell(column, templateRow + i).getTextService().getText();
+				fillVatTableWithData(placeholderDisplayText, vatSummaryItem.getVatName(), Double.toString(vatSummaryItem.getVat()), iText, i, cellText);
 
 			} catch (TextException e) {
 				Logger.logError(e, "Error replacing Vat List Placeholders");
@@ -302,8 +390,9 @@ public class OODocument {
 	 * @param value VAT value
 	 * @param iText The Text that is set
 	 * @param index Index of the VAT entry
+	 * @param cellText The cell's text.
 	 */
-	private void fillVatTableWithData(String placeholderDisplayText, String key, String value, IText iText, int index) {
+	private void fillVatTableWithData(String placeholderDisplayText, String key, String value, IText iText, int index, String cellText) {
 
 		// Get the text of the column. This is to determine, if it is the column
 		// with the VAT description or with the VAT value
@@ -323,7 +412,7 @@ public class OODocument {
 			return;
 		
 		// Set the text
-		iText.setText(textValue);
+		iText.setText(cellText.replaceAll(placeholderDisplayText, textValue));
 		
 		// And also add it to the user defined text fields in the OpenOffice
 		// Writer document.
@@ -339,9 +428,10 @@ public class OODocument {
 	 * @param itemDataSets Item data
 	 * @param itemsTable The item table
 	 * @param lastTemplateRow Counts the last row of the table
+	 * @param cellText The cell's text.
 	 */
 	private void fillItemTableWithData(String placeholderDisplayText, int column, ArrayList<DataSetItem> itemDataSets, ITextTable itemsTable,
-			int lastTemplateRow) {
+			int lastTemplateRow, String cellText) {
 
 		// Get all items
 		for (int row = 0; row < itemDataSets.size(); row++) {
@@ -354,7 +444,7 @@ public class OODocument {
 				DataSetItem item = itemDataSets.get(row);
 				
 				// Set the cell content
-				fillItemTableWithData(placeholderDisplayText, item, iText, row);
+				fillItemTableWithData(placeholderDisplayText, item, iText, row, cellText);
 
 			} catch (TextException e) {
 				Logger.logError(e, "Error replacing Placeholders");
@@ -370,8 +460,9 @@ public class OODocument {
 	 * @param item
 	 * @param iText The Text that is set
 	 * @param index Index of the VAT entry
+ 	 * @param cellText The cell's text.
 	 */
-	private void fillItemTableWithData(String placeholderDisplayText, DataSetItem item, IText iText, int index) {
+	private void fillItemTableWithData(String placeholderDisplayText, DataSetItem item, IText iText, int index, String cellText) {
 
 		String value;
 		
@@ -447,7 +538,7 @@ public class OODocument {
 			return;
 
 		// Set the text of the cell
-		iText.setText(value);
+		iText.setText(cellText.replaceAll(placeholderDisplayText, value));
 
 		// And also add it to the user defined text fields in the OpenOffice
 		// Writer document.
@@ -488,6 +579,7 @@ public class OODocument {
 			setProperty("DOCUMENT.TRANSACTION", document.getStringValueByKey("transaction"));
 			setProperty("DOCUMENT.WEBSHOP.ID", document.getStringValueByKey("webshopid"));
 			setProperty("DOCUMENT.WEBSHOP.DATE", document.getFormatedStringValueByKey("webshopdate"));
+			setProperty("DOCUMENT.ITEMS.GROSS", document.getSummary().getItemsGross().asFormatedString());
 			setProperty("DOCUMENT.ITEMS.NET", document.getSummary().getItemsNet().asFormatedString());
 			setProperty("DOCUMENT.TOTAL.VAT", document.getSummary().getTotalVat().asFormatedString());
 			setProperty("DOCUMENT.TOTAL.GROSS", document.getSummary().getTotalGross().asFormatedString());
@@ -499,7 +591,6 @@ public class OODocument {
 			setProperty("SHIPPING.NAME", document.getStringValueByKey("shippingname"));
 			setProperty("SHIPPING.VAT.DESCRIPTION", document.getStringValueByKey("shippingvatdescription"));
 
-			setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
 			/*
 			 * setProperty("PAYMENT.DISCOUNT.PERCENT",
 			 * document.getFormatedStringValueByKey("paymentdiscount"));
@@ -508,6 +599,8 @@ public class OODocument {
 			 * (document.getDoubleValueByKey("paymentdiscount")
 			 * document.getSummary().getTotalGross().asDouble()));
 			 */
+			setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
+			setProperty("PAYMENT.TEXT", document.getStringValueByKey("paymenttext"));
 			setProperty("PAYMENT.PAYED.VALUE", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
 			setProperty("PAYMENT.PAYED.DATE", document.getFormatedStringValueByKey("paydate"));
 			setProperty("PAYMENT.DUE.DAYS", Integer.toString(document.getIntValueByKey("duedays")));

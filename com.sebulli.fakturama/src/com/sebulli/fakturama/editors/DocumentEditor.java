@@ -245,16 +245,34 @@ public class DocumentEditor extends Editor {
 
 		// Set the payment values depending on if the document is payed or not
 		document.setStringValueByKey("paymentname", paymentName);
+		document.setIntValueByKey("paymentid", paymentId);
+		
 		if (bPayed != null) {
+			String paymentText = "";
+			
 			if (bPayed.getSelection()) {
 				document.setBooleanValueByKey("payed", true);
 				document.setStringValueByKey("paydate", DataUtils.getDateTimeAsString(dtPayedDate));
 				document.setDoubleValueByKey("payvalue", payedValue.getValueAsDouble());
+				
+				// Use the text for "payed" from the current payment 
+				if (paymentId >= 0) {
+					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("payedtext"); 
+				}
+
 			} else {
 				document.setBooleanValueByKey("payed", false);
 				document.setIntValueByKey("duedays", spDueDays.getSelection());
 				document.setDoubleValueByKey("payvalue", 0.0);
+			
+				// Use the text for "unpayed" from the current payment 
+				if (paymentId >= 0) {
+					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("unpayedtext"); 
+				}
+
 			}
+			document.setStringValueByKey("paymenttext", paymentText);
+			
 		}
 		
 		// Set the sipping values
@@ -1591,6 +1609,7 @@ public class DocumentEditor extends Editor {
 						Object firstElement = structuredSelection.getFirstElement();
 						DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
 						paymentId = dataSetPayment.getIntValueByKey("id");
+						paymentName = dataSetPayment.getStringValueByKey("name");
 						checkDirty();
 					}
 				}
@@ -1605,8 +1624,9 @@ public class DocumentEditor extends Editor {
 
 			// Select the combo entry, that is set by the document.
 			try {
-				if (paymentId >= 0)
+				if (paymentId >= 0) {
 					comboViewerPayment.setSelection(new StructuredSelection(Data.INSTANCE.getPayments().getDatasetById(paymentId)), true);
+				}
 
 			} catch (IndexOutOfBoundsException e) {
 			}

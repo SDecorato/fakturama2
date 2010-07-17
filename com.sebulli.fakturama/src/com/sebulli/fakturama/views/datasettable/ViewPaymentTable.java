@@ -72,6 +72,7 @@ public class ViewPaymentTable extends ViewDataSetTable {
 		// 0, true, "id");
 		stdIconColumn = new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Standard", 55, 0, true, "$stdId");
 		refreshStdId();
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "id", 120, 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Bezeichnung", 200, 50, false, "description");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Skonto", 50, 0, true, "discountvalue");
