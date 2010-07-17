@@ -99,7 +99,7 @@ public enum Data {
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
 			messageBox.setText("Hinweis");
 			messageBox.setMessage("Keine Verbindung zur Datenbank möglich.\n\n" +
-								  "Ist Datenbank von einem andren Prozess geöffnet ?");
+								  "Ist Datenbank von einem anderen Prozess geöffnet ?");
 			messageBox.open();
 		}
 	}

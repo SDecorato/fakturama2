@@ -24,8 +24,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -303,32 +301,17 @@ public class PaymentEditor extends Editor {
 		
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo1 = new Label(top, SWT.WRAP);
-		labelPlaceholderInfo1.setText("Platzhalter: " + 
-				"<PAYED.VALUE>, <PAYED.DATE>");
-		
-		// Use a small font for this information
-		FontData[] fD = labelPlaceholderInfo1.getFont().getFontData();
-		fD[0].setHeight(8);
-		Font font = new Font(null, fD[0]);
-		labelPlaceholderInfo1.setFont(font);
-		font.dispose();
+		labelPlaceholderInfo1.setText("Platzhalter: <PAYED.VALUE>, <PAYED.DATE>");
+		makeSmallLabel(labelPlaceholderInfo1);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo1);
 
 		// Empty label
 		new Label(top, SWT.NONE);
 		
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo2 = new Label(top, SWT.WRAP);
-		labelPlaceholderInfo2.setText("Platzhalter: " + 
-				"<DUE.DAYS>, <DUE.DATE>");
-		
-		// Use a small font for this information
-		fD = labelPlaceholderInfo2.getFont().getFontData();
-		fD[0].setHeight(8);
-		font = new Font(null, fD[0]);
-		labelPlaceholderInfo2.setFont(font);
-		font.dispose();
-
-		
+		labelPlaceholderInfo2.setText("Platzhalter: <DUE.DAYS>, <DUE.DATE>");
+		makeSmallLabel(labelPlaceholderInfo2);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo2);
 		
 		// Create the composite to make this payment to the standard payment. 

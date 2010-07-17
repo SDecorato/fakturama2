@@ -65,8 +65,8 @@ public class DataSetDocument extends UniDataSet {
 	 * @param webshopdate Web shop date (date of order)
 	 */
 	public DataSetDocument(DocumentType documentType, String webshopid, String webshopdate) {
-		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", "2000-01-01", "2000-01-01", -1, "", 0, false, "2000-01-01", 0.0, "", 0, "", 0.0, 0.0,
-				"", 1, 0.0, "", 0, webshopid, webshopdate, false, "", "", 0.0, 0, -1);
+		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", "2000-01-01", "2000-01-01", -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0,
+				0.0, "", 1, 0.0, "", 0, webshopid, webshopdate, false, "", "", 0.0, 0, -1);
 
 		DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd");
 		this.hashMap.put("date", new UniData(UniDataType.DATE, dfmt.format(new Date())));
@@ -88,7 +88,7 @@ public class DataSetDocument extends UniDataSet {
 				.getStringValueByKey("deliveryaddress"), parent.getStringValueByKey("addressfirstline"), parent.getIntValueByKey("progress"), parent
 				.getStringValueByKey("customerref"), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd"))
 				.format(new Date()), parent.getIntValueByKey("paymentid"), parent.getStringValueByKey("paymentname"), parent.getIntValueByKey("duedays"),
-				false, parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("items"), parent.getIntValueByKey("shippingid"), parent
+				false, parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"),parent.getStringValueByKey("items"), parent.getIntValueByKey("shippingid"), parent
 						.getStringValueByKey("shippingname"), parent.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"), parent
 						.getStringValueByKey("shippingvatdescription"), parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent
 						.getStringValueByKey("message"), parent.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent
@@ -141,6 +141,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @param payed
 	 * @param paydate
 	 * @param payvalue
+	 * @param paymenttext
 	 * @param items
 	 * @param shippingid
 	 * @param shippingname
@@ -162,7 +163,7 @@ public class DataSetDocument extends UniDataSet {
 	 */
 	public DataSetDocument(int id, String name, boolean deleted, DocumentType documentType, int addressid, String address, String deliveryaddress,
 			String addressfirstline, int progress, String customerref, String date, String servicedate, int paymentid, String paymentname, int duedays,
-			boolean payed, String paydate, Double payvalue, String items, int shippingid, String shippingname, Double shipping, Double shippingvat,
+			boolean payed, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping, Double shippingvat,
 			String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid, String webshopdate,
 			boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel, int invoiceid) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
@@ -183,6 +184,7 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("payed", new UniData(UniDataType.BOOLEAN, payed));
 		this.hashMap.put("paydate", new UniData(UniDataType.DATE, paydate));
 		this.hashMap.put("payvalue", new UniData(UniDataType.PRICE, payvalue));
+		this.hashMap.put("paymenttext", new UniData(UniDataType.STRING, paymenttext));
 		this.hashMap.put("items", new UniData(UniDataType.STRING, items));
 		this.hashMap.put("shippingid", new UniData(UniDataType.ID, shippingid));
 		this.hashMap.put("shippingname", new UniData(UniDataType.STRING, shippingname));

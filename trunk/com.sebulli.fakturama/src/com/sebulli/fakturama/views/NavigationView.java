@@ -72,20 +72,20 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE,
 				"Daten", "/icons/16/data_16.png");
 
-		bar2.addAction(new OpenContactsAction());
-		bar2.addAction(new OpenProductsAction());
 		bar2.addAction(new OpenDocumentsAction());
-		bar2.addAction(new OpenVatsAction());
-		bar2.addAction(new OpenShippingsAction());
+		bar2.addAction(new OpenProductsAction());
+		bar2.addAction(new OpenContactsAction());
 		bar2.addAction(new OpenPaymentsAction());
+		bar2.addAction(new OpenShippingsAction());
+		bar2.addAction(new OpenVatsAction());
 		bar2.addAction(new OpenTextsAction());
 
 		// Create the 3rd expand bar "Create new"
 		final ExpandBar bar3 = new ExpandBar(expandBarManager, top, SWT.NONE,
 				"Neu erstellen", "/icons/16/plus_16.png");
 
-		bar3.addAction(new NewContactAction(null));
 		bar3.addAction(new NewProductAction());
+		bar3.addAction(new NewContactAction(null));
 
 		// Create the 4th expand bar "export"
 		final ExpandBar bar4 = new ExpandBar(expandBarManager, top, SWT.NONE,
