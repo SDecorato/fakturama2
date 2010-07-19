@@ -21,6 +21,7 @@
 package com.sebulli.fakturama.webshopimport;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
@@ -154,9 +155,45 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			int worked = 30;
 			double progress = worked;
 			
+			
+			// Get the directory of the workspace
+			String filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+			
+			File logFile = null;
+			BufferedWriter bos = null;
+			
+			// Do not save logfiles, of there is no workspace set
+			if (!filename.isEmpty()) {
+
+				// Create a subfolder "Log", if it does not exist yet.
+				filename += "/Log/";
+				File directory = new File(filename);
+				if (!directory.exists())
+					directory.mkdirs();
+				
+				// Name of the logfile
+				filename += "WebShopImport.log";
+				
+				// Create a File object
+				logFile = new File(filename);
+
+				// Create a new file
+				// If the log file exists read the content
+				if (logFile.exists()) 
+					logFile.delete();
+
+				// Create a buffered writer to write the imported data to the filesystem
+				bos = new BufferedWriter(new FileWriter(logFile, true));
+
+			}
+			
 			// read line by line and set the progress bar
 			while (((line = reader.readLine()) != null) && (!monitor.isCanceled())) {
-				System.out.println(line);
+				
+				// Write the imported data to the log file
+				if (bos != null)
+					bos.write(line + "\n");
+				
 				importXMLContent += line;
 
 				// exponential function to 100%
@@ -168,6 +205,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 					worked = iprogress;
 				}
 			}
+
+			if (bos != null)
+				bos.close();
 
 			// parse the XML stream
 			if (!monitor.isCanceled()) {

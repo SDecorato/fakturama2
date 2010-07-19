@@ -258,7 +258,7 @@ public class OODocument {
 			
 			// Create the path of the file to save
 			String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-			savePath += "/Dokumente/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+			savePath += "/Dokumente/OpenOffice/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
 			
 			// Create the directories, if they don't exist.
 			File directory = new File(savePath);
@@ -283,7 +283,7 @@ public class OODocument {
 
 			// Create the path of the file to export as PDF
 			savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-			savePath += "/PDF/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+			savePath += "/Dokumente/PDF/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
 			
 			// Create the directories, if they don't exist.
 			directory = new File(savePath);
