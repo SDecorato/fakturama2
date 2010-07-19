@@ -288,7 +288,7 @@ public class ProductEditor extends Editor {
 		filename1 = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
 		
 		// add the picture subfolder
-		filename2 = "/pics/products/";
+		filename2 = "/Pics/Products/";
 		
 		// Set the variables
 		picturePath = filename1 + filename2;

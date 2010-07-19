@@ -48,8 +48,8 @@ import com.sebulli.fakturama.views.ErrorView;
  */
 public class LogListener implements ILogListener {
 	
-	// Maximum lines of the logile
-	private static final int MAXLINES = 1000;
+	// Maximum lines of the logfile
+	private static final int MAXLINES = 2000;
 	
 	// The logile
 	private File logFile;
@@ -59,11 +59,31 @@ public class LogListener implements ILogListener {
 	
 	// Display or hide the errorview
 	private boolean showerrorview = false;
+	
+	// Store the error log file in the workspace
+	String filename;
+	
 
 	/**
 	 * Constructor
 	 */
 	public LogListener() {
+		
+		// Get the directory of the workspace
+		filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+		
+		// Do not save logfiles, of there is no workspace set
+		if (filename.isEmpty())
+			return;
+		
+		// Create a subfolder "Log", if it does not exist yet.
+		filename += "/Log/";
+		File directory = new File(filename);
+		if (!directory.exists())
+			directory.mkdirs();
+		
+		// Name of the logfile
+		filename += "Error.log";
 	}
 
 	/**
@@ -151,12 +171,10 @@ public class LogListener implements ILogListener {
 			// Show the error view (only if it is not just an information message)
 			showErrorView();
 
-			// Store the error log file in the workspace
-			String filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+			// Do not log, if no workspace is set.
 			if (filename.isEmpty())
-				return; 
-			filename += "/Error.log";
-
+				return;			
+			
 			// Create a File object
 			logFile = new File(filename);
 
