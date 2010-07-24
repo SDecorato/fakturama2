@@ -34,20 +34,33 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.DataBaseConnectionState;
+import com.sebulli.fakturama.data.DocumentType;
+import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.TemporaryViews;
 
+/**
+ * Manages the workspace
+ * 
+ * @author Gerd Bartelt
+ */
 public enum Workspace {
 	INSTANCE;
 	
+	public static final String templateFolderName = "Vorlagen"; 
+	
+	// Workspace path
 	String workspace = "";
+	
+	// The plugin's preference store
 	IPreferenceStore preferences;
 	
 	Workspace () {
 		
+		// Get the workspace from the preferences
 		preferences = Activator.getDefault().getPreferenceStore();
 		workspace = preferences.getString("GENERAL_WORKSPACE");
 			
-		// Checks, if the workspace request is set.
+		// Checks, wheter the workspace request is set.
 		// If yes, the workspace is set to this value and the request value is cleared.
 		// This mechanism is used, because the workspace can only be changed by restarting the application.
 		String requestedWorkspace = preferences.getString("GENERAL_WORKSPACE_REQUEST");
@@ -56,7 +69,7 @@ public enum Workspace {
 			setWorkspace (requestedWorkspace);
 		}
 
-		// Checks, if the workspace is set.
+		// Checks, wheter the workspace is set.
 		// If not, the SelectWorkspaceAction is started to select it.
 		if (workspace.isEmpty()) {
 			selectWorkspace();
@@ -66,52 +79,106 @@ public enum Workspace {
 
 	}
 	
+	/**
+	 * Initialize the workspace.
+	 * e.g. Creates a new template folder
+	 * 
+	 */
 	public void initWorkspace() {
 		
+		// Exit, if the workspace path is not set
 		if (workspace.isEmpty())
 			return;
+
+		// Exit, if the workspace path is not valid
+		File workspacePath = new File(workspace);
+		if (workspacePath == null)
+			return;
+		if (!workspacePath.exists())
+			return;
+
+		// Create and fill the tamplate folder, if it does not exist.
+		File directory = new File(workspace + "/" + templateFolderName);
+		if (!directory.exists()) {
+			
+			// Copy the templates from the resources to the file system
+			for (int i = 1; i <= 8; i++ ) {
+				resourceCopy("Templates/Invoice/Document.ott", 
+						 templateFolderName + "/" + DocumentType.getString(i),
+						"Document.ott");
+			}
+		}
+	}
+	
+	/**
+	 * Copies a resource file from the resource to the file system
+	 * 
+	 * @param resource The resource file
+	 * @param filePath The destination on the file system
+	 * @param fileName The destination file name
+	 */
+	public void resourceCopy(String resource, String filePath, String fileName) {
 		
-		String templatesDir = workspace + "/Templates/Invoice";
-		String templatesFile = templatesDir + "/" + "Document.ott";
+		// Relative path
+		filePath = workspace + "/" + filePath;
 		
-		File directory = new File(templatesDir);
+		// Create the destination folder
+		File directory = new File(filePath);
 		if (!directory.exists())
 			directory.mkdirs();
 		
-
-		
+		// Copy the file
 		try {
-			InputStream in = Activator.getDefault().getBundle().getResource("Templates/Invoice/Document.ott").openStream();
-			File fout = new File(templatesFile);
+			// Create the input stream from the resource file
+			InputStream in = Activator.getDefault().getBundle().getResource(resource).openStream();
+			
+			// Create the output stream from the output file name
+			File fout = new File(filePath + "/" + fileName);
 			OutputStream out;
-				out = new FileOutputStream(fout);
-		    byte[] buf = new byte[1024];
+			out = new FileOutputStream(fout);
+		    
+			// Copy the content
+			byte[] buf = new byte[1024];
 		    int len;
 		    while ((len = in.read(buf)) > 0){
 		    	out.write(buf, 0, len);
 		    }
+		    
+		    // Close both streams
 		    in.close();
 		    out.close();
+		    
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.logError(e, "Resource file not found");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.logError(e, "Error copying the resource file to the file system.");
 		}
 
+		
 	}
 	
+	/**
+	 * Set the workspace
+	 * 
+	 * @param workspace Path to the workspace
+	 */
 	public void setWorkspace (String workspace) {
 		this.workspace = workspace;
 		preferences.setValue("GENERAL_WORKSPACE", workspace);
 	}
 
+	/**
+	 * Returns the path of the workspace
+	 * @return The workspace path as string
+	 */
 	public String getWorkspace () {
 		return this.workspace;
 		
 	}
 	
+	/**
+	 * Opens a dialog to select the workspace
+	 */
 	public void selectWorkspace() {
 		// Open a directory dialog 
 		DirectoryDialog directoryDialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
@@ -167,7 +234,5 @@ public enum Workspace {
 					"Fakturama - " + workspace);
 		}
 	}
-
-	
 	
 }

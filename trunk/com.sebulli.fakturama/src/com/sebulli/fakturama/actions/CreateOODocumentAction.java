@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
@@ -112,7 +113,7 @@ public class CreateOODocumentAction extends Action {
 				documentEditor = (DocumentEditor) editor;
 				String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
 				String templatePath1 = workspace + "/Templates/" + documentEditor.getDocumentType().getTypeAsString() + "/";
-				String templatePath2 = workspace + "/Vorlagen/" + documentEditor.getDocumentType().getString() + "/";
+				String templatePath2 = workspace + "/" + Workspace.templateFolderName + "/" + documentEditor.getDocumentType().getString() + "/";
 
 				// Clear the list before adding new entries
 				templates.clear();

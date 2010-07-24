@@ -73,7 +73,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 	 * @param node The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("DOCUMENT_USE_NET_GROSS", "0");
+		node.put("DOCUMENT_USE_NET_GROSS", "1");
 	}
 
 }

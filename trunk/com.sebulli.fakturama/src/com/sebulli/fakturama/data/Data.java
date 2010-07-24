@@ -24,7 +24,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -60,8 +60,14 @@ public enum Data {
 	Data() {
 		// connect to the data base
 		this.db = new DataBase();
-		System.out.println(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
-		newDBcreated = this.db.connect(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
+		
+		// Get the workspace
+		Workspace.INSTANCE.initWorkspace();
+		String workspace = Workspace.INSTANCE.getWorkspace();
+		
+		// do not try to create a data base, if the workspace is not set.
+		if (!workspace.isEmpty())
+			newDBcreated = this.db.connect(workspace);
 		
 		// If there is a connection to the data base
 		// read all the tables
@@ -97,11 +103,13 @@ public enum Data {
 			texts = new DataSetArray<DataSetText>(null, new DataSetText());
 
 			// Display a warning
-			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
-			messageBox.setText("Hinweis");
-			messageBox.setMessage("Keine Verbindung zur Datenbank möglich.\n\n" +
-								  "Ist Datenbank von einem anderen Prozess geöffnet ?");
-			messageBox.open();
+			if (!workspace.isEmpty()) {
+				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
+				messageBox.setText("Hinweis");
+				messageBox.setMessage("Keine Verbindung zur Datenbank möglich.\n\n" +
+									  "Ist Datenbank von einem anderen Prozess geöffnet ?");
+				messageBox.open();
+			}
 		}
 	}
 

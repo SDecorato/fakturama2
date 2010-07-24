@@ -105,6 +105,7 @@ public class VatEditor extends Editor {
 
 		// Refresh the table view of all payments
 		refreshView();
+		checkDirty();
 	}
 
 	/**
