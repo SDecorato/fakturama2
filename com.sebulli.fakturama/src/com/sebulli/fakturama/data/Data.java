@@ -60,6 +60,7 @@ public enum Data {
 	Data() {
 		// connect to the data base
 		this.db = new DataBase();
+		System.out.println(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
 		newDBcreated = this.db.connect(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
 		
 		// If there is a connection to the data base
