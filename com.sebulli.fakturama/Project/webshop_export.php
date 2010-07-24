@@ -170,19 +170,18 @@ require(DIR_WS_FUNCTIONS . 'general.php');
 require(DIR_WS_FUNCTIONS . 'html_output.php');
 
 
+// Convert a string to UTF-8 and replace the qotes
 function my_encode($s) {
 
-	// Convert to UTF-8
-	$s = utf8_encode($s);
-	
-	// Convert entities like &uuml; to ü
-	$s = html_entity_decode($s, ENT_COMPAT , "UTF-8");
+	// Convert a string to UTF-8 and do not replace the qotes
+	$s = my_encode_with_quotes($s);
 
 	// Replace quotes
 	$s = str_replace("\"", "&quot;", $s);
 	return $s;
 }
 
+// Convert a string to UTF-8 and do not replace the qotes
 function my_encode_with_quotes($s) {
 
 	// Convert to UTF-8
@@ -191,9 +190,23 @@ function my_encode_with_quotes($s) {
 	// Convert entities like &uuml; to ü
 	$s = html_entity_decode($s, ENT_COMPAT , "UTF-8");
 
+	// Replace ampersand
+	$s = str_replace("&", "&amp;", $s);
+
 	return $s;
 }
 
+// Remove the HTML tags but keep the BR-tags
+function my_strip_tags($s) {
+	
+	// Remove all HTML tags	
+	$s = strip_tags($s);
+
+	// But keep the BR-tags
+	$s = str_replace("\n", "<br />", $s);
+	$s = str_replace("\r", "", $s);
+	return $s;
+}
 
 
 class order {
@@ -560,14 +573,17 @@ $password = sbf_db_prepare_input($HTTP_POST_VARS['password']);
 echo ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 echo ("<webshopexport version=\"1.0\" >\n");
 echo ("<webshop ");
-if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
-	echo ("shop=\"oscommerce\" ");
-else if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE)
-	echo ("shop=\"xtcommerce\" ");
+
+if (FAKTURAMA_WEBSHOP == OSCOMMERCE)
+	echo ("shop=\"osCommerce\" ");
+else if (FAKTURAMA_WEBSHOP == XTCOMMERCE)
+	echo ("shop=\"xt:Commerce\" ");
+else if (FAKTURAMA_WEBSHOP == XTCMODIFIED)
+	echo ("shop=\"xtcModified\" ");
 else
 	echo ("shop=\"???\" ");
 	
-echo ("version=\"".PROJECT_VERSION."\"></webshop>\n");
+echo ("></webshop>\n");
 
 
 
@@ -668,23 +684,19 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
   												(langu.code = '". $category_language ."')
 										   ");
 			while ($products = sbf_db_fetch_array($products_query)) {
-				echo ("    <product ");
-				echo ("model=\"".my_encode($products['products_model'])."\" ");
-				echo ("name=\"".my_encode($products['products_name'])."\" ");
-				echo ("category=\"".my_encode($products['categories_name'])."\" ");
-				echo ("gross=\"". number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2)."\" ");
-				echo ("vatpercent=\"".number_format( $products['tax_rate'], 2)."\" ");
-				echo ("vatname=\"".my_encode($products['tax_description'])."\" ");
+				echo ("  <product ");
+				echo ("gross=\"". number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2) ."\" " );
+				echo ("vatpercent=\"". number_format( $products['tax_rate'], 2) ."\" " );
 				echo (">\n");
-				echo ("      <short_description>\n");
-				echo (my_encode_with_quotes($products['products_short_description']));
-			
-				echo ("\n");
-				echo ("      </short_description>\n");
-				echo ("    </product>\n");
+				echo ("   <model>" . my_encode($products['products_model'])."</model>\n");
+				echo ("   <name>" . my_encode($products['products_name'])."</name>\n");
+				echo ("   <category>" . my_encode($products['categories_name'])."</category>\n");
+				echo ("   <vatname>".my_encode($products['tax_description'])."</vatname>\n");
+				echo ("   <short_description>" . my_encode_with_quotes(my_strip_tags ( $products['products_short_description'])) . "</short_description>\n");
+				echo ("  </product>\n\n");
 
 			}
-			echo (" </products>\n");
+			echo (" </products>\n\n\n\n");
 		
 		}
 		
@@ -794,27 +806,27 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 				//echo ('    <last_modified>'.$order->info['last_modified'].'</last_modified>'."\n");
 
 
-				echo ("    <contact ");
-				echo ("id=\"".my_encode($order->customer['id'])."\" ");
-				echo ("gender=\"".my_encode($order->billing['gender'])."\" ");
-				echo ("firstname=\"".my_encode($order->billing['firstname'])."\" ");
-				echo ("lastname=\"".my_encode($order->billing['lastname'])."\" ");
-				echo ("company=\"".my_encode($order->billing['company'])."\" ");
-				echo ("street=\"".my_encode($order->billing['street_address'])."\" ");
-				echo ("zip=\"".my_encode($order->billing['postcode'])."\" ");
-				echo ("city=\"".my_encode($order->billing['city'])."\" ");
-				echo ("country=\"".my_encode($order->billing['country'])."\" ");
-				echo ("delivery_gender=\"".my_encode($order->delivery['gender'])."\" ");
-				echo ("delivery_firstname=\"".my_encode($order->delivery['firstname'])."\" ");
-				echo ("delivery_lastname=\"".my_encode($order->delivery['lastname'])."\" ");
-				echo ("delivery_company=\"".my_encode($order->delivery['company'])."\" ");
-				echo ("delivery_street=\"".my_encode($order->delivery['street_address'])."\" ");
-				echo ("delivery_zip=\"".my_encode($order->delivery['postcode'])."\" ");
-				echo ("delivery_city=\"".my_encode($order->delivery['city'])."\" ");
-				echo ("delivery_country=\"".my_encode($order->delivery['country'])."\" ");
-				echo ("phone=\"".my_encode($order->billing['telephone'])."\" ");
-				echo ("email=\"".my_encode($order->billing['email_address'])."\" ");
-				echo ("></contact>\n");
+				echo ("   <contact ");
+				echo ("id=\"".my_encode($order->customer['id'])."\">\n");
+				echo ("    <gender>".my_encode($order->billing['gender'])."</gender>\n");
+				echo ("    <firstname>".my_encode($order->billing['firstname'])."</firstname>\n");
+				echo ("    <lastname>".my_encode($order->billing['lastname'])."</lastname>\n");
+				echo ("    <company>".my_encode($order->billing['company'])."</company>\n");
+				echo ("    <street>".my_encode($order->billing['street_address'])."</street>\n");
+				echo ("    <zip>".my_encode($order->billing['postcode'])."</zip>\n");
+				echo ("    <city>".my_encode($order->billing['city'])."</city>\n");
+				echo ("    <country>".my_encode($order->billing['country'])."</country>\n");
+				echo ("    <delivery_gender>".my_encode($order->delivery['gender'])."</delivery_gender>\n");
+				echo ("    <delivery_firstname>".my_encode($order->delivery['firstname'])."</delivery_firstname>\n");
+				echo ("    <delivery_lastname>".my_encode($order->delivery['lastname'])."</delivery_lastname>\n");
+				echo ("    <delivery_company>".my_encode($order->delivery['company'])."</delivery_company>\n");
+				echo ("    <delivery_street>".my_encode($order->delivery['street_address'])."</delivery_street>\n");
+				echo ("    <delivery_zip>".my_encode($order->delivery['postcode'])."</delivery_zip>\n");
+				echo ("    <delivery_city>".my_encode($order->delivery['city'])."</delivery_city>\n");
+				echo ("    <delivery_country>".my_encode($order->delivery['country'])."</delivery_country>\n");
+				echo ("    <phone>".my_encode($order->billing['telephone'])."</phone>\n");
+				echo ("    <email>".my_encode($order->billing['email_address'])."</email>\n");
+				echo ("   </contact>\n");
 
 
 				while ($orders_history = sbf_db_fetch_array($orders_history_query)) {
@@ -844,43 +856,46 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 					
 					
 					
-					echo ("    <item ");
+					echo ("   <item ");
 					echo ("id=\"".my_encode($product['id'])."\" ");
 					echo ("quantity=\"".$product['qty']."\" ");
-					if (!empty($product['model']))
-						echo ("model=\"".my_encode($product['model'])."\" ");
-					else
-						echo ("model=\"".my_encode($product['name'])."\" ");
-					echo ("name=\"".my_encode($product['name']));
-					echo ("\" ");
-					echo ("category=\"".my_encode( $product['category']) ."\" ");
 					
 					if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
 						echo ("gross=\"".number_format( $product['price'] * (1+ $product['tax']/100), 2) ."\" ");
 					if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE)
 						echo ("gross=\"".number_format( $product['price'], 2) ."\" ");
 
-					echo ("vatpercent=\"". number_format($product['tax'],2) . "\" ");
-					echo ("vatname=\"".my_encode($product['tax_description'])."\" ");
-					echo (">");
+					echo ("vatpercent=\"". number_format($product['tax'],2) . "\">\n");
+
+					echo ("    <model>");
+					if (!empty($product['model']))
+						echo (my_encode($product['model']));
+					else
+						echo (my_encode($product['name']));
+					echo ("</model>\n");
+
+					echo ("    <name>".my_encode($product['name'])) . "</name>\n";
+					echo ("    <category>".my_encode( $product['category']) ."</category>\n");
+					echo ("    <vatname>".my_encode($product['tax_description'])."</vatname>\n");
+
 
 
 					// Export the product attributes
 	        		if ($product['attributes']){
 						$subindex = 0;
 	          			foreach ($product['attributes'] as $attribute) {
-	            			echo ("\n");
-	            			echo ("        <attribute ");
-	            			echo ("option=\"". my_encode($product['attributes'][$subindex]['option']) ."\" ");
-	            			echo ("value=\"". my_encode($product['attributes'][$subindex]['value']) ."\" ");
+	            			echo ("    <attribute ");
 	            			echo ("prefix=\"". my_encode($product['attributes'][$subindex]['prefix']) ."\" ");
-	            			echo ("price=\"". my_encode($product['attributes'][$subindex]['price']) ."\" ");
-	            			echo ("/>\n    ");
+	            			echo ("price=\"". my_encode($product['attributes'][$subindex]['price']) ."\"");
+	            			echo (">\n");
+	            			echo ("     <option>". my_encode($product['attributes'][$subindex]['option']) ."</option>\n");
+	            			echo ("     <value>". my_encode($product['attributes'][$subindex]['value']) ."</value>\n");
+	            			echo ("    </attribute>\n");
 	            			$subindex ++;
 	          			}
 	        		}
 					
-					echo ("</item>\n");
+					echo ("   </item>\n");
 				}
 
 				$totals_query = sbf_db_query("SELECT
@@ -934,25 +949,25 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 					$shipping_value = $matches[0];
 
 
-				echo ("    <shipping ");
-				echo ("name=\"".my_encode($shipping_title)."\" ");
-//				echo ("net=\"" .number_format( $shipping_value / ( 1 + $shipping_tax/100), 2)."\" ");
+				echo ("   <shipping ");
 				echo ("gross=\"".number_format( $shipping_value , 2)."\" ");
-				echo ("vatpercent=\"". number_format($shipping_tax,2) . "\" ");
-				echo ("vatname=\"". my_encode($shipping_tax_name) . "\" ");
-				echo ("></shipping>\n");
+//				echo ("net=\"" .number_format( $shipping_value / ( 1 + $shipping_tax/100), 2)."\" ");
+				echo ("vatpercent=\"". number_format($shipping_tax,2) . "\">\n");
+				echo ("    <name>".my_encode($shipping_title)."</name>\n");
+				echo ("    <vatname>". my_encode($shipping_tax_name) . "</vatname>\n");
+				echo ("   </shipping>\n");
 				
 				
 				
-				echo ("    <payment ");
-				echo ("id=\"". my_encode($payment_text) ."\" ");
-				echo ("name=\"". my_encode($order->info['payment_method']) ."\" ");
-				echo ("total=\"".number_format($total,2)."\" ");
-				echo ("></payment>\n");
+				echo ("   <payment ");
+				echo ("type=\"". my_encode($payment_text) ."\" ");
+				echo ("total=\"".number_format($total,2)."\">\n");
+				echo ("    <name>".my_encode($order->info['payment_method'])."</name>\n");
+				echo ("   </payment>\n");
 				
 
 
-				echo ("  </order>\n");
+				echo ("  </order>\n\n");
 			}
 			echo (" </orders>\n");
 		}	

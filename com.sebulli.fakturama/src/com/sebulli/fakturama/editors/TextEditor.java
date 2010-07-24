@@ -101,6 +101,7 @@ public class TextEditor extends Editor {
 
 		// Refresh the table view of all contacts
 		refreshView();
+		checkDirty();
 	}
 
 	/**

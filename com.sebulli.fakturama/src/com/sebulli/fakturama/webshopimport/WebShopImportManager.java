@@ -362,6 +362,29 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	}
 
 	/**
+	 * Returns the text of a specified child node.
+	 * 
+	 * @param parentNode The parent node.
+	 * @param name Name of the child
+	 * @return The text, or an empty string
+	 */
+	private static String getChildTextAsString(Node parentNode, String name) {
+
+		String retVal = "";
+		
+		// Search all child nodes and find the node with the name "name"
+		for (int index = 0; index < parentNode.getChildNodes().getLength(); index++) {
+			Node child = parentNode.getChildNodes().item(index);
+			
+			// Node found
+			if (child.getNodeName().equals(name))
+				retVal = child.getTextContent();
+		}
+		
+		return retVal;
+	}
+
+	/**
 	 * Convert the payment method to a readable (and localized) text.
 	 * 
 	 * @param intext  order status
@@ -402,13 +425,13 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		
 		// Get the attributes ID and date of this order
 		NamedNodeMap attributes = productNode.getAttributes();
-		productModel 		= getAttributeAsString(attributes, "model");
-		productName 		= getAttributeAsString(attributes, "name");
-		productCategory 	= getAttributeAsString(attributes, "category");
 		productNet 			= getAttributeAsString(attributes, "net");
-		productGross 			= getAttributeAsString(attributes, "gross");
+		productGross 		= getAttributeAsString(attributes, "gross");
 		productVatPercent 	= getAttributeAsString(attributes, "vatpercent");
-		productVatName		= getAttributeAsString(attributes, "vatname");
+		productModel 		= getChildTextAsString(productNode, "model");
+		productName 		= getChildTextAsString(productNode, "name");
+		productCategory 	= getChildTextAsString(productNode, "category");
+		productVatName		= getChildTextAsString(productNode, "vatname");
 
 		// Get the product description as plain text.
 		productDescription = "";
@@ -587,24 +610,24 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Get the contact data
 			if (childnode.getNodeName().equalsIgnoreCase("contact")) {
 				id = getAttributeAsString(attributes, "id");
-				genderString = getAttributeAsString(attributes, "gender");
-				firstname = getAttributeAsString(attributes, "firstname");
-				lastname = getAttributeAsString(attributes, "lastname");
-				company = getAttributeAsString(attributes, "company");
-				street = getAttributeAsString(attributes, "street");
-				zip = getAttributeAsString(attributes, "zip");
-				city = getAttributeAsString(attributes, "city");
-				country = getAttributeAsString(attributes, "country");
-				deliveryGenderString = getAttributeAsString(attributes, "delivery_gender");
-				delivery_firstname = getAttributeAsString(attributes, "delivery_firstname");
-				delivery_lastname = getAttributeAsString(attributes, "delivery_lastname");
-				delivery_company = getAttributeAsString(attributes, "delivery_company");
-				delivery_street = getAttributeAsString(attributes, "delivery_street");
-				delivery_zip = getAttributeAsString(attributes, "delivery_zip");
-				delivery_city = getAttributeAsString(attributes, "delivery_city");
-				delivery_country = getAttributeAsString(attributes, "delivery_country");
-				phone = getAttributeAsString(attributes, "phone");
-				email = getAttributeAsString(attributes, "email");
+				genderString = getChildTextAsString(childnode, "gender");
+				firstname = getChildTextAsString(childnode, "firstname");
+				lastname = getChildTextAsString(childnode, "lastname");
+				company = getChildTextAsString(childnode, "company");
+				street = getChildTextAsString(childnode, "street");
+				zip = getChildTextAsString(childnode, "zip");
+				city = getChildTextAsString(childnode, "city");
+				country = getChildTextAsString(childnode, "country");
+				deliveryGenderString = getChildTextAsString(childnode, "delivery_gender");
+				delivery_firstname = getChildTextAsString(childnode, "delivery_firstname");
+				delivery_lastname = getChildTextAsString(childnode, "delivery_lastname");
+				delivery_company = getChildTextAsString(childnode, "delivery_company");
+				delivery_street = getChildTextAsString(childnode, "delivery_street");
+				delivery_zip = getChildTextAsString(childnode, "delivery_zip");
+				delivery_city = getChildTextAsString(childnode, "delivery_city");
+				delivery_country = getChildTextAsString(childnode, "delivery_country");
+				phone = getChildTextAsString(childnode, "phone");
+				email = getChildTextAsString(childnode, "email");
 
 				// Convert a gender character "m" or "f" to the gender number 
 				// 1 or 2
@@ -684,13 +707,13 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Get the item data
 			if (childnode.getNodeName().equalsIgnoreCase("item")) {
 				itemQuantity = getAttributeAsString(attributes, "quantity");
-				itemModel = getAttributeAsString(attributes, "model");
-				itemName = getAttributeAsString(attributes, "name");
-				itemCategory = getAttributeAsString(attributes, "category");
 				itemGross = getAttributeAsString(attributes, "gross");
 				itemVatpercent = getAttributeAsString(attributes, "vatpercent");
-				itemVatname = getAttributeAsString(attributes, "vatname");
-
+				itemModel = getChildTextAsString(childnode, "model");
+				itemName = getChildTextAsString(childnode, "name");
+				itemCategory = getChildTextAsString(childnode, "category");
+				itemVatname = getChildTextAsString(childnode, "vatname");
+	
 				// Convert VAT percent value to a factor (100% -> 1.00)
 				Double vat_percentDouble = 0.0;
 				try {
@@ -736,8 +759,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 						attributes = itemChild.getAttributes();
 						if (!itemDescription.isEmpty())
 							itemDescription += ", ";
-						itemDescription += getAttributeAsString(attributes, "option") + ": ";
-						itemDescription += getAttributeAsString(attributes, "value");
+						itemDescription += getChildTextAsString(itemChild, "option") + ": ";
+						itemDescription += getChildTextAsString(itemChild, "value");
 						System.out.println(itemName+"-"+itemDescription);
 					}
 				}
@@ -772,11 +795,11 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 			// Import the shipping data
 			if (childnode.getNodeName().equalsIgnoreCase("shipping")) {
-				shipping_name = getAttributeAsString(attributes, "name");
+				shipping_name = getChildTextAsString(childnode, "name");
 				shipping_gross = getAttributeAsString(attributes, "gross");
 
 				shipping_vatpercent = getAttributeAsString(attributes, "vatpercent");
-				shipping_vatname = getAttributeAsString(attributes, "vatname");
+				shipping_vatname = getChildTextAsString(childnode, "vatname");
 
 				// Get the VAT value as double
 				Double shippingvat_percentDouble = 0.0;
@@ -829,8 +852,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Get the payment data
 			if (childnode.getNodeName().equalsIgnoreCase("payment")) {
 				order_total = getAttributeAsString(attributes, "total");
-				paymentCode = getAttributeAsString(attributes, "id");
-				paymentName = getAttributeAsString(attributes, "name");
+				paymentCode = getAttributeAsString(attributes, "type");
+				paymentName = getChildTextAsString(childnode, "name");
 
 				// Get the value of the payment
 				try {
@@ -843,6 +866,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				DataSetPayment payment = Data.INSTANCE.getPayments().addNewDataSetIfNew(
 						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")",0.0, 0, 0,"Zahlung dankend erhalten.","", false));
 				dataSetDocument.setIntValueByKey("paymentid", payment.getIntValueByKey("id"));
+				dataSetDocument.setStringValueByKey("paymentname", paymentName);
 
 			}
 		}

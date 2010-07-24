@@ -175,6 +175,8 @@ public class ProductEditor extends Editor {
 
 		// Refresh the table view of all contacts
 		refreshView();
+		checkDirty();
+		
 	}
 
 	/**

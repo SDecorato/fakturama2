@@ -134,6 +134,7 @@ public class ShippingEditor extends Editor {
 
 		// Refresh the table view of all contacts
 		refreshView();
+		checkDirty();
 	}
 
 	/**
