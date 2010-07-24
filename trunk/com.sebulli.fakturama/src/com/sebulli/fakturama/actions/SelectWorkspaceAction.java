@@ -21,14 +21,8 @@
 package com.sebulli.fakturama.actions;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.Startup;
-import com.sebulli.fakturama.data.DataBaseConnectionState;
+import com.sebulli.fakturama.Workspace;
 
 /**
  * This action opens a dialog to select the workspace.
@@ -62,46 +56,7 @@ public class SelectWorkspaceAction extends Action {
 	@Override
 	public void run() {
 		
-		// Open a directory dialog 
-		DirectoryDialog directoryDialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-		directoryDialog.setFilterPath( System.getProperty("user.home") );
-		directoryDialog.setMessage("Bitte wählen Sie ein Dateiverzeichnis aus, in dem die Firmendaten abgelegt werden.");
-		directoryDialog.setText("Arbeitsverzeichnis auswählen");
-		String selectedDirectory = directoryDialog.open();
-
-		if (selectedDirectory != null) {
-			
-			// test, if it is valid
-			if (selectedDirectory.equals("/"))
-				selectedDirectory = "";
-			if (selectedDirectory.equals("\\"))
-				selectedDirectory = "";
-			if (!selectedDirectory.isEmpty()) {
-				
-				// If there is a connection to the database,
-				// use the new working directory after a restart.
-				if (DataBaseConnectionState.INSTANCE.isConnected()) {
-					
-					// Store the requested directory in a preference value
-					Activator.getDefault().getPreferenceStore().setValue("GENERAL_WORKSPACE_REQUEST", selectedDirectory);
-					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
-					messageBox.setText("Hinweis");
-					messageBox.setMessage("Das Arbeitsverzeichnis wird gewechselt.\nBitte starten Sie Fakturama neu !");
-					messageBox.open();
-					
-					// Close the workbench
-					PlatformUI.getWorkbench().close();
-				}
-				// if there is no connection, use it immediately
-				else {
-					Activator.getDefault().getPreferenceStore().setValue("GENERAL_WORKSPACE", selectedDirectory);
-					Startup.showWorkingDirInTitleBar();
-				}
-			}
-		}
-
-		// Close the workbench, if no workspace is set.
-		if (Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE").isEmpty())
-			PlatformUI.getWorkbench().close();
+		// Select a new workspace
+		Workspace.INSTANCE.selectWorkspace();
 	}
 }

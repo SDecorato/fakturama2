@@ -26,7 +26,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.actions.OpenBrowserEditorAction;
-import com.sebulli.fakturama.actions.SelectWorkspaceAction;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.preferences.PreferencesInDatabase;
@@ -56,43 +55,16 @@ public class Startup implements IStartup {
 				} else
 					window = null;
 
-				// Checks, if the workspace request is set.
-				// If yes, the workspace is set to this value and the request value is cleared.
-				// This mechanism is used, because the workspace can only be changed by restarting the application.
-				String requestedWorkspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE_REQUEST");
-				if (!requestedWorkspace.isEmpty()) {
-					Activator.getDefault().getPreferenceStore().setValue("GENERAL_WORKSPACE_REQUEST", "");
-					Activator.getDefault().getPreferenceStore().setValue("GENERAL_WORKSPACE", requestedWorkspace);
-				}
-
-				// Checks, if the workspace is set.
-				// If not, the SelectWorkspaceAction is started to select it.
-				if (Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE").isEmpty()) {
-					SelectWorkspaceAction selectWorkspaceAction = new SelectWorkspaceAction();
-					selectWorkspaceAction.run();
-				}
-
+				
 				// If the data base is connected and if it is not new, then some preferences are loaded
 				// from the data base.
 				boolean connectedToDB = DataBaseConnectionState.INSTANCE.isConnected();
 				if (!Data.INSTANCE.getNewDBCreated())
 					if (connectedToDB)
 						PreferencesInDatabase.loadPreferencesFromDatabase();
-				
-				// Show the working directory in the title bar
-				showWorkingDirInTitleBar();
 			}
 		});
 	}
 	
-	/**
-	 * Displays the current workspace in the title bar
-	 */
-	public static void showWorkingDirInTitleBar() {
-		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText(
-					"Fakturama - " + Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
-		}
-	}
 
 }

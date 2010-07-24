@@ -100,7 +100,5 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		PreferencesInDatabase.savePreferencesInDatabase();
 		Data.INSTANCE.close();
 	}
-	
-	
 
 }
