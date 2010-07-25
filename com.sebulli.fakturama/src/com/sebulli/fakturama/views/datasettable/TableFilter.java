@@ -53,7 +53,7 @@ public class TableFilter extends ViewerFilter {
 	 * @param s The search string
 	 */
 	public void setSearchText(String s) {
-		this.searchString = ".*" + s + ".*";
+		this.searchString = ".*(?i:" + s + ".*)";
 	}
 
 	/**

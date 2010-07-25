@@ -47,6 +47,7 @@ public enum Workspace {
 	INSTANCE;
 	
 	public static final String templateFolderName = "Vorlagen"; 
+	public static final String productPictureFolderName = "/Pics/Products/"; 
 	
 	// Workspace path
 	String workspace = "";
