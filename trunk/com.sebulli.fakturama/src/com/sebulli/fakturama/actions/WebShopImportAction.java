@@ -82,9 +82,7 @@ public class WebShopImportAction extends Action {
 			new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
 
 			// If there is no error - interpret the data.
-			if (webShopImportManager.getRunResult().isEmpty())
-				webShopImportManager.interpretWebShopData();
-			else {
+			if (!webShopImportManager.getRunResult().isEmpty()) {
 				// If there is an error - display it in a message box
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
 				messageBox.setText("Fehler beim Importieren vom Webshop");

@@ -20,9 +20,10 @@
 
 package com.sebulli.fakturama.editors;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -53,6 +54,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.UniData;
@@ -287,10 +289,10 @@ public class ProductEditor extends Editor {
 	private void createPicturePathFromPictureName() {
 		
 		// Get the workspace
-		filename1 = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+		filename1 = Workspace.INSTANCE.getWorkspace();
 		
 		// add the picture subfolder
-		filename2 = "/Pics/Products/";
+		filename2 = Workspace.productPictureFolderName;
 		
 		// Set the variables
 		picturePath = filename1 + filename2;
@@ -304,17 +306,34 @@ public class ProductEditor extends Editor {
 
 	/**
 	 * Create the picture name based on the product's item number
-	 * Remove illegal characters and add an ".jpg"
 	 */
 	private void createPictureName() {
 		
+		pictureName = createPictureName(textName.getText(), textItemNr.getText());
+		
+		// Add the full path.
+		createPicturePathFromPictureName();
+	}
+
+	/**
+	 * Create the picture name based on the product's item number
+	 * Remove illegal characters and add an ".jpg"
+	 * 
+	 * @param name The name of the product
+	 * @param itemNr The item number of the product
+	 * @return Picture name as String
+	 */
+	public static String createPictureName(String name, String itemNr) {
+		
+		String pictureName;
+		
 		// Get the product's item number
-		pictureName = textItemNr.getText();
+		pictureName = itemNr;
 		
 		// If the product name is different to the item number,
 		// add also the product name to the pictures name
-		if (!textName.getText().equals(textItemNr.getText()))
-			pictureName += "_" + textName.getText();
+		if (!name.equals(itemNr))
+			pictureName += "_" + name;
 
 		// Remove all illegal characters that are not allowed as file name.
 		final char[] ILLEGAL_CHARACTERS = { '/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':', ' ', '.' };
@@ -324,10 +343,12 @@ public class ProductEditor extends Editor {
 		// Add the .*jpg
 		pictureName += ".jpg";
 		
-		// Add the full path.
-		createPicturePathFromPictureName();
+		return pictureName;
 	}
 
+	
+	
+	
 	/**
 	 * Reload the product picture  
 	 */
@@ -654,15 +675,24 @@ public class ProductEditor extends Editor {
 					try {
 						
 						// Copy it
-						FileReader in = new FileReader(inputFile);
-						FileWriter out = new FileWriter(outputFile);
+			            FileOutputStream out = new FileOutputStream(outputFile);
+			            FileInputStream ins = new FileInputStream(inputFile);
+			            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 						int c;
+						
+						// Read the file to an input bufer
+						while ((c = ins.read()) != -1) {
+		                    byteArrayOutputStream.write((byte)c);
+						}
+						
+						// Write it to an file
+						out.write(byteArrayOutputStream.toByteArray());
 
-						while ((c = in.read()) != -1)
-							out.write(c);
-
-						in.close();
+						// Close the streams
+						byteArrayOutputStream.close();
+						ins.close();
 						out.close();
+						
 					} catch (IOException e1) {
 						Logger.logError(e1, "Error copying picture from " + selectedFile + " to " + filename1 + filename2);
 					}
