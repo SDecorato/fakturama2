@@ -6,7 +6,7 @@
    <aboutInfo>
       <image path="icons/app/about.png"/>
       <text>
-         Fakturama (C) 2010 Gerd Bartelt
+         Fakturama (C) 2010 Gerd Bartelt - V 0.1.0
       </text>
    </aboutInfo>
 
@@ -37,6 +37,7 @@
             winLargeLow="/com.sebulli.fakturama/icons/app/app_48_8.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
