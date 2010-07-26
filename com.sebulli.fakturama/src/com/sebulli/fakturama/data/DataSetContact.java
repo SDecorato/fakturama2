@@ -20,6 +20,8 @@
 
 package com.sebulli.fakturama.data;
 
+import com.sebulli.fakturama.OSDependent;
+
 /**
  * UniDataSet for all contacts 
  * 
@@ -173,7 +175,7 @@ public class DataSetContact extends UniDataSet {
 		line = this.getStringValueByKey("delivery_company");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -187,7 +189,7 @@ public class DataSetContact extends UniDataSet {
 			line += " " + this.getStringValueByKey("delivery_name");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -195,7 +197,7 @@ public class DataSetContact extends UniDataSet {
 		line = this.getStringValueByKey("delivery_street");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -205,7 +207,7 @@ public class DataSetContact extends UniDataSet {
 			line += " " + this.getStringValueByKey("delivery_city");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -213,7 +215,7 @@ public class DataSetContact extends UniDataSet {
 		line = this.getStringValueByKey("delivery_country");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -234,7 +236,7 @@ public class DataSetContact extends UniDataSet {
 		line = this.getStringValueByKey("company");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -248,7 +250,7 @@ public class DataSetContact extends UniDataSet {
 			line += " " + this.getStringValueByKey("name");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -256,7 +258,7 @@ public class DataSetContact extends UniDataSet {
 		line = this.getStringValueByKey("street");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -266,7 +268,7 @@ public class DataSetContact extends UniDataSet {
 			line += " " + this.getStringValueByKey("city");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
@@ -274,7 +276,7 @@ public class DataSetContact extends UniDataSet {
 		line = this.getStringValueByKey("country");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
-				address += "\n";
+				address += OSDependent.getNewLine();
 			address += line;
 		}
 
