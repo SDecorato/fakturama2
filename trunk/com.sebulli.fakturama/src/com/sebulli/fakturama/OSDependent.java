@@ -159,5 +159,25 @@ public class OSDependent {
 		return isMacOSX();
 	}
 	
+	/**
+	 * Returns the os dependent new line sequence
+	 * 
+	 * @return new line sequence
+	 */
+	public static String getNewLine () {
+
+		if (isMacOSX())
+			return "\n";
+		
+		if (isLinux())
+			return "\n";
+
+		if (isWin())
+			return "\r\n";
+
+		return "";
+		
+	}
+	
 	
 }

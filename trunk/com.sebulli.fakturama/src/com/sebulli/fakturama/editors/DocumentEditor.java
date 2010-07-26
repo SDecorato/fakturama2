@@ -211,7 +211,7 @@ public class DocumentEditor extends Editor {
 
 		// Test, if the txtAddress field was modified
 		// and write the content of the txtAddress to the documents address or
-		// deliveryaddress 
+		// delivery address 
 		boolean addressModified = false;
 		// if it's a delivery note, compare the delivery address 
 		if (documentType == DocumentType.DELIVERY) {
@@ -240,7 +240,7 @@ public class DocumentEditor extends Editor {
 			}
 		}
 
-		// Set the custeromer reference number
+		// Set the customer reference number
 		document.setStringValueByKey("customerref", txtCustomerRef.getText());
 
 		// Set the payment values depending on if the document is payed or not
@@ -275,7 +275,7 @@ public class DocumentEditor extends Editor {
 			
 		}
 		
-		// Set the sipping values
+		// Set the shipping values
 		if (comboShipping != null) {
 			document.setStringValueByKey("shippingname", comboShipping.getText());
 		}
