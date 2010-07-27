@@ -44,7 +44,7 @@ public class OpenBrowserEditorAction extends Action {
 	 * Constructor
 	 */
 	public OpenBrowserEditorAction() {
-		super("www.sebulli.com");
+		super("fakturama.sebulli.com");
 		
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_BROWSER_EDITOR);
@@ -69,7 +69,7 @@ public class OpenBrowserEditorAction extends Action {
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		
 		// Sets the URL
-		String url = "http://www.sebulli.com/fakturama/app.php";
+		String url = "http://fakturama.sebulli.com/app.php";
 
 		// Add version and language a a GET parameter
 		// The language is uses, if the project website can generate

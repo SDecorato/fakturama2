@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Fakturama" uid="com.sebulli.fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="0.1.0" useFeatures="false" includeLaunchers="true">
+<product name="Fakturama" uid="com.sebulli.fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="0.1.1" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="icons/app/about.png"/>
       <text>
-         Fakturama (C) 2010 Gerd Bartelt - V 0.1.0
+         Fakturama (C) 2010 Gerd Bartelt - V 0.1.1
       </text>
    </aboutInfo>
 
@@ -37,6 +37,7 @@
             winLargeLow="/com.sebulli.fakturama/icons/app/app_48_8.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
