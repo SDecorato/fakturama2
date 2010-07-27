@@ -93,8 +93,6 @@ public enum Workspace {
 
 		// Exit, if the workspace path is not valid
 		File workspacePath = new File(workspace);
-		if (workspacePath == null)
-			return;
 		if (!workspacePath.exists())
 			return;
 
