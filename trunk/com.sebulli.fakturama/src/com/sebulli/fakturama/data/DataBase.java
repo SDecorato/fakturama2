@@ -334,7 +334,7 @@ public class DataBase {
 	 * @param udsTemplate Use this as template
 	 */
 	@SuppressWarnings("unchecked")
-	public void getTable(ArrayList uniDataList, UniDataSet udsTemplate) {
+	public void getTable(@SuppressWarnings("rawtypes") ArrayList uniDataList, UniDataSet udsTemplate) {
 		String s;
 		String columnName;
 		ResultSet rs;

@@ -97,9 +97,8 @@ public class BrowserEditorInput implements IEditorInput {
 	 * 
 	 * @return null: there is no such object
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public Object getAdapter(Class adapter) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		return null;
 	}
 
