@@ -64,11 +64,11 @@ public class BrowserEditorInput implements IEditorInput {
 	
 	/**
 	 * Returns the name of this editor input for display purposes
-	 * @return the url "www.sebulli.com"
+	 * @return the url "fakturama.sebulli.com"
 	 */
 	@Override
 	public String getName() {
-		return "www.sebulli.com";
+		return "fakturama.sebulli.com";
 	}
 
 	/**
