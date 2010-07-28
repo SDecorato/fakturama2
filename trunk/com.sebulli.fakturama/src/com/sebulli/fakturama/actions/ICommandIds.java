@@ -46,14 +46,6 @@ public interface ICommandIds {
 	public static final String CMD_NEW_TEXT = "com.sebulli.fakturama.actions.newText";
 
 	public static final String CMD_NEW_ = "com.sebulli.fakturama.actions.new";
-	public static final String CMD_NEW_LETTER = "com.sebulli.fakturama.actions.newLetter";
-	public static final String CMD_NEW_OFFER = "com.sebulli.fakturama.actions.newOffer";
-	public static final String CMD_NEW_ORDER = "com.sebulli.fakturama.actions.newOrder";
-	public static final String CMD_NEW_CONFIRMATION = "com.sebulli.fakturama.actions.newConfirmation";
-	public static final String CMD_NEW_INVOICE = "com.sebulli.fakturama.actions.newInvoice";
-	public static final String CMD_NEW_DELIVERY = "com.sebulli.fakturama.actions.newDelivery";
-	public static final String CMD_NEW_CREDIT = "com.sebulli.fakturama.actions.newCredit";
-	public static final String CMD_NEW_DUNNING = "com.sebulli.fakturama.actions.newDunning";
 
 	public static final String CMD_CREATE_OODOCUMENT = "com.sebulli.fakturama.actions.createOODocument";
 	public static final String CMD_SAVE = "com.sebulli.fakturama.actions.save";

@@ -120,7 +120,7 @@
       <command
             categoryId="com.sebulli.fakturama.categoryCallEditor"
             description="Call Browser Editor"
-            id="com.sebulli.fakturama.editors.openBrowserEditor"
+            id="com.sebulli.fakturama.actions.openBrowserEditor"
             name="Call Browser Editor">
       </command>
       <category
@@ -203,6 +203,54 @@
             id="com.sebulli.fakturama.categoryNewObject"
             name="New Objects">
       </category>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Letter"
+            id="com.sebulli.fakturama.actions.newLetter"
+            name="Create New Letter">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Offer"
+            id="com.sebulli.fakturama.actions.newOffer"
+            name="Create New Offer">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Order"
+            id="com.sebulli.fakturama.actions.newOrder"
+            name="Create New Order">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Confirmation"
+            id="com.sebulli.fakturama.actions.newConfirmation"
+            name="Create New Confirmation">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Invoice"
+            id="com.sebulli.fakturama.actions.newInvoice"
+            name="Create New Invoice">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Delivery"
+            id="com.sebulli.fakturama.actions.newDelivery"
+            name="Create New Delivery">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Credit"
+            id="com.sebulli.fakturama.actions.newCredit"
+            name="Create New Credit">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Dunning"
+            id="com.sebulli.fakturama.actions.newDunning"
+            name="Create New Dunning">
+      </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
             description="Create New Contact"
@@ -294,7 +342,7 @@
             
          <property
                name="aboutText"
-               value="Fakturama (C) 2010 Gerd Bartelt - V 0.1.1">
+               value="Fakturama (C) 2010 Gerd Bartelt - V 0.1.2">
          </property>
          <property
                name="aboutImage"
