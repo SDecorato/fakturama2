@@ -40,6 +40,8 @@ import com.sebulli.fakturama.logger.Logger;
 public class BrowserEditor extends Editor {
 	public static final String ID = "com.sebulli.fakturama.editors.browserEditor";
 	String url;
+	
+	Browser browser;
 
 	/**
 	 * Constructor
@@ -104,7 +106,6 @@ public class BrowserEditor extends Editor {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		final Browser browser;
 		
 		Composite comp = new Composite(parent, SWT.NONE);
 		Color color = comp.getBackground();
@@ -122,6 +123,15 @@ public class BrowserEditor extends Editor {
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(browser);
 		
 		// Open the website: url
+		browser.setUrl(url);
+	}
+	
+	/**
+	 * Go to the start page (fakturama.sebulli.com)
+	 */
+	public void resetUrl() {
+
+		// set the URL
 		browser.setUrl(url);
 	}
 

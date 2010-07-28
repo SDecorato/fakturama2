@@ -84,8 +84,15 @@ public class OpenBrowserEditorAction extends Action {
 		try {
 			if (workbenchWindow != null) {
 				IWorkbenchPage page = workbenchWindow.getActivePage();
-				if (page != null)
+				if (page != null) {
+					
+					// If the browser editor is already open, reset the URL
+					BrowserEditor browserEditor = (BrowserEditor)page.findEditor(input);
+					if (browserEditor != null)
+						browserEditor.resetUrl();
+					
 					page.openEditor(input, BrowserEditor.ID);
+				}
 			}
 		} catch (PartInitException e) {
 			Logger.logError(e, "Error opening Editor: " + BrowserEditor.ID);
