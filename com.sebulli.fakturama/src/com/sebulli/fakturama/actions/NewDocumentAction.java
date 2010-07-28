@@ -46,7 +46,7 @@ public class NewDocumentAction extends NewEditorAction {
 		super("neues Dokument");
 		category = DocumentType.ORDER.getString();
 		setText(DocumentType.ORDER.getString());
-		setSettings(ICommandIds.CMD_NEW_ORDER, "");
+		setSettings(ICommandIds.CMD_NEW_DOCUMENT, "");
 	}
 
 	/**

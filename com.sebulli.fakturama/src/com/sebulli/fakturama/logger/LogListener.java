@@ -226,7 +226,8 @@ public class LogListener implements ILogListener {
 			// Add the stack trace
 			final Writer stackTrace = new StringWriter();
 			final PrintWriter printWriter = new PrintWriter(stackTrace);
-			status.getException().printStackTrace(printWriter);
+			if (status.getException() != null)
+				status.getException().printStackTrace(printWriter);
 			stackTrace.toString();
 			str.append(stackTrace.toString());
 			str.append("\n");
