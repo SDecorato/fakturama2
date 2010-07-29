@@ -2,8 +2,8 @@
 /*
  *  Web shop export script
  *
- *  Version 1.0.3
- *  Date: 2010-07-28
+ *  Version 1.0.4
+ *  Date: 2010-07-29
  *
  *
  *	Fakturama - Free Invoicing Software 
@@ -22,9 +22,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
- 
- 
 
 // Use the settings from webshop_export_settings.php, if it exists.
 if( file_exists('webshop_export_settings.php')) {
@@ -34,7 +31,7 @@ if( file_exists('webshop_export_settings.php')) {
 // Define Shop system. Allowed values are:
 // 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
-// 'XTCMODIFIED'	// xtcModified	1.04 			www.xtc-modified.org
+// 'XTCMODIFIED'	// xtcModified	1.05 ..			www.xtc-modified.org
 define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
 
 
@@ -601,7 +598,7 @@ else if (FAKTURAMA_WEBSHOP == XTCMODIFIED)
 	echo ("shop=\"xtcModified\" ");
 else
 	echo ("shop=\"???\" ");
-	
+echo ("url=\"" . HTTP_CATALOG_SERVER . "\"");	
 echo ("></webshop>\n");
 
 
@@ -678,11 +675,12 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 
 		// generate list of all products
 		if ($action == 'getorders') {
-			echo (" <products>\n");
+			echo (" <products imagepath=\"" . DIR_WS_CATALOG_INFO_IMAGES . "\">\n");
 			
 			$products_query = sbf_db_query("SELECT 
  												prod.products_model, prod_desc.products_name, prod_desc.products_description, prod_desc.products_short_description, 
- 												cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
+												prod.products_image,	 												
+												cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
 											FROM 
 												tax_rates tax
 											RIGHT JOIN
@@ -712,6 +710,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 				echo ("   <category>" . my_encode($products['categories_name'])."</category>\n");
 				echo ("   <vatname>".my_encode($products['tax_description'])."</vatname>\n");
 				echo ("   <short_description>" . my_encode_with_quotes(my_strip_tags ( $products['products_short_description'])) . "</short_description>\n");
+				echo ("   <image>".$products['products_image']."</image>\n");
 				echo ("  </product>\n\n");
 
 			}
