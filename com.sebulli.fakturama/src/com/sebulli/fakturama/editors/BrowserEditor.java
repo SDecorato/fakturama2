@@ -50,6 +50,9 @@ public class BrowserEditor extends Editor {
 	
 	// Button, to go home to the fakturama website
 	Button homeButton;
+
+	// URL of the last site on fakturama.sebulli.com
+	String lastFakturamaURL = "";
 	
 	/**
 	 * Constructor
@@ -114,21 +117,25 @@ public class BrowserEditor extends Editor {
 	 */
 	@Override
 	public void createPartControl(final Composite parent) {
-		
-		Composite comp = new Composite(parent, SWT.NONE);
-		Color color = comp.getBackground();
-		comp.dispose();
-		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(parent);
 
+		// Format the parent composite
+		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(parent);
+		GridLayoutFactory.fillDefaults().spacing(0,0).applyTo(parent);
+		
 		// Create a composite that will contain the home button
 		final Composite homeButtonComposite = new Composite(parent, SWT.NONE);
+		Color color = new Color(null, 0xc8,0xda,0xe4);
+		homeButtonComposite.setBackground(color);
 		GridDataFactory.fillDefaults().grab(true, false).hint(0,0).applyTo(homeButtonComposite);
 		GridLayoutFactory.fillDefaults().applyTo(homeButtonComposite);
+		color.dispose();
 
 		// Create a new web browser control
 		try {
 			browser = new Browser(parent, SWT.NONE);
+			color = new Color(null, 0xff, 0xff, 0xff);
 			browser.setBackground(color);
+			color.dispose();
 			
 			browser.addProgressListener( new ProgressListener() { 
 				@Override
@@ -138,9 +145,15 @@ public class BrowserEditor extends Editor {
 				// If the website has changes, add a "go back" button
 				@Override
 				public void changed(ProgressEvent event) {
+					String browserURL = browser.getUrl();
+					boolean isValidURL = browserURL.startsWith("http://");
 					
 					// We are back at home - remove the button (if it exists)
-					if (browser.getUrl().startsWith("http://fakturama.sebulli.com")) {
+					if (browserURL.startsWith("http://fakturama.sebulli.com") || !isValidURL) {
+						
+						// Store this URL as last URL
+						lastFakturamaURL = browserURL;
+						
 						if (homeButton != null) {
 							homeButton.dispose();
 							homeButton = null;
@@ -149,13 +162,15 @@ public class BrowserEditor extends Editor {
 						}
 					}
 					// We are on an other web site - add the back to home button
-					else {
+					else if (isValidURL){
 						if ( homeButton == null ) {
 							homeButton = new Button (homeButtonComposite, SWT.NONE);
 							homeButton.setText ("<< Zurück zu fakturama.sebulli.com");
 							homeButton.addSelectionListener( new SelectionAdapter(){
 								public void widgetSelected(SelectionEvent e) {
-									resetUrl();
+									
+									// Restore the last URL
+									browser.setUrl(lastFakturamaURL);
 								}
 							}
 							);
@@ -189,5 +204,10 @@ public class BrowserEditor extends Editor {
 		if ( browser!= null )
 			browser.setUrl(url);
 	}
+	
+	public void createBrowser() {
+		
+	}
+	
 
 }
