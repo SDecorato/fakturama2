@@ -22,9 +22,15 @@ package com.sebulli.fakturama.editors;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.ProgressEvent;
+import org.eclipse.swt.browser.ProgressListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -40,9 +46,11 @@ import com.sebulli.fakturama.logger.Logger;
 public class BrowserEditor extends Editor {
 	public static final String ID = "com.sebulli.fakturama.editors.browserEditor";
 	String url;
-	
 	Browser browser;
-
+	
+	// Button, to go home to the fakturama website
+	Button homeButton;
+	
 	/**
 	 * Constructor
 	 */
@@ -105,25 +113,71 @@ public class BrowserEditor extends Editor {
 	 * @param parent Parent control element
 	 */
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 		
 		Composite comp = new Composite(parent, SWT.NONE);
 		Color color = comp.getBackground();
 		comp.dispose();
-		
+		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(parent);
+
+		// Create a composite that will contain the home button
+		final Composite homeButtonComposite = new Composite(parent, SWT.NONE);
+		GridDataFactory.fillDefaults().grab(true, false).hint(0,0).applyTo(homeButtonComposite);
+		GridLayoutFactory.fillDefaults().applyTo(homeButtonComposite);
+
 		// Create a new web browser control
 		try {
 			browser = new Browser(parent, SWT.NONE);
 			browser.setBackground(color);
+			
+			browser.addProgressListener( new ProgressListener() { 
+				@Override
+				public void completed(ProgressEvent event) {
+				}
+
+				// If the website has changes, add a "go back" button
+				@Override
+				public void changed(ProgressEvent event) {
+					
+					// We are back at home - remove the button (if it exists)
+					if (browser.getUrl().startsWith("http://fakturama.sebulli.com")) {
+						if (homeButton != null) {
+							homeButton.dispose();
+							homeButton = null;
+							GridDataFactory.fillDefaults().grab(true, false).hint(0,0).applyTo(homeButtonComposite);
+							parent.layout(true);
+						}
+					}
+					// We are on an other web site - add the back to home button
+					else {
+						if ( homeButton == null ) {
+							homeButton = new Button (homeButtonComposite, SWT.NONE);
+							homeButton.setText ("<< Zurück zu fakturama.sebulli.com");
+							homeButton.addSelectionListener( new SelectionAdapter(){
+								public void widgetSelected(SelectionEvent e) {
+									resetUrl();
+								}
+							}
+							);
+							GridDataFactory.swtDefaults().applyTo(homeButton);
+							GridDataFactory.fillDefaults().grab(true, false).applyTo(homeButtonComposite);
+							parent.layout(true);
+						}
+					}
+				} 
+				
+			} );
+			GridDataFactory.fillDefaults().grab(true, true).applyTo(browser);
+			
+			// Open the website: url
+			browser.setUrl(url);
+
+		
 		} catch (Exception e) {
 			Logger.logError(e, "Error opening browser");
 			return;
 		}
 
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(browser);
-		
-		// Open the website: url
-		browser.setUrl(url);
 	}
 	
 	/**
@@ -132,7 +186,8 @@ public class BrowserEditor extends Editor {
 	public void resetUrl() {
 
 		// set the URL
-		browser.setUrl(url);
+		if ( browser!= null )
+			browser.setUrl(url);
 	}
 
 }
