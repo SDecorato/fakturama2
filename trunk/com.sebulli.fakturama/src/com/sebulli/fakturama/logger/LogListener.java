@@ -60,30 +60,11 @@ public class LogListener implements ILogListener {
 	// Display or hide the errorview
 	private boolean showerrorview = false;
 	
-	// Store the error log file in the workspace
-	String filename;
-	
 
 	/**
 	 * Constructor
 	 */
 	public LogListener() {
-		
-		// Get the directory of the workspace
-		filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-		
-		// Do not save logfiles, of there is no workspace set
-		if (filename.isEmpty())
-			return;
-		
-		// Create a subfolder "Log", if it does not exist yet.
-		filename += "/Log/";
-		File directory = new File(filename);
-		if (!directory.exists())
-			directory.mkdirs();
-		
-		// Name of the logfile
-		filename += "Error.log";
 	}
 
 	/**
@@ -109,6 +90,37 @@ public class LogListener implements ILogListener {
 
 	}
 
+	/**
+	 * Return the name of the log file.
+	 * 
+	 * @return Name of the log file or an empty string, if workspace is not set
+	 */
+	private String getLogfileName() {
+		// Get the directory of the workspace
+		String filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+		
+		// Do not save log files, if there is no workspace set
+		if (filename.isEmpty())
+			return "";
+		
+		// Do not save log files, if workspace is not created
+		File directory = new File(filename);
+		if (!directory.exists())
+			return "";
+			
+		// Create a sub folder "Log", if it does not exist yet.
+		filename += "/Log/";
+		directory = new File(filename);
+		if (!directory.exists())
+			directory.mkdirs();
+		
+		// Name of the log file
+		filename += "Error.log";
+		
+		return filename;
+	}
+	
+	
 	/**
 	 * Notifies this listener that given status has been logged by a plug-in
 	 * 
@@ -171,12 +183,15 @@ public class LogListener implements ILogListener {
 			// Show the error view (only if it is not just an information message)
 			showErrorView();
 
+			// Get the name of the log file
+			String logFileName = getLogfileName();
+			
 			// Do not log, if no workspace is set.
-			if (filename.isEmpty())
+			if (logFileName.isEmpty())
 				return;			
 			
 			// Create a File object
-			logFile = new File(filename);
+			logFile = new File(logFileName);
 
 			int lines = 0;
 			int lineIndex = 0;
@@ -185,7 +200,7 @@ public class LogListener implements ILogListener {
 			if (logFile.exists()) {
 				
 				// Open the existing file
-				BufferedReader in = new BufferedReader(new FileReader(filename));
+				BufferedReader in = new BufferedReader(new FileReader(logFileName));
 				String line = "";
 				
 				// Read the existing file and store it in a buffer
@@ -202,7 +217,7 @@ public class LogListener implements ILogListener {
 			// delete it and create a new one.
 			if (lines > MAXLINES) {
 				logFile.delete();
-				logFile = new File(filename);
+				logFile = new File(logFileName);
 			}
 
 			// Create a new file

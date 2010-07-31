@@ -98,7 +98,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	@Override
 	public void postWindowClose() {
 		PreferencesInDatabase.savePreferencesInDatabase();
-		Data.INSTANCE.close();
+		if (Data.INSTANCE != null)
+			Data.INSTANCE.close();
 	}
 
 }
