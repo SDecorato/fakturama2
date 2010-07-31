@@ -2,8 +2,8 @@
 /*
  *  User settings included by the export script "webshop_export.php"
  * 
- *  Version 1.0.3
- *  Date: 2010-07-28
+ *  Version 0.1.2
+ *  Date: 2010-07-31
  *
  *
  *	Fakturama - Free Invoicing Software 

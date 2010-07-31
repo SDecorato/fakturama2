@@ -55,13 +55,17 @@ public enum Workspace {
 	// The plugin's preference store
 	IPreferenceStore preferences;
 	
+	Boolean isInitialized;
+	
 	Workspace () {
+		
+		isInitialized = false;
 		
 		// Get the workspace from the preferences
 		preferences = Activator.getDefault().getPreferenceStore();
 		workspace = preferences.getString("GENERAL_WORKSPACE");
 			
-		// Checks, wheter the workspace request is set.
+		// Checks, whether the workspace request is set.
 		// If yes, the workspace is set to this value and the request value is cleared.
 		// This mechanism is used, because the workspace can only be changed by restarting the application.
 		String requestedWorkspace = preferences.getString("GENERAL_WORKSPACE_REQUEST");
@@ -70,13 +74,23 @@ public enum Workspace {
 			setWorkspace (requestedWorkspace);
 		}
 
-		// Checks, wheter the workspace is set.
+		// Checks, whether the workspace is set.
 		// If not, the SelectWorkspaceAction is started to select it.
 		if (workspace.isEmpty()) {
 			selectWorkspace();
 		}
+		else {
+			// Checks, wheter the workspace exists
+			// Exit, if the workspace path is not valid
+			File workspacePath = new File(workspace);
+			if (!workspacePath.exists()) {
+				setWorkspace ("");
+				selectWorkspace();
+			}
+		}
 
-		showWorkingDirInTitleBar();
+		if (!workspace.isEmpty())
+			showWorkingDirInTitleBar();
 
 	}
 	
@@ -87,6 +101,10 @@ public enum Workspace {
 	 */
 	public void initWorkspace() {
 		
+		// Do not initialize twice
+		if (isInitialized)
+			return;
+		
 		// Exit, if the workspace path is not set
 		if (workspace.isEmpty())
 			return;
@@ -96,17 +114,27 @@ public enum Workspace {
 		if (!workspacePath.exists())
 			return;
 
-		// Create and fill the tamplate folder, if it does not exist.
+		// Create and fill the template folder, if it does not exist.
 		File directory = new File(workspace + "/" + templateFolderName);
 		if (!directory.exists()) {
 			
 			// Copy the templates from the resources to the file system
 			for (int i = 1; i <= 8; i++ ) {
-				resourceCopy("Templates/Invoice/Document.ott", 
-						 templateFolderName + "/" + DocumentType.getString(i),
-						"Document.ott");
+				if ( DocumentType.getType(i) == DocumentType.DELIVERY) {
+					resourceCopy("Templates/Delivery/Document.ott", 
+							 templateFolderName + "/" + DocumentType.getString(i),
+							"Document.ott");
+				}
+				else {
+					resourceCopy("Templates/Invoice/Document.ott", 
+							 templateFolderName + "/" + DocumentType.getString(i),
+							"Document.ott");
+				}
 			}
 		}
+		
+		isInitialized = true;
+
 	}
 	
 	/**

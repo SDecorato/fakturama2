@@ -45,7 +45,9 @@ public class PreferencesInDatabase {
 	 * @param key The key of the preference value
 	 */
 	private static void savePreferenceValue(String key) {
-		Data.INSTANCE.setProperty(key, Activator.getDefault().getPreferenceStore().getString(key));
+		String s = Activator.getDefault().getPreferenceStore().getString(key);
+		if (s != null && Data.INSTANCE != null)
+			Data.INSTANCE.setProperty(key, s);
 	}
 
 	/**
