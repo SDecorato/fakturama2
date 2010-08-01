@@ -46,7 +46,10 @@ public class VatSummarySet extends TreeSet<VatSummaryItem> {
 	 * @return True, if it was added as new item
 	 */
 	@Override
-	public boolean add(VatSummaryItem vatSummaryItem) {
+	public boolean add(VatSummaryItem vatSummaryItemTemplate) {
+		
+		VatSummaryItem vatSummaryItem = new VatSummaryItem(vatSummaryItemTemplate);
+		
 		// try to add it
 		boolean added = super.add(vatSummaryItem);
 		
