@@ -21,12 +21,14 @@
 package com.sebulli.fakturama.openoffice;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
 import ag.ion.bion.officelayer.application.IOfficeApplication;
+import ag.ion.bion.officelayer.desktop.GlobalCommands;
 import ag.ion.bion.officelayer.desktop.IFrame;
 import ag.ion.bion.officelayer.document.IDocument;
 import ag.ion.bion.officelayer.filter.PDFFilter;
@@ -37,7 +39,9 @@ import ag.ion.bion.officelayer.text.ITextFieldService;
 import ag.ion.bion.officelayer.text.ITextTable;
 import ag.ion.bion.officelayer.text.ITextTableCell;
 import ag.ion.bion.officelayer.text.TextException;
+import ag.ion.noa.NOAException;
 import ag.ion.noa.document.URLAdapter;
+import ag.ion.noa.frame.IDispatchDelegate;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.calculate.DataUtils;
@@ -74,7 +78,7 @@ public class OODocument {
 	private Properties properties;
 	
 	ITextFieldService textFieldService;
-
+	
 	/**
 	 * Constructor
 	 * Create a new OpenOffice document. Open it by using a template and
@@ -109,7 +113,7 @@ public class OODocument {
 			
 			// Load the template
 			IDocument oOdocument = officeAplication.getDocumentService().loadDocument(url);
-			ITextDocument textDocument = (ITextDocument) oOdocument;
+			final ITextDocument textDocument = (ITextDocument) oOdocument;
 			
 			// Bring the open office window on top.
 			IFrame officeFrame = textDocument.getFrame(); 
@@ -118,7 +122,20 @@ public class OODocument {
 			UnoRuntime.queryInterface(XTopWindow.class,	xFrame. getContainerWindow()); 
 			topWindow.toFront(); 
 			xFrame.activate(); 
+			
+			// Override the "SAVE" command of the OpenOffice application
+			officeFrame.addDispatchDelegate(GlobalCommands.SAVE, new IDispatchDelegate() {
 
+				@Override
+				public void dispatch(Object[] objects) {
+
+					// Save the document as *.odt and *.pdf
+					saveOODocument(textDocument);
+					
+				}
+
+			});
+			officeFrame.updateDispatches();
 			
 			// Get the contact of the UniDataSet document
 			int addressId = document.getIntValueByKey("addressid");
@@ -256,55 +273,7 @@ public class OODocument {
 				vatListTable.removeRow(lastVatTemplateRow );
 			}
 			
-			// Create the path of the file to save
-			String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-			savePath += "/Dokumente/OpenOffice/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
-			
-			// Create the directories, if they don't exist.
-			File directory = new File(savePath);
-			if (!directory.exists())
-				directory.mkdirs();
-			
-			// Use the document name as filename
-			savePath += this.document.getStringValueByKey("name");
-
-			// Add the time String, if this file is still existing
-			/*
-			File file = new File(savePath + ".odt");
-			if (file.exists()) {
-				DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-				savePath += "_" + dfmt.format(new Date());
-			}
-			*/
-			
-			// Save the document
-			FileOutputStream fs = new FileOutputStream(new File(savePath + ".odt")); 
-			textDocument.getPersistenceService().storeAs(fs);
-
-			// Create the path of the file to export as PDF
-			savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-			savePath += "/Dokumente/PDF/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
-			
-			// Create the directories, if they don't exist.
-			directory = new File(savePath);
-			if (!directory.exists())
-				directory.mkdirs();
-			
-			// Use the document name as filename
-			savePath += this.document.getStringValueByKey("name");
-
-			// Add the time String, if this file is still existing
-			/*
-			File file = new File(savePath + ".odt");
-			if (file.exists()) {
-				DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-				savePath += "_" + dfmt.format(new Date());
-			}
-			*/
-			
-			// Save the document
-			fs = new FileOutputStream(new File(savePath + ".pdf")); 
-			textDocument.getPersistenceService().export(fs, new PDFFilter());
+			saveOODocument(textDocument);
 			
 			// Print and close the OpenOffice document
 			/*
@@ -326,6 +295,79 @@ public class OODocument {
 		}
 	}
 
+	/**
+	 * Save an OpenOffice document as *.odt and as *.pdf
+	 * 
+	 * @param textDocument The document
+	 */
+	public void saveOODocument(ITextDocument textDocument) {
+
+		// Create the path of the file to save
+		String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+		savePath += "/Dokumente/OpenOffice/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+		
+		// Create the directories, if they don't exist.
+		File directory = new File(savePath);
+		if (!directory.exists())
+			directory.mkdirs();
+		
+		// Use the document name as filename
+		savePath += this.document.getStringValueByKey("name");
+
+		// Add the time String, if this file is still existing
+		/*
+		File file = new File(savePath + ".odt");
+		if (file.exists()) {
+			DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+			savePath += "_" + dfmt.format(new Date());
+		}
+		*/
+		
+		// Save the document
+		FileOutputStream fs;
+		try {
+			fs = new FileOutputStream(new File(savePath + ".odt"));
+			textDocument.getPersistenceService().storeAs(fs);
+		} catch (FileNotFoundException e) {
+			Logger.logError(e, "Error saving the OpenOffice Document");
+		} catch (NOAException e) {
+			Logger.logError(e, "Error saving the OpenOffice Document");
+		} 
+
+		// Create the path of the file to export as PDF
+		savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+		savePath += "/Dokumente/PDF/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+		
+		// Create the directories, if they don't exist.
+		directory = new File(savePath);
+		if (!directory.exists())
+			directory.mkdirs();
+		
+		// Use the document name as filename
+		savePath += this.document.getStringValueByKey("name");
+
+		// Add the time String, if this file is still existing
+		/*
+		File file = new File(savePath + ".odt");
+		if (file.exists()) {
+			DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+			savePath += "_" + dfmt.format(new Date());
+		}
+		*/
+		
+		// Save the document
+		try {
+			fs = new FileOutputStream(new File(savePath + ".pdf"));
+			textDocument.getPersistenceService().export(fs, new PDFFilter());
+		} catch (FileNotFoundException e) {
+			Logger.logError(e, "Error saving the OpenOffice Document");
+		} catch (NOAException e) {
+			Logger.logError(e, "Error saving the OpenOffice Document");
+		} 
+
+	}
+	
+	
 	/**
 	 * Replace one column of the VAT table with the VAT entries
 	 * 
@@ -645,6 +687,44 @@ public class OODocument {
 			setProperty("ADDRESS.VATNR", contact.getStringValueByKey("vatnr"));
 			setProperty("ADDRESS.NOTE", contact.getStringValueByKey("note"));
 			setProperty("ADDRESS.DISCOUNT", contact.getFormatedStringValueByKey("discount"));
+		}
+		else {
+			setProperty("ADDRESS", "");
+			setProperty("ADDRESS.GENDER", "");
+			setProperty("ADDRESS.TITLE", "");
+			setProperty("ADDRESS.FIRSTNAME", "");
+			setProperty("ADDRESS.NAME", "");
+			setProperty("ADDRESS.COMPANY", "");
+			setProperty("ADDRESS.STREET", "");
+			setProperty("ADDRESS.ZIP", "");
+			setProperty("ADDRESS.CITY", "");
+			setProperty("ADDRESS.COUNTRY", "");
+			setProperty("DELIVERY.ADDRESS", "");
+			setProperty("DELIVERY.ADDRESS.GENDER", "");
+			setProperty("DELIVERY.ADDRESS.TITLE", "");
+			setProperty("DELIVERY.ADDRESS.FIRSTNAME", "");
+			setProperty("DELIVERY.ADDRESS.NAME", "");
+			setProperty("DELIVERY.ADDRESS.COMPANY", "");
+			setProperty("DELIVERY.ADDRESS.STREET", "");
+			setProperty("DELIVERY.ADDRESS.ZIP", "");
+			setProperty("DELIVERY.ADDRESS.CITY", "");
+			setProperty("DELIVERY.ADDRESS.COUNTRY", "");
+			setProperty("ADDRESS.BANK.ACCOUNT.HOLDER", "");
+			setProperty("ADDRESS.BANK.ACCOUNT", "");
+			setProperty("ADDRESS.BANK.CODE", "");
+			setProperty("ADDRESS.BANK.NAME", "");
+			setProperty("ADDRESS.BANK.IBAN", "");
+			setProperty("ADDRESS.BANK.BIC", "");
+			setProperty("ADDRESS.NR", "");
+			setProperty("ADDRESS.PHONE", "");
+			setProperty("ADDRESS.FAX", "");
+			setProperty("ADDRESS.MOBILE", "");
+			setProperty("ADDRESS.EMAIL", "");
+			setProperty("ADDRESS.WEBSITE", "");
+			setProperty("ADDRESS.VATNR", "");
+			setProperty("ADDRESS.NOTE", "");
+			setProperty("ADDRESS.DISCOUNT", "");
+			
 		}
 
 	}

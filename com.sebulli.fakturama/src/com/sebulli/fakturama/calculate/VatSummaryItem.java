@@ -53,6 +53,19 @@ public class VatSummaryItem implements Comparable<Object> {
 	}
 
 	/**
+	 * Constructor
+	 * Creates a VatSummaryItem from an existing VatSummaryItem.
+	 * 
+	 * @param vatSummaryItem
+	 */
+	public VatSummaryItem(VatSummaryItem vatSummaryItem) {
+		this.vatName = new String (vatSummaryItem.vatName);
+		this.vatPercent = new Double (vatSummaryItem.vatPercent);
+		this.net = new PriceValue(vatSummaryItem.net);
+		this.vat = new PriceValue(vatSummaryItem.vat);
+	}
+
+	/**
 	 * Add the net and vat value from an other VatSummaryItem.
 	 * 
 	 * @param other The other VatSummaryItem
