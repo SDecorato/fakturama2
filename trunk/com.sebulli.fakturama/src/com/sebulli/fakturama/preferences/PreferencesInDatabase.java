@@ -69,7 +69,8 @@ public class PreferencesInDatabase {
 	 */
 	public static void loadPreferencesFromDatabase() {
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(false);
-		NumberRangePreferencePage.syncWithPreferencesFromDatabase(false);
+		NumberRangeFormatPreferencePage.syncWithPreferencesFromDatabase(false);
+		NumberRangeValuesPreferencePage.syncWithPreferencesFromDatabase(false);
 	}
 
 	/**
@@ -78,7 +79,8 @@ public class PreferencesInDatabase {
 	 */
 	public static void savePreferencesInDatabase() {
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(true);
-		NumberRangePreferencePage.syncWithPreferencesFromDatabase(true);
+		NumberRangeFormatPreferencePage.syncWithPreferencesFromDatabase(true);
+		NumberRangeValuesPreferencePage.syncWithPreferencesFromDatabase(true);
 	}
 
 }

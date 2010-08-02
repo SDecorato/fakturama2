@@ -394,9 +394,15 @@
             name="Kontakte">
       </page>
       <page
-            class="com.sebulli.fakturama.preferences.NumberRangePreferencePage"
-            id="com.sebulli.fakturama.preferences.numberRangePreferencePage"
+            class="com.sebulli.fakturama.preferences.NumberRangeValuesPreferencePage"
+            id="com.sebulli.fakturama.preferences.numberRangeValuesPreferencePage"
             name="Nummernkreise">
+      </page>
+      <page
+            category="com.sebulli.fakturama.preferences.numberRangeValuesPreferencePage"
+            class="com.sebulli.fakturama.preferences.NumberRangeFormatPreferencePage"
+            id="com.sebulli.fakturama.preferences.numberRangeFormatPreferencePage"
+            name="Format">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.WebShopImportPreferencePage"
