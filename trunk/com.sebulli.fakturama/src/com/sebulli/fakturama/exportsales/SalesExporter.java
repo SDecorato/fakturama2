@@ -232,7 +232,7 @@ public class SalesExporter {
 
 			if (documentShouldBeExported(document)) {
 				document.calculate();
-				vatSummarySetAllDocuments.add(document);
+				vatSummarySetAllDocuments.add(document, true);
 			}
 		}
 
@@ -275,7 +275,7 @@ public class SalesExporter {
 				// Now analyze document by document
 				VatSummarySetManager vatSummarySetOneDocument = new VatSummarySetManager();
 				document.calculate();
-				vatSummarySetOneDocument.add(document);
+				vatSummarySetOneDocument.add(document, true);
 
 				// Calculate the relation between payed value and the value
 				// of the invoice. This is used to calculate the VAT.
