@@ -391,7 +391,7 @@ public class DataSetDocument extends UniDataSet {
 	 */
 	public void calculate(DataSetArray<DataSetItem> items, double shippingNet, double shippingVat, String shippingVatDescription, int shippingAutoVat,
 			Double itemsDiscount, boolean noVat, String noVatDescription) {
-		summary.calculate(null, items, shippingNet, shippingVat, shippingVatDescription, shippingAutoVat, itemsDiscount, noVat, noVatDescription);
+		summary.calculate(null, items, shippingNet, shippingVat, shippingVatDescription, shippingAutoVat, itemsDiscount, noVat, noVatDescription, false);
 	}
 
 	/**

@@ -143,11 +143,22 @@ public enum TemporaryViews {
 			return;
 		
 		// Get the editors 
-		IEditorReference[] editors = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
 		IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 
+		// Exit, if there is no page set
+		if (page == null)
+			return;
+		
+		IEditorReference[] editors = page.getEditorReferences();
+
+		// Test, whether there is an editor or not
+		boolean noEditor = true;
+		if (editors != null)
+			if (editors.length != 0)
+				noEditor = false;
+		
 		// If no editor is opened, create a dummy editor to do the restore job.
-		if (editors.length == 0) {
+		if (noEditor) {
 			
 			// Create a dummy editor
 			try {

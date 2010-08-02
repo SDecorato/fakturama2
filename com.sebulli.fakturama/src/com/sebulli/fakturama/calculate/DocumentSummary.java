@@ -76,7 +76,7 @@ public class DocumentSummary {
 	 * @param noVatDescription Name of the VAT, which is 0.
 	 */
 	public void calculate(VatSummarySet globalVatSummarySet, DataSetArray<DataSetItem> items, double shippingValue, double shippingVatPercent,
-			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription) {
+			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription, boolean basedOnPayedValue) {
 		
 		Double vatPercent;
 		String vatDescription;
@@ -188,9 +188,13 @@ public class DocumentSummary {
 				// Adjust the vat summary item by the discount part
 				documentVatSummaryItems.add(discountVatSummaryItem);
 
-				// Do not add it to the global VAT summary
+				// Do not always add it to the global VAT summary
 				// Because the global VAT summary is used to export the summary,
 				// and there the calculation is based on the payed value.
+				if (!basedOnPayedValue)
+					// .. add it to the global VAT summary
+					if (globalVatSummarySet != null)
+						globalVatSummarySet.add(discountVatSummaryItem);
 				
 			}
 
@@ -205,7 +209,7 @@ public class DocumentSummary {
 		// an average value of the vats of the items.
 		if (shippingAutoVat != DataSetShipping.SHIPPINGVATFIX) {
 
-			// Is the shipping is set as gross value, calculate the net value.
+			// If the shipping is set as gross value, calculate the net value.
 			// Use the average vat of all the items.
 			if (shippingAutoVat == DataSetShipping.SHIPPINGVATGROSS) {
 				if (itemsGross != 0.0)
@@ -215,7 +219,7 @@ public class DocumentSummary {
 
 			}
 			
-			// Is the shipping is set as net value, use the net value.
+			// If the shipping is set as net value, use the net value.
 			if (shippingAutoVat == DataSetShipping.SHIPPINGVATNET)
 				shippingNet = shippingValue;
 
@@ -256,12 +260,18 @@ public class DocumentSummary {
 															shippingPart.getUnitNetRounded().asDouble(),
 															shippingPart.getUnitVatRounded().asDouble());
 				
-				// Adjust the vat summary item by the discount part
+				// Adjust the vat summary item by the shipping part
 				documentVatSummaryItems.add(shippingVatSummaryItem);
 				
-				// Do not add it to the global VAT summary
+				// Do not always add it to the global VAT summary
 				// Because the global VAT summary is used to export the summary,
 				// and there the calculation is based on the payed value.
+				if (!basedOnPayedValue)
+					// .. add it to the global VAT summary
+					if (globalVatSummarySet != null)
+						globalVatSummarySet.add(shippingVatSummaryItem);
+
+					
 
 			}
 
