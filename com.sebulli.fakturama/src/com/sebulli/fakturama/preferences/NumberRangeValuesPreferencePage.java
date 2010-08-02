@@ -23,12 +23,8 @@ package com.sebulli.fakturama.preferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
-import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 
@@ -37,12 +33,12 @@ import com.sebulli.fakturama.Activator;
  * 
  * @author Gerd Bartelt
  */
-public class NumberRangePreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Constructor
 	 */
-	public NumberRangePreferencePage() {
+	public NumberRangeValuesPreferencePage() {
 		super(GRID);
 
 	}
@@ -54,31 +50,14 @@ public class NumberRangePreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	@Override
 	public void createFieldEditors() {
-		addField(new StringFieldEditor("NUMBERRANGE_CONTACT_FORMAT", "Format Kundennummer:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_CONTACT_NR", "nächste Kundennummer:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("NUMBERRANGE_PRODUCT_FORMAT", "Format Artikelnr:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_PRODUCT_NR", "nächste Artikelnr:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("NUMBERRANGE_INVOICE_FORMAT", "Format Rechnungsnr.:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_INVOICE_NR", "nächste Rechnungsnr:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("NUMBERRANGE_DELIVERY_FORMAT", "Format Lieferscheinnr.:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_DELIVERY_NR", "nächste Lieferscheinnr:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("NUMBERRANGE_OFFER_FORMAT", "Format Angebotsnr.:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_OFFER_NR", "nächste Angebotsnr:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("NUMBERRANGE_ORDER_FORMAT", "Format Bestellungnr.:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_ORDER_NR", "nächste Bestellungnr:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("NUMBERRANGE_CONFIRMATION_FORMAT", "Format Auftragsbestätigungsnr.:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_CONFIRMATION_NR", "nächste Auftragsbestätigungsnr:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("NUMBERRANGE_CREDIT_FORMAT", "Format Gutschriftnr.:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_CREDIT_NR", "nächste Gutschriftnr:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("NUMBERRANGE_DUNNING_FORMAT", "Format Mahnungsnr.:", getFieldEditorParent()));
 		addField(new IntegerFieldEditor("NUMBERRANGE_DUNNING_NR", "nächste Mahnungsnr:", getFieldEditorParent()));
 	}
 
@@ -90,8 +69,7 @@ public class NumberRangePreferencePage extends FieldEditorPreferencePage impleme
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Nummernkreise für Dokumente" + "\n\n"
-				+ "Beispiel für Format:  RE{6nr}\nNummer wird 6 stellig angezeigt, mit führendem \"RE\" : RE000001" + "\n");
+		setDescription("Nächste Nummer");
 	}
 
 	/**
@@ -101,31 +79,14 @@ public class NumberRangePreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 
-		// TODO: remove (for debugging only)
-		if (Activator.getDefault().getPreferenceStore().getString("NUMBERRANGE_CONTACT_FORMAT").isEmpty()) {
-			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
-			messageBox.setText("Fehler");
-			messageBox.setMessage("leere NUMBERRANGE_CONTACT_FORMAT");
-			messageBox.open();
-		}
-
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CONTACT_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CONTACT_NR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_PRODUCT_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_PRODUCT_NR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_INVOICE_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_INVOICE_NR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_DELIVERY_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_DELIVERY_NR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_OFFER_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_OFFER_NR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_ORDER_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_ORDER_NR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CREDIT_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CREDIT_NR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CONFIRMATION_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CONFIRMATION_NR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_DUNNING_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_DUNNING_NR", write);
 	}
 
@@ -135,16 +96,6 @@ public class NumberRangePreferencePage extends FieldEditorPreferencePage impleme
 	 * @param node The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("NUMBERRANGE_CONTACT_FORMAT", "");
-		node.put("NUMBERRANGE_CONTACT_FORMAT", "KD{6nr}");
-		node.put("NUMBERRANGE_PRODUCT_FORMAT", "{6nr}");
-		node.put("NUMBERRANGE_INVOICE_FORMAT", "RE{6nr}");
-		node.put("NUMBERRANGE_DELIVERY_FORMAT", "LS{6nr}");
-		node.put("NUMBERRANGE_OFFER_FORMAT", "AG{6nr}");
-		node.put("NUMBERRANGE_ORDER_FORMAT", "BS{6nr}");
-		node.put("NUMBERRANGE_CREDIT_FORMAT", "GS{6nr}");
-		node.put("NUMBERRANGE_CONFIRMATION_FORMAT", "AB{6nr}");
-		node.put("NUMBERRANGE_DUNNING_FORMAT", "MG{6nr}");
 		node.put("NUMBERRANGE_CONTACT_NR", "0");
 		node.put("NUMBERRANGE_PRODUCT_NR", "0");
 		node.put("NUMBERRANGE_INVOICE_NR", "0");
