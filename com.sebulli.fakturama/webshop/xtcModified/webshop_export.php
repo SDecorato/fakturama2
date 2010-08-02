@@ -3,7 +3,7 @@
  *  Web shop export script
  *
  *  Version 0.1.2
- *  Date: 2010-07-31
+ *  Date: 2010-08-02
  *
  *
  *	Fakturama - Free Invoicing Software 
@@ -244,7 +244,7 @@ class order {
       if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE)
       	$order_query_payment_class = "payment_class, ";
       $order_query = sbf_db_query("SELECT
-      									customers_id, customers_name, customers_company, customers_street_address,
+      									customers_id, customers_cid, customers_name, customers_company, customers_street_address,
       									customers_suburb, customers_city, customers_postcode, customers_state,
       									customers_country, customers_telephone, customers_email_address, customers_address_format_id,
       									delivery_name, delivery_company, delivery_street_address, delivery_suburb, delivery_city,
@@ -290,6 +290,7 @@ class order {
 
       $this->customer = array(
       						  'id' => $order['customers_id'],
+      						  'cid' => $order['customers_cid'],
       						  'firstname' => "",
       						  'lastname' => $order['customers_name'],
       						  'name' => $order['customers_name'],
@@ -825,7 +826,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 
 
 				echo ("   <contact ");
-				echo ("id=\"".my_encode($order->customer['id'])."\">\n");
+				echo ("id=\"".my_encode($order->customer['cid'])."\">\n");
 				echo ("    <gender>".my_encode($order->billing['gender'])."</gender>\n");
 				echo ("    <firstname>".my_encode($order->billing['firstname'])."</firstname>\n");
 				echo ("    <lastname>".my_encode($order->billing['lastname'])."</lastname>\n");
