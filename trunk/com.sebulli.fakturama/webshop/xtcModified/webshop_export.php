@@ -2,8 +2,8 @@
 /*
  *  Web shop export script
  *
- *  Version 0.1.2
- *  Date: 2010-08-02
+ *  Version 1.0.5
+ *  Date: 2010-08-03
  *
  *
  *	Fakturama - Free Invoicing Software 

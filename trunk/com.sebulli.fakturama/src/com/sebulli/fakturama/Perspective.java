@@ -67,34 +67,23 @@ public class Perspective implements IPerspectiveFactory {
 		layout.getViewLayout(NavigationView.ID).setCloseable(false);
 		layout.addPlaceholder(ErrorView.ID, IPageLayout.BOTTOM, 0.7f, NavigationView.ID);
 
-		
-		
-		layout.createPlaceholderFolder(ID_BOTTOM, IPageLayout.BOTTOM, 0.6f, editorArea);
-		
-//		IPlaceholderFolderLayout folder = layout.createPlaceholderFolder(ID_BOTTOM, IPageLayout.BOTTOM, 0.6f, editorArea);
-/*		folder.addPlaceholder(ViewContactTable.ID);
+		IPlaceholderFolderLayout folder = layout.createPlaceholderFolder(ID_BOTTOM, IPageLayout.BOTTOM, 0.6f, editorArea);
+
+		folder.addPlaceholder(ViewDocumentTable.ID);
+		folder.addPlaceholder(ViewContactTable.ID);
 		folder.addPlaceholder(ViewProductTable.ID);
 		folder.addPlaceholder(ViewVatTable.ID);
-		folder.addPlaceholder(ViewDocumentTable.ID);
 		folder.addPlaceholder(ViewShippingTable.ID);
 		folder.addPlaceholder(ViewPaymentTable.ID);
-		folder.addPlaceholder(ViewTextTable.ID);*/
-
-/*		layout.addPlaceholder(ViewContactTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addPlaceholder(ViewProductTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addPlaceholder(ViewVatTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addPlaceholder(ViewDocumentTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addPlaceholder(ViewShippingTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addPlaceholder(ViewPaymentTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addPlaceholder(ViewTextTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);*/
-
-/*		layout.addStandaloneView(ViewContactTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addStandaloneView(ViewProductTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addStandaloneView(ViewVatTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addStandaloneView(ViewDocumentTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addStandaloneView(ViewShippingTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addStandaloneView(ViewPaymentTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addStandaloneView(ViewTextTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);*/
+		folder.addPlaceholder(ViewTextTable.ID);
+		
+		layout.getViewLayout(ViewDocumentTable.ID).setMoveable(false);
+		layout.getViewLayout(ViewContactTable.ID).setMoveable(false);
+		layout.getViewLayout(ViewProductTable.ID).setMoveable(false);
+		layout.getViewLayout(ViewVatTable.ID).setMoveable(false);
+		layout.getViewLayout(ViewShippingTable.ID).setMoveable(false);
+		layout.getViewLayout(ViewPaymentTable.ID).setMoveable(false);
+		layout.getViewLayout(ViewContactTable.ID).setMoveable(false);
 		
 		layout.addPlaceholder(Calculator.ID, IPageLayout.RIGHT, 0.7f, editorArea);
 	}

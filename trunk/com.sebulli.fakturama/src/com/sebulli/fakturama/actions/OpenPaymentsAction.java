@@ -22,7 +22,7 @@ package com.sebulli.fakturama.actions;
 
 import org.eclipse.jface.action.Action;
 
-import com.sebulli.fakturama.views.TemporaryViews;
+import com.sebulli.fakturama.views.ViewManager;
 import com.sebulli.fakturama.views.datasettable.ViewPaymentTable;
 
 /**
@@ -57,6 +57,6 @@ public class OpenPaymentsAction extends Action {
 	 */
 	@Override
 	public void run() {
-		TemporaryViews.INSTANCE.showView(ViewPaymentTable.ID);
+		ViewManager.showView(ViewPaymentTable.ID);
 	}
 }

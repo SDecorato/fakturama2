@@ -53,7 +53,6 @@ import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.NewEditorAction;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.logger.Logger;
-import com.sebulli.fakturama.views.TemporaryViews;
 
 /**
  * This is the abstract parent class for all views that show a table with
@@ -375,17 +374,4 @@ public abstract class ViewDataSetTable extends ViewPart {
 		}
 
 	}
-
-	/**
-	 * Disposes of this workbench part. 
-	 * Un-minimize the editor part of the workbench, if the view is closed.
-	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
-	 */
-	@Override
-	public void dispose() {
-		TemporaryViews.INSTANCE.unMinimizeEditorPart();
-		super.dispose();
-	}
-
 }

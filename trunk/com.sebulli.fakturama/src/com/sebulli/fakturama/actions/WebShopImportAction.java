@@ -34,7 +34,7 @@ import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
-import com.sebulli.fakturama.views.TemporaryViews;
+import com.sebulli.fakturama.views.ViewManager;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 import com.sebulli.fakturama.webshopimport.WebShopImportManager;
 
@@ -100,7 +100,7 @@ public class WebShopImportAction extends Action {
 		
 		// After the web shop import, open the document view
 		// and set the focus to the new imported orders.
-		TemporaryViews.INSTANCE.showView(ViewDocumentTable.ID);
+		ViewManager.showView(ViewDocumentTable.ID);
 		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewDocumentTable.ID);
 		ViewDocumentTable viewDocumentTable = (ViewDocumentTable) view;
 		viewDocumentTable.getTopicTreeViewer().selectItemByName(DocumentType.ORDER.getPluralString() + "/" + DataSetDocument.getStringNOTSHIPPED());

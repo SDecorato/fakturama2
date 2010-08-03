@@ -36,7 +36,6 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
-import com.sebulli.fakturama.views.TemporaryViews;
 
 /**
  * Manages the workspace
@@ -235,7 +234,7 @@ public enum Workspace {
 					messageBox.open();
 					
 					// Close the workbench
-					TemporaryViews.INSTANCE.closeAll();
+//					ViewManager.INSTANCE.closeAll();
 					PlatformUI.getWorkbench().close();
 				}
 				// if there is no connection, use it immediately
@@ -256,10 +255,11 @@ public enum Workspace {
 	 * Displays the current workspace in the title bar
 	 */
 	public void showWorkingDirInTitleBar() {
-		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() != null) {
+		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText(
 					"Fakturama - " + workspace);
-		}
+		} catch (Exception e) {};
+
 	}
 	
 }
