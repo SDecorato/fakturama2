@@ -22,7 +22,7 @@ package com.sebulli.fakturama.actions;
 
 import org.eclipse.jface.action.Action;
 
-import com.sebulli.fakturama.views.TemporaryViews;
+import com.sebulli.fakturama.views.ViewManager;
 import com.sebulli.fakturama.views.datasettable.ViewTextTable;
 
 /**
@@ -57,6 +57,6 @@ public class OpenTextsAction extends Action {
 	 */
 	@Override
 	public void run() {
-		TemporaryViews.INSTANCE.showView(ViewTextTable.ID);
+		ViewManager.showView(ViewTextTable.ID);
 	}
 }

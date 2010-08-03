@@ -29,7 +29,6 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.preferences.PreferencesInDatabase;
-import com.sebulli.fakturama.views.TemporaryViews;
 
 /**
  * Applications workbench window advisor.
@@ -86,7 +85,6 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	 */
 	@Override
 	public boolean preWindowShellClose() {
-		TemporaryViews.INSTANCE.closeAll();
 		return true;
 	}
 	

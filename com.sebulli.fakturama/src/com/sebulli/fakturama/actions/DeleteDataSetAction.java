@@ -20,13 +20,13 @@
 
 package com.sebulli.fakturama.actions;
 
-import java.util.Iterator;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -34,7 +34,6 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.UniDataSet;
-import com.sebulli.fakturama.views.TemporaryViews;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
 /**
@@ -73,14 +72,20 @@ public class DeleteDataSetAction extends Action {
 			return;
 	
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage page = workbenchWindow.getActivePage();
+
+		// Get the active part (view)
+		IWorkbenchPart part = null;
+		if (page != null)
+			part = page.getActivePart();
+		
 		ISelection selection;
 
-		// Search all views in the list of the TemporaryViews Class.
-		for (Iterator<String> iterator = TemporaryViews.INSTANCE.getViews().iterator(); iterator.hasNext();) {
-			String ViewID = iterator.next();
-			ViewDataSetTable view = (ViewDataSetTable) workbenchWindow.getActivePage().findView(ViewID);
+		// Cast the part to ViewDataSetTable
+		if (part instanceof ViewDataSetTable) {
+			ViewDataSetTable view = (ViewDataSetTable) part; 
 
-			// Does the view exist ?
+			// Does the part exist ?
 			if (view != null) {
 
 				// Get the selection
@@ -111,6 +116,8 @@ public class DeleteDataSetAction extends Action {
 					}
 				}
 			}
+			
 		}
+		
 	}
 }

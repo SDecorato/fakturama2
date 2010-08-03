@@ -1,11 +1,5 @@
-<?php
 /*
- *  User settings included by the export script "webshop_export.php"
  * 
- *  Version 1.0.5
- *  Date: 2010-08-03
- *
- *
  *	Fakturama - Free Invoicing Software 
  *  Copyright (C) 2010  Gerd Bartelt
  *
@@ -21,19 +15,37 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *   
  */
-  
 
-// Define user name and password
-define ('FAKTURAMA_USERNAME',	'user');		
-define ('FAKTURAMA_PASSWORD',	'password');	
+package com.sebulli.fakturama.views;
 
-// Language code of the product categorie which will be imported.
-// (en = English, de = German, es = Spanish ..) 
-define ('FAKTURAMA_LANGUAGE', 'de');			
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
-// ISO 3166-1-alpha-2 country code of the country of the web shop.
-// (US = USA, GB = United Kingdom, DE = Germany ..) 
-define ('FAKTURAMA_COUNTRY', 'DE');				
+import com.sebulli.fakturama.logger.Logger;
 
-?>
+/**
+ * Shows a view
+ * 
+ * @author Gerd Bartelt
+ */
+public class ViewManager {
+	
+
+	/**
+	 * Shows a new view
+	 * 
+	 * @param viewId ID of the view
+	 */
+	public static void showView(String viewId) {
+		// Show a new view
+		try {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(viewId);
+		} catch (PartInitException e) {
+			Logger.logError(e, "Error showing view " + viewId);
+		}
+
+	}
+
+}

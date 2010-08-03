@@ -20,11 +20,11 @@
 
 package com.sebulli.fakturama.actions;
 
-import java.util.Iterator;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
@@ -32,7 +32,6 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
-import com.sebulli.fakturama.views.TemporaryViews;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 import com.sebulli.fakturama.webshopimport.WebShopImportManager;
 
@@ -108,12 +107,19 @@ public class MarkOrderAsAction extends Action {
 			return;
 
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage page = workbenchWindow.getActivePage();
+
+		// Get the active part (view)
+		IWorkbenchPart part = null;
+		if (page != null)
+			part = page.getActivePart();
+		
 		ISelection selection;
 
-		// Search all views in the list of the TemporaryViews Class.
-		for (Iterator<String> iterator = TemporaryViews.INSTANCE.getViews().iterator(); iterator.hasNext();) {
-			String ViewID = iterator.next();
-			ViewDataSetTable view = (ViewDataSetTable) workbenchWindow.getActivePage().findView(ViewID);
+		// Cast the part to ViewDataSetTable
+		if (part instanceof ViewDataSetTable) {
+
+			ViewDataSetTable view = (ViewDataSetTable) part; 
 
 			// does the view exist ?
 			if (view != null) {
@@ -149,6 +155,8 @@ public class MarkOrderAsAction extends Action {
 					}
 				}
 			}
+			
 		}
+					
 	}
 }
