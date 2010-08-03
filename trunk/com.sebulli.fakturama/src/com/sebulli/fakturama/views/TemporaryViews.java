@@ -54,7 +54,7 @@ public enum TemporaryViews {
 	}
 
 	public void showView(String viewId) {
-
+/*
 		// Do not show a view, if the data base is not opened
 		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
@@ -63,6 +63,7 @@ public enum TemporaryViews {
 		// open (visible)
 		boolean openViews = false;
 
+		
 		// Scan all views and check, of one is open.
 		for (Iterator<String> iterator = list.iterator(); iterator.hasNext();) {
 			IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(iterator.next());
@@ -122,6 +123,7 @@ public enum TemporaryViews {
 		list.clear();
 		list.add(viewId);
 
+		*/
 		// Show the new view
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(viewId);
