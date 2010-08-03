@@ -99,7 +99,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createPartControl(Composite parent, boolean useDocumentAndContactFilter, boolean useAll) {
-
+		
 		// Create the top composite
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(top);

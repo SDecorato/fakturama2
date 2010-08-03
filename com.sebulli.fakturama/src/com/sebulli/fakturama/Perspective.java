@@ -22,6 +22,7 @@ package com.sebulli.fakturama;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.IPlaceholderFolderLayout;
 
 import com.sebulli.fakturama.views.Calculator;
 import com.sebulli.fakturama.views.ErrorView;
@@ -46,6 +47,10 @@ public class Perspective implements IPerspectiveFactory {
 	 */
 	public static final String ID = "com.sebulli.fakturama.perspective";
 
+	 /** bottom folder's id. */
+    public static final String ID_BOTTOM = "com.sebulli.fakturama.perspective.bottomFolder";
+ 
+	
 	/**
 	 * Creates the initial layout of the perspective.
 	 * The Navigation view and the error view on the left side.
@@ -62,14 +67,35 @@ public class Perspective implements IPerspectiveFactory {
 		layout.getViewLayout(NavigationView.ID).setCloseable(false);
 		layout.addPlaceholder(ErrorView.ID, IPageLayout.BOTTOM, 0.7f, NavigationView.ID);
 
-		layout.addPlaceholder(ViewContactTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
+		
+		
+		layout.createPlaceholderFolder(ID_BOTTOM, IPageLayout.BOTTOM, 0.6f, editorArea);
+		
+//		IPlaceholderFolderLayout folder = layout.createPlaceholderFolder(ID_BOTTOM, IPageLayout.BOTTOM, 0.6f, editorArea);
+/*		folder.addPlaceholder(ViewContactTable.ID);
+		folder.addPlaceholder(ViewProductTable.ID);
+		folder.addPlaceholder(ViewVatTable.ID);
+		folder.addPlaceholder(ViewDocumentTable.ID);
+		folder.addPlaceholder(ViewShippingTable.ID);
+		folder.addPlaceholder(ViewPaymentTable.ID);
+		folder.addPlaceholder(ViewTextTable.ID);*/
+
+/*		layout.addPlaceholder(ViewContactTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
 		layout.addPlaceholder(ViewProductTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
 		layout.addPlaceholder(ViewVatTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
 		layout.addPlaceholder(ViewDocumentTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
 		layout.addPlaceholder(ViewShippingTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
 		layout.addPlaceholder(ViewPaymentTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
-		layout.addPlaceholder(ViewTextTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);
+		layout.addPlaceholder(ViewTextTable.ID, IPageLayout.BOTTOM, 0.6f, editorArea);*/
 
+/*		layout.addStandaloneView(ViewContactTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
+		layout.addStandaloneView(ViewProductTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
+		layout.addStandaloneView(ViewVatTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
+		layout.addStandaloneView(ViewDocumentTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
+		layout.addStandaloneView(ViewShippingTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
+		layout.addStandaloneView(ViewPaymentTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);
+		layout.addStandaloneView(ViewTextTable.ID, true, IPageLayout.BOTTOM, 0.6f, editorArea);*/
+		
 		layout.addPlaceholder(Calculator.ID, IPageLayout.RIGHT, 0.7f, editorArea);
 	}
 }

@@ -28,7 +28,8 @@
             class="com.sebulli.fakturama.views.datasettable.ViewProductTable"
             icon="icons/16/product_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewProductTable"
-            name="Produkte">
+            name="Produkte"
+            restorable="true">
       </view>
       <view
             allowMultiple="false"
@@ -41,14 +42,16 @@
             class="com.sebulli.fakturama.views.datasettable.ViewContactTable"
             icon="icons/16/contact_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewContactTable"
-            name="Adressen">
+            name="Adressen"
+            restorable="true">
       </view>
       <view
             allowMultiple="true"
             class="com.sebulli.fakturama.views.datasettable.ViewVatTable"
             icon="icons/16/vat_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewVatTable"
-            name="Steuersätze">
+            name="Steuersätze"
+            restorable="true">
       </view>
       <view
             allowMultiple="true"
@@ -74,6 +77,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="true"
             class="com.sebulli.fakturama.views.datasettable.ViewShippingTable"
             icon="icons/16/shipping_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewShippingTable"
@@ -81,6 +85,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="true"
             class="com.sebulli.fakturama.views.datasettable.ViewPaymentTable"
             icon="icons/16/payment_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewPaymentTable"
@@ -88,6 +93,7 @@
             restorable="true">
       </view>
       <view
+            allowMultiple="true"
             class="com.sebulli.fakturama.views.datasettable.ViewTextTable"
             icon="icons/16/text_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewTextTable"
@@ -428,7 +434,77 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="*">
+            targetID="com.sebulli.fakturama.perspective">
+         <view
+               closeable="true"
+               id="com.sebulli.fakturama.views.datasettable.viewProductTable"
+               minimized="false"
+               moveable="false"
+               ratio="0.6"
+               relationship="stack"
+               showTitle="true"
+               visible="false">
+         </view>
+         <view
+               closeable="true"
+               id="com.sebulli.fakturama.views.datasettable.viewContactTable"
+               minimized="false"
+               moveable="false"
+               ratio="0.6"
+               relationship="stack"
+               showTitle="true"
+               visible="false">
+         </view>
+         <view
+               closeable="true"
+               id="com.sebulli.fakturama.views.datasettable.viewDocumentTable"
+               minimized="false"
+               moveable="false"
+               ratio="0.6"
+               relationship="stack"
+               showTitle="true"
+               visible="false">
+         </view>
+         <view
+               closeable="true"
+               id="com.sebulli.fakturama.views.datasettable.viewVatTable"
+               minimized="false"
+               moveable="false"
+               ratio="0.6"
+               relationship="stack"
+               showTitle="true"
+               visible="false">
+         </view>
+         <view
+               closeable="true"
+               id="com.sebulli.fakturama.views.datasettable.viewPaymentTable"
+               minimized="false"
+               moveable="false"
+               ratio="0.6"
+               relationship="stack"
+               showTitle="true"
+               visible="false">
+         </view>
+         <view
+               closeable="true"
+               id="com.sebulli.fakturama.views.datasettable.viewShippingTable"
+               minimized="false"
+               moveable="false"
+               ratio="0.6"
+               relationship="stack"
+               showTitle="true"
+               visible="false">
+         </view>
+         <view
+               closeable="true"
+               id="com.sebulli.fakturama.views.datasettable.viewTextTable"
+               minimized="false"
+               moveable="false"
+               ratio="0.6"
+               relationship="stack"
+               showTitle="true"
+               visible="false">
+         </view>
       </perspectiveExtension>
    </extension>
    <extension
