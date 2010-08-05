@@ -219,13 +219,13 @@ public class DocumentEditor extends Editor {
 				addressModified = true;
 			document.setStringValueByKey("deliveryaddress", txtAddress.getText());
 			if (addressId > 0)
-				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getDeliveryAddress();
+				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(true);
 		} else {
 			if (!document.getStringValueByKey("address").equals(txtAddress.getText()))
 				addressModified = true;
 			document.setStringValueByKey("address", txtAddress.getText());
 			if (addressId > 0)
-				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress();
+				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(false);
 		}
 
 		// Show a warning, if the entered address is not similar to the address
@@ -1124,9 +1124,9 @@ public class DocumentEditor extends Editor {
 						
 						// Use delivery address, if it's a delivery note
 						if (documentType == DocumentType.DELIVERY)
-							txtAddress.setText(contact.getDeliveryAddress());
+							txtAddress.setText(contact.getAddress(true));
 						else
-							txtAddress.setText(contact.getAddress());
+							txtAddress.setText(contact.getAddress(false));
 						addressId = contact.getIntValueByKey("id");
 						
 						// Use the customers discount

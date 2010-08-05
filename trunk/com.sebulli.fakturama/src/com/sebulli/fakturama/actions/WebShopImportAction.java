@@ -77,6 +77,7 @@ public class WebShopImportAction extends Action {
 		// Start a new web shop import manager in a
 		// progress Monitor Dialog
 		WebShopImportManager webShopImportManager = new WebShopImportManager();
+		webShopImportManager.prepareGetProductsAndOrders();
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		try {
 			new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);

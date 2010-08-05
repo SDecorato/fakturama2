@@ -20,6 +20,7 @@
 
 package com.sebulli.fakturama.data;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
 
 /**
@@ -162,78 +163,132 @@ public class DataSetContact extends UniDataSet {
 		sqlTabeName = "Contacts";
 	}
 
-	/**
-	 * Get the delivery address
-	 * 
-	 * @return Complete delivery address
-	 */
-	public String getDeliveryAddress() {
-		String address = "";
-		String line = "";
-
-		// add company
-		line = this.getStringValueByKey("delivery_company");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// add name
-		line = "";
-		if (!this.getStringValueByKey("delivery_title").isEmpty())
-			line += this.getStringValueByKey("delivery_title") + " ";
-		line += this.getStringValueByKey("delivery_firstname");
-
-		if (!this.getStringValueByKey("delivery_name").isEmpty())
-			line += " " + this.getStringValueByKey("delivery_name");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// add street
-		line = this.getStringValueByKey("delivery_street");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// add ZIP code
-		line = this.getStringValueByKey("delivery_zip");
-		if (!this.getStringValueByKey("delivery_city").isEmpty())
-			line += " " + this.getStringValueByKey("delivery_city");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// add country
-		line = this.getStringValueByKey("delivery_country");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// return the complete address
-		return address;
+	private String replaceAllWithSpace(String s, String exp, String replacement) {
+		String replacedString;
+		if (replacement.isEmpty())
+			replacedString = s.replaceAll(exp + " ", "");
+		else
+			replacedString = s;
+		replacedString = replacedString.replaceAll(exp, replacement);
+		return replacedString;
 	}
+	
+	/**
+	 * Replaces the placeholders of a string  
+	 * 
+	 * @param s The string with placeholders
+	 * @param useDelivery TRUE, if the delivery address should be used
+	 * @return the formated string.
+	 */
+	public String replaceFormatString(String s, boolean useDelivery ) {
+		String deliveryString = "";
+		// Us the delivery keys, if necessary.
+		if (useDelivery)
+			deliveryString = "delivery_";
+		
+		// Replace the placeholders
+		s = replaceAllWithSpace(s,"\\{company\\}", this.getStringValueByKey(deliveryString + "company"));
+		s = replaceAllWithSpace(s,"\\{title\\}", this.getStringValueByKey(deliveryString + "title"));
+		s = replaceAllWithSpace(s,"\\{firstname\\}", this.getStringValueByKey(deliveryString + "firstname"));
+		s = replaceAllWithSpace(s,"\\{lastname\\}", this.getStringValueByKey(deliveryString + "name"));
+		s = replaceAllWithSpace(s,"\\{street\\}", this.getStringValueByKey(deliveryString + "street"));
+		s = replaceAllWithSpace(s,"\\{zip\\}", this.getStringValueByKey(deliveryString + "zip"));
+		s = replaceAllWithSpace(s,"\\{city\\}", this.getStringValueByKey(deliveryString + "city"));
+		s = replaceAllWithSpace(s,"\\{country\\}", this.getStringValueByKey(deliveryString + "country"));
 
+		String countrycode = CountryCodes.getCode(this.getStringValueByKey(deliveryString + "country"));
+		if (!countrycode.isEmpty())
+			countrycode += "-";
+		s = replaceAllWithSpace(s,"\\{countrycode\\}", countrycode);
+
+		s = replaceAllWithSpace(s,"\\{removed\\}", "");
+
+		return s;
+	}
+	
+	
+	/**
+	 * Generate the greeting string, depending on the gender
+	 * 
+	 * @param useDelivery TRUE, if the delivery address should be used
+	 * @return The greeting string
+	 */
+	public String getGreeting(boolean useDelivery) {
+		String greeting = "";
+		int gender;
+
+		// Us the delivery keys, if necessary.
+		String deliveryString = "";
+		if (useDelivery)
+			deliveryString = "delivery_";
+		
+		// Use the gender dependent preference settings
+		gender = this.getIntValueByKey(deliveryString + "gender");
+		switch (gender) {
+		case 1:
+			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_MR");
+			break;
+		case 2:
+			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_MRS");
+			break;
+		case 3:
+			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_COMPANY");
+			break;
+		}
+		
+		// Replace the placeholders
+		greeting = replaceFormatString(greeting,useDelivery);
+
+		return greeting;
+	}
+	
 	/**
 	 * Get the address
 	 * 
+	 * @param useDelivery TRUE, if the delivery address should be used
 	 * @return Complete address
 	 */
-	public String getAddress() {
-		String address = "";
-		String line = "";
+	public String getAddress(boolean useDelivery) {
+		String addressFormat = "";
+		String address ="";
+		// Us the delivery keys, if necessary.
 
+		String deliveryString = "";
+		if (useDelivery)
+			deliveryString = "delivery_";
+
+		// Get the format string
+		addressFormat = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_ADDRESS");
+
+		// Hide the following countries
+		String hideCountriesString = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_HIDE_COUNTRIES");
+		String[] hideCountries = hideCountriesString.split(",");
+		for (String hideCountry : hideCountries) {
+			if (this.getStringValueByKey(deliveryString + "country").equalsIgnoreCase(hideCountry)) {
+				addressFormat = replaceAllWithSpace(addressFormat,"\\{country\\}", "{removed}");
+			}
+		}
+		
+		// Get each line
+		String[] addressFormatLines = addressFormat.split("<br>");
+		for (String addressFormatLine : addressFormatLines) {
+			String formatedAddressLine =  replaceFormatString(addressFormatLine, useDelivery);
+			String trimmedAddressLine = formatedAddressLine.trim();
+
+			if (formatedAddressLine.equals(addressFormatLine) || (!trimmedAddressLine.isEmpty())) {
+				if (!address.isEmpty())
+					address += OSDependent.getNewLine();
+			} 
+
+			address += trimmedAddressLine;
+		}
+
+//		s = s.replaceAll("<br>", OSDependent.getNewLine());
+
+		
+		/*
 		// add company
-		line = this.getStringValueByKey("company");
+		line = this.getStringValueByKey(deliveryString + "company");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
 				address += OSDependent.getNewLine();
@@ -242,12 +297,12 @@ public class DataSetContact extends UniDataSet {
 
 		// add name
 		line = "";
-		if (!this.getStringValueByKey("title").isEmpty())
-			line += this.getStringValueByKey("title") + " ";
-		line += this.getStringValueByKey("firstname");
+		if (!this.getStringValueByKey(deliveryString + "title").isEmpty())
+			line += this.getStringValueByKey(deliveryString + "title") + " ";
+		line += this.getStringValueByKey(deliveryString + "firstname");
 
-		if (!this.getStringValueByKey("name").isEmpty())
-			line += " " + this.getStringValueByKey("name");
+		if (!this.getStringValueByKey(deliveryString + "name").isEmpty())
+			line += " " + this.getStringValueByKey(deliveryString + "name");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
 				address += OSDependent.getNewLine();
@@ -255,7 +310,7 @@ public class DataSetContact extends UniDataSet {
 		}
 
 		// add street
-		line = this.getStringValueByKey("street");
+		line = this.getStringValueByKey(deliveryString + "street");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
 				address += OSDependent.getNewLine();
@@ -263,9 +318,9 @@ public class DataSetContact extends UniDataSet {
 		}
 
 		// add zip
-		line = this.getStringValueByKey("zip");
-		if (!this.getStringValueByKey("city").isEmpty())
-			line += " " + this.getStringValueByKey("city");
+		line = this.getStringValueByKey(deliveryString + "zip");
+		if (!this.getStringValueByKey(deliveryString + "city").isEmpty())
+			line += " " + this.getStringValueByKey(deliveryString + "city");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
 				address += OSDependent.getNewLine();
@@ -273,13 +328,13 @@ public class DataSetContact extends UniDataSet {
 		}
 
 		// add county
-		line = this.getStringValueByKey("country");
+		line = this.getStringValueByKey(deliveryString + "country");
 		if (!line.isEmpty()) {
 			if (!address.isEmpty())
 				address += OSDependent.getNewLine();
 			address += line;
 		}
-
+*/
 		// return the complete address
 		return address;
 	}
@@ -302,22 +357,19 @@ public class DataSetContact extends UniDataSet {
 	/**
 	 * Get the gender String
 	 * 
+	 * @param useDelivery TRUE, if the delivery address should be used
 	 * @return Gender as String
 	 */
-	public String getGenderString() {
-		return DataSetContact.getGenderString(this.getIntValueByKey("gender"));
+	public String getGenderString(boolean useDelivery) {
+		String deliveryString = "";
+
+		// Us the delivery keys, if necessary.
+		if (useDelivery)
+			deliveryString = "delivery_";
+		return DataSetContact.getGenderString(this.getIntValueByKey(deliveryString + "gender"));
 	}
 
 	
-	/**
-	 * Get the gender String
-	 * 
-	 * @return Gender as String
-	 */
-	public String getDeliveryGenderString() {
-		return DataSetContact.getGenderString(this.getIntValueByKey("delivery_gender"));
-	}
-
 	/**
 	 * Get the gender String by the gender number
 	 * 

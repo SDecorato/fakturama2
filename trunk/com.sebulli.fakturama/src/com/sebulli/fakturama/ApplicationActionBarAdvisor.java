@@ -87,6 +87,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction aboutAction;
 	private IWorkbenchAction exportWizardAction;
 	private IWorkbenchAction openPreferencesAction;
+	private IWorkbenchAction resetViewAction;
 	private OpenBrowserEditorAction openBrowserEditorAction;
 	private OpenBrowserEditorAction openBrowserEditorActionTB;
 	private OpenCalculatorAction openCalculatorAction;
@@ -177,6 +178,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		aboutAction.setText("Über Fakturama");
 		register(aboutAction);
 
+		resetViewAction	= ActionFactory.RESET_PERSPECTIVE.create(window);	
+		resetViewAction.setText("Perspektive zurücksetzen");
+		register(resetViewAction);
+		
 		openBrowserEditorAction = new OpenBrowserEditorAction();
 		register(openBrowserEditorAction);
 
@@ -261,6 +266,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	protected void fillMenuBar(IMenuManager menuBar) {
 		MenuManager fileMenu = new MenuManager("&Datei", IWorkbenchActionConstants.M_FILE);
 		MenuManager helpMenu = new MenuManager("&Hilfe", IWorkbenchActionConstants.M_HELP);
+		MenuManager windowMenu = new MenuManager("&Fenster", IWorkbenchActionConstants.M_WINDOW);
 		MenuManager hiddenMenu = new MenuManager("Hidden", "com.sebulli.faktura.menu.hidden");
 		hiddenMenu.setVisible(false);
 
@@ -268,6 +274,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		// Add a group marker indicating where action set menus will appear.
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuBar.add(helpMenu);
+		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		menuBar.add(windowMenu);
 		menuBar.add(hiddenMenu);
 
 		// File menu
@@ -296,6 +304,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		fileMenu.add(new Separator());
 		fileMenu.add(exitAction);
 
+		// window menu
+		windowMenu.add(resetViewAction);
+		
 		// Help menu
 		helpMenu.add(openBrowserEditorAction);
 
@@ -305,6 +316,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		} else {
 			hiddenMenu.add(aboutAction);
 		}
+		
 	}
 
 	/**

@@ -652,18 +652,21 @@ public class OODocument {
 		}
 
 		if (contact != null) {
-			setProperty("ADDRESS", contact.getAddress());
-			setProperty("ADDRESS.GENDER", contact.getGenderString());
+			setProperty("ADDRESS", contact.getAddress(false));
+			setProperty("ADDRESS.GENDER", contact.getGenderString(false));
+			setProperty("ADDRESS.GREETING", contact.getGreeting(false));
 			setProperty("ADDRESS.TITLE", contact.getStringValueByKey("title"));
 			setProperty("ADDRESS.FIRSTNAME", contact.getStringValueByKey("firstname"));
+			setProperty("ADDRESS.LASTNAME", contact.getStringValueByKey("name"));
 			setProperty("ADDRESS.NAME", contact.getStringValueByKey("name"));
 			setProperty("ADDRESS.COMPANY", contact.getStringValueByKey("company"));
 			setProperty("ADDRESS.STREET", contact.getStringValueByKey("street"));
 			setProperty("ADDRESS.ZIP", contact.getStringValueByKey("zip"));
 			setProperty("ADDRESS.CITY", contact.getStringValueByKey("city"));
 			setProperty("ADDRESS.COUNTRY", contact.getStringValueByKey("country"));
-			setProperty("DELIVERY.ADDRESS", contact.getDeliveryAddress());
-			setProperty("DELIVERY.ADDRESS.GENDER", contact.getDeliveryGenderString());
+			setProperty("DELIVERY.ADDRESS", contact.getAddress(true));
+			setProperty("DELIVERY.ADDRESS.GENDER", contact.getGenderString(true));
+			setProperty("DELIVERY.ADDRESS.GREETING", contact.getGreeting(true));
 			setProperty("DELIVERY.ADDRESS.TITLE", contact.getStringValueByKey("delivery_title"));
 			setProperty("DELIVERY.ADDRESS.FIRSTNAME", contact.getStringValueByKey("delivery_firstname"));
 			setProperty("DELIVERY.ADDRESS.NAME", contact.getStringValueByKey("delivery_name"));
@@ -694,6 +697,7 @@ public class OODocument {
 			setProperty("ADDRESS.TITLE", "");
 			setProperty("ADDRESS.FIRSTNAME", "");
 			setProperty("ADDRESS.NAME", "");
+			setProperty("ADDRESS.LASTNAME", "");
 			setProperty("ADDRESS.COMPANY", "");
 			setProperty("ADDRESS.STREET", "");
 			setProperty("ADDRESS.ZIP", "");

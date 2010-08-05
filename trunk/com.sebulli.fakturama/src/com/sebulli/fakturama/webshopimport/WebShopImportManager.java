@@ -106,6 +106,10 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	private IProgressMonitor monitor;
 	private int worked;
 	
+	// Configuration of the webshop request
+	private boolean getProducts;
+	private boolean getOrders;
+	
 	/**
 	 * Sets the progess of the job in percent
 	 * @param percent 
@@ -117,24 +121,35 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		}
 	}
 	
+	/**
+	 * Prepare the web shop import to request
+	 * products and orders.
+	 */
+	public void prepareGetProductsAndOrders() {
+		getProducts = true;
+		getOrders = true;
+	}
+	
+	/**
+	 * Prepare the web shop import to change the
+	 * state of an order.
+	 */
+	public void prepareChangeState() {
+		getProducts = false;
+		getOrders = false;
+	}
+	
 	@Override
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 		this.monitor = monitor;
 		runResult = "";
 		
-		// Get ULR, username and password from the preference store
+		// Get ULR, user name and password from the preference store
 		String address = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_URL");
 		String user = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_USER");
 		String password = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PASSWORD");
 
-		
-		// remove the default setting "yourdomain.com"
-		if (address.contains("yourdomain.com")) {
-			runResult = "Keine gültige Webshop Adresse.";
-			return;
-		}
-		
 		// Add "http://"
 		if (!address.toLowerCase().startsWith("http://"))
 			address = "http://" + address;
@@ -156,7 +171,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Connect to web shop
 			worked = 0;
 			URLConnection conn = null;
-			monitor.beginTask("Connection_to_web_shop", 100);
+			monitor.beginTask("Connection to web shop", 100);
 			monitor.subTask("Connected to: " + address);
 			setProgress(10);
 			URL url = new URL(address);
@@ -164,14 +179,26 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			conn.setDoOutput(true);
 			conn.setConnectTimeout(4000);
 
-			// Send username , password and a list of unsynchronized orders to
+			// Send user name , password and a list of unsynchronized orders to
 			// the shop
 			OutputStream outputStream = null;
 			outputStream = conn.getOutputStream();
 			OutputStreamWriter writer = new OutputStreamWriter(outputStream);
 			setProgress(20);
-			String postString = "username=" + user + "&password=" + password + "&action=getorders&setstate=" + orderstosynchronize.toString();
-			writer.write(postString);// &getshipped="+shippedinterval+");
+			String postString = "username=" + user + "&password=" + password ;
+			
+			String actionString ="";
+			if (getProducts)
+				actionString += "_products";
+			if (getOrders)
+				actionString += "_orders";
+			if (!actionString.isEmpty())
+				actionString = "&action=get" + actionString;
+
+			postString += actionString;
+			
+			postString += "&setstate=" + orderstosynchronize.toString();
+			writer.write(postString);
 			writer.flush();
 			String line;
 			setProgress(30);
@@ -189,16 +216,16 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			File logFile = null;
 			BufferedWriter bos = null;
 			
-			// Do not save logfiles, of there is no workspace set
+			// Do not save log files, of there is no workspace set
 			if (!filename.isEmpty()) {
 
-				// Create a subfolder "Log", if it does not exist yet.
+				// Create a sub folder "Log", if it does not exist yet.
 				filename += "/Log/";
 				File directory = new File(filename);
 				if (!directory.exists())
 					directory.mkdirs();
 				
-				// Name of the logfile
+				// Name of the log file
 				filename += "WebShopImport.log";
 				
 				// Create a File object
@@ -209,7 +236,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				if (logFile.exists()) 
 					logFile.delete();
 
-				// Create a buffered writer to write the imported data to the filesystem
+				// Create a buffered writer to write the imported data to the file system
 				bos = new BufferedWriter(new FileWriter(logFile, true));
 
 			}
@@ -357,7 +384,16 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			webshopState = 1;
 		
 		// Set the new progress state 
-		orderstosynchronize.setProperty(Integer.toString(orderId), Integer.toString(webshopState));
+		// Add an "*" to mark the ID as "notify customer"
+		String value = Integer.toString(webshopState);
+		if ( (webshopState == 2) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING")) {
+			value += "*";
+		}
+		else if ( (webshopState == 3) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_SHIPPED")) {
+			value += "*";
+		}
+			
+		orderstosynchronize.setProperty(Integer.toString(orderId), value);
 		saveOrdersToSynchronize();
 	}
 
@@ -776,8 +812,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				Data.INSTANCE.getContacts().updateDataSet(contact);
 
 				dataSetDocument.setIntValueByKey("addressid", contact.getIntValueByKey("id"));
-				dataSetDocument.setStringValueByKey("address", contact.getAddress());
-				dataSetDocument.setStringValueByKey("deliveryaddress", contact.getDeliveryAddress());
+				dataSetDocument.setStringValueByKey("address", contact.getAddress(false));
+				dataSetDocument.setStringValueByKey("deliveryaddress", contact.getAddress(true));
 				dataSetDocument.setStringValueByKey("addressfirstline", contact.getName());
 
 			}
