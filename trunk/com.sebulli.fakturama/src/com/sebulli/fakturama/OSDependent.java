@@ -103,7 +103,7 @@ public class OSDependent {
 	static public String getOOExtendetPath (String path) {
 
 		if (isMacOSX()) 
-			path += "/Contents//MacOS";
+			path += "/Contents/MacOS";
 		
 		return path;
 	}
