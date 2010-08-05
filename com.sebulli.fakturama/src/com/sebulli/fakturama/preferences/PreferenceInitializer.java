@@ -48,6 +48,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 		// Initialize every single preference page
 		ContactPreferencePage.setInitValues(node);
+		ContactFormatPreferencePage.setInitValues(node);
 		NumberRangeValuesPreferencePage.setInitValues(node);
 		NumberRangeFormatPreferencePage.setInitValues(node);
 		ProductPreferencePage.setInitValues(node);

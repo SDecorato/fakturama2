@@ -400,6 +400,12 @@
             name="Kontakte">
       </page>
       <page
+            category="com.sebulli.fakturama.preferences.contactPreferencePage"
+            class="com.sebulli.fakturama.preferences.ContactFormatPreferencePage"
+            id="com.sebulli.fakturama.preferences.contactFormatGreetingPreferencePage"
+            name="Format">
+      </page>
+      <page
             class="com.sebulli.fakturama.preferences.NumberRangeValuesPreferencePage"
             id="com.sebulli.fakturama.preferences.numberRangeValuesPreferencePage"
             name="Nummernkreise">
@@ -494,12 +500,6 @@
             icon="icons/16/www_16.png"
             id="com.sebulli.fakturama.editors.browserEditor"
             name="Browser Editor">
-      </editor>
-      <editor
-            class="com.sebulli.fakturama.editors.DummyEditor"
-            default="false"
-            id="com.sebulli.fakturama.editors.dummyEditor"
-            name="Dummy Editor">
       </editor>
    </extension>
    <extension

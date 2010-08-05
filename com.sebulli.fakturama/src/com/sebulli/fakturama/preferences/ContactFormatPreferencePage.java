@@ -21,7 +21,6 @@
 package com.sebulli.fakturama.preferences;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
@@ -30,18 +29,17 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import com.sebulli.fakturama.Activator;
 
 /**
- * Preference page for the webshop settings
+ * Preference page for the greetings
  * 
  * @author Gerd Bartelt
  */
-public class WebShopImportPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class ContactFormatPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Constructor
 	 */
-	public WebShopImportPreferencePage() {
+	public ContactFormatPreferencePage() {
 		super(GRID);
-
 	}
 
 	/**
@@ -51,20 +49,15 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	 */
 	@Override
 	public void createFieldEditors() {
-		addField(new StringFieldEditor("WEBSHOP_URL", "Webshop Url", getFieldEditorParent()));
+		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_MR", "Grußformel Herr", getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_USER", "Username", getFieldEditorParent()));
+		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_MRS", "Grußformel Frau", getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_PASSWORD", "Passwort", getFieldEditorParent()));
+		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_COMPANY", "Grußformel Firma", getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_PRODUCT_CATEGORY", "Produkte in Kategorie:", getFieldEditorParent()));
+		addField(new StringFieldEditor("CONTACT_FORMAT_ADDRESS", "Adressfeld", getFieldEditorParent()));
+		addField(new StringFieldEditor("CONTACT_FORMAT_HIDE_COUNTRIES", "Länder ausblenden", getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_CONTACT_CATEGORY", "Kunden in Kategorie:", getFieldEditorParent()));
-
-		addField(new StringFieldEditor("WEBSHOP_SHIPPING_CATEGORY", "Versandart in Kategorie:", getFieldEditorParent()));
-
-		addField(new BooleanFieldEditor("WEBSHOP_NOTIFY_PROCESSING", "Kunde benachrichtigen bei 'In Bearbeitung'", getFieldEditorParent()));
-		addField(new BooleanFieldEditor("WEBSHOP_NOTIFY_SHIPPED", "Kunde benachrichtigen bei 'Versendet'", getFieldEditorParent()));
 	}
 
 	/**
@@ -75,7 +68,9 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Einstellungen zum Importieren aus dem Webshop");
+		setDescription("Grußformeln\n\n"
+				+ "Beispiel für Format:\nSehr geehrter Herr {title} {firstname} {lastname}\n");
+		
 	}
 
 	/**
@@ -84,14 +79,11 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	 * @param node The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("WEBSHOP_URL", "fakturama.sebulli.com/shop/admin/webshop_export.php");
-		node.put("WEBSHOP_USER", "user");
-		node.put("WEBSHOP_PASSWORD", "password");
-		node.put("WEBSHOP_PRODUCT_CATEGORY", "Shop");
-		node.put("WEBSHOP_CONTACT_CATEGORY", "Shop Kunden");
-		node.put("WEBSHOP_SHIPPING_CATEGORY", "Shop");
-		node.putBoolean("WEBSHOP_NOTIFY_PROCESSING", false);
-		node.putBoolean("WEBSHOP_NOTIFY_SHIPPED", true);
+		node.put("CONTACT_FORMAT_GREETING_MR", "Sehr geehrter Herr {firstname} {lastname}");
+		node.put("CONTACT_FORMAT_GREETING_MRS", "Sehr geehrte Frau {firstname} {lastname}");
+		node.put("CONTACT_FORMAT_GREETING_COMPANY", "Sehr geehrter Damen und Herren");
+		node.put("CONTACT_FORMAT_ADDRESS", "{company}<br>{title} {firstname} {lastname}<br>{street}<br>{countrycode}{zip} {city}<br>{country}");
+		node.put("CONTACT_FORMAT_HIDE_COUNTRIES", "Deutschland,Germany");
 		
 	}
 

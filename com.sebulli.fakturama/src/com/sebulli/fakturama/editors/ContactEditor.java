@@ -222,6 +222,8 @@ public class ContactEditor extends Editor {
 
 		// Refresh the table view of all contacts
 		refreshView();
+		checkDirty();
+
 	}
 
 	/**

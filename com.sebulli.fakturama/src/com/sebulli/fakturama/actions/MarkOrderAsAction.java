@@ -20,7 +20,10 @@
 
 package com.sebulli.fakturama.actions;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPage;
@@ -32,6 +35,7 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
+import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 import com.sebulli.fakturama.webshopimport.WebShopImportManager;
 
@@ -143,10 +147,23 @@ public class MarkOrderAsAction extends Action {
 								// also in the database
 								Data.INSTANCE.updateDataSet(uds);
 								
+								
+								
+								// Start a new web shop import manager in a
+								// progress Monitor Dialog
+								WebShopImportManager webShopImportManager = new WebShopImportManager();
 								// Send a request to the web shop import manager.
 								// He will update the state in the web shop the next time,
 								// we synchronize with the shop.
 								WebShopImportManager.updateOrderProgress(uds);
+								webShopImportManager.prepareChangeState();
+								try {
+									new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
+								} catch (InvocationTargetException e) {
+									Logger.logError(e, "Error running web shop import manager.");
+								} catch (InterruptedException e) {
+									Logger.logError(e, "Web shop import manager was interrupted.");
+								}
 								
 								// Refresh the table with orders.
 								view.refresh();

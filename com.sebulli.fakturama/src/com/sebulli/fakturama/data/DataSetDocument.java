@@ -20,7 +20,6 @@
 
 package com.sebulli.fakturama.data;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +52,8 @@ public class DataSetDocument extends UniDataSet {
 	 * @param documentType Type of new document
 	 */
 	public DataSetDocument(DocumentType documentType) {
-		this(documentType, "", "2000-01-01");
+		this(documentType, "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
+
 	}
 
 	/**
@@ -65,11 +65,9 @@ public class DataSetDocument extends UniDataSet {
 	 * @param webshopdate Web shop date (date of order)
 	 */
 	public DataSetDocument(DocumentType documentType, String webshopid, String webshopdate) {
-		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", "2000-01-01", "2000-01-01", -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0,
+		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0,
 				0.0, "", 1, 0.0, "", 0, webshopid, webshopdate, false, "", "", 0.0, 0, -1);
 
-		DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd");
-		this.hashMap.put("date", new UniData(UniDataType.DATE, dfmt.format(new Date())));
 		this.hashMap.put("transaction", new UniData(UniDataType.INT, Math.abs(UUID.randomUUID().hashCode())));
 	}
 
