@@ -194,8 +194,6 @@ public class UniDataSetTableColumn {
 					case ORDER:
 						switch (uds.getIntValueByKey("progress")) {
 						case 0:
-							cell.setImage(null);
-							break;
 						case 10:
 							cell.setImage(ORDER_PENDING);
 							break;
@@ -325,7 +323,6 @@ public class UniDataSetTableColumn {
 			case ORDER:
 				switch (uds.getIntValueByKey("progress")) {
 				case 0:
-					return "???";
 				case 10:
 					return "offen";
 				case 50:

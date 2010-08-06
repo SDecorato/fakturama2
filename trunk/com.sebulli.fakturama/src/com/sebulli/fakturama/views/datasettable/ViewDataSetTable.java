@@ -33,6 +33,8 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -44,6 +46,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.commands.ICommandService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
@@ -91,13 +96,17 @@ public abstract class ViewDataSetTable extends ViewPart {
 	// The standard UniDataSet
 	protected String stdPropertyKey = null;
 
-
+	private ViewDataSetTable me;
+	
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createPartControl(Composite parent, boolean useDocumentAndContactFilter, boolean useAll) {
+		
+		
+		me = this;
 		
 		// Create the top composite
 		Composite top = new Composite(parent, SWT.NONE);
@@ -172,6 +181,26 @@ public abstract class ViewDataSetTable extends ViewPart {
 		tableViewer.getTable().setLinesVisible(true);
 		tableViewer.getTable().setHeaderVisible(true);
 
+		// Workaround
+		// At startup the browser editor is the active part of the workbench.
+		// If now an element of this view is selected, the view does not get active.
+		// So we check, if we are active, and if not: we activate this view.
+		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+
+				IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+				IWorkbenchPage page = workbenchWindow.getActivePage();
+				
+				if (page!=null) {
+					// Activate the part of the workbench page.
+					if ( !page.getActivePart().equals(me)) 
+						page.activate(me);
+				}
+			}
+		});
+		
 		// Set selection provider
 		getSite().setSelectionProvider(tableViewer);
 		
@@ -189,6 +218,8 @@ public abstract class ViewDataSetTable extends ViewPart {
 		tableViewer.setSorter(new TableSorter());
 		tableFilter = new TableFilter(searchColumns);
 		tableViewer.addFilter(tableFilter);
+
+
 
 	}
 
@@ -280,7 +311,6 @@ public abstract class ViewDataSetTable extends ViewPart {
 	@Override
 	public void setFocus() {
 		tableViewer.getControl().setFocus();
-
 	}
 
 	/**

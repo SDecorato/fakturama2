@@ -119,6 +119,10 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
   require_once(DIR_FS_INC . 'xtc_db_input.inc.php');
   require_once(DIR_FS_INC . 'xtc_db_prepare_input.inc.php');
   require_once(DIR_FS_INC . 'xtc_not_null.inc.php');
+  require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.26/Smarty.class.php');
+  require_once (DIR_FS_CATALOG.DIR_WS_CLASSES.'class.phpmailer.php');
+  require_once (DIR_FS_INC.'xtc_php_mail.inc.php');
+
 }
 
 function sbf_not_null($p) {
@@ -164,6 +168,143 @@ function sbf_db_num_rows($p) {
 
 
 
+// include the mail classes
+function sbf_php_mail($from_email_address, $from_email_name, $to_email_address, $to_name, $forwarding_to, $reply_address, $reply_address_name, $path_to_attachement, $path_to_more_attachements, $email_subject, $message_body_html, $message_body_plain) {
+	global $mail_error;
+
+$mailsmarty= new Smarty;
+$mailsmarty->compile_dir = DIR_FS_DOCUMENT_ROOT.'templates_c';
+
+// Check for existing signature files
+// load the signatures only, if the appropriate file(s) exists
+	$html_signatur = '';
+	$txt_signatur = '';
+  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/signatur.html')) {
+        $html_signatur = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/signatur.html');
+  }
+  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/signatur.txt')) {
+        $txt_signatur = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/signatur.txt');
+  }
+
+  //Widerruf in Email
+  $html_widerruf = '';
+  $txt_widerruf = '';
+  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/widerruf.html')) {
+        $html_widerruf = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/widerruf.html');
+  }
+  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/widerruf.txt')) {
+        $txt_widerruf = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/widerruf.txt');
+  }
+  
+  //Platzhalter [WIDERRUF] durch Widerruf Text ersetzen
+  if (strpos($message_body_html,'[WIDERRUF]') !== false) {
+	$message_body_html = str_replace('[WIDERRUF]', $html_widerruf, $message_body_html);
+  }
+  if (strpos($message_body_plain,'[WIDERRUF]') !== false) {
+	$message_body_plain = str_replace('[WIDERRUF]', $txt_widerruf, $message_body_plain);
+  }
+  
+  //Platzhalter [SIGNATUR] durch Signatur Text ersetzen
+  if (strpos($message_body_html,'[SIGNATUR]') !== false) {
+	$message_body_html = str_replace('[SIGNATUR]', $html_signatur, $message_body_html);
+	$html_signatur = '';
+  }
+  if (strpos($message_body_plain,'[SIGNATUR]') !== false) {
+	$message_body_plain = str_replace('[SIGNATUR]', $txt_signatur, $message_body_plain);
+	$txt_signatur = '';
+  }
+
+//**********************************************************************************************
+
+	$mail = new PHPMailer();
+	$mail->PluginDir = DIR_FS_DOCUMENT_ROOT.'includes/classes/';
+
+	if (isset ($_SESSION['language_charset'])) {
+		$mail->CharSet = $_SESSION['language_charset'];
+	} else {
+		$lang_query = "SELECT * FROM languages WHERE code = '".DEFAULT_LANGUAGE."'";
+		$lang_query = xtc_db_query($lang_query);
+		$lang_data = xtc_db_fetch_array($lang_query);
+		$mail->CharSet = $lang_data['language_charset'];		
+	}
+	//SetLanguage Multilanguage
+    if (isset (	$_SESSION['language_code'])) {		
+		$lang_code = $_SESSION['language_code'];
+	} else $lang_code = DEFAULT_LANGUAGE;	
+	
+	$mail->SetLanguage($lang_code, DIR_WS_CLASSES);	
+	
+	if (EMAIL_TRANSPORT == 'smtp') {
+		$mail->IsSMTP();
+		$mail->SMTPKeepAlive = true; // set mailer to use SMTP
+		$mail->SMTPAuth = SMTP_AUTH; // turn on SMTP authentication true/false
+		$mail->Username = SMTP_USERNAME; // SMTP username
+		$mail->Password = SMTP_PASSWORD; // SMTP password
+		$mail->Host = SMTP_MAIN_SERVER.';'.SMTP_Backup_Server; // specify main and backup server "smtp1.example.com;smtp2.example.com"
+	}
+
+	if (EMAIL_TRANSPORT == 'sendmail') { // set mailer to use SMTP
+		$mail->IsSendmail();
+		$mail->Sendmail = SENDMAIL_PATH;
+	}
+	if (EMAIL_TRANSPORT == 'mail') {
+		$mail->IsMail();
+	}
+
+	if (EMAIL_USE_HTML == 'true') // set email format to HTML
+		{
+		$mail->IsHTML(true);
+		$mail->Body = $message_body_html.$html_signatur;//DPW Signatur ergänzt.
+		// remove html tags
+		$message_body_plain = str_replace('<br />', " \n", $message_body_plain.$txt_signatur);//DPW Signatur ergänzt.
+		$message_body_plain = strip_tags($message_body_plain);
+		$mail->AltBody = $message_body_plain;
+	} else {
+		$mail->IsHTML(false);
+		//remove html tags
+		$message_body_plain = str_replace('<br />', " \n", $message_body_plain.$txt_signatur);//DPW Signatur ergänzt.
+		$message_body_plain = strip_tags($message_body_plain);
+		$mail->Body = $message_body_plain;
+	}
+
+	$mail->From = $from_email_address;
+	$mail->Sender = $from_email_address;
+	$mail->FromName = $from_email_name;
+	$mail->AddAddress($to_email_address, $to_name);
+	if ($forwarding_to != '')
+		$mail->AddBCC($forwarding_to);
+	$mail->AddReplyTo($reply_address, $reply_address_name);
+
+	$mail->WordWrap = 50; // set word wrap to 50 characters
+	$mail->Subject = $email_subject;
+
+	if (!$mail->Send()) {
+		echo "Message was not sent <p>";
+		echo "Mailer Error: ".$mail->ErrorInfo."</p>";
+		exit;
+	}
+}
+
+
+
+
+
+// Output a raw date string in the selected locale date format
+// $raw_date needs to be in this format: YYYY-MM-DD HH:MM:SS
+  function sbf_date_long($raw_date) {
+    if ( ($raw_date == '0000-00-00 00:00:00') || ($raw_date == '') ) return false;
+
+    $year = (int)substr($raw_date, 0, 4);
+    $month = (int)substr($raw_date, 5, 2);
+    $day = (int)substr($raw_date, 8, 2);
+    $hour = (int)substr($raw_date, 11, 2);
+    $minute = (int)substr($raw_date, 14, 2);
+    $second = (int)substr($raw_date, 17, 2);
+
+    return strftime('%A, %d. %B %Y', mktime($hour,$minute,$second,$month,$day,$year));
+
+  }
+
 // make a connection to the database... now
 sbf_db_connect() or die('Unable to connect to database server!');
 
@@ -185,6 +326,10 @@ while ($configuration = sbf_db_fetch_array($configuration_query)) {
 require(DIR_WS_FUNCTIONS . 'general.php');
 require(DIR_WS_FUNCTIONS . 'html_output.php');
 
+// return true if $str ends with $sub
+function endsWith( $str, $sub ) {
+	return ( substr( $str, strlen( $str ) - strlen( $sub ) ) == $sub );
+}
 
 // Convert a string to UTF-8 and replace the qotes
 function my_encode($s) {
@@ -252,7 +397,7 @@ class order {
       									billing_name, billing_company, billing_street_address, billing_suburb, billing_city, billing_postcode,
       									billing_state, billing_country, billing_address_format_id, payment_method,".$order_query_payment_class."
       									cc_type, cc_owner, cc_number, cc_expires, currency, currency_value, date_purchased,
-      									orders_status, last_modified
+      									orders_status, last_modified, language
       								FROM
       									orders
       								WHERE
@@ -286,6 +431,7 @@ class order {
                           'cc_expires' => $order['cc_expires'],
                           'date_purchased' => $order['date_purchased'],
                           'orders_status' => $order['orders_status'],
+                          'language' => $order['language'],
                           'last_modified' => $order['last_modified']);
 
       $this->customer = array(
@@ -572,11 +718,18 @@ while ($languages = sbf_db_fetch_array($languages_query)) {
 // parse POST parameters
 $getshipped = (isset($HTTP_POST_VARS['getshipped']) ? $HTTP_POST_VARS['getshipped'] : '');
 $action = (isset($HTTP_POST_VARS['action']) ? $HTTP_POST_VARS['action'] : '');
-$customer_notified = (isset($HTTP_POST_VARS['customer_notified']) ? (int)$HTTP_POST_VARS['customer_notified'] : 0); 
 $comments = (isset($HTTP_POST_VARS['comments']) ? $HTTP_POST_VARS['comments'] : '');
 $orderstosync = (isset($HTTP_POST_VARS['setstate']) ? $HTTP_POST_VARS['setstate'] : '{}');
 
-$action = "getorders";
+
+// does action start with "get" ?
+if (strncmp($action, "get", 3)) {
+  // does the action contains one of the following keys:
+  $action_getproducts = strpos($action,"products");
+  $action_getorders = strpos($action,"orders");
+  $action_getcontacts = strpos($action,"contacts");
+}
+
 
 $orderstosync = substr($orderstosync, 0, -1);
 $orderstosync = substr($orderstosync, 1);
@@ -603,30 +756,11 @@ echo ("url=\"" . HTTP_CATALOG_SERVER . "\"");
 echo ("></webshop>\n");
 
 
-
-
-// update the shop values
-foreach ($orderstosync as $ordertosync) {
-
-	list($orders_id_tosync, $orders_status_tosync) = explode("=", trim($ordertosync));
-
-	if ($orders_status_tosync == 'pending')    $orders_status_tosync = 1;
-	if ($orders_status_tosync == 'processing') $orders_status_tosync = 2;
-	if ($orders_status_tosync == 'shipped')    $orders_status_tosync = 3;
-
-	if (($orders_id_tosync > 0) && ($orders_status_tosync >= 1) && ($orders_status_tosync <= 3)){
-		sbf_db_query("UPDATE
-						orders
-					  SET
-					  	orders_status = '".$orders_status_tosync. "'
-					  WHERE
-					  	orders_id = '" . (int)$orders_id_tosync . "'
-					  ");
-		sbf_db_query("INSERT INTO
-						orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments)
-					  VALUES ('" . (int)$orders_id_tosync . "', '" . $orders_status_tosync . "',
-					  		now(), '" . $customer_notified . "', '" . $comments  . "')");
-	}
+if (strncmp($action, "get", 3) == 0) {
+  // does the action contains one of the following keys:
+  $action_getproducts = strpos($action,"products");
+  $action_getorders = strpos($action,"orders");
+  $action_getcontacts = strpos($action,"contacts");
 }
 
 
@@ -673,9 +807,86 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 		//password ok
 
 
+	// update the shop values
+	foreach ($orderstosync as $ordertosync) {
+
+ 	    list($orders_id_tosync, $orders_status_tosync) = explode("=", trim($ordertosync));
+
+	    if ($orders_status_tosync == 'pending')    $orders_status_tosync = 1;
+	    if ($orders_status_tosync == 'processing') $orders_status_tosync = 2;
+	    if ($orders_status_tosync == 'shipped')    $orders_status_tosync = 3;
+
+	    $customer_notified = 0;
+
+	    // Notify the customer
+	    if (endsWith($orders_status_tosync,"*")) {
+		$orders_status_tosync = substr($orders_status_tosync,0,-1);
+	    $order = new order($orders_id_tosync);
+	    $smarty = new Smarty;
+	    // assign language to template for caching
+	    $smarty->assign('language', $_SESSION['language']);
+	    $smarty->caching = false;
+
+	    // set dirs manual
+	    $smarty->template_dir = DIR_FS_CATALOG.'templates';
+	    $smarty->compile_dir = DIR_FS_CATALOG.'templates_c';
+            $smarty->config_dir = DIR_FS_CATALOG.'lang';
+
+	    $smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+	    $smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
+		
+	    // Do not use comments	
+	    $notify_comments = '';
+
+	    $lang_query = sbf_db_query("select languages_id from languages where directory = '" . $order->info['language'] . "'");
+	    $lang = sbf_db_fetch_array($lang_query);
+	    $lang=$lang['languages_id'];
+	    if (!isset($lang)) $lang=1;
+	     
+	    $orders_statuses = array ();
+	    $orders_status_array = array ();
+	    $orders_status_query = sbf_db_query("select orders_status_id, orders_status_name from orders_status where language_id = '".$lang."'");
+	    while ($orders_status = sbf_db_fetch_array($orders_status_query)) {
+	      $orders_statuses[] = array ('id' => $orders_status['orders_status_id'], 'text' => $orders_status['orders_status_name']);
+	      $orders_status_array[$orders_status['orders_status_id']] = $orders_status['orders_status_name'];
+	    }
+
+	    $smarty->assign('NAME', $order->customer['name']);
+	    $smarty->assign('ORDER_NR', $orders_id_tosync);
+	    $smarty->assign('ORDER_LINK', xtc_catalog_href_link("account_history_info.php", 'order_id='.$orders_id_tosync, 'SSL'));
+	    $smarty->assign('ORDER_DATE', sbf_date_long($order->info['date_purchased']));
+	    $smarty->assign('NOTIFY_COMMENTS', nl2br($notify_comments)); 
+	    $smarty->assign('ORDER_STATUS', $orders_status_array[$orders_status_tosync]);
+
+	    $html_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.html');
+	    $txt_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.txt');
+
+
+	    sbf_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail);
+		$customer_notified = 1;
+
+	    }
+
+
+
+	    if (($orders_id_tosync > 0) && ($orders_status_tosync >= 1) && ($orders_status_tosync <= 3)){
+		sbf_db_query("UPDATE
+						orders
+					  SET
+					  	orders_status = '".$orders_status_tosync. "'
+					  WHERE
+					  	orders_id = '" . (int)$orders_id_tosync . "'
+					  ");
+		sbf_db_query("INSERT INTO
+						orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments)
+					  VALUES ('" . (int)$orders_id_tosync . "', '" . $orders_status_tosync . "',
+					  		now(), '" . $customer_notified . "', '" . $comments  . "')");
+	    }
+	}
+
 
 		// generate list of all products
-		if ($action == 'getorders') {
+		if ($action_getproducts) {
 			echo (" <products imagepath=\"" . DIR_WS_CATALOG_INFO_IMAGES . "\">\n");
 			
 			$products_query = sbf_db_query("SELECT 
@@ -723,7 +934,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 
 
 		// generate list of all orders
-		if ($action == 'getorders'){
+		if ($action_getorders){
 			$check_orders_query = sbf_db_query("SELECT
 													o.orders_id, o.orders_status, ot.text AS order_total
 												FROM
@@ -991,7 +1202,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 			echo (" </orders>\n");
 		}	
 		else {
-			echo (" <error>no valid action set</error>\n");
+//			echo (" <error>no valid action set</error>\n");
 		}
 
 	}

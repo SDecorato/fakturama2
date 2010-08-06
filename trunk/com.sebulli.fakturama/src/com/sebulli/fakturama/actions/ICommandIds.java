@@ -56,10 +56,7 @@ public interface ICommandIds {
 
 	public static final String CMD_WEBSHOP_IMPORT = "com.sebulli.fakturama.actions.webShopImport";
 
-	public static final String CMD_MARK_ORDER_AS_PENDING = "com.sebulli.fakturama.actions.markOrderAsPending";
-	public static final String CMD_MARK_ORDER_AS_PROCESSING = "com.sebulli.fakturama.actions.markOrderAsProcessing";
-	public static final String CMD_MARK_ORDER_AS_SHIPPED = "com.sebulli.fakturama.actions.markOrderAsShipped";
-	public static final String CMD_MARK_ORDER_AS_FINISHED = "com.sebulli.fakturama.actions.markOrderAsFinished";
+	public static final String CMD_MARK_ORDER_AS = "com.sebulli.fakturama.actions.markOrderAs";
 
 	public static final String CMD_EXPORT_VAT_SUMMARY = "com.sebulli.fakturama.actions.exportVatSummary";
 
