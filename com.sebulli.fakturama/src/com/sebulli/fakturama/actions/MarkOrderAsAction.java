@@ -64,9 +64,10 @@ public class MarkOrderAsAction extends Action {
 	public MarkOrderAsAction(String text, int progress) {
 		super(text);
 		this.progress = progress;
-
+		
 		// Correlation between progress value and state.
 		// Depending on the state, the icon and the command ID is selected.
+/*
 		switch (progress) {
 		case 0:
 		case 10:
@@ -82,6 +83,24 @@ public class MarkOrderAsAction extends Action {
 			setSettings(ICommandIds.CMD_MARK_ORDER_AS_FINISHED, "/icons/checked.png");
 			break;
 		}
+*/
+		switch (progress) {
+		case 0:
+		case 10:
+			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/order_pending.png");
+			break;
+		case 50:
+			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/order_processing.png");
+			break;
+		case 90:
+			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/order_shipped.png");
+			break;
+		case 100:
+			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/checked.png");
+			break;
+		}
+		
+		
 	}
 
 	/**
@@ -113,6 +132,7 @@ public class MarkOrderAsAction extends Action {
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage page = workbenchWindow.getActivePage();
 
+		
 		// Get the active part (view)
 		IWorkbenchPart part = null;
 		if (page != null)
@@ -130,7 +150,9 @@ public class MarkOrderAsAction extends Action {
 
 				//get the selection
 				selection = view.getSite().getSelectionProvider().getSelection();
+				
 				if (selection != null && selection instanceof IStructuredSelection) {
+
 					Object obj = ((IStructuredSelection) selection).getFirstElement();
 
 					// If we had a selection let change the state
@@ -146,8 +168,6 @@ public class MarkOrderAsAction extends Action {
 								
 								// also in the database
 								Data.INSTANCE.updateDataSet(uds);
-								
-								
 								
 								// Start a new web shop import manager in a
 								// progress Monitor Dialog
