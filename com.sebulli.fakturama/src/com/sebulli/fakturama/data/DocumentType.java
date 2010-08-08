@@ -35,7 +35,7 @@ public enum DocumentType {
 	NONE, LETTER, OFFER, ORDER, CONFIRMATION, INVOICE, DELIVERY, CREDIT, DUNNING;
 
 	// 8 types.
-	private final static int MAXID = 8;
+	public final static int MAXID = 8;
 
 	/**
 	 * Convert from a DocumentType to the corresponding integer
@@ -412,6 +412,34 @@ public enum DocumentType {
 		}
 		return false;
 	}
+	
+	/**
+	 * Defines all Document Types that can be marked as payed
+	 * 
+	 * @return True for all types with a price
+	 */
+	public boolean hasPayed() {
+		switch (this) {
+		case LETTER:
+			return false;
+		case OFFER:
+			return false;
+		case ORDER:
+			return true;
+		case CONFIRMATION:
+			return true;
+		case INVOICE:
+			return true;
+		case DELIVERY:
+			return false;
+		case CREDIT:
+			return true;
+		case DUNNING:
+			return false;
+		}
+		return false;
+	}
+	
 
 	/**
 	 * Defines all Document Types that contains a reference to

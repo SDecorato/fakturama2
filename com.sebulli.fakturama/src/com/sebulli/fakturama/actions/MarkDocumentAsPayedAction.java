@@ -20,10 +20,7 @@
 
 package com.sebulli.fakturama.actions;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchPage;
@@ -35,25 +32,23 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
-import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
-import com.sebulli.fakturama.webshopimport.WebShopImportManager;
 
 /**
- * This action marks an entry in the order table as
- * pending, processing, shipped or checked.
+ * This action marks an entry in the invoice table as
+ * unpayed or payed.
  *  
  * @author Gerd Bartelt
  */
-public class MarkOrderAsAction extends Action {
+public class MarkDocumentAsPayedAction extends Action {
 
 	// progress of the order. Value from 0 to 100 (percent)
-	int progress;
+	boolean payed;
 
 	/**
 	 * Constructor
 	 * Instead of using a value for the states 
-	 * "pending", "processing", "shipped" or "checked"
+	 * "unpayed" or "payed"
 	 * a progress value from 0 to 100 (percent) is used.
 	 * 
 	 * So it's possible to insert states between these.
@@ -61,26 +56,17 @@ public class MarkOrderAsAction extends Action {
 	 * @param text
 	 * @param progress
 	 */
-	public MarkOrderAsAction(String text, int progress) {
+	public MarkDocumentAsPayedAction(String text, boolean payed) {
 		super(text);
-		this.progress = progress;
+		this.payed = payed;
 		
 		// Correlation between progress value and state.
 		// Depending on the state, the icon and the command ID is selected.
-		switch (progress) {
-		case 0:
-		case 10:
-			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/16/order_pending_16.png");
-			break;
-		case 50:
-			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/16/order_processing_16.png");
-			break;
-		case 90:
-			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/16/order_shipped_16.png");
-			break;
-		case 100:
-			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/16/checked_16.png");
-			break;
+		if (payed) {
+			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAYED, "/16/checked_16.png");
+		}
+		else {
+			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAYED, "/16/error_16.png");
 		}
 		
 		
@@ -143,30 +129,14 @@ public class MarkOrderAsAction extends Action {
 						DataSetDocument uds = (DataSetDocument) obj;
 						if (uds instanceof DataSetDocument) {
 							
-							// Do it only, if it is an order.
-							if (DocumentType.getType(uds.getIntValueByKey("category")) == DocumentType.ORDER) {
+							// Do it only, if it is allowed to mark this kind of document as payed.
+							if ( DocumentType.getType(uds.getIntValueByKey("category")).hasPayed()) {
 								
 								// change the state
-								uds.setIntValueByKey("progress", progress);
+								uds.setPayed(payed);
 								
 								// also in the database
 								Data.INSTANCE.updateDataSet(uds);
-								
-								// Start a new web shop import manager in a
-								// progress Monitor Dialog
-								WebShopImportManager webShopImportManager = new WebShopImportManager();
-								// Send a request to the web shop import manager.
-								// He will update the state in the web shop the next time,
-								// we synchronize with the shop.
-								WebShopImportManager.updateOrderProgress(uds);
-								webShopImportManager.prepareChangeState();
-								try {
-									new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
-								} catch (InvocationTargetException e) {
-									Logger.logError(e, "Error running web shop import manager.");
-								} catch (InterruptedException e) {
-									Logger.logError(e, "Web shop import manager was interrupted.");
-								}
 								
 								// Refresh the table with orders.
 								view.refresh();

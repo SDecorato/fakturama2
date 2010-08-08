@@ -402,6 +402,21 @@ public class DataSetDocument extends UniDataSet {
 	}
 
 	/**
+	 * Sets the state of the document to payed or unpayed
+	 * Take the total value as payed value and the date of today.
+	 * 
+	 * @param payed
+	 */
+	public void setPayed(boolean payed) {
+		this.setBooleanValueByKey("payed", payed);
+		if (payed) {
+			this.setStringValueByKey("paydate",(new SimpleDateFormat("yyyy-MM-dd")).format(new Date()) );
+			this.setDoubleValueByKey("payvalue", this.getDoubleValueByKey("total"));
+		}
+	}
+	
+	
+	/**
 	 * Test, if this is equal to an other UniDataSet
 	 * Only web shop id and web shop date are compared
 	 * 
