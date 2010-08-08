@@ -1165,6 +1165,8 @@ public class DocumentEditor extends Editor {
 		txtInvoiceRef.setEditable(false);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtInvoiceRef);
 
+
+		
 		// This document should use a VAT of 0%
 		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelNoVat.setText("MwSt:");
@@ -1209,7 +1211,7 @@ public class DocumentEditor extends Editor {
 				}
 			}
 		});
-
+		
 		// Selects the no VAT entry
 		comboViewerNoVat.setInput(Data.INSTANCE.getVATs().getDatasets());
 		if (noVat)
@@ -1365,7 +1367,7 @@ public class DocumentEditor extends Editor {
 		else
 			messageLabel.setText("Text");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(messageLabel);
-
+		
 		// The add message button
 		Label addMessageButton = new Label(addMessageButtonComposite, SWT.NONE);
 		try {
@@ -1407,6 +1409,17 @@ public class DocumentEditor extends Editor {
 		txtMessage.setText(document.getStringValueByKey("message"));
 		superviceControl(txtMessage, 10000);
 
+		// Set the tab order
+		if (documentType.hasInvoiceReference())
+			setTabOrder(txtAddress,txtInvoiceRef);
+		else if (documentType.hasPrice())
+			setTabOrder(txtAddress,comboNoVat);
+		else if (documentType.hasItems())
+			setTabOrder(txtAddress,tableViewerItems.getTable());
+		else 
+			setTabOrder(txtAddress,txtMessage);
+
+		
 		// Depending on if the document has price values.
 		if (!documentType.hasPrice()) {
 			
@@ -1449,6 +1462,9 @@ public class DocumentEditor extends Editor {
 			itemsDiscount.setText(document.getFormatedStringValueByKey("itemsdiscount"));
 			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
 
+			// Set the tab order
+			setTabOrder(txtMessage,itemsDiscount);
+			
 			// Recalculate, if the discount field looses the focus.
 			itemsDiscount.addFocusListener(new FocusAdapter() {
 				public void focusLost(FocusEvent e) {
