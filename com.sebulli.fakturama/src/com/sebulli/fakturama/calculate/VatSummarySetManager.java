@@ -45,7 +45,7 @@ public class VatSummarySetManager {
 	 * 
 	 * @param document Document to add
 	 */
-	public void add(DataSetDocument document, boolean basedOnPayedValue) {
+	public void add(DataSetDocument document) {
 		int parentSign = DocumentType.getType(document.getIntValueByKey("category")).sign();
 
 		// Create a new summary object and start the calculation.
@@ -53,7 +53,7 @@ public class VatSummarySetManager {
 		DocumentSummary summary = new DocumentSummary();
 		summary.calculate(vatSummarySet, document.getItems(), document.getDoubleValueByKey("shipping") * parentSign, document
 				.getDoubleValueByKey("shippingvat"), document.getStringValueByKey("shippingvatdescription"), document.getIntValueByKey("shippingautovat"),
-				document.getDoubleValueByKey("itemsdiscount"), document.getBooleanValueByKey("novat"), document.getStringValueByKey("novatdescription"), basedOnPayedValue);
+				document.getDoubleValueByKey("itemsdiscount"), document.getBooleanValueByKey("novat"), document.getStringValueByKey("novatdescription"));
 	}
 
 	/**
