@@ -29,6 +29,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import com.sebulli.fakturama.actions.DeleteDataSetAction;
+import com.sebulli.fakturama.actions.MarkDocumentAsPayedAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.data.Data;
@@ -45,7 +46,10 @@ public class ViewDocumentTable extends ViewDataSetTable {
 
 	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewDocumentTable";
-
+	
+	// The document type that corresponds with the selected category
+	private DocumentType documentType = DocumentType.NONE;
+	
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * 
@@ -57,6 +61,7 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		// Add the action to create a new entry
 		addNewAction = new NewDocumentAction();
 
+		
 		// Mark the columns that are used by the search function.
 		searchColumns = new String[4];
 		searchColumns[0] = "name";
@@ -102,13 +107,21 @@ public class ViewDocumentTable extends ViewDataSetTable {
 	private void createContextMenu() {
 		super.createMenuManager();
 		
-		// Add an entry for each document type
-		menuManager.add(new MarkOrderAsAction("als \"offen\" markieren", 10));
-		menuManager.add(new MarkOrderAsAction("als \"in Bearbeitung\" markieren", 50));
-		menuManager.add(new MarkOrderAsAction("als \"versendet\" markieren", 90));
+		// Add the entries for orders
+		if (documentType.equals(DocumentType.ORDER)) {
+			menuManager.add(new MarkOrderAsAction("als \"offen\" markieren", 10));
+			menuManager.add(new MarkOrderAsAction("als \"in Bearbeitung\" markieren", 50));
+			menuManager.add(new MarkOrderAsAction("als \"versendet\" markieren", 90));
+		}
+		// Add the entries to mark a document as payed
+		else if (documentType.hasPayed()) {
+			menuManager.add(new MarkDocumentAsPayedAction("als \"unbezahlt\" markieren", false));
+			menuManager.add(new MarkDocumentAsPayedAction("als \"bezahlt\" markieren", true));
+		}
 
 		menuManager.add(new Separator());
-		
+
+		// Add an entry to create a new document of each document type
 		menuManager.add(new NewDocumentAction(DocumentType.LETTER));
 		menuManager.add(new NewDocumentAction(DocumentType.OFFER));
 		menuManager.add(new NewDocumentAction(DocumentType.ORDER));
@@ -155,6 +168,26 @@ public class ViewDocumentTable extends ViewDataSetTable {
 				}
 			}
 		});
+	}
+
+	/**
+	 * Recreate the context menu
+	 * 
+	 * @see com.sebulli.fakturama.views.datasettable.ViewDataSetTable#setCategoryFilter(java.lang.String)
+	 */
+	@Override
+	public void setCategoryFilter(String filter) {
+		super.setCategoryFilter(filter);
+		
+		// Get the document of the filter string
+		for (int i = 0; i < DocumentType.MAXID; i++ ) {
+			if (filter.startsWith(DocumentType.getPluralString(i)))
+				documentType = DocumentType.getType(i);
+		}
+		
+		// Recreate the context menu
+		menuManager.removeAll();
+		createContextMenu();
 	}
 
 }

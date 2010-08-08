@@ -331,6 +331,11 @@
             name="Mark Order As">
       </command>
       <command
+            description="Mark Document As Payed"
+            id="com.sebulli.fakturama.actions.markDocumentAsPayed"
+            name="Mark Document As Payed">
+      </command>
+      <command
             description="Save"
             id="com.sebulli.fakturama.actions.save"
             name="Save">

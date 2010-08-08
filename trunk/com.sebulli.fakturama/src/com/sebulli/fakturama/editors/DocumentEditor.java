@@ -855,7 +855,7 @@ public class DocumentEditor extends Editor {
 			payedValueLabel.setText("Betrag");
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedValueLabel);
 
-			// If it's the first time, that this document is markes as payed
+			// If it's the first time, that this document is marked as payed
 			// (if the value is 0.0), than also set the date to "today"
 			if (payedValue.getValueAsDouble() == 0.0) {
 				payedValue.setValue(total);
