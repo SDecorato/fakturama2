@@ -94,4 +94,14 @@ public class PriceValue {
 		return DataUtils.DoubleToFormatedPrice(value);
 	}
 
+	/**
+	 * Get the PriceValue as formated and rounded String
+	 * 
+	 * @return PriceValue as formated and rounded currency string
+	 */
+	public String asFormatedRoundedString() {
+		return DataUtils.DoubleToFormatedPriceRound(value);
+	}
+
+
 }

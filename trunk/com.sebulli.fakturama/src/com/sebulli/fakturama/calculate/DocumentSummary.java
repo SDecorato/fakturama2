@@ -45,6 +45,10 @@ public class DocumentSummary {
 	private PriceValue totalVat;
 	private PriceValue totalGross;
 
+	// discount values
+	private PriceValue discountNet;
+	private PriceValue discountGross;
+
 	// shipping value
 	private Price shipping;
 	private Double shippingNet;
@@ -58,6 +62,8 @@ public class DocumentSummary {
 		totalNet = new PriceValue(0.0);
 		totalVat = new PriceValue(0.0);
 		totalGross = new PriceValue(0.0);
+		discountNet = new PriceValue(0.0);
+		discountGross = new PriceValue(0.0);
 		shipping = new Price(0.0, 0.0);
 		shippingNet = 0.0;
 	}
@@ -90,6 +96,7 @@ public class DocumentSummary {
 		this.itemsNet = new PriceValue(0.0);
 		this.totalVat = new PriceValue(0.0);
 		this.totalGross = new PriceValue(0.0);
+		
 
 		// Use all non-deleted items
 		ArrayList<DataSetItem> itemDataset = items.getActiveDatasets();
@@ -132,7 +139,11 @@ public class DocumentSummary {
 
 		Double itemsNet = this.itemsNet.asDouble();
 		Double itemsGross = this.itemsGross.asDouble();
-
+		
+		// Calculate the absolute discount values
+		this.discountNet.set( itemsDiscount * itemsNet);
+		this.discountGross.set( itemsDiscount * itemsGross);
+		
 		// Calculate discount
 		if (!DataUtils.DoublesAreEqual(itemsDiscount, 0.0)) {
 
@@ -187,7 +198,7 @@ public class DocumentSummary {
 
 				// Adjust the vat summary item by the discount part
 				documentVatSummaryItems.add(discountVatSummaryItem);
-
+				
 				// Add it to the global VAT summary
 				if (globalVatSummarySet != null)
 					globalVatSummarySet.add(discountVatSummaryItem);
@@ -229,6 +240,15 @@ public class DocumentSummary {
 
 			// Increase the vat summary entries by the shipping ratio
 			Double shippingVatValue = 0.0;
+
+			// Calculate the sum of all VatSummary entries
+			Double netSumOfAllVatSummaryItems = 0.0;
+			for (Iterator<VatSummaryItem> iterator = documentVatSummaryItems.iterator(); iterator.hasNext();) {
+				VatSummaryItem vatSummaryItem = iterator.next();
+				netSumOfAllVatSummaryItems += vatSummaryItem.getNet();
+			}
+
+			
 			for (Iterator<VatSummaryItem> iterator = documentVatSummaryItems.iterator(); iterator.hasNext();) {
 				
 				// Get the data from each entry
@@ -245,8 +265,8 @@ public class DocumentSummary {
 				// Calculate the ratio of this vat summary item and all items.
 				// The shippingNetPart is proportional to this ratio.
 				Double shippingNetPart = 0.0;
-				if (itemsNet != 0.0)
-					shippingNetPart = shippingNet * (vatSummaryItem.getNet() / itemsNet);
+				if (netSumOfAllVatSummaryItems != 0.0)
+					shippingNetPart = shippingNet * (vatSummaryItem.getNet() / netSumOfAllVatSummaryItems /*itemsNet*/);
 
 				// Add shippingNetPart to the sum "shippingVatValue"  
 				Price shippingPart = new Price(shippingNetPart, shippingVatPercent);
@@ -348,6 +368,22 @@ public class DocumentSummary {
 	 */
 	public PriceValue getTotalGross() {
 		return this.totalGross;
+	}
+
+	/**
+	 * Getter for discount (net)
+	 * @return Sum as PriceValue
+	 */
+	public PriceValue getDiscountNet() {
+		return this.discountNet;
+	}
+
+	/**
+	 * Getter for discount (gross)
+	 * @return Sum as PriceValue
+	 */
+	public PriceValue getDiscountGross() {
+		return this.discountGross;
 	}
 
 }
