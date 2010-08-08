@@ -19,16 +19,8 @@
  */
 package com.sebulli.fakturama.data;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Properties;
 
-import org.eclipse.core.runtime.FileLocator;
-
-import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -45,31 +37,22 @@ public class CountryCodes {
 	 * @return
 	 */
 	public static String getCode(String country) {
-		Reader reader = null;
 
 		// Create a collection of postcodes
 		Properties postcodes = new Properties();
 
 		// Read the file postcodes.txt from the resource
 		try {
-			URL url = Activator.getDefault().getBundle().getResource("postcodes.txt");
-			reader = new FileReader(FileLocator.resolve(url).toURI().getPath());
-			
 			// load the postcodes with the file contents 
-			postcodes.load(reader);
+			postcodes.load(CountryCodes.class.getResourceAsStream("/resources/postcodes.txt"));
+			// Get the code of a country
+			return postcodes.getProperty(country.toUpperCase(),""); 
 			
-		} catch (IOException e) {
-		} catch (URISyntaxException e) {
-			Logger.logError(e, "Error in postcodes URL");
-		} finally {
-			try {
-				reader.close();
-			} catch (Exception e) {
-			}
+		} catch (Exception e) {
+			Logger.logError(e, "Error reading postcodes");
+			return "";
 		}
 		
-		// Get the code of a country
-		return postcodes.getProperty(country.toUpperCase(),""); 
 	}
 	
 }
