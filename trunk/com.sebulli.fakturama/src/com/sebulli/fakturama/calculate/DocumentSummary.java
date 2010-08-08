@@ -76,7 +76,7 @@ public class DocumentSummary {
 	 * @param noVatDescription Name of the VAT, which is 0.
 	 */
 	public void calculate(VatSummarySet globalVatSummarySet, DataSetArray<DataSetItem> items, double shippingValue, double shippingVatPercent,
-			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription, boolean basedOnPayedValue) {
+			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription) {
 		
 		Double vatPercent;
 		String vatDescription;
@@ -188,13 +188,9 @@ public class DocumentSummary {
 				// Adjust the vat summary item by the discount part
 				documentVatSummaryItems.add(discountVatSummaryItem);
 
-				// Do not always add it to the global VAT summary
-				// Because the global VAT summary is used to export the summary,
-				// and there the calculation is based on the payed value.
-				if (!basedOnPayedValue)
-					// .. add it to the global VAT summary
-					if (globalVatSummarySet != null)
-						globalVatSummarySet.add(discountVatSummaryItem);
+				// Add it to the global VAT summary
+				if (globalVatSummarySet != null)
+					globalVatSummarySet.add(discountVatSummaryItem);
 				
 			}
 
@@ -263,13 +259,9 @@ public class DocumentSummary {
 				// Adjust the vat summary item by the shipping part
 				documentVatSummaryItems.add(shippingVatSummaryItem);
 				
-				// Do not always add it to the global VAT summary
-				// Because the global VAT summary is used to export the summary,
-				// and there the calculation is based on the payed value.
-				if (!basedOnPayedValue)
-					// .. add it to the global VAT summary
-					if (globalVatSummarySet != null)
-						globalVatSummarySet.add(shippingVatSummaryItem);
+				// Add it to the global VAT summary
+				if (globalVatSummarySet != null)
+					globalVatSummarySet.add(shippingVatSummaryItem);
 
 					
 

@@ -232,7 +232,7 @@ public class SalesExporter {
 
 			if (documentShouldBeExported(document)) {
 				document.calculate();
-				vatSummarySetAllDocuments.add(document, true);
+				vatSummarySetAllDocuments.add(document);
 			}
 		}
 
@@ -275,7 +275,7 @@ public class SalesExporter {
 				// Now analyze document by document
 				VatSummarySetManager vatSummarySetOneDocument = new VatSummarySetManager();
 				document.calculate();
-				vatSummarySetOneDocument.add(document, true);
+				vatSummarySetOneDocument.add(document);
 
 				// Calculate the relation between payed value and the value
 				// of the invoice. This is used to calculate the VAT.
@@ -331,10 +331,10 @@ public class SalesExporter {
 				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, net);
 				
 				// Calculate the documents net total (incl. shipping)
-				// a second time, but now use the documents net value, add
-				// the shipping and scale it by the scale factor.
+				// a second time, but now use the documents net value,
+				// and scale it by the scale factor.
 				Double totalNet = document.getSummary().getTotalNet().asDouble();
-				totalNet += document.getSummary().getShipping().getUnitNet().asDouble();
+				//totalNet += document.getSummary().getShipping().getUnitNet().asDouble();
 				
 				Double roundingError = totalNet * payedFactor - net;
 				
