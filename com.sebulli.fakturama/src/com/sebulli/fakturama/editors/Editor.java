@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -36,6 +38,7 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -376,6 +379,34 @@ public abstract class Editor extends EditorPart {
 			}
 
 		});
+	}
+
+	/**
+	 * Jump to the next control, if in a multi-line text control the tab key
+	 * is pressed. Normally the tab won't jump to the next control, if the current
+	 * one is a text control. It will insert a tabulator.
+	 * 
+	 * @param text This (multi-line) text control
+	 * @param nextControl The next control
+	 */
+	protected void setTabOrder(Text text, final Control nextControl) {
+		text.addKeyListener( new KeyAdapter() {
+
+			/**
+			 * Capture the tab key and set the focus to the next control
+			 * 
+			 * @see org.eclipse.swt.events.KeyAdapter#keyPressed(org.eclipse.swt.events.KeyEvent)
+			 */
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == '\t') {
+					e.doit = false;
+					nextControl.setFocus();
+				}
+			}
+
+		});
+		
 	}
 
 }

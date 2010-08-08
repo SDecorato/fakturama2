@@ -579,7 +579,8 @@ public class ContactEditor extends Editor {
 		txtStreet.setText(contact.getStringValueByKey("street"));
 		superviceControl(txtStreet, 64);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtStreet);
-
+		setTabOrder(txtCompany,txtStreet);
+		
 		// City
 		Label labelCity = new Label(addressGroup, SWT.NONE);
 		labelCity.setText("PLZ, Ort");
@@ -673,7 +674,9 @@ public class ContactEditor extends Editor {
 		txtDeliveryStreet.setText(contact.getStringValueByKey("delivery_street"));
 		superviceControl(txtDeliveryStreet, 64);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtDeliveryStreet);
+		setTabOrder(txtDeliveryCompany,txtDeliveryStreet);
 
+		
 		// Delivery city
 		Label labelDeliveryCity = new Label(deliveryGroup, SWT.NONE);
 		labelDeliveryCity.setText("PLZ, Ort");

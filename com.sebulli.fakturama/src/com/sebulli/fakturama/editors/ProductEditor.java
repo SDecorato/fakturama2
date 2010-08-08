@@ -547,6 +547,14 @@ public class ProductEditor extends Editor {
 			}
 		}
 
+		// Set the tab order
+		if (scaledPrices >= 2)
+			setTabOrder(textDescription,textBlock[0]);
+		else if (useNet)
+			setTabOrder(textDescription,netText[0].getNetText());
+		else
+			setTabOrder(textDescription,grossText[0].getGrossText());
+			
 		// product VAT
 		Label labelVat = new Label(useVat ? productDescGroup : invisible, SWT.NONE);
 		labelVat.setText("MwSt.");
