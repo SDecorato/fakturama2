@@ -164,7 +164,8 @@ public class OODocument {
 			ITextTable vatListTable = null;
 			ITextTableCell itemCell = null;
 			ITextTableCell vatListCell = null;
-			
+			ArrayList<ITextTableCell> discountCellList = new ArrayList<ITextTableCell>();
+
 			// Scan all placeholders to find the item and the vat table
 			for (int i = 0; i < placeholders.length; i++) {
 
@@ -183,6 +184,14 @@ public class OODocument {
 					vatListCell = placeholder.getTextRange().getCell();
 					vatListTable = vatListCell.getTextTable();
 				}
+
+				// Find the discount placeholders
+				if (placeholderDisplayText.startsWith("<ITEMS.DISCOUNT.")) {
+					discountCellList.add(placeholder.getTextRange().getCell());
+				}
+
+			
+			
 			}
 
 			// Get the items of the UniDataSet document
@@ -271,6 +280,15 @@ public class OODocument {
 			// remove the temporary row of the VAT table
 			if (vatListTable != null) {
 				vatListTable.removeRow(lastVatTemplateRow );
+			}
+	
+			// Remove the discount cells, if there is no discount set
+			if (DataUtils.DoublesAreEqual(document.getSummary().getDiscountNet().asDouble(), 0.0)) {
+				for (int i = 0; i < discountCellList.size(); i++) {
+					ITextTableCell cell = discountCellList.get(i);
+					ITextTable table = cell.getTextTable();
+					table.removeRow(cell.getName().getRowIndex());
+				}
 			}
 			
 			saveOODocument(textDocument);
@@ -621,12 +639,13 @@ public class OODocument {
 			setProperty("DOCUMENT.TRANSACTION", document.getStringValueByKey("transaction"));
 			setProperty("DOCUMENT.WEBSHOP.ID", document.getStringValueByKey("webshopid"));
 			setProperty("DOCUMENT.WEBSHOP.DATE", document.getFormatedStringValueByKey("webshopdate"));
-			setProperty("DOCUMENT.ITEMS.GROSS", document.getSummary().getItemsGross().asFormatedString());
-			setProperty("DOCUMENT.ITEMS.NET", document.getSummary().getItemsNet().asFormatedString());
-			setProperty("DOCUMENT.TOTAL.VAT", document.getSummary().getTotalVat().asFormatedString());
+			setProperty("DOCUMENT.ITEMS.GROSS", document.getSummary().getItemsGross().asFormatedRoundedString());
+			setProperty("DOCUMENT.ITEMS.NET", document.getSummary().getItemsNet().asFormatedRoundedString());
+			setProperty("DOCUMENT.TOTAL.VAT", document.getSummary().getTotalVat().asFormatedRoundedString());
 			setProperty("DOCUMENT.TOTAL.GROSS", document.getSummary().getTotalGross().asFormatedString());
 			setProperty("ITEMS.DISCOUNT.PERCENT", document.getFormatedStringValueByKey("itemsdiscount"));
-
+			setProperty("ITEMS.DISCOUNT.NET", document.getSummary().getDiscountNet().asFormatedRoundedString());
+			setProperty("ITEMS.DISCOUNT.GROSS", document.getSummary().getDiscountGross().asFormatedRoundedString());
 			setProperty("SHIPPING.NET", document.getSummary().getShipping().getUnitNetRounded().asFormatedString());
 			setProperty("SHIPPING.VAT", document.getSummary().getShipping().getUnitVatRounded().asFormatedString());
 			setProperty("SHIPPING.GROSS", document.getSummary().getShipping().getUnitGrossRounded().asFormatedString());
