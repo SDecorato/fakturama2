@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import ag.ion.bion.officelayer.application.IOfficeApplication;
+import ag.ion.bion.officelayer.application.OfficeApplicationException;
 import ag.ion.bion.officelayer.desktop.GlobalCommands;
 import ag.ion.bion.officelayer.desktop.IFrame;
 import ag.ion.bion.officelayer.document.IDocument;
@@ -65,7 +66,7 @@ import com.sun.star.uno.UnoRuntime;
  * 
  * @author Gerd Bartelt
  */
-public class OODocument {
+public class OODocument extends Object{
 
 	// The UniDataSet document, that is used to fill the OpenOffice document 
 	private DataSetDocument document;
@@ -77,6 +78,12 @@ public class OODocument {
 	// OpenOffice Writer template
 	private Properties properties;
 	
+	// OpenOffice objects
+	IOfficeApplication officeApplication;
+	IDocument oOdocument;
+	ITextDocument textDocument;
+	IFrame officeFrame;
+
 	ITextFieldService textFieldService;
 	
 	/**
@@ -100,8 +107,8 @@ public class OODocument {
 		try {
 			
 			// Get the OpenOffice application
-			final IOfficeApplication officeAplication = OpenOfficeStarter.openOfficeAplication();
-			if (officeAplication == null)
+			officeApplication = OpenOfficeStarter.openOfficeAplication();
+			if (officeApplication == null)
 				return;
 
 			// Get the template file (*ott)
@@ -112,11 +119,11 @@ public class OODocument {
 			}
 			
 			// Load the template
-			IDocument oOdocument = officeAplication.getDocumentService().loadDocument(url);
-			final ITextDocument textDocument = (ITextDocument) oOdocument;
+			oOdocument = officeApplication.getDocumentService().loadDocument(url);
+			textDocument = (ITextDocument) oOdocument;
 			
 			// Bring the open office window on top.
-			IFrame officeFrame = textDocument.getFrame(); 
+			officeFrame = textDocument.getFrame(); 
 			XFrame xFrame = officeFrame.getXFrame(); 
 			XTopWindow topWindow = (XTopWindow) 
 			UnoRuntime.queryInterface(XTopWindow.class,	xFrame. getContainerWindow()); 
@@ -286,8 +293,14 @@ public class OODocument {
 			if (DataUtils.DoublesAreEqual(document.getSummary().getDiscountNet().asDouble(), 0.0)) {
 				for (int i = 0; i < discountCellList.size(); i++) {
 					ITextTableCell cell = discountCellList.get(i);
-					ITextTable table = cell.getTextTable();
-					table.removeRow(cell.getName().getRowIndex());
+					try {
+						if (cell != null) {
+							ITextTable table = cell.getTextTable();
+							if (table != null)
+								table.removeRow(cell.getName().getRowIndex());
+						}
+					} catch (TextException te) {
+					}
 				}
 			}
 			
@@ -313,6 +326,22 @@ public class OODocument {
 		}
 	}
 
+	/**
+	 * Close the connection to the OpenOffice Document
+	 */
+	public void close() {
+		
+		// Remove the SAVE dispatcher
+		officeFrame.removeDispatchDelegate(GlobalCommands.SAVE);
+
+		// Close the OpenOffice document
+		try {
+			officeApplication.deactivate();
+		} catch (OfficeApplicationException e) {
+			Logger.logError(e, "Error closing OpenOffice");
+		}
+	}
+	
 	/**
 	 * Save an OpenOffice document as *.odt and as *.pdf
 	 * 
@@ -766,4 +795,5 @@ public class OODocument {
 		// Replace it with the value of the property list.
 		placeholder.getTextRange().setText(properties.getProperty(placeholderDisplayText));
 	}
+
 }
