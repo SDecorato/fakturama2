@@ -36,7 +36,7 @@ import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
-import com.sebulli.fakturama.openoffice.OODocument;
+import com.sebulli.fakturama.openoffice.OOManager;
 import com.sebulli.fakturama.openoffice.OOTemplateFilename;
 
 /**
@@ -135,7 +135,7 @@ public class CreateOODocumentAction extends Action {
 							public void handleEvent(Event e) {
 								// save the document and open the exporter
 								documentEditor.doSave(null);
-								new OODocument(documentEditor.getDocument(),(String) e.widget.getData() );
+								OOManager.INSTANCE.openOODocument( documentEditor.getDocument(), (String) e.widget.getData() );
 							}
 						});
 					}
@@ -150,7 +150,7 @@ public class CreateOODocumentAction extends Action {
 				} else if (templates.size() == 1) {
 					// Save the document and open the exporter
 					documentEditor.doSave(null);
-					new OODocument(documentEditor.getDocument(), templates.get(0).getPathAndFilename());
+					OOManager.INSTANCE.openOODocument( documentEditor.getDocument(), templates.get(0).getPathAndFilename() );
 				}
 			}
 	}

@@ -28,6 +28,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.openoffice.OOManager;
 import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
 /**
@@ -90,11 +91,16 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	
 	/**
 	 * Called after the window shell is closed.
+	 * All OpenOffice documents are closed
 	 * Some (not all) of the preferences are stored in the data base.
 	 * Then the data base is closed.
 	 */
 	@Override
 	public void postWindowClose() {
+		
+		//Closes all OpenOffice documents 
+		OOManager.INSTANCE.closeAll();
+
 		PreferencesInDatabase.savePreferencesInDatabase();
 		if (Data.INSTANCE != null)
 			Data.INSTANCE.close();
