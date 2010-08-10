@@ -100,6 +100,9 @@ public class OODocument extends Object{
 		// Url of the template file
 		String url = null;
 		
+		//Open an existing document instead of creating a new one
+		boolean openExisting = false;
+		
 		// Set a reference to the UniDatSet document
 		this.document = document;
 		
@@ -111,6 +114,14 @@ public class OODocument extends Object{
 			if (officeApplication == null)
 				return;
 
+			// Check, whether there is already a document then do not 
+			// generate one by the data, but open the existing one.
+			File oODocumentFile = new File(getDocumentPath(true, true, false));
+			if (oODocumentFile.exists() && document.getBooleanValueByKey("printed")) {
+				openExisting = true;
+				template = getDocumentPath(true, true, false);
+			}
+			
 			// Get the template file (*ott)
 			try {
 				url = URLAdapter.adaptURL(template);
@@ -143,6 +154,10 @@ public class OODocument extends Object{
 
 			});
 			officeFrame.updateDispatches();
+			
+			// Stop here and do not fill the document's placeholders, if it's an existing document
+			if (openExisting)
+				return;
 			
 			// Get the contact of the UniDataSet document
 			int addressId = document.getIntValueByKey("addressid");
@@ -304,6 +319,7 @@ public class OODocument extends Object{
 				}
 			}
 			
+			// Save the document
 			saveOODocument(textDocument);
 			
 			// Print and close the OpenOffice document
@@ -343,24 +359,56 @@ public class OODocument extends Object{
 	}
 	
 	/**
+	 * Returns the filename (with path) of the OpenOffice document
+	 * 
+	 * @param inclFilename True, if also the filename should be used
+	 * @param inclExtension True, if also the extension should be used
+	 * @param PDF True, if it's the PDF filename
+	 * @return The filename
+	 */
+	public String getDocumentPath(boolean inclFilename, boolean inclExtension, boolean PDF) {
+		String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+		
+		savePath += "/Dokumente";
+		
+		if (PDF)
+			savePath += "/PDF/";
+		else
+			savePath += "/OpenOffice/";
+
+		savePath += DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+
+		// Use the document name as filename
+		if (inclFilename)
+			savePath += this.document.getStringValueByKey("name");
+
+		// Use the document name as filename
+		if (inclExtension) {
+			if (PDF)
+				savePath += ".pdf";
+			else
+				savePath += ".odt";
+		}
+		
+		return savePath;
+		
+	}
+	
+	
+	/**
 	 * Save an OpenOffice document as *.odt and as *.pdf
 	 * 
 	 * @param textDocument The document
 	 */
 	public void saveOODocument(ITextDocument textDocument) {
 
-		// Create the path of the file to save
-		String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-		savePath += "/Dokumente/OpenOffice/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+		boolean wasSaved = false;
 		
 		// Create the directories, if they don't exist.
-		File directory = new File(savePath);
+		File directory = new File(getDocumentPath(false, false, false));
 		if (!directory.exists())
 			directory.mkdirs();
 		
-		// Use the document name as filename
-		savePath += this.document.getStringValueByKey("name");
-
 		// Add the time String, if this file is still existing
 		/*
 		File file = new File(savePath + ".odt");
@@ -373,25 +421,23 @@ public class OODocument extends Object{
 		// Save the document
 		FileOutputStream fs;
 		try {
-			fs = new FileOutputStream(new File(savePath + ".odt"));
+			fs = new FileOutputStream(new File(getDocumentPath(true, true, false)));
 			textDocument.getPersistenceService().storeAs(fs);
+
+			wasSaved = true;
+
 		} catch (FileNotFoundException e) {
 			Logger.logError(e, "Error saving the OpenOffice Document");
 		} catch (NOAException e) {
 			Logger.logError(e, "Error saving the OpenOffice Document");
 		} 
 
-		// Create the path of the file to export as PDF
-		savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-		savePath += "/Dokumente/PDF/" + DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
 		
 		// Create the directories, if they don't exist.
-		directory = new File(savePath);
+		directory = new File(getDocumentPath(false, false, true));
 		if (!directory.exists())
 			directory.mkdirs();
 		
-		// Use the document name as filename
-		savePath += this.document.getStringValueByKey("name");
 
 		// Add the time String, if this file is still existing
 		/*
@@ -404,13 +450,24 @@ public class OODocument extends Object{
 		
 		// Save the document
 		try {
-			fs = new FileOutputStream(new File(savePath + ".pdf"));
+			fs = new FileOutputStream(new File(getDocumentPath(true, true, true)));
 			textDocument.getPersistenceService().export(fs, new PDFFilter());
+			
+			wasSaved = true;
+			
 		} catch (FileNotFoundException e) {
 			Logger.logError(e, "Error saving the OpenOffice Document");
 		} catch (NOAException e) {
 			Logger.logError(e, "Error saving the OpenOffice Document");
 		} 
+		
+		// Mark the document as printed, if it was saved as ODT or PDF
+		if (wasSaved) {
+			// Mark the document as "printed"
+			document.setBooleanValueByKey("printed", true);
+			Data.INSTANCE.getDocuments().updateDataSet(document);
+		}
+			
 
 	}
 	
@@ -454,7 +511,7 @@ public class OODocument extends Object{
 		try {
 			textFieldService.addUserTextField(key, value);
 		} catch (TextException e) {
-			Logger.logError(e, "Error settung User Text Field: " + key + " to " + value);
+			Logger.logError(e, "Error setting User Text Field: " + key + " to " + value);
 		}
 	}
 

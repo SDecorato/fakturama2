@@ -194,6 +194,8 @@ public class DocumentEditor extends Editor {
 		 *          - shared (not modified by editor)
 		 */
 
+		boolean wasDirty = isDirty();
+		
 		// Always set the editor's data set to "undeleted"
 		document.setBooleanValueByKey("deleted", false);
 
@@ -396,6 +398,10 @@ public class DocumentEditor extends Editor {
 			document.setStringValueByKey("addressfirstline", s);
 		}
 
+		// Mark the (modified) document as "not printed"
+		if (wasDirty)
+			document.setBooleanValueByKey("printed", false);
+		
 		// If it is a new document,
 		if (newDocument) {
 			
