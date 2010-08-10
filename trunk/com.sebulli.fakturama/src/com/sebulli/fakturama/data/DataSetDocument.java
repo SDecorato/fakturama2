@@ -201,6 +201,7 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("itemsdiscount", new UniData(UniDataType.PERCENT, itemsdiscount));
 		this.hashMap.put("dunninglevel", new UniData(UniDataType.INT, dunninglevel));
 		this.hashMap.put("invoiceid", new UniData(UniDataType.ID, invoiceid));
+		this.hashMap.put("printed", new UniData(UniDataType.BOOLEAN, false));
 		
 		// Name of the table in the data base
 		sqlTabeName = "Documents";
