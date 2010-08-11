@@ -156,6 +156,9 @@ public class DocumentEditor extends Editor {
 	private Double total = 0.0;
 	private int dunningLevel = 0;
 	
+	// Flag, if item editing is active
+	ItemEditingSupport itemEditingSupport = null;
+	
 	// Action to print this document's content.
 	// Print means: Export the document in an OpenOffice document
 	CreateOODocumentAction printAction;
@@ -193,7 +196,11 @@ public class DocumentEditor extends Editor {
 		 *          - deleted (is checked by the items string)
 		 *          - shared (not modified by editor)
 		 */
-
+		
+		// Cancel the item editing
+		if (itemEditingSupport != null)
+			itemEditingSupport.cancelAndSave();
+		
 		boolean wasDirty = isDirty();
 		
 		// Always set the editor's data set to "undeleted"
@@ -591,11 +598,12 @@ public class DocumentEditor extends Editor {
 		 * - deleted (is checked by the items string)
 		 * - shared (not modified by editor)
 		 */
-
-		// Check, if a cell is beeing modified at this moment
+		
+		// Check, if a cell is being modified at this moment
 		if (tableViewerItems != null)
-			if (tableViewerItems.isCellEditorActive())
+			if (tableViewerItems.isCellEditorActive() && (itemEditingSupport != null)) 
 				return true;
+
 		
 		// Test all the document parameters
 		if (document.getBooleanValueByKey("deleted")) { return true; }
@@ -693,6 +701,15 @@ public class DocumentEditor extends Editor {
 		return false;
 	}
 
+	/**
+	 * Sets a flag, if item editing is active
+	 * 
+	 * @param active, TRUE, if editing is active
+	 */
+	public void setItemEditing(ItemEditingSupport itemEditingSupport) {
+		this.itemEditingSupport = itemEditingSupport;
+	}
+	
 	/**
 	 * Set the "novat" in all items.
 	 * If a document is marks as "novat", the VAT of all items
@@ -1361,6 +1378,7 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.setInput(items);
 		}
 
+		
 		// Container for the message label and the add button
 		Composite addMessageButtonComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addMessageButtonComposite);

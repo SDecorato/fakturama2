@@ -47,6 +47,8 @@ public class ItemEditingSupport extends EditingSupport {
 	// The current columns
 	private int column;
 	
+	private Object activeObject;
+	
 	// The parent document editor that contains the item table
 	private DocumentEditor documentEditor;
 
@@ -115,6 +117,10 @@ public class ItemEditingSupport extends EditingSupport {
 	 */
 	@Override
 	protected Object getValue(Object element) {
+
+		activeObject = element;
+		documentEditor.setItemEditing(this);
+		
 		DataSetItem item = (DataSetItem) element;
 		switch (this.column) {
 		case 1:
@@ -147,6 +153,8 @@ public class ItemEditingSupport extends EditingSupport {
 	protected void setValue(Object element, Object value) {
 		DataSetItem item = (DataSetItem) element;
 
+		documentEditor.setItemEditing(null);
+		
 		switch (this.column) {
 		case 1:
 			// Set the quantity
@@ -216,9 +224,16 @@ public class ItemEditingSupport extends EditingSupport {
 		
 		// Recalculate the total sum of the document
 		documentEditor.calculate();
+		//this.documentEditor.checkDirty();
 		
 		// Update the data
 		getViewer().update(element, null);
+	}
+	
+	public void cancelAndSave() {
+		this.setValue(activeObject, this.editor.getValue());
+		//System.out.println(this.editor.getValue());
+		
 	}
 
 }
