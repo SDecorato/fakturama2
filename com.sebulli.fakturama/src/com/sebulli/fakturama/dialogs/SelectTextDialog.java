@@ -53,6 +53,12 @@ public class SelectTextDialog extends SelectDataSetDialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		
+		// Mark the columns that are used by the search function.
+		searchColumns = new String[2];
+		searchColumns[0] = "name";
+		searchColumns[1] = "text";
+
+		// Create the dialog area
 		Control control = super.createDialogArea(parent);
 
 		// Set the content provider

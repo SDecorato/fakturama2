@@ -32,13 +32,18 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.UniDataSet;
+import com.sebulli.fakturama.views.datasettable.TableFilter;
 
 /**
  * Abstract class for all dialogs to select an UniDataSet entry from a table
@@ -51,6 +56,11 @@ public abstract class SelectDataSetDialog extends Dialog {
 	protected String editor = "";
 	protected UniDataSet selectedDataSet = null;
 	protected String title = "";
+
+	// Filter the table 
+	protected TableFilter tableFilter;
+	// The columns that are used for the text search
+	protected String searchColumns[];
 
 	/**
 	 * Constructor
@@ -80,13 +90,35 @@ public abstract class SelectDataSetDialog extends Dialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+
+		// Create the top composite dialog area
 		Composite top = (Composite) super.createDialogArea(parent);
+		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
 
 		// Set the title
 		this.getShell().setText(title);
+		
+		// The search composite
+		Composite searchComposite = new Composite(top, SWT.NONE);
+		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(searchComposite);
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.END, SWT.CENTER).applyTo(searchComposite);
 
+		// Search label an search field
+		Label searchLabel = new Label(searchComposite, SWT.NONE);
+		searchLabel.setText("Suchen:");
+		GridDataFactory.swtDefaults().applyTo(searchLabel);
+		final Text searchText = new Text(searchComposite, SWT.BORDER | SWT.SEARCH | SWT.CANCEL | SWT.ICON_SEARCH);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).hint(150, -1).applyTo(searchText);
+		searchText.addModifyListener(new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				tableFilter.setSearchText(searchText.getText());
+				tableViewer.refresh();
+			}
+		});
+		
 		// Define the SWT layout
-		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
 		Composite tableComposite = new Composite(top, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(tableComposite);
 
@@ -133,17 +165,21 @@ public abstract class SelectDataSetDialog extends Dialog {
 			}
 		});
 
+		tableFilter = new TableFilter(searchColumns);
+		tableViewer.addFilter(tableFilter);
+
+		
 		return top;
 	}
 
 	/**
-	 * Set the initial size to 400 x 300 pixel
+	 * Set the initial size of the dialogs in pixel
 	 * 
 	 * @return Size as Point object
 	 */
 	@Override
 	protected Point getInitialSize() {
-		return new Point(400, 300);
+		return new Point(800, 550);
 	}
 
 	/**

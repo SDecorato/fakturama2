@@ -52,18 +52,28 @@ public class SelectContactDialog extends SelectDataSetDialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+		// Mark the columns that are used by the search function.
+		searchColumns = new String[6];
+		searchColumns[0] = "nr";
+		searchColumns[1] = "firstname";
+		searchColumns[2] = "name";
+		searchColumns[3] = "company";
+		searchColumns[4] = "zip";
+		searchColumns[5] = "city";
+
+		// Create the dialog area
 		Control control = super.createDialogArea(parent);
 
 		// Set the content provider
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
 		// Create the table columns
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Kundennr", 60, 0, true, "nr");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Vorname", 200, 50, false, "firstname");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Kundennr", 80, 0, true, "nr");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Vorname", 120, 0, true, "firstname");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 100, false, "name");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Firma", 150, 0, true, "company");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "PLZ", 50, 0, true, "zip");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Ort", 80, 0, true, "city");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "PLZ", 50, 0, true, "zip");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Ort", 100, 0, true, "city");
 
 		// Set the input
 		tableViewer.setInput(Data.INSTANCE.getContacts());

@@ -53,6 +53,14 @@ public class SelectProductDialog extends SelectDataSetDialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
+
+		// Mark the columns that are used by the search function.
+		searchColumns = new String[3];
+		searchColumns[0] = "itemnr";
+		searchColumns[1] = "name";
+		searchColumns[2] = "description";
+
+		// Create the dialog area
 		Control control = super.createDialogArea(parent);
 
 		// Set the content provider
@@ -60,10 +68,13 @@ public class SelectProductDialog extends SelectDataSetDialog {
 
 		// Create the table columns
 		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Artikelnr", 50, 0, true, "itemnr");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Bezeichnung", 200, 50, false, "description");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Preis", 70, 0, true, "price1");
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Artikelnr", 80, 0, true, "itemnr");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 150, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Beschreibung", 200, 50, false, "description");
+		if (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1)
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Preis", 70, 0, true, "$Price1Gross");
+		else
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Preis", 70, 0, true, "$Price1Net");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "MwSt.", 40, 0, true, "$vatbyid");
 
 		// Set the input

@@ -320,7 +320,7 @@ public abstract class Editor extends EditorPart {
 	/**
 	 * Request a new validation, if the document is dirty.
 	 */
-	protected void checkDirty() {
+	public void checkDirty() {
 		firePropertyChange(PROP_DIRTY);
 	}
 
