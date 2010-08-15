@@ -722,9 +722,6 @@ Public License instead of this License.  But first, please read
    </license>
 
    <plugins>
-      <plugin id="Hsqldb"/>
-      <plugin id="Ridl"/>
-      <plugin id="Unoil"/>
       <plugin id="ag.ion.noa"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.sebulli.fakturama"/>
@@ -771,6 +768,9 @@ Public License instead of this License.  But first, please read
       <plugin id="org.eclipse.ui.carbon" fragment="true"/>
       <plugin id="org.eclipse.ui.cocoa" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
+      <plugin id="org.hsqldb"/>
+      <plugin id="org.openoffice.uno.ridl"/>
+      <plugin id="org.openoffice.uno.unoil"/>
    </plugins>
 
 

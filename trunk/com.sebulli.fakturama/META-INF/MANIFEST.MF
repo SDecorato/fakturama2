@@ -7,9 +7,9 @@ Bundle-Activator: com.sebulli.fakturama.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  ag.ion.noa,
- Ridl;bundle-version="1.0.0",
- Hsqldb;bundle-version="1.0.0",
- Unoil;bundle-version="1.0.0"
+ org.hsqldb;bundle-version="2.0.0",
+ org.openoffice.uno.ridl;bundle-version="3.2.0",
+ org.openoffice.uno.unoil;bundle-version="3.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Gerd Bartelt
