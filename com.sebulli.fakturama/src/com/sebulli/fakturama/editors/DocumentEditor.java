@@ -783,9 +783,9 @@ public class DocumentEditor extends Editor {
 		// Set the shipping
 		if (shippingValue != null) {
 			if (useGross)
-				shippingValue.setText(document.getSummary().getShipping().getUnitGross().asFormatedString());
+				shippingValue.setText(document.getSummary().getShippingGross().asFormatedString());
 			else
-				shippingValue.setText(document.getSummary().getShipping().getUnitNet().asFormatedString());
+				shippingValue.setText(document.getSummary().getShippingNet().asFormatedString());
 		}
 
 		// Set the VAT

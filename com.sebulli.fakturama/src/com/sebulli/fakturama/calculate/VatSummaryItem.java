@@ -32,6 +32,11 @@ public class VatSummaryItem implements Comparable<Object> {
 	// This can be the sum of more than one item
 	private PriceValue net;
 	private PriceValue vat;
+
+	// Rounding errors
+	private Double netRoundingError;
+	private Double vatRoundingError;
+
 	// Vat Name and Percent Value. These values identify the VatSummaryItem
 	private String vatName;
 	private Double vatPercent;
@@ -50,6 +55,8 @@ public class VatSummaryItem implements Comparable<Object> {
 		this.vatPercent = vatPercent;
 		this.net = new PriceValue(net);
 		this.vat = new PriceValue(vat);
+		this.netRoundingError = 0.0;
+		this.vatRoundingError = 0.0;
 	}
 
 	/**
@@ -63,6 +70,8 @@ public class VatSummaryItem implements Comparable<Object> {
 		this.vatPercent = new Double (vatSummaryItem.vatPercent);
 		this.net = new PriceValue(vatSummaryItem.net);
 		this.vat = new PriceValue(vatSummaryItem.vat);
+		this.netRoundingError = 0.0;
+		this.vatRoundingError = 0.0;
 	}
 
 	/**
@@ -76,9 +85,43 @@ public class VatSummaryItem implements Comparable<Object> {
 	}
 
 	/**
+	 * Round the net and vat value and store the rounding error in the 
+	 * property "xxRoundingError"
+	 */
+	public void round() {
+		
+		// Round the net value
+		netRoundingError = this.net.asDouble() - this.net.asRoundedDouble();
+		this.net.set(this.net.asRoundedDouble());
+
+		// Round the vat value
+		vatRoundingError = this.vat.asDouble() - this.vat.asRoundedDouble();
+		this.vat.set(this.vat.asRoundedDouble());
+	}
+
+	
+	/**
+	 * Sets the absolute net value
+	 * 
+	 * @param Net value 
+	 */
+	public void setNet(Double value) {
+		net.set(value);
+	}
+
+	/** 
+	 * Sets the absolute vat value
+	 * 
+	 * @param Vat value 
+	 */
+	public void setVat(Double value) {
+		vat.set(value);
+	}
+
+	/**
 	 * Get the absolute net value
 	 * 
-	 * @return Net value as PriceValue
+	 * @return Net value as Double
 	 */
 	public Double getNet() {
 		return net.asDouble();
@@ -87,7 +130,7 @@ public class VatSummaryItem implements Comparable<Object> {
 	/** 
 	 * Get the absolute vat value
 	 * 
-	 * @return Vat value as PriceValue
+	 * @return Vat value as Double
 	 */
 	public Double getVat() {
 		return vat.asDouble();
@@ -111,6 +154,42 @@ public class VatSummaryItem implements Comparable<Object> {
 		return vatPercent;
 	}
 
+	/**
+	 * Get the rounding error of the net value
+	 * 
+	 * @return rounding error as Double
+	 */
+	public Double getNetRoundingError() {
+		return netRoundingError;
+	}
+
+	/**
+	 * Get the rounding error of the vat value
+	 * 
+	 * @return rounding error as Double
+	 */
+	public Double getVatRoundingError() {
+		return vatRoundingError;
+	}
+
+	/**
+	 * Sets the rounding error of the net value
+	 * 
+	 * @param new rounding error value 
+	 */
+	public void setNetRoundingError(Double value) {
+		netRoundingError = value;
+	}
+	
+	/**
+	 * Sets the rounding error of the vat value
+	 * 
+	 * @param new rounding error value 
+	 */
+	public void setVatRoundingError(Double value) {
+		vatRoundingError = value;
+	}
+	
 	/**
 	 * Compares this VatSummaryItem with an other
 	 * Compares vat percent value and vat name.
