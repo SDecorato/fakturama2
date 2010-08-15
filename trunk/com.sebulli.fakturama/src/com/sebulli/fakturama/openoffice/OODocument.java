@@ -732,9 +732,9 @@ public class OODocument extends Object{
 			setProperty("ITEMS.DISCOUNT.PERCENT", document.getFormatedStringValueByKey("itemsdiscount"));
 			setProperty("ITEMS.DISCOUNT.NET", document.getSummary().getDiscountNet().asFormatedRoundedString());
 			setProperty("ITEMS.DISCOUNT.GROSS", document.getSummary().getDiscountGross().asFormatedRoundedString());
-			setProperty("SHIPPING.NET", document.getSummary().getShipping().getUnitNetRounded().asFormatedString());
-			setProperty("SHIPPING.VAT", document.getSummary().getShipping().getUnitVatRounded().asFormatedString());
-			setProperty("SHIPPING.GROSS", document.getSummary().getShipping().getUnitGrossRounded().asFormatedString());
+			setProperty("SHIPPING.NET", document.getSummary().getShippingNet().asFormatedString());
+			setProperty("SHIPPING.VAT", document.getSummary().getShippingVat().asFormatedString());
+			setProperty("SHIPPING.GROSS", document.getSummary().getShippingGross().asFormatedString());
 			setProperty("SHIPPING.NAME", document.getStringValueByKey("shippingname"));
 			setProperty("SHIPPING.VAT.DESCRIPTION", document.getStringValueByKey("shippingvatdescription"));
 

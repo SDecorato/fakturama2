@@ -103,5 +103,11 @@ public class PriceValue {
 		return DataUtils.DoubleToFormatedPriceRound(value);
 	}
 
+	/**
+	 * Round the value
+	 */
+	public void round() {
+		value = DataUtils.round(value);
+	}
 
 }

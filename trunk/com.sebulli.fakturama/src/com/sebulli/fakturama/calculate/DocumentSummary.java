@@ -50,13 +50,21 @@ public class DocumentSummary {
 	private PriceValue discountGross;
 
 	// shipping value
-	private Price shipping;
-	private Double shippingNet;
+	private PriceValue shippingNet;
+	private PriceValue shippingVat;
+	private PriceValue shippingGross;
 
 	/**
 	 * Default constructor. Resets all value to 0.
 	 */
 	public DocumentSummary() {
+		resetValues();
+	}
+
+	/**
+	 * Reset all values to 0
+	 */
+	private void resetValues() {
 		itemsNet = new PriceValue(0.0);
 		itemsGross = new PriceValue(0.0);
 		totalNet = new PriceValue(0.0);
@@ -64,10 +72,11 @@ public class DocumentSummary {
 		totalGross = new PriceValue(0.0);
 		discountNet = new PriceValue(0.0);
 		discountGross = new PriceValue(0.0);
-		shipping = new Price(0.0, 0.0);
-		shippingNet = 0.0;
+		shippingNet = new PriceValue(0.0);
+		shippingVat = new PriceValue(0.0);
+		shippingGross = new PriceValue(0.0);		
 	}
-
+	
 	/**
 	 * Calculates the tax, gross and sum of a document 
 	 * 
@@ -92,11 +101,8 @@ public class DocumentSummary {
 		// and contains entries from this document and from others.
 		VatSummarySet documentVatSummaryItems = new VatSummarySet();
 		
-		// Set the sums to 0.0
-		this.itemsNet = new PriceValue(0.0);
-		this.totalVat = new PriceValue(0.0);
-		this.totalGross = new PriceValue(0.0);
-		
+		// Set the values to 0.0
+		resetValues();
 
 		// Use all non-deleted items
 		ArrayList<DataSetItem> itemDataset = items.getActiveDatasets();
@@ -106,10 +112,10 @@ public class DocumentSummary {
 			vatDescription = item.getStringValueByKey("vatdescription");
 			vatPercent = item.getDoubleValueByKey("vatvalue");
 			Price price = new Price(item);
-			Double itemVat = price.getTotalVatRounded().asDouble();
+			Double itemVat = price.getTotalVat().asDouble();
 			
 			// Add the total net value of this item to the sum of net items
-			this.itemsNet.add( price.getTotalNetRounded().asDouble() );
+			this.itemsNet.add( price.getTotalNet().asDouble() );
 			
 			// If noVat is set, the VAT is 0%
 			if (noVat) {
@@ -122,18 +128,15 @@ public class DocumentSummary {
 			this.totalVat.add(itemVat);
 			
 			// Add the VAT summary item to the ... 
-			VatSummaryItem vatSummaryItem = new VatSummaryItem(vatDescription, vatPercent, price.getTotalNetRounded().asDouble(), itemVat);
+			VatSummaryItem vatSummaryItem = new VatSummaryItem(vatDescription, vatPercent, price.getTotalNet().asDouble(), itemVat); 
 			
 			// .. VAT summary of the document ..
 			documentVatSummaryItems.add(vatSummaryItem);
 			
-			// .. and maybe to the global VAT summary
-			if (globalVatSummarySet != null)
-				globalVatSummarySet.add(vatSummaryItem);
 		}
 
 		// Gross value is the sum of net and VAT value
-		this.totalNet = new PriceValue(this.itemsNet);
+		this.totalNet = new PriceValue(this.itemsNet); 
 		this.itemsGross = new PriceValue(this.itemsNet);
 		this.itemsGross.add(this.totalVat.asDouble());
 
@@ -190,24 +193,20 @@ public class DocumentSummary {
 
 				// Add discountNetPart to the sum "discountVatValue"  
 				Price discountPart = new Price(discountNetPart, discountVatPercent);
-				discountVatValue += discountPart.getUnitVatRounded().asDouble();
+				discountVatValue += discountPart.getUnitVat().asDouble(); 
 				
 				VatSummaryItem discountVatSummaryItem = new VatSummaryItem(discountVatDescription, discountVatPercent,
-																discountPart.getUnitNetRounded().asDouble(),
-																discountPart.getUnitVatRounded().asDouble());
+																discountPart.getUnitNet().asDouble(), 
+																discountPart.getUnitVat().asDouble()); 
 
 				// Adjust the vat summary item by the discount part
 				documentVatSummaryItems.add(discountVatSummaryItem);
-				
-				// Add it to the global VAT summary
-				if (globalVatSummarySet != null)
-					globalVatSummarySet.add(discountVatSummaryItem);
 				
 			}
 
 			// adjust the documents sum by the discount
 			this.totalVat.add(discountVatValue);
-			this.totalNet.add(new Price(discountNet, discountVatPercent).getUnitNetRounded().asDouble());
+			this.totalNet.add(new Price(discountNet, discountVatPercent).getUnitNet().asDouble()); 
 			this.totalGross.set(this.totalNet.asDouble() + this.totalVat.asDouble());
 		}
 
@@ -220,15 +219,15 @@ public class DocumentSummary {
 			// Use the average vat of all the items.
 			if (shippingAutoVat == DataSetShipping.SHIPPINGVATGROSS) {
 				if (itemsGross != 0.0)
-					shippingNet = shippingValue * itemsNet / itemsGross;
+					shippingNet.set( shippingValue * itemsNet / itemsGross );
 				else
-					shippingNet = shippingValue;
+					shippingNet.set( shippingValue );
 
 			}
 			
 			// If the shipping is set as net value, use the net value.
 			if (shippingAutoVat == DataSetShipping.SHIPPINGVATNET)
-				shippingNet = shippingValue;
+				shippingNet.set( shippingValue );
 
 			// Use the average vat of all the items.
 			if (itemsNet != 0.0)
@@ -236,10 +235,7 @@ public class DocumentSummary {
 			else
 				shippingVatPercent = 0;
 
-			shipping = new Price(shippingNet, shippingVatPercent);
-
 			// Increase the vat summary entries by the shipping ratio
-			Double shippingVatValue = 0.0;
 
 			// Calculate the sum of all VatSummary entries
 			Double netSumOfAllVatSummaryItems = 0.0;
@@ -266,38 +262,28 @@ public class DocumentSummary {
 				// The shippingNetPart is proportional to this ratio.
 				Double shippingNetPart = 0.0;
 				if (netSumOfAllVatSummaryItems != 0.0)
-					shippingNetPart = shippingNet * (vatSummaryItem.getNet() / netSumOfAllVatSummaryItems /*itemsNet*/);
+					shippingNetPart = shippingNet.asDouble() * (vatSummaryItem.getNet() / netSumOfAllVatSummaryItems ) ;
 
 				// Add shippingNetPart to the sum "shippingVatValue"  
 				Price shippingPart = new Price(shippingNetPart, shippingVatPercent);
-				shippingVatValue += shippingPart.getUnitVatRounded().asDouble();
+				shippingVat.add( shippingPart.getUnitVat().asDouble() ); 
 				
 				VatSummaryItem shippingVatSummaryItem = new VatSummaryItem(shippingVatDescription, shippingVatPercent,
-															shippingPart.getUnitNetRounded().asDouble(),
-															shippingPart.getUnitVatRounded().asDouble());
+															shippingPart.getUnitNet().asDouble(), 
+															shippingPart.getUnitVat().asDouble()); 
 				
 				// Adjust the vat summary item by the shipping part
 				documentVatSummaryItems.add(shippingVatSummaryItem);
 				
-				// Add it to the global VAT summary
-				if (globalVatSummarySet != null)
-					globalVatSummarySet.add(shippingVatSummaryItem);
-
-					
-
 			}
 
-			// Add the shipping to the documents sum.
-			this.totalVat.add(shippingVatValue);
-			this.totalNet.add(shipping.getUnitNetRounded().asDouble());
-			this.totalGross.set(this.totalNet.asDouble() + this.totalVat.asDouble());
 		} 
 		
 		// If shippingAutoVat is fix set, the shipping vat is 
 		// a constant percent value.
 		else {
 			
-			shippingNet = shippingValue;
+			shippingNet.set( shippingValue );
 			
 			// If noVat is set, the VAT is 0%
 			if (noVat) {
@@ -306,29 +292,75 @@ public class DocumentSummary {
 			}
 			
 			// use shippingVatPercent as fix percent value for the shipping
-			shipping = new Price(shippingNet, shippingVatPercent);
-
-			VatSummaryItem shippingVatSummaryItem  = new VatSummaryItem(shippingVatDescription, shippingVatPercent,
-															shipping.getTotalNetRounded().asDouble(),
-															shipping.getTotalVatRounded().asDouble());
+			shippingVat.set(shippingNet.asDouble() * shippingVatPercent);
 			
-			// add the shipping's vat to the global vat summary set
-			if (globalVatSummarySet != null)
-				globalVatSummarySet.add(shippingVatSummaryItem);
+			VatSummaryItem shippingVatSummaryItem  = new VatSummaryItem(shippingVatDescription, shippingVatPercent,
+															shippingNet.asDouble(), 
+															shippingVat.asDouble()); 
 
-			// add the shipping to the documents sum
-			this.totalVat.add(shipping.getUnitVatRounded().asDouble());
-			this.totalGross.set(this.itemsNet.asDouble() + this.totalVat.asDouble() + shipping.getUnitNetRounded().asDouble());
+			// Adjust the vat summary item by the shipping part
+			documentVatSummaryItems.add(shippingVatSummaryItem);
+
 		}
+		
+		// Add the shipping to the documents sum.
+		this.totalVat.add(shippingVat.asDouble());
+		this.totalNet.add(shippingNet.asDouble()); 
+		this.totalGross.set(this.totalNet.asDouble() + this.totalVat.asDouble());
+
+		this.shippingGross.set( this.shippingNet.asDouble() +this.shippingVat.asDouble());
+			
+		// Finally, round the values
+		
+		this.totalGross.round();
+		this.totalNet.round();
+		this.totalVat.set(this.totalGross.asDouble() - this.totalNet.asDouble());
+
+		this.discountNet.round();
+		this.discountGross.round();
+
+		this.itemsNet.round();
+		this.itemsGross.round();
+		
+		this.shippingNet.round();
+		this.shippingGross.round();
+		this.shippingVat.set(this.shippingGross.asDouble() - this.shippingNet.asDouble());
+
+		// Round also the Vat summaries
+		documentVatSummaryItems.roundAllEntries();
+		
+		// Add the entries of the document summary set also to the global one
+		if (globalVatSummarySet != null)
+			globalVatSummarySet.addVatSummarySet(documentVatSummaryItems);
+
+		
 	}
 
 	/**
-	 * Getter for shipping value
-	 * @return shipping as Price
+	 * Getter for shipping value (net)
+	 * @return shipping net as PriceValue
 	 */
-	public Price getShipping() {
-		return this.shipping;
+	public PriceValue getShippingNet() {
+		return this.shippingNet;
 	}
+	
+	/**
+	 * Getter for shipping Vat value (Vat)
+	 * @return shipping Vat as PriceValue
+	 */
+	public PriceValue getShippingVat() {
+		return this.shippingVat;
+	}
+	
+	/**
+	 * Getter for shipping value (gross)
+	 * @return shipping gross as PriceValue
+	 */
+	public PriceValue getShippingGross() {
+		return this.shippingGross;
+	}
+	
+	
 
 	/**
 	 * Getter for sum of items (net)
