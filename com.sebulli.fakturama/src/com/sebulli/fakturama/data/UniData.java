@@ -113,6 +113,7 @@ public class UniData {
 			break;
 		case DATE:
 		case STRING:
+		case TEXT:
 			this.s = i.toString();
 			break;
 		}
@@ -140,6 +141,7 @@ public class UniData {
 			break;
 		case DATE:
 		case STRING:
+		case TEXT:
 			this.s = b.toString();
 			break;
 		}
@@ -168,6 +170,7 @@ public class UniData {
 			break;
 		case DATE:
 		case STRING:
+		case TEXT:
 			this.s = d.toString();
 			break;
 		}
@@ -202,6 +205,7 @@ public class UniData {
 			break;
 		case DATE:
 		case STRING:
+		case TEXT:
 			this.s = s;
 			break;
 		}
@@ -226,6 +230,7 @@ public class UniData {
 			return this.d.intValue();
 		case DATE:
 		case STRING:
+		case TEXT:
 			try {
 				return Integer.parseInt(this.s);
 			} catch (NumberFormatException e) {
@@ -255,6 +260,7 @@ public class UniData {
 			return (this.d != 0);
 		case DATE:
 		case STRING:
+		case TEXT:
 			return this.s.equalsIgnoreCase("true");
 		default:
 			return false;
@@ -280,6 +286,7 @@ public class UniData {
 			return this.d;
 		case DATE:
 		case STRING:
+		case TEXT:
 			return DataUtils.StringToDouble(s);
 		default:
 			return 0.0;
@@ -305,6 +312,7 @@ public class UniData {
 			return this.d.toString();
 		case DATE:
 		case STRING:
+		case TEXT:
 			return this.s;
 		default:
 			return "invalid";

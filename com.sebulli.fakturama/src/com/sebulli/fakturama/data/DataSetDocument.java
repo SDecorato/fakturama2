@@ -169,8 +169,8 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.INT, documentType.getInt()));
 		this.hashMap.put("addressid", new UniData(UniDataType.ID, addressid));
-		this.hashMap.put("address", new UniData(UniDataType.STRING, address));
-		this.hashMap.put("deliveryaddress", new UniData(UniDataType.STRING, deliveryaddress));
+		this.hashMap.put("address", new UniData(UniDataType.TEXT, address));
+		this.hashMap.put("deliveryaddress", new UniData(UniDataType.TEXT, deliveryaddress));
 		this.hashMap.put("addressfirstline", new UniData(UniDataType.STRING, addressfirstline));
 		this.hashMap.put("progress", new UniData(UniDataType.INT, progress));
 		this.hashMap.put("customerref", new UniData(UniDataType.STRING, customerref));
@@ -191,7 +191,7 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("shippingvatdescription", new UniData(UniDataType.STRING, shippingvatdescription));
 		this.hashMap.put("shippingautovat", new UniData(UniDataType.INT, shippingautovat));
 		this.hashMap.put("total", new UniData(UniDataType.PRICE, total));
-		this.hashMap.put("message", new UniData(UniDataType.STRING, message));
+		this.hashMap.put("message", new UniData(UniDataType.TEXT, message));
 		this.hashMap.put("transaction", new UniData(UniDataType.INT, transaction));
 		this.hashMap.put("webshopid", new UniData(UniDataType.STRING, webshopid));
 		this.hashMap.put("webshopdate", new UniData(UniDataType.DATE, webshopdate));

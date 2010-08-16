@@ -29,7 +29,7 @@ public enum UniDataType {
 	/**
 	 * All types
 	 */
-	NONE, INT, ID, QUANTITY, BOOLEAN, DOUBLE, STRING, PRICE, PERCENT, DATE;
+	NONE, INT, ID, QUANTITY, BOOLEAN, DOUBLE, STRING, PRICE, PERCENT, DATE, TEXT;
 	
 	/**
 	 * Test, if a type is a numeric one
@@ -51,6 +51,8 @@ public enum UniDataType {
 		case DOUBLE:
 			return true;
 		case STRING:
+			return false;
+		case TEXT:
 			return false;
 		case PRICE:
 			return true;

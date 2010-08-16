@@ -72,7 +72,7 @@ public class DataSetText extends UniDataSet {
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
-		this.hashMap.put("text", new UniData(UniDataType.STRING, text));
+		this.hashMap.put("text", new UniData(UniDataType.TEXT, text));
 
 		// Name of the table in the data base
 		sqlTabeName = "Texts";

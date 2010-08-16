@@ -126,7 +126,7 @@ public class DataSetItem extends UniDataSet {
 		this.hashMap.put("owner", new UniData(UniDataType.ID, owner));
 		this.hashMap.put("shared", new UniData(UniDataType.BOOLEAN, shared));
 		this.hashMap.put("quantity", new UniData(UniDataType.QUANTITY, quantity));
-		this.hashMap.put("description", new UniData(UniDataType.STRING, description));
+		this.hashMap.put("description", new UniData(UniDataType.TEXT, description));
 		this.hashMap.put("price", new UniData(UniDataType.PRICE, price));
 
 		this.hashMap.put("vatid", new UniData(UniDataType.ID, vatId));

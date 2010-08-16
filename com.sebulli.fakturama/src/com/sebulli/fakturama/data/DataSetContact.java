@@ -146,7 +146,7 @@ public class DataSetContact extends UniDataSet {
 		this.hashMap.put("bic", new UniData(UniDataType.STRING, bic));
 
 		this.hashMap.put("nr", new UniData(UniDataType.STRING, nr));
-		this.hashMap.put("note", new UniData(UniDataType.STRING, note));
+		this.hashMap.put("note", new UniData(UniDataType.TEXT, note));
 		this.hashMap.put("date_added", new UniData(UniDataType.STRING, date_added));
 		this.hashMap.put("payment", new UniData(UniDataType.ID, payment));
 		this.hashMap.put("reliability", new UniData(UniDataType.INT, reliability));

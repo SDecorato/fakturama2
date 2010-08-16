@@ -58,7 +58,7 @@ public class DataSetProperty extends UniDataSet {
 	public DataSetProperty(int id, String name, String value) {
 		this.hashMap.put("id", new UniData(UniDataType.INT, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
-		this.hashMap.put("value", new UniData(UniDataType.STRING, value));
+		this.hashMap.put("value", new UniData(UniDataType.TEXT, value));
 
 		// Name of the table in the data base
 		sqlTabeName = "Properties";
