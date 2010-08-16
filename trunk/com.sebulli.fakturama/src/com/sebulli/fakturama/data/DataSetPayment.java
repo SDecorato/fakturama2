@@ -86,12 +86,12 @@ public class DataSetPayment extends UniDataSet {
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
-		this.hashMap.put("description", new UniData(UniDataType.STRING, description));
+		this.hashMap.put("description", new UniData(UniDataType.TEXT, description));
 		this.hashMap.put("discountvalue", new UniData(UniDataType.PERCENT, discountvalue));
 		this.hashMap.put("discountdays", new UniData(UniDataType.INT, discountdays));
 		this.hashMap.put("netdays", new UniData(UniDataType.INT, netdays));
-		this.hashMap.put("payedtext", new UniData(UniDataType.STRING, payedtext));
-		this.hashMap.put("unpayedtext", new UniData(UniDataType.STRING, unpayedtext));
+		this.hashMap.put("payedtext", new UniData(UniDataType.TEXT, payedtext));
+		this.hashMap.put("unpayedtext", new UniData(UniDataType.TEXT, unpayedtext));
 		this.hashMap.put("defaultpayed", new UniData(UniDataType.BOOLEAN, defaultPayed));
 
 		// Name of the table in the data base

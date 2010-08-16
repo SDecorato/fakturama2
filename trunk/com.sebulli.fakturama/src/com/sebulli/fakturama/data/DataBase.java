@@ -64,14 +64,17 @@ public class DataBase {
 		case PERCENT:
 			return "DOUBLE";
 
-		case STRING:
 		case DATE:
-			return "VARCHAR";
+		case STRING:
+			return "VARCHAR(256)";
+
+		case TEXT:
+			return "VARCHAR(60000)";
 
 		default:
 			Logger.logError("Unknown UniDataType");
 		}
-		return "VARCHAR";
+		return "VARCHAR(60000)";
 	}
 	
 	/**
@@ -255,8 +258,10 @@ public class DataBase {
 
 					case DATE:
 					case STRING:
+					case TEXT:
 						prepStmt.setString(i, uds.getStringValueByKey(key));
 						break;
+						
 					default:
 						Logger.logError("Unspecified Data");
 						break;
@@ -504,16 +509,16 @@ public class DataBase {
 			} catch (SQLException e) {
 				// In a new data base: create all the tables
 				try {
-					stmt.executeQuery("CREATE TABLE Properties(Id INT IDENTITY PRIMARY KEY, Name VARCHAR, Value VARCHAR)");
+					stmt.executeUpdate("CREATE TABLE Properties(Id INT IDENTITY PRIMARY KEY, Name VARCHAR (256), Value VARCHAR (60000) )");
 					stmt.executeUpdate("INSERT INTO Properties VALUES(0,'version','1')");
-					stmt.executeQuery("CREATE TABLE " + getCreateSqlTableString(new DataSetProduct()));
-					stmt.executeQuery("CREATE TABLE " + getCreateSqlTableString(new DataSetContact()));
-					stmt.executeQuery("CREATE TABLE " + getCreateSqlTableString(new DataSetItem()));
-					stmt.executeQuery("CREATE TABLE " + getCreateSqlTableString(new DataSetVAT()));
-					stmt.executeQuery("CREATE TABLE " + getCreateSqlTableString(new DataSetShipping()));
-					stmt.executeQuery("CREATE TABLE " + getCreateSqlTableString(new DataSetPayment()));
-					stmt.executeQuery("CREATE TABLE " + getCreateSqlTableString(new DataSetText()));
-					stmt.executeQuery("CREATE TABLE " + getCreateSqlTableString(new DataSetDocument()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetProduct()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetContact()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetItem()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetVAT()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetShipping()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetPayment()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetText()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetDocument()));
 					stmt.close();
 					return true;
 

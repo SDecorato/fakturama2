@@ -98,7 +98,7 @@ public class DataSetProduct extends UniDataSet {
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
-		this.hashMap.put("description", new UniData(UniDataType.STRING, description));
+		this.hashMap.put("description", new UniData(UniDataType.TEXT, description));
 		this.hashMap.put("price1", new UniData(UniDataType.PRICE, price1));
 		this.hashMap.put("price2", new UniData(UniDataType.PRICE, price2));
 		this.hashMap.put("price3", new UniData(UniDataType.PRICE, price3));
@@ -110,7 +110,7 @@ public class DataSetProduct extends UniDataSet {
 		this.hashMap.put("block4", new UniData(UniDataType.INT, block4));
 		this.hashMap.put("block5", new UniData(UniDataType.INT, block5));
 		this.hashMap.put("vatid", new UniData(UniDataType.INT, vatId));
-		this.hashMap.put("options", new UniData(UniDataType.STRING, options));
+		this.hashMap.put("options", new UniData(UniDataType.TEXT, options));
 		this.hashMap.put("weight", new UniData(UniDataType.DOUBLE, weight));
 		this.hashMap.put("unit", new UniData(UniDataType.INT, unit));
 		this.hashMap.put("date_added", new UniData(UniDataType.STRING, date_added));
