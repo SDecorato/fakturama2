@@ -38,6 +38,7 @@
       </win>
    </launcher>
 
+
    <vm>
    </vm>
 
@@ -769,8 +770,6 @@ Public License instead of this License.  But first, please read
       <plugin id="org.eclipse.ui.cocoa" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.hsqldb"/>
-      <plugin id="org.openoffice.uno.ridl"/>
-      <plugin id="org.openoffice.uno.unoil"/>
    </plugins>
 
 

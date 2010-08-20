@@ -234,12 +234,26 @@ public class DataSetContact extends UniDataSet {
 		case 3:
 			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_COMPANY");
 			break;
+		default:
+			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_COMMON");
+			break;
 		}
 		
 		// Replace the placeholders
 		greeting = replaceFormatString(greeting,useDelivery);
 
 		return greeting;
+	}
+
+	/**
+	 * Return a common greeting string.
+	 * 
+	 * @return The greeting string
+	 */
+	public static String getCommonGreeting() {
+		
+		// Get the common greeting string from the preference page.
+		return Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_COMMON");
 	}
 	
 	/**
@@ -283,58 +297,6 @@ public class DataSetContact extends UniDataSet {
 			address += trimmedAddressLine;
 		}
 
-//		s = s.replaceAll("<br>", OSDependent.getNewLine());
-
-		
-		/*
-		// add company
-		line = this.getStringValueByKey(deliveryString + "company");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// add name
-		line = "";
-		if (!this.getStringValueByKey(deliveryString + "title").isEmpty())
-			line += this.getStringValueByKey(deliveryString + "title") + " ";
-		line += this.getStringValueByKey(deliveryString + "firstname");
-
-		if (!this.getStringValueByKey(deliveryString + "name").isEmpty())
-			line += " " + this.getStringValueByKey(deliveryString + "name");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// add street
-		line = this.getStringValueByKey(deliveryString + "street");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// add zip
-		line = this.getStringValueByKey(deliveryString + "zip");
-		if (!this.getStringValueByKey(deliveryString + "city").isEmpty())
-			line += " " + this.getStringValueByKey(deliveryString + "city");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-
-		// add county
-		line = this.getStringValueByKey(deliveryString + "country");
-		if (!line.isEmpty()) {
-			if (!address.isEmpty())
-				address += OSDependent.getNewLine();
-			address += line;
-		}
-*/
 		// return the complete address
 		return address;
 	}

@@ -49,6 +49,9 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	 */
 	@Override
 	public void createFieldEditors() {
+
+		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_COMMON", "Allgemeine Grußformel", getFieldEditorParent()));
+
 		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_MR", "Grußformel Herr", getFieldEditorParent()));
 
 		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_MRS", "Grußformel Frau", getFieldEditorParent()));
@@ -79,6 +82,7 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	 * @param node The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
+		node.put("CONTACT_FORMAT_GREETING_COMMON", "Sehr geehrter Damen und Herren");
 		node.put("CONTACT_FORMAT_GREETING_MR", "Sehr geehrter Herr {firstname} {lastname}");
 		node.put("CONTACT_FORMAT_GREETING_MRS", "Sehr geehrte Frau {firstname} {lastname}");
 		node.put("CONTACT_FORMAT_GREETING_COMPANY", "Sehr geehrter Damen und Herren");

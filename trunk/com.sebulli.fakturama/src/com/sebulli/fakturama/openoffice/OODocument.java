@@ -799,6 +799,7 @@ public class OODocument extends Object{
 		else {
 			setProperty("ADDRESS", "");
 			setProperty("ADDRESS.GENDER", "");
+			setProperty("ADDRESS.GREETING", DataSetContact.getCommonGreeting());
 			setProperty("ADDRESS.TITLE", "");
 			setProperty("ADDRESS.FIRSTNAME", "");
 			setProperty("ADDRESS.NAME", "");
@@ -810,6 +811,7 @@ public class OODocument extends Object{
 			setProperty("ADDRESS.COUNTRY", "");
 			setProperty("DELIVERY.ADDRESS", "");
 			setProperty("DELIVERY.ADDRESS.GENDER", "");
+			setProperty("DELIVERY.ADDRESS.GREETING", DataSetContact.getCommonGreeting());
 			setProperty("DELIVERY.ADDRESS.TITLE", "");
 			setProperty("DELIVERY.ADDRESS.FIRSTNAME", "");
 			setProperty("DELIVERY.ADDRESS.NAME", "");
