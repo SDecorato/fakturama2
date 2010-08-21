@@ -88,6 +88,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction exportWizardAction;
 	private IWorkbenchAction openPreferencesAction;
 	private IWorkbenchAction resetViewAction;
+	private IWorkbenchAction helpAction;
 	private OpenBrowserEditorAction openBrowserEditorAction;
 	private OpenBrowserEditorAction openBrowserEditorActionTB;
 	private OpenCalculatorAction openCalculatorAction;
@@ -178,6 +179,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		aboutAction.setText("Über Fakturama");
 		register(aboutAction);
 
+		helpAction = ActionFactory.HELP_CONTENTS.create(window);
+		helpAction.setText("Hilfe");
+		register(helpAction);
+
 		resetViewAction	= ActionFactory.RESET_PERSPECTIVE.create(window);	
 		resetViewAction.setText("Perspektive zurücksetzen");
 		register(resetViewAction);
@@ -265,17 +270,17 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	@Override
 	protected void fillMenuBar(IMenuManager menuBar) {
 		MenuManager fileMenu = new MenuManager("&Datei", IWorkbenchActionConstants.M_FILE);
-		MenuManager helpMenu = new MenuManager("&Hilfe", IWorkbenchActionConstants.M_HELP);
 		MenuManager windowMenu = new MenuManager("&Fenster", IWorkbenchActionConstants.M_WINDOW);
+		MenuManager helpMenu = new MenuManager("&Hilfe", IWorkbenchActionConstants.M_HELP);
 		MenuManager hiddenMenu = new MenuManager("Hidden", "com.sebulli.faktura.menu.hidden");
 		hiddenMenu.setVisible(false);
 
 		menuBar.add(fileMenu);
 		// Add a group marker indicating where action set menus will appear.
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
-		menuBar.add(helpMenu);
-		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuBar.add(windowMenu);
+		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		menuBar.add(helpMenu);
 		menuBar.add(hiddenMenu);
 
 		// File menu
@@ -309,6 +314,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		
 		// Help menu
 		helpMenu.add(openBrowserEditorAction);
+		helpMenu.add(helpAction);
 
 		if (OSDependent.canAddAboutMenuItem()) {
 			helpMenu.add(new Separator());
