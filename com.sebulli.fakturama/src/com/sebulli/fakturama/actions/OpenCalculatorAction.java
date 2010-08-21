@@ -24,6 +24,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.backup.BackupManager;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.Calculator;
 
@@ -58,6 +59,9 @@ public class OpenCalculatorAction extends Action {
 	 */
 	@Override
 	public void run() {
+		
+		BackupManager.createBackup();
+		
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(Calculator.ID);
 		} catch (PartInitException e) {

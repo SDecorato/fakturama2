@@ -26,6 +26,7 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
+import com.sebulli.fakturama.backup.BackupManager;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.openoffice.OOManager;
@@ -104,6 +105,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		PreferencesInDatabase.savePreferencesInDatabase();
 		if (Data.INSTANCE != null)
 			Data.INSTANCE.close();
+		
+		// Create a database backup 
+		BackupManager.createBackup();
 	}
 
 }
