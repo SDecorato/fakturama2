@@ -463,6 +463,19 @@ public class DataUtils {
 		}
 		return calendar;
 	}
+
+	/**
+	 * Returns the date and time of now in a localized format.
+	 * 
+	 * @return Date and time as formated String
+	 */
+	public static String DateAndTimeOfNowAsLocalString() {
+
+		GregorianCalendar calendar = new GregorianCalendar();
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+		return df.format(calendar.getTime());
+	}
+
 	
 	/**
 	 * Adds days to a date string.
