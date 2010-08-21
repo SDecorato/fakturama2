@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Fakturama" uid="com.sebulli.fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="0.1.3" useFeatures="false" includeLaunchers="true">
+<product name="Fakturama" uid="com.sebulli.fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="0.2.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="icons/app/about.png"/>
@@ -37,7 +37,6 @@
             winLargeLow="/com.sebulli.fakturama/icons/app/app_48_8.bmp"/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>
@@ -771,6 +770,11 @@ Public License instead of this License.  But first, please read
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.hsqldb"/>
    </plugins>
+
+   <features>
+      <feature id="com.sebulli.fakturama.core" version="0.2.0"/>
+      <feature id="org.eclipse.help" version="1.2.0.v20100427-7e7jEKFEx2XlnZinYPtgz03"/>
+   </features>
 
 
 </product>
