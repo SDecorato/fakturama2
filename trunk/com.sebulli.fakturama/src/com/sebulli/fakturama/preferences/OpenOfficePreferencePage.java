@@ -83,6 +83,8 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	 * @param write TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_PATH", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_ODT_PDF", write);
 	}
 
 	/**

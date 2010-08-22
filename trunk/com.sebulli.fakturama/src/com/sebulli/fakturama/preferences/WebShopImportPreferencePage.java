@@ -79,6 +79,22 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	}
 
 	/**
+	 * Write or read the preference settings to or from the data base
+	 * 
+	 * @param write TRUE: Write to the data base
+	 */
+	public static void syncWithPreferencesFromDatabase(boolean write) {
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_URL", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_USER", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_PASSWORD", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_PRODUCT_CATEGORY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_CONTACT_CATEGORY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_SHIPPING_CATEGORY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_NOTIFY_PROCESSING", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_NOTIFY_SHIPPED", write);
+	}
+
+	/**
 	 * Set the default values for this preference page
 	 * 
 	 * @param node The preference node

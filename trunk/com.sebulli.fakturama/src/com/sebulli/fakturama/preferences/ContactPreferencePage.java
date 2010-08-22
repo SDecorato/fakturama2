@@ -83,6 +83,23 @@ public class ContactPreferencePage extends FieldEditorPreferencePage implements 
 	}
 
 	/**
+	 * Write or read the preference settings to or from the data base
+	 * 
+	 * @param write TRUE: Write to the data base
+	 */
+	public static void syncWithPreferencesFromDatabase(boolean write) {
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_USE_DELIVERY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_USE_BANK", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_USE_MISC", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_USE_NOTE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_USE_GENDER", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_USE_TITLE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_NAME_FORMAT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_USE_COMPANY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_USE_COUNTRY", write);
+	}
+
+	/**
 	 * Set the default values for this preference page
 	 * 
 	 * @param node The preference node

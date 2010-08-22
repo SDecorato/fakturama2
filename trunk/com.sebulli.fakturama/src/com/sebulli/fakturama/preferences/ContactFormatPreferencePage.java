@@ -77,6 +77,22 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	}
 
 	/**
+	 * Write or read the preference settings to or from the data base
+	 * 
+	 * @param write TRUE: Write to the data base
+	 */
+	public static void syncWithPreferencesFromDatabase(boolean write) {
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_COMMON", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_MR", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_MRS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_COMPANY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_ADDRESS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_HIDE_COUNTRIES", write);
+	}
+
+	
+	
+	/**
 	 * Set the default values for this preference page
 	 * 
 	 * @param node The preference node

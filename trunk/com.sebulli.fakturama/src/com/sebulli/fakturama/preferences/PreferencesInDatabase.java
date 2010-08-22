@@ -36,7 +36,8 @@ public class PreferencesInDatabase {
 	 * @param key The key of the preference value
 	 */
 	private static void loadPreferenceValue(String key) {
-		Activator.getDefault().getPreferenceStore().setValue(key, Data.INSTANCE.getProperty(key));
+		if (Data.INSTANCE.isExistingProperty(key))
+			Activator.getDefault().getPreferenceStore().setValue(key, Data.INSTANCE.getProperty(key));
 	}
 
 	/**
@@ -63,14 +64,30 @@ public class PreferencesInDatabase {
 			loadPreferenceValue(key);
 	}
 
+	
+	/**
+	 * Load or save all preference values from database of the following
+	 * preference pages.
+	 */
+	public static void loadOrSavePreferencesFromOrInDatabase(boolean save) {
+		ContactFormatPreferencePage.syncWithPreferencesFromDatabase(save);
+		ContactPreferencePage.syncWithPreferencesFromDatabase(save);
+		DocumentPreferencePage.syncWithPreferencesFromDatabase(save);
+		NumberRangeFormatPreferencePage.syncWithPreferencesFromDatabase(save);
+		NumberRangeValuesPreferencePage.syncWithPreferencesFromDatabase(save);
+		OpenOfficePreferencePage.syncWithPreferencesFromDatabase(save);
+		ProductPreferencePage.syncWithPreferencesFromDatabase(save);
+		WebShopImportPreferencePage.syncWithPreferencesFromDatabase(save);
+		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(save);
+	}
+	
+	
 	/**
 	 * Load all preference values from database of the following
 	 * preference pages.
 	 */
 	public static void loadPreferencesFromDatabase() {
-		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(false);
-		NumberRangeFormatPreferencePage.syncWithPreferencesFromDatabase(false);
-		NumberRangeValuesPreferencePage.syncWithPreferencesFromDatabase(false);
+		loadOrSavePreferencesFromOrInDatabase(false);
 	}
 
 	/**
@@ -78,9 +95,7 @@ public class PreferencesInDatabase {
 	 * preference pages.
 	 */
 	public static void savePreferencesInDatabase() {
-		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(true);
-		NumberRangeFormatPreferencePage.syncWithPreferencesFromDatabase(true);
-		NumberRangeValuesPreferencePage.syncWithPreferencesFromDatabase(true);
+		loadOrSavePreferencesFromOrInDatabase(false);
 	}
 
 }

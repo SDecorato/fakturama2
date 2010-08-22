@@ -55,12 +55,10 @@ public class Startup implements IStartup {
 				} else
 					window = null;
 
-				
 				// If the data base is connected and if it is not new, then some preferences are loaded
 				// from the data base.
-				boolean connectedToDB = DataBaseConnectionState.INSTANCE.isConnected();
 				if (!Data.INSTANCE.getNewDBCreated())
-					if (connectedToDB)
+					if (DataBaseConnectionState.INSTANCE.isConnected())
 						PreferencesInDatabase.loadPreferencesFromDatabase();
 			}
 		});

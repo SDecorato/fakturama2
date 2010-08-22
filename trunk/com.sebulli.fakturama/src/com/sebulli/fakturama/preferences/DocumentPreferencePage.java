@@ -68,6 +68,15 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 	}
 
 	/**
+	 * Write or read the preference settings to or from the data base
+	 * 
+	 * @param write TRUE: Write to the data base
+	 */
+	public static void syncWithPreferencesFromDatabase(boolean write) {
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_NET_GROSS", write);
+	}
+
+	/**
 	 * Set the default values for this preference page
 	 * 
 	 * @param node The preference node
