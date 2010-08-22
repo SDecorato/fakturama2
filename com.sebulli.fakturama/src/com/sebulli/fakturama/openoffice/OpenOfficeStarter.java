@@ -75,7 +75,7 @@ public class OpenOfficeStarter {
 
 		// Activate the OpenOffice Application
 		Map<String, String> configuration = new HashMap<String, String>();
-		configuration.put(IOfficeApplication.APPLICATION_HOME_KEY, OSDependent.getOOExtendetPath(preferencePath));
+		configuration.put(IOfficeApplication.APPLICATION_HOME_KEY, preferencePath);
 		configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY, "local");
 		IOfficeApplication officeAplication = null;
 		try {

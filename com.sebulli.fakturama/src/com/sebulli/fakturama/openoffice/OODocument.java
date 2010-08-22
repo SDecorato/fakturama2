@@ -348,11 +348,13 @@ public class OODocument extends Object{
 	public void close() {
 		
 		// Remove the SAVE dispatcher
-		officeFrame.removeDispatchDelegate(GlobalCommands.SAVE);
+		if (officeFrame != null)
+			officeFrame.removeDispatchDelegate(GlobalCommands.SAVE);
 
 		// Close the OpenOffice document
 		try {
-			officeApplication.deactivate();
+			if (officeApplication != null)
+				officeApplication.deactivate();
 		} catch (OfficeApplicationException e) {
 			Logger.logError(e, "Error closing OpenOffice");
 		}
@@ -403,63 +405,73 @@ public class OODocument extends Object{
 	public void saveOODocument(ITextDocument textDocument) {
 
 		boolean wasSaved = false;
-		
-		// Create the directories, if they don't exist.
-		File directory = new File(getDocumentPath(false, false, false));
-		if (!directory.exists())
-			directory.mkdirs();
-		
-		// Add the time String, if this file is still existing
-		/*
-		File file = new File(savePath + ".odt");
-		if (file.exists()) {
-			DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-			savePath += "_" + dfmt.format(new Date());
-		}
-		*/
-		
-		// Save the document
-		FileOutputStream fs;
-		try {
-			fs = new FileOutputStream(new File(getDocumentPath(true, true, false)));
-			textDocument.getPersistenceService().storeAs(fs);
 
-			wasSaved = true;
+		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("ODT")) {
 
-		} catch (FileNotFoundException e) {
-			Logger.logError(e, "Error saving the OpenOffice Document");
-		} catch (NOAException e) {
-			Logger.logError(e, "Error saving the OpenOffice Document");
-		} 
-
-		
-		// Create the directories, if they don't exist.
-		directory = new File(getDocumentPath(false, false, true));
-		if (!directory.exists())
-			directory.mkdirs();
-		
-
-		// Add the time String, if this file is still existing
-		/*
-		File file = new File(savePath + ".odt");
-		if (file.exists()) {
-			DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-			savePath += "_" + dfmt.format(new Date());
-		}
-		*/
-		
-		// Save the document
-		try {
-			fs = new FileOutputStream(new File(getDocumentPath(true, true, true)));
-			textDocument.getPersistenceService().export(fs, new PDFFilter());
+			// Create the directories, if they don't exist.
+			File directory = new File(getDocumentPath(false, false, false));
+			if (!directory.exists())
+				directory.mkdirs();
 			
-			wasSaved = true;
+			// Add the time String, if this file is still existing
+			/*
+			File file = new File(savePath + ".odt");
+			if (file.exists()) {
+				DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+				savePath += "_" + dfmt.format(new Date());
+			}
+			*/
 			
-		} catch (FileNotFoundException e) {
-			Logger.logError(e, "Error saving the OpenOffice Document");
-		} catch (NOAException e) {
-			Logger.logError(e, "Error saving the OpenOffice Document");
-		} 
+			// Save the document
+			try {
+				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(true, true, false)));
+				textDocument.getPersistenceService().storeAs(fs);
+
+				wasSaved = true;
+
+			} catch (FileNotFoundException e) {
+				Logger.logError(e, "Error saving the OpenOffice Document");
+			} catch (NOAException e) {
+				Logger.logError(e, "Error saving the OpenOffice Document");
+			} 
+			
+		}
+		
+
+		
+		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("PDF")) {
+
+			// Create the directories, if they don't exist.
+			File directory = new File(getDocumentPath(false, false, true));
+			if (!directory.exists())
+				directory.mkdirs();
+			
+
+			// Add the time String, if this file is still existing
+			/*
+			File file = new File(savePath + ".odt");
+			if (file.exists()) {
+				DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+				savePath += "_" + dfmt.format(new Date());
+			}
+			*/
+			
+			// Save the document
+			try {
+				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(true, true, true)));
+				textDocument.getPersistenceService().export(fs, new PDFFilter());
+				
+				wasSaved = true;
+				
+			} catch (FileNotFoundException e) {
+				Logger.logError(e, "Error saving the OpenOffice Document");
+			} catch (NOAException e) {
+				Logger.logError(e, "Error saving the OpenOffice Document");
+			} 
+			
+		}
+		
+		
 		
 		// Mark the document as printed, if it was saved as ODT or PDF
 		if (wasSaved) {
