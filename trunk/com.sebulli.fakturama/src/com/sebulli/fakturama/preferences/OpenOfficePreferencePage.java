@@ -23,6 +23,7 @@ package com.sebulli.fakturama.preferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -58,6 +59,11 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 			addField(new AppFieldEditor("OPENOFFICE_PATH", "OpenOffice App", getFieldEditorParent()));
 		else 
 			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", "OpenOffice Ordner" + defaultValue, getFieldEditorParent()));
+
+		addField(new RadioGroupFieldEditor("OPENOFFICE_ODT_PDF", "Dokumente als ODT oder PDF exportieren:", 3, new String[][] { { "nur ODT", "ODT" },
+				{ "nur PDF", "PDF" }, { "ODT und PDF", "ODT+PDF" } }, getFieldEditorParent()));
+	
+	
 	}
 
 	/**
@@ -86,6 +92,7 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.put("OPENOFFICE_PATH", OSDependent.getOODefaultPath());
+		node.put("OPENOFFICE_ODT_PDF", "ODT+PDF");
 	}
 
 }

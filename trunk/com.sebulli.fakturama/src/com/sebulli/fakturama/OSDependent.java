@@ -54,7 +54,7 @@ public class OSDependent {
 	}
 
 	/**
-	 * Returns the os dependent program folder
+	 * Returns the OS dependent program folder
 	 * 
 	 * @return Program folder as string
 	 */
@@ -74,7 +74,7 @@ public class OSDependent {
 	}
 	
 	/**
-	 * Returns the os dependent default path of the OpenOffice installation
+	 * Returns the OS dependent default path of the OpenOffice installation
 	 * 
 	 * @return Default path as string
 	 */
@@ -93,20 +93,6 @@ public class OSDependent {
 		
 	}
 
-	/**
-	 * Returns the os dependent default path.
-	 * If it is in an .app archive, add the extension.
-	 * 
-	 * @param path Default path without extension
-	 * @return Default path with extension
-	 */
-	static public String getOOExtendetPath (String path) {
-
-		if (isMacOSX()) 
-			path += "/Contents/MacOS";
-		
-		return path;
-	}
 	
 	/**
 	 * Returns the OpenOffice binary-
@@ -117,20 +103,20 @@ public class OSDependent {
 	public static String getOOBinary (String path) {
 			
 		if (isMacOSX())	
-			return getOOExtendetPath(path) + "/soffice";
+			return path + "/Contents/MacOS/soffice";
 
 		if (isLinux())	
-			return getOOExtendetPath(path) + "/program/soffice";
+			return path + "/program/soffice";
 			
 		if (isWin())	
-			return getOOExtendetPath(path) + "\\program\\soffice.exe";
+			return path + "\\program\\soffice.exe";
 		
 		return "";
 	}
 	
 	/**
 	 * Test, if it is allowed to add an about menu to the menu bar.
-	 * In some os the about menu is set to the menu bar by the os.
+	 * In some OS the about menu is set to the menu bar by the OS.
 	 * So, it is not necessary to add it twice.
 	 * 
 	 * @return TRUE, if it is necessary
@@ -141,7 +127,7 @@ public class OSDependent {
 
 	/**
 	 * Test, if it is allowed to add an preference menu to the menu bar.
-	 * In some os the about menu is set to the menu bar by the os.
+	 * In some OS the about menu is set to the menu bar by the OS.
 	 * So, it is not necessary to add it twice.
 	 * 
 	 * @return TRUE, if it is necessary
