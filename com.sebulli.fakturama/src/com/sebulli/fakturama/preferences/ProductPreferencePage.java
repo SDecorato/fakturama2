@@ -81,6 +81,21 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 	}
 
 	/**
+	 * Write or read the preference settings to or from the data base
+	 * 
+	 * @param write TRUE: Write to the data base
+	 */
+	public static void syncWithPreferencesFromDatabase(boolean write) {
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_ITEMNR", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_DESCRIPTION", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_NET_GROSS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_SCALED_PRICES", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_VAT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_WEIGHT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_PICTURE", write);
+	}
+
+	/**
 	 * Set the default values for this preference page
 	 * 
 	 * @param node The preference node

@@ -88,6 +88,7 @@ public enum Data {
 
 			// Set the data base as connected
 			DataBaseConnectionState.INSTANCE.setConnected();
+
 		} 
 		// No connection, so create empty data sets
 		else {
@@ -144,6 +145,21 @@ public enum Data {
 	 */
 	public boolean getNewDBCreated() {
 		return newDBcreated;
+	}
+
+	/**
+	 * Returns, if the property exists.
+	 * 
+	 * @param key Property key
+	 * @return Value as String
+	 */
+	public boolean isExistingProperty(String key) {
+		for (DataSetProperty property : properties.getDatasets()) {
+			if (property.getStringValueByKey("name").equalsIgnoreCase(key))
+				return true;
+		}
+		
+		return false;
 	}
 
 	/**
