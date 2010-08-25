@@ -748,6 +748,7 @@ public class OODocument extends Object{
 			setProperty("SHIPPING.VAT", document.getSummary().getShippingVat().asFormatedString());
 			setProperty("SHIPPING.GROSS", document.getSummary().getShippingGross().asFormatedString());
 			setProperty("SHIPPING.NAME", document.getStringValueByKey("shippingname"));
+			setProperty("SHIPPING.DESCRIPTION", document.getStringValueByKey("shippingdescription"));
 			setProperty("SHIPPING.VAT.DESCRIPTION", document.getStringValueByKey("shippingvatdescription"));
 
 			/*
@@ -759,6 +760,7 @@ public class OODocument extends Object{
 			 * document.getSummary().getTotalGross().asDouble()));
 			 */
 			setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
+			setProperty("PAYMENT.DESCRIPTION", document.getStringValueByKey("paymentdescription"));
 			setProperty("PAYMENT.TEXT", document.getStringValueByKey("paymenttext"));
 			setProperty("PAYMENT.PAYED.VALUE", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
 			setProperty("PAYMENT.PAYED.DATE", document.getFormatedStringValueByKey("paydate"));
