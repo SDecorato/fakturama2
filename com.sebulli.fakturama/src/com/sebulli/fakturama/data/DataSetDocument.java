@@ -66,7 +66,7 @@ public class DataSetDocument extends UniDataSet {
 	 */
 	public DataSetDocument(DocumentType documentType, String webshopid, String webshopdate) {
 		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0,
-				0.0, "", 1, 0.0, "", 0, webshopid, webshopdate, false, "", "", 0.0, 0, -1);
+				0.0, "", 1, 0.0, "", 0, webshopid, webshopdate, false, "", "", 0.0, 0, -1, "", "");
 
 		this.hashMap.put("transaction", new UniData(UniDataType.INT, Math.abs(UUID.randomUUID().hashCode())));
 	}
@@ -86,13 +86,13 @@ public class DataSetDocument extends UniDataSet {
 				.getStringValueByKey("deliveryaddress"), parent.getStringValueByKey("addressfirstline"), parent.getIntValueByKey("progress"), parent
 				.getStringValueByKey("customerref"), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd"))
 				.format(new Date()), parent.getIntValueByKey("paymentid"), parent.getStringValueByKey("paymentname"), parent.getIntValueByKey("duedays"),
-				parent.getBooleanValueByKey("payed"), parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"),parent.getStringValueByKey("items"), parent.getIntValueByKey("shippingid"), parent
-						.getStringValueByKey("shippingname"), parent.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"), parent
-						.getStringValueByKey("shippingvatdescription"), parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent
-						.getStringValueByKey("message"), parent.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent
-						.getStringValueByKey("webshopdate"), parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent
-						.getStringValueByKey("novatdescription"), parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent
-						.getIntValueByKey("invoiceid"));
+				parent.getBooleanValueByKey("payed"), parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"),parent.getStringValueByKey("items"),
+				parent.getIntValueByKey("shippingid"), parent.getStringValueByKey("shippingname"), parent.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"),
+				parent.getStringValueByKey("shippingvatdescription"), parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), 
+				parent.getStringValueByKey("message"), parent.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent.getStringValueByKey("webshopdate"),
+				parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent.getStringValueByKey("novatdescription"), 
+				parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent.getIntValueByKey("invoiceid"),
+				parent.getStringValueByKey("paymentdescription"), parent.getStringValueByKey("shippingdescription")		);
 
 
 		// Get the Items string, split it ..
@@ -158,12 +158,15 @@ public class DataSetDocument extends UniDataSet {
 	 * @param itemsdiscount
 	 * @param dunninglevel
 	 * @param invoiceid
+	 * @param paymentdescription
+	 * @param shippingdescription
 	 */
 	public DataSetDocument(int id, String name, boolean deleted, DocumentType documentType, int addressid, String address, String deliveryaddress,
 			String addressfirstline, int progress, String customerref, String date, String servicedate, int paymentid, String paymentname, int duedays,
 			boolean payed, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping, Double shippingvat,
 			String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid, String webshopdate,
-			boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel, int invoiceid) {
+			boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel, int invoiceid, String paymentdescription,
+			String shippingdescription) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
@@ -178,6 +181,7 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("servicedate", new UniData(UniDataType.DATE, servicedate));
 		this.hashMap.put("paymentid", new UniData(UniDataType.ID, paymentid));
 		this.hashMap.put("paymentname", new UniData(UniDataType.STRING, paymentname));
+		this.hashMap.put("paymentdescription", new UniData(UniDataType.STRING, paymentdescription));
 		this.hashMap.put("duedays", new UniData(UniDataType.INT, duedays));
 		this.hashMap.put("payed", new UniData(UniDataType.BOOLEAN, payed));
 		this.hashMap.put("paydate", new UniData(UniDataType.DATE, paydate));
@@ -186,6 +190,7 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("items", new UniData(UniDataType.STRING, items));
 		this.hashMap.put("shippingid", new UniData(UniDataType.ID, shippingid));
 		this.hashMap.put("shippingname", new UniData(UniDataType.STRING, shippingname));
+		this.hashMap.put("shippingdescription", new UniData(UniDataType.STRING, shippingdescription));
 		this.hashMap.put("shipping", new UniData(UniDataType.PRICE, shipping));
 		this.hashMap.put("shippingvat", new UniData(UniDataType.PERCENT, shippingvat));
 		this.hashMap.put("shippingvatdescription", new UniData(UniDataType.STRING, shippingvatdescription));

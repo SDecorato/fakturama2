@@ -35,7 +35,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
@@ -146,7 +145,6 @@ public class DocumentEditor extends Editor {
 	private String noVatName;
 	private String noVatDescription;
 	private int paymentId;
-	private String paymentName = "";
 	private UniData payedValue = new UniData(UniDataType.DOUBLE, 0.0);
 	private int shippingId;
 	private Double shipping = 0.0;
@@ -253,7 +251,10 @@ public class DocumentEditor extends Editor {
 		document.setStringValueByKey("customerref", txtCustomerRef.getText());
 
 		// Set the payment values depending on if the document is payed or not
-		document.setStringValueByKey("paymentname", paymentName);
+		// Set the shipping values
+		if (comboPayment != null) {
+			document.setStringValueByKey("paymentdescription", comboPayment.getText());
+		}
 		document.setIntValueByKey("paymentid", paymentId);
 		
 		if (bPayed != null) {
@@ -286,7 +287,7 @@ public class DocumentEditor extends Editor {
 		
 		// Set the shipping values
 		if (comboShipping != null) {
-			document.setStringValueByKey("shippingname", comboShipping.getText());
+			document.setStringValueByKey("shippingdescription", comboShipping.getText());
 		}
 		document.setIntValueByKey("shippingid", shippingId);
 		document.setDoubleValueByKey("shipping", shipping);
@@ -520,10 +521,16 @@ public class DocumentEditor extends Editor {
 			
 			// In a new document, set some standard values
 			if (!duplicated) {
+				// Default shipping
 				shippingId = Data.INSTANCE.getPropertyAsInt("standardshipping");
 				shipping = Data.INSTANCE.getShippings().getDatasetById(shippingId).getDoubleValueByKey("value");
-				document.setStringValueByKey("shippingname", Data.INSTANCE.getShippings().getDatasetById(shippingId).getStringValueByKey("name"));
+				document.setStringValueByKey("shippingdescription", Data.INSTANCE.getShippings().getDatasetById(shippingId).getStringValueByKey("description"));
 				shippingAutoVat = Data.INSTANCE.getShippings().getDatasetById(shippingId).getIntValueByKey("autovat");
+
+				// Default payment
+				paymentId = Data.INSTANCE.getPropertyAsInt("standardpayment");
+				document.setStringValueByKey("paymentdescription", Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("description"));
+
 			}
 
 			// Get the next document number
@@ -631,7 +638,8 @@ public class DocumentEditor extends Editor {
 				if (document.getIntValueByKey("duedays") != spDueDays.getSelection()) { return true; }
 			}
 		}
-		if (!document.getStringValueByKey("paymentname").equals(paymentName)) { return true; }
+		if (comboPayment != null)
+			if (!document.getStringValueByKey("paymentdescription").equals(comboPayment.getText())) { return true; }
 		if (document.getIntValueByKey("paymentid") != paymentId) { return true; }
 
 		if (itemsDiscount != null)
@@ -641,7 +649,7 @@ public class DocumentEditor extends Editor {
 		if (!DataUtils.DoublesAreEqual(shipping, document.getDoubleValueByKey("shipping"))) { return true; }
 		if (!DataUtils.DoublesAreEqual(shippingVat, document.getDoubleValueByKey("shippingvat"))) { return true; }
 		if (comboShipping != null)
-			if (!document.getStringValueByKey("shippingname").equals(comboShipping.getText())) { return true; }
+			if (!document.getStringValueByKey("shippingdescription").equals(comboShipping.getText())) { return true; }
 		if (!document.getStringValueByKey("message").equals(txtMessage.getText())) { return true; }
 		if (!document.getStringValueByKey("shippingvatdescription").equals(shippingVatDescription)) { return true; }
 		if (document.getIntValueByKey("shippingautovat") != shippingAutoVat) { return true; }
@@ -1523,6 +1531,7 @@ public class DocumentEditor extends Editor {
 			comboShipping = new Combo(shippingComposite, SWT.BORDER);
 			comboViewerShipping = new ComboViewer(comboShipping);
 			comboViewerShipping.setContentProvider(new UniDataSetContentProvider());
+			comboViewerShipping.setLabelProvider(new UniDataSetLabelProvider("description"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(comboShipping);
 			comboViewerShipping.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -1560,7 +1569,7 @@ public class DocumentEditor extends Editor {
 			shippingVatDescription = document.getStringValueByKey("shippingvatdescription");
 			
 			// Set the combo
-			comboShipping.setText(document.getStringValueByKey("shippingname"));
+			comboShipping.setText(document.getStringValueByKey("shippingdescription"));
 
 			// Shipping value field
 			shippingValue = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
@@ -1633,6 +1642,7 @@ public class DocumentEditor extends Editor {
 			comboPayment = new Combo(payedContainer, SWT.BORDER);
 			comboViewerPayment = new ComboViewer(comboPayment);
 			comboViewerPayment.setContentProvider(new UniDataSetContentProvider());
+			comboViewerPayment.setLabelProvider(new UniDataSetLabelProvider("description"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(comboPayment);
 			
 			// If a new payment is selected ...
@@ -1649,7 +1659,6 @@ public class DocumentEditor extends Editor {
 						Object firstElement = structuredSelection.getFirstElement();
 						DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
 						paymentId = dataSetPayment.getIntValueByKey("id");
-						paymentName = dataSetPayment.getStringValueByKey("name");
 						checkDirty();
 					}
 				}
@@ -1662,6 +1671,11 @@ public class DocumentEditor extends Editor {
 			// state for "payed"
 			createPayedComposite(document.getBooleanValueByKey("payed"));
 
+
+			// Set the combo
+			comboPayment.setText(document.getStringValueByKey("paymentdescription"));
+
+			/*
 			// Select the combo entry, that is set by the document.
 			try {
 				if (paymentId >= 0) {
@@ -1670,6 +1684,7 @@ public class DocumentEditor extends Editor {
 
 			} catch (IndexOutOfBoundsException e) {
 			}
+			*/
 
 		}
 		

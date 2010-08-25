@@ -34,6 +34,26 @@ import com.sebulli.fakturama.data.UniDataSet;
  */
 public class UniDataSetLabelProvider extends LabelProvider {
 
+	// This entries of the UniDataSet will be displayed
+	private String key = "name";
+	
+	/**
+	 * Default constructor
+	 */
+	public UniDataSetLabelProvider () {
+		key = "name";
+	}
+	
+	/**
+	 * Constructor with parameter to set the key
+	 * 
+	 * @param key The key to the UniDataSet entry
+	 * 
+	 */
+	public UniDataSetLabelProvider (String key) {
+		this.key = key;
+	}
+	
 	/**
 	 * Returns the text string used to label the element, or null if there is
 	 * no text label for the given object
@@ -52,8 +72,8 @@ public class UniDataSetLabelProvider extends LabelProvider {
 		if (uds.containsKey("firstname"))
 			s += uds.getStringValueByKey("firstname") + " ";
 
-		// Add always the name
-		s += uds.getStringValueByKey("name");
+		// Add always the key entry
+		s += uds.getStringValueByKey(key);
 
 		// Add the company, if it exists
 		if (uds.containsKey("company"))
