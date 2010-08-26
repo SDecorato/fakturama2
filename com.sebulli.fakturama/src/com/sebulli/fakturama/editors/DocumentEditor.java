@@ -1002,6 +1002,31 @@ public class DocumentEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(4, 1).applyTo(invisible);
 
+		// The titleComposite contains the tile and the document icon
+		Composite titleComposite = new Composite(top, SWT.NONE);
+		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(titleComposite);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.BOTTOM).span(4, 1).grab(true, false).applyTo(titleComposite);
+
+		// Set the title in large letters
+		Label labelDocumentType = new Label(titleComposite, SWT.NONE);
+		String documentTypeString = DocumentType.getString(document.getIntValueByKey("category"));
+		if (documentType == DocumentType.DUNNING)
+			documentTypeString = Integer.toString(dunningLevel) + "." + documentTypeString;
+		labelDocumentType.setText(documentTypeString);
+		makeLargeLabel(labelDocumentType);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelDocumentType);
+
+		// Set the document icon
+		Label labelDocumentTypeIcon = new Label(titleComposite, SWT.NONE);
+		try {
+			labelDocumentTypeIcon
+					.setImage((Activator.getImageDescriptor("/icons/32/" + documentType.getTypeAsString().toLowerCase() + "_32.png").createImage()));
+		} catch (Exception e) {
+			Logger.logError(e, "Icon not found");
+		}
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.TOP).grab(true, false).applyTo(labelDocumentTypeIcon);
+		
+		
 		// Document number label
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText("Nr.");
@@ -1043,31 +1068,83 @@ public class DocumentEditor extends Editor {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
 		dtDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+		
+		
+		// The extra settings composite contains additional fields like
+		// the no-Vat widget or a refernce to the invoice
+		Composite xtraSettingsComposite = new Composite(top, SWT.NONE);
+		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(xtraSettingsComposite);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).span(1,3).grab(true, false).applyTo(xtraSettingsComposite);
 
-		// The titleComposite contains the tile and the document icon
-		Composite titleComposite = new Composite(top, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(titleComposite);
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.BOTTOM).span(1, 2).grab(true, false).applyTo(titleComposite);
+		// A reference to the invoice
+		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
+		labelInvoiceRef.setText("Rechnung:");
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(labelInvoiceRef);
+		txtInvoiceRef = new Text(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.BORDER);
+		int invoiceId = document.getIntValueByKey("invoiceid");
+		if (invoiceId >= 0)
+			txtInvoiceRef.setText(Data.INSTANCE.getDocuments().getDatasetById(invoiceId).getStringValueByKey("name"));
+		else
+			txtInvoiceRef.setText("---");
+		txtInvoiceRef.setEditable(false);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtInvoiceRef);
 
-		// Set the title in large letters
-		Label labelDocumentType = new Label(titleComposite, SWT.NONE);
-		String documentTypeString = DocumentType.getString(document.getIntValueByKey("category"));
-		if (documentType == DocumentType.DUNNING)
-			documentTypeString = Integer.toString(dunningLevel) + "." + documentTypeString;
-		labelDocumentType.setText(documentTypeString);
-		makeLargeLabel(labelDocumentType);
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelDocumentType);
 
-		// Set the document icon
-		Label labelDocumentTypeIcon = new Label(titleComposite, SWT.NONE);
-		try {
-			labelDocumentTypeIcon
-					.setImage((Activator.getImageDescriptor("/icons/48/" + documentType.getTypeAsString().toLowerCase() + "_48.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.TOP).grab(true, false).applyTo(labelDocumentTypeIcon);
+		
+		// This document should use a VAT of 0%
+		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
+		labelNoVat.setText("MwSt:");
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelNoVat);
 
+		// combo list with all 0% VATs
+		comboNoVat = new Combo(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.BORDER);
+		comboViewerNoVat = new ComboViewer(comboNoVat);
+		comboViewerNoVat.setContentProvider(new NoVatContentProvider());
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.CENTER).applyTo(comboNoVat);
+		comboViewerNoVat.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			// A combo entry is selected
+			public void selectionChanged(SelectionChangedEvent event) {
+				ISelection selection = event.getSelection();
+				IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+				if (!structuredSelection.isEmpty()) {
+					
+					// get first element ...
+					Object firstElement = structuredSelection.getFirstElement();
+					DataSetVAT dataSetVat = (DataSetVAT) firstElement;
+					int id = dataSetVat.getIntValueByKey("id");
+					
+					// get the "no-VAT" values
+					if (id >= 0) {
+						noVat = true;
+						noVatName = dataSetVat.getStringValueByKey("name");
+						noVatDescription = dataSetVat.getStringValueByKey("description");
+					} else {
+						noVat = false;
+						noVatName = "";
+						noVatDescription = "";
+					}
+					
+					// set all items to 0%
+					setItemsNoVat();
+					tableViewerItems.refresh();
+					
+					// recalculate the total sum
+					calculate();
+					checkDirty();
+				}
+			}
+		});
+		
+		// Selects the no VAT entry
+		comboViewerNoVat.setInput(Data.INSTANCE.getVATs().getDatasets());
+		if (noVat)
+			comboNoVat.setText(noVatName);
+		else
+			comboNoVat.select(0);
+		
+		
+		
 		// Group with tool bar with buttons to generate 
 		// a new document from this document
 		Group copyGroup = new Group(top, SWT.NONE);
@@ -1177,78 +1254,6 @@ public class DocumentEditor extends Editor {
 		superviceControl(txtAddress, 250);
 		GridDataFactory.fillDefaults().minSize(180, 80).align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtAddress);
 
-		// The extra settings composite contains additional fields like
-		// the no-Vat widget or a refernce to the invoice
-		Composite xtraSettingsComposite = new Composite(top, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(xtraSettingsComposite);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).grab(true, false).applyTo(xtraSettingsComposite);
-
-		// A reference to the invoice
-		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
-		labelInvoiceRef.setText("Rechnung:");
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(labelInvoiceRef);
-		txtInvoiceRef = new Text(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.BORDER);
-		int invoiceId = document.getIntValueByKey("invoiceid");
-		if (invoiceId >= 0)
-			txtInvoiceRef.setText(Data.INSTANCE.getDocuments().getDatasetById(invoiceId).getStringValueByKey("name"));
-		else
-			txtInvoiceRef.setText("---");
-		txtInvoiceRef.setEditable(false);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtInvoiceRef);
-
-
-		
-		// This document should use a VAT of 0%
-		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
-		labelNoVat.setText("MwSt:");
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelNoVat);
-
-		// combo list with all 0% VATs
-		comboNoVat = new Combo(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.BORDER);
-		comboViewerNoVat = new ComboViewer(comboNoVat);
-		comboViewerNoVat.setContentProvider(new NoVatContentProvider());
-		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.CENTER).applyTo(comboNoVat);
-		comboViewerNoVat.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			// A combo entry is selected
-			public void selectionChanged(SelectionChangedEvent event) {
-				ISelection selection = event.getSelection();
-				IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-				if (!structuredSelection.isEmpty()) {
-					
-					// get first element ...
-					Object firstElement = structuredSelection.getFirstElement();
-					DataSetVAT dataSetVat = (DataSetVAT) firstElement;
-					int id = dataSetVat.getIntValueByKey("id");
-					
-					// get the "no-VAT" values
-					if (id >= 0) {
-						noVat = true;
-						noVatName = dataSetVat.getStringValueByKey("name");
-						noVatDescription = dataSetVat.getStringValueByKey("description");
-					} else {
-						noVat = false;
-						noVatName = "";
-						noVatDescription = "";
-					}
-					
-					// set all items to 0%
-					setItemsNoVat();
-					tableViewerItems.refresh();
-					
-					// recalculate the total sum
-					calculate();
-					checkDirty();
-				}
-			}
-		});
-		
-		// Selects the no VAT entry
-		comboViewerNoVat.setInput(Data.INSTANCE.getVATs().getDatasets());
-		if (noVat)
-			comboNoVat.setText(noVatName);
-		else
-			comboNoVat.select(0);
 
 		// Add the item table, if the document is one with items.
 		if (documentType.hasItems()) {
@@ -1355,7 +1360,7 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
 			// Create the table columns
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, "Menge", 50, 0, true, "quantity", new ItemEditingSupport(this, 
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, "Menge", 60, 0, true, "quantity", new ItemEditingSupport(this, 
 					tableViewerItems, 1));
 			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
 				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "ArtNr.", 80, 0, true, "itemnr", new ItemEditingSupport(this,
@@ -1365,21 +1370,21 @@ public class DocumentEditor extends Editor {
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "Beschreibung", 100, 30, false, "description", new ItemEditingSupport(
 					this, tableViewerItems, 4));
 			if (documentType.hasPrice()) {
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "MwSt.", 40, 0, true, "$ItemVatPercent", new ItemEditingSupport(this,
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "MwSt.", 50, 0, true, "$ItemVatPercent", new ItemEditingSupport(this,
 						tableViewerItems, 5));
 				if (useGross)
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "E.Preis (brutto)", 85, 0, true, "$ItemGrossPrice",
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "E.Preis", 85, 0, true, "$ItemGrossPrice",
 							new ItemEditingSupport(this, tableViewerItems, 6));
 				else
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "E.Preis (netto)", 85, 0, true, "price", new ItemEditingSupport(
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "E.Preis", 85, 0, true, "price", new ItemEditingSupport(
 							this, tableViewerItems, 6));
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Rabatt", 40, 0, true, "discount", new ItemEditingSupport(this,
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Rabatt", 60, 0, true, "discount", new ItemEditingSupport(this,
 						tableViewerItems, 7));
 				if (useGross)
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis (brutto)", 85, 0, true, "$ItemGrossTotal",
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true, "$ItemGrossTotal",
 							new ItemEditingSupport(this, tableViewerItems, 8));
 				else
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis (netto)", 85, 0, true, "$ItemNetTotal",
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true, "$ItemNetTotal",
 							new ItemEditingSupport(this, tableViewerItems, 8));
 			}
 			// Fill the table with the items
@@ -1455,7 +1460,7 @@ public class DocumentEditor extends Editor {
 		// Depending on if the document has price values.
 		if (!documentType.hasPrice()) {
 			
-			// If not fill the columns for the price with the message field.
+			// If not, fill the columns for the price with the message field.
 			if (documentType.hasItems())
 				GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 65).span(3, 1).grab(true, false).applyTo(txtMessage);
 			else
@@ -1464,7 +1469,10 @@ public class DocumentEditor extends Editor {
 
 		else {
 
-			GridDataFactory.fillDefaults().span(2, 1).hint(SWT.DEFAULT, 70).grab(true, false).applyTo(txtMessage);
+			if (documentType.hasPayed())
+				GridDataFactory.fillDefaults().span(2, 1).hint(SWT.DEFAULT, 70).grab(true, false).applyTo(txtMessage);
+			else
+				GridDataFactory.fillDefaults().span(2, 1).grab(true, true).applyTo(txtMessage);
 
 			// Create a column for the documents subtotal, shipping and total 
 			Composite totalComposite = new Composite(top, SWT.NONE);
@@ -1617,75 +1625,67 @@ public class DocumentEditor extends Editor {
 			totalValue.setText("---");
 			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(totalValue);
 
-			// The payed label
-			bPayed = new Button(top, SWT.CHECK | SWT.LEFT);
-			bPayed.setSelection(document.getBooleanValueByKey("payed"));
-			bPayed.setText("bezahlt");
-			GridDataFactory.swtDefaults().applyTo(bPayed);
+			// Create the "payed"-controls, only if the document type allows this.
+			if (documentType.hasPayed()) {
 
-			// Container for the payment and the payed state
-			payedContainer = new Composite(top, SWT.NONE);
-			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(payedContainer);
-			GridDataFactory.swtDefaults().span(2, 1).align(SWT.BEGINNING, SWT.CENTER).applyTo(payedContainer);
+				// The payed label
+				bPayed = new Button(top, SWT.CHECK | SWT.LEFT);
+				bPayed.setSelection(document.getBooleanValueByKey("payed"));
+				bPayed.setText("bezahlt");
+				GridDataFactory.swtDefaults().applyTo(bPayed);
 
-			// If the payed check box is selected ...
-			bPayed.addSelectionListener(new SelectionAdapter() {
+				// Container for the payment and the payed state
+				payedContainer = new Composite(top, SWT.NONE);
+				GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(payedContainer);
+				GridDataFactory.swtDefaults().span(2, 1).align(SWT.BEGINNING, SWT.CENTER).applyTo(payedContainer);
 
-				// ... Recreate the payed composite
-				public void widgetSelected(SelectionEvent e) {
-					createPayedComposite(bPayed.getSelection());
-					checkDirty();
-				}
-			});
+				// If the payed check box is selected ...
+				bPayed.addSelectionListener(new SelectionAdapter() {
 
-			// Combo to select the payment
-			comboPayment = new Combo(payedContainer, SWT.BORDER);
-			comboViewerPayment = new ComboViewer(comboPayment);
-			comboViewerPayment.setContentProvider(new UniDataSetContentProvider());
-			comboViewerPayment.setLabelProvider(new UniDataSetLabelProvider("description"));
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(comboPayment);
-			
-			// If a new payment is selected ...
-			comboViewerPayment.addSelectionChangedListener(new ISelectionChangedListener() {
-
-				// change the paymentId to the selected element
-				public void selectionChanged(SelectionChangedEvent event) {
-
-					// Get the selected elemen
-					ISelection selection = event.getSelection();
-					IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-					if (!structuredSelection.isEmpty()) {
-						// Get first selected element.
-						Object firstElement = structuredSelection.getFirstElement();
-						DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
-						paymentId = dataSetPayment.getIntValueByKey("id");
+					// ... Recreate the payed composite
+					public void widgetSelected(SelectionEvent e) {
+						createPayedComposite(bPayed.getSelection());
 						checkDirty();
 					}
-				}
-			});
+				});
 
-			// Fill the payment combo with the payments
-			comboViewerPayment.setInput(Data.INSTANCE.getPayments().getDatasets());
+				// Combo to select the payment
+				comboPayment = new Combo(payedContainer, SWT.BORDER);
+				comboViewerPayment = new ComboViewer(comboPayment);
+				comboViewerPayment.setContentProvider(new UniDataSetContentProvider());
+				comboViewerPayment.setLabelProvider(new UniDataSetLabelProvider("description"));
+				GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(comboPayment);
+				
+				// If a new payment is selected ...
+				comboViewerPayment.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			// Create a default payed composite with the document's
-			// state for "payed"
-			createPayedComposite(document.getBooleanValueByKey("payed"));
+					// change the paymentId to the selected element
+					public void selectionChanged(SelectionChangedEvent event) {
 
+						// Get the selected elemen
+						ISelection selection = event.getSelection();
+						IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+						if (!structuredSelection.isEmpty()) {
+							// Get first selected element.
+							Object firstElement = structuredSelection.getFirstElement();
+							DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
+							paymentId = dataSetPayment.getIntValueByKey("id");
+							checkDirty();
+						}
+					}
+				});
 
-			// Set the combo
-			comboPayment.setText(document.getStringValueByKey("paymentdescription"));
+				// Fill the payment combo with the payments
+				comboViewerPayment.setInput(Data.INSTANCE.getPayments().getDatasets());
 
-			/*
-			// Select the combo entry, that is set by the document.
-			try {
-				if (paymentId >= 0) {
-					comboViewerPayment.setSelection(new StructuredSelection(Data.INSTANCE.getPayments().getDatasetById(paymentId)), true);
-				}
+				// Create a default payed composite with the document's
+				// state for "payed"
+				createPayedComposite(document.getBooleanValueByKey("payed"));
 
-			} catch (IndexOutOfBoundsException e) {
+				// Set the combo
+				comboPayment.setText(document.getStringValueByKey("paymentdescription"));
+				
 			}
-			*/
-
 		}
 		
 		// Calculate the total sum
