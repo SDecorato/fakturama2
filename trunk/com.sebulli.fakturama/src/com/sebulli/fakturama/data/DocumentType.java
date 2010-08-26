@@ -425,9 +425,9 @@ public enum DocumentType {
 		case OFFER:
 			return false;
 		case ORDER:
-			return true;
+			return false;
 		case CONFIRMATION:
-			return true;
+			return false;
 		case INVOICE:
 			return true;
 		case DELIVERY:
