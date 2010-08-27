@@ -167,6 +167,7 @@ public class VatEditor extends Editor {
 		 */
 
 		if (vat.getBooleanValueByKey("deleted")) { return true; }
+		if (newVat) { return true; }
 
 		if (!vat.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!vat.getStringValueByKey("description").equals(textDescription.getText())) { return true; }

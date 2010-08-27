@@ -49,7 +49,6 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.UniDataSet;
-import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
 /**
@@ -272,6 +271,10 @@ public abstract class Editor extends EditorPart {
 		format = Activator.getDefault().getPreferenceStore().getString(prefStrFormat);
 		nextnr = Activator.getDefault().getPreferenceStore().getInt(prefStrNr) + 1;
 
+		// Exit, if format is empty
+		if (format.trim().isEmpty())
+			return true;
+		
 		// Find the placeholder for a decimal number with n digits
 		// with the format "{Xnr}", "X" is the number of digits.
 		Pattern p = Pattern.compile("\\{\\d*nr\\}");
@@ -294,7 +297,7 @@ public abstract class Editor extends EditorPart {
 					ok = true;
 				}
 			} catch (NumberFormatException e) {
-				Logger.logError(e, "Document number invalid");
+				//Logger.logError(e, "Document number invalid");
 			}
 		}
 		

@@ -173,6 +173,7 @@ public class PaymentEditor extends Editor {
 		 */
 
 		if (payment.getBooleanValueByKey("deleted")) { return true; }
+		if (newPayment) { return true; }
 
 		if (!payment.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!payment.getStringValueByKey("description").equals(textDescription.getText())) { return true; }
