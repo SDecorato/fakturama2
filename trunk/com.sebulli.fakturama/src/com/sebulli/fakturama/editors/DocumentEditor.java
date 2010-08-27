@@ -1002,31 +1002,6 @@ public class DocumentEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(4, 1).applyTo(invisible);
 
-		// The titleComposite contains the tile and the document icon
-		Composite titleComposite = new Composite(top, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(titleComposite);
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.BOTTOM).span(4, 1).grab(true, false).applyTo(titleComposite);
-
-		// Set the title in large letters
-		Label labelDocumentType = new Label(titleComposite, SWT.NONE);
-		String documentTypeString = DocumentType.getString(document.getIntValueByKey("category"));
-		if (documentType == DocumentType.DUNNING)
-			documentTypeString = Integer.toString(dunningLevel) + "." + documentTypeString;
-		labelDocumentType.setText(documentTypeString);
-		makeLargeLabel(labelDocumentType);
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelDocumentType);
-
-		// Set the document icon
-		Label labelDocumentTypeIcon = new Label(titleComposite, SWT.NONE);
-		try {
-			labelDocumentTypeIcon
-					.setImage((Activator.getImageDescriptor("/icons/32/" + documentType.getTypeAsString().toLowerCase() + "_32.png").createImage()));
-		} catch (Exception e) {
-			Logger.logError(e, "Icon not found");
-		}
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.TOP).grab(true, false).applyTo(labelDocumentTypeIcon);
-		
-		
 		// Document number label
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText("Nr.");
@@ -1070,11 +1045,50 @@ public class DocumentEditor extends Editor {
 		dtDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		
 		
+		// The titleComposite contains the tile and the document icon
+		Composite titleComposite = new Composite(top, SWT.NONE);
+		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(titleComposite);
+		GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.BOTTOM).span(2, 1).grab(true, false).applyTo(titleComposite);
+
+		// Set the title in large letters
+		Label labelDocumentType = new Label(titleComposite, SWT.NONE);
+		String documentTypeString = DocumentType.getString(document.getIntValueByKey("category"));
+		if (documentType == DocumentType.DUNNING)
+			documentTypeString = Integer.toString(dunningLevel) + "." + documentTypeString;
+		labelDocumentType.setText(documentTypeString);
+		makeLargeLabel(labelDocumentType);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelDocumentType);
+
+		// Set the document icon
+		Label labelDocumentTypeIcon = new Label(titleComposite, SWT.NONE);
+		try {
+			labelDocumentTypeIcon
+					.setImage((Activator.getImageDescriptor("/icons/32/" + documentType.getTypeAsString().toLowerCase() + "_32.png").createImage()));
+		} catch (Exception e) {
+			Logger.logError(e, "Icon not found");
+		}
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.TOP).grab(true, false).applyTo(labelDocumentTypeIcon);
+
+		
+		// Customer reference label
+		Label labelCustomerRef = new Label(top, SWT.NONE);
+		labelCustomerRef.setText("Kd-Ref.");
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCustomerRef);
+
+		// Customer reference
+		txtCustomerRef = new Text(top, SWT.BORDER);
+		txtCustomerRef.setText(document.getStringValueByKey("customerref"));
+		superviceControl(txtCustomerRef, 32);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
+
+		
+		
+		
 		// The extra settings composite contains additional fields like
 		// the no-Vat widget or a refernce to the invoice
 		Composite xtraSettingsComposite = new Composite(top, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(xtraSettingsComposite);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).span(1,3).grab(true, false).applyTo(xtraSettingsComposite);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).span(1,2).grab(true, false).applyTo(xtraSettingsComposite);
 
 		// A reference to the invoice
 		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
@@ -1150,7 +1164,7 @@ public class DocumentEditor extends Editor {
 		Group copyGroup = new Group(top, SWT.NONE);
 		copyGroup.setText("aus " + documentType.getString() + " erzeugen");
 		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(copyGroup);
-		GridDataFactory.fillDefaults().minSize(200, SWT.DEFAULT).align(SWT.END, SWT.BOTTOM).grab(true, false).span(1, 3).applyTo(copyGroup);
+		GridDataFactory.fillDefaults().minSize(200, SWT.DEFAULT).align(SWT.END, SWT.BOTTOM).grab(true, false).span(1, 2).applyTo(copyGroup);
 
 		// Toolbar
 		ToolBar toolBarDuplicateDocument = new ToolBar(copyGroup, SWT.FLAT | SWT.WRAP);
@@ -1191,17 +1205,10 @@ public class DocumentEditor extends Editor {
 		// Resize the toolbar
 		tbmDuplicate.update(true);
 
-		// Customer reference label
-		Label labelCustomerRef = new Label(top, SWT.NONE);
-		labelCustomerRef.setText("Kd-Ref.");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCustomerRef);
-
-		// Customer reference
-		txtCustomerRef = new Text(top, SWT.BORDER);
-		txtCustomerRef.setText(document.getStringValueByKey("customerref"));
-		superviceControl(txtCustomerRef, 32);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
-
+		
+		
+		
+		
 		// Composite that contains the address label and the address icon
 		Composite addressComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addressComposite);
@@ -1253,6 +1260,9 @@ public class DocumentEditor extends Editor {
 			txtAddress.setText(document.getStringValueByKey("address"));
 		superviceControl(txtAddress, 250);
 		GridDataFactory.fillDefaults().minSize(180, 80).align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtAddress);
+		
+		
+		
 
 
 		// Add the item table, if the document is one with items.
