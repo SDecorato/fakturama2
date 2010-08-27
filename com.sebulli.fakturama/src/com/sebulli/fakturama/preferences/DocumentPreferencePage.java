@@ -21,6 +21,7 @@
 package com.sebulli.fakturama.preferences;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
@@ -53,6 +54,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 
 		addField(new RadioGroupFieldEditor("DOCUMENT_USE_NET_GROSS", "Preise in Artikelliste:", 2, new String[][] { { "Netto", "0" }, { "Brutto", "1" } },
 				getFieldEditorParent()));
+		addField(new BooleanFieldEditor("DOCUMENT_COPY_MESSAGE_FROM_PARENT", "Feld 'Bemerkung' beim Kopieren übernehmen", getFieldEditorParent()));
 
 	}
 
@@ -74,6 +76,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_NET_GROSS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_COPY_MESSAGE_FROM_PARENT", write);
 	}
 
 	/**
@@ -83,6 +86,9 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.put("DOCUMENT_USE_NET_GROSS", "1");
+		node.putBoolean("DOCUMENT_COPY_MESSAGE_FROM_PARENT", false);
+
+		
 	}
 
 }
