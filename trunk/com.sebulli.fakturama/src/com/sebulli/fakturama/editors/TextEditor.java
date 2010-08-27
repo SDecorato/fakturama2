@@ -162,6 +162,7 @@ public class TextEditor extends Editor {
 		 */
 
 		if (text.getBooleanValueByKey("deleted")) { return true; }
+		if (newText) { return true; }
 
 		if (!text.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!text.getStringValueByKey("text").equals(textText.getText())) { return true; }

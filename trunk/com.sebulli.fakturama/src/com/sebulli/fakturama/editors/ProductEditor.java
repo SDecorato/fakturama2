@@ -47,6 +47,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -125,6 +126,7 @@ public class ProductEditor extends Editor {
 	 */
 	public ProductEditor() {
 		tableViewID = ViewProductTable.ID;
+		editorID = "product";
 	}
 
 	/**
@@ -169,6 +171,15 @@ public class ProductEditor extends Editor {
 		if (newProduct) {
 			product = Data.INSTANCE.getProducts().addNewDataSet(product);
 			newProduct = false;
+			
+			// Check, if the item number is the next one
+			if (!setNextNr(product.getStringValueByKey("itemnr"))) {
+				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+				messageBox.setText("Fehler in Artikelnummer");
+				messageBox.setMessage("Artikel hat nicht die nächste freie Nummer: " + getNextNr());
+				messageBox.open();
+			}
+
 		}
 		// If it's not new, update at least the data base
 		else {
@@ -222,6 +233,10 @@ public class ProductEditor extends Editor {
 
 			// Set the vat to the standard value
 			product.setIntValueByKey("vatid", Data.INSTANCE.getPropertyAsInt("standardvat"));
+			
+			// Get the next item number
+			product.setStringValueByKey("itemnr", getNextNr());
+
 
 		} else {
 
@@ -247,6 +262,7 @@ public class ProductEditor extends Editor {
 		 */
 
 		if (product.getBooleanValueByKey("deleted")) { return true; }
+		if (newProduct) { return true; }
 
 		if (!product.getStringValueByKey("itemnr").equals(textItemNr.getText())) { return true; }
 		if (!product.getStringValueByKey("name").equals(textName.getText())) { return true; }

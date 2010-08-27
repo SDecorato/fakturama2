@@ -197,6 +197,7 @@ public class ShippingEditor extends Editor {
 		 */
 
 		if (shipping.getBooleanValueByKey("deleted")) { return true; }
+		if (newShipping) { return true; }
 
 		if (!shipping.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!shipping.getStringValueByKey("description").equals(textDescription.getText())) { return true; }

@@ -39,12 +39,14 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.calculate.DataUtils;
@@ -214,6 +216,15 @@ public class ContactEditor extends Editor {
 		if (newContact) {
 			contact = Data.INSTANCE.getContacts().addNewDataSet(contact);
 			newContact = false;
+			
+			// Check, if the contact number is the next one
+			if (!setNextNr(contact.getStringValueByKey("nr"))) {
+				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+				messageBox.setText("Fehler in Kundennummer");
+				messageBox.setMessage("Kunde hat nicht die nächste freie Nummer: " + getNextNr());
+				messageBox.open();
+			}
+
 		} 
 		// If it's not new, update at least the data base
 		else {
@@ -266,6 +277,9 @@ public class ContactEditor extends Editor {
 
 			// Set the payment to the standard value
 			contact.setIntValueByKey("payment", Data.INSTANCE.getPropertyAsInt("standardpayment"));
+			
+			// Get the next contact number
+			contact.setStringValueByKey("nr", getNextNr());
 
 		} else {
 			
@@ -291,6 +305,7 @@ public class ContactEditor extends Editor {
 		 */
 
 		if (contact.getBooleanValueByKey("deleted")) { return true; }
+		if (newContact) { return true; }
 
 		if (contact.getIntValueByKey("gender") != comboGender.getSelectionIndex()) { return true; }
 		if (!contact.getStringValueByKey("title").equals(txtTitle.getText())) { return true; }
