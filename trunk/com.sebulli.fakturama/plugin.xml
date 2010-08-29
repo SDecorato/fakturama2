@@ -100,6 +100,14 @@
             name="Texte"
             restorable="true">
       </view>
+      <view
+            allowMultiple="true"
+            class="com.sebulli.fakturama.views.datasettable.ViewCountryCodeTable"
+            icon="icons/16/text_16.png"
+            id="com.sebulli.fakturama.views.datasettable.viewCountryCodeTable"
+            name="Ländercodes"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -180,6 +188,12 @@
             description="Open Texts"
             id="com.sebulli.fakturama.actions.openTexts"
             name="Open Texts">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
+            description="Open Country Codes"
+            id="com.sebulli.fakturama.actions.openCountryCodes"
+            name="Open Country Codes">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
@@ -298,6 +312,12 @@
             description="Create New Text"
             id="com.sebulli.fakturama.actions.newText"
             name="Create New Text">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Country Code"
+            id="com.sebulli.fakturama.actions.newCountryCode"
+            name="Create New Country Code">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
@@ -490,19 +510,26 @@
             id="com.sebulli.fakturama.editors.shippingEditor"
             name="Shipping Editor">
       </editor>
-       <editor
+      <editor
             class="com.sebulli.fakturama.editors.PaymentEditor"
             default="false"
             icon="icons/16/payment_16.png"
             id="com.sebulli.fakturama.editors.paymentEditor"
             name="Payment Editor">
       </editor>
-       <editor
+      <editor
             class="com.sebulli.fakturama.editors.TextEditor"
             default="false"
             icon="icons/16/text_16.png"
             id="com.sebulli.fakturama.editors.textEditor"
             name="Text Editor">
+      </editor>
+      <editor
+            class="com.sebulli.fakturama.editors.CountryCodeEditor"
+            default="false"
+            icon="icons/16/country_16.png"
+            id="com.sebulli.fakturama.editors.countrycodeEditor"
+            name="Country Code Editor">
       </editor>
       <editor
             class="com.sebulli.fakturama.editors.BrowserEditor"

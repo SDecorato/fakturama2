@@ -45,6 +45,7 @@ public enum Data {
 	private DataSetArray<DataSetShipping> shippings;
 	private DataSetArray<DataSetPayment> payments;
 	private DataSetArray<DataSetText> texts;
+	private DataSetArray<DataSetCountryCode> countrycodes;
 	
 	// Reference to data base
 	DataBase db = null;
@@ -61,6 +62,9 @@ public enum Data {
 		// connect to the data base
 		this.db = new DataBase();
 		
+		// Reference to database
+		DataBase dbref = null;
+		
 		// Get the workspace
 		Workspace.INSTANCE.initWorkspace();
 		String workspace = Workspace.INSTANCE.getWorkspace();
@@ -69,18 +73,25 @@ public enum Data {
 		if (!workspace.isEmpty())
 			newDBcreated = this.db.connect(workspace);
 		
+		// Set the reference to the database, if there is a connection
+		if (this.db.isConnected())
+			dbref = db;
+
+		// Read the data from the database
+		properties = new DataSetArray<DataSetProperty>(dbref, new DataSetProperty());
+		products = new DataSetArray<DataSetProduct>(dbref, new DataSetProduct());
+		contacts = new DataSetArray<DataSetContact>(dbref, new DataSetContact());
+		vats = new DataSetArray<DataSetVAT>(dbref, new DataSetVAT());
+		documents = new DataSetArray<DataSetDocument>(dbref, new DataSetDocument());
+		items = new DataSetArray<DataSetItem>(dbref, new DataSetItem());
+		shippings = new DataSetArray<DataSetShipping>(dbref, new DataSetShipping());
+		payments = new DataSetArray<DataSetPayment>(dbref, new DataSetPayment());
+		texts = new DataSetArray<DataSetText>(dbref, new DataSetText());
+		countrycodes = new DataSetArray<DataSetCountryCode>(dbref, new DataSetCountryCode());
+		
 		// If there is a connection to the data base
 		// read all the tables
 		if (this.db.isConnected()) {
-			properties = new DataSetArray<DataSetProperty>(db, new DataSetProperty());
-			products = new DataSetArray<DataSetProduct>(db, new DataSetProduct());
-			contacts = new DataSetArray<DataSetContact>(db, new DataSetContact());
-			vats = new DataSetArray<DataSetVAT>(db, new DataSetVAT());
-			documents = new DataSetArray<DataSetDocument>(db, new DataSetDocument());
-			items = new DataSetArray<DataSetItem>(db, new DataSetItem());
-			shippings = new DataSetArray<DataSetShipping>(db, new DataSetShipping());
-			payments = new DataSetArray<DataSetPayment>(db, new DataSetPayment());
-			texts = new DataSetArray<DataSetText>(db, new DataSetText());
 
 			// If the data base is new, create some default entries
 			if (newDBcreated)
@@ -92,17 +103,6 @@ public enum Data {
 		} 
 		// No connection, so create empty data sets
 		else {
-
-			properties = new DataSetArray<DataSetProperty>(null, new DataSetProperty());
-			products = new DataSetArray<DataSetProduct>(null, new DataSetProduct());
-			contacts = new DataSetArray<DataSetContact>(null, new DataSetContact());
-			vats = new DataSetArray<DataSetVAT>(null, new DataSetVAT());
-			documents = new DataSetArray<DataSetDocument>(null, new DataSetDocument());
-			items = new DataSetArray<DataSetItem>(null, new DataSetItem());
-			shippings = new DataSetArray<DataSetShipping>(null, new DataSetShipping());
-			payments = new DataSetArray<DataSetPayment>(null, new DataSetPayment());
-			texts = new DataSetArray<DataSetText>(null, new DataSetText());
-
 			// Display a warning
 			if (!workspace.isEmpty()) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
@@ -286,6 +286,17 @@ public enum Data {
 	}
 
 	/**
+	 * Getter for the DataSetArray country codes
+	 * 
+	 * @return All country codes
+	 */
+	public DataSetArray<DataSetCountryCode> getCountryCodes() {
+		return countrycodes;
+	}
+	
+	
+	
+	/**
 	 * Get a UniDataSet value by table Name and ID.
 	 * 
 	 * @param tableName Table name
@@ -302,6 +313,7 @@ public enum Data {
 			if (tableName.equalsIgnoreCase("shippings")) { return getShippings().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("payments")) { return getPayments().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("texts")) { return getTexts().getDatasetById(id); }
+			if (tableName.equalsIgnoreCase("countrycodes")) { return getCountryCodes().getDatasetById(id); }
 		} catch (IndexOutOfBoundsException e) {
 			Logger.logError(e, "Index out of bounds: " + "TableName: " + tableName + " ID:" + Integer.toString(id));
 		}

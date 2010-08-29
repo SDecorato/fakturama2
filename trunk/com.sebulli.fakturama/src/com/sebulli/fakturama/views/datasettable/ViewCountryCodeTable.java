@@ -23,19 +23,19 @@ package com.sebulli.fakturama.views.datasettable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import com.sebulli.fakturama.actions.NewPaymentAction;
+import com.sebulli.fakturama.actions.NewCountryCodeAction;
 import com.sebulli.fakturama.data.Data;
 
 /**
- * View with the table of all payments
+ * View with the table of all country codes
  * 
  * @author Gerd Bartelt
  *
  */
-public class ViewPaymentTable extends ViewDataSetTable {
+public class ViewCountryCodeTable extends ViewDataSetTable {
 
 	// ID of this view
-	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewPaymentTable";
+	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewCountryCodeTable";
 
 	/**
 	 * Creates the SWT controls for this workbench part.
@@ -45,19 +45,13 @@ public class ViewPaymentTable extends ViewDataSetTable {
 	@Override
 	public void createPartControl(Composite parent) {
 
-		// Set the standard key
-		stdPropertyKey = "standardpayment";
-		
 		// Add the action to create a new entry
-		addNewAction = new NewPaymentAction();
+		addNewAction = new NewCountryCodeAction();
 
 		// Mark the columns that are used by the search function.
-		searchColumns = new String[5];
+		searchColumns = new String[2];
 		searchColumns[0] = "name";
-		searchColumns[1] = "description";
-		searchColumns[2] = "discountvalue";
-		searchColumns[3] = "discountdays";
-		searchColumns[4] = "netdays";
+		searchColumns[1] = "code";
 
 		super.createPartControl(parent, false, true);
 
@@ -65,21 +59,15 @@ public class ViewPaymentTable extends ViewDataSetTable {
 		super.createDefaultContextMenu();
 
 		// Name of the editor
-		editor = "Payment";
+		editor = "CountryCode";
 
 		// Create the table columns
-		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
-		stdIconColumn = new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Standard", 55, 0, true, "$stdId");
-		refreshStdId();
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Bezeichnung", 200, 50, false, "description");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Skonto", 50, 0, true, "discountvalue");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Tage Skonto", 70, 0, true, "discountdays");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Tage Netto", 70, 0, true, "netdays");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Land", 200, 200, false, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Ländercode", 100, 0, true, "code");
 
 		// Set the input of the table viewer and the tree viewer
-		tableViewer.setInput(Data.INSTANCE.getPayments());
-		topicTreeViewer.setInput(Data.INSTANCE.getPayments());
+		tableViewer.setInput(Data.INSTANCE.getCountryCodes());
+		topicTreeViewer.setInput(Data.INSTANCE.getCountryCodes());
 
 	}
 

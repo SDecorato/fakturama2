@@ -32,38 +32,38 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetText;
-import com.sebulli.fakturama.views.datasettable.ViewTextTable;
+import com.sebulli.fakturama.data.DataSetCountryCode;
+import com.sebulli.fakturama.views.datasettable.ViewCountryCodeTable;
 
 /**
  * The text editor
  * 
  * @author Gerd Bartelt
  */
-public class TextEditor extends Editor {
+public class CountryCodeEditor extends Editor {
 	
 	// Editor's ID
-	public static final String ID = "com.sebulli.fakturama.editors.textEditor";
+	public static final String ID = "com.sebulli.fakturama.editors.countryCodeEditor";
 
 	// This UniDataSet represents the editor's input 
-	private DataSetText text;
+	private DataSetCountryCode countryCode;
 
 	// SWT widgets of the editor
 	private Text textName;
-	private Text textText;
+	private Text textCode;
 	private Text txtCategory;
 
 	// defines, if the text is new created
-	private boolean newText;
+	private boolean newCountryCode;
 
 	/**
 	 * Constructor
 	 * 
 	 * Associate the table view with the editor
 	 */
-	public TextEditor() {
-		tableViewID = ViewTextTable.ID;
-		editorID = "text";
+	public CountryCodeEditor() {
+		tableViewID = ViewCountryCodeTable.ID;
+		editorID = "countrycode";
 	}
 
 
@@ -81,25 +81,25 @@ public class TextEditor extends Editor {
 		 */
 
 		// Always set the editor's data set to "undeleted"
-		text.setBooleanValueByKey("deleted", false);
+		countryCode.setBooleanValueByKey("deleted", false);
 		
 		// Set the text data
-		text.setStringValueByKey("name", textName.getText());
-		text.setStringValueByKey("text", textText.getText());
-		text.setStringValueByKey("category", txtCategory.getText());
+		countryCode.setStringValueByKey("name", textName.getText());
+		countryCode.setStringValueByKey("code", textCode.getText());
+		countryCode.setStringValueByKey("category", txtCategory.getText());
 
 		// If it is a new text, add it to the text list and
 		// to the data base
-		if (newText) {
-			text = Data.INSTANCE.getTexts().addNewDataSet(text);
-			newText = false;
+		if (newCountryCode) {
+			countryCode = Data.INSTANCE.getCountryCodes().addNewDataSet(countryCode);
+			newCountryCode = false;
 		}
 		// If it's not new, update at least the data base
 		else {
-			Data.INSTANCE.getTexts().updateDataSet(text);
+			Data.INSTANCE.getCountryCodes().updateDataSet(countryCode);
 		}
 
-		// Refresh the table view of all texts
+		// Refresh the table view of all country codes
 		refreshView();
 		checkDirty();
 	}
@@ -129,22 +129,22 @@ public class TextEditor extends Editor {
 		setInput(input);
 		
 		// Set the editor's data set to the editor's input
-		text = (DataSetText) ((UniDataSetEditorInput) input).getUniDataSet();
+		countryCode = (DataSetCountryCode) ((UniDataSetEditorInput) input).getUniDataSet();
 
 		// test, if the editor is opened to create a new data set. This is,
 		// if there is no input set.
-		newText = (text == null);
+		newCountryCode = (countryCode == null);
 
 		// If new ..
-		if (newText) {
+		if (newCountryCode) {
 			
 			// Create a new data set
-			text = new DataSetText(((UniDataSetEditorInput) input).getCategory());
-			setPartName("neuer Text");
+			countryCode = new DataSetCountryCode(((UniDataSetEditorInput) input). getCategory());
+			setPartName("neuer Ländercode");
 		} else {
 			
 			// Set the Editor's name to the shipping name.
-			setPartName(text.getStringValueByKey("name"));
+			setPartName(countryCode.getStringValueByKey("name"));
 		}
 	}
 
@@ -161,12 +161,12 @@ public class TextEditor extends Editor {
 		 * - id (constant)
 		 */
 
-		if (text.getBooleanValueByKey("deleted")) { return true; }
-		if (newText) { return true; }
+		if (countryCode.getBooleanValueByKey("deleted")) { return true; }
+		if (newCountryCode) { return true; }
 
-		if (!text.getStringValueByKey("name").equals(textName.getText())) { return true; }
-		if (!text.getStringValueByKey("text").equals(textText.getText())) { return true; }
-		if (!text.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!countryCode.getStringValueByKey("name").equals(textName.getText())) { return true; }
+		if (!countryCode.getStringValueByKey("code").equals(textCode.getText())) { return true; }
+		if (!countryCode.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
 
 		return false;
 	}
@@ -195,24 +195,18 @@ public class TextEditor extends Editor {
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
 
-		// Create an invisible container for all hidden components
-		// There is no invisible component, so no container has to be created
-		//Composite invisible = new Composite(top, SWT.NONE);
-		//invisible.setVisible(false);
-		//GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
-
 		// Create the title
 		Label labelTitle = new Label(top, SWT.NONE);
-		labelTitle.setText("Text");
+		labelTitle.setText("Ländercodes");
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
 		// The name
 		Label labelName = new Label(top, SWT.NONE);
-		labelName.setText("Name");
+		labelName.setText("Ländername");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
-		textName.setText(text.getStringValueByKey("name"));
+		textName.setText(countryCode.getStringValueByKey("name"));
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
@@ -221,18 +215,18 @@ public class TextEditor extends Editor {
 		labelCategory.setText("Kategorie");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
-		txtCategory.setText(text.getStringValueByKey("category"));
+		txtCategory.setText(countryCode.getStringValueByKey("category"));
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
-		// The text
-		Label labelText = new Label(top, SWT.NONE);
-		labelText.setText("Text");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelText);
-		textText = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		textText.setText(text.getStringValueByKey("text"));
-		superviceControl(textText, 10000);
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(textText);
+		// The code
+		Label labelCode = new Label(top, SWT.NONE);
+		labelCode.setText("Ländercode");
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCode);
+		textCode = new Text(top, SWT.BORDER );
+		textCode.setText(countryCode.getStringValueByKey("code"));
+		superviceControl(textCode, 100);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(textCode);
 	}
 
 }

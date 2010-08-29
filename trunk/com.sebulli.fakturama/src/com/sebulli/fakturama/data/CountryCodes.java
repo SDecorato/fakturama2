@@ -24,14 +24,14 @@ import java.util.Properties;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
- * Convert the countries to a county code
+ * Convert the countries to a country code
  * 
  * @author Gerd Bartelt
  */
 public class CountryCodes {
 
 	/**
-	 * Return the county code (post code) of a country
+	 * Return the country code (post code) of a country
 	 * 
 	 * @param country
 	 * @return

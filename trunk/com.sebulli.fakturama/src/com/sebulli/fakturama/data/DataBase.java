@@ -371,10 +371,10 @@ public class DataBase {
 					uds = new DataSetShipping();
 				if (udsTemplate instanceof DataSetPayment)
 					uds = new DataSetPayment();
-				if (udsTemplate instanceof DataSetText)
-					uds = new DataSetText();
 				if (udsTemplate instanceof DataSetDocument)
 					uds = new DataSetDocument();
+				if (udsTemplate instanceof DataSetCountryCode)
+					uds = new DataSetCountryCode();
 
 				if (uds == null)
 					Logger.logError("Error: unknown UniDataSet Type");
@@ -405,7 +405,7 @@ public class DataBase {
 	 * @param uds The UniDataSet to check. Defines also the table.
 	 */
 	private void checkTableAndInsertNewColumns (UniDataSet uds) {
-		ResultSet rs;
+		ResultSet rs = null;
 		Statement stmt;
 		ResultSetMetaData rsmd;
 		int columns = 0;
@@ -414,7 +414,15 @@ public class DataBase {
 			
 			// Get the columns of the table, specified by the UniDataSet uds.
 			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM "+ uds.sqlTabeName);
+			try {
+				rs = stmt.executeQuery("SELECT * FROM "+ uds.sqlTabeName);
+			} catch (SQLException e) {
+				
+				// Create the table, if it does not exist
+				stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(uds));
+				rs = stmt.executeQuery("SELECT * FROM "+ uds.sqlTabeName);
+			}		
+
 			rsmd = rs.getMetaData();
 			columns = rsmd.getColumnCount();
 			
@@ -505,6 +513,7 @@ public class DataBase {
 				checkTableAndInsertNewColumns(new DataSetPayment());
 				checkTableAndInsertNewColumns(new DataSetText());
 				checkTableAndInsertNewColumns(new DataSetDocument());
+				checkTableAndInsertNewColumns(new DataSetCountryCode());
 				
 			} catch (SQLException e) {
 				// In a new data base: create all the tables
@@ -519,6 +528,7 @@ public class DataBase {
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetPayment()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetText()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetDocument()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetCountryCode()));
 					stmt.close();
 					return true;
 

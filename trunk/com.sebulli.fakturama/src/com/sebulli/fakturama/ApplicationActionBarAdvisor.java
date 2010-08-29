@@ -39,6 +39,7 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewContactAction;
+import com.sebulli.fakturama.actions.NewCountryCodeAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.actions.NewPaymentAction;
 import com.sebulli.fakturama.actions.NewProductAction;
@@ -48,6 +49,7 @@ import com.sebulli.fakturama.actions.NewVatAction;
 import com.sebulli.fakturama.actions.OpenBrowserEditorAction;
 import com.sebulli.fakturama.actions.OpenCalculatorAction;
 import com.sebulli.fakturama.actions.OpenContactsAction;
+import com.sebulli.fakturama.actions.OpenCountryCodesAction;
 import com.sebulli.fakturama.actions.OpenDocumentsAction;
 import com.sebulli.fakturama.actions.OpenPaymentsAction;
 import com.sebulli.fakturama.actions.OpenProductsAction;
@@ -99,6 +101,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private OpenShippingsAction openShippingsAction;
 	private OpenPaymentsAction openPaymentsAction;
 	private OpenTextsAction openTextsAction;
+	private OpenCountryCodesAction openCountryCodesAction;
 	private NewProductAction newProductAction;
 	private NewContactAction newContactAction;
 	private NewVatAction newVatAction;
@@ -113,6 +116,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private NewDocumentAction newCreditAction;
 	private NewDocumentAction newDunningAction;
 	private NewTextAction newTextAction;
+	private NewCountryCodeAction newCountryCodeAction;
 	private SelectWorkspaceAction selectWorkspaceAction;
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
@@ -231,6 +235,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newTextAction = new NewTextAction();
 		register(newTextAction);
 
+		openCountryCodesAction = new OpenCountryCodesAction();
+		register(openCountryCodesAction);
+		newCountryCodeAction = new NewCountryCodeAction();
+		register(newCountryCodeAction);
+
+		
+		
+		
+		
 		openDocumentsAction = new OpenDocumentsAction();
 		register(openDocumentsAction);
 

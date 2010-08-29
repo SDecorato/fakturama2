@@ -31,6 +31,7 @@ import com.sebulli.fakturama.actions.NewProductAction;
 import com.sebulli.fakturama.actions.OpenBrowserEditorAction;
 import com.sebulli.fakturama.actions.OpenCalculatorAction;
 import com.sebulli.fakturama.actions.OpenContactsAction;
+import com.sebulli.fakturama.actions.OpenCountryCodesAction;
 import com.sebulli.fakturama.actions.OpenDocumentsAction;
 import com.sebulli.fakturama.actions.OpenPaymentsAction;
 import com.sebulli.fakturama.actions.OpenProductsAction;
@@ -79,6 +80,7 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		bar2.addAction(new OpenShippingsAction());
 		bar2.addAction(new OpenVatsAction());
 		bar2.addAction(new OpenTextsAction());
+		bar2.addAction(new OpenCountryCodesAction());
 
 		// Create the 3rd expand bar "Create new"
 		final ExpandBar bar3 = new ExpandBar(expandBarManager, top, SWT.NONE,
