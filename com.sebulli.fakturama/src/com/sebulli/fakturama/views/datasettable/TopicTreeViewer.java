@@ -43,6 +43,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.DataSetArray;
+import com.sebulli.fakturama.data.DataSetListNames;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -116,7 +117,7 @@ public class TopicTreeViewer extends TreeViewer {
 				int transactionFilter = -1;
 				int contactFilter = -1;
 				ISelection selection = event.getSelection();
-				
+
 				// Get the selection
 				if (selection != null && selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection) selection).getFirstElement();
@@ -128,6 +129,7 @@ public class TopicTreeViewer extends TreeViewer {
 
 						// Update the category, transaction and contact filter
 						categoryFilter = treeObject.getFullPathName();
+						
 						transactionFilter = treeObject.getTransactionId();
 						contactFilter = treeObject.getContactId();
 					}
@@ -556,7 +558,12 @@ public class TopicTreeViewer extends TreeViewer {
 		 */
 		@Override
 		public String getText(Object obj) {
-			return obj.toString();
+			
+			// Display the localizes list names.
+			if (viewDataSetTable instanceof ViewListTable )
+				return DataSetListNames.NAMES.getLocalizedName(obj.toString());
+			else
+				return obj.toString();
 		}
 
 		/**

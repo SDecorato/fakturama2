@@ -72,7 +72,7 @@ public class DataBase {
 			return "VARCHAR(60000)";
 
 		default:
-			Logger.logError("Unknown UniDataType");
+			Logger.logError("DataBase.java: Unknown UniDataType");
 		}
 		return "VARCHAR(60000)";
 	}
@@ -373,11 +373,13 @@ public class DataBase {
 					uds = new DataSetPayment();
 				if (udsTemplate instanceof DataSetDocument)
 					uds = new DataSetDocument();
-				if (udsTemplate instanceof DataSetCountryCode)
-					uds = new DataSetCountryCode();
+				if (udsTemplate instanceof DataSetText)
+					uds = new DataSetText();
+				if (udsTemplate instanceof DataSetList)
+					uds = new DataSetList();
 
 				if (uds == null)
-					Logger.logError("Error: unknown UniDataSet Type");
+					Logger.logError("DataBase.getTable() Error: unknown UniDataSet Type");
 
 				// Copy the table to the new UniDataSet
 				for (int i = 1; i <= meta.getColumnCount(); i++) {
@@ -513,7 +515,7 @@ public class DataBase {
 				checkTableAndInsertNewColumns(new DataSetPayment());
 				checkTableAndInsertNewColumns(new DataSetText());
 				checkTableAndInsertNewColumns(new DataSetDocument());
-				checkTableAndInsertNewColumns(new DataSetCountryCode());
+				checkTableAndInsertNewColumns(new DataSetList());
 				
 			} catch (SQLException e) {
 				// In a new data base: create all the tables
@@ -528,7 +530,7 @@ public class DataBase {
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetPayment()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetText()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetDocument()));
-					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetCountryCode()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetList()));
 					stmt.close();
 					return true;
 

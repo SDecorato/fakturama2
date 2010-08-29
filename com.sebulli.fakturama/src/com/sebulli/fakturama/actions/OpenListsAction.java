@@ -23,27 +23,27 @@ package com.sebulli.fakturama.actions;
 import org.eclipse.jface.action.Action;
 
 import com.sebulli.fakturama.views.ViewManager;
-import com.sebulli.fakturama.views.datasettable.ViewCountryCodeTable;
+import com.sebulli.fakturama.views.datasettable.ViewListTable;
 
 /**
- * This action opens the texts in a table view.
+ * This action opens the lists in a table view.
  *  
  * @author Gerd Bartelt
  */
-public class OpenCountryCodesAction extends Action {
+public class OpenListsAction extends Action {
 
 	/**
 	 * Constructor
 	 */
-	public OpenCountryCodesAction() {
-		super("Ländercodes");
+	public OpenListsAction() {
+		super("Listen");
 		
 		// The id is used to refer to the action in a menu or toolbar
-		setId(ICommandIds.CMD_OPEN_COUNTRYCODES);
+		setId(ICommandIds.CMD_OPEN_LISTS);
 		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
-		setActionDefinitionId(ICommandIds.CMD_OPEN_COUNTRYCODES);
+		setActionDefinitionId(ICommandIds.CMD_OPEN_LISTS);
 		
 		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/country_16.png"));
@@ -57,6 +57,6 @@ public class OpenCountryCodesAction extends Action {
 	 */
 	@Override
 	public void run() {
-		ViewManager.showView(ViewCountryCodeTable.ID);
+		ViewManager.showView(ViewListTable.ID);
 	}
 }

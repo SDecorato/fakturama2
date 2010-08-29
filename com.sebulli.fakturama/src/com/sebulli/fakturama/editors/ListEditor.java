@@ -20,10 +20,15 @@
 
 package com.sebulli.fakturama.editors;
 
+import java.util.Map;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -32,38 +37,39 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetCountryCode;
-import com.sebulli.fakturama.views.datasettable.ViewCountryCodeTable;
+import com.sebulli.fakturama.data.DataSetList;
+import com.sebulli.fakturama.data.DataSetListNames;
+import com.sebulli.fakturama.views.datasettable.ViewListTable;
 
 /**
  * The text editor
  * 
  * @author Gerd Bartelt
  */
-public class CountryCodeEditor extends Editor {
+public class ListEditor extends Editor {
 	
 	// Editor's ID
-	public static final String ID = "com.sebulli.fakturama.editors.countryCodeEditor";
+	public static final String ID = "com.sebulli.fakturama.editors.listEditor";
 
 	// This UniDataSet represents the editor's input 
-	private DataSetCountryCode countryCode;
+	private DataSetList listEntry;
 
 	// SWT widgets of the editor
+	private Combo comboCategory;
 	private Text textName;
-	private Text textCode;
-	private Text txtCategory;
-
+	private Text textValue;
+	
 	// defines, if the text is new created
-	private boolean newCountryCode;
+	private boolean newList;
 
 	/**
 	 * Constructor
 	 * 
 	 * Associate the table view with the editor
 	 */
-	public CountryCodeEditor() {
-		tableViewID = ViewCountryCodeTable.ID;
-		editorID = "countrycode";
+	public ListEditor() {
+		tableViewID = ViewListTable.ID;
+		editorID = "list";
 	}
 
 
@@ -79,27 +85,42 @@ public class CountryCodeEditor extends Editor {
 		 * the following parameters are not saved:
 		 * - id (constant)
 		 */
+		
+		// Get the selected category
+		String category = "";
+		int i = comboCategory.getSelectionIndex();
+		if (i > -1)
+			category = comboCategory.getItem(i);
+		else
+			category = comboCategory.getText();
+		
+		category = DataSetListNames.NAMES.getName(category);
 
+		// Exit, if the selected entry is not a name of a valid list
+		if (!DataSetListNames.NAMES.exists(category))
+			return;
+		
+		
 		// Always set the editor's data set to "undeleted"
-		countryCode.setBooleanValueByKey("deleted", false);
+		listEntry.setBooleanValueByKey("deleted", false);
 		
 		// Set the text data
-		countryCode.setStringValueByKey("name", textName.getText());
-		countryCode.setStringValueByKey("code", textCode.getText());
-		countryCode.setStringValueByKey("category", txtCategory.getText());
+		listEntry.setStringValueByKey("name", textName.getText());
+		listEntry.setStringValueByKey("value", textValue.getText());
+		listEntry.setStringValueByKey("category", category );
 
 		// If it is a new text, add it to the text list and
 		// to the data base
-		if (newCountryCode) {
-			countryCode = Data.INSTANCE.getCountryCodes().addNewDataSet(countryCode);
-			newCountryCode = false;
+		if (newList) {
+			listEntry = Data.INSTANCE.getListEntries().addNewDataSet(listEntry);
+			newList = false;
 		}
 		// If it's not new, update at least the data base
 		else {
-			Data.INSTANCE.getCountryCodes().updateDataSet(countryCode);
+			Data.INSTANCE.getListEntries().updateDataSet(listEntry);
 		}
 
-		// Refresh the table view of all country codes
+		// Refresh the table view of all list entries
 		refreshView();
 		checkDirty();
 	}
@@ -129,22 +150,22 @@ public class CountryCodeEditor extends Editor {
 		setInput(input);
 		
 		// Set the editor's data set to the editor's input
-		countryCode = (DataSetCountryCode) ((UniDataSetEditorInput) input).getUniDataSet();
+		listEntry = (DataSetList) ((UniDataSetEditorInput) input).getUniDataSet();
 
 		// test, if the editor is opened to create a new data set. This is,
 		// if there is no input set.
-		newCountryCode = (countryCode == null);
-
+		newList = (listEntry == null);
+		
 		// If new ..
-		if (newCountryCode) {
+		if (newList) {
 			
 			// Create a new data set
-			countryCode = new DataSetCountryCode(((UniDataSetEditorInput) input). getCategory());
-			setPartName("neuer Ländercode");
+			listEntry = new DataSetList(((UniDataSetEditorInput) input).getCategory());
+			setPartName("neuer Eintrag");
 		} else {
 			
 			// Set the Editor's name to the shipping name.
-			setPartName(countryCode.getStringValueByKey("name"));
+			setPartName(listEntry.getStringValueByKey("name"));
 		}
 	}
 
@@ -161,12 +182,23 @@ public class CountryCodeEditor extends Editor {
 		 * - id (constant)
 		 */
 
-		if (countryCode.getBooleanValueByKey("deleted")) { return true; }
-		if (newCountryCode) { return true; }
+		if (listEntry.getBooleanValueByKey("deleted")) { return true; }
+		if (newList) { return true; }
 
-		if (!countryCode.getStringValueByKey("name").equals(textName.getText())) { return true; }
-		if (!countryCode.getStringValueByKey("code").equals(textCode.getText())) { return true; }
-		if (!countryCode.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!listEntry.getStringValueByKey("name").equals(textName.getText())) { return true; }
+		if (!listEntry.getStringValueByKey("value").equals(textValue.getText())) { return true; }
+		
+		// Get the selected entry
+		String category = "";
+		int i = comboCategory.getSelectionIndex();
+		if (i > -1)
+			category = comboCategory.getItem(i);
+		else
+			category = comboCategory.getText();
+		
+		category = DataSetListNames.NAMES.getName(category);
+
+		if (!listEntry.getStringValueByKey("category").equals(category)) { return true; }
 
 		return false;
 	}
@@ -197,36 +229,50 @@ public class CountryCodeEditor extends Editor {
 
 		// Create the title
 		Label labelTitle = new Label(top, SWT.NONE);
-		labelTitle.setText("Ländercodes");
+		labelTitle.setText("Listeneintrag");
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
+		// The category
+		Label labelCategory = new Label(top, SWT.NONE);
+		labelCategory.setText("Liste");
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
+		comboCategory = new Combo(top, SWT.BORDER);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).hint(200, SWT.DEFAULT).applyTo(comboCategory);
+		
+		// Add each localizes list name to the combo
+        for (Map.Entry<String, String> entry : DataSetListNames.NAMES.getLocalizedNames()) {
+            comboCategory.add(entry.getValue());
+        }
+
+        // Check dirty, if the selection changes
+        comboCategory.addSelectionListener(new SelectionAdapter(){
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				checkDirty();
+			}});
+        
+        // Select the category
+        comboCategory.setText(DataSetListNames.NAMES.getLocalizedName(listEntry.getStringValueByKey("category")));
+
 		// The name
 		Label labelName = new Label(top, SWT.NONE);
-		labelName.setText("Ländername");
+		labelName.setText("Name");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
-		textName.setText(countryCode.getStringValueByKey("name"));
+		textName.setText(listEntry.getStringValueByKey("name"));
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
-		// The category
-		Label labelCategory = new Label(top, SWT.NONE);
-		labelCategory.setText("Kategorie");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
-		txtCategory = new Text(top, SWT.BORDER);
-		txtCategory.setText(countryCode.getStringValueByKey("category"));
-		superviceControl(txtCategory, 64);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
-
-		// The code
+		// The value
 		Label labelCode = new Label(top, SWT.NONE);
-		labelCode.setText("Ländercode");
+		labelCode.setText("Wert");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCode);
-		textCode = new Text(top, SWT.BORDER );
-		textCode.setText(countryCode.getStringValueByKey("code"));
-		superviceControl(textCode, 100);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(textCode);
+		textValue = new Text(top, SWT.BORDER );
+		textValue.setText(listEntry.getStringValueByKey("value"));
+		superviceControl(textValue, 250);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(textValue);
 	}
 
 }

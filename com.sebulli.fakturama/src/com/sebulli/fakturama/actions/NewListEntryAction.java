@@ -24,30 +24,29 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.DataBaseConnectionState;
-import com.sebulli.fakturama.editors.CountryCodeEditor;
-import com.sebulli.fakturama.editors.TextEditor;
+import com.sebulli.fakturama.editors.ListEditor;
 import com.sebulli.fakturama.editors.UniDataSetEditorInput;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
- * This action creates a new country code in an editor.
+ * This action creates a new list entry in an editor.
  *  
  * @author Gerd Bartelt
  */
-public class NewCountryCodeAction extends NewEditorAction {
+public class NewListEntryAction extends NewEditorAction {
 
 	/**
 	 * Constructor
 	 */
-	public NewCountryCodeAction() {
-		super("neuer Ländercode");
+	public NewListEntryAction() {
+		super("neuer Listeneintrag");
 
 		// The id is used to refer to the action in a menu or toolbar
-		setId(ICommandIds.CMD_NEW_COUNTRYCODE);
+		setId(ICommandIds.CMD_NEW_LISTENTRY);
 		
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
-		setActionDefinitionId(ICommandIds.CMD_NEW_COUNTRYCODE);
+		setActionDefinitionId(ICommandIds.CMD_NEW_LISTENTRY);
 		
 		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/country_16.png"));
@@ -70,9 +69,9 @@ public class NewCountryCodeAction extends NewEditorAction {
 
 		// Open a new text Editor 
 		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, CountryCodeEditor.ID);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, ListEditor.ID);
 		} catch (PartInitException e) {
-			Logger.logError(e, "Error opening Editor: " + TextEditor.ID);
+			Logger.logError(e, "Error opening Editor: " + ListEditor.ID);
 		}
 	}
 }

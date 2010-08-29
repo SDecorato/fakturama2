@@ -45,7 +45,7 @@ public enum Data {
 	private DataSetArray<DataSetShipping> shippings;
 	private DataSetArray<DataSetPayment> payments;
 	private DataSetArray<DataSetText> texts;
-	private DataSetArray<DataSetCountryCode> countrycodes;
+	private DataSetArray<DataSetList> list;
 	
 	// Reference to data base
 	DataBase db = null;
@@ -87,7 +87,7 @@ public enum Data {
 		shippings = new DataSetArray<DataSetShipping>(dbref, new DataSetShipping());
 		payments = new DataSetArray<DataSetPayment>(dbref, new DataSetPayment());
 		texts = new DataSetArray<DataSetText>(dbref, new DataSetText());
-		countrycodes = new DataSetArray<DataSetCountryCode>(dbref, new DataSetCountryCode());
+		list = new DataSetArray<DataSetList>(dbref, new DataSetList());
 		
 		// If there is a connection to the data base
 		// read all the tables
@@ -286,12 +286,12 @@ public enum Data {
 	}
 
 	/**
-	 * Getter for the DataSetArray country codes
+	 * Getter for the DataSetArray list
 	 * 
-	 * @return All country codes
+	 * @return All list entries
 	 */
-	public DataSetArray<DataSetCountryCode> getCountryCodes() {
-		return countrycodes;
+	public DataSetArray<DataSetList> getListEntries() {
+		return list;
 	}
 	
 	
@@ -313,7 +313,7 @@ public enum Data {
 			if (tableName.equalsIgnoreCase("shippings")) { return getShippings().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("payments")) { return getPayments().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("texts")) { return getTexts().getDatasetById(id); }
-			if (tableName.equalsIgnoreCase("countrycodes")) { return getCountryCodes().getDatasetById(id); }
+			if (tableName.equalsIgnoreCase("list")) { return getListEntries().getDatasetById(id); }
 		} catch (IndexOutOfBoundsException e) {
 			Logger.logError(e, "Index out of bounds: " + "TableName: " + tableName + " ID:" + Integer.toString(id));
 		}
