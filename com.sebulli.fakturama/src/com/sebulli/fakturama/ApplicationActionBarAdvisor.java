@@ -39,8 +39,9 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewContactAction;
-import com.sebulli.fakturama.actions.NewListEntryAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
+import com.sebulli.fakturama.actions.NewExpenditureAction;
+import com.sebulli.fakturama.actions.NewListEntryAction;
 import com.sebulli.fakturama.actions.NewPaymentAction;
 import com.sebulli.fakturama.actions.NewProductAction;
 import com.sebulli.fakturama.actions.NewShippingAction;
@@ -49,8 +50,9 @@ import com.sebulli.fakturama.actions.NewVatAction;
 import com.sebulli.fakturama.actions.OpenBrowserEditorAction;
 import com.sebulli.fakturama.actions.OpenCalculatorAction;
 import com.sebulli.fakturama.actions.OpenContactsAction;
-import com.sebulli.fakturama.actions.OpenListsAction;
 import com.sebulli.fakturama.actions.OpenDocumentsAction;
+import com.sebulli.fakturama.actions.OpenExpendituresAction;
+import com.sebulli.fakturama.actions.OpenListsAction;
 import com.sebulli.fakturama.actions.OpenPaymentsAction;
 import com.sebulli.fakturama.actions.OpenProductsAction;
 import com.sebulli.fakturama.actions.OpenShippingsAction;
@@ -102,6 +104,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private OpenPaymentsAction openPaymentsAction;
 	private OpenTextsAction openTextsAction;
 	private OpenListsAction openListsAction;
+	private OpenExpendituresAction openExpendituresAction;
 	private NewProductAction newProductAction;
 	private NewContactAction newContactAction;
 	private NewVatAction newVatAction;
@@ -117,6 +120,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private NewDocumentAction newDunningAction;
 	private NewTextAction newTextAction;
 	private NewListEntryAction newListEntryAction;
+	private NewExpenditureAction newExpenditureAction;
 	private SelectWorkspaceAction selectWorkspaceAction;
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
@@ -239,6 +243,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(openListsAction);
 		newListEntryAction = new NewListEntryAction();
 		register(newListEntryAction);
+
+		openExpendituresAction = new OpenExpendituresAction();
+		register(openExpendituresAction);
+		newExpenditureAction = new NewExpenditureAction();
+		register(newExpenditureAction);
 
 		openDocumentsAction = new OpenDocumentsAction();
 		register(openDocumentsAction);

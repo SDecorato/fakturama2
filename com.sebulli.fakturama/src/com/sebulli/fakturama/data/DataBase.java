@@ -377,6 +377,8 @@ public class DataBase {
 					uds = new DataSetText();
 				if (udsTemplate instanceof DataSetList)
 					uds = new DataSetList();
+				if (udsTemplate instanceof DataSetExpenditure)
+					uds = new DataSetExpenditure();
 
 				if (uds == null)
 					Logger.logError("DataBase.getTable() Error: unknown UniDataSet Type");
@@ -516,6 +518,7 @@ public class DataBase {
 				checkTableAndInsertNewColumns(new DataSetText());
 				checkTableAndInsertNewColumns(new DataSetDocument());
 				checkTableAndInsertNewColumns(new DataSetList());
+				checkTableAndInsertNewColumns(new DataSetExpenditure());
 				
 			} catch (SQLException e) {
 				// In a new data base: create all the tables
@@ -531,6 +534,7 @@ public class DataBase {
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetText()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetDocument()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetList()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetExpenditure()));
 					stmt.close();
 					return true;
 

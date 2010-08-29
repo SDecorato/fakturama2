@@ -108,6 +108,14 @@
             name="Liste"
             restorable="true">
       </view>
+      <view
+            allowMultiple="true"
+            class="com.sebulli.fakturama.views.datasettable.ViewExpenditureTable"
+            icon="icons/16/list_16.png"
+            id="com.sebulli.fakturama.views.datasettable.viewExpenditureTable"
+            name="Ausgaben"
+            restorable="true">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -194,6 +202,12 @@
             description="Open List"
             id="com.sebulli.fakturama.actions.openListEntry"
             name="Open List">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
+            description="Open Expenditures"
+            id="com.sebulli.fakturama.actions.openExpenditure"
+            name="Open Expenditures">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
@@ -318,6 +332,12 @@
             description="Create New List Entry"
             id="com.sebulli.fakturama.actions.newListEntry"
             name="Create New List Entry">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Expenditure"
+            id="com.sebulli.fakturama.actions.newExpenditure"
+            name="Create New Expenditurey">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
@@ -525,11 +545,11 @@
             name="Text Editor">
       </editor>
       <editor
-            class="com.sebulli.fakturama.editors.ListEditor"
+            class="com.sebulli.fakturama.editors.ExpenditureEditor"
             default="false"
             icon="icons/16/list_16.png"
-            id="com.sebulli.fakturama.editors.listEditor"
-            name="List Editor">
+            id="com.sebulli.fakturama.editors.expenditureEditor"
+            name="Expenditure Editor">
       </editor>
       <editor
             class="com.sebulli.fakturama.editors.BrowserEditor"
