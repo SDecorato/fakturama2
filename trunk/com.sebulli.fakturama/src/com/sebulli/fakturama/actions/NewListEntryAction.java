@@ -49,7 +49,7 @@ public class NewListEntryAction extends NewEditorAction {
 		setActionDefinitionId(ICommandIds.CMD_NEW_LISTENTRY);
 		
 		// sets a default 16x16 pixel icon.
-		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/country_16.png"));
+		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/list_16.png"));
 	}
 
 	/**
