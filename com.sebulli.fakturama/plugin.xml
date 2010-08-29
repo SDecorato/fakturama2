@@ -103,7 +103,7 @@
       <view
             allowMultiple="true"
             class="com.sebulli.fakturama.views.datasettable.ViewListTable"
-            icon="icons/16/text_16.png"
+            icon="icons/16/list_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewListTable"
             name="Liste"
             restorable="true">
@@ -527,7 +527,7 @@
       <editor
             class="com.sebulli.fakturama.editors.ListEditor"
             default="false"
-            icon="icons/16/country_16.png"
+            icon="icons/16/list_16.png"
             id="com.sebulli.fakturama.editors.listEditor"
             name="List Editor">
       </editor>
