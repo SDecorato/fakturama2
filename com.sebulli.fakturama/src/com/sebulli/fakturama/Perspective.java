@@ -28,6 +28,7 @@ import com.sebulli.fakturama.views.Calculator;
 import com.sebulli.fakturama.views.ErrorView;
 import com.sebulli.fakturama.views.NavigationView;
 import com.sebulli.fakturama.views.datasettable.ViewContactTable;
+import com.sebulli.fakturama.views.datasettable.ViewCountryCodeTable;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 import com.sebulli.fakturama.views.datasettable.ViewPaymentTable;
 import com.sebulli.fakturama.views.datasettable.ViewProductTable;
@@ -76,6 +77,7 @@ public class Perspective implements IPerspectiveFactory {
 		folder.addPlaceholder(ViewShippingTable.ID);
 		folder.addPlaceholder(ViewPaymentTable.ID);
 		folder.addPlaceholder(ViewTextTable.ID);
+		folder.addPlaceholder(ViewCountryCodeTable.ID);
 		
 		layout.getViewLayout(ViewDocumentTable.ID).setMoveable(false);
 		layout.getViewLayout(ViewContactTable.ID).setMoveable(false);
@@ -83,7 +85,8 @@ public class Perspective implements IPerspectiveFactory {
 		layout.getViewLayout(ViewVatTable.ID).setMoveable(false);
 		layout.getViewLayout(ViewShippingTable.ID).setMoveable(false);
 		layout.getViewLayout(ViewPaymentTable.ID).setMoveable(false);
-		layout.getViewLayout(ViewContactTable.ID).setMoveable(false);
+		layout.getViewLayout(ViewTextTable.ID).setMoveable(false);
+		layout.getViewLayout(ViewCountryCodeTable.ID).setMoveable(false);
 		
 		layout.addPlaceholder(Calculator.ID, IPageLayout.RIGHT, 0.7f, editorArea);
 	}
