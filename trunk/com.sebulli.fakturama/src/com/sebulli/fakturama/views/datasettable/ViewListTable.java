@@ -23,19 +23,19 @@ package com.sebulli.fakturama.views.datasettable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import com.sebulli.fakturama.actions.NewCountryCodeAction;
+import com.sebulli.fakturama.actions.NewListEntryAction;
 import com.sebulli.fakturama.data.Data;
 
 /**
- * View with the table of all country codes
+ * View with the table of all lists
  * 
  * @author Gerd Bartelt
  *
  */
-public class ViewCountryCodeTable extends ViewDataSetTable {
+public class ViewListTable extends ViewDataSetTable {
 
 	// ID of this view
-	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewCountryCodeTable";
+	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewListTable";
 
 	/**
 	 * Creates the SWT controls for this workbench part.
@@ -46,12 +46,12 @@ public class ViewCountryCodeTable extends ViewDataSetTable {
 	public void createPartControl(Composite parent) {
 
 		// Add the action to create a new entry
-		addNewAction = new NewCountryCodeAction();
+		addNewAction = new NewListEntryAction();
 
 		// Mark the columns that are used by the search function.
 		searchColumns = new String[2];
 		searchColumns[0] = "name";
-		searchColumns[1] = "code";
+		searchColumns[1] = "value";
 
 		super.createPartControl(parent, false, true);
 
@@ -59,15 +59,15 @@ public class ViewCountryCodeTable extends ViewDataSetTable {
 		super.createDefaultContextMenu();
 
 		// Name of the editor
-		editor = "CountryCode";
+		editor = "List";
 
 		// Create the table columns
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Land", 200, 200, false, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Ländercode", 100, 0, true, "code");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 200, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Wert", 200, 200, false, "value");
 
 		// Set the input of the table viewer and the tree viewer
-		tableViewer.setInput(Data.INSTANCE.getCountryCodes());
-		topicTreeViewer.setInput(Data.INSTANCE.getCountryCodes());
+		tableViewer.setInput(Data.INSTANCE.getListEntries());
+		topicTreeViewer.setInput(Data.INSTANCE.getListEntries());
 
 	}
 

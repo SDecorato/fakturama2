@@ -21,63 +21,63 @@
 package com.sebulli.fakturama.data;
 
 /**
- * UniDataSet for all country codes 
+ * UniDataSet for all list entries 
  * 
  * @author Gerd Bartelt
  */
-public class DataSetCountryCode extends UniDataSet {
+public class DataSetList extends UniDataSet {
 
 
 	/**
 	 * Constructor
-	 * Creates an new country code
+	 * Creates an new list entry
 	 */
-	public DataSetCountryCode() {
+	public DataSetList() {
 		this("");
 	}
 
 	/**
 	 * Constructor
-	 * Creates a new country code
+	 * Creates a new list entry
 	 * 
-	 * @param category Category of the new text
+	 * @param category Category of the new list entry
 	 */
-	public DataSetCountryCode(String category) {
+	public DataSetList(String category) {
 		this("", category, "");
 	}
 
 	/**
 	 * Constructor
-	 * Creates a new country code
+	 * Creates a new list entry
 	 * 
 	 * @param name
 	 * @param category
-	 * @param code
+	 * @param value
 	 */
-	public DataSetCountryCode(String name, String category, String code) {
-		this(0, name, false, category, code);
+	public DataSetList(String name, String category, String value) {
+		this(0, name, false, category, value);
 	}	
 	
 	
 	/**
 	 * Constructor
-	 * Creates a country code
+	 * Creates a list entry
 	 * 
 	 * @param id
 	 * @param name
 	 * @param deleted
 	 * @param category
-	 * @param text
+	 * @param value
 	 */
-	public DataSetCountryCode(int id, String name, boolean deleted, String category, String code) {
+	public DataSetList(int id, String name, boolean deleted, String category, String value) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
-		this.hashMap.put("code", new UniData(UniDataType.STRING, code));
+		this.hashMap.put("value", new UniData(UniDataType.STRING, value));
 
 		// Name of the table in the data base
-		sqlTabeName = "CountryCodes";
+		sqlTabeName = "List";
 	}
 
 

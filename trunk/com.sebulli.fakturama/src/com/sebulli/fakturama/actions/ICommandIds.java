@@ -36,7 +36,7 @@ public interface ICommandIds {
 	public static final String CMD_OPEN_PAYMENTS = "com.sebulli.fakturama.actions.openPayments";
 	public static final String CMD_OPEN_SHIPPINGS = "com.sebulli.fakturama.actions.openShippings";
 	public static final String CMD_OPEN_TEXTS = "com.sebulli.fakturama.actions.openTexts";
-	public static final String CMD_OPEN_COUNTRYCODES = "com.sebulli.fakturama.actions.openCountryCodes";
+	public static final String CMD_OPEN_LISTS = "com.sebulli.fakturama.actions.openLists";
 	
 	public static final String CMD_NEW_CONTACT = "com.sebulli.fakturama.actions.newContact";
 	public static final String CMD_NEW_PRODUCT = "com.sebulli.fakturama.actions.newProduct";
@@ -45,7 +45,7 @@ public interface ICommandIds {
 	public static final String CMD_NEW_PAYMENT = "com.sebulli.fakturama.actions.newPayment";
 	public static final String CMD_NEW_SHIPPING = "com.sebulli.fakturama.actions.newShipping";
 	public static final String CMD_NEW_TEXT = "com.sebulli.fakturama.actions.newText";
-	public static final String CMD_NEW_COUNTRYCODE = "com.sebulli.fakturama.actions.newCountryCode";
+	public static final String CMD_NEW_LISTENTRY = "com.sebulli.fakturama.actions.newListEntry";
 	
 	public static final String CMD_NEW_ = "com.sebulli.fakturama.actions.new";
 

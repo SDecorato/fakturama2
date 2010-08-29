@@ -196,7 +196,18 @@ public class DataSetContact extends UniDataSet {
 		s = replaceAllWithSpace(s,"\\{city\\}", this.getStringValueByKey(deliveryString + "city"));
 		s = replaceAllWithSpace(s,"\\{country\\}", this.getStringValueByKey(deliveryString + "country"));
 
-		String countrycode = CountryCodes.getCode(this.getStringValueByKey(deliveryString + "country"));
+		String countrycode;
+		
+		// Get the list entry of the country codes
+		DataSetList countyCodeDataSet = Data.INSTANCE.getListEntries().getDatasetByCategoryAndName("countrycodes",
+					this.getStringValueByKey(deliveryString + "country"));
+		
+		// Get the country code
+		if (countyCodeDataSet == null)
+			countrycode = "";
+		else
+			countrycode = countyCodeDataSet.getStringValueByKey("value").toUpperCase();
+
 		if (!countrycode.isEmpty())
 			countrycode += "-";
 		s = replaceAllWithSpace(s,"\\{countrycode\\}", countrycode);

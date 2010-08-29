@@ -57,6 +57,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.NewEditorAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetListNames;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -323,7 +324,10 @@ public abstract class ViewDataSetTable extends ViewPart {
 		if (filter.equals("$shownothing"))
 			filterLabel.setText("");
 		else
-			filterLabel.setText(filter);
+		// Display the localizes list names.
+		if (this instanceof ViewListTable )
+			filterLabel.setText( DataSetListNames.NAMES.getLocalizedName(filter));
+
 		filterLabel.pack(true);
 		
 		// Reset transaction and contact filter, set category filter
