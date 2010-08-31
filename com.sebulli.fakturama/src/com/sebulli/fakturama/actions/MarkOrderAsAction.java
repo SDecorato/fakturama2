@@ -20,12 +20,15 @@
 
 package com.sebulli.fakturama.actions;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -50,6 +53,9 @@ public class MarkOrderAsAction extends Action {
 	// progress of the order. Value from 0 to 100 (percent)
 	int progress;
 
+	// Send also a comment to the custommer
+	boolean sendComment;
+	
 	/**
 	 * Constructor
 	 * Instead of using a value for the states 
@@ -61,9 +67,10 @@ public class MarkOrderAsAction extends Action {
 	 * @param text
 	 * @param progress
 	 */
-	public MarkOrderAsAction(String text, int progress) {
+	public MarkOrderAsAction(String text, int progress, boolean sendComment) {
 		super(text);
 		this.progress = progress;
+		this.sendComment = sendComment;
 		
 		// Correlation between progress value and state.
 		// Depending on the state, the icon and the command ID is selected.
@@ -140,6 +147,30 @@ public class MarkOrderAsAction extends Action {
 
 					// If we had a selection let change the state
 					if (obj != null) {
+						
+						String comment = "";
+						// Send an additional comment
+						if (sendComment) {
+							
+					        InputDialog dlg = new InputDialog(workbenchWindow.getShell(),
+					                "Kommentar an Kunden", "Dieser Kommentar wird dem Kunden in der Bestätigungsmail geschickt:", "", null);
+					        if (dlg.open() == Window.OK) {
+					        	
+					        	// User clicked OK; update the label with the input
+					        	try {
+					        		// Encode the comment to send it via HTTP POST request
+									comment = java.net.URLEncoder.encode (dlg.getValue(), "UTF-8");
+								} catch (UnsupportedEncodingException e) {
+									Logger.logError(e, "Error encoding comment.");
+									comment = "";
+								}
+					        }
+					        else 
+					        	return;
+						}
+
+						
+						
 						DataSetDocument uds = (DataSetDocument) obj;
 						if (uds instanceof DataSetDocument) {
 							
@@ -158,8 +189,9 @@ public class MarkOrderAsAction extends Action {
 								// Send a request to the web shop import manager.
 								// He will update the state in the web shop the next time,
 								// we synchronize with the shop.
-								WebShopImportManager.updateOrderProgress(uds);
+								WebShopImportManager.updateOrderProgress(uds, comment);
 								webShopImportManager.prepareChangeState();
+								
 								try {
 									new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
 								} catch (InvocationTargetException e) {
