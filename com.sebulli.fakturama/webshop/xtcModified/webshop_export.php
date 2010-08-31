@@ -2,8 +2,8 @@
 /*
  *  Web shop export script
  *
- *  Version 1.0.5
- *  Date: 2010-08-03
+ *  Version 1.0.6
+ *  Date: 2010-08-31
  *
  *
  *	Fakturama - Free Invoicing Software 
@@ -322,13 +322,18 @@ while ($configuration = sbf_db_fetch_array($configuration_query)) {
 	define($configuration['cfgKey'], $configuration['cfgValue']);
 }
 
-// define our general functions used application-wide
+// Define our general functions used application-wide
 require(DIR_WS_FUNCTIONS . 'general.php');
 require(DIR_WS_FUNCTIONS . 'html_output.php');
 
-// return true if $str ends with $sub
+// Return true if $str ends with $sub
 function endsWith( $str, $sub ) {
 	return ( substr( $str, strlen( $str ) - strlen( $sub ) ) == $sub );
+}
+
+//Return true if $str starts with $sub
+function startsWith($str, $sub){ 
+    return substr($str, 0, strlen($sub)) == $sub;
 }
 
 // Convert a string to UTF-8 and replace the qotes
@@ -819,8 +824,24 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 	    $customer_notified = 0;
 
 	    // Notify the customer
-	    if (endsWith($orders_status_tosync,"*")) {
-		$orders_status_tosync = substr($orders_status_tosync,0,-1);
+	    $notify_comments = '';
+	    // Is there a comment ?
+	    if (strlen ($orders_status_tosync) > 1) {
+		$notify_comments = substr($orders_status_tosync,1);
+	    }
+ 		
+	    if (startsWith($notify_comments,"*")) {
+	    
+	    // First character is the new status
+	    $orders_status_tosync = substr($orders_status_tosync,0,1);
+		
+            // Remove the "*"
+	    $notify_comments = substr($notify_comments,1);
+
+	    // Convert it into the correct character encoding
+	    $notify_comments = iconv("UTF-8", FAKTURAMA_MAIL_ENCODING, $notify_comments);
+
+	    
 	    $order = new order($orders_id_tosync);
 	    $smarty = new Smarty;
 	    // assign language to template for caching
@@ -835,9 +856,6 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 	    $smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
 	    $smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
 		
-	    // Do not use comments	
-	    $notify_comments = '';
-
 	    $lang_query = sbf_db_query("select languages_id from languages where directory = '" . $order->info['language'] . "'");
 	    $lang = sbf_db_fetch_array($lang_query);
 	    $lang=$lang['languages_id'];

@@ -2,7 +2,7 @@ This is the web shop export script for a xtcModified web shop.
 http://www.xtc-modified.org/
 
 (C) 2010 - Fakturama
-2010-07-28
+2010-08-31
 http://fakturama.sebulli.com
 
 ################ INSTALLATION ##############
@@ -11,6 +11,6 @@ Copy the files
 - webshop_export_settings.php
 into the folder /admin/ in your xtcModified web shop.
 
-Edit webshop_export.php and choose a user name and passwort.
+Edit webshop_export.php and choose a user name and password.
 Also set your language and your country.
 
