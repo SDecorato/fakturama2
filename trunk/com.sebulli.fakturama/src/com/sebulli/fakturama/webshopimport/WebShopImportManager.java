@@ -365,7 +365,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	 * 
 	 * @param uds The UniDataSet with the new progress value
 	 */
-	static public void updateOrderProgress(UniDataSet uds) {
+	static public void updateOrderProgress(UniDataSet uds, String comment) {
 
 		// Get the orders that are out of sync with the shop
 		readOrdersToSynchronize();
@@ -392,7 +392,11 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		else if ( (webshopState == 3) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_SHIPPED")) {
 			value += "*";
 		}
-			
+		else if (!comment.isEmpty())  {
+			// Add the comment
+			value += "*" + comment;
+		}
+		
 		orderstosynchronize.setProperty(Integer.toString(orderId), value);
 		saveOrdersToSynchronize();
 	}
