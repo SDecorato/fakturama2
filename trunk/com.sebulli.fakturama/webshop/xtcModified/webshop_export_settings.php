@@ -2,8 +2,8 @@
 /*
  *  User settings included by the export script "webshop_export.php"
  * 
- *  Version 1.0.5
- *  Date: 2010-08-03
+ *  Version 1.0.6
+ *  Date: 2010-08-31
  *
  *
  *	Fakturama - Free Invoicing Software 
@@ -35,5 +35,9 @@ define ('FAKTURAMA_LANGUAGE', 'de');
 // ISO 3166-1-alpha-2 country code of the country of the web shop.
 // (US = USA, GB = United Kingdom, DE = Germany ..) 
 define ('FAKTURAMA_COUNTRY', 'DE');				
+
+// Character encoding of the confirmation email.
+define ('FAKTURAMA_MAIL_ENCODING', 'ISO-8859-15');				
+
 
 ?>
