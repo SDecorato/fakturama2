@@ -24,11 +24,14 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.DataBaseConnectionState;
+import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
 import com.sebulli.fakturama.editors.UniDataSetEditorInput;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
+import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 
 /**
  * This action creates a new contact in an editor.
@@ -126,6 +129,27 @@ public class NewDocumentAction extends NewEditorAction {
 				((DocumentEditor) parentEditor).childDocumentGenerated();
 				parentEditor.doSave(null);
 				parent = ((DocumentEditor) parentEditor).getDocument();
+			}
+		}
+		
+		// Was the parent document an order with status pending ?
+		if (parent != null) {
+
+			// Parent document was an order
+			if (DocumentType.getType(parent.getCategory()) == DocumentType.ORDER) {
+
+				// State of order was pending
+				if (parent.getIntValueByKey("progress") <= 10 ) {
+					MarkOrderAsAction.markOrderAs((DataSetDocument)parent, 50, "");
+					
+					// Find the view
+					ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewDocumentTable.ID);
+					
+					// Refresh it
+					if (view != null)
+						view.refresh();
+
+				}
 			}
 		}
 		
