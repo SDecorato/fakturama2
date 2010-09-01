@@ -105,6 +105,50 @@ public class MarkOrderAsAction extends Action {
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor(image));
 	}
 
+	/**
+	 * Set the progress of the order to a new state. Do it also in the web shop.
+	 * Send a comment by email.
+	 * 
+	 * @param uds The order
+	 * @param progress The new progress value (0-100%)
+	 * @param comment The comment of the confirmation email.
+	 */
+	public static void markOrderAs(DataSetDocument uds, int progress, String comment) {
+		
+		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		
+		if (uds instanceof DataSetDocument) {
+			
+			// Do it only, if it is an order.
+			if (DocumentType.getType(uds.getIntValueByKey("category")) == DocumentType.ORDER) {
+				
+				// change the state
+				uds.setIntValueByKey("progress", progress);
+				
+				// also in the database
+				Data.INSTANCE.updateDataSet(uds);
+				
+				// Start a new web shop import manager in a
+				// progress Monitor Dialog
+				WebShopImportManager webShopImportManager = new WebShopImportManager();
+				// Send a request to the web shop import manager.
+				// He will update the state in the web shop the next time,
+				// we synchronize with the shop.
+				WebShopImportManager.updateOrderProgress(uds, comment);
+				webShopImportManager.prepareChangeState();
+				
+				try {
+					new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
+				} catch (InvocationTargetException e) {
+					Logger.logError(e, "Error running web shop import manager.");
+				} catch (InterruptedException e) {
+					Logger.logError(e, "Web shop import manager was interrupted.");
+				}
+				
+			}
+		}
+		
+	}
 	
 	/**
 	 * Run the action
@@ -169,41 +213,13 @@ public class MarkOrderAsAction extends Action {
 					        	return;
 						}
 
-						
-						
+						// Mark the order as ...
 						DataSetDocument uds = (DataSetDocument) obj;
-						if (uds instanceof DataSetDocument) {
-							
-							// Do it only, if it is an order.
-							if (DocumentType.getType(uds.getIntValueByKey("category")) == DocumentType.ORDER) {
-								
-								// change the state
-								uds.setIntValueByKey("progress", progress);
-								
-								// also in the database
-								Data.INSTANCE.updateDataSet(uds);
-								
-								// Start a new web shop import manager in a
-								// progress Monitor Dialog
-								WebShopImportManager webShopImportManager = new WebShopImportManager();
-								// Send a request to the web shop import manager.
-								// He will update the state in the web shop the next time,
-								// we synchronize with the shop.
-								WebShopImportManager.updateOrderProgress(uds, comment);
-								webShopImportManager.prepareChangeState();
-								
-								try {
-									new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
-								} catch (InvocationTargetException e) {
-									Logger.logError(e, "Error running web shop import manager.");
-								} catch (InterruptedException e) {
-									Logger.logError(e, "Web shop import manager was interrupted.");
-								}
-								
-								// Refresh the table with orders.
-								view.refresh();
-							}
-						}
+						markOrderAs (uds, progress, comment);
+						
+						// Refresh the table with orders.
+						view.refresh();
+
 					}
 				}
 			}
