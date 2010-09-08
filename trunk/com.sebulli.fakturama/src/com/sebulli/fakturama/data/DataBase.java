@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.Platform;
+
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -379,6 +381,8 @@ public class DataBase {
 					uds = new DataSetList();
 				if (udsTemplate instanceof DataSetExpenditure)
 					uds = new DataSetExpenditure();
+				if (udsTemplate instanceof DataSetExpenditureItem)
+					uds = new DataSetExpenditureItem();
 
 				if (uds == null)
 					Logger.logError("DataBase.getTable() Error: unknown UniDataSet Type");
@@ -478,7 +482,8 @@ public class DataBase {
 	public boolean connect(String workingDirectory) {
 		String dataBaseName;
 		ResultSet rs;
-
+		String bundleVersion = Platform.getBundle("com.sebulli.fakturama").getHeaders().get("Bundle-Version").toString();
+		
 		// Get the JDBC driver
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
@@ -519,12 +524,14 @@ public class DataBase {
 				checkTableAndInsertNewColumns(new DataSetDocument());
 				checkTableAndInsertNewColumns(new DataSetList());
 				checkTableAndInsertNewColumns(new DataSetExpenditure());
+				checkTableAndInsertNewColumns(new DataSetExpenditureItem());
 				
 			} catch (SQLException e) {
 				// In a new data base: create all the tables
 				try {
 					stmt.executeUpdate("CREATE TABLE Properties(Id INT IDENTITY PRIMARY KEY, Name VARCHAR (256), Value VARCHAR (60000) )");
-					stmt.executeUpdate("INSERT INTO Properties VALUES(0,'version','1')");
+					stmt.executeUpdate("INSERT INTO Properties VALUES(0,'Version','1')");
+					stmt.executeUpdate("INSERT INTO Properties VALUES(1,'BundleVersion','" + bundleVersion + "')");
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetProduct()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetContact()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetItem()));
@@ -535,6 +542,7 @@ public class DataBase {
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetDocument()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetList()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetExpenditure()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetExpenditureItem()));
 					stmt.close();
 					return true;
 
