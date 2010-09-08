@@ -25,31 +25,31 @@ package com.sebulli.fakturama.data;
  * 
  * @author Gerd Bartelt
  */
-public class DataSetExpenditure extends UniDataSet {
+public class DataSetExpenditureItem extends UniDataSet {
 
 	/**
 	 * Constructor
 	 * Creates a new expenditure
 	 * 
 	 */
-	public DataSetExpenditure() {
+	public DataSetExpenditureItem() {
 		this("");
 	}
 
 	/**
 	 * Constructor
-	 * Creates a new expenditure
+	 * Creates a new expenditure item
 	 * 
 	 * @param category Category of the new expenditure
 	 */
-	public DataSetExpenditure(String category) {
-		this ("",  category, "", "", "");
+	public DataSetExpenditureItem(String category) {
+		this ("",  category, 0.0, -1);
 	}
 
 
 	/**
 	 * Constructor
-	 * Creates a new expenditure
+	 * Creates a new expenditure item
 	 * 
 	 * @param name
 	 * @param category
@@ -57,9 +57,8 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param documentnr
 	 * @param items
 	 */
-	public DataSetExpenditure(String name,  String category, String date, String documentnr,
-			String items){
-		this (-1, name, false,  category, date, documentnr, items);
+	public DataSetExpenditureItem(String name,  String category, Double price, int vatId){
+		this (-1, name, false,  category, price, vatId);
 	}
 	/**
 	 * Constructor
@@ -73,18 +72,17 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param documentnr
 	 * @param items
 	 */
-	public DataSetExpenditure(int id, String name, boolean deleted, String category, String date, String documentnr,
-			String items){
+	public DataSetExpenditureItem(int id, String name, boolean deleted, String category, 
+			Double price, int vatId){
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
-		this.hashMap.put("date", new UniData(UniDataType.DATE, date));
-		this.hashMap.put("documentnr", new UniData(UniDataType.STRING, documentnr));
-		this.hashMap.put("items", new UniData(UniDataType.STRING, items));
+		this.hashMap.put("price", new UniData(UniDataType.PRICE, price));
+		this.hashMap.put("vatid", new UniData(UniDataType.ID, vatId));
 
 		// Name of the table in the data base
-		sqlTabeName = "Expenditures";
+		sqlTabeName = "ExpenditureItems";
 
 	}
 }

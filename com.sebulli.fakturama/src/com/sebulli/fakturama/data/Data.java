@@ -47,6 +47,7 @@ public enum Data {
 	private DataSetArray<DataSetText> texts;
 	private DataSetArray<DataSetList> list;
 	private DataSetArray<DataSetExpenditure> expenditures;
+	private DataSetArray<DataSetExpenditureItem> expenditureitems;
 	
 	// Reference to data base
 	DataBase db = null;
@@ -90,6 +91,7 @@ public enum Data {
 		texts = new DataSetArray<DataSetText>(dbref, new DataSetText());
 		list = new DataSetArray<DataSetList>(dbref, new DataSetList());
 		expenditures = new DataSetArray<DataSetExpenditure>(dbref, new DataSetExpenditure());
+		expenditureitems = new DataSetArray<DataSetExpenditureItem>(dbref, new DataSetExpenditureItem());
 		
 		
 		
@@ -307,6 +309,14 @@ public enum Data {
 		return expenditures;
 	}
 
+	/**
+	 * Getter for the DataSetArray expenditures
+	 * 
+	 * @return All items
+	 */
+	public DataSetArray<DataSetExpenditureItem> getExpenditureItems() {
+		return expenditureitems;
+	}
 	
 	
 	/**
@@ -328,6 +338,7 @@ public enum Data {
 			if (tableName.equalsIgnoreCase("texts")) { return getTexts().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("list")) { return getListEntries().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("expenditures")) { return getExpenditures().getDatasetById(id); }
+			if (tableName.equalsIgnoreCase("expenditureitems")) { return getExpenditures().getDatasetById(id); }
 		} catch (IndexOutOfBoundsException e) {
 			Logger.logError(e, "Index out of bounds: " + "TableName: " + tableName + " ID:" + Integer.toString(id));
 		}
