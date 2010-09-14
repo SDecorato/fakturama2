@@ -673,7 +673,6 @@ public class DocumentEditor extends Editor {
 			if (itemDataset.getIntValueByKey("owner") < 0) {
 					return true;
 			} else {
-				id = itemDataset.getIntValueByKey("id");
 
 				DataSetItem item = Data.INSTANCE.getItems().getDatasetById(id);
 				if (!item.getStringValueByKey("name").equals(itemDataset.getStringValueByKey("name"))) { return true; }

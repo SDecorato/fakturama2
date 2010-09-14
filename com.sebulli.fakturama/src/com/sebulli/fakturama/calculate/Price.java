@@ -20,6 +20,7 @@
 
 package com.sebulli.fakturama.calculate;
 
+import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -67,6 +68,18 @@ public class Price {
 	public Price(DataSetItem item) {
 		this(item.getDoubleValueByKey("quantity"), item.getDoubleValueByKey("price"), item.getDoubleValueByKey("vatvalue"), item
 				.getDoubleValueByKey("discount"), item.getBooleanValueByKey("novat"), false);
+	}
+
+	/**
+	 * Constructor
+	 * Create a price value from an expenditure item
+	 * 
+	 * @param item Item as UniDataSet
+	 */
+	public Price(DataSetExpenditureItem item) {
+		this(1.0, item.getDoubleValueByKey("price"),
+				item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),
+				0.0 ,false, false);
 	}
 
 	/**
