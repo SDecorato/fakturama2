@@ -46,6 +46,21 @@ public class DataSetExpenditureItem extends UniDataSet {
 		this ("",  category, 0.0, -1);
 	}
 
+	/**
+	 * Constructor
+	 * Creates a new expenditure item from a parent item
+	 * 
+	 * @param parent Parent expenditure item
+	 */
+	public DataSetExpenditureItem(DataSetExpenditureItem parent) {
+		this(parent.getIntValueByKey("id"),
+				parent.getStringValueByKey("name"), 
+				parent.getBooleanValueByKey("deleted"),
+				parent.getStringValueByKey("category"),
+				parent.getDoubleValueByKey("price"),
+				parent.getIntValueByKey("vatid"));
+	}
+
 
 	/**
 	 * Constructor

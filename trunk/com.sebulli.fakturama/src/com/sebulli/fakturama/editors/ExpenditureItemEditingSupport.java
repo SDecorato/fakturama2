@@ -31,15 +31,14 @@ import org.eclipse.swt.custom.CCombo;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetItem;
-import com.sebulli.fakturama.data.DataSetProduct;
+import com.sebulli.fakturama.data.DataSetExpenditureItem;
 
 /**
  * Item editing support for the item table of the document editor
  * 
  * @author Gerd Bartelt
  */
-public class ItemEditingSupport extends EditingSupport {
+public class ExpenditureItemEditingSupport extends EditingSupport {
 
 	// The cell editor
 	private CellEditor editor;
@@ -49,8 +48,8 @@ public class ItemEditingSupport extends EditingSupport {
 	
 	private Object activeObject;
 	
-	// The parent document editor that contains the item table
-	private DocumentEditor documentEditor;
+	// The parent expenditure editor that contains the item table
+	private ExpenditureEditor expenditureEditor;
 
 	/**
 	 * Contructor
@@ -60,18 +59,18 @@ public class ItemEditingSupport extends EditingSupport {
 	 * @param viewer The column viewer
 	 * @param column The column
 	 */
-	public ItemEditingSupport(DocumentEditor documentEditor, ColumnViewer viewer, int column) {
+	public ExpenditureItemEditingSupport(ExpenditureEditor expenditureEditor, ColumnViewer viewer, int column) {
 		super(viewer);
 
 		// Set the local variables
-		this.documentEditor = documentEditor;
+		this.expenditureEditor = expenditureEditor;
 		this.column = column;
 		
 		// Create the correct editor based on the column index
-		// Column nr.5 uses a combo box cell editor.
+		// Column nr.3 uses a combo box cell editor.
 		// The other columns a text cell editor.
 		switch (column) {
-		case 5:
+		case 3:
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name"));
 			break;
 		default:
@@ -92,9 +91,6 @@ public class ItemEditingSupport extends EditingSupport {
 		case 2:
 		case 3:
 		case 4:
-		case 5:
-		case 6:
-		case 7:
 			return true;
 		}
 		return false;
@@ -119,27 +115,21 @@ public class ItemEditingSupport extends EditingSupport {
 	protected Object getValue(Object element) {
 
 		activeObject = element;
-		documentEditor.setItemEditing(this);
+		expenditureEditor.setItemEditing(this);
 		
-		DataSetItem item = (DataSetItem) element;
+		DataSetExpenditureItem item = (DataSetExpenditureItem) element;
 		switch (this.column) {
 		case 1:
-			return item.getFormatedStringValueByKey("quantity");
+			return item.getFormatedStringValueByKey("name");
 		case 2:
-			return item.getStringValueByKey("itemnr");
+			return item.getStringValueByKey("category");
 		case 3:
-			return item.getStringValueByKey("name");
-		case 4:
-			return item.getStringValueByKey("description");
-		case 5:
 			return item.getIntValueByKey("vatid");
-		case 6:
-			if (documentEditor.getUseGross())
+		case 4:
+			if (expenditureEditor.getUseGross())
 				return new Price(item).getUnitGross().asFormatedString();
 			else
 				return new Price(item).getUnitNet().asFormatedString();
-		case 7:
-			return item.getFormatedStringValueByKey("discount");
 		}
 		return "";
 	}
@@ -151,36 +141,20 @@ public class ItemEditingSupport extends EditingSupport {
 	 */
 	@Override
 	protected void setValue(Object element, Object value) {
-		DataSetItem item = (DataSetItem) element;
+		DataSetExpenditureItem item = (DataSetExpenditureItem) element;
 
-		documentEditor.setItemEditing(null);
+		expenditureEditor.setItemEditing(null);
 		
 		switch (this.column) {
 		case 1:
-			// Set the quantity
-			item.setStringValueByKey("quantity", String.valueOf(value));
-			int productId = item.getIntValueByKey("productid");
-			
-			// If the item is coupled with a product, get the graduated price
-			if (productId >= 0) {
-				DataSetProduct product = Data.INSTANCE.getProducts().getDatasetById(productId);
-				double price = product.getPriceByQuantity(DataUtils.StringToDouble(String.valueOf(value)));
-				item.setDoubleValueByKey("price", price);
-			}
-			break;
-		case 2:
-			// Set the item number
-			item.setStringValueByKey("itemnr", String.valueOf(value));
-			break;
-		case 3:
 			// Set the name
 			item.setStringValueByKey("name", String.valueOf(value));
 			break;
-		case 4:
-			// Set the description
-			item.setStringValueByKey("description", String.valueOf(value));
+		case 2:
+			// Set the name
+			item.setStringValueByKey("category", String.valueOf(value));
 			break;
-		case 5:
+		case 3:
 			// Set the VAT
 			
 			// Get the selected item from the combo box
@@ -201,30 +175,20 @@ public class ItemEditingSupport extends EditingSupport {
 			// If no VAT is found, use the standard VAT
 			if (i < 0)
 				i = Integer.parseInt(Data.INSTANCE.getProperty("standardvat"));
-			item.setVat(i);
+			item.setIntValueByKey("vatid", i);
 			break;
-		case 6:
+		case 4:
 			// Set the price as gross or net value.
 			// If the editor displays gross values, calculate the net value,
 			// because only net values are stored.
-			if (documentEditor.getUseGross())
-				item.setDoubleValueByKey("price", new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKey("vatvalue"), item
-						.getBooleanValueByKey("novat"), true).getUnitNet().asDouble());
+			if (expenditureEditor.getUseGross())
+				item.setDoubleValueByKey("price", new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),false, true).getUnitNet().asDouble());
 			else
 				item.setStringValueByKey("price", String.valueOf(value));
-			break;
-		case 7:
-			// Set the discount value
-			Double d = DataUtils.StringToDoubleDiscount(String.valueOf(value));
-			item.setDoubleValueByKey("discount", d);
 			break;
 		default:
 			break;
 		}
-		
-		// Recalculate the total sum of the document
-		documentEditor.calculate();
-		//this.documentEditor.checkDirty();
 		
 		// Update the data
 		getViewer().update(element, null);
@@ -235,6 +199,7 @@ public class ItemEditingSupport extends EditingSupport {
 	 */
 	public void cancelAndSave() {
 		this.setValue(activeObject, this.editor.getValue());
+		
 	}
 
 }

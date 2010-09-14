@@ -38,6 +38,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.DataSetArray;
+import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.DocumentType;
@@ -260,6 +261,11 @@ public class UniDataSetTableColumn {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getVatPercent());
 				}
 				
+				// Fill the cell with the VAT (percent) value of the item
+				else if (dataKey.equals("$ExpenditureItemVatPercent")) {
+					cell.setText(new Price(((DataSetExpenditureItem) cell.getElement())).getVatPercent());
+				}
+
 				// Fill the cell with the total gross value of the item
 				else if (dataKey.equals("$ItemGrossTotal")) {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getTotalGrossRounded().asFormatedString());
@@ -268,6 +274,11 @@ public class UniDataSetTableColumn {
 				// Fill the cell with the gross price of the item
 				else if (dataKey.equals("$ItemGrossPrice")) {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getUnitGross().asFormatedString());
+				}
+
+				// Fill the cell with the gross price of the item
+				else if (dataKey.equals("$ExpenditureItemGrossPrice")) {
+					cell.setText(new Price(((DataSetExpenditureItem) cell.getElement())).getUnitGross().asFormatedString());
 				}
 
 				// Fill the cell with the net price of the product (quantity = 1)

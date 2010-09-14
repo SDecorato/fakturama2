@@ -20,6 +20,9 @@
 
 package com.sebulli.fakturama.data;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * UniDataSet for all expenditures. 
  * 
@@ -43,7 +46,7 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param category Category of the new expenditure
 	 */
 	public DataSetExpenditure(String category) {
-		this ("",  category, "", "", "");
+		this ("",  category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "");
 	}
 
 
