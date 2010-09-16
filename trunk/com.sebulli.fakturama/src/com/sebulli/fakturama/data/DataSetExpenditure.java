@@ -46,7 +46,7 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param category Category of the new expenditure
 	 */
 	public DataSetExpenditure(String category) {
-		this ("",  category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "");
+		this ("",  category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "", "");
 	}
 
 
@@ -57,12 +57,13 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param name
 	 * @param category
 	 * @param date
+	 * @param nr
 	 * @param documentnr
 	 * @param items
 	 */
-	public DataSetExpenditure(String name,  String category, String date, String documentnr,
-			String items){
-		this (-1, name, false,  category, date, documentnr, items);
+	public DataSetExpenditure(String name,  String category, String date,
+			String nr, String documentnr, String items){
+		this (-1, name, false,  category, date, nr, documentnr, items);
 	}
 	/**
 	 * Constructor
@@ -73,16 +74,18 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param deleted
 	 * @param category
 	 * @param date
+	 * @param nr
 	 * @param documentnr
 	 * @param items
 	 */
-	public DataSetExpenditure(int id, String name, boolean deleted, String category, String date, String documentnr,
-			String items){
+	public DataSetExpenditure(int id, String name, boolean deleted, String category,
+			String date, String nr, String documentnr, String items){
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
 		this.hashMap.put("date", new UniData(UniDataType.DATE, date));
+		this.hashMap.put("nr", new UniData(UniDataType.STRING, documentnr));
 		this.hashMap.put("documentnr", new UniData(UniDataType.STRING, documentnr));
 		this.hashMap.put("items", new UniData(UniDataType.STRING, items));
 

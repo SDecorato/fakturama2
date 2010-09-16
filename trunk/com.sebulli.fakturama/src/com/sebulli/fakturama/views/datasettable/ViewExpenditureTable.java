@@ -49,10 +49,11 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		addNewAction = new NewExpenditureAction();
 
 		// Mark the columns that are used by the search function.
-		searchColumns = new String[3];
+		searchColumns = new String[4];
 		searchColumns[0] = "name";
-		searchColumns[1] = "documentnr";
-		searchColumns[2] = "date";
+		searchColumns[1] = "nr";
+		searchColumns[2] = "documentnr";
+		searchColumns[3] = "date";
 
 		super.createPartControl(parent, false, true);
 
@@ -64,7 +65,8 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 
 		// Create the table columns
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Datum", 80, 0, true, "date");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Belegnr.", 150, 0, true, "documentnr");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Belegnr.", 100, 0, true, "nr");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Dokumentnr.", 150, 0, true, "documentnr");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Lieferant", 200, 50, false, "name");
 
 		// Set the input of the table viewer and the tree viewer
