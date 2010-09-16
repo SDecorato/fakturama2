@@ -976,6 +976,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				dataSetDocument.setIntValueByKey("shippingid", shipping.getIntValueByKey("id"));
 				dataSetDocument.setDoubleValueByKey("shipping", shippingGross);
 				dataSetDocument.setStringValueByKey("shippingname", shipping_name);
+				dataSetDocument.setStringValueByKey("shippingdescription", shipping.getStringValueByKey("description"));
 				dataSetDocument.setDoubleValueByKey("shippingvat", shippingvat_percentDouble);
 				dataSetDocument.setStringValueByKey("shippingvatdescription", vat.getStringValueByKey("description"));
 				String s = "";
@@ -1012,6 +1013,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")",0.0, 0, 0,"Zahlung dankend erhalten.","", false));
 				dataSetDocument.setIntValueByKey("paymentid", payment.getIntValueByKey("id"));
 				dataSetDocument.setStringValueByKey("paymentname", paymentName);
+				dataSetDocument.setStringValueByKey("paymentdescription", payment.getStringValueByKey("description"));
+
 
 			}
 		}

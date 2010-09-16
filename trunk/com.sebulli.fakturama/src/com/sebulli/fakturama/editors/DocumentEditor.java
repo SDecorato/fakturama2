@@ -807,7 +807,7 @@ public class DocumentEditor extends Editor {
 		// Set the total value
 		if (totalValue != null)
 			totalValue.setText(document.getSummary().getTotalGross().asFormatedString());
-
+	
 	}
 	
 	/**
@@ -1522,9 +1522,10 @@ public class DocumentEditor extends Editor {
 			// Recalculate, if the discount field looses the focus.
 			itemsDiscount.addFocusListener(new FocusAdapter() {
 				public void focusLost(FocusEvent e) {
-					itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
 					calculate();
 					checkDirty();
+					itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
+					
 				}
 			});
 			
