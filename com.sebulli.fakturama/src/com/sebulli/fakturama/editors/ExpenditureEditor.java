@@ -71,6 +71,7 @@ public class ExpenditureEditor extends Editor {
 	private Text txtCategory;
 	private DateTime dtDate;
 	private Text textName;
+	private Text textNr;
 	private Text textDocumentNr;
 	private TableViewer tableViewerItems;
 	
@@ -120,6 +121,7 @@ public class ExpenditureEditor extends Editor {
 		// Set the payment data
 		expenditure.setStringValueByKey("name", textName.getText());
 		expenditure.setStringValueByKey("category", txtCategory.getText());
+		expenditure.setStringValueByKey("nr", textNr.getText());
 		expenditure.setStringValueByKey("documentnr", textDocumentNr.getText());
 
 		// Set all the items
@@ -279,6 +281,7 @@ public class ExpenditureEditor extends Editor {
 
 		if (!expenditure.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!expenditure.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!expenditure.getStringValueByKey("nr").equals(textNr.getText())) { return true; }
 		if (!expenditure.getStringValueByKey("documentnr").equals(textDocumentNr.getText())) { return true; }
 
 		// Test all the expenditure items
@@ -392,9 +395,18 @@ public class ExpenditureEditor extends Editor {
 		calendar = DataUtils.getCalendarFromDateString(expenditure.getStringValueByKey("date"));
 		dtDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
+		// Number
+		Label labelNr = new Label(top, SWT.NONE);
+		labelNr.setText("Belegnr.");
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNr);
+		textNr = new Text(top, SWT.BORDER);
+		textNr.setText(expenditure.getStringValueByKey("nr"));
+		superviceControl(textNr, 32);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(textNr);
+
 		// Document number
 		Label labelDocumentNr = new Label(top, SWT.NONE);
-		labelDocumentNr.setText("Belegnr.");
+		labelDocumentNr.setText("Dokumentnr.");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDocumentNr);
 		textDocumentNr = new Text(top, SWT.BORDER);
 		textDocumentNr.setText(expenditure.getStringValueByKey("documentnr"));
