@@ -145,6 +145,22 @@ public class ProductEditor extends Editor {
 		 * - date_added (not modified by editor)
 		 */
 
+		if (newProduct) {
+			// Check, if the item number is the next one
+			int result = setNextNr(textItemNr.getText(), "itemnr", Data.INSTANCE.getProducts() );
+
+			// It's not the next free ID
+			if (result == ERROR_NOT_NEXT_ID) {
+				// Display an error message
+				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+				messageBox.setText("Fehler in Artikelnummer");
+				messageBox.setMessage("Artikel hat nicht die nächste freie Nummer: " + textItemNr.getText() + 
+										"\nSiehe unter Einstellungen/Nummernkreise.");
+				messageBox.open();
+			}
+
+		}
+		
 		// Always set the editor's data set to "undeleted"
 		product.setBooleanValueByKey("deleted", false);
 
@@ -171,14 +187,6 @@ public class ProductEditor extends Editor {
 		if (newProduct) {
 			product = Data.INSTANCE.getProducts().addNewDataSet(product);
 			newProduct = false;
-			
-			// Check, if the item number is the next one
-			if (!setNextNr(product.getStringValueByKey("itemnr"))) {
-				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-				messageBox.setText("Fehler in Artikelnummer");
-				messageBox.setMessage("Artikel hat nicht die nächste freie Nummer: " + getNextNr());
-				messageBox.open();
-			}
 
 		}
 		// If it's not new, update at least the data base
@@ -731,6 +739,7 @@ public class ProductEditor extends Editor {
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(selectPictureButton);
 
 	}
+	
 	/**
 	 * Asks this part to take focus within the workbench.
 	 * 
@@ -738,6 +747,40 @@ public class ProductEditor extends Editor {
 	 */
 	@Override
 	public void setFocus() {
+	}
+
+	/**
+	 * Test, if there is a document with the same number
+	 * 
+	 * @return TRUE, if one with the same number is found
+	 */
+	public boolean thereIsOneWithSameNumber () {
+
+		// Cancel, if there is already a document with the same ID
+		if (Data.INSTANCE.getDocuments().isExistingDataSet(product, "itemnr", textItemNr.getText())) {
+			// Display an error message
+			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+			messageBox.setText("Fehler in Artikelnummer");
+			messageBox.setMessage("Es existiert bereits ein Artikel mit dieser Nummer: " + textItemNr.getText());
+			messageBox.open();
+			
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns, if save is allowed
+	 * 
+	 * @return TRUE, if save is allowed
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#saveAllowed()
+	 */
+	@Override
+	protected boolean saveAllowed() {
+		// Save is allowed, if there is no product with the same number
+		return !thereIsOneWithSameNumber();
 	}
 
 }

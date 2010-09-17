@@ -111,6 +111,11 @@ public class CreateOODocumentAction extends Action {
 				
 				// Search in the folder "Templates" and also in the folder with the localized  name
 				documentEditor = (DocumentEditor) editor;
+				
+				// Exit, if there is a document with the same number
+				if (documentEditor.thereIsOneWithSameNumber())
+					return;
+				
 				String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
 				String templatePath1 = workspace + "/Templates/" + documentEditor.getDocumentType().getTypeAsString() + "/";
 				String templatePath2 = workspace + "/" + Workspace.templateFolderName + "/" + documentEditor.getDocumentType().getString() + "/";
