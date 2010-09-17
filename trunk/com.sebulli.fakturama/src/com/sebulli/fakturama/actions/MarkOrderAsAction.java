@@ -128,22 +128,27 @@ public class MarkOrderAsAction extends Action {
 				// also in the database
 				Data.INSTANCE.updateDataSet(uds);
 				
-				// Start a new web shop import manager in a
-				// progress Monitor Dialog
-				WebShopImportManager webShopImportManager = new WebShopImportManager();
-				// Send a request to the web shop import manager.
-				// He will update the state in the web shop the next time,
-				// we synchronize with the shop.
-				WebShopImportManager.updateOrderProgress(uds, comment);
-				webShopImportManager.prepareChangeState();
-				
-				try {
-					new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
-				} catch (InvocationTargetException e) {
-					Logger.logError(e, "Error running web shop import manager.");
-				} catch (InterruptedException e) {
-					Logger.logError(e, "Web shop import manager was interrupted.");
+				// Change the state also in the webshop
+				if (!uds.getStringValueByKey("webshopid").isEmpty()) {
+					// Start a new web shop import manager in a
+					// progress Monitor Dialog
+					WebShopImportManager webShopImportManager = new WebShopImportManager();
+					// Send a request to the web shop import manager.
+					// He will update the state in the web shop the next time,
+					// we synchronize with the shop.
+					WebShopImportManager.updateOrderProgress(uds, comment);
+					webShopImportManager.prepareChangeState();
+					
+					try {
+						new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
+					} catch (InvocationTargetException e) {
+						Logger.logError(e, "Error running web shop import manager.");
+					} catch (InterruptedException e) {
+						Logger.logError(e, "Web shop import manager was interrupted.");
+					}
+					
 				}
+				
 				
 			}
 		}

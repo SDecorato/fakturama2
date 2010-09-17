@@ -2,8 +2,8 @@
 /*
  *  Web shop export script
  *
- *  Version 1.0.6
- *  Date: 2010-08-31
+ *  Version 1.0.7
+ *  Date: 2010-09-17
  *
  *
  *	Fakturama - Free Invoicing Software 
@@ -278,11 +278,10 @@ $mailsmarty->compile_dir = DIR_FS_DOCUMENT_ROOT.'templates_c';
 	$mail->WordWrap = 50; // set word wrap to 50 characters
 	$mail->Subject = $email_subject;
 
-	if (!$mail->Send()) {
-		echo "Message was not sent <p>";
-		echo "Mailer Error: ".$mail->ErrorInfo."</p>";
-		exit;
-	}
+	if (!$mail->Send())
+	  return "Error sending email to: \"" . $to_email_address . "\" - " . $mail->ErrorInfo;
+	
+	return "";
 }
 
 
@@ -879,9 +878,11 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 	    $html_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.html');
 	    $txt_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.txt');
 
-
-	    sbf_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail);
+	    $email_send_status = sbf_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail); 
+	    if (empty ($email_send_status))
 		$customer_notified = 1;
+	    else
+		echo (" <error>" . $email_send_status . "</error>\n");
 
 	    }
 
