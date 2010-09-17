@@ -145,6 +145,47 @@ public class DataSetArray<T> {
 	}
 	
 	/**
+	 * Tests if there is an entry with the same value
+	 * 
+	 * @param key Search the values from this key.
+	 * @param value The value to test
+	 * @return TRUE, if there is an entry with the same value
+	 */
+	public boolean isExistingDataSet (String key, String value) {
+
+		// Search the list for an existing data set with the specified value
+		ArrayList<T> undeletedDatasets = getActiveDatasets();
+		for (T testdataset : undeletedDatasets) {
+			if (((UniDataSet) testdataset).getStringValueByKey(key).equalsIgnoreCase(value)) { return true; } 
+		}
+		
+		// nothing found
+		return false;
+	}
+	
+	/**
+	 * Tests if there is an entry with the same value
+	 * 
+	 * @param key Search the values from this key.
+	 * @param value The value to test
+	 * @return TRUE, if there is an entry with the same value
+	 */
+	public boolean isExistingDataSet (UniDataSet uds, String key, String value) {
+
+		// Search the list for an existing data set with the specified value
+		ArrayList<T> undeletedDatasets = getActiveDatasets();
+		for (T testdataset : undeletedDatasets) {
+			// Do only test other datasets
+			if (uds.getIntValueByKey("id") != ((UniDataSet) testdataset).getIntValueByKey("id"))
+				if (((UniDataSet) testdataset).getStringValueByKey(key).equalsIgnoreCase(value)) { return true; } 
+		}
+		
+		// nothing found
+		return false;
+	}
+	
+	
+	/**
 	 * Test, if the data set is a new data set
 	 * 
 	 * @param dataset Test this data set

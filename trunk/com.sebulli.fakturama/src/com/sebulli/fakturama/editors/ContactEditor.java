@@ -45,6 +45,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -60,7 +61,7 @@ import com.sebulli.fakturama.views.datasettable.ViewContactTable;
  * 
  * @author Gerd Bartelt
  */
-public class ContactEditor extends Editor {
+public class ContactEditor extends Editor implements ISaveablePart2{
 	
 	// Editor's ID
 	public static final String ID = "com.sebulli.fakturama.editors.contactEditor";
@@ -150,6 +151,24 @@ public class ContactEditor extends Editor {
 		 * - date_added (constant)
 		 */
 
+		if (newContact) {
+
+			// Check, if the contact number is the next one
+			int result = setNextNr(txtNr.getText(),"nr", Data.INSTANCE.getContacts() );
+
+			// It's not the next free ID
+			if (result == ERROR_NOT_NEXT_ID) {
+				// Display an error message
+				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+				messageBox.setText("Fehler in Kundennummer");
+				messageBox.setMessage("Kunde hat nicht die nächste freie Nummer: " + txtNr.getText() + 
+										"\nSiehe unter Einstellungen/Nummernkreise.");
+				messageBox.open();
+			}
+
+		}
+		
+		
 		// If the Check Box "Address equals delivery address" is set,
 		// all the address data is copied to the delivery addres.s
 		if (bDelAddrEquAddr.getSelection())
@@ -216,15 +235,6 @@ public class ContactEditor extends Editor {
 		if (newContact) {
 			contact = Data.INSTANCE.getContacts().addNewDataSet(contact);
 			newContact = false;
-			
-			// Check, if the contact number is the next one
-			if (!setNextNr(contact.getStringValueByKey("nr"))) {
-				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-				messageBox.setText("Fehler in Kundennummer");
-				messageBox.setMessage("Kunde hat nicht die nächste freie Nummer: " + getNextNr());
-				messageBox.open();
-			}
-
 		} 
 		// If it's not new, update at least the data base
 		else {
@@ -927,5 +937,40 @@ public class ContactEditor extends Editor {
 	@Override
 	public void setFocus() {
 	}
+
+	/**
+	 * Test, if there is a document with the same number
+	 * 
+	 * @return TRUE, if one with the same number is found
+	 */
+	public boolean thereIsOneWithSameNumber () {
+
+		// Cancel, if there is already a document with the same ID
+		if (Data.INSTANCE.getDocuments().isExistingDataSet(contact, "nr", txtNr.getText())) {
+			// Display an error message
+			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+			messageBox.setText("Fehler in Kundennummer");
+			messageBox.setMessage("Es existiert bereits ein Kunde mit dieser Nummer: " + txtNr.getText());
+			messageBox.open();
+			
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns, if save is allowed
+	 * 
+	 * @return TRUE, if save is allowed
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#saveAllowed()
+	 */
+	@Override
+	protected boolean saveAllowed() {
+		// Save is allowed, if there is no product with the same number
+		return !thereIsOneWithSameNumber();
+	}
+
 
 }

@@ -23,6 +23,8 @@ package com.sebulli.fakturama.editors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -42,6 +44,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.ISaveablePart2;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
@@ -56,11 +59,14 @@ import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
  * 
  * @author Gerd Bartelt
  */
-public abstract class Editor extends EditorPart {
+public abstract class Editor extends EditorPart  implements ISaveablePart2{
 
 	protected StdComposite stdComposite = null;
 	protected String tableViewID = "";
 	protected String editorID = "";
+	protected static final int NO_ERROR = 0;
+	protected static final int ERROR_NOT_NEXT_ID = 1;
+	
 
 	/**
 	 * Set the font size of a label to 24pt
@@ -254,17 +260,18 @@ public abstract class Editor extends EditorPart {
 	 * But check, if the documents number is the next free one. 
 	 * 
 	 * @param s The documents number as string.
-	 * @return TRUE, if the document number is correctly set to the
+	 * @return Errorcode, if the document number is correctly set to the
 	 * 			next free number.
 	 */
-	protected boolean setNextNr(String s) {
+	protected int setNextNr(String value, String key, DataSetArray<?> allDataSets) {
 		
 		// Create the string of the preference store for format and number
 		String prefStrFormat = "NUMBERRANGE_" + editorID.toUpperCase() + "_FORMAT";
 		String prefStrNr = "NUMBERRANGE_" + editorID.toUpperCase() + "_NR";
 		String format;
+		String s = "";
 		int nr;
-		boolean ok = false;
+		int result = ERROR_NOT_NEXT_ID;
 		Integer nextnr;
 
 		// Get the next document number from the preferences, increased be one.
@@ -273,7 +280,7 @@ public abstract class Editor extends EditorPart {
 
 		// Exit, if format is empty
 		if (format.trim().isEmpty())
-			return true;
+			return NO_ERROR;
 		
 		// Find the placeholder for a decimal number with n digits
 		// with the format "{Xnr}", "X" is the number of digits.
@@ -284,7 +291,7 @@ public abstract class Editor extends EditorPart {
 		if (m.find()) {
 
 			// Extract the number string
-			s = s.substring(m.start(), s.length() - format.length() + m.end());
+			s = value.substring(m.start(), value.length() - format.length() + m.end());
 			
 			try {
 				// Convert it to an integer and increase it by one.
@@ -294,7 +301,7 @@ public abstract class Editor extends EditorPart {
 				// If the number of this document is the next free number
 				if (nr == nextnr) {
 					Activator.getDefault().getPreferenceStore().setValue(prefStrNr, nr);
-					ok = true;
+					result = NO_ERROR;
 				}
 			} catch (NumberFormatException e) {
 				//Logger.logError(e, "Document number invalid");
@@ -302,9 +309,11 @@ public abstract class Editor extends EditorPart {
 		}
 		
 		// The result of the validation
-		return ok;
+		return result;
 	}
 
+
+	
 	/**
 	 * Refresh the view that corresponds to this editor
 	 * 
@@ -324,7 +333,7 @@ public abstract class Editor extends EditorPart {
 	 * Request a new validation, if the document is dirty.
 	 */
 	public void checkDirty() {
-		firePropertyChange(PROP_DIRTY);
+		firePropertyChange(EditorPart.PROP_DIRTY);
 	}
 
 	/**
@@ -411,5 +420,51 @@ public abstract class Editor extends EditorPart {
 		});
 		
 	}
+	
+	/**
+	 * Test before close, if the document ID is correct
+	 * @see org.eclipse.ui.ISaveablePart2#promptToSaveOnClose()
+	 */
+	@Override
+	public int promptToSaveOnClose() {
+		
+		MessageDialog dialog = new MessageDialog(
+				getEditorSite().getShell(),
+				"Änderungen speichern",
+				null,
+				"Änderungen speichern ?",
+				MessageDialog.QUESTION,
+				new String[] {
+					IDialogConstants.YES_LABEL,
+					IDialogConstants.NO_LABEL,
+					IDialogConstants.CANCEL_LABEL },
+					0);
+		
+		final int dialogResult = dialog.open();
+		
+		if (dialogResult == 0) {
+			return 0;
+			// Check, if the number is unique
+			/*if (thereIsOneWithSameNumber())
+				return ISaveablePart2.CANCEL;
+			else
+				return ISaveablePart2.YES;*/
+		}
+		else if (dialogResult == 1) {
+			return ISaveablePart2.NO;
+		}
+		else {
+			return ISaveablePart2.CANCEL;
+		}
+	}
 
+	/**
+	 * Returns, if save is allowed
+	 * 
+	 * @return TRUE, if save is allowed
+	 */
+	protected boolean saveAllowed() {
+		return true;
+	}
+	
 }

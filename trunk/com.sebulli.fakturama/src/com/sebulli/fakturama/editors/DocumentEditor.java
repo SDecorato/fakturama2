@@ -200,6 +200,29 @@ public class DocumentEditor extends Editor {
 			itemEditingSupport.cancelAndSave();
 		
 		boolean wasDirty = isDirty();
+
+		if (newDocument) {
+			// Check, if the document number is the next one
+			if (documentType != DocumentType.LETTER) {
+				int result = setNextNr(txtName.getText(),"name", Data.INSTANCE.getDocuments() );
+
+				// It's not the next free ID
+				if (result == ERROR_NOT_NEXT_ID) {
+					// Display an error message
+					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+					messageBox.setText("Fehler in Dokumentennummer");
+					messageBox.setMessage("Dokument hat nicht die nächste freie Nummer: " + getNextNr() + 
+											"\nSiehe unter Einstellungen/Nummernkreise.");
+					messageBox.open();
+				}
+			}
+
+		}
+		
+		// Exit save if there is a document with the same number
+		if (thereIsOneWithSameNumber())
+			return;
+
 		
 		// Always set the editor's data set to "undeleted"
 		document.setBooleanValueByKey("deleted", false);
@@ -430,15 +453,6 @@ public class DocumentEditor extends Editor {
 			// So it's no longer the parent data
 			this.setInput(new UniDataSetEditorInput(document));
 
-			// Check, if the document number is the next one
-			if (documentType != DocumentType.LETTER) {
-				if (!setNextNr(document.getStringValueByKey("name"))) {
-					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-					messageBox.setText("Fehler in Dokumentennummer");
-					messageBox.setMessage("Dokument hat nicht die nächste freie Nummer: " + getNextNr());
-					messageBox.open();
-				}
-			}
 		} else {
 			// Do not create a new data set - just update the old one
 			Data.INSTANCE.getDocuments().updateDataSet(document);
@@ -1716,6 +1730,44 @@ public class DocumentEditor extends Editor {
 	@Override
 	public void setFocus() {
 		super.setFocus();
+	}
+
+	
+	/**
+	 * Test, if there is a document with the same number
+	 * 
+	 * @return TRUE, if one with the same number is found
+	 */
+	public boolean thereIsOneWithSameNumber () {
+		// Letters do not have to be checked
+		if (documentType == DocumentType.LETTER)
+			return false;
+
+		// Cancel, if there is already a document with the same ID
+		if (Data.INSTANCE.getDocuments().isExistingDataSet(document, "name", txtName.getText())) {
+			// Display an error message
+			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
+			messageBox.setText("Fehler in Dokumentennummer");
+			messageBox.setMessage("Es existiert bereits ein Dokument mit dieser Nummer: " + txtName.getText());
+			messageBox.open();
+			
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns, if save is allowed
+	 * 
+	 * @return TRUE, if save is allowed
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#saveAllowed()
+	 */
+	@Override
+	protected boolean saveAllowed() {
+		// Save is allowed, if there is no document with the same number
+		return !thereIsOneWithSameNumber();
 	}
 
 }
