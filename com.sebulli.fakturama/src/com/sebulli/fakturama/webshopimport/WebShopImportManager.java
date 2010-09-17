@@ -367,14 +367,14 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	 */
 	static public void updateOrderProgress(UniDataSet uds, String comment) {
 
-		// Get the orders that are out of sync with the shop
-		readOrdersToSynchronize();
-		
 		// Get the progress value of the UniDataSet
-		int orderId = uds.getIntValueByKey("name");
+		int orderId = uds.getIntValueByKey("webshopid");
 		int progress = uds.getIntValueByKey("progress");
 		int webshopState;
 		
+		// Get the orders that are out of sync with the shop
+		readOrdersToSynchronize();
+
 		// Convert a percent value of 0..100% to a state of 1,2,3
 		if (progress >= 90)
 			webshopState = 3;
