@@ -365,12 +365,20 @@ public class DataSetContact extends UniDataSet {
 
 	/**
 	 * Test, if this is equal to an other UniDataSet
-	 * Only first name, name and ZIP are compared
+	 * Customer number, first name, name and ZIP are compared.
+	 * Customer number is only compared, if it is set.
 	 * 
 	 * @param uds Other UniDataSet
 	 * @return True, if it's equal
 	 */
 	public boolean isTheSameAs(UniDataSet uds) {
+		
+		// Compare customer number, only if it is set.
+		if (!uds.getStringValueByKey("nr").isEmpty() &&
+			!this.getStringValueByKey("nr").isEmpty() && 	
+		    !uds.getStringValueByKey("nr").equals(this.getStringValueByKey("nr")))
+			return false;
+		
 		if (!uds.getStringValueByKey("firstname").equals(this.getStringValueByKey("firstname")))
 			return false;
 		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
