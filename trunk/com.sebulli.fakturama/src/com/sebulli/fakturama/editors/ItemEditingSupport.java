@@ -201,7 +201,16 @@ public class ItemEditingSupport extends EditingSupport {
 			// If no VAT is found, use the standard VAT
 			if (i < 0)
 				i = Integer.parseInt(Data.INSTANCE.getProperty("standardvat"));
+
+			// Set the vat and store the vat value before and after the modification.
+			Double oldVat = 1.0 + item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value");
 			item.setVat(i);
+			Double newVat = 1.0 + item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value");
+			
+			// Modify the net value that the gross value stays constant.
+			if (documentEditor.getUseGross())
+				item.setDoubleValueByKey("price", oldVat / newVat * item.getDoubleValueByKey("price"));
+			
 			break;
 		case 6:
 			// Set the price as gross or net value.
