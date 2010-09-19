@@ -254,7 +254,7 @@ public class OODocument extends Object{
 			
 			// Get the VAT summary of the UniDataSet document
 			VatSummarySetManager vatSummarySetManager = new VatSummarySetManager();
-			vatSummarySetManager.add(this.document);
+			vatSummarySetManager.add(this.document, 1.0);
 
 			int vatListTemplateRow = 0;
 			if (vatListTable != null) {

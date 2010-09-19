@@ -22,6 +22,8 @@ package com.sebulli.fakturama.preferences;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.exportsales.ExportSalesPreferencePage;
+import com.sebulli.fakturama.webshopimport.WebShopImportPreferencePage;
 
 /**
  * Write or read preference settings to or from the data base
@@ -79,6 +81,7 @@ public class PreferencesInDatabase {
 		ProductPreferencePage.syncWithPreferencesFromDatabase(save);
 		WebShopImportPreferencePage.syncWithPreferencesFromDatabase(save);
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(save);
+		ExportSalesPreferencePage.syncWithPreferencesFromDatabase(save);
 	}
 	
 	

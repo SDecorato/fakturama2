@@ -793,7 +793,7 @@ public class DocumentEditor extends Editor {
 		int sign = DocumentType.getType(document.getIntValueByKey("category")).sign();
 		// Do the calculation
 		document.calculate(items, shipping * sign, shippingVat, shippingVatDescription, shippingAutoVat, DataUtils.StringToDoubleDiscount(itemsDiscount
-				.getText()), noVat, noVatDescription);
+				.getText()), noVat, noVatDescription, 1.0);
 		
 		// Get the total result
 		total = document.getSummary().getTotalGross().asDouble();
@@ -1056,6 +1056,7 @@ public class DocumentEditor extends Editor {
 			}
 		});
 		GridDataFactory.swtDefaults().applyTo(dtDate);
+		superviceControl(dtDate);
 		
 		// Set the dtDate widget to the documents date
 		GregorianCalendar calendar = new GregorianCalendar();

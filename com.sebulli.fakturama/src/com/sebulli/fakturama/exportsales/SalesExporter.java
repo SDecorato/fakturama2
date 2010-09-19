@@ -104,7 +104,16 @@ public class SalesExporter {
 		GregorianCalendar documentDate = new GregorianCalendar();
 		try {
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			documentDate.setTime(formatter.parse(document.getStringValueByKey("date")));
+			
+			String documentDateString = ""; 
+			
+			// Use pay date or document date
+			if (Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAYEDDATE"))
+				documentDateString= document.getStringValueByKey("paydate");
+			else
+				documentDateString= document.getStringValueByKey("date");
+				
+			documentDate.setTime(formatter.parse(documentDateString));
 		} catch (ParseException e) {
 			Logger.logError(e, "Error parsing Date");
 		}
@@ -182,8 +191,9 @@ public class SalesExporter {
 		int row = 0;
 		int col = 0;
 
-		// Count the columns that contain a VAT value 
+		// Count the columns that contain a VAT and net value 
 		int columnsWithVatHeading = 0;
+		int columnsWithNetHeading = 0;
 		
 		// Count the columns that contain a VAT value of 0% 
 		int zeroVatColumns = 0;
@@ -232,12 +242,13 @@ public class SalesExporter {
 
 			if (documentShouldBeExported(document)) {
 				document.calculate();
-				vatSummarySetAllDocuments.add(document);
+				vatSummarySetAllDocuments.add(document, 1.0);
 			}
 		}
 
 		col = 11;
 		columnsWithVatHeading = 0;
+		columnsWithNetHeading = 0;
 		boolean vatIsNotZero = false;
 
 		// A column for each Vat value is created 
@@ -266,6 +277,21 @@ public class SalesExporter {
 				zeroVatColumns++;
 		}
 
+		// A column for each Net value is created 
+		// The Net summary items are sorted. 
+		for (Iterator<VatSummaryItem> iterator = vatSummarySetAllDocuments.getVatSummaryItems().iterator(); iterator.hasNext();) {
+			VatSummaryItem item = iterator.next();
+			
+			// Count the columns
+			columnsWithNetHeading++;
+			
+			// Create a column heading in bold
+			int column = vatSummarySetAllDocuments.getIndex(item);
+			setCellTextInBold(spreadsheet1, headLine, columnsWithVatHeading + column + col, "Netto \n" + item.getVatName());
+		}
+
+		
+		
 		// Second run.
 		// Export the document data
 		for (DataSetDocument document : documents) {
@@ -275,7 +301,6 @@ public class SalesExporter {
 				// Now analyze document by document
 				VatSummarySetManager vatSummarySetOneDocument = new VatSummarySetManager();
 				document.calculate();
-				vatSummarySetOneDocument.add(document);
 
 				// Calculate the relation between payed value and the value
 				// of the invoice. This is used to calculate the VAT.
@@ -289,7 +314,10 @@ public class SalesExporter {
 				// The VAT value in the invoice is also scaled by this 0.958333...
 				// to 19.17€
 				Double payedFactor = document.getDoubleValueByKey("payvalue") / document.getDoubleValueByKey("total");
-
+				
+				// Use the payed value
+				vatSummarySetOneDocument.add(document, payedFactor);
+				
 				// Fill the row with the document data
 				col = 0;
 				setCellText(spreadsheet1, row, col++, DataUtils.DateAsLocalString(document.getStringValueByKey("paydate")));
@@ -305,7 +333,7 @@ public class SalesExporter {
 
 				// Calculate the total VAT of the document
 				PriceValue totalVat = new PriceValue(0.0);
-
+				
 				// Get all VAT entries of this document and place them into the
 				// corresponding column.
 				for (Iterator<VatSummaryItem> iterator = vatSummarySetOneDocument.getVatSummaryItems().iterator(); iterator.hasNext();) {
@@ -313,15 +341,32 @@ public class SalesExporter {
 					
 					// Get the column
 					int column = vatSummarySetAllDocuments.getIndex(item) - zeroVatColumns;
+
+					// If column is <0, it was a VAT entry with 0%
+					if (column >= 0) {
+						
+						// Round the VAT and add fill the table cell
+						PriceValue vat = new PriceValue(item.getVat());
+						totalVat.add(vat.asRoundedDouble());
+						setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, column + (col +1), vat.asRoundedDouble());
+					}
+				}
+
+				// Get all net entries of this document and place them into the
+				// corresponding column.
+				for (Iterator<VatSummaryItem> iterator = vatSummarySetOneDocument.getVatSummaryItems().iterator(); iterator.hasNext();) {
+					VatSummaryItem item = iterator.next();
+					
+					// Get the column
+					int column = vatSummarySetAllDocuments.getIndex(item);
 					
 					// If column is <0, it was a VAT entry with 0%
 					if (column >= 0) {
 						
-						// Scale the VAT by the same factor as the whole
-						// document. Round it and add fill the table cell
-						PriceValue vat = new PriceValue(item.getVat() * payedFactor);
-						totalVat.add(vat.asRoundedDouble());
-						setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, column + (col + 1), vat.asRoundedDouble());
+						// Round the net and add fill the table cell
+						PriceValue net = new PriceValue(item.getNet() );
+						//totalVat.add(net.asRoundedDouble());
+						setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, columnsWithVatHeading + column + (col +1), net.asRoundedDouble());
 					}
 				}
 				
@@ -342,7 +387,7 @@ public class SalesExporter {
 				// If the difference is grater than 1 Cent, display a warning.
 				// It could be a rounding error.
 				if (Math.abs(roundingError) > 0.01)
-					setCellTextInRedBold(spreadsheet1, row, col + columnsWithVatHeading, "Runden prüfen");
+					setCellTextInRedBold(spreadsheet1, row, col + columnsWithVatHeading + columnsWithNetHeading, "Runden prüfen");
 				row++;
 			}
 		}
@@ -353,7 +398,7 @@ public class SalesExporter {
 		
 		// Show the sum only, if there are values in the table
 		if (sumrow > (headLine + 1)) {
-			for (int i = -1; i < columnsWithVatHeading; i++) {
+			for (int i = -1; i < (columnsWithVatHeading + columnsWithNetHeading); i++) {
 				col = 11 + i;
 				try {
 					// Create formula for the sum. 
@@ -368,7 +413,7 @@ public class SalesExporter {
 
 		// Draw a horizontal line (set the border of the top and the bottom
 		// of the table).
-		for (col = 0; col < columnsWithVatHeading + 11; col++) {
+		for (col = 0; col < (columnsWithVatHeading + columnsWithNetHeading) + 11; col++) {
 			CellFormatter.setBorder(spreadsheet1, headLine, col, 0x000000, false, false, true, false);
 			CellFormatter.setBorder(spreadsheet1, sumrow, col, 0x000000, true, false, false, false);
 		}
@@ -376,7 +421,7 @@ public class SalesExporter {
 		// Set the background of the table rows. Use an light and
 		// alternating blue color.
 		for (row = headLine + 1; row < sumrow; row++) {
-			for (col = 0; col < columnsWithVatHeading + 11; col++) {
+			for (col = 0; col < (columnsWithVatHeading + columnsWithNetHeading) + 11; col++) {
 				if ((row % 2) == 0)
 					CellFormatter.setBackgroundColor(spreadsheet1, row, col, 0x00e8ebed);
 			}

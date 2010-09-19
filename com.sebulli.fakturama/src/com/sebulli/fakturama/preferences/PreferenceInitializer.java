@@ -25,6 +25,8 @@ import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.exportsales.ExportSalesPreferencePage;
+import com.sebulli.fakturama.webshopimport.WebShopImportPreferencePage;
 
 /**
  * Initializes the preference pages with default values
@@ -56,5 +58,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		WebShopImportPreferencePage.setInitValues(node);
 		DocumentPreferencePage.setInitValues(node);
 		OpenOfficePreferencePage.setInitValues(node);
+		ExportSalesPreferencePage.setInitValues(node);
+		
 	}
 }

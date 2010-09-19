@@ -467,7 +467,7 @@
             name="Format">
       </page>
       <page
-            class="com.sebulli.fakturama.preferences.WebShopImportPreferencePage"
+            class="com.sebulli.fakturama.webshopimport.WebShopImportPreferencePage"
             id="com.sebulli.fakturama.webshopimport.webShopImportPreferencePage"
             name="Webshop">
       </page>
@@ -485,6 +485,11 @@
             class="com.sebulli.fakturama.preferences.OpenOfficePreferencePage"
             id="com.sebulli.fakturama.preferences.openOfficePreferencePage"
             name="Open Office">
+      </page>
+      <page
+            class="com.sebulli.fakturama.exportsales.ExportSalesPreferencePage"
+            id="com.sebulli.fakturama.exportsales.exportSalesPreferencePage"
+            name="Export USt.">
       </page>
    </extension>
    <extension

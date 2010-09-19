@@ -378,7 +378,7 @@ public class DataSetDocument extends UniDataSet {
 		int sign = DocumentType.getType(this.getIntValueByKey("category")).sign();
 		calculate(this.getItems(), this.getDoubleValueByKey("shipping") * sign, this.getDoubleValueByKey("shippingvat"), this
 				.getStringValueByKey("shippingvatdescription"), this.getIntValueByKey("shippingautovat"), this.getDoubleValueByKey("itemsdiscount"), this
-				.getBooleanValueByKey("novat"), this.getStringValueByKey("novatdescription"));
+				.getBooleanValueByKey("novat"), this.getStringValueByKey("novatdescription"), 1.0);
 	}
 
 	/**
@@ -394,8 +394,8 @@ public class DataSetDocument extends UniDataSet {
 	 * @param noVatDescription Name of the vat, if 0% is used
 	 */
 	public void calculate(DataSetArray<DataSetItem> items, double shippingNet, double shippingVat, String shippingVatDescription, int shippingAutoVat,
-			Double itemsDiscount, boolean noVat, String noVatDescription) {
-		summary.calculate(null, items, shippingNet, shippingVat, shippingVatDescription, shippingAutoVat, itemsDiscount, noVat, noVatDescription);
+			Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor) {
+		summary.calculate(null, items, shippingNet, shippingVat, shippingVatDescription, shippingAutoVat, itemsDiscount, noVat, noVatDescription, scaleFactor);
 	}
 
 	/**

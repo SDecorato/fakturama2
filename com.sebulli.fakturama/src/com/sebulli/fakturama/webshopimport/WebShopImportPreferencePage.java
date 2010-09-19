@@ -18,7 +18,7 @@
  *   
  */
 
-package com.sebulli.fakturama.preferences;
+package com.sebulli.fakturama.webshopimport;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
@@ -28,6 +28,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
 /**
  * Preference page for the webshop settings
