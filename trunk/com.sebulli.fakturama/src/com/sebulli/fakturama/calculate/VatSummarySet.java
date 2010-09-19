@@ -141,7 +141,7 @@ public class VatSummarySet extends TreeSet<VatSummaryItem> {
 			oneCent = -0.01;
 		}
 		
-		// dispense the missing cents to those values with the maximum
+		// Dispense the missing cents to those values with the maximum
 		// rounding error.
 		for (int i = 0; i < missingCents; i++) {
 			
@@ -222,7 +222,7 @@ public class VatSummarySet extends TreeSet<VatSummaryItem> {
 				}
 			}
 			
-			// Correct the item be one cent
+			// Correct the item by one cent
 			if (maxItem != null) {
 				maxItem.setVat(maxItem.getVat() + oneCent);
 				maxItem.setVatRoundingError(maxItem.getVatRoundingError() - oneCent);

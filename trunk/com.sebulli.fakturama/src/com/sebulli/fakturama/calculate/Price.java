@@ -72,6 +72,17 @@ public class Price {
 
 	/**
 	 * Constructor
+	 * Create a price value from an item and a scale factor
+	 * 
+	 * @param item Item as UniDataSet
+	 */
+	public Price(DataSetItem item, Double scaleFactor) {
+		this(item.getDoubleValueByKey("quantity"), item.getDoubleValueByKey("price") * scaleFactor, item.getDoubleValueByKey("vatvalue"), item
+				.getDoubleValueByKey("discount"), item.getBooleanValueByKey("novat"), false);
+	}
+
+	/**
+	 * Constructor
 	 * Create a price value from an expenditure item
 	 * 
 	 * @param item Item as UniDataSet

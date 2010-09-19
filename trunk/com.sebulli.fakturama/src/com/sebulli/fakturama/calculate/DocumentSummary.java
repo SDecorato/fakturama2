@@ -89,9 +89,10 @@ public class DocumentSummary {
 	 * @param itemsDiscount Discount value
 	 * @param noVat TRUE, if all VAT values are set to 0. 
 	 * @param noVatDescription Name of the VAT, which is 0.
+	 * @param scaleFactor 
 	 */
 	public void calculate(VatSummarySet globalVatSummarySet, DataSetArray<DataSetItem> items, double shippingValue, double shippingVatPercent,
-			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription) {
+			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor) {
 		
 		Double vatPercent;
 		String vatDescription;
@@ -111,7 +112,7 @@ public class DocumentSummary {
 			// Get the data from each item
 			vatDescription = item.getStringValueByKey("vatdescription");
 			vatPercent = item.getDoubleValueByKey("vatvalue");
-			Price price = new Price(item);
+			Price price = new Price(item, scaleFactor);
 			Double itemVat = price.getTotalVat().asDouble();
 			
 			// Add the total net value of this item to the sum of net items
@@ -211,6 +212,10 @@ public class DocumentSummary {
 		}
 
 		// calculate shipping
+
+		// Scale the shipping
+		shippingValue = shippingValue * scaleFactor;
+
 		// If shippingAutoVat is not fix, the shipping vat is 
 		// an average value of the vats of the items.
 		if (shippingAutoVat != DataSetShipping.SHIPPINGVATFIX) {
