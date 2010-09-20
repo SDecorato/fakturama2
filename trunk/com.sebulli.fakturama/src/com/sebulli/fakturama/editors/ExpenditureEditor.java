@@ -500,13 +500,13 @@ public class ExpenditureEditor extends Editor {
 				new ExpenditureItemEditingSupport(this,	tableViewerItems, 2));
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "MwSt.", 50, 0, true, "$ExpenditureItemVatPercent",  
 				new ExpenditureItemEditingSupport(this,	tableViewerItems, 3));
-		if (useGross)
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true, "$ExpenditureItemGrossPrice",  
-					new ExpenditureItemEditingSupport(this,	tableViewerItems, 4));
-		else
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true, "price",  
-					new ExpenditureItemEditingSupport(this,	tableViewerItems, 4));
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Netto", 85, 0, true, "price",  
+				new ExpenditureItemEditingSupport(this,	tableViewerItems, 4));
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Brutto", 85, 0, true, "$ExpenditureItemGrossPrice",  
+				new ExpenditureItemEditingSupport(this,	tableViewerItems, 5));
 
+		
+		
 		// Fill the table with the items
 		tableViewerItems.setInput(expenditureItems);
 
