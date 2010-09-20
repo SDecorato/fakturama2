@@ -98,7 +98,7 @@ public class PreferencesInDatabase {
 	 * preference pages.
 	 */
 	public static void savePreferencesInDatabase() {
-		loadOrSavePreferencesFromOrInDatabase(false);
+		loadOrSavePreferencesFromOrInDatabase(true);
 	}
 
 }
