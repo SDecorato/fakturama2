@@ -20,6 +20,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import java.util.ArrayList;
+
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -27,6 +29,8 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
@@ -47,6 +51,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 	private int column;
 	
 	private Object activeObject;
+	boolean textCorrected = false;
 	
 	// The parent expenditure editor that contains the item table
 	private ExpenditureEditor expenditureEditor;
@@ -67,15 +72,51 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		this.column = column;
 		
 		// Create the correct editor based on the column index
-		// Column nr.3 uses a combo box cell editor.
+		// Column nr 2 and nr.3 use a combo box cell editor.
 		// The other columns a text cell editor.
 		switch (column) {
+		case 2:
+			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name"));
+			final CCombo combo = (CCombo)editor.getControl();
+			
+			combo.addVerifyListener(new VerifyListener() {
+
+				@Override
+				public void verifyText(VerifyEvent e) {
+					
+					// Do it only, if the new text is not empty.
+					// This must be done to prevent an event loop.
+					if (!e.text.isEmpty() && !textCorrected) {
+
+						// The complete text is the old one of the combo and
+						// the new sequence from the event.
+						String text = combo.getText()+e.text;
+
+						// Delete or backslash will end the suggestion mode
+						if ((e.keyCode == 8) || (e.keyCode == 127))
+							textCorrected = true;
+						else {
+							
+							// Get the suggestion ..
+							String suggestion = getSuggestion(text);
+							if (!suggestion.isEmpty()) {
+								
+								// .. and use it.
+								combo.setText("");
+								e.text = suggestion;
+							}
+						}
+					}
+				}});
+			break;
 		case 3:
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name"));
 			break;
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
 		}
+		
+
 	}
 
 	/**
@@ -91,6 +132,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		case 2:
 		case 3:
 		case 4:
+		case 5:
 			return true;
 		}
 		return false;
@@ -122,14 +164,14 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		case 1:
 			return item.getFormatedStringValueByKey("name");
 		case 2:
-			return item.getStringValueByKey("category");
+			//return item.getStringValueByKey("category");
+			return -1;
 		case 3:
 			return item.getIntValueByKey("vatid");
 		case 4:
-			if (expenditureEditor.getUseGross())
-				return new Price(item).getUnitGross().asFormatedString();
-			else
-				return new Price(item).getUnitNet().asFormatedString();
+			return new Price(item).getUnitNet().asFormatedString();
+		case 5:
+			return new Price(item).getUnitGross().asFormatedString();
 		}
 		return "";
 	}
@@ -178,13 +220,12 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			item.setIntValueByKey("vatid", i);
 			break;
 		case 4:
-			// Set the price as gross or net value.
-			// If the editor displays gross values, calculate the net value,
-			// because only net values are stored.
-			if (expenditureEditor.getUseGross())
-				item.setDoubleValueByKey("price", new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),false, true).getUnitNet().asDouble());
-			else
-				item.setStringValueByKey("price", String.valueOf(value));
+			// Net price
+			item.setStringValueByKey("price", String.valueOf(value));
+			break;
+		case 5:
+			// Gross price
+			item.setDoubleValueByKey("price", new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),false, true).getUnitNet().asDouble());
 			break;
 		default:
 			break;
@@ -192,6 +233,68 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		
 		// Update the data
 		getViewer().update(element, null);
+	}
+	
+	/**
+	 * Search for the "base" string in the list and get those part of the string
+	 * that was found in the list. If there are more than one entry that starts
+	 * with the same sequence, return the sequence, that is equal in all strings of 
+	 * the list.
+	 * 
+	 * @param base String to search for
+	 * @return Result string
+	 */
+	private String getSuggestion (String base) {
+
+		// Do not work with empty strings
+		if (base.isEmpty())
+			return "";
+
+		// Get list to search for
+		String[] suggestions = Data.INSTANCE.getVATs().getStrings("name");
+		
+		// Temporary list with all strings that start with the base string
+		ArrayList<String> resultStrings = new ArrayList<String>();
+
+		// Get all strings that start with the base string
+		// and copy them to the temporary list
+		for (int i = 0; i < suggestions.length; i++) {
+			if (suggestions[i].toLowerCase().startsWith(base.toLowerCase()))
+				resultStrings.add(suggestions[i]);
+		}
+
+		// No string matches: return with an empty string
+		if (resultStrings.isEmpty())
+			return "";
+		
+		// There was at least one string found in the list.
+		// Start with this entry.
+		String tempResult = resultStrings.get(0);
+		String result = "";
+
+		// Get that part of the all the strings, that is equal
+		for (String resultString : resultStrings) {
+			
+			// To compare two strings character by character, the minimum
+			// length of both must be used for the loop
+			int length = tempResult.length();
+			if (resultString.length() < length)
+				length = resultString.length();
+			
+			// Compare both strings, and get the part, that is equal
+			for (int i = 0;i < length;i++) {
+				if (tempResult.substring(0, i+1).
+						equalsIgnoreCase(resultString.substring(0, i+1)))
+					result = tempResult.substring(0, i+1);
+
+			}
+			
+			// Use the result to compare it with the next entry
+			tempResult = result;
+		}
+		
+		// Return the result
+		return result;
 	}
 	
 	/**
