@@ -550,6 +550,13 @@
             name="Text Editor">
       </editor>
       <editor
+            class="com.sebulli.fakturama.editors.ListEditor"
+            default="false"
+            icon="icons/16/list_16.png"
+            id="com.sebulli.fakturama.editors.listEditor"
+            name="List Editor">
+      </editor>
+      <editor
             class="com.sebulli.fakturama.editors.ExpenditureEditor"
             default="false"
             icon="icons/16/list_16.png"

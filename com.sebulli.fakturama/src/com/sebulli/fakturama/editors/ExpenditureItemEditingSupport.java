@@ -46,6 +46,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 
 	// The cell editor
 	private CellEditor editor;
+	private String[] categoryListEntries;
 
 	// The current columns
 	private int column;
@@ -76,7 +77,8 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		// The other columns a text cell editor.
 		switch (column) {
 		case 2:
-			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name"));
+			categoryListEntries = Data.INSTANCE.getListEntries().getStringsInCategory("value", "billing_accounts");
+			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), categoryListEntries );
 			final CCombo combo = (CCombo)editor.getControl();
 			
 			combo.addVerifyListener(new VerifyListener() {
@@ -164,8 +166,16 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		case 1:
 			return item.getFormatedStringValueByKey("name");
 		case 2:
-			//return item.getStringValueByKey("category");
+			
+			// Get the index of that entry, that is equal to the category
+			for (int i = 0; i < categoryListEntries.length; i++) {
+				if (categoryListEntries[i].equals(item.getStringValueByKey("category")))
+					return i;
+			}
+			
+			// No entry found
 			return -1;
+			
 		case 3:
 			return item.getIntValueByKey("vatid");
 		case 4:
@@ -192,15 +202,43 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			// Set the name
 			item.setStringValueByKey("name", String.valueOf(value));
 			break;
+			
 		case 2:
-			// Set the name
-			item.setStringValueByKey("category", String.valueOf(value));
+			// Get the selected item from the combo box
+			Integer i = (Integer) value;
+			
+			// If there is an entry of the combo list selected
+			if ( i>=0 && i<categoryListEntries.length)
+				item.setStringValueByKey("category", categoryListEntries[i]);
+			
+			// If there is an entry with the same name as one of the combo list
+			else {
+				// get the text of the combo box
+				String text = ((CCombo)editor.getControl()).getText();
+				
+				boolean found = false;
+				
+				// Search for the entry with the same value of the category
+				for (int ii = 0; ii < categoryListEntries.length && !found; ii++) {
+					String listEntry = categoryListEntries[ii];
+					if (listEntry.equals(text)) {
+						item.setStringValueByKey("category", listEntry);
+						found = true;
+					}
+				}
+				
+				// No entry found
+				//TODO: add the entry to the list of billing accounts
+				if (!found)
+					item.setStringValueByKey("category", "??");
+				
+			}
 			break;
 		case 3:
 			// Set the VAT
 			
 			// Get the selected item from the combo box
-			Integer i = (Integer) value;
+			i = (Integer) value;
 			String s;
 
 			// Get the VAT by the selected name
@@ -251,7 +289,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			return "";
 
 		// Get list to search for
-		String[] suggestions = Data.INSTANCE.getVATs().getStrings("name");
+		String[] suggestions = Data.INSTANCE.getListEntries().getStringsInCategory("value", "billing_accounts");
 		
 		// Temporary list with all strings that start with the base string
 		ArrayList<String> resultStrings = new ArrayList<String>();

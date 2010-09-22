@@ -236,6 +236,7 @@ public class DataSetArray<T> {
 		}
 	}
 
+	
 	/**
 	 * Get an array of strings with all undeleted data sets
 	 * 
@@ -252,6 +253,31 @@ public class DataSetArray<T> {
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
 			list.add(uds.getStringValueByKey(key));
+		}
+		
+		// .. and convert this list to an array
+		return list.toArray(new String[0]);
+	}
+
+	/**
+	 * Get an array of strings with all undeleted data sets
+	 * from a given category
+	 * 
+	 * @param key Key of the UniData value
+	 * @param category Only entries with this category will be returned
+	 * @return Array of strings
+	 */
+	public String[] getStringsInCategory(String key, String category) {
+
+		// get all undeleted data sets
+		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<T> undeletedDatasets = getActiveDatasets();
+
+		// collect all Strings in a list ..
+		for (T dataset : undeletedDatasets) {
+			UniDataSet uds = (UniDataSet) dataset;
+			if ( uds.getStringValueByKey("category").equalsIgnoreCase(category))
+					list.add(uds.getStringValueByKey(key));
 		}
 		
 		// .. and convert this list to an array

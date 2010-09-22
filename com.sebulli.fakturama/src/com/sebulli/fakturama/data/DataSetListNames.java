@@ -16,7 +16,8 @@ public enum DataSetListNames {
 	 * Fill the list with name pairs
 	 */
 	DataSetListNames() {
-		setNamePair("countrycodes", "Länderkennung");
+		setNamePair("country_codes", "Länderkennung");
+		setNamePair("billing_accounts", "Buchungskonten");
 	}
 
 	/**
