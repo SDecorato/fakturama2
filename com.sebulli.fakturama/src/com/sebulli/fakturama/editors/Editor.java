@@ -320,14 +320,26 @@ public abstract class Editor extends EditorPart  implements ISaveablePart2{
 	 */
 	protected void refreshView() {
 		
+		// Refresh the view that corresponds to this editor
+		refreshView(tableViewID);
+
+	}
+
+	/**
+	 * Refresh a view that corresponds to this editor
+	 * @prama ID of the view to refresh
+	 */
+	protected void refreshView(String viewId) {
+		
 		// Find the view
-		ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(tableViewID);
+		ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(viewId);
 		
 		// Refresh it
 		if (view != null)
 			view.refresh();
 
 	}
+	
 
 	/**
 	 * Request a new validation, if the document is dirty.
@@ -379,6 +391,16 @@ public abstract class Editor extends EditorPart  implements ISaveablePart2{
 	 * if the content of the text combo is modified.
 	 */
 	protected void superviceControl(Combo combo) {
+		
+		combo.addModifyListener(new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				checkDirty();
+
+			}
+		});
+		
 		combo.addSelectionListener(new SelectionListener() {
 
 			@Override
