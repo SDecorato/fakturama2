@@ -190,7 +190,7 @@ public class ItemEditingSupport extends EditingSupport {
 			// Get the VAT by the selected name
 			if (i >= 0) {
 				s = ((ComboBoxCellEditor) this.editor).getItems()[i];
-				i = Data.INSTANCE.getVATs().getDataSetByStringValue("name", s);
+				i = Data.INSTANCE.getVATs().getDataSetIDByStringValue("name", s);
 			} 
 			// Get the VAT by the Value in percent
 			else {
@@ -233,7 +233,6 @@ public class ItemEditingSupport extends EditingSupport {
 		
 		// Recalculate the total sum of the document
 		documentEditor.calculate();
-		//this.documentEditor.checkDirty();
 		
 		// Update the data
 		getViewer().update(element, null);

@@ -313,6 +313,9 @@ public abstract class UniDataSet {
 			return false;
 		UniDataSet other = (UniDataSet) obj;
 
+		//if (this.hashCode() != obj.hashCode())
+		//	return false;
+		
 		// Compare all entries of the hash map
 		for (String key : this.hashMap.keySet()) {
 			if (this.hashMap.get(key) == null) {

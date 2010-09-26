@@ -749,6 +749,17 @@ public class DocumentEditor extends Editor {
 	}
 
 	/**
+	 * Adds an empty item
+	 * 
+	 * @param newItem The new item
+	 */
+	private void addNewItem(DataSetItem newItem) {
+		newItem.setIntValueByKey("id",- (items.getDatasets().size()+1) );
+		items.getDatasets().add(newItem);
+	}
+
+	
+	/**
 	 * Returns the document
 	 * 
 	 * @return The document
@@ -1316,7 +1327,7 @@ public class DocumentEditor extends Editor {
 						product = (DataSetProduct) dialog.getSelection();
 						if (product != null) {
 							DataSetItem newItem = new DataSetItem(documentType.sign() * 1.0, product);
-							items.getDatasets().add(newItem);
+							addNewItem(newItem);
 							tableViewerItems.refresh();
 							calculate();
 							checkDirty();
@@ -1341,7 +1352,7 @@ public class DocumentEditor extends Editor {
 
 					// Use the standard VAT value
 					newItem.setVat(Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
-					items.getDatasets().add(newItem);
+					addNewItem(newItem);
 					
 					tableViewerItems.refresh();
 					calculate();
@@ -1608,6 +1619,7 @@ public class DocumentEditor extends Editor {
 			
 			// Set the combo
 			comboShipping.setText(document.getStringValueByKey("shippingdescription"));
+			superviceControl(comboShipping);
 
 			// Shipping value field
 			shippingValue = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
@@ -1707,6 +1719,7 @@ public class DocumentEditor extends Editor {
 
 				// Fill the payment combo with the payments
 				comboViewerPayment.setInput(Data.INSTANCE.getPayments().getDatasets());
+				superviceControl(comboPayment);
 
 				// Create a default payed composite with the document's
 				// state for "payed"

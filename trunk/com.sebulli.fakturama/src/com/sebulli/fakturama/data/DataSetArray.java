@@ -320,7 +320,6 @@ public class DataSetArray<T> {
 			return DataSetDocument.getCategoryStrings(usedDocuments);
 
 		}
-		// It's an ArraySet of documents
 
 		// It's not an ArraySet of documents - so collect all category strings
 		else {
@@ -422,13 +421,13 @@ public class DataSetArray<T> {
 	}
 
 	/**
-	 * Get a data set by a string value
+	 * Get the ID of a data set by a string value
 	 * 
 	 * @param key Key to use for the search
 	 * @param value String value to search for
 	 * @return ID of the first data set with the same value (or -1, if there is nothing)
 	 */
-	public int getDataSetByStringValue(String key, String value) {
+	public int getDataSetIDByStringValue(String key, String value) {
 		ArrayList<T> undeletedDatasets = getActiveDatasets();
 
 		for (T dataset : undeletedDatasets) {
@@ -439,6 +438,25 @@ public class DataSetArray<T> {
 			}
 		}
 		return -1;
+	}
+
+	/**
+	 * Get a data set by a string value
+	 * 
+	 * @param key Key to use for the search
+	 * @param value String value to search for
+	 * @return The first data set with the same value (or -null, if there is nothing)
+	 */
+	public T getDataSetByStringValue(String key, String value) {
+		ArrayList<T> undeletedDatasets = getActiveDatasets();
+
+		for (T dataset : undeletedDatasets) {
+			UniDataSet uds = (UniDataSet) dataset;
+			if (uds.getStringValueByKey(key).equals(value)) {
+				return (dataset);
+			}
+		}
+		return null;
 	}
 
 	/**

@@ -29,6 +29,8 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 
@@ -36,6 +38,8 @@ import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.data.DataSetList;
+import com.sebulli.fakturama.data.DataSetVAT;
 
 /**
  * Item editing support for the item table of the document editor
@@ -51,6 +55,12 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 	// The current columns
 	private int column;
 	
+	// The VAT combo
+	private CCombo combo = null;
+	private String carryString = "";
+	
+	private DataSetExpenditureItem item = null;
+	
 	private Object activeObject;
 	boolean textCorrected = false;
 	
@@ -65,7 +75,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 	 * @param viewer The column viewer
 	 * @param column The column
 	 */
-	public ExpenditureItemEditingSupport(ExpenditureEditor expenditureEditor, ColumnViewer viewer, int column) {
+	public ExpenditureItemEditingSupport(final ExpenditureEditor expenditureEditor, ColumnViewer viewer, int column) {
 		super(viewer);
 
 		// Set the local variables
@@ -77,15 +87,64 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		// The other columns a text cell editor.
 		switch (column) {
 		case 2:
-			categoryListEntries = Data.INSTANCE.getListEntries().getStringsInCategory("value", "billing_accounts");
+			categoryListEntries = Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts");
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), categoryListEntries );
-			final CCombo combo = (CCombo)editor.getControl();
+			combo = (CCombo)editor.getControl();
+			
+			combo.addModifyListener(new ModifyListener() {
+
+				@Override
+				public void modifyText(ModifyEvent e) {
+					
+					// Us the carryString, if it's not empty
+					if (!carryString.isEmpty()) {
+						
+						// Use a 2nd string to prevent an event loop
+						String carryString2 = carryString;
+						carryString = "";
+						combo.setText(carryString2);
+					}
+					
+					// Get the content of the combo box
+					String text = combo.getText() ;
+					
+					// Get list of all billing accounts
+					ArrayList<DataSetList> billing_accounts = Data.INSTANCE.getListEntries().getActiveDatasetsByCategory("billing_accounts");
+					
+					// Search for the billing account with the same name as in the cell
+					for (DataSetList billing_account : billing_accounts) {
+						if (billing_account.getStringValueByKey("name").equalsIgnoreCase(text)) {
+							
+							// Get the VAT value from the billing account list
+							String vatName = billing_account.getStringValueByKey("value");
+							
+							// Get the VAT entry with the same name
+							DataSetVAT vat  = Data.INSTANCE.getVATs().getDataSetByStringValue("name", vatName);
+							
+							// Search also for the description
+							if (vat == null)
+								vat = Data.INSTANCE.getVATs().getDataSetByStringValue("description", vatName);
+							
+							// Update the VAT cell in the table
+							if (vat != null) {
+								item.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
+								expenditureEditor.getTableViewerItems().update(item, null);
+							}
+							
+						}
+					}
+					
+				}});
 			
 			combo.addVerifyListener(new VerifyListener() {
 
 				@Override
 				public void verifyText(VerifyEvent e) {
-					
+
+					// Delete or backslash will end the suggestion mode
+					if ((e.keyCode == 8) || (e.keyCode == 127))
+						textCorrected = true;
+
 					// Do it only, if the new text is not empty.
 					// This must be done to prevent an event loop.
 					if (!e.text.isEmpty() && !textCorrected) {
@@ -94,21 +153,18 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 						// the new sequence from the event.
 						String text = combo.getText()+e.text;
 
-						// Delete or backslash will end the suggestion mode
-						if ((e.keyCode == 8) || (e.keyCode == 127))
-							textCorrected = true;
-						else {
+						// Get the suggestion ..
+						String suggestion = getSuggestion(text);
+						if (!suggestion.isEmpty()) {
 							
-							// Get the suggestion ..
-							String suggestion = getSuggestion(text);
-							if (!suggestion.isEmpty()) {
-								
-								// .. and use it.
-								combo.setText("");
-								e.text = suggestion;
-							}
+							// .. and use it.
+							combo.setText("");
+							e.text = suggestion;
 						}
 					}
+
+
+				
 				}});
 			break;
 		case 3:
@@ -161,7 +217,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		activeObject = element;
 		expenditureEditor.setItemEditing(this);
 		
-		DataSetExpenditureItem item = (DataSetExpenditureItem) element;
+		item = (DataSetExpenditureItem) element;
 		switch (this.column) {
 		case 1:
 			return item.getFormatedStringValueByKey("name");
@@ -172,8 +228,9 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 				if (categoryListEntries[i].equals(item.getStringValueByKey("category")))
 					return i;
 			}
-			
+
 			// No entry found
+			carryString = item.getStringValueByKey("category");
 			return -1;
 			
 		case 3:
@@ -228,9 +285,8 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 				}
 				
 				// No entry found
-				//TODO: add the entry to the list of billing accounts
 				if (!found)
-					item.setStringValueByKey("category", "??");
+					item.setStringValueByKey("category", text);
 				
 			}
 			break;
@@ -244,7 +300,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			// Get the VAT by the selected name
 			if (i >= 0) {
 				s = ((ComboBoxCellEditor) this.editor).getItems()[i];
-				i = Data.INSTANCE.getVATs().getDataSetByStringValue("name", s);
+				i = Data.INSTANCE.getVATs().getDataSetIDByStringValue("name", s);
 			} 
 			// Get the VAT by the Value in percent
 			else {
@@ -268,7 +324,9 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		default:
 			break;
 		}
-		
+
+		this.expenditureEditor.checkDirty();
+
 		// Update the data
 		getViewer().update(element, null);
 	}
@@ -289,7 +347,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			return "";
 
 		// Get list to search for
-		String[] suggestions = Data.INSTANCE.getListEntries().getStringsInCategory("value", "billing_accounts");
+		String[] suggestions = Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts");
 		
 		// Temporary list with all strings that start with the base string
 		ArrayList<String> resultStrings = new ArrayList<String>();

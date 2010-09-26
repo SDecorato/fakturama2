@@ -43,7 +43,7 @@ public class DataSetList extends UniDataSet {
 	 * @param category Category of the new list entry
 	 */
 	public DataSetList(String category) {
-		this("", category, "");
+		this(category, "", "");
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class DataSetList extends UniDataSet {
 	 * @param category
 	 * @param value
 	 */
-	public DataSetList(String name, String category, String value) {
+	public DataSetList(String category, String name, String value) {
 		this(0, name, false, category, value);
 	}	
 	
