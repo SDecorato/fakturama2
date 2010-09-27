@@ -48,7 +48,7 @@ public class ExportSalesWizandPage1 extends WizardPage {
 	 * Create the page and set title and message.
 	 */
 	protected ExportSalesWizandPage1() {
-		super("ExportVatSummaryWizandPage1");
+		super("ExportVatSummaryWizardPage1");
 		setTitle("USt. Liste als Tabelle");
 		setMessage("Zeitraum wählen");
 	}

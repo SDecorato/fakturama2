@@ -591,5 +591,22 @@
             class="com.sebulli.fakturama.preferences.PreferenceInitializer">
       </initializer>
    </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            id="com.sebulli.fakturama.importWizards.sampleCategory"
+            name="Sample File Import">
+      </category>
+      <wizard
+            category="com.sebulli.fakturama.importWizards.sampleCategory"
+            class="com.sebulli.fakturama.importWizards.ImportCSVWizard"
+            icon="icons/16/import_16.png"
+            id="com.sebulli.fakturama.importWizards.CSVImportWizard"
+            name="Import CSV Tabelle">
+         <description>
+            Import a file from the local file system into the workspace.
+         </description>
+      </wizard>
+   </extension>
 
 </plugin>

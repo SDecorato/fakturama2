@@ -100,4 +100,18 @@ public class DataSetExpenditureItem extends UniDataSet {
 		sqlTabeName = "ExpenditureItems";
 
 	}
+	
+	/**
+	 * Test, if this is equal to an other UniDataSet
+	 * Only the names and the item numbers are compared
+	 * 
+	 * @param uds Other UniDataSet
+	 * @return True, if it's equal
+	 */
+	@Override
+	public boolean isTheSameAs(UniDataSet uds) {
+		
+		return false;
+	}
+
 }

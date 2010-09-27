@@ -64,6 +64,8 @@ public interface ICommandIds {
 	public static final String CMD_MARK_ORDER_AS = "com.sebulli.fakturama.actions.markOrderAs";
 	public static final String CMD_MARK_DOCUMENT_AS_PAYED = "com.sebulli.fakturama.actions.markDocumentAsPayed";
 
+	public static final String CMD_IMPORT_CSV = "com.sebulli.fakturama.actions.importCSV";
+
 	public static final String CMD_EXPORT_VAT_SUMMARY = "com.sebulli.fakturama.actions.exportVatSummary";
 
 	public static final String CMD_OPEN_BROWSER_EDITOR = "com.sebulli.fakturama.actions.openBrowserEditor";

@@ -89,6 +89,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction saveAllAction;
 	private IWorkbenchAction exitAction;
 	private IWorkbenchAction aboutAction;
+	private IWorkbenchAction importWizardAction;
 	private IWorkbenchAction exportWizardAction;
 	private IWorkbenchAction openPreferencesAction;
 	private IWorkbenchAction resetViewAction;
@@ -146,6 +147,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		exportWizardAction = ActionFactory.EXPORT.create(window);
 		exportWizardAction.setText("Daten exportieren ..");
 		register(exportWizardAction);
+
+		importWizardAction = ActionFactory.IMPORT.create(window);
+		importWizardAction.setText("Daten importieren ..");
+		register(importWizardAction);
 
 		openPreferencesAction = ActionFactory.PREFERENCES.create(window);
 		openPreferencesAction.setText("Einstellungen");
@@ -322,6 +327,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		}
 		fileMenu.add(new Separator());
 		fileMenu.add(webShopImportAction);
+		fileMenu.add(importWizardAction);
 		fileMenu.add(exportWizardAction);
 		fileMenu.add(new GroupMarker(ActionFactory.EXPORT.getId()));
 		fileMenu.add(new Separator());

@@ -111,12 +111,14 @@ public class DataUtils {
 		s = s.replaceAll(",", ".");
 		
 		// use only numbers
-		Pattern p = Pattern.compile("[+-]?\\d*\\.?\\d*");
+		Pattern p = Pattern.compile("[^\\d]*([+-]?\\d*\\.?\\d*).*");
 		Matcher m = p.matcher(s);
 
 		if (m.find()) {
 			// extract the number
-			s = s.substring(m.start(), m.end());
+			s = m.group(1);
+
+			//s = s.substring(m.start(), m.end());
 			try {
 				// try to convert it to a double value
 				d = Double.parseDouble(s);
@@ -422,12 +424,7 @@ public class DataUtils {
 	 */
 	public static String DateAsISO8601String(String s) {
 		GregorianCalendar calendar = new GregorianCalendar();
-		try {
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			calendar.setTime(formatter.parse(s));
-		} catch (ParseException e) {
-			Logger.logError(e, "Error parsing Date");
-		}
+		calendar = getCalendarFromDateString(s);
 		return getDateTimeAsString(calendar);
 	}
 
