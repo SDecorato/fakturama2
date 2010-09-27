@@ -49,7 +49,7 @@ public class WebShopImportAction extends Action {
 	 * Constructor
 	 */
 	public WebShopImportAction() {
-		super("Webshop Import");
+		super("Webshop");
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_WEBSHOP_IMPORT);

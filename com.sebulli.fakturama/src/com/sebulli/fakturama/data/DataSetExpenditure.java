@@ -93,4 +93,28 @@ public class DataSetExpenditure extends UniDataSet {
 		sqlTabeName = "Expenditures";
 
 	}
+	
+	/**
+	 * Test, if this is equal to an other UniDataSet
+	 * Only the names and the item numbers are compared
+	 * 
+	 * @param uds Other UniDataSet
+	 * @return True, if it's equal
+	 */
+	@Override
+	public boolean isTheSameAs(UniDataSet uds) {
+		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
+			return false;
+		if (!uds.getStringValueByKey("category").equals(this.getStringValueByKey("category")))
+			return false;
+		if (!uds.getStringValueByKey("date").equals(this.getStringValueByKey("date")))
+			return false;
+		if (!uds.getStringValueByKey("nr").equals(this.getStringValueByKey("nr")))
+			return false;
+		if (!uds.getStringValueByKey("documentnr").equals(this.getStringValueByKey("documentnr")))
+			return false;
+
+		return true;
+	}
+
 }
