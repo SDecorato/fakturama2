@@ -239,11 +239,14 @@ public class DataSetArray<T> {
 	
 	/**
 	 * Get an array of strings with all undeleted data sets
+	 * Return only those elements that are in the specified category and those
+	 * where no category is set.
 	 * 
 	 * @param key Key of the UniData value
+	 * @param category The preferred category. If it's emtpy, return all.
 	 * @return Array of strings
 	 */
-	public String[] getStrings(String key) {
+	public String[] getStrings(String key, String category) {
 
 		// get all undeleted data sets
 		ArrayList<String> list = new ArrayList<String>();
@@ -252,12 +255,29 @@ public class DataSetArray<T> {
 		// collect all Strings in a list ..
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
-			list.add(uds.getStringValueByKey(key));
+			
+			// Use the specified category
+			if (category.isEmpty() || 
+					uds.getStringValueByKey("category").equals(category) ||
+					uds.getStringValueByKey("category").isEmpty())
+				list.add(uds.getStringValueByKey(key));
 		}
 		
 		// .. and convert this list to an array
 		return list.toArray(new String[0]);
 	}
+	
+	/**
+	 * Get an array of strings with all undeleted data sets
+	 * 
+	 * @param key Key of the UniData value
+	 * @return Array of strings
+	 */
+	public String[] getStrings(String key) {
+		return getStrings(key, "");
+	}
+	
+	
 
 	/**
 	 * Get an array of strings with all undeleted data sets

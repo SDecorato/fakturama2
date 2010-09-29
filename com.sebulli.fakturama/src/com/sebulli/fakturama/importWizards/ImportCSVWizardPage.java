@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Text;
 public class ImportCSVWizardPage extends WizardSelectionPage {
 	
 	private Text statusText;
+	private String statusTextString = "";
 	
 	public ImportCSVWizardPage() {
 		super("ImportCSVWizardPage");
@@ -40,6 +41,12 @@ public class ImportCSVWizardPage extends WizardSelectionPage {
 		setDescription("Description");
 	}
 
+	public void setStatusText (String text) {
+		statusTextString = text;
+		if (statusText != null)
+			statusText.setText(statusTextString);
+	}
+	
 	@Override
 	public void createControl(Composite parent) {
 		// Create the top composite
@@ -55,6 +62,7 @@ public class ImportCSVWizardPage extends WizardSelectionPage {
 		// Create the label with the help text
 		statusText = new Text(top, SWT.BORDER | SWT.MULTI );
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(statusText);
+		statusText.setText(statusTextString);
 
 		
 		

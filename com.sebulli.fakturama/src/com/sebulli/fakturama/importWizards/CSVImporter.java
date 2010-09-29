@@ -27,6 +27,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetExpenditure;
@@ -44,6 +45,7 @@ public class CSVImporter {
 										"item category",
 										"item price",
 										"item vat"};
+	String result = "";
 	
 	public CSVImporter () {
 		
@@ -71,10 +73,15 @@ public class CSVImporter {
 		return s;
 	}
 	
-	public void importCSV (String fileName) {
+	public void importCSV (final String fileName, boolean test ) {
 
+		result = "Importiere " + fileName;
+		String NL = OSDependent.getNewLine();
+		int importedExpenditures = 0;
+		
 		// Create a File object
 		File file = new File(fileName);
+
 
 		// If the log file exists read the content
 		if (file.exists()) {
@@ -92,6 +99,7 @@ public class CSVImporter {
 			// Read the first line
 			try {
 				if ((line = in.readLine()) != null) {
+
 					columns = line.split(";");
 					for (int i=0; i<columns.length; i++) {
 						columns[i] = removeQuotes(columns[i]);
@@ -108,6 +116,9 @@ public class CSVImporter {
 			// Read the existing file and store it in a buffer
 			// with a fix size. Only the newest lines are kept.
 			try {
+				
+				DataSetExpenditure lastExpenditure = null;
+				
 				while ((line = in.readLine()) != null) {
 					String[] cells = line.split(";");
 					
@@ -126,18 +137,6 @@ public class CSVImporter {
 					}
 					
 					if (!prop.getProperty("date").isEmpty()) {
-						expenditureItem.setStringValueByKey("name", prop.getProperty("item name"));
-						expenditureItem.setStringValueByKey("category", prop.getProperty("item category"));
-						expenditureItem.setStringValueByKey("price", prop.getProperty("item price"));
-						
-						String vatName = prop.getProperty("item vat");
-						
-						Double vatValue = DataUtils.StringToDouble(vatName);
-						DataSetVAT vat = new DataSetVAT(vatName, "", vatName, vatValue);
-						vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(vat);
-						expenditureItem.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
-						
-						expenditureItem = Data.INSTANCE.getExpenditureItems().addNewDataSet(expenditureItem);
 						
 						expenditure.setStringValueByKey("name", prop.getProperty("name"));
 						expenditure.setStringValueByKey("category", prop.getProperty("category"));
@@ -145,21 +144,63 @@ public class CSVImporter {
 						expenditure.setStringValueByKey("nr", prop.getProperty("nr"));
 						expenditure.setStringValueByKey("documentnr", prop.getProperty("documentnr"));
 						
+						boolean repeatedExpenditure = false;
+						
+						if (lastExpenditure != null) 
+							if (lastExpenditure.isTheSameAs(expenditure))
+								repeatedExpenditure = true;
+						
+						if (!repeatedExpenditure)
+							if (!Data.INSTANCE.getExpenditures().isNew(expenditure) ) {
+								result += NL + "Fehler: Datensatz wurde bereits importiert" ;
+								result += NL + "Datensatz " + prop.getProperty("name") + " vom " + prop.getProperty("date") ;
+								result += NL + "Import wird abgebrochen" ;
+								break;
+							}
+						
+						
+						expenditureItem.setStringValueByKey("name", prop.getProperty("item name"));
+						expenditureItem.setStringValueByKey("category", prop.getProperty("item category"));
+						expenditureItem.setStringValueByKey("price", prop.getProperty("item price"));
+						
+						String vatName = prop.getProperty("item vat");
+						
+						Double vatValue = DataUtils.StringToDouble(vatName);
+						DataSetVAT vat = new DataSetVAT(vatName, "Vorsteuer", vatName, vatValue);
+						vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(vat);
+						expenditureItem.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
+						
+						expenditureItem = Data.INSTANCE.getExpenditureItems().addNewDataSet(expenditureItem);
+						
+						
 						expenditure = Data.INSTANCE.getExpenditures().addNewDataSetIfNew(expenditure);
 
 						String oldItems = expenditure.getStringValueByKey("items");
 						String newItem = expenditureItem.getStringValueByKey("id");
 						if (!oldItems.isEmpty())
 							oldItems += ",";
-						
+						else {
+							importedExpenditures ++;
+						}
 						expenditure.setStringValueByKey("items", oldItems + newItem);
+
+						lastExpenditure = expenditure;
 						Data.INSTANCE.getExpenditures().updateDataSet(expenditure);
 					}
-					
+
 				}
+			
+				result += NL + Integer.toString(importedExpenditures) + " Belege wurden importiert.";
+
 			} catch (IOException e) {
 			}
 		}
-
+        
+		
 	}
+	
+	public String getResult () {
+		return result;
+	}
+	
 }
