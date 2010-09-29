@@ -34,12 +34,13 @@ import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 public class ImportCSVWizard extends Wizard implements IImportWizard {
 	
 	ImportCSVWizardPage mainPage;
-
+	String selectedFile = "";
 	public ImportCSVWizard() {
 		setWindowTitle("Import CSV"); 
 		mainPage = new ImportCSVWizardPage(); 
 		mainPage.setPageComplete(true);
-        addPage(mainPage);        
+        addPage(mainPage);    
+        setNeedsProgressMonitor(true);
 	}
 
 	/* (non-Javadoc)
@@ -57,14 +58,17 @@ public class ImportCSVWizard extends Wizard implements IImportWizard {
 		fileDialog.setFilterPath("/");
 		fileDialog.setFilterExtensions(new String[] { "*.csv" });
 		fileDialog.setFilterNames(new String[] { "Tabelle als CSV (*.csv)" });
-		fileDialog.setText("Dateuauswahl");
-		String selectedFile = fileDialog.open();
+		fileDialog.setText("Dateiauswahl");
+		selectedFile = fileDialog.open();
 		if (selectedFile != null) {
 			
 			// Import the selected file
 			if(!selectedFile.isEmpty()) {
+				
 				CSVImporter csvImporter = new CSVImporter();
-				csvImporter.importCSV(selectedFile);
+				csvImporter.importCSV(selectedFile, false);
+				
+				mainPage.setStatusText(csvImporter.getResult());
 				
 				// Find the view
 				ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewExpenditureTable.ID);

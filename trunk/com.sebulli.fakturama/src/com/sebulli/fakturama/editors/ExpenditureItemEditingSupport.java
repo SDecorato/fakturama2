@@ -168,7 +168,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 				}});
 			break;
 		case 3:
-			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name"));
+			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", "Vorsteuer"));
 			break;
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
