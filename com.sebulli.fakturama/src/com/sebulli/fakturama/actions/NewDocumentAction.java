@@ -23,6 +23,7 @@ package com.sebulli.fakturama.actions;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
@@ -140,7 +141,7 @@ public class NewDocumentAction extends NewEditorAction {
 
 				// State of order was pending
 				if (parent.getIntValueByKey("progress") <= 10 ) {
-					MarkOrderAsAction.markOrderAs((DataSetDocument)parent, 50, "");
+					MarkOrderAsAction.markOrderAs((DataSetDocument)parent, 50, "" , Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING"));
 					
 					// Find the view
 					ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewDocumentTable.ID);

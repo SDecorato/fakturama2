@@ -277,7 +277,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		selectWorkspaceAction = new SelectWorkspaceAction();
 		register(selectWorkspaceAction);
 
-		markAsProcessingAction = new MarkOrderAsAction("", 50, false);
+		markAsProcessingAction = new MarkOrderAsAction("", 50);
 		register(markAsProcessingAction);
 
 	}
