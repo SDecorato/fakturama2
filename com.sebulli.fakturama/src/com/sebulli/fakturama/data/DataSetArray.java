@@ -243,24 +243,19 @@ public class DataSetArray<T> {
 	 * where no category is set.
 	 * 
 	 * @param key Key of the UniData value
-	 * @param category The preferred category. If it's emtpy, return all.
+	 * @param category The preferred category. If it's empty, return all.
 	 * @return Array of strings
 	 */
 	public String[] getStrings(String key, String category) {
 
 		// get all undeleted data sets
 		ArrayList<String> list = new ArrayList<String>();
-		ArrayList<T> undeletedDatasets = getActiveDatasets();
+		ArrayList<T> undeletedDatasets = getActiveDatasetsPrefereCategory(category);
 
 		// collect all Strings in a list ..
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
-			
-			// Use the specified category
-			if (category.isEmpty() || 
-					uds.getStringValueByKey("category").equals(category) ||
-					uds.getStringValueByKey("category").isEmpty())
-				list.add(uds.getStringValueByKey(key));
+			list.add(uds.getStringValueByKey(key));
 		}
 		
 		// .. and convert this list to an array
@@ -422,17 +417,54 @@ public class DataSetArray<T> {
 
 	/**
 	 * Get a data set by a double value
+	 * Return only those elements that are in the specified category and those
+	 * where no category is set.
+	 * 
+	 * @param key Key to use for the search
+	 * @param value Double value to search for
+	 * @param category The preferred category. If it's empty, return all.
+	 * @return ID of the first data set with the same value (or -1, if there is nothing)
+	 */
+	public int getDataSetByDoubleValue(String key, Double value, String category) {
+		ArrayList<T> undeletedDatasets = getActiveDatasetsPrefereCategory(category);
+
+		for (T dataset : undeletedDatasets) {
+			UniDataSet uds = (UniDataSet) dataset;
+			if (DataUtils.DoublesAreEqual(uds.getDoubleValueByKey(key), value)) {
+				int i = ((UniDataSet) dataset).getIntValueByKey("id");
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Get a data set by a double value
 	 * 
 	 * @param key Key to use for the search
 	 * @param value Double value to search for
 	 * @return ID of the first data set with the same value (or -1, if there is nothing)
 	 */
 	public int getDataSetByDoubleValue(String key, Double value) {
-		ArrayList<T> undeletedDatasets = getActiveDatasets();
+		return getDataSetByDoubleValue (key, value, "");
+	}
 
+	/**
+	 * Get the ID of a data set by a string value
+	 * Return only those elements that are in the specified category and those
+	 * where no category is set.
+	 * 
+	 * @param key Key to use for the search
+	 * @param value String value to search for
+	 * @param category The preferred category. If it's empty, return all.
+	 * @return ID of the first data set with the same value (or -1, if there is nothing)
+	 */
+	public int getDataSetIDByStringValue(String key, String value, String category) {
+		ArrayList<T> undeletedDatasets = getActiveDatasetsPrefereCategory(category);
+		
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
-			if (DataUtils.DoublesAreEqual(uds.getDoubleValueByKey(key), value)) {
+			if (uds.getStringValueByKey(key).equals(value)) {
 				int i = ((UniDataSet) dataset).getIntValueByKey("id");
 				return i;
 			}
@@ -448,27 +480,21 @@ public class DataSetArray<T> {
 	 * @return ID of the first data set with the same value (or -1, if there is nothing)
 	 */
 	public int getDataSetIDByStringValue(String key, String value) {
-		ArrayList<T> undeletedDatasets = getActiveDatasets();
-
-		for (T dataset : undeletedDatasets) {
-			UniDataSet uds = (UniDataSet) dataset;
-			if (uds.getStringValueByKey(key).equals(value)) {
-				int i = ((UniDataSet) dataset).getIntValueByKey("id");
-				return i;
-			}
-		}
-		return -1;
+		return getDataSetIDByStringValue(key, value, "");
 	}
 
 	/**
 	 * Get a data set by a string value
+	 * Return only those elements that are in the specified category and those
+	 * where no category is set.
 	 * 
 	 * @param key Key to use for the search
 	 * @param value String value to search for
+	 * @param category The preferred category. If it's empty, return all.
 	 * @return The first data set with the same value (or -null, if there is nothing)
 	 */
-	public T getDataSetByStringValue(String key, String value) {
-		ArrayList<T> undeletedDatasets = getActiveDatasets();
+	public T getDataSetByStringValue(String key, String value, String category) {
+		ArrayList<T> undeletedDatasets = getActiveDatasetsPrefereCategory(category);
 
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
@@ -478,7 +504,18 @@ public class DataSetArray<T> {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Get a data set by a string value
+	 * 
+	 * @param key Key to use for the search
+	 * @param value String value to search for
+	 * @return The first data set with the same value (or -null, if there is nothing)
+	 */
+	public T getDataSetByStringValue(String key, String value) {
+		return getDataSetByStringValue (key, value , "");
+	}
+	
 	/**
 	 * Get the data sets with a specified category and name
 	 * 
@@ -537,6 +574,31 @@ public class DataSetArray<T> {
 		return filteredDatasets;
 	}
 
+	/**
+	 * Get all active (undeleted) data sets with a specified category
+	 * 
+	 * Return only those elements that are in the specified category and those
+	 * where no category is set.
+	 * 
+	 * @param category The preferred category. If it's empty, return all.
+	 * 
+	 * @return ArrayList with all undeleted data sets
+	 */
+	public ArrayList<T> getActiveDatasetsPrefereCategory(String category) {
+		ArrayList<T> filteredDatasets = new ArrayList<T>();
+		for (T dataset : datasets) {
+			UniDataSet uds = (UniDataSet) dataset;
+			if (!uds.getBooleanValueByKey("deleted")) {
+				
+				// Use the specified category
+				if (category.isEmpty() || 
+						uds.getStringValueByKey("category").equals(category) ||
+						uds.getStringValueByKey("category").isEmpty())
+							filteredDatasets.add(dataset);
+			}
+		}
+		return filteredDatasets;
+	}
 
 
 }

@@ -111,7 +111,7 @@
       <view
             allowMultiple="true"
             class="com.sebulli.fakturama.views.datasettable.ViewExpenditureTable"
-            icon="icons/16/list_16.png"
+            icon="icons/16/expenditure_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewExpenditureTable"
             name="Ausgaben"
             restorable="true">
@@ -559,7 +559,7 @@
       <editor
             class="com.sebulli.fakturama.editors.ExpenditureEditor"
             default="false"
-            icon="icons/16/list_16.png"
+            icon="icons/16/expenditure_16.png"
             id="com.sebulli.fakturama.editors.expenditureEditor"
             name="Expenditure Editor">
       </editor>

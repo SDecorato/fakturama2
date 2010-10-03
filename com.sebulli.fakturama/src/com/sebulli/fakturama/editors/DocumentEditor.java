@@ -1181,7 +1181,7 @@ public class DocumentEditor extends Editor {
 		});
 		
 		// Selects the no VAT entry
-		comboViewerNoVat.setInput(Data.INSTANCE.getVATs().getDatasets());
+		comboViewerNoVat.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory("Umsatzsteuer"));
 		if (noVat)
 			comboNoVat.setText(noVatName);
 		else

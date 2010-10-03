@@ -46,7 +46,7 @@ public class OpenExpendituresAction extends Action {
 		setActionDefinitionId(ICommandIds.CMD_OPEN_EXPENDITURES);
 	
 		// sets a default 16x16 pixel icon.
-		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/payment_16.png"));
+		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/expenditure_16.png"));
 	}
 
 	/**
