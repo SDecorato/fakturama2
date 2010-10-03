@@ -2,8 +2,8 @@
 /*
  *  Web shop export script
  *
- *  Version 1.0.7
- *  Date: 2010-09-17
+ *  Version 1.0.8
+ *  Date: 2010-10-03
  *
  *
  *	Fakturama - Free Invoicing Software 
@@ -722,7 +722,6 @@ while ($languages = sbf_db_fetch_array($languages_query)) {
 // parse POST parameters
 $getshipped = (isset($HTTP_POST_VARS['getshipped']) ? $HTTP_POST_VARS['getshipped'] : '');
 $action = (isset($HTTP_POST_VARS['action']) ? $HTTP_POST_VARS['action'] : '');
-$comments = (isset($HTTP_POST_VARS['comments']) ? $HTTP_POST_VARS['comments'] : '');
 $orderstosync = (isset($HTTP_POST_VARS['setstate']) ? $HTTP_POST_VARS['setstate'] : '{}');
 
 
@@ -838,7 +837,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 	    $notify_comments = substr($notify_comments,1);
 
 	    // Convert it into the correct character encoding
-	    $notify_comments = iconv("UTF-8", FAKTURAMA_MAIL_ENCODING, $notify_comments);
+	    $notify_comments_mail = iconv("UTF-8", FAKTURAMA_MAIL_ENCODING, $notify_comments);
 
 	    
 	    $order = new order($orders_id_tosync);
@@ -872,7 +871,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 	    $smarty->assign('ORDER_NR', $orders_id_tosync);
 	    $smarty->assign('ORDER_LINK', xtc_catalog_href_link("account_history_info.php", 'order_id='.$orders_id_tosync, 'SSL'));
 	    $smarty->assign('ORDER_DATE', sbf_date_long($order->info['date_purchased']));
-	    $smarty->assign('NOTIFY_COMMENTS', nl2br($notify_comments)); 
+	    $smarty->assign('NOTIFY_COMMENTS', nl2br($notify_comments_mail)); 
 	    $smarty->assign('ORDER_STATUS', $orders_status_array[$orders_status_tosync]);
 
 	    $html_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.html');
@@ -899,7 +898,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 		sbf_db_query("INSERT INTO
 						orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments)
 					  VALUES ('" . (int)$orders_id_tosync . "', '" . $orders_status_tosync . "',
-					  		now(), '" . $customer_notified . "', '" . $comments  . "')");
+					  		now(), '" . $customer_notified . "', '" . $notify_comments  . "')");
 	    }
 	}
 
