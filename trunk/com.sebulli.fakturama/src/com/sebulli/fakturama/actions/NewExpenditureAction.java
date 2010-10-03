@@ -49,7 +49,7 @@ public class NewExpenditureAction extends NewEditorAction {
 		setActionDefinitionId(ICommandIds.CMD_NEW_EXPENDITURE);
 		
 		// sets a default 16x16 pixel icon.
-		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/payment_16.png"));
+		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/expenditure_16.png"));
 	}
 
 	/**

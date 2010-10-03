@@ -29,7 +29,7 @@ import com.sebulli.fakturama.actions.ICommandIds;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 
 /**
- * This action exports the sales date to an OpenOffice Calc document.
+ * This action imports data from a CSV file.
  *  
  * @author Gerd Bartelt
  */

@@ -28,12 +28,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-
+/**
+ * First and only page of the CSV import wizards
+ * 
+ * @author Gerd Bartelt
+ */
 public class ImportCSVWizardPage extends WizardSelectionPage {
 	
 	private Text statusText;
 	private String statusTextString = "";
 	
+	/**
+	 * Constructor
+	 * 
+	 * Creates the wizard page
+	 */
 	public ImportCSVWizardPage() {
 		super("ImportCSVWizardPage");
 		setTitle("Tabelle als CSV importieren");
@@ -41,14 +50,25 @@ public class ImportCSVWizardPage extends WizardSelectionPage {
 		setDescription("Description");
 	}
 
+	/**
+	 * Displays the status of the import in the status text field
+	 * 
+	 * @param text The status text to display
+	 */
 	public void setStatusText (String text) {
 		statusTextString = text;
 		if (statusText != null)
 			statusText.setText(statusTextString);
 	}
 	
+	/**
+	 * Creates the top level control for this dialog page under the given parent composite.
+	 *  
+	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createControl(Composite parent) {
+		
 		// Create the top composite
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
@@ -59,12 +79,9 @@ public class ImportCSVWizardPage extends WizardSelectionPage {
 		labelDescription.setText("Importverlauf:");
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelDescription);
 
-		// Create the label with the help text
-		statusText = new Text(top, SWT.BORDER | SWT.MULTI );
+		// Create the label with the status text
+		statusText = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(statusText);
 		statusText.setText(statusTextString);
-
-		
-		
 	}
 }

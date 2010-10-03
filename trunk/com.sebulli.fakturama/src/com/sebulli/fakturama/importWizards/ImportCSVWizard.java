@@ -31,10 +31,24 @@ import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 import com.sebulli.fakturama.views.datasettable.ViewExpenditureTable;
 import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 
+/**
+ * A wizard to import tables in CSV file format
+ * 
+ * @author Gerd Bartelt
+ */
 public class ImportCSVWizard extends Wizard implements IImportWizard {
 	
+	// The first (and only) wizard page
 	ImportCSVWizardPage mainPage;
+
+	// The selected file to import
 	String selectedFile = "";
+	
+	/**
+	 * Constructor 
+	 * 
+	 * Creates a new wizard with one page 
+	 */
 	public ImportCSVWizard() {
 		setWindowTitle("Import CSV"); 
 		mainPage = new ImportCSVWizardPage(); 
@@ -43,14 +57,18 @@ public class ImportCSVWizard extends Wizard implements IImportWizard {
         setNeedsProgressMonitor(true);
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * Performs any actions appropriate in response to the user having pressed the Finish button
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	public boolean performFinish() {
         return true;
 	}
 	 
-	/* (non-Javadoc)
+	/**
+	 * Initializes this creation wizard using the passed workbench and object selection
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -70,14 +88,14 @@ public class ImportCSVWizard extends Wizard implements IImportWizard {
 				
 				mainPage.setStatusText(csvImporter.getResult());
 				
-				// Find the view
+				// Find the expenditure table view
 				ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewExpenditureTable.ID);
 				
 				// Refresh it
 				if (view != null)
 					view.refresh();
 
-				// Find the view
+				// Find the VAT table view
 				view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewVatTable.ID);
 				
 				// Refresh it
@@ -88,6 +106,5 @@ public class ImportCSVWizard extends Wizard implements IImportWizard {
 		}
 
 	}
-	
 
 }

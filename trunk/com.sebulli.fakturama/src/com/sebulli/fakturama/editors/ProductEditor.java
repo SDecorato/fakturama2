@@ -632,7 +632,7 @@ public class ProductEditor extends Editor {
 		});
 
 		// Create a JFace combo viewer for the VAT list
-		comboViewer.setInput(Data.INSTANCE.getVATs().getDatasets());
+		comboViewer.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory("Umsatzsteuer"));
 		try {
 			comboViewer.setSelection(new StructuredSelection(Data.INSTANCE.getVATs().getDatasetById(vatId)), true);
 		} catch (IndexOutOfBoundsException e) {
