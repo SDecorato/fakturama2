@@ -23,12 +23,16 @@ package com.sebulli.fakturama.data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.sebulli.fakturama.calculate.ExpenditureSummary;
+import com.sebulli.fakturama.logger.Logger;
+
 /**
  * UniDataSet for all expenditures. 
  * 
  * @author Gerd Bartelt
  */
 public class DataSetExpenditure extends UniDataSet {
+	ExpenditureSummary summary = new ExpenditureSummary();
 
 	/**
 	 * Constructor
@@ -93,7 +97,61 @@ public class DataSetExpenditure extends UniDataSet {
 		sqlTabeName = "Expenditures";
 
 	}
+
+	/**
+	 * Get all the expenditure items.
+	 * Generate the list by the items string
+	 * 
+	 * @return All items of this expenditure
+	 */
+	public DataSetArray<DataSetExpenditureItem> getItems() {
+		DataSetArray<DataSetExpenditureItem> items = new DataSetArray<DataSetExpenditureItem>();
+		
+		// Split the items string
+		String itemsString = this.getStringValueByKey("items");
+		String[] itemsStringParts = itemsString.split(",");
+		
+		// Get all items
+		for (String itemsStringPart : itemsStringParts) {
+			int id;
+			if (itemsStringPart.length() > 0) {
+				try {
+					id = Integer.parseInt(itemsStringPart);
+				} catch (NumberFormatException e) {
+					Logger.logError(e, "Error parsing item string");
+					id = 0;
+				}
+				items.getDatasets().add(Data.INSTANCE.getExpenditureItems().getDatasetById(id));
+			}
+		}
+		return items;
+	}
 	
+	/**
+	 * Recalculate the document total values
+	 */
+	public void calculate() {
+		calculate(this.getItems());
+	}
+
+	/**
+	 * Recalculate the expenditure total values
+	 * 
+	 * @param items Expenditure items as DataSetArray
+	 */
+	public void calculate(DataSetArray<DataSetExpenditureItem> items) {
+		summary.calculate(null, items);
+	}
+	
+	/**
+	 * Getter for the expenditure summary
+	 * 
+	 * @return Summary
+	 */
+	public ExpenditureSummary getSummary() {
+		return this.summary;
+	}
+
 	/**
 	 * Test, if this is equal to an other UniDataSet
 	 * Only the names and the item numbers are compared
