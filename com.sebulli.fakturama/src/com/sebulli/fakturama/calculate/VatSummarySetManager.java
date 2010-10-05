@@ -24,7 +24,7 @@ import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
 
 /**
- * Stores one VatSummarySet object and provides some methodes 
+ * Stores one VatSummarySet object and provides some methods 
  * e.g. to add an UniDataSet document
  * 
  * @author Gerd Bartelt

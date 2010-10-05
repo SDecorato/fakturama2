@@ -39,6 +39,7 @@ public class VatSummaryItem implements Comparable<Object> {
 
 	// Vat Name and Percent Value. These values identify the VatSummaryItem
 	private String vatName;
+	private String description;
 	private Double vatPercent;
 
 	/**
@@ -51,14 +52,31 @@ public class VatSummaryItem implements Comparable<Object> {
 	 * @param vat Absolute Vat value
 	 */
 	public VatSummaryItem(String vatName, Double vatPercent, Double net, Double vat) {
+		this(vatName, vatPercent, net, vat, "");
+	}
+
+	/**
+	 * Constructor
+	 * Creates a VatSummaryItem from a net and vat value and the vat name with an
+	 * additional description
+	 * 
+	 * @param vatName Vat name
+	 * @param vatPercent Vat value in percent
+	 * @param net Absolute Net value
+	 * @param vat Absolute Vat value
+	 * @param description Additional description
+	 */
+	public VatSummaryItem(String vatName, Double vatPercent, Double net, Double vat, String description) {
 		this.vatName = vatName;
 		this.vatPercent = vatPercent;
 		this.net = new PriceValue(net);
 		this.vat = new PriceValue(vat);
 		this.netRoundingError = 0.0;
 		this.vatRoundingError = 0.0;
+		this.description = description;
 	}
 
+	
 	/**
 	 * Constructor
 	 * Creates a VatSummaryItem from an existing VatSummaryItem.
@@ -72,6 +90,7 @@ public class VatSummaryItem implements Comparable<Object> {
 		this.vat = new PriceValue(vatSummaryItem.vat);
 		this.netRoundingError = 0.0;
 		this.vatRoundingError = 0.0;
+		this.description = new String (vatSummaryItem.description);
 	}
 
 	/**
@@ -146,6 +165,16 @@ public class VatSummaryItem implements Comparable<Object> {
 	}
 
 	/**
+	 * Get the description
+	 * 
+	 * @return Vat name as string
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+
+	/**
 	 * Percent value of this VatSummaryItem
 	 * 
 	 * @return Vat in percent
@@ -208,6 +237,11 @@ public class VatSummaryItem implements Comparable<Object> {
 			return 1;
 
 		// Then the vat name
-		return this.vatName.compareToIgnoreCase(other.vatName);
+		int i = this.vatName.compareToIgnoreCase(other.vatName);
+		if (i != 0)
+			return i;
+		
+		// Then the description
+		return this.description.compareToIgnoreCase(other.description);
 	}
 }
