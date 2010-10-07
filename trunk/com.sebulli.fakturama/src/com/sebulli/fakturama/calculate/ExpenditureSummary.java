@@ -60,8 +60,9 @@ public class ExpenditureSummary {
 	 * 
 	 * @param globalVatSummarySet The documents vat is added to this global VAT summary set. 
 	 * @param items Document's items
+	 * @param useCategory If true, the category is also used for the vat summary as a description
 	 */
-	public void calculate(VatSummarySet globalExpenditureSummarySet, DataSetArray<DataSetExpenditureItem> items) {
+	public void calculate(VatSummarySet globalExpenditureSummarySet, DataSetArray<DataSetExpenditureItem> items, boolean useCategory) {
 		
 		Double vatPercent;
 		String vatDescription;
@@ -91,10 +92,21 @@ public class ExpenditureSummary {
 			// Add the VAT to the sum of VATs
 			this.totalVat.add(itemVat);
 			
-			// Add the VAT summary item to the ... 
-			VatSummaryItem expenditureSummaryItem = new VatSummaryItem(vatDescription, vatPercent,
-						price.getTotalNet().asDouble(), itemVat,
-						item.getStringValueByKey("category")); 
+			VatSummaryItem expenditureSummaryItem;
+			if (useCategory) {
+				// Add the VAT summary item to the ... 
+				expenditureSummaryItem = new VatSummaryItem(vatDescription, vatPercent,
+							price.getTotalNet().asDouble(), itemVat,
+							item.getStringValueByKey("category")); 
+			}
+			else {
+				// Add the VAT summary item to the ... 
+				expenditureSummaryItem = new VatSummaryItem(vatDescription, vatPercent,
+							price.getTotalNet().asDouble(), itemVat,
+				""); 
+				
+			}
+				
 			
 			// .. VAT summary of the expenditure ..
 			expenditureSummaryItems.add(expenditureSummaryItem);

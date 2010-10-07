@@ -33,6 +33,7 @@ import com.sun.star.sheet.XSpreadsheetDocument;
 import com.sun.star.table.BorderLine;
 import com.sun.star.table.TableBorder;
 import com.sun.star.table.XCell;
+import com.sun.star.table.XCellRange;
 import com.sun.star.uno.UnoRuntime;
 
 /**
@@ -54,6 +55,35 @@ public class CellFormatter {
 		
 		// Get the property set of a cell
 		XPropertySet xPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, cell);
+
+		try {
+			
+			// Set the cell's property to a new value
+			xPropertySet.setPropertyValue(property, value);
+			
+		} catch (UnknownPropertyException e) {
+			Logger.logError(e, "Error 'UnknownProperty' setting cell property " + property + " to " + value.toString());
+		} catch (PropertyVetoException e) {
+			Logger.logError(e, "Error 'PropertyVeto' setting cell property " + property + " to " + value.toString());
+		} catch (IllegalArgumentException e) {
+			Logger.logError(e, "Error 'IllegalArgument' setting cell property " + property + " to " + value.toString());
+		} catch (WrappedTargetException e) {
+			Logger.logError(e, "Error 'WrappedTarget' setting cell property " + property + " to " + value.toString());
+		}
+
+	}
+
+	/**
+	 * Set the property of a Calc cells range.
+	 * 
+	 * @param cell The cells to format
+	 * @param property The property
+	 * @param value The value of the property
+	 */
+	private static void setCellsProperty(XCellRange cells, String property, Object value) {
+		
+		// Get the property set of a cell
+		XPropertySet xPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, cells);
 
 		try {
 			
@@ -180,6 +210,23 @@ public class CellFormatter {
 	}
 
 	/**
+	 * Set the background color of a cell
+	 * 
+	 * @param spreadsheet The Spreadsheet that contains the cell
+	 * @param row The cell row
+	 * @param column The cell column
+	 * @param color The new color of the background
+	 */
+	public static void setBackgroundColor(XSpreadsheet spreadsheet, int left, int top, int right, int bottom, int color) {
+
+		// Get the cell by the row and the column
+		XCellRange cells = getCells(spreadsheet, left, top, right, bottom);
+		
+		// Set the new background color
+		setCellsProperty(cells, "CellBackColor", new Integer(color));
+	}
+
+	/**
 	 * Set the font weight of a cell to bold
 	 * 
 	 * @param spreadsheet The Spreadsheet that contains the cell
@@ -255,6 +302,26 @@ public class CellFormatter {
 		// Try to get the cell
 		try {
 			return spreadsheet.createCursor().getCellByPosition(column, row);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Get a cell range by spreadsheet, left, top, right, bottom
+	 * 
+	 * @param spreadsheet The spreadsheet that contains the cell
+	 * @param left The left side of the range
+	 * @param top The top side of the range
+	 * @param right The right side of the range
+	 * @param bottom The bottom side of the range
+	 * @return The cell range
+	 */
+	public static XCellRange getCells(XSpreadsheet spreadsheet, int left, int top, int right, int bottom) {
+
+		// Try to get the cell
+		try {
+			return spreadsheet.createCursor().getCellRangeByPosition(left, top, right, bottom);
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}

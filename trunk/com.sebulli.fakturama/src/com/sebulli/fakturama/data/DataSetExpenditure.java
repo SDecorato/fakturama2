@@ -128,19 +128,20 @@ public class DataSetExpenditure extends UniDataSet {
 	}
 	
 	/**
-	 * Recalculate the document total values
+	 * Recalculate the expenditure total values
 	 */
 	public void calculate() {
-		calculate(this.getItems());
+		calculate(this.getItems(), false);
 	}
 
 	/**
 	 * Recalculate the expenditure total values
 	 * 
 	 * @param items Expenditure items as DataSetArray
+	 * @param useCategory If true, the category is also used for the vat summary as a description
 	 */
-	public void calculate(DataSetArray<DataSetExpenditureItem> items) {
-		summary.calculate(null, items);
+	public void calculate(DataSetArray<DataSetExpenditureItem> items, boolean useCategory) {
+		summary.calculate(null, items, useCategory);
 	}
 	
 	/**
