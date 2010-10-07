@@ -435,6 +435,12 @@ public class SalesExporter {
 				// It could be a rounding error.
 				if (Math.abs(roundingError) > 0.01)
 					setCellTextInRedBold(spreadsheet1, row, col + columnsWithVatHeading + columnsWithNetHeading, "Runden prüfen");
+				
+				// Set the background of the table rows. Use an light and
+				// alternating blue color.
+				if ((row % 2) == 0)
+					CellFormatter.setBackgroundColor(spreadsheet1, 0, row,col + columnsWithVatHeading + columnsWithNetHeading-1,row, 0x00e8ebed);
+
 				row++;
 			}
 		}
@@ -463,15 +469,6 @@ public class SalesExporter {
 		for (col = 0; col < (columnsWithVatHeading + columnsWithNetHeading) + 11; col++) {
 			CellFormatter.setBorder(spreadsheet1, headLine, col, 0x000000, false, false, true, false);
 			CellFormatter.setBorder(spreadsheet1, sumrow, col, 0x000000, true, false, false, false);
-		}
-
-		// Set the background of the table rows. Use an light and
-		// alternating blue color.
-		for (row = headLine + 1; row < sumrow; row++) {
-			for (col = 0; col < (columnsWithVatHeading + columnsWithNetHeading) + 11; col++) {
-				if ((row % 2) == 0)
-					CellFormatter.setBackgroundColor(spreadsheet1, row, col, 0x00e8ebed);
-			}
 		}
 
 		// Create a expenditure summary set manager that collects all expenditure VAT
@@ -506,7 +503,7 @@ public class SalesExporter {
 		for (DataSetExpenditure expenditure : expenditures) {
 
 			if (expenditureShouldBeExported(expenditure)) {
-				expenditureSummarySetAllExpenditures.add(expenditure);
+				expenditureSummarySetAllExpenditures.add(expenditure, false);
 			}
 		}
 
@@ -566,7 +563,7 @@ public class SalesExporter {
 				expenditure.calculate();
 
 				// Add the expenditure to the VAT summary
-				vatSummarySetOneExpenditure.add(expenditure);
+				vatSummarySetOneExpenditure.add(expenditure, false);
 				
 				// Fill the row with the expenditure data
 				col = 0;
@@ -621,6 +618,12 @@ public class SalesExporter {
 				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, expenditure.getSummary().getTotalNet().asDouble());
 				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, expenditure.getSummary().getTotalGross().asDouble());
 				
+				// Set the background of the table rows. Use an light and
+				// alternating blue color.
+				if ((row % 2) == 0)
+					CellFormatter.setBackgroundColor(spreadsheet1, 0, row,columnsWithVatHeading + columnsWithNetHeading + columnOffset-1,row, 0x00e8ebed);
+
+				
 				row++;
 			}
 		}
@@ -651,13 +654,67 @@ public class SalesExporter {
 			CellFormatter.setBorder(spreadsheet1, sumrow, col, 0x000000, true, false, false, false);
 		}
 
-		// Set the background of the table rows. Use an light and
-		// alternating blue color.
-		for (row = headLine + 1; row < sumrow; row++) {
-			for (col = 0; col < (columnsWithVatHeading + columnsWithNetHeading) + columnOffset; col++) {
-				if ((row % 2) == 0)
-					CellFormatter.setBackgroundColor(spreadsheet1, row, col, 0x00e8ebed);
+		// Create a expenditure summary set manager that collects all 
+		// categories of expenditure items
+		ExpenditureSummarySetManager expenditureSummaryCategories = new ExpenditureSummarySetManager();
+
+		// Calculate the summary
+		for (DataSetExpenditure expenditure : expenditures) {
+
+			if (expenditureShouldBeExported(expenditure)) {
+				expenditureSummaryCategories.add(expenditure, true);
 			}
+		}
+
+		row +=3;
+		// Table heading
+		setCellTextInBold(spreadsheet1, row++, 0, "Zusammenfassung Ausgaben:");
+		row++;
+
+		col = 0;
+		
+		//Heading for the categories
+		setCellTextInBold(spreadsheet1, row, col++, "Art");
+		setCellTextInBold(spreadsheet1, row, col++, "Vorsteuer");
+		setCellTextInBold(spreadsheet1, row, col++, "Vorsteuer");
+		setCellTextInBold(spreadsheet1, row, col++, "Netto");
+		
+		// Draw a horizontal line
+		for (col = 0; col <4 ; col++) {
+			CellFormatter.setBorder(spreadsheet1, row, col, 0x000000, false, false, true, false);
+		}
+
+		row ++;
+		
+		// A column for each Vat value is created 
+		// The VAT summary items are sorted. So first ignore the VAT entries
+		// with 0%. 
+		// If the VAT value is >0%, create a column with heading.
+		for (Iterator<VatSummaryItem> iterator = expenditureSummaryCategories.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
+			VatSummaryItem item = iterator.next();
+			
+			col = 0;
+			// Round the net and add fill the table cell
+			PriceValue vat = new PriceValue(item.getVat() );
+			PriceValue net = new PriceValue(item.getNet() );
+
+			setCellText(spreadsheet1, row, col++, item.getDescription());
+			setCellText(spreadsheet1, row, col++, item.getVatName());
+			setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row,  col++ , vat.asRoundedDouble());
+			setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row,  col++ , net.asRoundedDouble());
+
+			// Set the background of the table rows. Use an light and
+			// alternating blue color.
+			if ((row % 2) == 0)
+				CellFormatter.setBackgroundColor(spreadsheet1, 0, row, 3 ,row, 0x00e8ebed);
+			
+			row ++;
+
+		}
+		
+		// Draw a horizontal line
+		for (col = 0; col <4 ; col++) {
+			CellFormatter.setBorder(spreadsheet1, row-1, col, 0x000000, false, false, true, false);
 		}
 
 		// True = Export was successful
