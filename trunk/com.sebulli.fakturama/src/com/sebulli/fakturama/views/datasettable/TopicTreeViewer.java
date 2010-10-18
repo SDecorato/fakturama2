@@ -709,7 +709,7 @@ public class TopicTreeViewer extends TreeViewer {
 			
 			// Search all tree items for one with the same name
 			for (TreeItem item : children) {
-				if (item.getText().equals(namePart)) {
+				if (item.getText().equalsIgnoreCase(namePart)) {
 					childfound = true;
 					newParent = item;
 				}

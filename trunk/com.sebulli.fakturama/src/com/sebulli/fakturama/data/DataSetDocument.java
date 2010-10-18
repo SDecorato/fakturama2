@@ -66,7 +66,7 @@ public class DataSetDocument extends UniDataSet {
 	 */
 	public DataSetDocument(DocumentType documentType, String webshopid, String webshopdate) {
 		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0,
-				0.0, "", 1, 0.0, "", 0, webshopid, webshopdate, false, "", "", 0.0, 0, -1, "", "");
+				0.0, "", 1, 0.0, "", 0, webshopid, webshopdate,webshopdate, false, "", "", 0.0, 0, -1, "", "");
 
 		this.hashMap.put("transaction", new UniData(UniDataType.INT, Math.abs(UUID.randomUUID().hashCode())));
 	}
@@ -90,6 +90,7 @@ public class DataSetDocument extends UniDataSet {
 				parent.getIntValueByKey("shippingid"), parent.getStringValueByKey("shippingname"), parent.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"),
 				parent.getStringValueByKey("shippingvatdescription"), parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), 
 				parent.getStringValueByKey("message"), parent.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent.getStringValueByKey("webshopdate"),
+				parent.getStringValueByKey("orderdate"),
 				parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent.getStringValueByKey("novatdescription"), 
 				parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent.getIntValueByKey("invoiceid"),
 				parent.getStringValueByKey("paymentdescription"), parent.getStringValueByKey("shippingdescription")		);
@@ -152,6 +153,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @param transaction
 	 * @param webshopid
 	 * @param webshopdate
+	 * @param orderdate
 	 * @param noVat
 	 * @param noVatName
 	 * @param noVatDescription
@@ -164,7 +166,7 @@ public class DataSetDocument extends UniDataSet {
 	public DataSetDocument(int id, String name, boolean deleted, DocumentType documentType, int addressid, String address, String deliveryaddress,
 			String addressfirstline, int progress, String customerref, String date, String servicedate, int paymentid, String paymentname, int duedays,
 			boolean payed, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping, Double shippingvat,
-			String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid, String webshopdate,
+			String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid, String webshopdate, String orderdate,
 			boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel, int invoiceid, String paymentdescription,
 			String shippingdescription) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
@@ -200,6 +202,7 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("transaction", new UniData(UniDataType.INT, transaction));
 		this.hashMap.put("webshopid", new UniData(UniDataType.STRING, webshopid));
 		this.hashMap.put("webshopdate", new UniData(UniDataType.DATE, webshopdate));
+		this.hashMap.put("orderdate", new UniData(UniDataType.DATE, orderdate));
 		this.hashMap.put("novat", new UniData(UniDataType.BOOLEAN, noVat));
 		this.hashMap.put("novatname", new UniData(UniDataType.STRING, noVatName));
 		this.hashMap.put("novatdescription", new UniData(UniDataType.STRING, noVatDescription));

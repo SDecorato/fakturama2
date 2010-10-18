@@ -104,6 +104,7 @@ public class DocumentEditor extends Editor {
 	// SWT components of the editor
 	private Text txtName;
 	private DateTime dtDate;
+	private DateTime dtOrderDate;
 	private Text txtCustomerRef;
 	private Text txtAddress;
 	private Combo comboNoVat;
@@ -233,8 +234,14 @@ public class DocumentEditor extends Editor {
 		document.setStringValueByKey("name", txtName.getText());
 		document.setStringValueByKey("date",
 				DataUtils.getDateTimeAsString(dtDate));
-		document.setStringValueByKey("servicedate",
-				document.getStringValueByKey("date"));
+
+		// If this is an order, use the date as order date
+		if (documentType == DocumentType.ORDER)
+			document.setStringValueByKey("orderdate", DataUtils.getDateTimeAsString(dtDate));
+		else
+			document.setStringValueByKey("orderdate", DataUtils.getDateTimeAsString(dtOrderDate));
+		
+		document.setStringValueByKey("servicedate", document.getStringValueByKey("date"));
 
 		document.setIntValueByKey("addressid", addressId);
 		String addressById = "";
@@ -707,10 +714,26 @@ public class DocumentEditor extends Editor {
 		if (!document.getStringValueByKey("name").equals(txtName.getText())) {
 			return true;
 		}
+		
 		if (!document.getStringValueByKey("date").equals(
 				DataUtils.getDateTimeAsString(dtDate))) {
 			return true;
 		}
+		
+		// If this is an order, use the dtDate widget and do not check the
+		// dtOrderDate widget
+		if (documentType != DocumentType.ORDER) {
+			String orderDateString = document.getStringValueByKey("orderdate");
+			if (orderDateString.isEmpty()) {
+				orderDateString = document.getStringValueByKey("webshopdate");
+			}
+			if (!orderDateString.equals(
+					DataUtils.getDateTimeAsString(dtOrderDate))) {
+				return true;
+			}
+		}
+
+		
 		if (document.getIntValueByKey("addressid") != addressId) {
 			return true;
 		}
@@ -1351,6 +1374,35 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).span(1, 2)
 				.grab(true, false).applyTo(xtraSettingsComposite);
 
+		
+		boolean useOrderDate = (documentType != DocumentType.ORDER);
+		
+		// Order date
+		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
+		labelOrderDate.setText("Bestellt:");
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
+				.applyTo(labelOrderDate);
+		
+		// Order date
+		dtOrderDate = new DateTime(useOrderDate ? xtraSettingsComposite : invisible, SWT.DATE);
+		GridDataFactory.swtDefaults().applyTo(dtOrderDate);
+		superviceControl(dtOrderDate);
+
+		// Set the dtDate widget to the documents date
+		calendar = new GregorianCalendar();
+		
+		// If "orderdate" is not set, use "webshopdate"
+		String orderDateString = document.getStringValueByKey("orderdate");
+		if (orderDateString.isEmpty()) {
+			orderDateString = document.getStringValueByKey("webshopdate");
+		}
+		
+		calendar = DataUtils.getCalendarFromDateString(orderDateString);
+		dtOrderDate.setDate(calendar.get(Calendar.YEAR),
+				calendar.get(Calendar.MONTH),
+				calendar.get(Calendar.DAY_OF_MONTH));
+		
+		
 		// A reference to the invoice
 		Label labelInvoiceRef = new Label(
 				documentType.hasInvoiceReference() ? xtraSettingsComposite

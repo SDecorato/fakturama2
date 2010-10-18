@@ -81,7 +81,7 @@ public class ViewDataSetTableContentProvider implements IStructuredContentProvid
 				if (!uds.getBooleanValueByKey("deleted")) {
 
 					// Use only those entries, that match the filters
-					if ((uds.getCategory().startsWith(categoryFilter + "/") || uds.getCategory().equals(categoryFilter) || categoryFilter.isEmpty())
+					if ((uds.getCategory().toLowerCase().startsWith(categoryFilter.toLowerCase() + "/") || uds.getCategory().equalsIgnoreCase(categoryFilter) || categoryFilter.isEmpty())
 							&& ((transactionFilter < 0) || (uds.getIntValueByKey("transaction") == transactionFilter))
 							&& ((contactFilter < 0) || (uds.getIntValueByKey("addressid") == contactFilter))) {
 						contentFiltered.add(uds);
