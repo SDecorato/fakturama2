@@ -126,6 +126,48 @@ public class DataSetExpenditure extends UniDataSet {
 		}
 		return items;
 	}
+
+	/**
+	 * Get one expenditure item as array 
+	 * Generate the list with only one entry
+	 * 
+	 * @return One items of this expenditure
+	 */
+	public DataSetArray<DataSetExpenditureItem> getItems(int index) {
+		DataSetArray<DataSetExpenditureItem> items = new DataSetArray<DataSetExpenditureItem>();
+
+		// Get one item and add it to the list
+		items.getDatasets().add(getItem(index));
+		return items;
+	}
+
+	/**
+	 * Get one expenditure item
+	 * 
+	 * @return One items of this expenditure
+	 */
+	public DataSetExpenditureItem getItem(int index) {
+
+		// Split the items string
+		String itemsString = this.getStringValueByKey("items");
+		String[] itemsStringParts = itemsString.split(",");
+		String itemsStringPart = itemsStringParts [index];
+		int id;
+		if (itemsStringPart.length() > 0) {
+			try {
+				id = Integer.parseInt(itemsStringPart);
+			} catch (NumberFormatException e) {
+				Logger.logError(e, "Error parsing item string");
+				id = 0;
+			}
+			return (Data.INSTANCE.getExpenditureItems().getDatasetById(id));
+		}
+
+		Logger.logError("Expenditure item not found:" + index);
+		return null;
+		
+	}
+	
 	
 	/**
 	 * Recalculate the expenditure total values

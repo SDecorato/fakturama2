@@ -54,6 +54,21 @@ public class ExpenditureSummarySetManager {
 	}
 
 	/**
+	 * Add an expenditure to the ExpenditureSummarySet
+	 * 
+	 * @param document Document to add
+	 * @param useCategory If true, the category is also used for the vat summary as a description
+	 * @itemNr index of one item
+	 */
+	public void add(DataSetExpenditure expenditure, boolean useCategory, int itemNr) {
+
+		// Create a new summary object and start the calculation.
+		// This will add all the entries to the VatSummarySet
+		ExpenditureSummary summary = new ExpenditureSummary();
+		summary.calculate(expenditureSummarySet, expenditure.getItems(itemNr), useCategory);
+	}
+
+	/**
 	 * Getter for the expenditureSummarySet
 	 * 
 	 * @return The expenditureSummarySet
