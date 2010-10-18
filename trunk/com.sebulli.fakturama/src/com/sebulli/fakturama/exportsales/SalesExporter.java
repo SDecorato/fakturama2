@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
@@ -43,7 +44,9 @@ import com.sebulli.fakturama.calculate.VatSummarySetManager;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetExpenditure;
+import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DocumentType;
+import com.sebulli.fakturama.data.UniDataSetSorter;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
 import com.sun.star.container.NoSuchElementException;
@@ -68,6 +71,15 @@ public class SalesExporter {
 	private GregorianCalendar beginDate;
 	private GregorianCalendar endDate;
 
+	// the date key to sort the documents
+	private String documentDateKey; 
+
+	// Settings from the preference page
+	boolean showExpenditureSumColumn;
+	boolean showZeroVatColumn;
+	boolean usePayedDate;
+
+	
 	/**
 	 * Default constructor
 	 */
@@ -107,14 +119,8 @@ public class SalesExporter {
 		try {
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			
-			String documentDateString = ""; 
-			
-			// Use pay date or document date
-			if (Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAYEDDATE"))
-				documentDateString= document.getStringValueByKey("paydate");
-			else
-				documentDateString= document.getStringValueByKey("date");
-				
+			String documentDateString= document.getStringValueByKey(documentDateKey);
+
 			documentDate.setTime(formatter.parse(documentDateString));
 		} catch (ParseException e) {
 			Logger.logError(e, "Error parsing Date");
@@ -223,11 +229,27 @@ public class SalesExporter {
 			Logger.logError(e, "Error getting spreadsheet");
 		}
 
+		usePayedDate = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAYEDDATE");
+		showExpenditureSumColumn = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN");
+		showZeroVatColumn =  Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_SHOW_ZERO_VAT_COLUMN");
+		
+		// Use pay date or document date
+		if (usePayedDate)
+			documentDateKey = "paydate";
+		else
+			documentDateKey = "date";
+		
 		// Get all undeleted documents
 		ArrayList<DataSetDocument> documents = Data.INSTANCE.getDocuments().getActiveDatasets();
 		// Get all undeleted expenditures
 		ArrayList<DataSetExpenditure> expenditures = Data.INSTANCE.getExpenditures().getActiveDatasets();
 
+		// Sort the documents by the pay date
+		Collections.sort(documents, new UniDataSetSorter(documentDateKey));
+		
+		// Sort the expenditures by category and date
+		Collections.sort(expenditures, new UniDataSetSorter("category", "date"));
+		
 		// Counter for the current row and columns in the Calc document
 		int row = 0;
 		int col = 0;
@@ -306,7 +328,7 @@ public class SalesExporter {
 			VatSummaryItem item = iterator.next();
 			
 			// Create a column, if the value is not 0%
-			if ((item.getVat().doubleValue() > 0.001) || vatIsNotZero) {
+			if ((item.getVat().doubleValue() > 0.001) || vatIsNotZero || showZeroVatColumn) {
 				
 				// If the first non-zero VAT column is created,
 				// do not check the value any more.
@@ -370,11 +392,22 @@ public class SalesExporter {
 				setCellText(spreadsheet1, row, col++, DataUtils.DateAsLocalString(document.getStringValueByKey("paydate")));
 				setCellText(spreadsheet1, row, col++, document.getStringValueByKey("name"));
 				setCellText(spreadsheet1, row, col++, DataUtils.DateAsLocalString(document.getStringValueByKey("date")));
-				setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:firstname"));
-				setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:name"));
-				setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:company"));
-				setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:vatnr"));
-				setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:country"));
+				int addressid = document.getIntValueByKey("addressid");
+				
+				// Fill the address columns with the contact that corresponds to the addressid
+				if (addressid >= 0) {
+					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:firstname"));
+					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:name"));
+					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:company"));
+					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:vatnr"));
+					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:country"));
+				}
+				// ... or use the documents first line
+				else {
+					setCellText(spreadsheet1, row, col++, document.getStringValueByKey("addressfirstline"));
+					col +=4;
+				}
+
 				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, document.getDoubleValueByKey("total"));
 				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, document.getDoubleValueByKey("payvalue"));
 
@@ -490,8 +523,13 @@ public class SalesExporter {
 		setCellTextInBold(spreadsheet1, row, col++, "Belegnr.");
 		setCellTextInBold(spreadsheet1, row, col++, "Dokumentnr.");
 		setCellTextInBold(spreadsheet1, row, col++, "Lieferant");
-		setCellTextInBold(spreadsheet1, row, col++, "Netto");
-		setCellTextInBold(spreadsheet1, row, col++, "Brutto");
+		setCellTextInBold(spreadsheet1, row, col++, "Art");
+		
+		if (showExpenditureSumColumn) {
+			setCellTextInBold(spreadsheet1, row, col++, "Netto");
+			setCellTextInBold(spreadsheet1, row, col++, "Brutto");
+		}
+
 		row++;
 		int columnOffset = col;
 
@@ -507,6 +545,7 @@ public class SalesExporter {
 			}
 		}
 
+		vatIsNotZero = false;
 		col = columnOffset;
 		columnsWithVatHeading = 0;
 		columnsWithNetHeading = 0;
@@ -519,7 +558,7 @@ public class SalesExporter {
 			VatSummaryItem item = iterator.next();
 			
 			// Create a column, if the value is not 0%
-			if ((item.getVat().doubleValue() > 0.001) || vatIsNotZero) {
+			if ((item.getVat().doubleValue() > 0.001) || vatIsNotZero || showZeroVatColumn) {
 				
 				// If the first non-zero VAT column is created,
 				// do not check the value any more.
@@ -530,7 +569,15 @@ public class SalesExporter {
 				
 				// Create a column heading in bold
 				int column = expenditureSummarySetAllExpenditures.getIndex(item) - zeroVatColumns;
-				setCellTextInBold(spreadsheet1, headLine, column + columnOffset, item.getVatName() + "\n" + item.getDescription() );
+				
+				// Add VAT name and description and use 2 lines
+				String text = item.getVatName();
+				String description = item.getDescription();
+
+				if (!description.isEmpty())
+					text += "\n" + description;
+
+				setCellTextInBold(spreadsheet1, headLine, column + columnOffset, text );
 			
 			} else
 				// Count the columns with 0% VAT
@@ -547,84 +594,115 @@ public class SalesExporter {
 			
 			// Create a column heading in bold
 			int column = expenditureSummarySetAllExpenditures.getIndex(item);
-			setCellTextInBold(spreadsheet1, headLine, columnsWithVatHeading + column + columnOffset, "Netto"+"\n" + item.getVatName()+ "\n" + item.getDescription());
+			
+			// Add VAT name and description and use 2 lines
+			String text = "Netto"+"\n" + item.getVatName();
+			String description = item.getDescription();
+
+			if (!description.isEmpty())
+				text += "\n" + description;
+
+			
+			setCellTextInBold(spreadsheet1, headLine, columnsWithVatHeading + column + columnOffset, text);
 		}
 
 		
+		int expenditureIndex = 0;
 		
 		// Second run.
 		// Export the expenditure data
 		for (DataSetExpenditure expenditure : expenditures) {
 
+			
 			if (expenditureShouldBeExported(expenditure)) {
 				
-				// Now analyze expenditure by expenditure
-				ExpenditureSummarySetManager vatSummarySetOneExpenditure = new ExpenditureSummarySetManager();
-				expenditure.calculate();
-
-				// Add the expenditure to the VAT summary
-				vatSummarySetOneExpenditure.add(expenditure, false);
-				
-				// Fill the row with the expenditure data
-				col = 0;
-				setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("category"));
-				setCellText(spreadsheet1, row, col++, DataUtils.DateAsLocalString(expenditure.getStringValueByKey("date")));
-				setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("nr"));
-				setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("documentnr"));
-				setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("name"));
-				//setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, document.getDoubleValueByKey("total"));
-
-				// Calculate the total VAT of the expenditure
-				PriceValue totalVat = new PriceValue(0.0);
-				
-				// Get all VAT entries of this expenditure and place them into the
-				// corresponding column.
-				for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
-					VatSummaryItem item = iterator.next();
+				for (int expenditureItemIndex = 0; expenditureItemIndex < expenditure.getItems().getDatasets().size();expenditureItemIndex++) {
 					
-					// Get the column
-					int column = expenditureSummarySetAllExpenditures.getIndex(item) - zeroVatColumns;
+					DataSetExpenditureItem expenditureItem = expenditure.getItem(expenditureItemIndex);
+					
+					// Now analyze expenditure by expenditure
+					ExpenditureSummarySetManager vatSummarySetOneExpenditure = new ExpenditureSummarySetManager();
+					expenditure.calculate();
 
-					// If column is <0, it was a VAT entry with 0%
-					if (column >= 0) {
-						
-						// Round the VAT and add fill the table cell
-						PriceValue vat = new PriceValue(item.getVat());
-						totalVat.add(vat.asRoundedDouble());
-						setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, column + columnOffset, vat.asRoundedDouble());
+					// Add the expenditure to the VAT summary
+					vatSummarySetOneExpenditure.add(expenditure, false, expenditureItemIndex);
+					
+					// Fill the row with the expenditure data
+					col = 0;
+
+					if (expenditureItemIndex == 0) {
+						setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("category"));
+						setCellText(spreadsheet1, row, col++, DataUtils.DateAsLocalString(expenditure.getStringValueByKey("date")));
+						setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("nr"));
+						setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("documentnr"));
+						setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("name"));
 					}
-				}
 
-				// Get all net entries of this expenditure and place them into the
-				// corresponding column.
-				for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
-					VatSummaryItem item = iterator.next();
+					col = 5;
+					setCellText(spreadsheet1, row, col++, expenditureItem.getStringValueByKey("name"));
+
+					//setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, document.getDoubleValueByKey("total"));
+
+					// Calculate the total VAT of the expenditure
+					PriceValue totalVat = new PriceValue(0.0);
 					
-					// Get the column
-					int column = expenditureSummarySetAllExpenditures.getIndex(item);
-					
-					// If column is <0, it was a VAT entry with 0%
-					if (column >= 0) {
+					// Get all VAT entries of this expenditure and place them into the
+					// corresponding column.
+					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
+						VatSummaryItem item = iterator.next();
 						
-						// Round the net and add fill the table cell
-						PriceValue net = new PriceValue(item.getNet() );
-						//totalVat.add(net.asRoundedDouble());
-						setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, columnsWithVatHeading + column + columnOffset , net.asRoundedDouble());
-					}
-				}
-				
-				col = columnOffset-2;
-				// Calculate the expenditures net and gross total 
-				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, expenditure.getSummary().getTotalNet().asDouble());
-				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, expenditure.getSummary().getTotalGross().asDouble());
-				
-				// Set the background of the table rows. Use an light and
-				// alternating blue color.
-				if ((row % 2) == 0)
-					CellFormatter.setBackgroundColor(spreadsheet1, 0, row,columnsWithVatHeading + columnsWithNetHeading + columnOffset-1,row, 0x00e8ebed);
+						// Get the column
+						int column = expenditureSummarySetAllExpenditures.getIndex(item) - zeroVatColumns;
 
-				
-				row++;
+						// If column is <0, it was a VAT entry with 0%
+						if (column >= 0) {
+							
+							// Round the VAT and add fill the table cell
+							PriceValue vat = new PriceValue(item.getVat());
+							totalVat.add(vat.asRoundedDouble());
+							setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, column + columnOffset, vat.asRoundedDouble());
+						}
+					}
+
+					// Get all net entries of this expenditure and place them into the
+					// corresponding column.
+					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
+						VatSummaryItem item = iterator.next();
+						
+						// Get the column
+						int column = expenditureSummarySetAllExpenditures.getIndex(item);
+						
+						// If column is <0, it was a VAT entry with 0%
+						if (column >= 0) {
+							
+							// Round the net and add fill the table cell
+							PriceValue net = new PriceValue(item.getNet() );
+							//totalVat.add(net.asRoundedDouble());
+							setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, columnsWithVatHeading + column + columnOffset , net.asRoundedDouble());
+						}
+					}
+					
+					// Display the sum of an expenditure only in the row of the first
+					// expenditure item
+					if (showExpenditureSumColumn) {
+						if (expenditureItemIndex == 0) {
+							col = columnOffset-2;
+							// Calculate the expenditures net and gross total 
+							setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, expenditure.getSummary().getTotalNet().asDouble());
+							setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, expenditure.getSummary().getTotalGross().asDouble());
+						}
+					}
+					
+					// Set the background of the table rows. Use an light and
+					// alternating blue color.
+					if ((expenditureIndex % 2) == 0)
+						CellFormatter.setBackgroundColor(spreadsheet1, 0, row,columnsWithVatHeading + columnsWithNetHeading + columnOffset-1,row, 0x00e8ebed);
+
+					
+					row++;
+					
+				}
+				expenditureIndex ++;
 			}
 		}
 
@@ -634,7 +712,7 @@ public class SalesExporter {
 		
 		// Show the sum only, if there are values in the table
 		if (sumrow > (headLine + 1)) {
-			for (int i = -2; i < (columnsWithVatHeading + columnsWithNetHeading); i++) {
+			for (int i = (showExpenditureSumColumn? -2: 0); i < (columnsWithVatHeading + columnsWithNetHeading); i++) {
 				col = columnOffset + i;
 				try {
 					// Create formula for the sum. 

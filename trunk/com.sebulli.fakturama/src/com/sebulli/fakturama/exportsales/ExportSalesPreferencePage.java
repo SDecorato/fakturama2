@@ -51,7 +51,12 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	@Override
 	public void createFieldEditors() {
+		
 		addField(new BooleanFieldEditor("EXPORTSALES_PAYEDDATE", "Zahldatum anstatt Rechnungsdatum verwenden", getFieldEditorParent()));
+		
+		addField(new BooleanFieldEditor("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", "Spalte Gesamtsumme Ausgabenbeleg anzeigen", getFieldEditorParent()));
+
+		addField(new BooleanFieldEditor("EXPORTSALES_SHOW_ZERO_VAT_COLUMN", "Spalte mit 0% Vorsteuer anzeigen", getFieldEditorParent()));
 	}
 
 	/**
@@ -72,6 +77,8 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_PAYEDDATE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_SHOW_ZERO_VAT_COLUMN", write);
 	}
 
 	/**
@@ -81,6 +88,8 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.putBoolean("EXPORTSALES_PAYEDDATE", true);
+		node.putBoolean("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", false);
+		node.putBoolean("EXPORTSALES_SHOW_ZERO_VAT_COLUMN", false);
 		
 	}
 
