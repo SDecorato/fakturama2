@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -48,34 +46,36 @@ import com.sebulli.fakturama.data.DataSetVAT;
  */
 public class ExpenditureItemEditingSupport extends EditingSupport {
 
-	private static String TAX_CATEGORY = "Vorsteuer"; 
-	
+	private static String TAX_CATEGORY = "Vorsteuer";
+
 	// The cell editor
 	private CellEditor editor;
 	private String[] categoryListEntries;
 
 	// The current columns
 	private int column;
-	
+
 	// The VAT combo
 	private CCombo combo = null;
 	private String carryString = "";
-	
+
 	private DataSetExpenditureItem item = null;
-	
+
 	private Object activeObject;
 	boolean textCorrected = false;
-	
+
 	// The parent expenditure editor that contains the item table
 	private ExpenditureEditor expenditureEditor;
 
 	/**
-	 * Contructor
-	 * Create support to edit the table entries.
+	 * Contructor Create support to edit the table entries.
 	 * 
-	 * @param documentEditor The parent document editor that contains the item table
-	 * @param viewer The column viewer
-	 * @param column The column
+	 * @param documentEditor
+	 *            The parent document editor that contains the item table
+	 * @param viewer
+	 *            The column viewer
+	 * @param column
+	 *            The column
 	 */
 	public ExpenditureItemEditingSupport(final ExpenditureEditor expenditureEditor, ColumnViewer viewer, int column) {
 		super(viewer);
@@ -83,61 +83,62 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		// Set the local variables
 		this.expenditureEditor = expenditureEditor;
 		this.column = column;
-		
+
 		// Create the correct editor based on the column index
 		// Column nr 2 and nr.3 use a combo box cell editor.
 		// The other columns a text cell editor.
 		switch (column) {
 		case 2:
 			categoryListEntries = Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts");
-			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), categoryListEntries );
-			combo = (CCombo)editor.getControl();
-			
+			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), categoryListEntries);
+			combo = (CCombo) editor.getControl();
+
 			combo.addModifyListener(new ModifyListener() {
 
 				@Override
 				public void modifyText(ModifyEvent e) {
-					
+
 					// Us the carryString, if it's not empty
 					if (!carryString.isEmpty()) {
-						
+
 						// Use a 2nd string to prevent an event loop
 						String carryString2 = carryString;
 						carryString = "";
 						combo.setText(carryString2);
 					}
-					
+
 					// Get the content of the combo box
-					String text = combo.getText() ;
-					
+					String text = combo.getText();
+
 					// Get list of all billing accounts
 					ArrayList<DataSetList> billing_accounts = Data.INSTANCE.getListEntries().getActiveDatasetsByCategory("billing_accounts");
-					
+
 					// Search for the billing account with the same name as in the cell
 					for (DataSetList billing_account : billing_accounts) {
 						if (billing_account.getStringValueByKey("name").equalsIgnoreCase(text)) {
-							
+
 							// Get the VAT value from the billing account list
 							String vatName = billing_account.getStringValueByKey("value");
-							
+
 							// Get the VAT entry with the same name
-							DataSetVAT vat  = Data.INSTANCE.getVATs().getDataSetByStringValue("name", vatName, TAX_CATEGORY);
-							
+							DataSetVAT vat = Data.INSTANCE.getVATs().getDataSetByStringValue("name", vatName, TAX_CATEGORY);
+
 							// Search also for the description
 							if (vat == null)
 								vat = Data.INSTANCE.getVATs().getDataSetByStringValue("description", vatName, TAX_CATEGORY);
-							
+
 							// Update the VAT cell in the table
 							if (vat != null) {
 								item.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
 								expenditureEditor.getTableViewerItems().update(item, null);
 							}
-							
+
 						}
 					}
-					
-				}});
-			
+
+				}
+			});
+
 			combo.addVerifyListener(new VerifyListener() {
 
 				@Override
@@ -153,21 +154,20 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 
 						// The complete text is the old one of the combo and
 						// the new sequence from the event.
-						String text = combo.getText()+e.text;
+						String text = combo.getText() + e.text;
 
 						// Get the suggestion ..
 						String suggestion = getSuggestion(text);
 						if (!suggestion.isEmpty()) {
-							
+
 							// .. and use it.
 							combo.setText("");
 							e.text = suggestion;
 						}
 					}
 
-
-				
-				}});
+				}
+			});
 			break;
 		case 3:
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", TAX_CATEGORY));
@@ -175,7 +175,6 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
 		}
-		
 
 	}
 
@@ -218,13 +217,13 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 
 		activeObject = element;
 		expenditureEditor.setItemEditing(this);
-		
+
 		item = (DataSetExpenditureItem) element;
 		switch (this.column) {
 		case 1:
 			return item.getFormatedStringValueByKey("name");
 		case 2:
-			
+
 			// Get the index of that entry, that is equal to the category
 			for (int i = 0; i < categoryListEntries.length; i++) {
 				if (categoryListEntries[i].equals(item.getStringValueByKey("category")))
@@ -234,7 +233,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			// No entry found
 			carryString = item.getStringValueByKey("category");
 			return -1;
-			
+
 		case 3:
 			return item.getIntValueByKey("vatid");
 		case 4:
@@ -248,35 +247,36 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 	/**
 	 * Sets the new value on the given element.
 	 * 
-	 * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	@Override
 	protected void setValue(Object element, Object value) {
 		DataSetExpenditureItem item = (DataSetExpenditureItem) element;
 
 		expenditureEditor.setItemEditing(null);
-		
+
 		switch (this.column) {
 		case 1:
 			// Set the name
 			item.setStringValueByKey("name", String.valueOf(value));
 			break;
-			
+
 		case 2:
 			// Get the selected item from the combo box
 			Integer i = (Integer) value;
-			
+
 			// If there is an entry of the combo list selected
-			if ( i>=0 && i<categoryListEntries.length)
+			if (i >= 0 && i < categoryListEntries.length)
 				item.setStringValueByKey("category", categoryListEntries[i]);
-			
+
 			// If there is an entry with the same name as one of the combo list
 			else {
 				// get the text of the combo box
-				String text = ((CCombo)editor.getControl()).getText();
-				
+				String text = ((CCombo) editor.getControl()).getText();
+
 				boolean found = false;
-				
+
 				// Search for the entry with the same value of the category
 				for (int ii = 0; ii < categoryListEntries.length && !found; ii++) {
 					String listEntry = categoryListEntries[ii];
@@ -285,16 +285,16 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 						found = true;
 					}
 				}
-				
+
 				// No entry found
 				if (!found)
 					item.setStringValueByKey("category", text);
-				
+
 			}
 			break;
 		case 3:
 			// Set the VAT
-			
+
 			// Get the selected item from the combo box
 			i = (Integer) value;
 			String s;
@@ -303,13 +303,13 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			if (i >= 0) {
 				s = ((ComboBoxCellEditor) this.editor).getItems()[i];
 				i = Data.INSTANCE.getVATs().getDataSetIDByStringValue("name", s, TAX_CATEGORY);
-			} 
+			}
 			// Get the VAT by the Value in percent
 			else {
 				s = ((CCombo) ((ComboBoxCellEditor) this.editor).getControl()).getText();
 				i = Data.INSTANCE.getVATs().getDataSetByDoubleValue("value", DataUtils.StringToDouble(s + "%"), TAX_CATEGORY);
 			}
-			
+
 			// If no VAT is found, use the standard VAT
 			if (i < 0)
 				i = Integer.parseInt(Data.INSTANCE.getProperty("standardvat"));
@@ -321,7 +321,8 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			break;
 		case 5:
 			// Gross price
-			item.setDoubleValueByKey("price", new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),false, true).getUnitNet().asDouble());
+			item.setDoubleValueByKey("price", new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),
+					false, true).getUnitNet().asDouble());
 			break;
 		default:
 			break;
@@ -332,17 +333,18 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		// Update the data
 		getViewer().update(element, null);
 	}
-	
+
 	/**
 	 * Search for the "base" string in the list and get those part of the string
 	 * that was found in the list. If there are more than one entry that starts
-	 * with the same sequence, return the sequence, that is equal in all strings of 
-	 * the list.
+	 * with the same sequence, return the sequence, that is equal in all strings
+	 * of the list.
 	 * 
-	 * @param base String to search for
+	 * @param base
+	 *            String to search for
 	 * @return Result string
 	 */
-	private String getSuggestion (String base) {
+	private String getSuggestion(String base) {
 
 		// Do not work with empty strings
 		if (base.isEmpty())
@@ -350,7 +352,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 
 		// Get list to search for
 		String[] suggestions = Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts");
-		
+
 		// Temporary list with all strings that start with the base string
 		ArrayList<String> resultStrings = new ArrayList<String>();
 
@@ -364,7 +366,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		// No string matches: return with an empty string
 		if (resultStrings.isEmpty())
 			return "";
-		
+
 		// There was at least one string found in the list.
 		// Start with this entry.
 		String tempResult = resultStrings.get(0);
@@ -372,35 +374,34 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 
 		// Get that part of the all the strings, that is equal
 		for (String resultString : resultStrings) {
-			
+
 			// To compare two strings character by character, the minimum
 			// length of both must be used for the loop
 			int length = tempResult.length();
 			if (resultString.length() < length)
 				length = resultString.length();
-			
+
 			// Compare both strings, and get the part, that is equal
-			for (int i = 0;i < length;i++) {
-				if (tempResult.substring(0, i+1).
-						equalsIgnoreCase(resultString.substring(0, i+1)))
-					result = tempResult.substring(0, i+1);
+			for (int i = 0; i < length; i++) {
+				if (tempResult.substring(0, i + 1).equalsIgnoreCase(resultString.substring(0, i + 1)))
+					result = tempResult.substring(0, i + 1);
 
 			}
-			
+
 			// Use the result to compare it with the next entry
 			tempResult = result;
 		}
-		
+
 		// Return the result
 		return result;
 	}
-	
+
 	/**
 	 * Cancel editing of this cell
 	 */
 	public void cancelAndSave() {
 		this.setValue(activeObject, this.editor.getValue());
-		
+
 	}
 
 }

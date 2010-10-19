@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.actions;
@@ -30,7 +28,7 @@ import com.sebulli.fakturama.logger.Logger;
 
 /**
  * This action creates a new expenditure in an editor.
- *  
+ * 
  * @author Gerd Bartelt
  */
 public class NewExpenditureAction extends NewEditorAction {
@@ -40,14 +38,14 @@ public class NewExpenditureAction extends NewEditorAction {
 	 */
 	public NewExpenditureAction() {
 		super("neue Ausgabe");
-		
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_EXPENDITURE);
-		
+
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_NEW_EXPENDITURE);
-		
+
 		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/expenditure_16.png"));
 	}
@@ -55,7 +53,7 @@ public class NewExpenditureAction extends NewEditorAction {
 	/**
 	 * Run the action
 	 * 
-	 * Open a new expenditure editor. 
+	 * Open a new expenditure editor.
 	 */
 	@Override
 	public void run() {
@@ -70,7 +68,8 @@ public class NewExpenditureAction extends NewEditorAction {
 		// Open a new Contact Editor 
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, ExpenditureEditor.ID);
-		} catch (PartInitException e) {
+		}
+		catch (PartInitException e) {
 			Logger.logError(e, "Error opening Editor: " + ExpenditureEditor.ID);
 		}
 	}

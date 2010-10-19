@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama;
@@ -44,33 +42,33 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public enum Workspace {
 	INSTANCE;
-	
-	public static final String templateFolderName = "Vorlagen"; 
-	public static final String productPictureFolderName = "/Pics/Products/"; 
-	
+
+	public static final String templateFolderName = "Vorlagen";
+	public static final String productPictureFolderName = "/Pics/Products/";
+
 	// Workspace path
 	String workspace = "";
-	
+
 	// The plugin's preference store
 	IPreferenceStore preferences;
-	
+
 	Boolean isInitialized;
-	
-	Workspace () {
-		
+
+	Workspace() {
+
 		isInitialized = false;
-		
+
 		// Get the workspace from the preferences
 		preferences = Activator.getDefault().getPreferenceStore();
 		workspace = preferences.getString("GENERAL_WORKSPACE");
-			
+
 		// Checks, whether the workspace request is set.
 		// If yes, the workspace is set to this value and the request value is cleared.
 		// This mechanism is used, because the workspace can only be changed by restarting the application.
 		String requestedWorkspace = preferences.getString("GENERAL_WORKSPACE_REQUEST");
 		if (!requestedWorkspace.isEmpty()) {
 			preferences.setValue("GENERAL_WORKSPACE_REQUEST", "");
-			setWorkspace (requestedWorkspace);
+			setWorkspace(requestedWorkspace);
 		}
 
 		// Checks, whether the workspace is set.
@@ -83,7 +81,7 @@ public enum Workspace {
 			// Exit, if the workspace path is not valid
 			File workspacePath = new File(workspace);
 			if (!workspacePath.exists()) {
-				setWorkspace ("");
+				setWorkspace("");
 				selectWorkspace();
 			}
 		}
@@ -92,18 +90,17 @@ public enum Workspace {
 			showWorkingDirInTitleBar();
 
 	}
-	
+
 	/**
-	 * Initialize the workspace.
-	 * e.g. Creates a new template folder
+	 * Initialize the workspace. e.g. Creates a new template folder
 	 * 
 	 */
 	public void initWorkspace() {
-		
+
 		// Do not initialize twice
 		if (isInitialized)
 			return;
-		
+
 		// Exit, if the workspace path is not set
 		if (workspace.isEmpty())
 			return;
@@ -116,130 +113,132 @@ public enum Workspace {
 		// Create and fill the template folder, if it does not exist.
 		File directory = new File(workspace + "/" + templateFolderName);
 		if (!directory.exists()) {
-			
+
 			// Copy the templates from the resources to the file system
-			for (int i = 1; i <= 8; i++ ) {
-				if ( DocumentType.getType(i) == DocumentType.DELIVERY) {
-					resourceCopy("Templates/Delivery/Document.ott", 
-							 templateFolderName + "/" + DocumentType.getString(i),
-							"Document.ott");
+			for (int i = 1; i <= 8; i++) {
+				if (DocumentType.getType(i) == DocumentType.DELIVERY) {
+					resourceCopy("Templates/Delivery/Document.ott", templateFolderName + "/" + DocumentType.getString(i), "Document.ott");
 				}
 				else {
-					resourceCopy("Templates/Invoice/Document.ott", 
-							 templateFolderName + "/" + DocumentType.getString(i),
-							"Document.ott");
+					resourceCopy("Templates/Invoice/Document.ott", templateFolderName + "/" + DocumentType.getString(i), "Document.ott");
 				}
 			}
 		}
-		
+
 		isInitialized = true;
 
 	}
-	
+
 	/**
 	 * Copies a resource file from the resource to the file system
 	 * 
-	 * @param resource The resource file
-	 * @param filePath The destination on the file system
-	 * @param fileName The destination file name
+	 * @param resource
+	 *            The resource file
+	 * @param filePath
+	 *            The destination on the file system
+	 * @param fileName
+	 *            The destination file name
 	 */
 	public void resourceCopy(String resource, String filePath, String fileName) {
-		
+
 		// Relative path
 		filePath = workspace + "/" + filePath;
-		
+
 		// Create the destination folder
 		File directory = new File(filePath);
 		if (!directory.exists())
 			directory.mkdirs();
-		
+
 		// Copy the file
 		try {
 			// Create the input stream from the resource file
 			InputStream in = Activator.getDefault().getBundle().getResource(resource).openStream();
-			
+
 			// Create the output stream from the output file name
 			File fout = new File(filePath + "/" + fileName);
 			OutputStream out;
 			out = new FileOutputStream(fout);
-		    
+
 			// Copy the content
 			byte[] buf = new byte[1024];
-		    int len;
-		    while ((len = in.read(buf)) > 0){
-		    	out.write(buf, 0, len);
-		    }
-		    
-		    // Close both streams
-		    in.close();
-		    out.close();
-		    
-		} catch (FileNotFoundException e) {
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+
+			// Close both streams
+			in.close();
+			out.close();
+
+		}
+		catch (FileNotFoundException e) {
 			Logger.logError(e, "Resource file not found");
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			Logger.logError(e, "Error copying the resource file to the file system.");
 		}
 
-		
 	}
-	
+
 	/**
 	 * Set the workspace
 	 * 
-	 * @param workspace Path to the workspace
+	 * @param workspace
+	 *            Path to the workspace
 	 */
-	public void setWorkspace (String workspace) {
+	public void setWorkspace(String workspace) {
 		this.workspace = workspace;
 		preferences.setValue("GENERAL_WORKSPACE", workspace);
 	}
 
 	/**
 	 * Returns the path of the workspace
+	 * 
 	 * @return The workspace path as string
 	 */
-	public String getWorkspace () {
+	public String getWorkspace() {
 		return this.workspace;
-		
+
 	}
-	
+
 	/**
 	 * Opens a dialog to select the workspace
 	 */
 	public void selectWorkspace() {
 		// Open a directory dialog 
 		DirectoryDialog directoryDialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
-		directoryDialog.setFilterPath( System.getProperty("user.home") );
+		directoryDialog.setFilterPath(System.getProperty("user.home"));
 		directoryDialog.setMessage("Bitte wählen Sie ein Dateiverzeichnis aus, in dem die Firmendaten abgelegt werden.");
 		directoryDialog.setText("Arbeitsverzeichnis auswählen");
 		String selectedDirectory = directoryDialog.open();
 
 		if (selectedDirectory != null) {
-			
+
 			// test, if it is valid
 			if (selectedDirectory.equals("/"))
 				selectedDirectory = "";
 			if (selectedDirectory.equals("\\"))
 				selectedDirectory = "";
 			if (!selectedDirectory.isEmpty()) {
-				
+
 				// If there is a connection to the database,
 				// use the new working directory after a restart.
 				if (DataBaseConnectionState.INSTANCE.isConnected()) {
-					
+
 					// Store the requested directory in a preference value
 					Activator.getDefault().getPreferenceStore().setValue("GENERAL_WORKSPACE_REQUEST", selectedDirectory);
 					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
 					messageBox.setText("Hinweis");
 					messageBox.setMessage("Das Arbeitsverzeichnis wird gewechselt.\nBitte starten Sie Fakturama neu !");
 					messageBox.open();
-					
+
 					// Close the workbench
-//					ViewManager.INSTANCE.closeAll();
+					//					ViewManager.INSTANCE.closeAll();
 					PlatformUI.getWorkbench().close();
 				}
 				// if there is no connection, use it immediately
 				else {
-					setWorkspace (selectedDirectory);
+					setWorkspace(selectedDirectory);
 					showWorkingDirInTitleBar();
 				}
 			}
@@ -250,16 +249,18 @@ public enum Workspace {
 			PlatformUI.getWorkbench().close();
 
 	}
-	
+
 	/**
 	 * Displays the current workspace in the title bar
 	 */
 	public void showWorkingDirInTitleBar() {
 		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText(
-					"Fakturama - " + workspace);
-		} catch (Exception e) {};
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText("Fakturama - " + workspace);
+		}
+		catch (Exception e) {
+		}
+		;
 
 	}
-	
+
 }

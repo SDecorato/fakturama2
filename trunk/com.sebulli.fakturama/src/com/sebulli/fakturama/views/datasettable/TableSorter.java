@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.views.datasettable;
@@ -27,9 +25,9 @@ import com.sebulli.fakturama.data.UniDataSet;
 
 /**
  * Sorter to reorder the elements of the UniDataSet table
-
+ * 
  * @author Gerd Bartelt
- *
+ * 
  */
 public class TableSorter extends ViewerSorter {
 
@@ -39,8 +37,7 @@ public class TableSorter extends ViewerSorter {
 	private boolean isDate = false;
 
 	/**
-	 * Constructor
-	 * Set the default order to "descending"
+	 * Constructor Set the default order to "descending"
 	 */
 	public TableSorter() {
 		this.descending = false;
@@ -60,40 +57,42 @@ public class TableSorter extends ViewerSorter {
 			this.dataKey = dataKey;
 			this.descending = false;
 		}
-		
+
 		// Detect, if there are date or a numeric values in the table column.
 		isDate = UniDataSetTableColumn.isDate(uds, dataKey);
 		isNumeric = UniDataSetTableColumn.isNumeric(uds, dataKey);
 	}
 
 	/**
-	 * Returns a negative, zero, or positive number depending on whether the 
+	 * Returns a negative, zero, or positive number depending on whether the
 	 * first element is less than, equal to, or greater than the second element.
 	 * 
-	 * @see org.eclipse.jface.viewers.ViewerComparator#compare(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.jface.viewers.ViewerComparator#compare(org.eclipse.jface.viewers.Viewer,
+	 *      java.lang.Object, java.lang.Object)
 	 */
 	@Override
 	public int compare(Viewer viewer, Object e1, Object e2) {
-		
+
 		// There is not data key set, so do not sort
 		if (dataKey.isEmpty())
 			return 0;
-		
+
 		// Compare two elements
 		UniDataSet uds1 = (UniDataSet) e1;
 		UniDataSet uds2 = (UniDataSet) e2;
 		int retval = 0;
-		
+
 		if (isDate) {
-			
+
 			// If it a date, compare the strings
 			retval = uds1.getStringValueByKey(dataKey).compareTo(uds2.getStringValueByKey(dataKey));
-		} else if (isNumeric)
-			
+		}
+		else if (isNumeric)
+
 			// If it's a numeric value, compare the formated double value
 			retval = UniDataSetTableColumn.getDoubleValue(uds1, dataKey).compareTo(UniDataSetTableColumn.getDoubleValue(uds2, dataKey));
 		else
-			
+
 			// Else compare the formated strings
 			retval = UniDataSetTableColumn.getText(uds1, dataKey).compareTo(UniDataSetTableColumn.getText(uds2, dataKey));
 
@@ -101,7 +100,7 @@ public class TableSorter extends ViewerSorter {
 		if (!this.descending) {
 			retval = -retval;
 		}
-		
+
 		// The compare result
 		return retval;
 	}

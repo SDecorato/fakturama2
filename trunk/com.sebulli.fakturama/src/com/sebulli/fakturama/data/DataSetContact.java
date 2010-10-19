@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
@@ -24,7 +22,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
 
 /**
- * UniDataSet for all contacts 
+ * UniDataSet for all contacts
  * 
  * @author Gerd Bartelt
  */
@@ -38,21 +36,20 @@ public class DataSetContact extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Create a new contact
+	 * Constructor Create a new contact
 	 * 
-	 * @param category Category
+	 * @param category
+	 *            Category
 	 */
 	public DataSetContact(String category) {
 		this(false, category, "", "", "", "", "");
 	}
 
 	/**
-	 * Constructor
-	 * Create a new contact
+	 * Constructor Create a new contact
 	 * 
 	 * @param deleted
-	 * @param category 
+	 * @param category
 	 * @param firstname
 	 * @param name
 	 * @param street
@@ -65,8 +62,7 @@ public class DataSetContact extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Create a new contact
+	 * Constructor Create a new contact
 	 * 
 	 * @param id
 	 * @param deleted
@@ -172,36 +168,38 @@ public class DataSetContact extends UniDataSet {
 		replacedString = replacedString.replaceAll(exp, replacement);
 		return replacedString;
 	}
-	
+
 	/**
-	 * Replaces the placeholders of a string  
+	 * Replaces the placeholders of a string
 	 * 
-	 * @param s The string with placeholders
-	 * @param useDelivery TRUE, if the delivery address should be used
+	 * @param s
+	 *            The string with placeholders
+	 * @param useDelivery
+	 *            TRUE, if the delivery address should be used
 	 * @return the formated string.
 	 */
-	public String replaceFormatString(String s, boolean useDelivery ) {
+	public String replaceFormatString(String s, boolean useDelivery) {
 		String deliveryString = "";
 		// Us the delivery keys, if necessary.
 		if (useDelivery)
 			deliveryString = "delivery_";
-		
+
 		// Replace the placeholders
-		s = replaceAllWithSpace(s,"\\{company\\}", this.getStringValueByKey(deliveryString + "company"));
-		s = replaceAllWithSpace(s,"\\{title\\}", this.getStringValueByKey(deliveryString + "title"));
-		s = replaceAllWithSpace(s,"\\{firstname\\}", this.getStringValueByKey(deliveryString + "firstname"));
-		s = replaceAllWithSpace(s,"\\{lastname\\}", this.getStringValueByKey(deliveryString + "name"));
-		s = replaceAllWithSpace(s,"\\{street\\}", this.getStringValueByKey(deliveryString + "street"));
-		s = replaceAllWithSpace(s,"\\{zip\\}", this.getStringValueByKey(deliveryString + "zip"));
-		s = replaceAllWithSpace(s,"\\{city\\}", this.getStringValueByKey(deliveryString + "city"));
-		s = replaceAllWithSpace(s,"\\{country\\}", this.getStringValueByKey(deliveryString + "country"));
+		s = replaceAllWithSpace(s, "\\{company\\}", this.getStringValueByKey(deliveryString + "company"));
+		s = replaceAllWithSpace(s, "\\{title\\}", this.getStringValueByKey(deliveryString + "title"));
+		s = replaceAllWithSpace(s, "\\{firstname\\}", this.getStringValueByKey(deliveryString + "firstname"));
+		s = replaceAllWithSpace(s, "\\{lastname\\}", this.getStringValueByKey(deliveryString + "name"));
+		s = replaceAllWithSpace(s, "\\{street\\}", this.getStringValueByKey(deliveryString + "street"));
+		s = replaceAllWithSpace(s, "\\{zip\\}", this.getStringValueByKey(deliveryString + "zip"));
+		s = replaceAllWithSpace(s, "\\{city\\}", this.getStringValueByKey(deliveryString + "city"));
+		s = replaceAllWithSpace(s, "\\{country\\}", this.getStringValueByKey(deliveryString + "country"));
 
 		String countrycode;
-		
+
 		// Get the list entry of the country codes
 		DataSetList countyCodeDataSet = Data.INSTANCE.getListEntries().getDatasetByCategoryAndName("countrycodes",
-					this.getStringValueByKey(deliveryString + "country"));
-		
+				this.getStringValueByKey(deliveryString + "country"));
+
 		// Get the country code
 		if (countyCodeDataSet == null)
 			countrycode = "";
@@ -210,18 +208,18 @@ public class DataSetContact extends UniDataSet {
 
 		if (!countrycode.isEmpty())
 			countrycode += "-";
-		s = replaceAllWithSpace(s,"\\{countrycode\\}", countrycode);
+		s = replaceAllWithSpace(s, "\\{countrycode\\}", countrycode);
 
-		s = replaceAllWithSpace(s,"\\{removed\\}", "");
+		s = replaceAllWithSpace(s, "\\{removed\\}", "");
 
 		return s;
 	}
-	
-	
+
 	/**
 	 * Generate the greeting string, depending on the gender
 	 * 
-	 * @param useDelivery TRUE, if the delivery address should be used
+	 * @param useDelivery
+	 *            TRUE, if the delivery address should be used
 	 * @return The greeting string
 	 */
 	public String getGreeting(boolean useDelivery) {
@@ -232,7 +230,7 @@ public class DataSetContact extends UniDataSet {
 		String deliveryString = "";
 		if (useDelivery)
 			deliveryString = "delivery_";
-		
+
 		// Use the gender dependent preference settings
 		gender = this.getIntValueByKey(deliveryString + "gender");
 		switch (gender) {
@@ -249,9 +247,9 @@ public class DataSetContact extends UniDataSet {
 			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_COMMON");
 			break;
 		}
-		
+
 		// Replace the placeholders
-		greeting = replaceFormatString(greeting,useDelivery);
+		greeting = replaceFormatString(greeting, useDelivery);
 
 		return greeting;
 	}
@@ -262,20 +260,21 @@ public class DataSetContact extends UniDataSet {
 	 * @return The greeting string
 	 */
 	public static String getCommonGreeting() {
-		
+
 		// Get the common greeting string from the preference page.
 		return Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_COMMON");
 	}
-	
+
 	/**
 	 * Get the address
 	 * 
-	 * @param useDelivery TRUE, if the delivery address should be used
+	 * @param useDelivery
+	 *            TRUE, if the delivery address should be used
 	 * @return Complete address
 	 */
 	public String getAddress(boolean useDelivery) {
 		String addressFormat = "";
-		String address ="";
+		String address = "";
 		// Us the delivery keys, if necessary.
 
 		String deliveryString = "";
@@ -290,20 +289,20 @@ public class DataSetContact extends UniDataSet {
 		String[] hideCountries = hideCountriesString.split(",");
 		for (String hideCountry : hideCountries) {
 			if (this.getStringValueByKey(deliveryString + "country").equalsIgnoreCase(hideCountry)) {
-				addressFormat = replaceAllWithSpace(addressFormat,"\\{country\\}", "{removed}");
+				addressFormat = replaceAllWithSpace(addressFormat, "\\{country\\}", "{removed}");
 			}
 		}
-		
+
 		// Get each line
 		String[] addressFormatLines = addressFormat.split("<br>");
 		for (String addressFormatLine : addressFormatLines) {
-			String formatedAddressLine =  replaceFormatString(addressFormatLine, useDelivery);
+			String formatedAddressLine = replaceFormatString(addressFormatLine, useDelivery);
 			String trimmedAddressLine = formatedAddressLine.trim();
 
 			if (formatedAddressLine.equals(addressFormatLine) || (!trimmedAddressLine.isEmpty())) {
 				if (!address.isEmpty())
 					address += OSDependent.getNewLine();
-			} 
+			}
 
 			address += trimmedAddressLine;
 		}
@@ -330,7 +329,8 @@ public class DataSetContact extends UniDataSet {
 	/**
 	 * Get the gender String
 	 * 
-	 * @param useDelivery TRUE, if the delivery address should be used
+	 * @param useDelivery
+	 *            TRUE, if the delivery address should be used
 	 * @return Gender as String
 	 */
 	public String getGenderString(boolean useDelivery) {
@@ -342,11 +342,11 @@ public class DataSetContact extends UniDataSet {
 		return DataSetContact.getGenderString(this.getIntValueByKey(deliveryString + "gender"));
 	}
 
-	
 	/**
 	 * Get the gender String by the gender number
 	 * 
-	 * @param i Gender number
+	 * @param i
+	 *            Gender number
 	 * @return Gender as string
 	 */
 	public static String getGenderString(int i) {
@@ -364,21 +364,21 @@ public class DataSetContact extends UniDataSet {
 	}
 
 	/**
-	 * Test, if this is equal to an other UniDataSet
-	 * Customer number, first name, name and ZIP are compared.
-	 * Customer number is only compared, if it is set.
+	 * Test, if this is equal to an other UniDataSet Customer number, first
+	 * name, name and ZIP are compared. Customer number is only compared, if it
+	 * is set.
 	 * 
-	 * @param uds Other UniDataSet
+	 * @param uds
+	 *            Other UniDataSet
 	 * @return True, if it's equal
 	 */
 	public boolean isTheSameAs(UniDataSet uds) {
-		
+
 		// Compare customer number, only if it is set.
-		if (!uds.getStringValueByKey("nr").isEmpty() &&
-			!this.getStringValueByKey("nr").isEmpty() && 	
-		    !uds.getStringValueByKey("nr").equals(this.getStringValueByKey("nr")))
+		if (!uds.getStringValueByKey("nr").isEmpty() && !this.getStringValueByKey("nr").isEmpty()
+				&& !uds.getStringValueByKey("nr").equals(this.getStringValueByKey("nr")))
 			return false;
-		
+
 		if (!uds.getStringValueByKey("firstname").equals(this.getStringValueByKey("firstname")))
 			return false;
 		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))

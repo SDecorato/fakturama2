@@ -1,35 +1,32 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
 
 /**
- * UniDataSet for all items. 
+ * UniDataSet for all items.
  * 
  * @author Gerd Bartelt
  */
 public class DataSetItem extends UniDataSet {
 
 	/**
-	 * Constructor
-	 * Creates a new item
+	 * Constructor Creates a new item
 	 * 
 	 */
 	public DataSetItem() {
@@ -37,21 +34,22 @@ public class DataSetItem extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Creates a new item with positive signs from a parent item
+	 * Constructor Creates a new item with positive signs from a parent item
 	 * 
-	 * @param parent Parent item
+	 * @param parent
+	 *            Parent item
 	 */
 	public DataSetItem(DataSetItem parent) {
 		this(parent, 1);
 	}
 
 	/**
-	 * Constructor
-	 * Creates a new item from a parent item
+	 * Constructor Creates a new item from a parent item
 	 * 
-	 * @param parent Parent item
-	 * @param sign Sign of the new item
+	 * @param parent
+	 *            Parent item
+	 * @param sign
+	 *            Sign of the new item
 	 */
 	public DataSetItem(DataSetItem parent, int sign) {
 		this(parent.getIntValueByKey("id"), parent.getStringValueByKey("name"), parent.getIntValueByKey("productid"), parent.getStringValueByKey("itemnr"),
@@ -64,8 +62,7 @@ public class DataSetItem extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Creates a new item
+	 * Constructor Creates a new item
 	 * 
 	 * @param name
 	 * @param itemnr
@@ -80,11 +77,12 @@ public class DataSetItem extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Creates a new item from a product and the quantity
+	 * Constructor Creates a new item from a product and the quantity
 	 * 
-	 * @param quantity Quantity of the new item
-	 * @param product Product
+	 * @param quantity
+	 *            Quantity of the new item
+	 * @param product
+	 *            Product
 	 */
 	public DataSetItem(Double quantity, DataSetProduct product) {
 		this(-1, product.getStringValueByKey("name"), product.getIntValueByKey("id"), product.getStringValueByKey("itemnr"), false, "", -1, false, quantity,
@@ -93,8 +91,7 @@ public class DataSetItem extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Creates a new item from a product and the quantity
+	 * Constructor Creates a new item from a product and the quantity
 	 * 
 	 * @param id
 	 * @param name
@@ -144,7 +141,8 @@ public class DataSetItem extends UniDataSet {
 	/**
 	 * Set the VAT ID and all of the values that are in relation to the VAT ID
 	 * 
-	 * @param vatId New VAT ID
+	 * @param vatId
+	 *            New VAT ID
 	 */
 	public void setVat(int vatId) {
 		DataSetVAT dsVat = Data.INSTANCE.getVATs().getDatasetById(vatId);

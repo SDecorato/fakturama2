@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
@@ -30,7 +28,7 @@ import com.sebulli.fakturama.calculate.DocumentSummary;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
- * UniDataSet for all documents 
+ * UniDataSet for all documents
  * 
  * @author Gerd Bartelt
  */
@@ -38,18 +36,17 @@ public class DataSetDocument extends UniDataSet {
 	DocumentSummary summary = new DocumentSummary();
 
 	/**
-	 * Constructor
-	 * Creates an new letter
+	 * Constructor Creates an new letter
 	 */
 	public DataSetDocument() {
 		this(DocumentType.LETTER);
 	}
 
 	/**
-	 * Constructor
-	 * Create a new document
+	 * Constructor Create a new document
 	 * 
-	 * @param documentType Type of new document
+	 * @param documentType
+	 *            Type of new document
 	 */
 	public DataSetDocument(DocumentType documentType) {
 		this(documentType, "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
@@ -57,28 +54,32 @@ public class DataSetDocument extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Create a new document, set the date to now and create a transaction ID
+	 * Constructor Create a new document, set the date to now and create a
+	 * transaction ID
 	 * 
-	 * @param documentType Type of the new document
-	 * @param webshopid Web shop ID (order number)
-	 * @param webshopdate Web shop date (date of order)
+	 * @param documentType
+	 *            Type of the new document
+	 * @param webshopid
+	 *            Web shop ID (order number)
+	 * @param webshopdate
+	 *            Web shop date (date of order)
 	 */
 	public DataSetDocument(DocumentType documentType, String webshopid, String webshopdate) {
-		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0,
-				0.0, "", 1, 0.0, "", 0, webshopid, webshopdate,webshopdate, false, "", "", 0.0, 0, -1, "", "");
+		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat(
+				"yyyy-MM-dd")).format(new Date()), -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0, 0.0, "", 1, 0.0, "", 0, webshopid, webshopdate,
+				webshopdate, false, "", "", 0.0, 0, -1, "", "");
 
 		this.hashMap.put("transaction", new UniData(UniDataType.INT, Math.abs(UUID.randomUUID().hashCode())));
 	}
 
-
 	/**
-	 * Constructor
-	 * Create a new document from an other document
-	 * Also mark all of the items as "shared"
+	 * Constructor Create a new document from an other document Also mark all of
+	 * the items as "shared"
 	 * 
-	 * @param documentType Type of the new document
-	 * @param parent Parent document
+	 * @param documentType
+	 *            Type of the new document
+	 * @param parent
+	 *            Parent document
 	 */
 	public DataSetDocument(DocumentType documentType, DataSetDocument parent) {
 		// create a copy
@@ -86,15 +87,14 @@ public class DataSetDocument extends UniDataSet {
 				.getStringValueByKey("deliveryaddress"), parent.getStringValueByKey("addressfirstline"), parent.getIntValueByKey("progress"), parent
 				.getStringValueByKey("customerref"), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd"))
 				.format(new Date()), parent.getIntValueByKey("paymentid"), parent.getStringValueByKey("paymentname"), parent.getIntValueByKey("duedays"),
-				parent.getBooleanValueByKey("payed"), parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"),parent.getStringValueByKey("items"),
-				parent.getIntValueByKey("shippingid"), parent.getStringValueByKey("shippingname"), parent.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"),
-				parent.getStringValueByKey("shippingvatdescription"), parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), 
-				parent.getStringValueByKey("message"), parent.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent.getStringValueByKey("webshopdate"),
-				parent.getStringValueByKey("orderdate"),
-				parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent.getStringValueByKey("novatdescription"), 
-				parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent.getIntValueByKey("invoiceid"),
-				parent.getStringValueByKey("paymentdescription"), parent.getStringValueByKey("shippingdescription")		);
-
+				parent.getBooleanValueByKey("payed"), parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"), parent
+						.getStringValueByKey("items"), parent.getIntValueByKey("shippingid"), parent.getStringValueByKey("shippingname"), parent
+						.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"), parent.getStringValueByKey("shippingvatdescription"),
+				parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent.getStringValueByKey("message"), parent
+						.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent.getStringValueByKey("webshopdate"), parent
+						.getStringValueByKey("orderdate"), parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent
+						.getStringValueByKey("novatdescription"), parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent
+						.getIntValueByKey("invoiceid"), parent.getStringValueByKey("paymentdescription"), parent.getStringValueByKey("shippingdescription"));
 
 		// Get the Items string, split it ..
 		String itemsString = this.getStringValueByKey("items");
@@ -106,11 +106,12 @@ public class DataSetDocument extends UniDataSet {
 			if (itemsStringPart.length() > 0) {
 				try {
 					id = Integer.parseInt(itemsStringPart);
-				} catch (NumberFormatException e) {
+				}
+				catch (NumberFormatException e) {
 					Logger.logError(e, "Error parsing item string");
 					id = 0;
 				}
-				
+
 				// Mark all items as "shared"
 				DataSetItem item = Data.INSTANCE.getItems().getDatasetById(id);
 				item.setBooleanValueByKey("shared", true);
@@ -165,10 +166,10 @@ public class DataSetDocument extends UniDataSet {
 	 */
 	public DataSetDocument(int id, String name, boolean deleted, DocumentType documentType, int addressid, String address, String deliveryaddress,
 			String addressfirstline, int progress, String customerref, String date, String servicedate, int paymentid, String paymentname, int duedays,
-			boolean payed, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping, Double shippingvat,
-			String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid, String webshopdate, String orderdate,
-			boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel, int invoiceid, String paymentdescription,
-			String shippingdescription) {
+			boolean payed, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping,
+			Double shippingvat, String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid,
+			String webshopdate, String orderdate, boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel,
+			int invoiceid, String paymentdescription, String shippingdescription) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
@@ -210,13 +211,13 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("dunninglevel", new UniData(UniDataType.INT, dunninglevel));
 		this.hashMap.put("invoiceid", new UniData(UniDataType.ID, invoiceid));
 		this.hashMap.put("printed", new UniData(UniDataType.BOOLEAN, false));
-		
+
 		// Name of the table in the data base
 		sqlTabeName = "Documents";
 	}
 
 	/**
-	 * Get the payment state as localized string 
+	 * Get the payment state as localized string
 	 * 
 	 * @return String for "payed"
 	 */
@@ -225,7 +226,7 @@ public class DataSetDocument extends UniDataSet {
 	};
 
 	/**
-	 * Get the payment state as localized string 
+	 * Get the payment state as localized string
 	 * 
 	 * @return String for "not payed"
 	 */
@@ -234,7 +235,7 @@ public class DataSetDocument extends UniDataSet {
 	};
 
 	/**
-	 * Get the shipping state as localized string 
+	 * Get the shipping state as localized string
 	 * 
 	 * @return String for "shipped"
 	 */
@@ -243,7 +244,7 @@ public class DataSetDocument extends UniDataSet {
 	};
 
 	/**
-	 * Get the shipping state as localized string 
+	 * Get the shipping state as localized string
 	 * 
 	 * @return String for "not shipped"
 	 */
@@ -260,7 +261,7 @@ public class DataSetDocument extends UniDataSet {
 		try {
 			String category = DocumentType.getPluralString(hashMap.get("category").getValueAsInteger());
 			DocumentType documentType = DocumentType.getType(hashMap.get("category").getValueAsInteger());
-			
+
 			// use the document type to generate the category string ..
 			switch (documentType) {
 			case INVOICE:
@@ -288,18 +289,20 @@ public class DataSetDocument extends UniDataSet {
 				break;
 			}
 			return category;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Error getting key category.");
 		}
 		return "";
 	}
 
 	/**
-	 * Get the category strings.
-	 * Generate only categories of document types, that are existing.
-	 * This is used to generate the tree in the documents view.
+	 * Get the category strings. Generate only categories of document types,
+	 * that are existing. This is used to generate the tree in the documents
+	 * view.
 	 * 
-	 * @param usedDocuments Array with all document types, that are used
+	 * @param usedDocuments
+	 *            Array with all document types, that are used
 	 * @return Array with all category strings
 	 */
 	static public Object[] getCategoryStrings(boolean usedDocuments[]) {
@@ -346,25 +349,25 @@ public class DataSetDocument extends UniDataSet {
 	}
 
 	/**
-	 * Get all the document items.
-	 * Generate the list by the items string
+	 * Get all the document items. Generate the list by the items string
 	 * 
 	 * @return All items of this document
 	 */
 	public DataSetArray<DataSetItem> getItems() {
 		DataSetArray<DataSetItem> items = new DataSetArray<DataSetItem>();
-		
+
 		// Split the items string
 		String itemsString = this.getStringValueByKey("items");
 		String[] itemsStringParts = itemsString.split(",");
-		
+
 		// Get all items
 		for (String itemsStringPart : itemsStringParts) {
 			int id;
 			if (itemsStringPart.length() > 0) {
 				try {
 					id = Integer.parseInt(itemsStringPart);
-				} catch (NumberFormatException e) {
+				}
+				catch (NumberFormatException e) {
 					Logger.logError(e, "Error parsing item string");
 					id = 0;
 				}
@@ -379,22 +382,30 @@ public class DataSetDocument extends UniDataSet {
 	 */
 	public void calculate() {
 		int sign = DocumentType.getType(this.getIntValueByKey("category")).sign();
-		calculate(this.getItems(), this.getDoubleValueByKey("shipping") * sign, this.getDoubleValueByKey("shippingvat"), this
-				.getStringValueByKey("shippingvatdescription"), this.getIntValueByKey("shippingautovat"), this.getDoubleValueByKey("itemsdiscount"), this
-				.getBooleanValueByKey("novat"), this.getStringValueByKey("novatdescription"), 1.0);
+		calculate(this.getItems(), this.getDoubleValueByKey("shipping") * sign, this.getDoubleValueByKey("shippingvat"),
+				this.getStringValueByKey("shippingvatdescription"), this.getIntValueByKey("shippingautovat"), this.getDoubleValueByKey("itemsdiscount"),
+				this.getBooleanValueByKey("novat"), this.getStringValueByKey("novatdescription"), 1.0);
 	}
 
 	/**
 	 * Recalculate the document total values
 	 * 
-	 * @param items Items as DataSetArray
-	 * @param shippingNet Net value
-	 * @param shippingVat Shipping vat
-	 * @param shippingVatDescription Shipping vat name
-	 * @param shippingAutoVat Way of calculating the shipping vat
-	 * @param itemsDiscount Discount
-	 * @param noVat True, if 0% vat is used
-	 * @param noVatDescription Name of the vat, if 0% is used
+	 * @param items
+	 *            Items as DataSetArray
+	 * @param shippingNet
+	 *            Net value
+	 * @param shippingVat
+	 *            Shipping vat
+	 * @param shippingVatDescription
+	 *            Shipping vat name
+	 * @param shippingAutoVat
+	 *            Way of calculating the shipping vat
+	 * @param itemsDiscount
+	 *            Discount
+	 * @param noVat
+	 *            True, if 0% vat is used
+	 * @param noVatDescription
+	 *            Name of the vat, if 0% is used
 	 */
 	public void calculate(DataSetArray<DataSetItem> items, double shippingNet, double shippingVat, String shippingVatDescription, int shippingAutoVat,
 			Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor) {
@@ -411,25 +422,25 @@ public class DataSetDocument extends UniDataSet {
 	}
 
 	/**
-	 * Sets the state of the document to payed or unpayed
-	 * Take the total value as payed value and the date of today.
+	 * Sets the state of the document to payed or unpayed Take the total value
+	 * as payed value and the date of today.
 	 * 
 	 * @param payed
 	 */
 	public void setPayed(boolean payed) {
 		this.setBooleanValueByKey("payed", payed);
 		if (payed) {
-			this.setStringValueByKey("paydate",(new SimpleDateFormat("yyyy-MM-dd")).format(new Date()) );
+			this.setStringValueByKey("paydate", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 			this.setDoubleValueByKey("payvalue", this.getDoubleValueByKey("total"));
 		}
 	}
-	
-	
+
 	/**
-	 * Test, if this is equal to an other UniDataSet
-	 * Only web shop id and web shop date are compared
+	 * Test, if this is equal to an other UniDataSet Only web shop id and web
+	 * shop date are compared
 	 * 
-	 * @param uds Other UniDataSet
+	 * @param uds
+	 *            Other UniDataSet
 	 * @return True, if it's equal
 	 */
 	public boolean isTheSameAs(UniDataSet uds) {

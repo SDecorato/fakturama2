@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.preferences;
@@ -66,7 +64,7 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 	}
 
 	/**
-	 * Initializes this preference page for the given workbench. 
+	 * Initializes this preference page for the given workbench.
 	 * 
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
@@ -80,7 +78,8 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 	/**
 	 * Write or read the preference settings to or from the data base
 	 * 
-	 * @param write TRUE: Write to the data base
+	 * @param write
+	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 
@@ -106,7 +105,8 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 	/**
 	 * Set the default values for this preference page
 	 * 
-	 * @param node The preference node
+	 * @param node
+	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.put("NUMBERRANGE_CONTACT_FORMAT", "");

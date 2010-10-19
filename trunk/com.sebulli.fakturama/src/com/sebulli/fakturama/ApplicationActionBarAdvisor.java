@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama;
@@ -67,8 +65,9 @@ import com.sebulli.fakturama.data.DocumentType;
  * the actions added to a workbench window. Each window will be populated with
  * new actions.
  * 
- * If the action is in the tool bar and in the menu, 2 actions have to be defined:
- * one with a 16x16 pixel icon for the menu and one with 32x32 pixel in the tool bar.
+ * If the action is in the tool bar and in the menu, 2 actions have to be
+ * defined: one with a 16x16 pixel icon for the menu and one with 32x32 pixel in
+ * the tool bar.
  * 
  * The tool bar version of an action is called xxTB
  * 
@@ -132,14 +131,13 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 
 	/**
-	 * Creates the actions and registers them.
-	 * Registering is needed to ensure that key bindings work.
-	 * The corresponding commands key bindings are defined in the plugin.xml
-	 * file.
-	 * Registering also provides automatic disposal of the actions when
-	 * the window is closed.
+	 * Creates the actions and registers them. Registering is needed to ensure
+	 * that key bindings work. The corresponding commands key bindings are
+	 * defined in the plugin.xml file. Registering also provides automatic
+	 * disposal of the actions when the window is closed.
 	 * 
-	 * @param window Workbench Window
+	 * @param window
+	 *            Workbench Window
 	 */
 	@Override
 	protected void makeActions(final IWorkbenchWindow window) {
@@ -196,10 +194,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		helpAction.setText("Hilfe");
 		register(helpAction);
 
-		resetViewAction	= ActionFactory.RESET_PERSPECTIVE.create(window);	
+		resetViewAction = ActionFactory.RESET_PERSPECTIVE.create(window);
 		resetViewAction.setText("Perspektive zurücksetzen");
 		register(resetViewAction);
-		
+
 		openBrowserEditorAction = new OpenBrowserEditorAction();
 		register(openBrowserEditorAction);
 
@@ -288,7 +286,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	 * On MAC OS X the entries "about" and "preferences" are in a special menu.
 	 * So on this OS, the entries are not added to the menu.
 	 * 
-	 * @param menuBar menu bar to fill
+	 * @param menuBar
+	 *            menu bar to fill
 	 */
 	@Override
 	protected void fillMenuBar(IMenuManager menuBar) {
@@ -322,7 +321,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		if (OSDependent.canAddPreferenceAboutMenu()) {
 			fileMenu.add(new Separator());
 			fileMenu.add(openPreferencesAction);
-		} else {
+		}
+		else {
 			hiddenMenu.add(openPreferencesAction);
 		}
 		fileMenu.add(new Separator());
@@ -335,7 +335,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		// window menu
 		windowMenu.add(resetViewAction);
-		
+
 		// Help menu
 		helpMenu.add(openBrowserEditorAction);
 		helpMenu.add(helpAction);
@@ -343,24 +343,26 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		if (OSDependent.canAddAboutMenuItem()) {
 			helpMenu.add(new Separator());
 			helpMenu.add(aboutAction);
-		} else {
+		}
+		else {
 			hiddenMenu.add(aboutAction);
 		}
-		
+
 	}
 
 	/**
 	 * Fill the cool bar with 3 Toolbars.
 	 * 
-	 * 1st with general tool items like save and print.
-	 * 2nd with tool items to create a new document
-	 * 3rd with some extra items like calculator
+	 * 1st with general tool items like save and print. 2nd with tool items to
+	 * create a new document 3rd with some extra items like calculator
 	 * 
-	 * The icons of the actions are replaced by 32x32 pixel icons.
-	 * If the action is in the tool bar and in the menu, 2 actions have to be defined:
-	 * one with a 16x16 pixel icon for the menu and one with 32x32 pixel in the tool bar.
+	 * The icons of the actions are replaced by 32x32 pixel icons. If the action
+	 * is in the tool bar and in the menu, 2 actions have to be defined: one
+	 * with a 16x16 pixel icon for the menu and one with 32x32 pixel in the tool
+	 * bar.
 	 * 
-	 * @param collBar cool bar to fill
+	 * @param collBar
+	 *            cool bar to fill
 	 */
 	@Override
 	protected void fillCoolBar(ICoolBarManager coolBar) {

@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.views.datasettable;
@@ -65,7 +63,7 @@ import com.sebulli.fakturama.logger.Logger;
  * UniDataSets and a tree viewer
  * 
  * @author Gerd Bartelt
- *
+ * 
  */
 public abstract class ViewDataSetTable extends ViewPart {
 
@@ -74,41 +72,40 @@ public abstract class ViewDataSetTable extends ViewPart {
 	protected TableColumnLayout tableColumnLayout;
 	protected ViewDataSetTableContentProvider contentProvider;
 	protected UniDataSetTableColumn stdIconColumn = null;
-	
+
 	// The columns that are used for the text search
 	protected String searchColumns[];
 
 	// Filter the table 
 	protected TableFilter tableFilter;
 	protected Label filterLabel;
-	
+
 	// The topic tree viewer displays the categories of the UniDataSets
 	protected TopicTreeViewer topicTreeViewer;
 
 	// Name of the editor to edit the UniDataSets
 	protected String editor = "";
-	
+
 	// Action to create new dataset in the editor
 	protected NewEditorAction addNewAction = null;
 
 	// Menu manager of the context menu
 	protected MenuManager menuManager;
-	
+
 	// The standard UniDataSet
 	protected String stdPropertyKey = null;
 
 	private ViewDataSetTable me;
-	
+
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createPartControl(Composite parent, boolean useDocumentAndContactFilter, boolean useAll) {
-		
-		
+
 		me = this;
-		
+
 		// Create the top composite
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(top);
@@ -193,18 +190,18 @@ public abstract class ViewDataSetTable extends ViewPart {
 
 				IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 				IWorkbenchPage page = workbenchWindow.getActivePage();
-				
-				if (page!=null) {
+
+				if (page != null) {
 					// Activate the part of the workbench page.
-					if ( !page.getActivePart().equals(me)) 
+					if (!page.getActivePart().equals(me))
 						page.activate(me);
 				}
 			}
 		});
-		
+
 		// Set selection provider
 		getSite().setSelectionProvider(tableViewer);
-		
+
 		// Listen to double clicks
 		hookDoubleClickCommand();
 
@@ -214,13 +211,11 @@ public abstract class ViewDataSetTable extends ViewPart {
 
 		// Set the table
 		topicTreeViewer.setTable(this);
-		
+
 		// Set sorter and filter
 		tableViewer.setSorter(new TableSorter());
 		tableFilter = new TableFilter(searchColumns);
 		tableViewer.addFilter(tableFilter);
-
-
 
 	}
 
@@ -269,7 +264,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 				ICommandService commandService = (ICommandService) getSite().getService(ICommandService.class);
 
 				try {
-					
+
 					// Call the corresponding editor. The editor is set
 					// in the variable "editor", which is used as a parameter
 					// when calling the editor command.
@@ -279,7 +274,8 @@ public abstract class ViewDataSetTable extends ViewPart {
 					ParameterizedCommand parameterizedCommand = ParameterizedCommand.generateCommand(callEditor, params);
 					handlerService.executeCommand(parameterizedCommand, null);
 
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					Logger.logError(e, "Editor not found: " + editor);
 				}
 			}
@@ -290,7 +286,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 	 * Refresh the table and the tree viewer
 	 */
 	public void refresh() {
-		
+
 		// Refresh the standard entry
 		refreshStdId();
 
@@ -305,7 +301,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 	}
 
 	/**
-	 * Asks this part to take focus within the workbench. 
+	 * Asks this part to take focus within the workbench.
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
@@ -316,7 +312,9 @@ public abstract class ViewDataSetTable extends ViewPart {
 
 	/**
 	 * Set the category filter
-	 * @param filter The new filter string
+	 * 
+	 * @param filter
+	 *            The new filter string
 	 */
 	public void setCategoryFilter(String filter) {
 
@@ -325,11 +323,11 @@ public abstract class ViewDataSetTable extends ViewPart {
 			filterLabel.setText("");
 		else
 		// Display the localizes list names.
-		if (this instanceof ViewListTable )
-			filterLabel.setText( DataSetListNames.NAMES.getLocalizedName(filter));
+		if (this instanceof ViewListTable)
+			filterLabel.setText(DataSetListNames.NAMES.getLocalizedName(filter));
 
 		filterLabel.pack(true);
-		
+
 		// Reset transaction and contact filter, set category filter
 		contentProvider.setTransactionFilter(-1);
 		contentProvider.setContactFilter(-1);
@@ -340,14 +338,16 @@ public abstract class ViewDataSetTable extends ViewPart {
 		if (addNewAction != null) {
 			addNewAction.setCategory(filter);
 		}
-		
+
 		//Refresh
 		this.refresh();
 	}
 
 	/**
 	 * Set the transaction filter
-	 * @param filter The new filter string
+	 * 
+	 * @param filter
+	 *            The new filter string
 	 */
 	public void setTransactionFilter(int filter) {
 
@@ -369,7 +369,9 @@ public abstract class ViewDataSetTable extends ViewPart {
 
 	/**
 	 * Set the contact filter
-	 * @param filter The new filter string
+	 * 
+	 * @param filter
+	 *            The new filter string
 	 */
 	public void setContactFilter(int filter) {
 
@@ -381,7 +383,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 		contentProvider.setContactFilter(filter);
 		contentProvider.setTransactionFilter(-1);
 		contentProvider.setCategoryFilter("");
-		
+
 		// Reset the addNew action. 
 		if (addNewAction != null) {
 			addNewAction.setCategory("");
@@ -391,8 +393,8 @@ public abstract class ViewDataSetTable extends ViewPart {
 	}
 
 	/**
-	 * Refresh the standard ID. Sets the new standard ID to the standard
-	 * icon column of the table
+	 * Refresh the standard ID. Sets the new standard ID to the standard icon
+	 * column of the table
 	 */
 	public void refreshStdId() {
 
@@ -404,7 +406,8 @@ public abstract class ViewDataSetTable extends ViewPart {
 		try {
 			// Set the the new standard ID to the standard icon column
 			stdIconColumn.setStdEntry(Integer.parseInt(Data.INSTANCE.getProperty(stdPropertyKey)));
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e) {
 		}
 
 	}

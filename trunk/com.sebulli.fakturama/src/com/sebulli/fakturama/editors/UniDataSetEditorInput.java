@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -36,18 +34,18 @@ public class UniDataSetEditorInput implements IEditorInput {
 
 	// The unidataset 
 	private final UniDataSet uds;
-	
+
 	// The category
 	private String category = "";
-	
+
 	// True, if this unidataset is duplicated
 	private boolean duplicate = false;
 
 	/**
-	 * Default Constructor
-	 * Sets the unidataset
+	 * Default Constructor Sets the unidataset
 	 * 
-	 * @param uds The editor's unidataset
+	 * @param uds
+	 *            The editor's unidataset
 	 */
 	public UniDataSetEditorInput(UniDataSet uds) {
 
@@ -57,32 +55,33 @@ public class UniDataSetEditorInput implements IEditorInput {
 	}
 
 	/**
-	 * Constructor 
-	 * Creates an editor's input, if an unidataset is duplicated
-	 * The unidataset is the parent unidataset. It won't be modified by
-	 * the editor. The editor will use this unidataset just as a template
-	 * to create a duplicate one.
+	 * Constructor Creates an editor's input, if an unidataset is duplicated The
+	 * unidataset is the parent unidataset. It won't be modified by the editor.
+	 * The editor will use this unidataset just as a template to create a
+	 * duplicate one.
 	 * 
-	 * @param category Category of the new unidataset
-	 * @param uds Parent unidataset
+	 * @param category
+	 *            Category of the new unidataset
+	 * @param uds
+	 *            Parent unidataset
 	 */
 	public UniDataSetEditorInput(String category, UniDataSet uds) {
-		
+
 		// Set the local variables
 		this.uds = uds;
 		this.category = category;
-		
+
 		// If category and unidataset are set, use the input to duplicate it.
 		if ((category != null) && (uds != null))
 			this.duplicate = true;
 	}
 
 	/**
-	 * Constructor 
-	 * Creates an editor's input.
-	 * This will open an editor with a new content of the specified category.
+	 * Constructor Creates an editor's input. This will open an editor with a
+	 * new content of the specified category.
 	 * 
-	 * @param category The new category
+	 * @param category
+	 *            The new category
 	 */
 	public UniDataSetEditorInput(String category) {
 
@@ -111,8 +110,8 @@ public class UniDataSetEditorInput implements IEditorInput {
 	}
 
 	/**
-	 * Returns, if the editor should take this unidataset as a template
-	 * and create a duplicate of it.
+	 * Returns, if the editor should take this unidataset as a template and
+	 * create a duplicate of it.
 	 * 
 	 * @return
 	 */
@@ -131,7 +130,7 @@ public class UniDataSetEditorInput implements IEditorInput {
 	}
 
 	/**
-	 * Returns the image descriptor for this input. 
+	 * Returns the image descriptor for this input.
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
 	 */
@@ -141,23 +140,24 @@ public class UniDataSetEditorInput implements IEditorInput {
 	}
 
 	/**
-	 * Returns the name of this editor input for display purposes. 
+	 * Returns the name of this editor input for display purposes.
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getName()
 	 */
 	@Override
 	public String getName() {
-		
+
 		// Return "new", if no unidataset is specified
 		if (uds == null)
 			return "neu";
-		
+
 		// Else return the name of the unidataset
 		return uds.getStringValueByKey("name");
 	}
 
 	/**
-	 * Returns an object that can be used to save the state of this editor input.
+	 * Returns an object that can be used to save the state of this editor
+	 * input.
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getPersistable()
 	 */
@@ -177,8 +177,8 @@ public class UniDataSetEditorInput implements IEditorInput {
 	}
 
 	/**
-	 * Returns an object which is an instance of the given class
-	 * associated with this object
+	 * Returns an object which is an instance of the given class associated with
+	 * this object
 	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
@@ -188,14 +188,14 @@ public class UniDataSetEditorInput implements IEditorInput {
 	}
 
 	/**
-	 * Indicates whether some other object is "equal to" this one. 
+	 * Indicates whether some other object is "equal to" this one.
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (super.equals(obj)) { return true; }
-		
+
 		// not equal, if there is nothing
 		if (uds == null)
 			return false;

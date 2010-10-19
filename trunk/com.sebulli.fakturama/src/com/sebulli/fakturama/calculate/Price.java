@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.calculate;
@@ -27,8 +25,7 @@ import com.sebulli.fakturama.logger.Logger;
 /**
  * Price class
  * 
- * Calculate gross values from net values.
- * Rounding of all values.
+ * Calculate gross values from net values. Rounding of all values.
  * 
  * @author Gerd Bartelt
  */
@@ -60,10 +57,10 @@ public class Price {
 	private Double totalGrossRounded;
 
 	/**
-	 * Constructor
-	 * Create a price value from an item
+	 * Constructor Create a price value from an item
 	 * 
-	 * @param item Item as UniDataSet
+	 * @param item
+	 *            Item as UniDataSet
 	 */
 	public Price(DataSetItem item) {
 		this(item.getDoubleValueByKey("quantity"), item.getDoubleValueByKey("price"), item.getDoubleValueByKey("vatvalue"), item
@@ -71,10 +68,10 @@ public class Price {
 	}
 
 	/**
-	 * Constructor
-	 * Create a price value from an item and a scale factor
+	 * Constructor Create a price value from an item and a scale factor
 	 * 
-	 * @param item Item as UniDataSet
+	 * @param item
+	 *            Item as UniDataSet
 	 */
 	public Price(DataSetItem item, Double scaleFactor) {
 		this(item.getDoubleValueByKey("quantity"), item.getDoubleValueByKey("price") * scaleFactor, item.getDoubleValueByKey("vatvalue"), item
@@ -82,61 +79,70 @@ public class Price {
 	}
 
 	/**
-	 * Constructor
-	 * Create a price value from an expenditure item
+	 * Constructor Create a price value from an expenditure item
 	 * 
-	 * @param item Item as UniDataSet
+	 * @param item
+	 *            Item as UniDataSet
 	 */
 	public Price(DataSetExpenditureItem item) {
-		this(1.0, item.getDoubleValueByKey("price"),
-				item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),
-				0.0 ,false, false);
+		this(1.0, item.getDoubleValueByKey("price"), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"), 0.0, false, false);
 	}
 
 	/**
-	 * Constructor
-	 * Create a price value from a net value
+	 * Constructor Create a price value from a net value
 	 * 
-	 * @param net Net value
+	 * @param net
+	 *            Net value
 	 */
 	public Price(Double net) {
 		this(net, 0.0);
 	}
 
 	/**
-	 * Constructor
-	 * Create a price value from a net value and a vat value
+	 * Constructor Create a price value from a net value and a vat value
 	 * 
-	 * @param net Net value
-	 * @param vatPercent VAT
+	 * @param net
+	 *            Net value
+	 * @param vatPercent
+	 *            VAT
 	 */
 	public Price(Double net, Double vatPercent) {
 		this(1.0, net, vatPercent, 0.0, false, false);
 	}
 
 	/**
-	 * Constructor
-	 * Create a price value from a  value where value can be a net or a gross value
+	 * Constructor Create a price value from a value where value can be a net or
+	 * a gross value
 	 * 
-	 * @param price Value (can be net or gross)
-	 * @param vatPercent VAT value
-	 * @param noVat true, if VAT should be 0.0
-	 * @param asGross true, if price is a gross value
+	 * @param price
+	 *            Value (can be net or gross)
+	 * @param vatPercent
+	 *            VAT value
+	 * @param noVat
+	 *            true, if VAT should be 0.0
+	 * @param asGross
+	 *            true, if price is a gross value
 	 */
 	public Price(Double price, Double vatPercent, boolean noVat, boolean asGross) {
 		this(1.0, price, vatPercent, 0.0, noVat, asGross);
 	}
 
 	/**
-	 * Constructor
-	 * Create a price value from a price value with quantity, vat and discount
+	 * Constructor Create a price value from a price value with quantity, vat
+	 * and discount
 	 * 
-	 * @param quantity Quantity 
-	 * @param unitPrice Unit price (can be net or gross)
-	 * @param vatPercent VAT value 
-	 * @param discount Discount value
-	 * @param noVat True, if VAT is 0.0
-	 * @param asGross True, if price is a gross value
+	 * @param quantity
+	 *            Quantity
+	 * @param unitPrice
+	 *            Unit price (can be net or gross)
+	 * @param vatPercent
+	 *            VAT value
+	 * @param discount
+	 *            Discount value
+	 * @param noVat
+	 *            True, if VAT is 0.0
+	 * @param asGross
+	 *            True, if price is a gross value
 	 */
 	public Price(Double quantity, Double unitPrice, Double vatPercent, Double discount, boolean noVat, boolean asGross) {
 
@@ -158,7 +164,8 @@ public class Price {
 	/**
 	 * Calculate the price and round all values
 	 * 
-	 * @param asGross true, if price is a gross value
+	 * @param asGross
+	 *            true, if price is a gross value
 	 */
 	private void calculate(boolean asGross) {
 
@@ -172,7 +179,7 @@ public class Price {
 			this.unitGross = this.unitPrice * (1 + vatPercent);
 			this.unitNet = this.unitPrice;
 		}
-		
+
 		// Calculate the absolute VAT value from net value and VAT in percent
 		this.unitVat = this.unitNet * vatPercent;
 
@@ -185,7 +192,7 @@ public class Price {
 			Logger.logError("Discount value out of range: " + String.valueOf(this.discount));
 			discountFactor = 1.0;
 		}
-		
+
 		// Calculate the total values and use the quantity
 		this.totalNet = this.quantity * this.unitNet * discountFactor;
 		this.totalVat = this.quantity * this.unitVat * discountFactor;
@@ -195,7 +202,7 @@ public class Price {
 		// and the net value is the difference.
 		// But only if the Net value is still a rounded value and the gross is not,
 		// then the rounded gross value is calculated from rounded net and vat. 
-		if ( ! DataUtils.isRounded(this.totalGross) && DataUtils.isRounded(this.totalNet)) {
+		if (!DataUtils.isRounded(this.totalGross) && DataUtils.isRounded(this.totalNet)) {
 			this.unitNetRounded = DataUtils.round(unitNet);
 			this.unitVatRounded = DataUtils.round(unitVat);
 			this.unitGrossRounded = this.unitNetRounded + this.unitVatRounded;
@@ -203,7 +210,8 @@ public class Price {
 			this.totalNetRounded = DataUtils.round(totalNet);
 			this.totalVatRounded = DataUtils.round(totalVat);
 			this.totalGrossRounded = this.totalNetRounded + this.totalVatRounded;
-		} else {
+		}
+		else {
 			this.unitGrossRounded = DataUtils.round(unitGross);
 			this.unitVatRounded = DataUtils.round(unitVat);
 			this.unitNetRounded = this.unitGrossRounded - this.unitVatRounded;

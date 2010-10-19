@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
@@ -40,7 +38,8 @@ public enum DocumentType {
 	/**
 	 * Convert from a DocumentType to the corresponding integer
 	 * 
-	 * @param documentType Document type to convert
+	 * @param documentType
+	 *            Document type to convert
 	 * @return The integer that corresponds to the DocumentType
 	 */
 	public static int getInt(DocumentType documentType) {
@@ -68,7 +67,8 @@ public enum DocumentType {
 	/**
 	 * Convert from a document type String to the corresponding integer
 	 * 
-	 * @param documentType Document type as string to convert
+	 * @param documentType
+	 *            Document type as string to convert
 	 * @return The integer that corresponds to the DocumentType
 	 */
 	public static int getInt(String documentType) {
@@ -102,10 +102,11 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Convert from a document type string to a DocumentType 
+	 * Convert from a document type string to a DocumentType
 	 * 
-	 * @param documentType String to convert
-	 * @return  The DocumentType that corresponds to the String
+	 * @param documentType
+	 *            String to convert
+	 * @return The DocumentType that corresponds to the String
 	 */
 	public static DocumentType getType(String documentType) {
 		if (isDocumentTypeString(LETTER, documentType))
@@ -129,11 +130,12 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Convert from an integer to a document type localized string
-	 * The singular style is used. 
+	 * Convert from an integer to a document type localized string The singular
+	 * style is used.
 	 * 
-	 * @param i Integer to convert
-	 * @return  The DocumentType as localized string
+	 * @param i
+	 *            Integer to convert
+	 * @return The DocumentType as localized string
 	 */
 	public static String getString(int i) {
 		switch (i) {
@@ -158,8 +160,7 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Gets the document type as localized string
-	 * The singular style is used. 
+	 * Gets the document type as localized string The singular style is used.
 	 * 
 	 * @return The DocumentType as localized string
 	 */
@@ -168,11 +169,12 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Convert from an integer to a document type localized string
-	 * The plural style is used. 
+	 * Convert from an integer to a document type localized string The plural
+	 * style is used.
 	 * 
-	 * @param i Integer to convert
-	 * @return  The DocumentType as localized string
+	 * @param i
+	 *            Integer to convert
+	 * @return The DocumentType as localized string
 	 */
 	public static String getPluralString(int i) {
 		switch (i) {
@@ -199,8 +201,9 @@ public enum DocumentType {
 	/**
 	 * Convert from an integer to a DocumentType
 	 * 
-	 * @param i Integer to convert
-	 * @return  The DocumentType
+	 * @param i
+	 *            Integer to convert
+	 * @return The DocumentType
 	 */
 	public static DocumentType getType(int i) {
 		switch (i) {
@@ -225,11 +228,12 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Convert from an integer to a document type non-localized string
-	 * The singular style is used. 
+	 * Convert from an integer to a document type non-localized string The
+	 * singular style is used.
 	 * 
-	 * @param i Integer to convert
-	 * @return  The DocumentType as non-localized string
+	 * @param i
+	 *            Integer to convert
+	 * @return The DocumentType as non-localized string
 	 */
 	public static String getTypeAsString(int i) {
 		// do not translate !!
@@ -255,10 +259,11 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Convert from Document Type to a document type non-localized string
-	 * The singular style is used. 
+	 * Convert from Document Type to a document type non-localized string The
+	 * singular style is used.
 	 * 
-	 * @param documentType DocumentType to convert
+	 * @param documentType
+	 *            DocumentType to convert
 	 * @return The DocumentType as non-localized string
 	 */
 	public static String getTypeAsString(DocumentType documentType) {
@@ -275,10 +280,11 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Convert from DocumentType to a document type localized string
-	 * The singular style is used. 
+	 * Convert from DocumentType to a document type localized string The
+	 * singular style is used.
 	 * 
-	 * @param documentType DocumentType to convert
+	 * @param documentType
+	 *            DocumentType to convert
 	 * @return The DocumentType as localized string
 	 */
 	public static String getString(DocumentType documentType) {
@@ -286,11 +292,12 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Convert from DocumentType to a document type localized string
-	 * The plural style is used. 
+	 * Convert from DocumentType to a document type localized string The plural
+	 * style is used.
 	 * 
-	 * @param documentType DocumentType to convert
-	 * @return  The DocumentType as localized string
+	 * @param documentType
+	 *            DocumentType to convert
+	 * @return The DocumentType as localized string
 	 */
 	public static String getPluralString(DocumentType documentType) {
 		return getPluralString(getInt(documentType));
@@ -306,15 +313,17 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Compares an DocumentType and a document type String.
-	 * The string can describe the type as a singular or plural.
+	 * Compares an DocumentType and a document type String. The string can
+	 * describe the type as a singular or plural.
 	 * 
-	 * @param documentType First compare parameter as DocumentType
-	 * @param documentTypeString Second compare parameter as String
+	 * @param documentType
+	 *            First compare parameter as DocumentType
+	 * @param documentTypeString
+	 *            Second compare parameter as String
 	 * @return True, of both are equal
 	 */
 	private static boolean isDocumentTypeString(DocumentType documentType, String documentTypeString) {
-		
+
 		// Remove all trailed signs starting from "/" 
 		if (documentTypeString.contains("/") && (documentTypeString.length() > 1))
 			documentTypeString = documentTypeString.substring(0, documentTypeString.indexOf("/"));
@@ -331,19 +340,19 @@ public enum DocumentType {
 	}
 
 	/**
-	 * JFace DocumentType content provider
-	 * Provides all Document types as an String array
+	 * JFace DocumentType content provider Provides all Document types as an
+	 * String array
 	 * 
 	 * @author Gerd Bartelt
 	 */
 	public static class DocumentTypeContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			
+
 			// Get all document types
 			ArrayList<String> strings = new ArrayList<String>();
 			for (int i = 1; i <= MAXID; i++)
 				strings.add(getString(i));
-			
+
 			// Convert them to an Array
 			return strings.toArray();
 		}
@@ -412,7 +421,7 @@ public enum DocumentType {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Defines all Document Types that can be marked as payed
 	 * 
@@ -439,11 +448,10 @@ public enum DocumentType {
 		}
 		return false;
 	}
-	
 
 	/**
-	 * Defines all Document Types that contains a reference to
-	 * an invoice document.
+	 * Defines all Document Types that contains a reference to an invoice
+	 * document.
 	 * 
 	 * @return True for all types with a reference to an invoice document.
 	 */
@@ -472,7 +480,8 @@ public enum DocumentType {
 	/**
 	 * Defines the sign of a document
 	 * 
-	 * @return 1 for documents with positive sign, -1 for those with negative sign.
+	 * @return 1 for documents with positive sign, -1 for those with negative
+	 *         sign.
 	 */
 	public int sign() {
 		switch (this) {

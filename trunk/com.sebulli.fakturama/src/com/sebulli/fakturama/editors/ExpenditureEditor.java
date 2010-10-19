@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -129,8 +127,7 @@ public class ExpenditureEditor extends Editor {
 		expenditure.setStringValueByKey("documentnr", textDocumentNr.getText());
 
 		// Set all the items
-		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems
-				.getActiveDatasets();
+		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems.getActiveDatasets();
 		String itemsString = "";
 
 		for (DataSetExpenditureItem itemDataset : itemDatasets) {
@@ -145,21 +142,16 @@ public class ExpenditureEditor extends Editor {
 				item = Data.INSTANCE.getExpenditureItems().getDatasetById(id);
 
 				// Copy the values to the existing expenditure item.
-				item.setStringValueByKey("name",
-						itemDataset.getStringValueByKey("name"));
-				item.setStringValueByKey("category",
-						itemDataset.getStringValueByKey("category"));
-				item.setDoubleValueByKey("price",
-						itemDataset.getDoubleValueByKey("price"));
-				item.setIntValueByKey("vatid",
-						itemDataset.getIntValueByKey("vatid"));
-			} else
+				item.setStringValueByKey("name", itemDataset.getStringValueByKey("name"));
+				item.setStringValueByKey("category", itemDataset.getStringValueByKey("category"));
+				item.setDoubleValueByKey("price", itemDataset.getDoubleValueByKey("price"));
+				item.setIntValueByKey("vatid", itemDataset.getIntValueByKey("vatid"));
+			}
+			else
 				item = itemDataset;
 
 			// Get list of all billing accounts
-			ArrayList<DataSetList> billing_accounts = Data.INSTANCE
-					.getListEntries().getActiveDatasetsByCategory(
-							"billing_accounts");
+			ArrayList<DataSetList> billing_accounts = Data.INSTANCE.getListEntries().getActiveDatasetsByCategory("billing_accounts");
 
 			boolean found = false;
 
@@ -174,20 +166,17 @@ public class ExpenditureEditor extends Editor {
 
 			// Search for the billing account with the same name as the item
 			for (DataSetList billing_account : billing_accounts) {
-				if (billing_account.getStringValueByKey("name").equals(
-						item.getStringValueByKey("category"))) {
+				if (billing_account.getStringValueByKey("name").equals(item.getStringValueByKey("category"))) {
 
 					found = true;
 
 					// Get the VAT value from the billing account list
-					String billingVatName = billing_account
-							.getStringValueByKey("value");
+					String billingVatName = billing_account.getStringValueByKey("value");
 
 					// If the vat is set to another value, refresh it.
 					if (!vatName.equalsIgnoreCase(billingVatName)) {
 						billing_account.setStringValueByKey("value", vatName);
-						Data.INSTANCE.getListEntries().updateDataSet(
-								billing_account);
+						Data.INSTANCE.getListEntries().updateDataSet(billing_account);
 						refreshView(ViewListTable.ID);
 					}
 					break;
@@ -198,8 +187,7 @@ public class ExpenditureEditor extends Editor {
 			// one.
 			if (!found) {
 				DataSetList billing_account;
-				billing_account = new DataSetList("billing_accounts",
-						item.getStringValueByKey("category"), vatName);
+				billing_account = new DataSetList("billing_accounts", item.getStringValueByKey("category"), vatName);
 				Data.INSTANCE.getListEntries().addNewDataSet(billing_account);
 				refreshView(ViewListTable.ID);
 			}
@@ -208,10 +196,10 @@ public class ExpenditureEditor extends Editor {
 			// In this case, update the existing one
 			if (id >= 0) {
 				Data.INSTANCE.getExpenditureItems().updateDataSet(item);
-			} else {
+			}
+			else {
 				// Create a new expenditure item
-				itemDataset = Data.INSTANCE.getExpenditureItems()
-						.addNewDataSet(itemDataset);
+				itemDataset = Data.INSTANCE.getExpenditureItems().addNewDataSet(itemDataset);
 				id = itemDataset.getIntValueByKey("id");
 			}
 
@@ -226,8 +214,7 @@ public class ExpenditureEditor extends Editor {
 		// If it is a new payment, add it to the payment list and
 		// to the data base
 		if (newExpenditure) {
-			expenditure = Data.INSTANCE.getExpenditures().addNewDataSet(
-					expenditure);
+			expenditure = Data.INSTANCE.getExpenditures().addNewDataSet(expenditure);
 			newExpenditure = false;
 		}
 		// If it's not new, update at least the data base
@@ -259,16 +246,14 @@ public class ExpenditureEditor extends Editor {
 	 *            The editor's site
 	 */
 	@Override
-	public void init(IEditorSite site, IEditorInput input)
-			throws PartInitException {
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 
 		// Set the site and the input
 		setSite(site);
 		setInput(input);
 
 		// Set the editor's data set to the editor's input
-		expenditure = (DataSetExpenditure) ((UniDataSetEditorInput) input)
-				.getUniDataSet();
+		expenditure = (DataSetExpenditure) ((UniDataSetEditorInput) input).getUniDataSet();
 
 		// test, if the editor is opened to create a new data set. This is,
 		// if there is no input set.
@@ -278,22 +263,19 @@ public class ExpenditureEditor extends Editor {
 		if (newExpenditure) {
 
 			// Create a new data set
-			expenditure = new DataSetExpenditure(
-					((UniDataSetEditorInput) input).getCategory());
+			expenditure = new DataSetExpenditure(((UniDataSetEditorInput) input).getCategory());
 			setPartName("neue Ausgabe");
-			
+
 			// Us the last category
 			int lastExpenditureSize = Data.INSTANCE.getExpenditures().getActiveDatasets().size();
-			if (lastExpenditureSize>0) {
-				DataSetExpenditure lastExpenditure = Data.INSTANCE.getExpenditures().getActiveDatasets()
-				.get(lastExpenditureSize-1);
-				expenditure.setStringValueByKey("category",
-						lastExpenditure.getStringValueByKey("category"));
-				
+			if (lastExpenditureSize > 0) {
+				DataSetExpenditure lastExpenditure = Data.INSTANCE.getExpenditures().getActiveDatasets().get(lastExpenditureSize - 1);
+				expenditure.setStringValueByKey("category", lastExpenditure.getStringValueByKey("category"));
+
 			}
 
-
-		} else {
+		}
+		else {
 
 			// Set the Editor's name to the payment name.
 			setPartName(expenditure.getStringValueByKey("name"));
@@ -316,14 +298,14 @@ public class ExpenditureEditor extends Editor {
 			if (itemsStringPart.length() > 0) {
 				try {
 					id = Integer.parseInt(itemsStringPart);
-				} catch (NumberFormatException e) {
+				}
+				catch (NumberFormatException e) {
 					Logger.logError(e, "Error parsing item string");
 					id = 0;
 				}
 
 				// And copy the item to a new one
-				DataSetExpenditureItem item = new DataSetExpenditureItem(
-						Data.INSTANCE.getExpenditureItems().getDatasetById(id));
+				DataSetExpenditureItem item = new DataSetExpenditureItem(Data.INSTANCE.getExpenditureItems().getDatasetById(id));
 				expenditureItems.getDatasets().add(item);
 			}
 		}
@@ -348,36 +330,20 @@ public class ExpenditureEditor extends Editor {
 
 		// Check, if a cell is being modified at this moment
 		if (tableViewerItems != null)
-			if (tableViewerItems.isCellEditorActive()
-					&& (itemEditingSupport != null))
+			if (tableViewerItems.isCellEditorActive() && (itemEditingSupport != null))
 				return true;
 
-		if (expenditure.getBooleanValueByKey("deleted")) {
-			return true;
-		}
-		if (newExpenditure) {
-			return true;
-		}
+		if (expenditure.getBooleanValueByKey("deleted")) { return true; }
+		if (newExpenditure) { return true; }
 
-		if (!expenditure.getStringValueByKey("name").equals(textName.getText())) {
-			return true;
-		}
-		if (!expenditure.getStringValueByKey("category").equals(
-				comboCategory.getText())) {
-			return true;
-		}
-		if (!expenditure.getStringValueByKey("nr").equals(textNr.getText())) {
-			return true;
-		}
-		if (!expenditure.getStringValueByKey("documentnr").equals(
-				textDocumentNr.getText())) {
-			return true;
-		}
+		if (!expenditure.getStringValueByKey("name").equals(textName.getText())) { return true; }
+		if (!expenditure.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
+		if (!expenditure.getStringValueByKey("nr").equals(textNr.getText())) { return true; }
+		if (!expenditure.getStringValueByKey("documentnr").equals(textDocumentNr.getText())) { return true; }
 
 		// Test all the expenditure items
 		String itemsString = "";
-		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems
-				.getActiveDatasets();
+		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems.getActiveDatasets();
 		for (DataSetExpenditureItem itemDataset : itemDatasets) {
 			int id = itemDataset.getIntValueByKey("id");
 
@@ -385,25 +351,12 @@ public class ExpenditureEditor extends Editor {
 			if (id < 0)
 				return true;
 
-			DataSetExpenditureItem item = Data.INSTANCE.getExpenditureItems()
-					.getDatasetById(id);
+			DataSetExpenditureItem item = Data.INSTANCE.getExpenditureItems().getDatasetById(id);
 
-			if (!item.getStringValueByKey("name").equals(
-					itemDataset.getStringValueByKey("name"))) {
-				return true;
-			}
-			if (!item.getStringValueByKey("category").equals(
-					itemDataset.getStringValueByKey("category"))) {
-				return true;
-			}
-			if (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("price"),
-					itemDataset.getDoubleValueByKey("price"))) {
-				return true;
-			}
-			if (item.getIntValueByKey("vatid") != itemDataset
-					.getIntValueByKey("vatid")) {
-				return true;
-			}
+			if (!item.getStringValueByKey("name").equals(itemDataset.getStringValueByKey("name"))) { return true; }
+			if (!item.getStringValueByKey("category").equals(itemDataset.getStringValueByKey("category"))) { return true; }
+			if (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("price"), itemDataset.getDoubleValueByKey("price"))) { return true; }
+			if (item.getIntValueByKey("vatid") != itemDataset.getIntValueByKey("vatid")) { return true; }
 
 			if (itemsString.length() > 0)
 				itemsString += ",";
@@ -413,9 +366,7 @@ public class ExpenditureEditor extends Editor {
 		// Compare also the items string.
 		// So the expenditure is dirty, if new items are added or items have
 		// been deleted.
-		if (!expenditure.getStringValueByKey("items").equals(itemsString)) {
-			return true;
-		}
+		if (!expenditure.getStringValueByKey("items").equals(itemsString)) { return true; }
 
 		return false;
 	}
@@ -455,14 +406,11 @@ public class ExpenditureEditor extends Editor {
 	 */
 	private void addNewItem() {
 
-		DataSetExpenditureItem newItem = new DataSetExpenditureItem("Name", "",
-				0.0, 0);
+		DataSetExpenditureItem newItem = new DataSetExpenditureItem("Name", "", 0.0, 0);
 
 		// Use the standard VAT value
-		newItem.setIntValueByKey("id",
-				-(expenditureItems.getDatasets().size() + 1));
-		newItem.setIntValueByKey("vatid",
-				Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
+		newItem.setIntValueByKey("id", -(expenditureItems.getDatasets().size() + 1));
+		newItem.setIntValueByKey("vatid", Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
 		expenditureItems.getDatasets().add(newItem);
 
 	}
@@ -478,8 +426,7 @@ public class ExpenditureEditor extends Editor {
 	public void createPartControl(Composite parent) {
 
 		// Get the some settings from the preference store
-		useGross = (Activator.getDefault().getPreferenceStore()
-				.getInt("DOCUMENT_USE_NET_GROSS") == 1);
+		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
 
 		// Create the top Composite
 		Composite top = new Composite(parent, SWT.NONE);
@@ -494,51 +441,43 @@ public class ExpenditureEditor extends Editor {
 		// Large title
 		Label labelTitle = new Label(top, SWT.NONE);
 		labelTitle.setText("Ausgabenbeleg");
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER)
-				.grab(true, false).span(2, 1).applyTo(labelTitle);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
 		// Expenditure category
 		Label labelCategory = new Label(top, SWT.NONE);
 		labelCategory.setText("Kategorie");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelCategory);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
 		comboCategory.setText(expenditure.getStringValueByKey("category"));
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
-		
+
 		// Add all category strings to the combo
 		Object[] categories = Data.INSTANCE.getExpenditures().getCategoryStrings();
 		for (Object category : categories) {
 			comboCategory.add(category.toString());
 		}
-		
+
 		superviceControl(comboCategory);
-		
+
 		// Document date
 		Label labelDate = new Label(top, SWT.NONE);
 		labelDate.setText("Datum");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelDate);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
 		// Document date
 		dtDate = new DateTime(top, SWT.DATE);
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER)
-				.applyTo(dtDate);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(dtDate);
 
 		// Set the dtDate widget to the expenditures date
 		GregorianCalendar calendar = new GregorianCalendar();
-		calendar = DataUtils.getCalendarFromDateString(expenditure
-				.getStringValueByKey("date"));
-		dtDate.setDate(calendar.get(Calendar.YEAR),
-				calendar.get(Calendar.MONTH),
-				calendar.get(Calendar.DAY_OF_MONTH));
+		calendar = DataUtils.getCalendarFromDateString(expenditure.getStringValueByKey("date"));
+		dtDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
 		// Number
 		Label labelNr = new Label(top, SWT.NONE);
 		labelNr.setText("Belegnr.");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelNr);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNr);
 		textNr = new Text(top, SWT.BORDER);
 		textNr.setText(expenditure.getStringValueByKey("nr"));
 		superviceControl(textNr, 32);
@@ -547,19 +486,16 @@ public class ExpenditureEditor extends Editor {
 		// Document number
 		Label labelDocumentNr = new Label(top, SWT.NONE);
 		labelDocumentNr.setText("Dokumentnr.");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelDocumentNr);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDocumentNr);
 		textDocumentNr = new Text(top, SWT.BORDER);
 		textDocumentNr.setText(expenditure.getStringValueByKey("documentnr"));
 		superviceControl(textDocumentNr, 32);
-		GridDataFactory.fillDefaults().grab(true, false)
-				.applyTo(textDocumentNr);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDocumentNr);
 
 		// Expenditure name
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText("Lieferant");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelName);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(expenditure.getStringValueByKey("name"));
 		superviceControl(textName, 32);
@@ -567,29 +503,23 @@ public class ExpenditureEditor extends Editor {
 
 		// Container for the label and the add and delete button.
 		Composite addButtonComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
-		GridLayoutFactory.fillDefaults().numColumns(1)
-				.applyTo(addButtonComposite);
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(addButtonComposite);
+		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addButtonComposite);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addButtonComposite);
 
 		// Items label
 		Label labelItems = new Label(addButtonComposite, SWT.NONE | SWT.RIGHT);
 		labelItems.setText("Positionen");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(labelItems);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelItems);
 
 		// Item add button
 		Label addButton = new Label(addButtonComposite, SWT.NONE);
 		try {
-			addButton
-					.setImage((Activator
-							.getImageDescriptor("/icons/16/plus_16.png")
-							.createImage()));
-		} catch (Exception e) {
+			addButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(addButton);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addButton);
 		addButton.addMouseListener(new MouseAdapter() {
 
 			// Add a new item with default properties
@@ -606,14 +536,12 @@ public class ExpenditureEditor extends Editor {
 		// Item delete button
 		Label deleteButton = new Label(addButtonComposite, SWT.NONE);
 		try {
-			deleteButton.setImage((Activator
-					.getImageDescriptor("/icons/16/delete_16.png")
-					.createImage()));
-		} catch (Exception e) {
+			deleteButton.setImage((Activator.getImageDescriptor("/icons/16/delete_16.png").createImage()));
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(deleteButton);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(deleteButton);
 		deleteButton.addMouseListener(new MouseAdapter() {
 
 			// Delete the selected item
@@ -639,29 +567,21 @@ public class ExpenditureEditor extends Editor {
 		tableComposite.setLayout(tableColumnLayout);
 
 		// The table viewer
-		tableViewerItems = new TableViewer(tableComposite, SWT.BORDER
-				| SWT.FULL_SELECTION);
+		tableViewerItems = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION);
 		tableViewerItems.getTable().setLinesVisible(true);
 		tableViewerItems.getTable().setHeaderVisible(true);
-		tableViewerItems
-				.setContentProvider(new ViewDataSetTableContentProvider(
-						tableViewerItems));
+		tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
 		// Create the table columns
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-				SWT.LEFT, "Name", 200, 100, false, "name",
-				new ExpenditureItemEditingSupport(this, tableViewerItems, 1));
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-				SWT.LEFT, "Art", 200, 0, true, "category",
-				new ExpenditureItemEditingSupport(this, tableViewerItems, 2));
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-				SWT.RIGHT, "MwSt.", 50, 0, true, "$ExpenditureItemVatPercent",
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "Name", 200, 100, false, "name", new ExpenditureItemEditingSupport(this,
+				tableViewerItems, 1));
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "Art", 200, 0, true, "category", new ExpenditureItemEditingSupport(this,
+				tableViewerItems, 2));
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "MwSt.", 50, 0, true, "$ExpenditureItemVatPercent",
 				new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-				SWT.RIGHT, "Netto", 85, 0, true, "price",
-				new ExpenditureItemEditingSupport(this, tableViewerItems, 4));
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-				SWT.RIGHT, "Brutto", 85, 0, true, "$ExpenditureItemGrossPrice",
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Netto", 85, 0, true, "price", new ExpenditureItemEditingSupport(this,
+				tableViewerItems, 4));
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Brutto", 85, 0, true, "$ExpenditureItemGrossPrice",
 				new ExpenditureItemEditingSupport(this, tableViewerItems, 5));
 
 		// Fill the table with the items

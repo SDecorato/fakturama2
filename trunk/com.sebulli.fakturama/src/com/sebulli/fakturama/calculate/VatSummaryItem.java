@@ -1,28 +1,26 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.calculate;
 
 /**
- * This Class represents one entry in the VatSummarySet.
- * It contains a net and vat value and the vat name.
+ * This Class represents one entry in the VatSummarySet. It contains a net and
+ * vat value and the vat name.
  * 
  * @author Gerd Bartelt
  */
@@ -43,28 +41,36 @@ public class VatSummaryItem implements Comparable<Object> {
 	private Double vatPercent;
 
 	/**
-	 * Constructor
-	 * Creates a VatSummaryItem from a net and vat value and the vat name.
+	 * Constructor Creates a VatSummaryItem from a net and vat value and the vat
+	 * name.
 	 * 
-	 * @param vatName Vat name
-	 * @param vatPercent Vat value in percent
-	 * @param net Absolute Net value
-	 * @param vat Absolute Vat value
+	 * @param vatName
+	 *            Vat name
+	 * @param vatPercent
+	 *            Vat value in percent
+	 * @param net
+	 *            Absolute Net value
+	 * @param vat
+	 *            Absolute Vat value
 	 */
 	public VatSummaryItem(String vatName, Double vatPercent, Double net, Double vat) {
 		this(vatName, vatPercent, net, vat, "");
 	}
 
 	/**
-	 * Constructor
-	 * Creates a VatSummaryItem from a net and vat value and the vat name with an
-	 * additional description
+	 * Constructor Creates a VatSummaryItem from a net and vat value and the vat
+	 * name with an additional description
 	 * 
-	 * @param vatName Vat name
-	 * @param vatPercent Vat value in percent
-	 * @param net Absolute Net value
-	 * @param vat Absolute Vat value
-	 * @param description Additional description
+	 * @param vatName
+	 *            Vat name
+	 * @param vatPercent
+	 *            Vat value in percent
+	 * @param net
+	 *            Absolute Net value
+	 * @param vat
+	 *            Absolute Vat value
+	 * @param description
+	 *            Additional description
 	 */
 	public VatSummaryItem(String vatName, Double vatPercent, Double net, Double vat, String description) {
 		this.vatName = vatName;
@@ -76,27 +82,26 @@ public class VatSummaryItem implements Comparable<Object> {
 		this.description = description;
 	}
 
-	
 	/**
-	 * Constructor
-	 * Creates a VatSummaryItem from an existing VatSummaryItem.
+	 * Constructor Creates a VatSummaryItem from an existing VatSummaryItem.
 	 * 
 	 * @param vatSummaryItem
 	 */
 	public VatSummaryItem(VatSummaryItem vatSummaryItem) {
-		this.vatName = new String (vatSummaryItem.vatName);
-		this.vatPercent = new Double (vatSummaryItem.vatPercent);
+		this.vatName = new String(vatSummaryItem.vatName);
+		this.vatPercent = new Double(vatSummaryItem.vatPercent);
 		this.net = new PriceValue(vatSummaryItem.net);
 		this.vat = new PriceValue(vatSummaryItem.vat);
 		this.netRoundingError = 0.0;
 		this.vatRoundingError = 0.0;
-		this.description = new String (vatSummaryItem.description);
+		this.description = new String(vatSummaryItem.description);
 	}
 
 	/**
 	 * Add the net and vat value from an other VatSummaryItem.
 	 * 
-	 * @param other The other VatSummaryItem
+	 * @param other
+	 *            The other VatSummaryItem
 	 */
 	public void add(VatSummaryItem other) {
 		this.net.add(other.net.asDouble());
@@ -104,11 +109,11 @@ public class VatSummaryItem implements Comparable<Object> {
 	}
 
 	/**
-	 * Round the net and vat value and store the rounding error in the 
-	 * property "xxRoundingError"
+	 * Round the net and vat value and store the rounding error in the property
+	 * "xxRoundingError"
 	 */
 	public void round() {
-		
+
 		// Round the net value
 		netRoundingError = this.net.asDouble() - this.net.asRoundedDouble();
 		this.net.set(this.net.asRoundedDouble());
@@ -118,20 +123,21 @@ public class VatSummaryItem implements Comparable<Object> {
 		this.vat.set(this.vat.asRoundedDouble());
 	}
 
-	
 	/**
 	 * Sets the absolute net value
 	 * 
-	 * @param Net value 
+	 * @param Net
+	 *            value
 	 */
 	public void setNet(Double value) {
 		net.set(value);
 	}
 
-	/** 
+	/**
 	 * Sets the absolute vat value
 	 * 
-	 * @param Vat value 
+	 * @param Vat
+	 *            value
 	 */
 	public void setVat(Double value) {
 		vat.set(value);
@@ -146,7 +152,7 @@ public class VatSummaryItem implements Comparable<Object> {
 		return net.asDouble();
 	}
 
-	/** 
+	/**
 	 * Get the absolute vat value
 	 * 
 	 * @return Vat value as Double
@@ -172,7 +178,6 @@ public class VatSummaryItem implements Comparable<Object> {
 	public String getDescription() {
 		return description;
 	}
-
 
 	/**
 	 * Percent value of this VatSummaryItem
@@ -204,32 +209,33 @@ public class VatSummaryItem implements Comparable<Object> {
 	/**
 	 * Sets the rounding error of the net value
 	 * 
-	 * @param new rounding error value 
+	 * @param new rounding error value
 	 */
 	public void setNetRoundingError(Double value) {
 		netRoundingError = value;
 	}
-	
+
 	/**
 	 * Sets the rounding error of the vat value
 	 * 
-	 * @param new rounding error value 
+	 * @param new rounding error value
 	 */
 	public void setVatRoundingError(Double value) {
 		vatRoundingError = value;
 	}
-	
+
 	/**
-	 * Compares this VatSummaryItem with an other
-	 * Compares vat percent value and vat name.
+	 * Compares this VatSummaryItem with an other Compares vat percent value and
+	 * vat name.
 	 * 
-	 * @param o The other VatSummaryItem
+	 * @param o
+	 *            The other VatSummaryItem
 	 * @return result of the comparison
 	 */
 	@Override
 	public int compareTo(Object o) {
 		VatSummaryItem other = (VatSummaryItem) o;
-		
+
 		// First compare the vat value in percent
 		if (this.vatPercent < other.vatPercent)
 			return -1;
@@ -240,7 +246,7 @@ public class VatSummaryItem implements Comparable<Object> {
 		int i = this.vatName.compareToIgnoreCase(other.vatName);
 		if (i != 0)
 			return i;
-		
+
 		// Then the description
 		return this.description.compareToIgnoreCase(other.description);
 	}

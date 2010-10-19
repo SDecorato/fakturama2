@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.openoffice;
@@ -66,18 +64,18 @@ import com.sun.star.uno.UnoRuntime;
  * 
  * @author Gerd Bartelt
  */
-public class OODocument extends Object{
+public class OODocument extends Object {
 
 	// The UniDataSet document, that is used to fill the OpenOffice document 
 	private DataSetDocument document;
-	
+
 	// The UniDataSet contact of the document
 	private DataSetContact contact;
-	
+
 	// A list of properties that represents the placeholders of the
 	// OpenOffice Writer template
 	private Properties properties;
-	
+
 	// OpenOffice objects
 	IOfficeApplication officeApplication;
 	IDocument oOdocument;
@@ -85,30 +83,31 @@ public class OODocument extends Object{
 	IFrame officeFrame;
 
 	ITextFieldService textFieldService;
-	
+
 	/**
-	 * Constructor
-	 * Create a new OpenOffice document. Open it by using a template and
-	 * replace the placehlders with the UniDataSet document
+	 * Constructor Create a new OpenOffice document. Open it by using a template
+	 * and replace the placehlders with the UniDataSet document
 	 * 
-	 * @param document The UniDataSet document that will be converted to an
-	 * OpenOffice Writer document
-	 * @param template OpenOffice template file name
+	 * @param document
+	 *            The UniDataSet document that will be converted to an
+	 *            OpenOffice Writer document
+	 * @param template
+	 *            OpenOffice template file name
 	 */
 	public OODocument(DataSetDocument document, String template) {
 
 		// Url of the template file
 		String url = null;
-		
+
 		//Open an existing document instead of creating a new one
 		boolean openExisting = false;
-		
+
 		// Set a reference to the UniDatSet document
 		this.document = document;
-		
+
 		// Try to generate the OpenOffice document
 		try {
-			
+
 			// Get the OpenOffice application
 			officeApplication = OpenOfficeStarter.openOfficeAplication();
 			if (officeApplication == null)
@@ -121,26 +120,26 @@ public class OODocument extends Object{
 				openExisting = true;
 				template = getDocumentPath(true, true, false);
 			}
-			
+
 			// Get the template file (*ott)
 			try {
 				url = URLAdapter.adaptURL(template);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				Logger.logError(e, "Error in template filename:" + template);
 			}
-			
+
 			// Load the template
 			oOdocument = officeApplication.getDocumentService().loadDocument(url);
 			textDocument = (ITextDocument) oOdocument;
-			
+
 			// Bring the open office window on top.
-			officeFrame = textDocument.getFrame(); 
-			XFrame xFrame = officeFrame.getXFrame(); 
-			XTopWindow topWindow = (XTopWindow) 
-			UnoRuntime.queryInterface(XTopWindow.class,	xFrame. getContainerWindow()); 
-			topWindow.toFront(); 
-			xFrame.activate(); 
-			
+			officeFrame = textDocument.getFrame();
+			XFrame xFrame = officeFrame.getXFrame();
+			XTopWindow topWindow = (XTopWindow) UnoRuntime.queryInterface(XTopWindow.class, xFrame.getContainerWindow());
+			topWindow.toFront();
+			xFrame.activate();
+
 			// Override the "SAVE" command of the OpenOffice application
 			officeFrame.addDispatchDelegate(GlobalCommands.SAVE, new IDispatchDelegate() {
 
@@ -149,16 +148,16 @@ public class OODocument extends Object{
 
 					// Save the document as *.odt and *.pdf
 					saveOODocument(textDocument);
-					
+
 				}
 
 			});
 			officeFrame.updateDispatches();
-			
+
 			// Stop here and do not fill the document's placeholders, if it's an existing document
 			if (openExisting)
 				return;
-			
+
 			// Get the contact of the UniDataSet document
 			int addressId = document.getIntValueByKey("addressid");
 
@@ -166,13 +165,14 @@ public class OODocument extends Object{
 			if (addressId >= 0) {
 				try {
 					contact = Data.INSTANCE.getContacts().getDatasetById(addressId);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 				}
 			}
 
 			// Recalculate the sum of the document before exporting
 			this.document.calculate();
-			
+
 			// Get the placeholders of the OpenOffice template
 			textFieldService = textDocument.getTextFieldService();
 			ITextField[] placeholders = textFieldService.getPlaceholderFields();
@@ -200,7 +200,7 @@ public class OODocument extends Object{
 					itemCell = placeholder.getTextRange().getCell();
 					itemsTable = itemCell.getTextTable();
 				}
-				
+
 				// Find the vat table
 				if (placeholderDisplayText.equals("<VATLIST.VALUES>") || placeholderDisplayText.equals("<VATLIST.DESCRIPTIONS>")) {
 					vatListCell = placeholder.getTextRange().getCell();
@@ -212,8 +212,6 @@ public class OODocument extends Object{
 					discountCellList.add(placeholder.getTextRange().getCell());
 				}
 
-			
-			
 			}
 
 			// Get the items of the UniDataSet document
@@ -223,24 +221,24 @@ public class OODocument extends Object{
 
 			// Fill the item table with the items
 			if (itemsTable != null) {
-				
+
 				// Add the necessary rows for the items
 				int itemCellRow = itemCell.getName().getRowIndex();
 				lastItemTemplateRow = itemCellRow + itemDataSets.size();
 				itemsTable.addRow(itemCellRow, itemDataSets.size());
-				
+
 				for (int i = 0; i < placeholders.length; i++) {
-					
+
 					// Get each placeholder
 					ITextField placeholder = placeholders[i];
 					String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
 
 					if (placeholder.getTextRange().getCell() != null) {
-						
+
 						// Do it only, if the placeholder is in the items table
 						ITextTable textTable = placeholder.getTextRange().getCell().getTextTable();
 						if (textTable.getName().equals(itemsTable.getName())) {
-							
+
 							// Fill the corresponding table column with the
 							// item's data.
 							int column = placeholder.getTextRange().getCell().getName().getColumnIndex();
@@ -251,14 +249,14 @@ public class OODocument extends Object{
 					}
 				}
 			}
-			
+
 			// Get the VAT summary of the UniDataSet document
 			VatSummarySetManager vatSummarySetManager = new VatSummarySetManager();
 			vatSummarySetManager.add(this.document, 1.0);
 
 			int vatListTemplateRow = 0;
 			if (vatListTable != null) {
-				
+
 				// Add the necessary rows for the VAT entries
 				vatListTemplateRow = vatListCell.getName().getRowIndex();
 				lastVatTemplateRow = vatListTemplateRow + vatSummarySetManager.size();
@@ -266,17 +264,17 @@ public class OODocument extends Object{
 
 				// Scan all placeholders for the VAT placeholders
 				for (int i = 0; i < placeholders.length; i++) {
-					
+
 					// Get the placeholder text
 					ITextField placeholder = placeholders[i];
 					String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
-					
+
 					if (placeholder.getTextRange().getCell() != null) {
-						
+
 						// Test, if the placeholder is in the VAT table
 						ITextTable textTable = placeholder.getTextRange().getCell().getTextTable();
 						if (textTable.getName().equals(vatListTable.getName())) {
-							
+
 							// Fill the corresponding table column with the
 							// VAT data.
 							int column = placeholder.getTextRange().getCell().getName().getColumnIndex();
@@ -296,14 +294,14 @@ public class OODocument extends Object{
 
 			// remove the temporary row of the item table
 			if (itemsTable != null) {
-				itemsTable.removeRow(lastItemTemplateRow );
+				itemsTable.removeRow(lastItemTemplateRow);
 			}
 
 			// remove the temporary row of the VAT table
 			if (vatListTable != null) {
-				vatListTable.removeRow(lastVatTemplateRow );
+				vatListTable.removeRow(lastVatTemplateRow);
 			}
-	
+
 			// Remove the discount cells, if there is no discount set
 			if (DataUtils.DoublesAreEqual(document.getSummary().getDiscountNet().asDouble(), 0.0)) {
 				for (int i = 0; i < discountCellList.size(); i++) {
@@ -314,30 +312,31 @@ public class OODocument extends Object{
 							if (table != null)
 								table.removeRow(cell.getName().getRowIndex());
 						}
-					} catch (TextException te) {
+					}
+					catch (TextException te) {
 					}
 				}
 			}
-			
+
 			// Save the document
 			saveOODocument(textDocument);
-			
+
 			// Print and close the OpenOffice document
 			/*
 			textDocument.getFrame().getDispatch(GlobalCommands.PRINT_DOCUMENT_DIRECT).dispatch();
-            try {
-                Thread.sleep(2000);
-            }
-            catch (Exception e1) {
-                e1.printStackTrace();
-            }
+			try {
+			    Thread.sleep(2000);
+			}
+			catch (Exception e1) {
+			    e1.printStackTrace();
+			}
 			textDocument.close();
 			*/
-			
+
 			//officeAplication.deactivate();
-			
-			
-		} catch (Exception e) {
+
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Error starting OpenOffice from " + url);
 		}
 	}
@@ -346,7 +345,7 @@ public class OODocument extends Object{
 	 * Close the connection to the OpenOffice Document
 	 */
 	public void close() {
-		
+
 		// Remove the SAVE dispatcher
 		if (officeFrame != null)
 			officeFrame.removeDispatchDelegate(GlobalCommands.SAVE);
@@ -355,24 +354,28 @@ public class OODocument extends Object{
 		try {
 			if (officeApplication != null)
 				officeApplication.deactivate();
-		} catch (OfficeApplicationException e) {
+		}
+		catch (OfficeApplicationException e) {
 			Logger.logError(e, "Error closing OpenOffice");
 		}
 	}
-	
+
 	/**
 	 * Returns the filename (with path) of the OpenOffice document
 	 * 
-	 * @param inclFilename True, if also the filename should be used
-	 * @param inclExtension True, if also the extension should be used
-	 * @param PDF True, if it's the PDF filename
+	 * @param inclFilename
+	 *            True, if also the filename should be used
+	 * @param inclExtension
+	 *            True, if also the extension should be used
+	 * @param PDF
+	 *            True, if it's the PDF filename
 	 * @return The filename
 	 */
 	public String getDocumentPath(boolean inclFilename, boolean inclExtension, boolean PDF) {
 		String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-		
+
 		savePath += "/Dokumente";
-		
+
 		if (PDF)
 			savePath += "/PDF/";
 		else
@@ -391,16 +394,16 @@ public class OODocument extends Object{
 			else
 				savePath += ".odt";
 		}
-		
+
 		return savePath;
-		
+
 	}
-	
-	
+
 	/**
 	 * Save an OpenOffice document as *.odt and as *.pdf
 	 * 
-	 * @param textDocument The document
+	 * @param textDocument
+	 *            The document
 	 */
 	public void saveOODocument(ITextDocument textDocument) {
 
@@ -412,7 +415,7 @@ public class OODocument extends Object{
 			File directory = new File(getDocumentPath(false, false, false));
 			if (!directory.exists())
 				directory.mkdirs();
-			
+
 			// Add the time String, if this file is still existing
 			/*
 			File file = new File(savePath + ".odt");
@@ -421,7 +424,7 @@ public class OODocument extends Object{
 				savePath += "_" + dfmt.format(new Date());
 			}
 			*/
-			
+
 			// Save the document
 			try {
 				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(true, true, false)));
@@ -429,23 +432,22 @@ public class OODocument extends Object{
 
 				wasSaved = true;
 
-			} catch (FileNotFoundException e) {
+			}
+			catch (FileNotFoundException e) {
 				Logger.logError(e, "Error saving the OpenOffice Document");
-			} catch (NOAException e) {
+			}
+			catch (NOAException e) {
 				Logger.logError(e, "Error saving the OpenOffice Document");
-			} 
-			
-		}
-		
+			}
 
-		
+		}
+
 		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("PDF")) {
 
 			// Create the directories, if they don't exist.
 			File directory = new File(getDocumentPath(false, false, true));
 			if (!directory.exists())
 				directory.mkdirs();
-			
 
 			// Add the time String, if this file is still existing
 			/*
@@ -455,59 +457,64 @@ public class OODocument extends Object{
 				savePath += "_" + dfmt.format(new Date());
 			}
 			*/
-			
+
 			// Save the document
 			try {
 				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(true, true, true)));
 				textDocument.getPersistenceService().export(fs, new PDFFilter());
-				
+
 				wasSaved = true;
-				
-			} catch (FileNotFoundException e) {
+
+			}
+			catch (FileNotFoundException e) {
 				Logger.logError(e, "Error saving the OpenOffice Document");
-			} catch (NOAException e) {
+			}
+			catch (NOAException e) {
 				Logger.logError(e, "Error saving the OpenOffice Document");
-			} 
-			
+			}
+
 		}
-		
-		
-		
+
 		// Mark the document as printed, if it was saved as ODT or PDF
 		if (wasSaved) {
 			// Mark the document as "printed"
 			document.setBooleanValueByKey("printed", true);
 			Data.INSTANCE.getDocuments().updateDataSet(document);
 		}
-			
 
 	}
-	
-	
+
 	/**
 	 * Replace one column of the VAT table with the VAT entries
 	 * 
-	 * @param placeholderDisplayText Name of the column, and of the VAT property
-	 * @param column Number of the column in the table
-	 * @param vatSummarySet VAT data
-	 * @param vatListTable The VAT table to fill
-	 * @param templateRow The first row of the table
- 	 * @param cellText The cell's text.
+	 * @param placeholderDisplayText
+	 *            Name of the column, and of the VAT property
+	 * @param column
+	 *            Number of the column in the table
+	 * @param vatSummarySet
+	 *            VAT data
+	 * @param vatListTable
+	 *            The VAT table to fill
+	 * @param templateRow
+	 *            The first row of the table
+	 * @param cellText
+	 *            The cell's text.
 	 */
-	private void replaceVatListPlaceholder(String placeholderDisplayText, int column, VatSummarySet vatSummarySet, ITextTable vatListTable,
-			int templateRow, String cellText) {
+	private void replaceVatListPlaceholder(String placeholderDisplayText, int column, VatSummarySet vatSummarySet, ITextTable vatListTable, int templateRow,
+			String cellText) {
 		int i = 0;
-		
+
 		// Get all VATs
 		for (Iterator<VatSummaryItem> iterator = vatSummarySet.iterator(); iterator.hasNext(); i++) {
 			VatSummaryItem vatSummaryItem = iterator.next();
 			try {
-				
+
 				// Get the cell and fill the cell content
 				IText iText = vatListTable.getCell(column, templateRow + i).getTextService().getText();
 				fillVatTableWithData(placeholderDisplayText, vatSummaryItem.getVatName(), Double.toString(vatSummaryItem.getVat()), iText, i, cellText);
 
-			} catch (TextException e) {
+			}
+			catch (TextException e) {
 				Logger.logError(e, "Error replacing Vat List Placeholders");
 			}
 		}
@@ -516,24 +523,30 @@ public class OODocument extends Object{
 	/**
 	 * Add a user text field to the OpenOffice document
 	 * 
-	 * @param key The key of the user text field
-	 * @param value The value of the user text field
+	 * @param key
+	 *            The key of the user text field
+	 * @param value
+	 *            The value of the user text field
 	 */
 	private void addUserTextField(String key, String value) {
 		try {
 			textFieldService.addUserTextField(key, value);
-		} catch (TextException e) {
+		}
+		catch (TextException e) {
 			Logger.logError(e, "Error setting User Text Field: " + key + " to " + value);
 		}
 	}
 
 	/**
-	 * Add a user text field to the OpenOffice document
-	 * The key contains an additional index.
+	 * Add a user text field to the OpenOffice document The key contains an
+	 * additional index.
 	 * 
-	 * @param key The key of the user text field
-	 * @param value The value of the user text field
-	 * @param i Additional index, added to the key
+	 * @param key
+	 *            The key of the user text field
+	 * @param value
+	 *            The value of the user text field
+	 * @param i
+	 *            Additional index, added to the key
 	 */
 	private void addUserTextField(String key, String value, int i) {
 		key = key + "." + Integer.toString(i);
@@ -543,12 +556,18 @@ public class OODocument extends Object{
 	/**
 	 * Fill the cell of the VAT table with the VAT data
 	 * 
-	 * @param placeholderDisplayText Column header
-	 * @param key VAT key (VAT description)
-	 * @param value VAT value
-	 * @param iText The Text that is set
-	 * @param index Index of the VAT entry
-	 * @param cellText The cell's text.
+	 * @param placeholderDisplayText
+	 *            Column header
+	 * @param key
+	 *            VAT key (VAT description)
+	 * @param value
+	 *            VAT value
+	 * @param iText
+	 *            The Text that is set
+	 * @param index
+	 *            Index of the VAT entry
+	 * @param cellText
+	 *            The cell's text.
 	 */
 	private void fillVatTableWithData(String placeholderDisplayText, String key, String value, IText iText, int index, String cellText) {
 
@@ -568,10 +587,10 @@ public class OODocument extends Object{
 
 		else
 			return;
-		
+
 		// Set the text
 		iText.setText(cellText.replaceAll(placeholderDisplayText, textValue));
-		
+
 		// And also add it to the user defined text fields in the OpenOffice
 		// Writer document.
 		addUserTextField(textKey, textValue, index);
@@ -581,12 +600,18 @@ public class OODocument extends Object{
 	/**
 	 * Fill all cells of the item table with the item data
 	 * 
-	 * @param placeholderDisplayText Column header
-	 * @param column The index of the column
-	 * @param itemDataSets Item data
-	 * @param itemsTable The item table
-	 * @param lastTemplateRow Counts the last row of the table
-	 * @param cellText The cell's text.
+	 * @param placeholderDisplayText
+	 *            Column header
+	 * @param column
+	 *            The index of the column
+	 * @param itemDataSets
+	 *            Item data
+	 * @param itemsTable
+	 *            The item table
+	 * @param lastTemplateRow
+	 *            Counts the last row of the table
+	 * @param cellText
+	 *            The cell's text.
 	 */
 	private void fillItemTableWithData(String placeholderDisplayText, int column, ArrayList<DataSetItem> itemDataSets, ITextTable itemsTable,
 			int lastTemplateRow, String cellText) {
@@ -594,17 +619,18 @@ public class OODocument extends Object{
 		// Get all items
 		for (int row = 0; row < itemDataSets.size(); row++) {
 			try {
-				
+
 				// Get a reference to the cell content
 				IText iText = itemsTable.getCell(column, lastTemplateRow + row).getTextService().getText();
 
 				// Get the item
 				DataSetItem item = itemDataSets.get(row);
-				
+
 				// Set the cell content
 				fillItemTableWithData(placeholderDisplayText, item, iText, row, cellText);
 
-			} catch (TextException e) {
+			}
+			catch (TextException e) {
 				Logger.logError(e, "Error replacing Placeholders");
 			}
 		}
@@ -614,19 +640,23 @@ public class OODocument extends Object{
 	/**
 	 * Fill the cell of the item table with the item data
 	 * 
-	 * @param placeholderDisplayText Column header
+	 * @param placeholderDisplayText
+	 *            Column header
 	 * @param item
-	 * @param iText The Text that is set
-	 * @param index Index of the VAT entry
- 	 * @param cellText The cell's text.
+	 * @param iText
+	 *            The Text that is set
+	 * @param index
+	 *            Index of the VAT entry
+	 * @param cellText
+	 *            The cell's text.
 	 */
 	private void fillItemTableWithData(String placeholderDisplayText, DataSetItem item, IText iText, int index, String cellText) {
 
 		String value;
-		
+
 		// Get the column's header
 		String key = placeholderDisplayText.substring(1, placeholderDisplayText.length() - 1);
-		
+
 		Price price = new Price(item);
 
 		// Get the item quantity
@@ -692,7 +722,8 @@ public class OODocument extends Object{
 		// Get the total gross value
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.GROSS>")) {
 			value = price.getTotalGrossRounded().asFormatedString();
-		} else
+		}
+		else
 			return;
 
 		// Set the text of the cell
@@ -704,17 +735,19 @@ public class OODocument extends Object{
 	}
 
 	/**
-	 * Set a property and add  it to the user defined text fields in the
-	 * OpenOffice  Writer document.
+	 * Set a property and add it to the user defined text fields in the
+	 * OpenOffice Writer document.
 	 * 
-	 * @param key The property key
-	 * @param value The property value
+	 * @param key
+	 *            The property key
+	 * @param value
+	 *            The property value
 	 */
 	private void setProperty(String key, String value) {
 
 		// Set the user defined text field
 		addUserTextField(key, value);
-		
+
 		// Add the value and use a key with brackets
 		properties.setProperty("<" + key + ">", value);
 	}
@@ -766,8 +799,8 @@ public class OODocument extends Object{
 			setProperty("PAYMENT.PAYED.VALUE", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
 			setProperty("PAYMENT.PAYED.DATE", document.getFormatedStringValueByKey("paydate"));
 			setProperty("PAYMENT.DUE.DAYS", Integer.toString(document.getIntValueByKey("duedays")));
-			setProperty("PAYMENT.DUE.DATE", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document
-					.getIntValueByKey("duedays"))));
+			setProperty("PAYMENT.DUE.DATE",
+					DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
 			setProperty("PAYMENT.PAYED", document.getStringValueByKey("payed"));
 		}
 
@@ -850,22 +883,22 @@ public class OODocument extends Object{
 			setProperty("ADDRESS.VATNR", "");
 			setProperty("ADDRESS.NOTE", "");
 			setProperty("ADDRESS.DISCOUNT", "");
-			
+
 		}
 
 	}
 
 	/**
-	 * Replace a placeholder with the content of the property in the
-	 * property list.
+	 * Replace a placeholder with the content of the property in the property
+	 * list.
 	 * 
-	 * @param placeholder The placeholder and the name of the key in the
-	 * 	property list
+	 * @param placeholder
+	 *            The placeholder and the name of the key in the property list
 	 */
 	private void replaceText(ITextField placeholder) {
 		// Get the placeholder's text
 		String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
-		
+
 		// Replace it with the value of the property list.
 		placeholder.getTextRange().setText(properties.getProperty(placeholderDisplayText));
 	}

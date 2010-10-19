@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama;
@@ -33,9 +31,8 @@ import com.sebulli.fakturama.openoffice.OOManager;
 import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
 /**
- * Applications workbench window advisor.
- * Here are some methods that are called after a window is opened or
- * before it is closed.
+ * Applications workbench window advisor. Here are some methods that are called
+ * after a window is opened or before it is closed.
  * 
  * @author Gerd Bartelt
  */
@@ -48,7 +45,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	/**
 	 * Creates a new action bar advisor.
 	 * 
-	 * @param configurer configurer
+	 * @param configurer
+	 *            configurer
 	 * @return the new action bar advisor
 	 */
 	@Override
@@ -59,8 +57,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	/**
 	 * Called before the window is opened.
 	 * 
-	 * The initial size of the window is set and the 
-	 * cool bar and status bar is created.
+	 * The initial size of the window is set and the cool bar and status bar is
+	 * created.
 	 */
 	@Override
 	public void preWindowOpen() {
@@ -82,30 +80,28 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	}
 
 	/**
-	 * Called before the window shell is closed.
-	 * The open views are closed 
+	 * Called before the window shell is closed. The open views are closed
 	 */
 	@Override
 	public boolean preWindowShellClose() {
 		return true;
 	}
-	
+
 	/**
-	 * Called after the window shell is closed.
-	 * All OpenOffice documents are closed
-	 * Some (not all) of the preferences are stored in the data base.
+	 * Called after the window shell is closed. All OpenOffice documents are
+	 * closed Some (not all) of the preferences are stored in the data base.
 	 * Then the data base is closed.
 	 */
 	@Override
 	public void postWindowClose() {
-		
+
 		//Closes all OpenOffice documents 
 		OOManager.INSTANCE.closeAll();
 
 		PreferencesInDatabase.savePreferencesInDatabase();
 		if (Data.INSTANCE != null)
 			Data.INSTANCE.close();
-		
+
 		// Create a database backup 
 		BackupManager.createBackup();
 	}

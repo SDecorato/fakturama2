@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.logger;
@@ -40,26 +38,24 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.views.ErrorView;
 
 /**
- * A log listener for all exceptions.
- * The error messages are written into a logfile and displayed in an error
- * view in the workbench.
+ * A log listener for all exceptions. The error messages are written into a
+ * logfile and displayed in an error view in the workbench.
  * 
  * @author Gerd Bartelt
  */
 public class LogListener implements ILogListener {
-	
+
 	// Maximum lines of the logfile
 	private static final int MAXLINES = 2000;
-	
+
 	// The logile
 	private File logFile;
-	
+
 	// The errortext of the errorview
 	private String errorString = "";
-	
+
 	// Display or hide the errorview
 	private boolean showerrorview = false;
-	
 
 	/**
 	 * Constructor
@@ -81,11 +77,12 @@ public class LogListener implements ILogListener {
 			// Find the error view
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ErrorView.ID);
 			ErrorView view = (ErrorView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ErrorView.ID);
-			
+
 			// Set the error text
 			view.setErrorText(errorString);
 
-		} catch (PartInitException e) {
+		}
+		catch (PartInitException e) {
 		}
 
 	}
@@ -98,33 +95,33 @@ public class LogListener implements ILogListener {
 	private String getLogfileName() {
 		// Get the directory of the workspace
 		String filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-		
+
 		// Do not save log files, if there is no workspace set
 		if (filename.isEmpty())
 			return "";
-		
+
 		// Do not save log files, if workspace is not created
 		File directory = new File(filename);
 		if (!directory.exists())
 			return "";
-			
+
 		// Create a sub folder "Log", if it does not exist yet.
 		filename += "/Log/";
 		directory = new File(filename);
 		if (!directory.exists())
 			directory.mkdirs();
-		
+
 		// Name of the log file
 		filename += "Error.log";
-		
+
 		return filename;
 	}
-	
-	
+
 	/**
 	 * Notifies this listener that given status has been logged by a plug-in
 	 * 
-	 * @see org.eclipse.core.runtime.ILogListener#logging(org.eclipse.core.runtime.IStatus, java.lang.String)
+	 * @see org.eclipse.core.runtime.ILogListener#logging(org.eclipse.core.runtime.IStatus,
+	 *      java.lang.String)
 	 */
 	@Override
 	public void logging(IStatus status, String plugin) {
@@ -143,9 +140,10 @@ public class LogListener implements ILogListener {
 				// Information.
 				// Do not open the error view
 				newErrorString += "I:";
-				
-			} else {
-				
+
+			}
+			else {
+
 				// Error
 				// Open the error view
 				showerrorview = true;
@@ -166,30 +164,29 @@ public class LogListener implements ILogListener {
 				}
 
 				// Generate the exception message.
-				exceptionMessage = status.getMessage() + " : " + 
-						((Exception) status.getException()).getLocalizedMessage() +
-						" in: " + declaringClass + "/"
+				exceptionMessage = status.getMessage() + " : " + ((Exception) status.getException()).getLocalizedMessage() + " in: " + declaringClass + "/"
 						+ methodName + "(" + lineNumber + ")" + "\n";
 
 				// Generate the error string
 				newErrorString += exceptionMessage;
-			} else
+			}
+			else
 				// Generate the error string
 				newErrorString += status.getMessage() + "\n";
 
 			errorString += newErrorString;
 			System.out.print(newErrorString);
-			
+
 			// Show the error view (only if it is not just an information message)
 			showErrorView();
 
 			// Get the name of the log file
 			String logFileName = getLogfileName();
-			
+
 			// Do not log, if no workspace is set.
 			if (logFileName.isEmpty())
-				return;			
-			
+				return;
+
 			// Create a File object
 			logFile = new File(logFileName);
 
@@ -198,11 +195,11 @@ public class LogListener implements ILogListener {
 
 			// If the log file exists read the content
 			if (logFile.exists()) {
-				
+
 				// Open the existing file
 				BufferedReader in = new BufferedReader(new FileReader(logFileName));
 				String line = "";
-				
+
 				// Read the existing file and store it in a buffer
 				// with a fix size. Only the newest lines are kept.
 				while ((line = in.readLine()) != null) {
@@ -237,7 +234,7 @@ public class LogListener implements ILogListener {
 			StringBuffer str = new StringBuffer(plugin);
 			str.append(": ");
 			str.append(status.getMessage());
-			
+
 			// Add the stack trace
 			final Writer stackTrace = new StringWriter();
 			final PrintWriter printWriter = new PrintWriter(stackTrace);
@@ -246,14 +243,16 @@ public class LogListener implements ILogListener {
 			stackTrace.toString();
 			str.append(stackTrace.toString());
 			str.append("\n");
-			
+
 			// Write the stack trace to the log file
 			bos.write(str.toString());
 			bos.close();
-			
-		} catch (FileNotFoundException e) {
+
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

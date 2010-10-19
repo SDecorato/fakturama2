@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.exportsales;
@@ -37,8 +35,8 @@ import com.sun.star.table.XCellRange;
 import com.sun.star.uno.UnoRuntime;
 
 /**
- * Formats an OpenOffice Calc cell.
- * Sets the border, the color or the font style.
+ * Formats an OpenOffice Calc cell. Sets the border, the color or the font
+ * style.
  * 
  * @author Gerd Bartelt
  */
@@ -47,27 +45,34 @@ public class CellFormatter {
 	/**
 	 * Set the property of a Calc cell.
 	 * 
-	 * @param cell The cell to format
-	 * @param property The property
-	 * @param value The value of the property
+	 * @param cell
+	 *            The cell to format
+	 * @param property
+	 *            The property
+	 * @param value
+	 *            The value of the property
 	 */
 	private static void setCellProperty(XCell cell, String property, Object value) {
-		
+
 		// Get the property set of a cell
 		XPropertySet xPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, cell);
 
 		try {
-			
+
 			// Set the cell's property to a new value
 			xPropertySet.setPropertyValue(property, value);
-			
-		} catch (UnknownPropertyException e) {
+
+		}
+		catch (UnknownPropertyException e) {
 			Logger.logError(e, "Error 'UnknownProperty' setting cell property " + property + " to " + value.toString());
-		} catch (PropertyVetoException e) {
+		}
+		catch (PropertyVetoException e) {
 			Logger.logError(e, "Error 'PropertyVeto' setting cell property " + property + " to " + value.toString());
-		} catch (IllegalArgumentException e) {
+		}
+		catch (IllegalArgumentException e) {
 			Logger.logError(e, "Error 'IllegalArgument' setting cell property " + property + " to " + value.toString());
-		} catch (WrappedTargetException e) {
+		}
+		catch (WrappedTargetException e) {
 			Logger.logError(e, "Error 'WrappedTarget' setting cell property " + property + " to " + value.toString());
 		}
 
@@ -76,27 +81,34 @@ public class CellFormatter {
 	/**
 	 * Set the property of a Calc cells range.
 	 * 
-	 * @param cell The cells to format
-	 * @param property The property
-	 * @param value The value of the property
+	 * @param cell
+	 *            The cells to format
+	 * @param property
+	 *            The property
+	 * @param value
+	 *            The value of the property
 	 */
 	private static void setCellsProperty(XCellRange cells, String property, Object value) {
-		
+
 		// Get the property set of a cell
 		XPropertySet xPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, cells);
 
 		try {
-			
+
 			// Set the cell's property to a new value
 			xPropertySet.setPropertyValue(property, value);
-			
-		} catch (UnknownPropertyException e) {
+
+		}
+		catch (UnknownPropertyException e) {
 			Logger.logError(e, "Error 'UnknownProperty' setting cell property " + property + " to " + value.toString());
-		} catch (PropertyVetoException e) {
+		}
+		catch (PropertyVetoException e) {
 			Logger.logError(e, "Error 'PropertyVeto' setting cell property " + property + " to " + value.toString());
-		} catch (IllegalArgumentException e) {
+		}
+		catch (IllegalArgumentException e) {
 			Logger.logError(e, "Error 'IllegalArgument' setting cell property " + property + " to " + value.toString());
-		} catch (WrappedTargetException e) {
+		}
+		catch (WrappedTargetException e) {
 			Logger.logError(e, "Error 'WrappedTarget' setting cell property " + property + " to " + value.toString());
 		}
 
@@ -105,20 +117,28 @@ public class CellFormatter {
 	/**
 	 * Set the border of a cell to a specified color
 	 * 
-	 * @param spreadsheet The spreadsheet that contains the cell
-	 * @param row The cell row
-	 * @param column The cell column
-	 * @param color The new color of the border
-	 * @param top Select, if the top border should be modified
-	 * @param right Select, if the right border should be modified
-	 * @param bottom Select, if the bottom border should be modified
-	 * @param left Select, if the left border should be modified
+	 * @param spreadsheet
+	 *            The spreadsheet that contains the cell
+	 * @param row
+	 *            The cell row
+	 * @param column
+	 *            The cell column
+	 * @param color
+	 *            The new color of the border
+	 * @param top
+	 *            Select, if the top border should be modified
+	 * @param right
+	 *            Select, if the right border should be modified
+	 * @param bottom
+	 *            Select, if the bottom border should be modified
+	 * @param left
+	 *            Select, if the left border should be modified
 	 */
 	public static void setBorder(XSpreadsheet spreadsheet, int row, int column, int color, boolean top, boolean right, boolean bottom, boolean left) {
 
 		// Get the cell by the row and the column
 		XCell cell = getCell(spreadsheet, row, column);
-		
+
 		// Create an invisible border
 		BorderLine noBorderLine = new BorderLine();
 		noBorderLine.Color = 0;
@@ -178,33 +198,41 @@ public class CellFormatter {
 	/**
 	 * Set the text color of a cell
 	 * 
-	 * @param spreadsheet The Spreadsheet that contains the cell
-	 * @param row The cell row
-	 * @param column The cell column
-	 * @param color The new color of the text
+	 * @param spreadsheet
+	 *            The Spreadsheet that contains the cell
+	 * @param row
+	 *            The cell row
+	 * @param column
+	 *            The cell column
+	 * @param color
+	 *            The new color of the text
 	 */
 	public static void setColor(XSpreadsheet spreadsheet, int row, int column, int color) {
 
 		// Get the cell by the row and the column
 		XCell cell = getCell(spreadsheet, row, column);
-		
+
 		// Set the new color
 		setCellProperty(cell, "CharColor", new Integer(color));
 	}
-	
+
 	/**
 	 * Set the background color of a cell
 	 * 
-	 * @param spreadsheet The Spreadsheet that contains the cell
-	 * @param row The cell row
-	 * @param column The cell column
-	 * @param color The new color of the background
+	 * @param spreadsheet
+	 *            The Spreadsheet that contains the cell
+	 * @param row
+	 *            The cell row
+	 * @param column
+	 *            The cell column
+	 * @param color
+	 *            The new color of the background
 	 */
 	public static void setBackgroundColor(XSpreadsheet spreadsheet, int row, int column, int color) {
 
 		// Get the cell by the row and the column
 		XCell cell = getCell(spreadsheet, row, column);
-		
+
 		// Set the new background color
 		setCellProperty(cell, "CellBackColor", new Integer(color));
 	}
@@ -212,16 +240,20 @@ public class CellFormatter {
 	/**
 	 * Set the background color of a cell
 	 * 
-	 * @param spreadsheet The Spreadsheet that contains the cell
-	 * @param row The cell row
-	 * @param column The cell column
-	 * @param color The new color of the background
+	 * @param spreadsheet
+	 *            The Spreadsheet that contains the cell
+	 * @param row
+	 *            The cell row
+	 * @param column
+	 *            The cell column
+	 * @param color
+	 *            The new color of the background
 	 */
 	public static void setBackgroundColor(XSpreadsheet spreadsheet, int left, int top, int right, int bottom, int color) {
 
 		// Get the cell by the row and the column
 		XCellRange cells = getCells(spreadsheet, left, top, right, bottom);
-		
+
 		// Set the new background color
 		setCellsProperty(cells, "CellBackColor", new Integer(color));
 	}
@@ -229,9 +261,12 @@ public class CellFormatter {
 	/**
 	 * Set the font weight of a cell to bold
 	 * 
-	 * @param spreadsheet The Spreadsheet that contains the cell
-	 * @param row The cell row
-	 * @param column The cell column
+	 * @param spreadsheet
+	 *            The Spreadsheet that contains the cell
+	 * @param row
+	 *            The cell row
+	 * @param column
+	 *            The cell column
 	 */
 	public static void setBold(XSpreadsheet spreadsheet, int row, int column) {
 
@@ -245,9 +280,12 @@ public class CellFormatter {
 	/**
 	 * Set the font style of a cell to italic
 	 * 
-	 * @param spreadsheet The Spreadsheet that contains the cell
-	 * @param row The cell row
-	 * @param column The cell column
+	 * @param spreadsheet
+	 *            The Spreadsheet that contains the cell
+	 * @param row
+	 *            The cell row
+	 * @param column
+	 *            The cell column
 	 */
 	public static void setItalic(XSpreadsheet spreadsheet, int row, int column) {
 
@@ -261,10 +299,14 @@ public class CellFormatter {
 	/**
 	 * Set the cell format to the local currency
 	 * 
-	 * @param xSpreadsheetDocument The spreadsheet document
-	 * @param spreadsheet The spreadsheet that contains the cell
-	 * @param row The cell row
-	 * @param column The cell column
+	 * @param xSpreadsheetDocument
+	 *            The spreadsheet document
+	 * @param spreadsheet
+	 *            The spreadsheet that contains the cell
+	 * @param row
+	 *            The cell row
+	 * @param column
+	 *            The cell column
 	 */
 	public static void setLocalCurrency(XSpreadsheetDocument xSpreadsheetDocument, XSpreadsheet spreadsheet, int row, int column) {
 
@@ -284,7 +326,7 @@ public class CellFormatter {
 
 		// Get the standard currency of the system
 		int nCurrKey = xNumberFormatTypes.getStandardFormat(com.sun.star.util.NumberFormat.CURRENCY, new Locale());
-		
+
 		// Set the new cell format
 		setCellProperty(cell, "NumberFormat", new Integer(nCurrKey));
 	}
@@ -292,9 +334,12 @@ public class CellFormatter {
 	/**
 	 * Get a cell by spreadsheet, row and column
 	 * 
-	 * @param spreadsheet The spreadsheet that contains the cell
-	 * @param row The cell row
-	 * @param column The cell column
+	 * @param spreadsheet
+	 *            The spreadsheet that contains the cell
+	 * @param row
+	 *            The cell row
+	 * @param column
+	 *            The cell column
 	 * @return The cell
 	 */
 	public static XCell getCell(XSpreadsheet spreadsheet, int row, int column) {
@@ -302,7 +347,8 @@ public class CellFormatter {
 		// Try to get the cell
 		try {
 			return spreadsheet.createCursor().getCellByPosition(column, row);
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			return null;
 		}
 	}
@@ -310,11 +356,16 @@ public class CellFormatter {
 	/**
 	 * Get a cell range by spreadsheet, left, top, right, bottom
 	 * 
-	 * @param spreadsheet The spreadsheet that contains the cell
-	 * @param left The left side of the range
-	 * @param top The top side of the range
-	 * @param right The right side of the range
-	 * @param bottom The bottom side of the range
+	 * @param spreadsheet
+	 *            The spreadsheet that contains the cell
+	 * @param left
+	 *            The left side of the range
+	 * @param top
+	 *            The top side of the range
+	 * @param right
+	 *            The right side of the range
+	 * @param bottom
+	 *            The bottom side of the range
 	 * @return The cell range
 	 */
 	public static XCellRange getCells(XSpreadsheet spreadsheet, int left, int top, int right, int bottom) {
@@ -322,7 +373,8 @@ public class CellFormatter {
 		// Try to get the cell
 		try {
 			return spreadsheet.createCursor().getCellRangeByPosition(left, top, right, bottom);
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			return null;
 		}
 	}
@@ -335,12 +387,12 @@ public class CellFormatter {
 	 * @return Cell name (like "A2")
 	 */
 	public static String getCellName(int row, int column) {
-		
+
 		// Most significant character
 		char cM = 0;
 		// Least significant character
 		char cL;
-		
+
 		// Convert the column into a decimal format with
 		// a base of 26 ( Number of letters in the alphabet) 
 		// Use 2 characters. So A will be 1, Z will be 26 and
@@ -353,7 +405,7 @@ public class CellFormatter {
 			Logger.logError("Columns out of range");
 			return "ZZ1";
 		}
-		
+
 		// Only if the column is > 26 (columnM >0), use
 		// a second letter
 		if (columnM > 0)
@@ -369,7 +421,7 @@ public class CellFormatter {
 		// Use a second letter
 		if (columnM > 0)
 			s = cM + s;
-		
+
 		// The complete cell name
 		return s;
 	}

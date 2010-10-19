@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -200,20 +198,14 @@ public class DocumentEditor extends Editor {
 		if (newDocument) {
 			// Check, if the document number is the next one
 			if (documentType != DocumentType.LETTER) {
-				int result = setNextNr(txtName.getText(), "name",
-						Data.INSTANCE.getDocuments());
+				int result = setNextNr(txtName.getText(), "name", Data.INSTANCE.getDocuments());
 
 				// It's not the next free ID
 				if (result == ERROR_NOT_NEXT_ID) {
 					// Display an error message
-					MessageBox messageBox = new MessageBox(PlatformUI
-							.getWorkbench().getActiveWorkbenchWindow()
-							.getShell(), SWT.ICON_ERROR | SWT.OK);
+					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 					messageBox.setText("Fehler in Dokumentennummer");
-					messageBox
-							.setMessage("Dokument hat nicht die nächste freie Nummer: "
-									+ getNextNr()
-									+ "\nSiehe unter Einstellungen/Nummernkreise.");
+					messageBox.setMessage("Dokument hat nicht die nächste freie Nummer: " + getNextNr() + "\nSiehe unter Einstellungen/Nummernkreise.");
 					messageBox.open();
 				}
 			}
@@ -232,15 +224,14 @@ public class DocumentEditor extends Editor {
 
 		// Set name and date
 		document.setStringValueByKey("name", txtName.getText());
-		document.setStringValueByKey("date",
-				DataUtils.getDateTimeAsString(dtDate));
+		document.setStringValueByKey("date", DataUtils.getDateTimeAsString(dtDate));
 
 		// If this is an order, use the date as order date
 		if (documentType == DocumentType.ORDER)
 			document.setStringValueByKey("orderdate", DataUtils.getDateTimeAsString(dtDate));
 		else
 			document.setStringValueByKey("orderdate", DataUtils.getDateTimeAsString(dtOrderDate));
-		
+
 		document.setStringValueByKey("servicedate", document.getStringValueByKey("date"));
 
 		document.setIntValueByKey("addressid", addressId);
@@ -252,36 +243,28 @@ public class DocumentEditor extends Editor {
 		boolean addressModified = false;
 		// if it's a delivery note, compare the delivery address
 		if (documentType == DocumentType.DELIVERY) {
-			if (!document.getStringValueByKey("deliveryaddress").equals(
-					txtAddress.getText()))
+			if (!document.getStringValueByKey("deliveryaddress").equals(txtAddress.getText()))
 				addressModified = true;
-			document.setStringValueByKey("deliveryaddress",
-					txtAddress.getText());
+			document.setStringValueByKey("deliveryaddress", txtAddress.getText());
 			if (addressId > 0)
-				addressById = Data.INSTANCE.getContacts()
-						.getDatasetById(addressId).getAddress(true);
-		} else {
-			if (!document.getStringValueByKey("address").equals(
-					txtAddress.getText()))
+				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(true);
+		}
+		else {
+			if (!document.getStringValueByKey("address").equals(txtAddress.getText()))
 				addressModified = true;
 			document.setStringValueByKey("address", txtAddress.getText());
 			if (addressId > 0)
-				addressById = Data.INSTANCE.getContacts()
-						.getDatasetById(addressId).getAddress(false);
+				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(false);
 		}
 
 		// Show a warning, if the entered address is not similar to the address
 		// of the document, set by the address ID.
 		if ((addressId > 0) && (addressModified)) {
 			if (DataUtils.similarity(addressById, txtAddress.getText()) < 0.75) {
-				MessageBox messageBox = new MessageBox(PlatformUI
-						.getWorkbench().getActiveWorkbenchWindow().getShell(),
-						SWT.ICON_WARNING | SWT.OK);
+				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
 				messageBox.setText("Bitte überprüfen");
-				messageBox
-						.setMessage("Diesem Dokument ist folgende Adresse zugeordnet:\n\n"
-								+ addressById
-								+ "\n\nSie haben eine davon abweichende Adresse eingegeben.");
+				messageBox.setMessage("Diesem Dokument ist folgende Adresse zugeordnet:\n\n" + addressById
+						+ "\n\nSie haben eine davon abweichende Adresse eingegeben.");
 				messageBox.open();
 			}
 		}
@@ -292,8 +275,7 @@ public class DocumentEditor extends Editor {
 		// Set the payment values depending on if the document is payed or not
 		// Set the shipping values
 		if (comboPayment != null) {
-			document.setStringValueByKey("paymentdescription",
-					comboPayment.getText());
+			document.setStringValueByKey("paymentdescription", comboPayment.getText());
 		}
 		document.setIntValueByKey("paymentid", paymentId);
 
@@ -302,28 +284,23 @@ public class DocumentEditor extends Editor {
 
 			if (bPayed.getSelection()) {
 				document.setBooleanValueByKey("payed", true);
-				document.setStringValueByKey("paydate",
-						DataUtils.getDateTimeAsString(dtPayedDate));
-				document.setDoubleValueByKey("payvalue",
-						payedValue.getValueAsDouble());
+				document.setStringValueByKey("paydate", DataUtils.getDateTimeAsString(dtPayedDate));
+				document.setDoubleValueByKey("payvalue", payedValue.getValueAsDouble());
 
 				// Use the text for "payed" from the current payment
 				if (paymentId >= 0) {
-					paymentText = Data.INSTANCE.getPayments()
-							.getDatasetById(paymentId)
-							.getStringValueByKey("payedtext");
+					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("payedtext");
 				}
 
-			} else {
+			}
+			else {
 				document.setBooleanValueByKey("payed", false);
 				document.setIntValueByKey("duedays", spDueDays.getSelection());
 				document.setDoubleValueByKey("payvalue", 0.0);
 
 				// Use the text for "unpayed" from the current payment
 				if (paymentId >= 0) {
-					paymentText = Data.INSTANCE.getPayments()
-							.getDatasetById(paymentId)
-							.getStringValueByKey("unpayedtext");
+					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("unpayedtext");
 				}
 
 			}
@@ -333,20 +310,17 @@ public class DocumentEditor extends Editor {
 
 		// Set the shipping values
 		if (comboShipping != null) {
-			document.setStringValueByKey("shippingdescription",
-					comboShipping.getText());
+			document.setStringValueByKey("shippingdescription", comboShipping.getText());
 		}
 		document.setIntValueByKey("shippingid", shippingId);
 		document.setDoubleValueByKey("shipping", shipping);
 		document.setDoubleValueByKey("shippingvat", shippingVat);
-		document.setStringValueByKey("shippingvatdescription",
-				shippingVatDescription);
+		document.setStringValueByKey("shippingvatdescription", shippingVatDescription);
 		document.setIntValueByKey("shippingautovat", shippingAutoVat);
 
 		// Set the discount value
 		if (itemsDiscount != null)
-			document.setDoubleValueByKey("itemsdiscount",
-					DataUtils.StringToDoubleDiscount(itemsDiscount.getText()));
+			document.setDoubleValueByKey("itemsdiscount", DataUtils.StringToDoubleDiscount(itemsDiscount.getText()));
 
 		// Set the total value.
 		document.setDoubleValueByKey("total", total);
@@ -387,45 +361,26 @@ public class DocumentEditor extends Editor {
 				item = Data.INSTANCE.getItems().getDatasetById(id);
 				// Compare all data of the item in this document editor
 				// with the item in the document.
-				boolean modified = ((!item.getStringValueByKey("name").equals(
-						itemDataset.getStringValueByKey("name")))
-						|| (!item.getStringValueByKey("itemnr").equals(
-								itemDataset.getStringValueByKey("itemnr")))
-						|| (!item.getStringValueByKey("description").equals(
-								itemDataset.getStringValueByKey("description")))
-						|| (!item.getStringValueByKey("category").equals(
-								itemDataset.getStringValueByKey("category")))
-						|| (!DataUtils.DoublesAreEqual(
-								item.getDoubleValueByKey("quantity"),
-								itemDataset.getDoubleValueByKey("quantity")))
-						|| (!DataUtils.DoublesAreEqual(
-								item.getDoubleValueByKey("price"),
-								itemDataset.getDoubleValueByKey("price")))
-						|| (!DataUtils.DoublesAreEqual(
-								item.getDoubleValueByKey("discount"),
-								itemDataset.getDoubleValueByKey("discount")))
-						|| (item.getIntValueByKey("owner") != itemDataset
-								.getIntValueByKey("owner"))
-						|| (item.getIntValueByKey("vatid") != itemDataset
-								.getIntValueByKey("vatid"))
-						|| (!DataUtils.DoublesAreEqual(
-								item.getDoubleValueByKey("vatvalue"),
-								itemDataset.getDoubleValueByKey("vatvalue")))
-						|| (item.getBooleanValueByKey("novat") != itemDataset
-								.getBooleanValueByKey("novat"))
-						|| (!item.getStringValueByKey("vatname").equals(
-								itemDataset.getStringValueByKey("vatname"))) || (!item
-						.getStringValueByKey("vatdescription").equals(
-								itemDataset
-										.getStringValueByKey("vatdescription"))));
+				boolean modified = ((!item.getStringValueByKey("name").equals(itemDataset.getStringValueByKey("name")))
+						|| (!item.getStringValueByKey("itemnr").equals(itemDataset.getStringValueByKey("itemnr")))
+						|| (!item.getStringValueByKey("description").equals(itemDataset.getStringValueByKey("description")))
+						|| (!item.getStringValueByKey("category").equals(itemDataset.getStringValueByKey("category")))
+						|| (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("quantity"), itemDataset.getDoubleValueByKey("quantity")))
+						|| (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("price"), itemDataset.getDoubleValueByKey("price")))
+						|| (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("discount"), itemDataset.getDoubleValueByKey("discount")))
+						|| (item.getIntValueByKey("owner") != itemDataset.getIntValueByKey("owner"))
+						|| (item.getIntValueByKey("vatid") != itemDataset.getIntValueByKey("vatid"))
+						|| (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("vatvalue"), itemDataset.getDoubleValueByKey("vatvalue")))
+						|| (item.getBooleanValueByKey("novat") != itemDataset.getBooleanValueByKey("novat"))
+						|| (!item.getStringValueByKey("vatname").equals(itemDataset.getStringValueByKey("vatname"))) || (!item.getStringValueByKey(
+						"vatdescription").equals(itemDataset.getStringValueByKey("vatdescription"))));
 
 				// If the item was modified and was shared with other documents,
 				// than we should make a copy and save it new.
 				// We also save it, if it was a new item with no owner yet,
-				saveNewItem = ((owner < 0) || (modified && ((owner != document
-						.getIntValueByKey("id")) || item
-						.getBooleanValueByKey("shared"))));
-			} else {
+				saveNewItem = ((owner < 0) || (modified && ((owner != document.getIntValueByKey("id")) || item.getBooleanValueByKey("shared"))));
+			}
+			else {
 				// It was a new item with no ID set
 				saveNewItem = true;
 			}
@@ -436,40 +391,26 @@ public class DocumentEditor extends Editor {
 			if (saveNewItem) {
 				itemDataset.setIntValueByKey("owner", documentId);
 				itemDataset.setBooleanValueByKey("shared", false);
-				DataSetItem itemDatasetTemp = Data.INSTANCE.getItems()
-						.addNewDataSet(new DataSetItem(itemDataset));
+				DataSetItem itemDatasetTemp = Data.INSTANCE.getItems().addNewDataSet(new DataSetItem(itemDataset));
 				id = itemDatasetTemp.getIntValueByKey("id");
 				itemDataset.setIntValueByKey("id", id);
 			}
 			// If it's not new, copy the items's data from the editor to the
 			// items in the data base
 			else {
-				item.setStringValueByKey("name",
-						itemDataset.getStringValueByKey("name"));
-				item.setStringValueByKey("itemnr",
-						itemDataset.getStringValueByKey("itemnr"));
-				item.setStringValueByKey("description",
-						itemDataset.getStringValueByKey("description"));
-				item.setStringValueByKey("category",
-						itemDataset.getStringValueByKey("category"));
-				item.setDoubleValueByKey("quantity",
-						itemDataset.getDoubleValueByKey("quantity"));
-				item.setDoubleValueByKey("price",
-						itemDataset.getDoubleValueByKey("price"));
-				item.setDoubleValueByKey("discount",
-						itemDataset.getDoubleValueByKey("discount"));
-				item.setIntValueByKey("owner",
-						itemDataset.getIntValueByKey("owner"));
-				item.setIntValueByKey("vatid",
-						itemDataset.getIntValueByKey("vatid"));
-				item.setBooleanValueByKey("novat",
-						itemDataset.getBooleanValueByKey("novat"));
-				item.setDoubleValueByKey("vatvalue",
-						itemDataset.getDoubleValueByKey("vatvalue"));
-				item.setStringValueByKey("vatname",
-						itemDataset.getStringValueByKey("vatname"));
-				item.setStringValueByKey("vatdescription",
-						itemDataset.getStringValueByKey("vatdescription"));
+				item.setStringValueByKey("name", itemDataset.getStringValueByKey("name"));
+				item.setStringValueByKey("itemnr", itemDataset.getStringValueByKey("itemnr"));
+				item.setStringValueByKey("description", itemDataset.getStringValueByKey("description"));
+				item.setStringValueByKey("category", itemDataset.getStringValueByKey("category"));
+				item.setDoubleValueByKey("quantity", itemDataset.getDoubleValueByKey("quantity"));
+				item.setDoubleValueByKey("price", itemDataset.getDoubleValueByKey("price"));
+				item.setDoubleValueByKey("discount", itemDataset.getDoubleValueByKey("discount"));
+				item.setIntValueByKey("owner", itemDataset.getIntValueByKey("owner"));
+				item.setIntValueByKey("vatid", itemDataset.getIntValueByKey("vatid"));
+				item.setBooleanValueByKey("novat", itemDataset.getBooleanValueByKey("novat"));
+				item.setDoubleValueByKey("vatvalue", itemDataset.getDoubleValueByKey("vatvalue"));
+				item.setStringValueByKey("vatname", itemDataset.getStringValueByKey("vatname"));
+				item.setStringValueByKey("vatdescription", itemDataset.getStringValueByKey("vatdescription"));
 				Data.INSTANCE.getItems().updateDataSet(item);
 			}
 
@@ -484,9 +425,9 @@ public class DocumentEditor extends Editor {
 		// Set the "addressfirstline" value to the first line of the
 		// contact address
 		if (addressId > 0) {
-			document.setStringValueByKey("addressfirstline", Data.INSTANCE
-					.getContacts().getDatasetById(addressId).getName());
-		} else {
+			document.setStringValueByKey("addressfirstline", Data.INSTANCE.getContacts().getDatasetById(addressId).getName());
+		}
+		else {
 			String s = txtAddress.getText().split("\n")[0];
 			document.setStringValueByKey("addressfirstline", s);
 		}
@@ -503,11 +444,8 @@ public class DocumentEditor extends Editor {
 
 			// If it's an invoice, set the "invoiceid" to the ID.
 			// So all documents will inherit this ID
-			if ((documentType == DocumentType.INVOICE)
-					&& (document.getIntValueByKey("id") != document
-							.getIntValueByKey("invoiceid"))) {
-				document.setIntValueByKey("invoiceid",
-						document.getIntValueByKey("id"));
+			if ((documentType == DocumentType.INVOICE) && (document.getIntValueByKey("id") != document.getIntValueByKey("invoiceid"))) {
+				document.setIntValueByKey("invoiceid", document.getIntValueByKey("id"));
 				Data.INSTANCE.getDocuments().updateDataSet(document);
 			}
 
@@ -518,7 +456,8 @@ public class DocumentEditor extends Editor {
 			// So it's no longer the parent data
 			this.setInput(new UniDataSetEditorInput(document));
 
-		} else {
+		}
+		else {
 			// Do not create a new data set - just update the old one
 			Data.INSTANCE.getDocuments().updateDataSet(document);
 		}
@@ -568,7 +507,7 @@ public class DocumentEditor extends Editor {
 		// If new ..
 		if (newDocument) {
 
-			//  .. get the document type (=the category) to ..
+			// .. get the document type (=the category) to ..
 			String category = ((UniDataSetEditorInput) input).getCategory();
 			documentType = DocumentType.getType(category);
 			if (documentType == DocumentType.NONE)
@@ -583,11 +522,10 @@ public class DocumentEditor extends Editor {
 			// Copy the entry "message", or reset it to ""
 			if (!Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_COPY_MESSAGE_FROM_PARENT"))
 				document.setStringValueByKey("message", "");
-			
-			
+
 			// Set the editor ID to the document type
 			editorID = documentType.getTypeAsString();
-			
+
 			// get the parents document type
 			DocumentType documentTypeParent = DocumentType.NONE;
 			if (parent != null)
@@ -600,17 +538,17 @@ public class DocumentEditor extends Editor {
 				else
 					dunningLevel = 1;
 			}
-			
+
 			// Set the editors name
 			setPartName(documentType.getNewText());
-			
+
 			// In a new document, set some standard values
 			if (!duplicated) {
 				// Default shipping
 				shippingId = Data.INSTANCE.getPropertyAsInt("standardshipping");
 				DataSetShipping stdShipping = Data.INSTANCE.getShippings().getDatasetById(shippingId);
 				shipping = stdShipping.getDoubleValueByKey("value");
-				shippingVat = stdShipping.getDoubleValueByKeyFromOtherTable("vatid.VATS:value");	
+				shippingVat = stdShipping.getDoubleValueByKeyFromOtherTable("vatid.VATS:value");
 				shippingAutoVat = stdShipping.getIntValueByKey("autovat");
 				shippingVatDescription = stdShipping.getStringValueByKey("description");
 
@@ -619,7 +557,7 @@ public class DocumentEditor extends Editor {
 				document.setStringValueByKey("shippingdescription", stdShipping.getStringValueByKey("description"));
 				document.setIntValueByKey("shippingautovat", shippingAutoVat);
 				document.setStringValueByKey("shippingvatdescription", shippingVatDescription);
-				
+
 				// Default payment
 				paymentId = Data.INSTANCE.getPropertyAsInt("standardpayment");
 				document.setStringValueByKey("paymentdescription", Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("description"));
@@ -629,11 +567,11 @@ public class DocumentEditor extends Editor {
 			// Get the next document number
 			document.setStringValueByKey("name", getNextNr());
 
-		} 
+		}
 		// If an existing document was opened ..
 		else {
-			
-			// Get document type, set editorID 
+
+			// Get document type, set editorID
 			documentType = DocumentType.getType(document.getIntValueByKey("category"));
 			editorID = documentType.getTypeAsString();
 
@@ -647,24 +585,25 @@ public class DocumentEditor extends Editor {
 		// copied to this item set. If the editor is closed or saved,
 		// these items are copied back to the document and to the data base.
 		items = new DataSetArray<DataSetItem>();
-		
+
 		// Get all items by ID from the item string
 		String itemsString = document.getStringValueByKey("items");
 		String[] itemsStringParts = itemsString.split(",");
-		
+
 		// Parse the item string ..
 		for (String itemsStringPart : itemsStringParts) {
 			int id;
 			if (itemsStringPart.length() > 0) {
 				try {
 					id = Integer.parseInt(itemsStringPart);
-				} catch (NumberFormatException e) {
+				}
+				catch (NumberFormatException e) {
 					Logger.logError(e, "Error parsing item string");
 					id = 0;
 				}
 				int parentSign = DocumentType.getType(parent.getIntValueByKey("category")).sign();
-				
-				// And copy the item to a new one 
+
+				// And copy the item to a new one
 				DataSetItem item = Data.INSTANCE.getItems().getDatasetById(id);
 				if (parentSign != documentType.sign())
 					items.getDatasets().add(new DataSetItem(item, -1));
@@ -684,8 +623,10 @@ public class DocumentEditor extends Editor {
 	public boolean isDirty() {
 
 		/*
-		 * the following parameters are not checked: - id (constant) -
-		 * addressfirstline (generated by editor) - progress (not modified by
+		 * the following parameters are not checked: 
+		 * - id (constant)
+		 * - addressfirstline (generated by editor) 
+		 * - progress (not modified by
 		 * editor) - transaction (not modified by editor) - webshopid (not
 		 * modified by editor) - webshopdate (not modified by editor) TODO: -
 		 * servicedate - total (generated by editor)
@@ -696,30 +637,18 @@ public class DocumentEditor extends Editor {
 
 		// Check, if a cell is being modified at this moment
 		if (tableViewerItems != null)
-			if (tableViewerItems.isCellEditorActive()
-					&& (itemEditingSupport != null))
+			if (tableViewerItems.isCellEditorActive() && (itemEditingSupport != null))
 				return true;
 
 		// Test all the document parameters
-		if (document.getBooleanValueByKey("deleted")) {
-			return true;
-		}
+		if (document.getBooleanValueByKey("deleted")) { return true; }
 
-		if (newDocument) {
-			return true;
-		}
-		if (document.getIntValueByKey("category") != documentType.getInt()) {
-			return true;
-		}
-		if (!document.getStringValueByKey("name").equals(txtName.getText())) {
-			return true;
-		}
-		
-		if (!document.getStringValueByKey("date").equals(
-				DataUtils.getDateTimeAsString(dtDate))) {
-			return true;
-		}
-		
+		if (newDocument) { return true; }
+		if (document.getIntValueByKey("category") != documentType.getInt()) { return true; }
+		if (!document.getStringValueByKey("name").equals(txtName.getText())) { return true; }
+
+		if (!document.getStringValueByKey("date").equals(DataUtils.getDateTimeAsString(dtDate))) { return true; }
+
 		// If this is an order, use the dtDate widget and do not check the
 		// dtOrderDate widget
 		if (documentType != DocumentType.ORDER) {
@@ -727,107 +656,48 @@ public class DocumentEditor extends Editor {
 			if (orderDateString.isEmpty()) {
 				orderDateString = document.getStringValueByKey("webshopdate");
 			}
-			if (!orderDateString.equals(
-					DataUtils.getDateTimeAsString(dtOrderDate))) {
-				return true;
-			}
+			if (!orderDateString.equals(DataUtils.getDateTimeAsString(dtOrderDate))) { return true; }
 		}
 
-		
-		if (document.getIntValueByKey("addressid") != addressId) {
-			return true;
-		}
+		if (document.getIntValueByKey("addressid") != addressId) { return true; }
 		if (documentType == DocumentType.DELIVERY) {
-			if (!document.getStringValueByKey("deliveryaddress").equals(
-					txtAddress.getText())) {
-				return true;
-			}
-		} else {
-			if (!document.getStringValueByKey("address").equals(
-					txtAddress.getText())) {
-				return true;
-			}
+			if (!document.getStringValueByKey("deliveryaddress").equals(txtAddress.getText())) { return true; }
+		}
+		else {
+			if (!document.getStringValueByKey("address").equals(txtAddress.getText())) { return true; }
 		}
 
-		if (!document.getStringValueByKey("customerref").equals(
-				txtCustomerRef.getText())) {
-			return true;
-		}
+		if (!document.getStringValueByKey("customerref").equals(txtCustomerRef.getText())) { return true; }
 
 		if (spDueDays != null)
-			if (document.getBooleanValueByKey("payed") != bPayed.getSelection()) {
-				return true;
-			}
+			if (document.getBooleanValueByKey("payed") != bPayed.getSelection()) { return true; }
 		if (bPayed != null) {
 			if (bPayed.getSelection()) {
-				if (!document.getStringValueByKey("paydate").equals(
-						DataUtils.getDateTimeAsString(dtPayedDate))) {
-					return true;
-				}
-				if (!DataUtils.DoublesAreEqual(payedValue.getValueAsDouble(),
-						document.getDoubleValueByKey("payvalue"))) {
-					return true;
-				}
-			} else {
-				if (document.getIntValueByKey("duedays") != spDueDays
-						.getSelection()) {
-					return true;
-				}
+				if (!document.getStringValueByKey("paydate").equals(DataUtils.getDateTimeAsString(dtPayedDate))) { return true; }
+				if (!DataUtils.DoublesAreEqual(payedValue.getValueAsDouble(), document.getDoubleValueByKey("payvalue"))) { return true; }
+			}
+			else {
+				if (document.getIntValueByKey("duedays") != spDueDays.getSelection()) { return true; }
 			}
 		}
 		if (comboPayment != null)
-			if (!document.getStringValueByKey("paymentdescription").equals(
-					comboPayment.getText())) {
-				return true;
-			}
-		if (document.getIntValueByKey("paymentid") != paymentId) {
-			return true;
-		}
+			if (!document.getStringValueByKey("paymentdescription").equals(comboPayment.getText())) { return true; }
+		if (document.getIntValueByKey("paymentid") != paymentId) { return true; }
 
 		if (itemsDiscount != null)
-			if (!DataUtils.DoublesAreEqual(
-					DataUtils.StringToDoubleDiscount(itemsDiscount.getText()),
-					document.getDoubleValueByKey("itemsdiscount"))) {
-				return true;
-			}
+			if (!DataUtils.DoublesAreEqual(DataUtils.StringToDoubleDiscount(itemsDiscount.getText()), document.getDoubleValueByKey("itemsdiscount"))) { return true; }
 
-		if (document.getIntValueByKey("shippingid") != shippingId) {
-			return true;
-		}
-		if (!DataUtils.DoublesAreEqual(shipping,
-				document.getDoubleValueByKey("shipping"))) {
-			return true;
-		}
-		if (!DataUtils.DoublesAreEqual(shippingVat,
-				document.getDoubleValueByKey("shippingvat"))) {
-			return true;
-		}
+		if (document.getIntValueByKey("shippingid") != shippingId) { return true; }
+		if (!DataUtils.DoublesAreEqual(shipping, document.getDoubleValueByKey("shipping"))) { return true; }
+		if (!DataUtils.DoublesAreEqual(shippingVat, document.getDoubleValueByKey("shippingvat"))) { return true; }
 		if (comboShipping != null)
-			if (!document.getStringValueByKey("shippingdescription").equals(
-					comboShipping.getText())) {
-				return true;
-			}
-		if (!document.getStringValueByKey("message").equals(
-				txtMessage.getText())) {
-			return true;
-		}
-		if (!document.getStringValueByKey("shippingvatdescription").equals(
-				shippingVatDescription)) {
-			return true;
-		}
-		if (document.getIntValueByKey("shippingautovat") != shippingAutoVat) {
-			return true;
-		}
-		if (document.getBooleanValueByKey("novat") != noVat) {
-			return true;
-		}
-		if (!document.getStringValueByKey("novatname").equals(noVatName)) {
-			return true;
-		}
-		if (!document.getStringValueByKey("novatdescription").equals(
-				noVatDescription)) {
-			return true;
-		}
+			if (!document.getStringValueByKey("shippingdescription").equals(comboShipping.getText())) { return true; }
+		if (!document.getStringValueByKey("message").equals(txtMessage.getText())) { return true; }
+		if (!document.getStringValueByKey("shippingvatdescription").equals(shippingVatDescription)) { return true; }
+		if (document.getIntValueByKey("shippingautovat") != shippingAutoVat) { return true; }
+		if (document.getBooleanValueByKey("novat") != noVat) { return true; }
+		if (!document.getStringValueByKey("novatname").equals(noVatName)) { return true; }
+		if (!document.getStringValueByKey("novatdescription").equals(noVatDescription)) { return true; }
 
 		// Test all the document items
 		String itemsString = "";
@@ -839,65 +709,23 @@ public class DocumentEditor extends Editor {
 			// New items are always saved.
 			if (itemDataset.getIntValueByKey("owner") < 0) {
 				return true;
-			} else {
+			}
+			else {
 
 				DataSetItem item = Data.INSTANCE.getItems().getDatasetById(id);
-				if (!item.getStringValueByKey("name").equals(
-						itemDataset.getStringValueByKey("name"))) {
-					return true;
-				}
-				if (!item.getStringValueByKey("itemnr").equals(
-						itemDataset.getStringValueByKey("itemnr"))) {
-					return true;
-				}
-				if (!item.getStringValueByKey("description").equals(
-						itemDataset.getStringValueByKey("description"))) {
-					return true;
-				}
-				if (!item.getStringValueByKey("category").equals(
-						itemDataset.getStringValueByKey("category"))) {
-					return true;
-				}
-				if (!DataUtils.DoublesAreEqual(
-						item.getDoubleValueByKey("quantity"),
-						itemDataset.getDoubleValueByKey("quantity"))) {
-					return true;
-				}
-				if (!DataUtils.DoublesAreEqual(
-						item.getDoubleValueByKey("price"),
-						itemDataset.getDoubleValueByKey("price"))) {
-					return true;
-				}
-				if (!DataUtils.DoublesAreEqual(
-						item.getDoubleValueByKey("discount"),
-						itemDataset.getDoubleValueByKey("discount"))) {
-					return true;
-				}
-				if (item.getIntValueByKey("owner") != itemDataset
-						.getIntValueByKey("owner")) {
-					return true;
-				}
-				if (item.getIntValueByKey("vatid") != itemDataset
-						.getIntValueByKey("vatid")) {
-					return true;
-				}
-				if (item.getBooleanValueByKey("novat") != itemDataset
-						.getBooleanValueByKey("novat")) {
-					return true;
-				}
-				if (!DataUtils.DoublesAreEqual(
-						item.getDoubleValueByKey("vatvalue"),
-						itemDataset.getDoubleValueByKey("vatvalue"))) {
-					return true;
-				}
-				if (!item.getStringValueByKey("vatname").equals(
-						itemDataset.getStringValueByKey("vatname"))) {
-					return true;
-				}
-				if (!item.getStringValueByKey("vatdescription").equals(
-						itemDataset.getStringValueByKey("vatdescription"))) {
-					return true;
-				}
+				if (!item.getStringValueByKey("name").equals(itemDataset.getStringValueByKey("name"))) { return true; }
+				if (!item.getStringValueByKey("itemnr").equals(itemDataset.getStringValueByKey("itemnr"))) { return true; }
+				if (!item.getStringValueByKey("description").equals(itemDataset.getStringValueByKey("description"))) { return true; }
+				if (!item.getStringValueByKey("category").equals(itemDataset.getStringValueByKey("category"))) { return true; }
+				if (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("quantity"), itemDataset.getDoubleValueByKey("quantity"))) { return true; }
+				if (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("price"), itemDataset.getDoubleValueByKey("price"))) { return true; }
+				if (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("discount"), itemDataset.getDoubleValueByKey("discount"))) { return true; }
+				if (item.getIntValueByKey("owner") != itemDataset.getIntValueByKey("owner")) { return true; }
+				if (item.getIntValueByKey("vatid") != itemDataset.getIntValueByKey("vatid")) { return true; }
+				if (item.getBooleanValueByKey("novat") != itemDataset.getBooleanValueByKey("novat")) { return true; }
+				if (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("vatvalue"), itemDataset.getDoubleValueByKey("vatvalue"))) { return true; }
+				if (!item.getStringValueByKey("vatname").equals(itemDataset.getStringValueByKey("vatname"))) { return true; }
+				if (!item.getStringValueByKey("vatdescription").equals(itemDataset.getStringValueByKey("vatdescription"))) { return true; }
 			}
 			if (itemsString.length() > 0)
 				itemsString += ",";
@@ -907,9 +735,7 @@ public class DocumentEditor extends Editor {
 		// Compare also the items string.
 		// So the document is dirty, if new items are added or items have
 		// been deleted.
-		if (!document.getStringValueByKey("items").equals(itemsString)) {
-			return true;
-		}
+		if (!document.getStringValueByKey("items").equals(itemsString)) { return true; }
 
 		return false;
 	}
@@ -998,13 +824,10 @@ public class DocumentEditor extends Editor {
 			return;
 
 		// Get the sign of this document ( + or -)
-		int sign = DocumentType.getType(document.getIntValueByKey("category"))
-				.sign();
+		int sign = DocumentType.getType(document.getIntValueByKey("category")).sign();
 		// Do the calculation
-		document.calculate(items, shipping * sign, shippingVat,
-				shippingVatDescription, shippingAutoVat,
-				DataUtils.StringToDoubleDiscount(itemsDiscount.getText()),
-				noVat, noVatDescription, 1.0);
+		document.calculate(items, shipping * sign, shippingVat, shippingVatDescription, shippingAutoVat,
+				DataUtils.StringToDoubleDiscount(itemsDiscount.getText()), noVat, noVatDescription, 1.0);
 
 		// Get the total result
 		total = document.getSummary().getTotalGross().asDouble();
@@ -1012,32 +835,26 @@ public class DocumentEditor extends Editor {
 		// Set the items sum
 		if (itemsSum != null) {
 			if (useGross)
-				itemsSum.setText(document.getSummary().getItemsGross()
-						.asFormatedString());
+				itemsSum.setText(document.getSummary().getItemsGross().asFormatedString());
 			else
-				itemsSum.setText(document.getSummary().getItemsNet()
-						.asFormatedString());
+				itemsSum.setText(document.getSummary().getItemsNet().asFormatedString());
 		}
 
 		// Set the shipping
 		if (shippingValue != null) {
 			if (useGross)
-				shippingValue.setText(document.getSummary().getShippingGross()
-						.asFormatedString());
+				shippingValue.setText(document.getSummary().getShippingGross().asFormatedString());
 			else
-				shippingValue.setText(document.getSummary().getShippingNet()
-						.asFormatedString());
+				shippingValue.setText(document.getSummary().getShippingNet().asFormatedString());
 		}
 
 		// Set the VAT
 		if (vatValue != null)
-			vatValue.setText(document.getSummary().getTotalVat()
-					.asFormatedString());
+			vatValue.setText(document.getSummary().getTotalVat().asFormatedString());
 
 		// Set the total value
 		if (totalValue != null)
-			totalValue.setText(document.getSummary().getTotalGross()
-					.asFormatedString());
+			totalValue.setText(document.getSummary().getTotalGross().asFormatedString());
 
 	}
 
@@ -1057,8 +874,7 @@ public class DocumentEditor extends Editor {
 	private void changeShippingValue() {
 
 		// Get the new value and take the absolute value
-		Double newShippingValue = DataUtils.StringToDouble(shippingValue
-				.getText());
+		Double newShippingValue = DataUtils.StringToDouble(shippingValue.getText());
 		if (newShippingValue < 0)
 			newShippingValue = -newShippingValue;
 
@@ -1096,10 +912,8 @@ public class DocumentEditor extends Editor {
 
 		// Create the new payed container
 		payedDataContainer = new Composite(payedContainer, SWT.NONE);
-		GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(4)
-				.applyTo(payedDataContainer);
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM)
-				.applyTo(payedDataContainer);
+		GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(4).applyTo(payedDataContainer);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(payedDataContainer);
 
 		// Should this container have the widgets for the state "payed" ?
 		if (payed) {
@@ -1107,41 +921,32 @@ public class DocumentEditor extends Editor {
 			// Create the widget for the date, when the invoice was payed
 			Label payedDateLabel = new Label(payedDataContainer, SWT.NONE);
 			payedDateLabel.setText("am");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-					.applyTo(payedDateLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedDateLabel);
 
 			dtPayedDate = new DateTime(payedDataContainer, SWT.DATE);
 			GridDataFactory.swtDefaults().applyTo(dtPayedDate);
 
 			// Set the payed date to the documents "paydate" parameter
 			GregorianCalendar calendar = new GregorianCalendar();
-			calendar = DataUtils.getCalendarFromDateString(document
-					.getStringValueByKey("paydate"));
-			dtPayedDate.setDate(calendar.get(Calendar.YEAR),
-					calendar.get(Calendar.MONTH),
-					calendar.get(Calendar.DAY_OF_MONTH));
+			calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("paydate"));
+			dtPayedDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
 			superviceControl(dtPayedDate);
 
 			// Create the widget for the value
 			Label payedValueLabel = new Label(payedDataContainer, SWT.NONE);
 			payedValueLabel.setText("Betrag");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-					.applyTo(payedValueLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedValueLabel);
 
 			// If it's the first time, that this document is marked as payed
 			// (if the value is 0.0), than also set the date to "today"
 			if (payedValue.getValueAsDouble() == 0.0) {
 				payedValue.setValue(total);
 				calendar = new GregorianCalendar();
-				dtPayedDate.setDate(calendar.get(Calendar.YEAR),
-						calendar.get(Calendar.MONTH),
-						calendar.get(Calendar.DAY_OF_MONTH));
+				dtPayedDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 			}
-			CurrencyText txtPayValue = new CurrencyText(this,
-					payedDataContainer, SWT.BORDER | SWT.RIGHT, payedValue);
-			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT)
-					.applyTo(txtPayValue.getText());
+			CurrencyText txtPayValue = new CurrencyText(this, payedDataContainer, SWT.BORDER | SWT.RIGHT, payedValue);
+			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
 
 		}
 		// The container is created with the widgets that are shown,
@@ -1154,8 +959,7 @@ public class DocumentEditor extends Editor {
 			// Create the due days label
 			Label dueDaysLabel = new Label(payedDataContainer, SWT.NONE);
 			dueDaysLabel.setText("zahlbar in");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-					.applyTo(dueDaysLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(dueDaysLabel);
 
 			// Creates the due days spinner
 			spDueDays = new Spinner(payedDataContainer, SWT.BORDER | SWT.RIGHT);
@@ -1164,20 +968,15 @@ public class DocumentEditor extends Editor {
 			spDueDays.setSelection(document.getIntValueByKey("duedays"));
 			spDueDays.setIncrement(1);
 			spDueDays.setPageIncrement(10);
-			GridDataFactory.swtDefaults().hint(50, SWT.DEFAULT)
-					.applyTo(spDueDays);
+			GridDataFactory.swtDefaults().hint(50, SWT.DEFAULT).applyTo(spDueDays);
 
 			// If the spinner's value changes, add the due days to the
 			// day of today.
 			spDueDays.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
-					GregorianCalendar calendar = new GregorianCalendar(dtDate
-							.getYear(), dtDate.getMonth(), dtDate.getDay());
-					calendar.add(Calendar.DAY_OF_MONTH,
-							spDueDays.getSelection());
-					dtIssueDate.setDate(calendar.get(Calendar.YEAR),
-							calendar.get(Calendar.MONTH),
-							calendar.get(Calendar.DAY_OF_MONTH));
+					GregorianCalendar calendar = new GregorianCalendar(dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
+					calendar.add(Calendar.DAY_OF_MONTH, spDueDays.getSelection());
+					dtIssueDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 					checkDirty();
 				}
 			});
@@ -1185,8 +984,7 @@ public class DocumentEditor extends Editor {
 			// Create the issue date label
 			Label issueDateLabel = new Label(payedDataContainer, SWT.NONE);
 			issueDateLabel.setText("Tagen bis");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-					.applyTo(issueDateLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(issueDateLabel);
 
 			// Create the issue date widget
 			dtIssueDate = new DateTime(payedDataContainer, SWT.DATE);
@@ -1196,14 +994,9 @@ public class DocumentEditor extends Editor {
 					// Calculate the difference between the date of the
 					// isse date widget and the documents date,
 					// calculate is in "days" and set the due day spinner
-					GregorianCalendar calendarIssue = new GregorianCalendar(
-							dtIssueDate.getYear(), dtIssueDate.getMonth(),
-							dtIssueDate.getDay());
-					GregorianCalendar calendarDocument = new GregorianCalendar(
-							dtDate.getYear(), dtDate.getMonth(), dtDate
-									.getDay());
-					long difference = calendarIssue.getTimeInMillis()
-							- calendarDocument.getTimeInMillis();
+					GregorianCalendar calendarIssue = new GregorianCalendar(dtIssueDate.getYear(), dtIssueDate.getMonth(), dtIssueDate.getDay());
+					GregorianCalendar calendarDocument = new GregorianCalendar(dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
+					long difference = calendarIssue.getTimeInMillis() - calendarDocument.getTimeInMillis();
 					// Calculate from milliseconds to days
 					int days = (int) (difference / (1000 * 60 * 60 * 24));
 					spDueDays.setSelection(days);
@@ -1212,12 +1005,9 @@ public class DocumentEditor extends Editor {
 			});
 
 			// Add date and due days and set the issue date to the sum.
-			GregorianCalendar calendar = new GregorianCalendar(
-					dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
+			GregorianCalendar calendar = new GregorianCalendar(dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
 			calendar.add(Calendar.DAY_OF_MONTH, spDueDays.getSelection());
-			dtIssueDate.setDate(calendar.get(Calendar.YEAR),
-					calendar.get(Calendar.MONTH),
-					calendar.get(Calendar.DAY_OF_MONTH));
+			dtIssueDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		}
 
 		// Resize the container
@@ -1239,12 +1029,10 @@ public class DocumentEditor extends Editor {
 		// Start OpenOffice in the background and export the document as
 		// an OpenOffice document.
 		printAction = new CreateOODocumentAction();
-		getEditorSite().getActionBars().setGlobalActionHandler(
-				ActionFactory.PRINT.getId(), printAction);
+		getEditorSite().getActionBars().setGlobalActionHandler(ActionFactory.PRINT.getId(), printAction);
 
 		// Get the some settings from the preference store
-		useGross = (Activator.getDefault().getPreferenceStore()
-				.getInt("DOCUMENT_USE_NET_GROSS") == 1);
+		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
 
 		// These variables contain settings, that are not in
 		// visible SWT widgets.
@@ -1270,15 +1058,12 @@ public class DocumentEditor extends Editor {
 		// Document number label
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText("Nr.");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelName);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 
 		// Container for the document number and the date
 		Composite nrDateComposite = new Composite(top, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(3)
-				.applyTo(nrDateComposite);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM)
-				.grab(true, false).applyTo(nrDateComposite);
+		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(3).applyTo(nrDateComposite);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).grab(true, false).applyTo(nrDateComposite);
 
 		// The document number is the document name
 		txtName = new Text(nrDateComposite, SWT.BORDER);
@@ -1289,8 +1074,7 @@ public class DocumentEditor extends Editor {
 		// Document date
 		Label labelDate = new Label(nrDateComposite, SWT.NONE);
 		labelDate.setText("Datum");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelDate);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
 		// Document date
 		dtDate = new DateTime(nrDateComposite, SWT.DATE);
@@ -1299,13 +1083,9 @@ public class DocumentEditor extends Editor {
 				// If the date is modified, also modify the issue date.
 				// (Let the due days constant).
 				if (dtIssueDate != null) {
-					GregorianCalendar calendar = new GregorianCalendar(dtDate
-							.getYear(), dtDate.getMonth(), dtDate.getDay());
-					calendar.add(Calendar.DAY_OF_MONTH,
-							spDueDays.getSelection());
-					dtIssueDate.setDate(calendar.get(Calendar.YEAR),
-							calendar.get(Calendar.MONTH),
-							calendar.get(Calendar.DAY_OF_MONTH));
+					GregorianCalendar calendar = new GregorianCalendar(dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
+					calendar.add(Calendar.DAY_OF_MONTH, spDueDays.getSelection());
+					dtIssueDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 					checkDirty();
 				}
 			}
@@ -1315,74 +1095,58 @@ public class DocumentEditor extends Editor {
 
 		// Set the dtDate widget to the documents date
 		GregorianCalendar calendar = new GregorianCalendar();
-		calendar = DataUtils.getCalendarFromDateString(document
-				.getStringValueByKey("date"));
-		dtDate.setDate(calendar.get(Calendar.YEAR),
-				calendar.get(Calendar.MONTH),
-				calendar.get(Calendar.DAY_OF_MONTH));
+		calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
+		dtDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
 		// The titleComposite contains the tile and the document icon
 		Composite titleComposite = new Composite(top, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2)
-				.applyTo(titleComposite);
-		GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.BOTTOM).span(2, 1)
-				.grab(true, false).applyTo(titleComposite);
+		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(titleComposite);
+		GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.BOTTOM).span(2, 1).grab(true, false).applyTo(titleComposite);
 
 		// Set the title in large letters
 		Label labelDocumentType = new Label(titleComposite, SWT.NONE);
-		String documentTypeString = DocumentType.getString(document
-				.getIntValueByKey("category"));
+		String documentTypeString = DocumentType.getString(document.getIntValueByKey("category"));
 		if (documentType == DocumentType.DUNNING)
-			documentTypeString = Integer.toString(dunningLevel) + "."
-					+ documentTypeString;
+			documentTypeString = Integer.toString(dunningLevel) + "." + documentTypeString;
 		labelDocumentType.setText(documentTypeString);
 		makeLargeLabel(labelDocumentType);
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER)
-				.grab(true, false).applyTo(labelDocumentType);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelDocumentType);
 
 		// Set the document icon
 		Label labelDocumentTypeIcon = new Label(titleComposite, SWT.NONE);
 		try {
-			labelDocumentTypeIcon.setImage((Activator
-					.getImageDescriptor("/icons/32/"
-							+ documentType.getTypeAsString().toLowerCase()
-							+ "_32.png").createImage()));
-		} catch (Exception e) {
+			labelDocumentTypeIcon
+					.setImage((Activator.getImageDescriptor("/icons/32/" + documentType.getTypeAsString().toLowerCase() + "_32.png").createImage()));
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.TOP)
-				.grab(true, false).applyTo(labelDocumentTypeIcon);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.TOP).grab(true, false).applyTo(labelDocumentTypeIcon);
 
 		// Customer reference label
 		Label labelCustomerRef = new Label(top, SWT.NONE);
 		labelCustomerRef.setText("Kd-Ref.");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelCustomerRef);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCustomerRef);
 
 		// Customer reference
 		txtCustomerRef = new Text(top, SWT.BORDER);
 		txtCustomerRef.setText(document.getStringValueByKey("customerref"));
 		superviceControl(txtCustomerRef, 32);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER)
-				.grab(true, false).applyTo(txtCustomerRef);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
 
 		// The extra settings composite contains additional fields like
 		// the no-Vat widget or a refernce to the invoice
 		Composite xtraSettingsComposite = new Composite(top, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2)
-				.applyTo(xtraSettingsComposite);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).span(1, 2)
-				.grab(true, false).applyTo(xtraSettingsComposite);
+		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(xtraSettingsComposite);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).span(1, 2).grab(true, false).applyTo(xtraSettingsComposite);
 
-		
 		boolean useOrderDate = (documentType != DocumentType.ORDER);
-		
+
 		// Order date
 		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelOrderDate.setText("Bestellt:");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-				.applyTo(labelOrderDate);
-		
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelOrderDate);
+
 		// Order date
 		dtOrderDate = new DateTime(useOrderDate ? xtraSettingsComposite : invisible, SWT.DATE);
 		GridDataFactory.swtDefaults().applyTo(dtOrderDate);
@@ -1390,96 +1154,77 @@ public class DocumentEditor extends Editor {
 
 		// Set the dtDate widget to the documents date
 		calendar = new GregorianCalendar();
-		
+
 		// If "orderdate" is not set, use "webshopdate"
 		String orderDateString = document.getStringValueByKey("orderdate");
 		if (orderDateString.isEmpty()) {
 			orderDateString = document.getStringValueByKey("webshopdate");
 		}
-		
+
 		calendar = DataUtils.getCalendarFromDateString(orderDateString);
-		dtOrderDate.setDate(calendar.get(Calendar.YEAR),
-				calendar.get(Calendar.MONTH),
-				calendar.get(Calendar.DAY_OF_MONTH));
-		
-		
+		dtOrderDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
 		// A reference to the invoice
-		Label labelInvoiceRef = new Label(
-				documentType.hasInvoiceReference() ? xtraSettingsComposite
-						: invisible, SWT.NONE);
+		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelInvoiceRef.setText("Rechnung:");
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM)
-				.applyTo(labelInvoiceRef);
-		txtInvoiceRef = new Text(
-				documentType.hasInvoiceReference() ? xtraSettingsComposite
-						: invisible, SWT.BORDER);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(labelInvoiceRef);
+		txtInvoiceRef = new Text(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.BORDER);
 		int invoiceId = document.getIntValueByKey("invoiceid");
 		if (invoiceId >= 0)
-			txtInvoiceRef.setText(Data.INSTANCE.getDocuments()
-					.getDatasetById(invoiceId).getStringValueByKey("name"));
+			txtInvoiceRef.setText(Data.INSTANCE.getDocuments().getDatasetById(invoiceId).getStringValueByKey("name"));
 		else
 			txtInvoiceRef.setText("---");
 		txtInvoiceRef.setEditable(false);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL)
-				.grab(true, false).applyTo(txtInvoiceRef);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtInvoiceRef);
 
 		// This document should use a VAT of 0%
-		Label labelNoVat = new Label(
-				documentType.hasPrice() ? xtraSettingsComposite : invisible,
-				SWT.NONE);
+		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelNoVat.setText("MwSt:");
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER)
-				.applyTo(labelNoVat);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelNoVat);
 
 		// combo list with all 0% VATs
-		comboNoVat = new Combo(documentType.hasPrice() ? xtraSettingsComposite
-				: invisible, SWT.BORDER);
+		comboNoVat = new Combo(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.BORDER);
 		comboViewerNoVat = new ComboViewer(comboNoVat);
 		comboViewerNoVat.setContentProvider(new NoVatContentProvider());
-		GridDataFactory.fillDefaults().grab(true, false)
-				.align(SWT.FILL, SWT.CENTER).applyTo(comboNoVat);
-		comboViewerNoVat
-				.addSelectionChangedListener(new ISelectionChangedListener() {
+		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.CENTER).applyTo(comboNoVat);
+		comboViewerNoVat.addSelectionChangedListener(new ISelectionChangedListener() {
 
-					// A combo entry is selected
-					public void selectionChanged(SelectionChangedEvent event) {
-						ISelection selection = event.getSelection();
-						IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-						if (!structuredSelection.isEmpty()) {
+			// A combo entry is selected
+			public void selectionChanged(SelectionChangedEvent event) {
+				ISelection selection = event.getSelection();
+				IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+				if (!structuredSelection.isEmpty()) {
 
-							// get first element ...
-							Object firstElement = structuredSelection
-									.getFirstElement();
-							DataSetVAT dataSetVat = (DataSetVAT) firstElement;
-							int id = dataSetVat.getIntValueByKey("id");
+					// get first element ...
+					Object firstElement = structuredSelection.getFirstElement();
+					DataSetVAT dataSetVat = (DataSetVAT) firstElement;
+					int id = dataSetVat.getIntValueByKey("id");
 
-							// get the "no-VAT" values
-							if (id >= 0) {
-								noVat = true;
-								noVatName = dataSetVat
-										.getStringValueByKey("name");
-								noVatDescription = dataSetVat
-										.getStringValueByKey("description");
-							} else {
-								noVat = false;
-								noVatName = "";
-								noVatDescription = "";
-							}
-
-							// set all items to 0%
-							setItemsNoVat();
-							tableViewerItems.refresh();
-
-							// recalculate the total sum
-							calculate();
-							checkDirty();
-						}
+					// get the "no-VAT" values
+					if (id >= 0) {
+						noVat = true;
+						noVatName = dataSetVat.getStringValueByKey("name");
+						noVatDescription = dataSetVat.getStringValueByKey("description");
 					}
-				});
+					else {
+						noVat = false;
+						noVatName = "";
+						noVatDescription = "";
+					}
+
+					// set all items to 0%
+					setItemsNoVat();
+					tableViewerItems.refresh();
+
+					// recalculate the total sum
+					calculate();
+					checkDirty();
+				}
+			}
+		});
 
 		// Selects the no VAT entry
-		comboViewerNoVat.setInput(Data.INSTANCE.getVATs()
-				.getActiveDatasetsPrefereCategory("Umsatzsteuer"));
+		comboViewerNoVat.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory("Umsatzsteuer"));
 		if (noVat)
 			comboNoVat.setText(noVatName);
 		else
@@ -1490,57 +1235,38 @@ public class DocumentEditor extends Editor {
 		Group copyGroup = new Group(top, SWT.NONE);
 		copyGroup.setText("aus " + documentType.getString() + " erzeugen");
 		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(copyGroup);
-		GridDataFactory.fillDefaults().minSize(200, SWT.DEFAULT)
-				.align(SWT.END, SWT.BOTTOM).grab(true, false).span(1, 2)
-				.applyTo(copyGroup);
+		GridDataFactory.fillDefaults().minSize(200, SWT.DEFAULT).align(SWT.END, SWT.BOTTOM).grab(true, false).span(1, 2).applyTo(copyGroup);
 
 		// Toolbar
-		ToolBar toolBarDuplicateDocument = new ToolBar(copyGroup, SWT.FLAT
-				| SWT.WRAP);
-		GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(toolBarDuplicateDocument);
-		ToolBarManager tbmDuplicate = new ToolBarManager(
-				toolBarDuplicateDocument);
+		ToolBar toolBarDuplicateDocument = new ToolBar(copyGroup, SWT.FLAT | SWT.WRAP);
+		GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).applyTo(toolBarDuplicateDocument);
+		ToolBarManager tbmDuplicate = new ToolBarManager(toolBarDuplicateDocument);
 
 		// Add buttons, depending on the document type
 		switch (documentType) {
 		case OFFER:
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.ORDER, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.ORDER, this, 32)));
 			break;
 		case ORDER:
-			tbmDuplicate
-					.add(new NewDocumentActionContributionItem(
-							new NewDocumentAction(DocumentType.CONFIRMATION,
-									this, 32)));
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.INVOICE, this, 32)));
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.CONFIRMATION, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.INVOICE, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
 			break;
 		case CONFIRMATION:
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.INVOICE, this, 32)));
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.INVOICE, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
 			break;
 		case INVOICE:
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.CREDIT, this, 32)));
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.DUNNING, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.CREDIT, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.DUNNING, this, 32)));
 			break;
 		case DELIVERY:
-			tbmDuplicate.add(new NewDocumentActionContributionItem(
-					new NewDocumentAction(DocumentType.INVOICE, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.INVOICE, this, 32)));
 			break;
 		case DUNNING:
-			NewDocumentAction action = new NewDocumentAction(
-					DocumentType.DUNNING, this, 32);
-			action.setText(Integer.toString(dunningLevel + 1) + "."
-					+ action.getText());
+			NewDocumentAction action = new NewDocumentAction(DocumentType.DUNNING, this, 32);
+			action.setText(Integer.toString(dunningLevel + 1) + "." + action.getText());
 			tbmDuplicate.add(new NewDocumentActionContributionItem(action));
 			break;
 		default:
@@ -1552,35 +1278,28 @@ public class DocumentEditor extends Editor {
 
 		// Composite that contains the address label and the address icon
 		Composite addressComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
-		GridLayoutFactory.fillDefaults().numColumns(1)
-				.applyTo(addressComposite);
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(addressComposite);
+		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addressComposite);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addressComposite);
 
 		// Address label
 		Label labelAddress = new Label(addressComposite, SWT.NONE | SWT.RIGHT);
 		labelAddress.setText("Adresse");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(labelAddress);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelAddress);
 
 		// Address icon
-		Label selectAddressButton = new Label(addressComposite, SWT.NONE
-				| SWT.RIGHT);
+		Label selectAddressButton = new Label(addressComposite, SWT.NONE | SWT.RIGHT);
 		try {
-			selectAddressButton.setImage((Activator
-					.getImageDescriptor("/icons/16/contact_16.png")
-					.createImage()));
-		} catch (Exception e) {
+			selectAddressButton.setImage((Activator.getImageDescriptor("/icons/16/contact_16.png").createImage()));
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(selectAddressButton);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(selectAddressButton);
 		selectAddressButton.addMouseListener(new MouseAdapter() {
 
 			// Open the address dialog, if the icon is clicked.
 			public void mouseDown(MouseEvent e) {
-				SelectContactDialog dialog = new SelectContactDialog(
-						"Adresse auswählen");
+				SelectContactDialog dialog = new SelectContactDialog("Adresse auswählen");
 				DataSetContact contact;
 				if (dialog.open() == Dialog.OK) {
 					contact = (DataSetContact) dialog.getSelection();
@@ -1595,9 +1314,7 @@ public class DocumentEditor extends Editor {
 
 						// Use the customers discount
 						if (itemsDiscount != null)
-							itemsDiscount.setText(DataUtils
-									.DoubleToFormatedPercent(contact
-											.getDoubleValueByKey("discount")));
+							itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
 					}
 				}
 			}
@@ -1610,52 +1327,41 @@ public class DocumentEditor extends Editor {
 		else
 			txtAddress.setText(document.getStringValueByKey("address"));
 		superviceControl(txtAddress, 250);
-		GridDataFactory.fillDefaults().minSize(180, 80)
-				.align(SWT.FILL, SWT.FILL).grab(true, false)
-				.applyTo(txtAddress);
+		GridDataFactory.fillDefaults().minSize(180, 80).align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtAddress);
 
 		// Add the item table, if the document is one with items.
 		if (documentType.hasItems()) {
 
 			// Container for the label and the add and delete button.
-			Composite addButtonComposite = new Composite(top, SWT.NONE
-					| SWT.RIGHT);
-			GridLayoutFactory.fillDefaults().numColumns(1)
-					.applyTo(addButtonComposite);
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(addButtonComposite);
+			Composite addButtonComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
+			GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addButtonComposite);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addButtonComposite);
 
 			// Items label
-			Label labelItems = new Label(addButtonComposite, SWT.NONE
-					| SWT.RIGHT);
+			Label labelItems = new Label(addButtonComposite, SWT.NONE | SWT.RIGHT);
 			labelItems.setText("Artikel");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(labelItems);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelItems);
 
 			// Item add button
 			Label addFromListButton = new Label(addButtonComposite, SWT.NONE);
 			try {
-				addFromListButton.setImage((Activator
-						.getImageDescriptor("/icons/20/plus_list_20.png")
-						.createImage()));
-			} catch (Exception e) {
+				addFromListButton.setImage((Activator.getImageDescriptor("/icons/20/plus_list_20.png").createImage()));
+			}
+			catch (Exception e) {
 				Logger.logError(e, "Icon not found");
 			}
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(addFromListButton);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addFromListButton);
 			addFromListButton.addMouseListener(new MouseAdapter() {
 
 				// Open the product dialog and add the
 				// selected product as new item.
 				public void mouseDown(MouseEvent e) {
-					SelectProductDialog dialog = new SelectProductDialog(
-							"Artikel auswählen");
+					SelectProductDialog dialog = new SelectProductDialog("Artikel auswählen");
 					DataSetProduct product;
 					if (dialog.open() == Dialog.OK) {
 						product = (DataSetProduct) dialog.getSelection();
 						if (product != null) {
-							DataSetItem newItem = new DataSetItem(documentType
-									.sign() * 1.0, product);
+							DataSetItem newItem = new DataSetItem(documentType.sign() * 1.0, product);
 							addNewItem(newItem);
 							tableViewerItems.refresh();
 							calculate();
@@ -1668,24 +1374,20 @@ public class DocumentEditor extends Editor {
 			// Item add button
 			Label addButton = new Label(addButtonComposite, SWT.NONE);
 			try {
-				addButton.setImage((Activator
-						.getImageDescriptor("/icons/16/plus_16.png")
-						.createImage()));
-			} catch (Exception e) {
+				addButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
+			}
+			catch (Exception e) {
 				Logger.logError(e, "Icon not found");
 			}
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(addButton);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addButton);
 			addButton.addMouseListener(new MouseAdapter() {
 
 				// Add a new item with default properties
 				public void mouseDown(MouseEvent e) {
-					DataSetItem newItem = new DataSetItem("Name", "Art.Nr.",
-							"", documentType.sign() * 1.0, "", 0.0, 0);
+					DataSetItem newItem = new DataSetItem("Name", "Art.Nr.", "", documentType.sign() * 1.0, "", 0.0, 0);
 
 					// Use the standard VAT value
-					newItem.setVat(Integer.parseInt(Data.INSTANCE
-							.getProperty("standardvat")));
+					newItem.setVat(Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
 					addNewItem(newItem);
 
 					tableViewerItems.refresh();
@@ -1697,14 +1399,12 @@ public class DocumentEditor extends Editor {
 			// Item delete button
 			Label deleteButton = new Label(addButtonComposite, SWT.NONE);
 			try {
-				deleteButton.setImage((Activator
-						.getImageDescriptor("/icons/16/delete_16.png")
-						.createImage()));
-			} catch (Exception e) {
+				deleteButton.setImage((Activator.getImageDescriptor("/icons/16/delete_16.png").createImage()));
+			}
+			catch (Exception e) {
 				Logger.logError(e, "Icon not found");
 			}
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(deleteButton);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(deleteButton);
 			deleteButton.addMouseListener(new MouseAdapter() {
 
 				// Delete the selected item
@@ -1713,8 +1413,7 @@ public class DocumentEditor extends Editor {
 					IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 					if (!structuredSelection.isEmpty()) {
 						// get first element ...
-						Object firstElement = structuredSelection
-								.getFirstElement();
+						Object firstElement = structuredSelection.getFirstElement();
 						UniDataSet uds = (UniDataSet) firstElement;
 						// Delete it (mark it as deleted)
 						uds.setBooleanValueByKey("deleted", true);
@@ -1727,74 +1426,52 @@ public class DocumentEditor extends Editor {
 
 			// Composite that contains the table
 			Composite tableComposite = new Composite(top, SWT.NONE);
-			GridDataFactory.fillDefaults().grab(true, true).span(3, 1)
-					.applyTo(tableComposite);
+			GridDataFactory.fillDefaults().grab(true, true).span(3, 1).applyTo(tableComposite);
 			TableColumnLayout tableColumnLayout = new TableColumnLayout();
 			tableComposite.setLayout(tableColumnLayout);
 
 			// The table viewer
-			tableViewerItems = new TableViewer(tableComposite, SWT.BORDER
-					| SWT.FULL_SELECTION);
+			tableViewerItems = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION);
 			tableViewerItems.getTable().setLinesVisible(true);
 			tableViewerItems.getTable().setHeaderVisible(true);
-			tableViewerItems
-					.setContentProvider(new ViewDataSetTableContentProvider(
-							tableViewerItems));
+			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
 			// Create the table columns
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-					SWT.CENTER, "Menge", 60, 0, true, "quantity",
-					new ItemEditingSupport(this, tableViewerItems, 1));
-			if (Activator.getDefault().getPreferenceStore()
-					.getBoolean("PRODUCT_USE_ITEMNR"))
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-						SWT.LEFT, "ArtNr.", 80, 0, true, "itemnr",
-						new ItemEditingSupport(this, tableViewerItems, 2));
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-					SWT.LEFT, "Name", 100, 0, true, "name",
-					new ItemEditingSupport(this, tableViewerItems, 3));
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-					SWT.LEFT, "Beschreibung", 100, 30, false, "description",
-					new ItemEditingSupport(this, tableViewerItems, 4));
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, "Menge", 60, 0, true, "quantity", new ItemEditingSupport(this,
+					tableViewerItems, 1));
+			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "ArtNr.", 80, 0, true, "itemnr", new ItemEditingSupport(this,
+						tableViewerItems, 2));
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "Name", 100, 0, true, "name", new ItemEditingSupport(this,
+					tableViewerItems, 3));
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "Beschreibung", 100, 30, false, "description", new ItemEditingSupport(
+					this, tableViewerItems, 4));
 			if (documentType.hasPrice()) {
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-						SWT.RIGHT, "MwSt.", 50, 0, true, "$ItemVatPercent",
-						new ItemEditingSupport(this, tableViewerItems, 5));
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "MwSt.", 50, 0, true, "$ItemVatPercent", new ItemEditingSupport(this,
+						tableViewerItems, 5));
 				if (useGross)
-					new UniDataSetTableColumn(tableColumnLayout,
-							tableViewerItems, SWT.RIGHT, "E.Preis", 85, 0,
-							true, "$ItemGrossPrice", new ItemEditingSupport(
-									this, tableViewerItems, 6));
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "E.Preis", 85, 0, true, "$ItemGrossPrice",
+							new ItemEditingSupport(this, tableViewerItems, 6));
 				else
-					new UniDataSetTableColumn(tableColumnLayout,
-							tableViewerItems, SWT.RIGHT, "E.Preis", 85, 0,
-							true, "price", new ItemEditingSupport(this,
-									tableViewerItems, 6));
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems,
-						SWT.RIGHT, "Rabatt", 60, 0, true, "discount",
-						new ItemEditingSupport(this, tableViewerItems, 7));
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "E.Preis", 85, 0, true, "price", new ItemEditingSupport(this,
+							tableViewerItems, 6));
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Rabatt", 60, 0, true, "discount", new ItemEditingSupport(this,
+						tableViewerItems, 7));
 				if (useGross)
-					new UniDataSetTableColumn(tableColumnLayout,
-							tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true,
-							"$ItemGrossTotal", new ItemEditingSupport(this,
-									tableViewerItems, 8));
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true, "$ItemGrossTotal", new ItemEditingSupport(
+							this, tableViewerItems, 8));
 				else
-					new UniDataSetTableColumn(tableColumnLayout,
-							tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true,
-							"$ItemNetTotal", new ItemEditingSupport(this,
-									tableViewerItems, 8));
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true, "$ItemNetTotal", new ItemEditingSupport(
+							this, tableViewerItems, 8));
 			}
 			// Fill the table with the items
 			tableViewerItems.setInput(items);
 		}
 
 		// Container for the message label and the add button
-		Composite addMessageButtonComposite = new Composite(top, SWT.NONE
-				| SWT.RIGHT);
-		GridLayoutFactory.fillDefaults().numColumns(1)
-				.applyTo(addMessageButtonComposite);
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(addMessageButtonComposite);
+		Composite addMessageButtonComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
+		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addMessageButtonComposite);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addMessageButtonComposite);
 
 		// The message label
 		Label messageLabel = new Label(addMessageButtonComposite, SWT.NONE);
@@ -1802,20 +1479,17 @@ public class DocumentEditor extends Editor {
 			messageLabel.setText("Bemerkung");
 		else
 			messageLabel.setText("Text");
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(messageLabel);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(messageLabel);
 
 		// The add message button
 		Label addMessageButton = new Label(addMessageButtonComposite, SWT.NONE);
 		try {
-			addMessageButton.setImage((Activator
-					.getImageDescriptor("/icons/20/plus_list_20.png")
-					.createImage()));
-		} catch (Exception e) {
+			addMessageButton.setImage((Activator.getImageDescriptor("/icons/20/plus_list_20.png").createImage()));
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-				.applyTo(addMessageButton);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addMessageButton);
 		addMessageButton.addMouseListener(new MouseAdapter() {
 
 			// Open the text dialog and select a text
@@ -1864,28 +1538,22 @@ public class DocumentEditor extends Editor {
 
 			// If not, fill the columns for the price with the message field.
 			if (documentType.hasItems())
-				GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 65).span(3, 1)
-						.grab(true, false).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 65).span(3, 1).grab(true, false).applyTo(txtMessage);
 			else
-				GridDataFactory.fillDefaults().span(3, 1).grab(true, true)
-						.applyTo(txtMessage);
+				GridDataFactory.fillDefaults().span(3, 1).grab(true, true).applyTo(txtMessage);
 		}
 
 		else {
 
 			if (documentType.hasPayed())
-				GridDataFactory.fillDefaults().span(2, 1).hint(SWT.DEFAULT, 70)
-						.grab(true, false).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().span(2, 1).hint(SWT.DEFAULT, 70).grab(true, false).applyTo(txtMessage);
 			else
-				GridDataFactory.fillDefaults().span(2, 1).grab(true, true)
-						.applyTo(txtMessage);
+				GridDataFactory.fillDefaults().span(2, 1).grab(true, true).applyTo(txtMessage);
 
 			// Create a column for the documents subtotal, shipping and total
 			Composite totalComposite = new Composite(top, SWT.NONE);
-			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2)
-					.applyTo(totalComposite);
-			GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP)
-					.grab(true, false).span(1, 2).applyTo(totalComposite);
+			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(totalComposite);
+			GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).grab(true, false).span(1, 2).applyTo(totalComposite);
 
 			// Label sub total
 			Label netLabel = new Label(totalComposite, SWT.NONE);
@@ -1893,27 +1561,22 @@ public class DocumentEditor extends Editor {
 				netLabel.setText("Summe brutto:");
 			else
 				netLabel.setText("Summe netto:");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(netLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(netLabel);
 
 			// Sub total
 			itemsSum = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
 			itemsSum.setText("---");
-			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT)
-					.align(SWT.END, SWT.TOP).applyTo(itemsSum);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsSum);
 
 			// Label discount
 			Label discountLabel = new Label(totalComposite, SWT.NONE);
 			discountLabel.setText("Rabatt:");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(discountLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(discountLabel);
 
 			// Discount field
 			itemsDiscount = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
-			itemsDiscount.setText(document
-					.getFormatedStringValueByKey("itemsdiscount"));
-			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT)
-					.align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
+			itemsDiscount.setText(document.getFormatedStringValueByKey("itemsdiscount"));
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
 
 			// Set the tab order
 			setTabOrder(txtMessage, itemsDiscount);
@@ -1923,10 +1586,7 @@ public class DocumentEditor extends Editor {
 				public void focusLost(FocusEvent e) {
 					calculate();
 					checkDirty();
-					itemsDiscount.setText(DataUtils
-							.DoubleToFormatedPercent(DataUtils
-									.StringToDoubleDiscount(itemsDiscount
-											.getText())));
+					itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
 
 				}
 			});
@@ -1935,10 +1595,7 @@ public class DocumentEditor extends Editor {
 			itemsDiscount.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent e) {
 					if (e.keyCode == 13) {
-						itemsDiscount.setText(DataUtils
-								.DoubleToFormatedPercent(DataUtils
-										.StringToDoubleDiscount(itemsDiscount
-												.getText())));
+						itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
 						calculate();
 						checkDirty();
 					}
@@ -1946,88 +1603,65 @@ public class DocumentEditor extends Editor {
 			});
 
 			// Shipping composite contains label and combo.
-			Composite shippingComposite = new Composite(totalComposite,
-					SWT.NONE);
-			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2)
-					.applyTo(shippingComposite);
-			GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP)
-					.grab(true, false).applyTo(shippingComposite);
+			Composite shippingComposite = new Composite(totalComposite, SWT.NONE);
+			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(shippingComposite);
+			GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).grab(true, false).applyTo(shippingComposite);
 
 			// Shipping label
 			Label shippingLabel = new Label(shippingComposite, SWT.NONE);
 			shippingLabel.setText("Versand:");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-					.applyTo(shippingLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(shippingLabel);
 
 			// Shipping combo
 			comboShipping = new Combo(shippingComposite, SWT.BORDER);
 			comboViewerShipping = new ComboViewer(comboShipping);
-			comboViewerShipping
-					.setContentProvider(new UniDataSetContentProvider());
-			comboViewerShipping.setLabelProvider(new UniDataSetLabelProvider(
-					"description"));
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-					.applyTo(comboShipping);
-			comboViewerShipping
-					.addSelectionChangedListener(new ISelectionChangedListener() {
+			comboViewerShipping.setContentProvider(new UniDataSetContentProvider());
+			comboViewerShipping.setLabelProvider(new UniDataSetLabelProvider("description"));
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(comboShipping);
+			comboViewerShipping.addSelectionChangedListener(new ISelectionChangedListener() {
 
-						// If a new shipping is selected, recalculate the total
-						// sum,
-						// and update the shipping VAT.
-						public void selectionChanged(SelectionChangedEvent event) {
-							// Get the selected element.
-							ISelection selection = event.getSelection();
-							IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-							if (!structuredSelection.isEmpty()) {
-								// Get first selected element.
-								Object firstElement = structuredSelection
-										.getFirstElement();
-								DataSetShipping dataSetShipping = (DataSetShipping) firstElement;
-								shipping = dataSetShipping
-										.getDoubleValueByKey("value");
-								shippingId = dataSetShipping
-										.getIntValueByKey("id");
+				// If a new shipping is selected, recalculate the total
+				// sum,
+				// and update the shipping VAT.
+				public void selectionChanged(SelectionChangedEvent event) {
+					// Get the selected element.
+					ISelection selection = event.getSelection();
+					IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+					if (!structuredSelection.isEmpty()) {
+						// Get first selected element.
+						Object firstElement = structuredSelection.getFirstElement();
+						DataSetShipping dataSetShipping = (DataSetShipping) firstElement;
+						shipping = dataSetShipping.getDoubleValueByKey("value");
+						shippingId = dataSetShipping.getIntValueByKey("id");
 
-								// Update the shipping VAT
-								int shippungVatId = dataSetShipping
-										.getIntValueByKey("vatid");
-								shippingVatDescription = Data.INSTANCE
-										.getVATs()
-										.getDatasetById(shippungVatId)
-										.getStringValueByKey("description");
-								shippingVat = Data.INSTANCE.getVATs()
-										.getDatasetById(shippungVatId)
-										.getDoubleValueByKey("value");
-								shippingAutoVat = Data.INSTANCE.getShippings()
-										.getDatasetById(shippingId)
-										.getIntValueByKey("autovat");
-								calculate();
-								checkDirty();
-							}
-						}
-					});
+						// Update the shipping VAT
+						int shippungVatId = dataSetShipping.getIntValueByKey("vatid");
+						shippingVatDescription = Data.INSTANCE.getVATs().getDatasetById(shippungVatId).getStringValueByKey("description");
+						shippingVat = Data.INSTANCE.getVATs().getDatasetById(shippungVatId).getDoubleValueByKey("value");
+						shippingAutoVat = Data.INSTANCE.getShippings().getDatasetById(shippingId).getIntValueByKey("autovat");
+						calculate();
+						checkDirty();
+					}
+				}
+			});
 
 			// Fill the shipping combo with the shipping values.
-			comboViewerShipping.setInput(Data.INSTANCE.getShippings()
-					.getDatasets());
+			comboViewerShipping.setInput(Data.INSTANCE.getShippings().getDatasets());
 
 			// Get the documents'shipping values.
 			shipping = document.getDoubleValueByKey("shipping");
 			shippingVat = document.getDoubleValueByKey("shippingvat");
 			shippingAutoVat = document.getIntValueByKey("shippingautovat");
-			shippingVatDescription = document
-					.getStringValueByKey("shippingvatdescription");
+			shippingVatDescription = document.getStringValueByKey("shippingvatdescription");
 
 			// Set the combo
-			comboShipping.setText(document
-					.getStringValueByKey("shippingdescription"));
+			comboShipping.setText(document.getStringValueByKey("shippingdescription"));
 			superviceControl(comboShipping);
 
 			// Shipping value field
 			shippingValue = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
 			shippingValue.setText(DataUtils.DoubleToFormatedPrice(shipping));
-			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT)
-					.align(SWT.END, SWT.CENTER).applyTo(shippingValue);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(shippingValue);
 
 			// Recalculate, if the discount field looses the focus.
 			shippingValue.addFocusListener(new FocusAdapter() {
@@ -2053,26 +1687,22 @@ public class DocumentEditor extends Editor {
 			// VAT label
 			Label vatLabel = new Label(totalComposite, SWT.NONE);
 			vatLabel.setText("MwSt:");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(vatLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(vatLabel);
 
 			// VAT value
 			vatValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
 			vatValue.setText("---");
-			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT)
-					.align(SWT.END, SWT.TOP).applyTo(vatValue);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(vatValue);
 
 			// Total label
 			Label totalLabel = new Label(totalComposite, SWT.NONE);
 			totalLabel.setText("Gesamtsumme:");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP)
-					.applyTo(totalLabel);
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(totalLabel);
 
 			// Total value
 			totalValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
 			totalValue.setText("---");
-			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT)
-					.align(SWT.END, SWT.TOP).applyTo(totalValue);
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(totalValue);
 
 			// Create the "payed"-controls, only if the document type allows
 			// this.
@@ -2086,11 +1716,8 @@ public class DocumentEditor extends Editor {
 
 				// Container for the payment and the payed state
 				payedContainer = new Composite(top, SWT.NONE);
-				GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2)
-						.applyTo(payedContainer);
-				GridDataFactory.swtDefaults().span(2, 1)
-						.align(SWT.BEGINNING, SWT.CENTER)
-						.applyTo(payedContainer);
+				GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(payedContainer);
+				GridDataFactory.swtDefaults().span(2, 1).align(SWT.BEGINNING, SWT.CENTER).applyTo(payedContainer);
 
 				// If the payed check box is selected ...
 				bPayed.addSelectionListener(new SelectionAdapter() {
@@ -2105,40 +1732,31 @@ public class DocumentEditor extends Editor {
 				// Combo to select the payment
 				comboPayment = new Combo(payedContainer, SWT.BORDER);
 				comboViewerPayment = new ComboViewer(comboPayment);
-				comboViewerPayment
-						.setContentProvider(new UniDataSetContentProvider());
-				comboViewerPayment
-						.setLabelProvider(new UniDataSetLabelProvider(
-								"description"));
-				GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER)
-						.applyTo(comboPayment);
+				comboViewerPayment.setContentProvider(new UniDataSetContentProvider());
+				comboViewerPayment.setLabelProvider(new UniDataSetLabelProvider("description"));
+				GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(comboPayment);
 
 				// If a new payment is selected ...
-				comboViewerPayment
-						.addSelectionChangedListener(new ISelectionChangedListener() {
+				comboViewerPayment.addSelectionChangedListener(new ISelectionChangedListener() {
 
-							// change the paymentId to the selected element
-							public void selectionChanged(
-									SelectionChangedEvent event) {
+					// change the paymentId to the selected element
+					public void selectionChanged(SelectionChangedEvent event) {
 
-								// Get the selected elemen
-								ISelection selection = event.getSelection();
-								IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-								if (!structuredSelection.isEmpty()) {
-									// Get first selected element.
-									Object firstElement = structuredSelection
-											.getFirstElement();
-									DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
-									paymentId = dataSetPayment
-											.getIntValueByKey("id");
-									checkDirty();
-								}
-							}
-						});
+						// Get the selected elemen
+						ISelection selection = event.getSelection();
+						IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+						if (!structuredSelection.isEmpty()) {
+							// Get first selected element.
+							Object firstElement = structuredSelection.getFirstElement();
+							DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
+							paymentId = dataSetPayment.getIntValueByKey("id");
+							checkDirty();
+						}
+					}
+				});
 
 				// Fill the payment combo with the payments
-				comboViewerPayment.setInput(Data.INSTANCE.getPayments()
-						.getDatasets());
+				comboViewerPayment.setInput(Data.INSTANCE.getPayments().getDatasets());
 				superviceControl(comboPayment);
 
 				// Create a default payed composite with the document's
@@ -2146,8 +1764,7 @@ public class DocumentEditor extends Editor {
 				createPayedComposite(document.getBooleanValueByKey("payed"));
 
 				// Set the combo
-				comboPayment.setText(document
-						.getStringValueByKey("paymentdescription"));
+				comboPayment.setText(document.getStringValueByKey("paymentdescription"));
 
 			}
 		}
@@ -2178,16 +1795,11 @@ public class DocumentEditor extends Editor {
 			return false;
 
 		// Cancel, if there is already a document with the same ID
-		if (Data.INSTANCE.getDocuments().isExistingDataSet(document, "name",
-				txtName.getText())) {
+		if (Data.INSTANCE.getDocuments().isExistingDataSet(document, "name", txtName.getText())) {
 			// Display an error message
-			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR
-					| SWT.OK);
+			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 			messageBox.setText("Fehler in Dokumentennummer");
-			messageBox
-					.setMessage("Es existiert bereits ein Dokument mit dieser Nummer: "
-							+ txtName.getText());
+			messageBox.setMessage("Es existiert bereits ein Dokument mit dieser Nummer: " + txtName.getText());
 			messageBox.open();
 
 			return true;

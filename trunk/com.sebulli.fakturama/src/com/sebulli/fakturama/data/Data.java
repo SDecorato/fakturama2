@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
@@ -34,7 +32,7 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public enum Data {
 	INSTANCE;
-	
+
 	// Data Model
 	private DataSetArray<DataSetProperty> properties;
 	private DataSetArray<DataSetProduct> products;
@@ -48,33 +46,31 @@ public enum Data {
 	private DataSetArray<DataSetList> list;
 	private DataSetArray<DataSetExpenditure> expenditures;
 	private DataSetArray<DataSetExpenditureItem> expenditureitems;
-	
+
 	// Reference to data base
 	DataBase db = null;
-	
+
 	// True, if a new data base was created
 	boolean newDBcreated = false;
-	
+
 	/**
-	 * Constructor
-	 * Connect to the data base and
-	 * copy the data from the data base
+	 * Constructor Connect to the data base and copy the data from the data base
 	 */
 	Data() {
 		// connect to the data base
 		this.db = new DataBase();
-		
+
 		// Reference to database
 		DataBase dbref = null;
-		
+
 		// Get the workspace
 		Workspace.INSTANCE.initWorkspace();
 		String workspace = Workspace.INSTANCE.getWorkspace();
-		
+
 		// do not try to create a data base, if the workspace is not set.
 		if (!workspace.isEmpty())
 			newDBcreated = this.db.connect(workspace);
-		
+
 		// Set the reference to the database, if there is a connection
 		if (this.db.isConnected())
 			dbref = db;
@@ -92,9 +88,7 @@ public enum Data {
 		list = new DataSetArray<DataSetList>(dbref, new DataSetList());
 		expenditures = new DataSetArray<DataSetExpenditure>(dbref, new DataSetExpenditure());
 		expenditureitems = new DataSetArray<DataSetExpenditureItem>(dbref, new DataSetExpenditureItem());
-		
-		
-		
+
 		// If there is a connection to the data base
 		// read all the tables
 		if (this.db.isConnected()) {
@@ -106,15 +100,14 @@ public enum Data {
 			// Set the data base as connected
 			DataBaseConnectionState.INSTANCE.setConnected();
 
-		} 
+		}
 		// No connection, so create empty data sets
 		else {
 			// Display a warning
 			if (!workspace.isEmpty()) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
 				messageBox.setText("Hinweis");
-				messageBox.setMessage("Keine Verbindung zur Datenbank möglich.\n\n" +
-									  "Ist Datenbank von einem anderen Prozess geöffnet ?");
+				messageBox.setMessage("Keine Verbindung zur Datenbank möglich.\n\n" + "Ist Datenbank von einem anderen Prozess geöffnet ?");
 				messageBox.open();
 			}
 		}
@@ -128,8 +121,8 @@ public enum Data {
 		// Fill some UniDataSets
 		vats.addNewDataSet(new DataSetVAT("keine", "", "keine MwSt.", 0.0));
 		shippings.addNewDataSet(new DataSetShipping("frei", "", "frei Haus", 0.0, 0, 1));
-		payments.addNewDataSet(new DataSetPayment("sofort", "", "sofort oder Vorkasse",0.0, 0, 0,"Zahlung dankend erhalten.","Zahlbar: sofort", false));
-		
+		payments.addNewDataSet(new DataSetPayment("sofort", "", "sofort oder Vorkasse", 0.0, 0, 0, "Zahlung dankend erhalten.", "Zahlbar: sofort", false));
+
 		// Set the dafault value to this entries
 		setProperty("standardvat", "0");
 		setProperty("standardshipping", "0");
@@ -156,7 +149,8 @@ public enum Data {
 	/**
 	 * Returns, if the property exists.
 	 * 
-	 * @param key Property key
+	 * @param key
+	 *            Property key
 	 * @return Value as String
 	 */
 	public boolean isExistingProperty(String key) {
@@ -164,14 +158,15 @@ public enum Data {
 			if (property.getStringValueByKey("name").equalsIgnoreCase(key))
 				return true;
 		}
-		
+
 		return false;
 	}
 
 	/**
 	 * Get a property value
 	 * 
-	 * @param key Property key
+	 * @param key
+	 *            Property key
 	 * @return Value as String
 	 */
 	public String getProperty(String key) {
@@ -186,13 +181,15 @@ public enum Data {
 	/**
 	 * Get a property value as integer
 	 * 
-	 * @param key Property key
+	 * @param key
+	 *            Property key
 	 * @return Value as integer
 	 */
 	public int getPropertyAsInt(String key) {
 		try {
 			return Integer.parseInt(getProperty(key));
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e) {
 			return 0;
 		}
 	}
@@ -200,11 +197,13 @@ public enum Data {
 	/**
 	 * Set a property value
 	 * 
-	 * @param key Property key
-	 * @param value Property value
+	 * @param key
+	 *            Property key
+	 * @param value
+	 *            Property value
 	 */
 	public void setProperty(String key, String value) {
-		
+
 		// Set an existing property entry
 		for (DataSetProperty property : properties.getDatasets()) {
 			if (property.getStringValueByKey("name").equalsIgnoreCase(key)) {
@@ -213,7 +212,7 @@ public enum Data {
 				return;
 			}
 		}
-		
+
 		// Add a new one, if it is not yet existing
 		properties.addNewDataSet(new DataSetProperty(key, value));
 		Logger.logInfo("New property " + key + " added");
@@ -299,7 +298,7 @@ public enum Data {
 	public DataSetArray<DataSetList> getListEntries() {
 		return list;
 	}
-	
+
 	/**
 	 * Getter for the DataSetArray expenditures
 	 * 
@@ -317,13 +316,14 @@ public enum Data {
 	public DataSetArray<DataSetExpenditureItem> getExpenditureItems() {
 		return expenditureitems;
 	}
-	
-	
+
 	/**
 	 * Get a UniDataSet value by table Name and ID.
 	 * 
-	 * @param tableName Table name
-	 * @param id ID of the table entry
+	 * @param tableName
+	 *            Table name
+	 * @param id
+	 *            ID of the table entry
 	 * @return The UniDataSet
 	 */
 	public UniDataSet getUniDataSetByTableNameAndId(String tableName, int id) {
@@ -339,10 +339,11 @@ public enum Data {
 			if (tableName.equalsIgnoreCase("list")) { return getListEntries().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("expenditures")) { return getExpenditures().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("expenditureitems")) { return getExpenditures().getDatasetById(id); }
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			Logger.logError(e, "Index out of bounds: " + "TableName: " + tableName + " ID:" + Integer.toString(id));
 		}
-		
+
 		// not found
 		return null;
 	}
@@ -350,7 +351,8 @@ public enum Data {
 	/**
 	 * Update the data base with the new value
 	 * 
-	 * @param uds UniDataSet to update
+	 * @param uds
+	 *            UniDataSet to update
 	 */
 	public void updateDataSet(UniDataSet uds) {
 		db.updateUniDataSet(uds);

@@ -1,53 +1,49 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
 
 /**
- * UniDataSet for all products 
+ * UniDataSet for all products
  * 
  * @author Gerd Bartelt
  */
 public class DataSetProduct extends UniDataSet {
 
 	/**
-	 * Constructor
-	 * Creates an new product
+	 * Constructor Creates an new product
 	 */
 	public DataSetProduct() {
 		this("");
 	}
 
 	/**
-	 * Constructor
-	 * Creates an new product
+	 * Constructor Creates an new product
 	 * 
-	 * @param category Category of the new product
+	 * @param category
+	 *            Category of the new product
 	 */
 	public DataSetProduct(String category) {
 		this("", "", category, "", 0.0, -1, "", "");
 	}
 
 	/**
-	 * Constructor
-	 * Creates an new product
+	 * Constructor Creates an new product
 	 * 
 	 * @param name
 	 * @param itemnr
@@ -64,8 +60,7 @@ public class DataSetProduct extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Creates an new product
+	 * Constructor Creates an new product
 	 * 
 	 * @param id
 	 * @param name
@@ -121,15 +116,15 @@ public class DataSetProduct extends UniDataSet {
 	}
 
 	/**
-	 * Get the products price.
-	 * Because the products price can be a graduated price,
-	 * it is necessary to compare all blocks. 
+	 * Get the products price. Because the products price can be a graduated
+	 * price, it is necessary to compare all blocks.
 	 * 
-	 * @param quantity Quantity to search for
+	 * @param quantity
+	 *            Quantity to search for
 	 * @return The price for this quantity
 	 */
 	public double getPriceByQuantity(Double quantity) {
-		
+
 		// Start with first block
 		Double price = this.getDoubleValueByKey("price1");
 		int blockQuantity = 0;
@@ -147,10 +142,11 @@ public class DataSetProduct extends UniDataSet {
 	}
 
 	/**
-	 * Test, if this is equal to an other UniDataSet
-	 * Only the names and the item numbers are compared
+	 * Test, if this is equal to an other UniDataSet Only the names and the item
+	 * numbers are compared
 	 * 
-	 * @param uds Other UniDataSet
+	 * @param uds
+	 *            Other UniDataSet
 	 * @return True, if it's equal
 	 */
 	@Override

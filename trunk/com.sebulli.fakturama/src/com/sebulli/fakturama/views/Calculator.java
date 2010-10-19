@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.views;
@@ -98,7 +96,7 @@ public class Calculator extends ViewPart {
 		displayText.setTextLimit(10);
 		displayText.setText(displayString);
 		displayText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 4, 1));
-		
+
 		// Set the font of the display
 		FontData fD = displayText.getFont().getFontData()[0];
 		fD.setHeight(24);
@@ -110,10 +108,10 @@ public class Calculator extends ViewPart {
 
 		// CE Button
 		createButton(container, 'E', false, "CE", 1);
-		
+
 		// Back Button
 		createButton(container, 'B', false, "BACK", 1);
-		
+
 		// Multiply Button
 		createButton(container, '*', true, "X", 1);
 
@@ -131,10 +129,10 @@ public class Calculator extends ViewPart {
 
 		// Button "7"
 		createButton(container, '7', false, "7", 1);
-		
+
 		// Button "8"
 		createButton(container, '8', false, "8", 1);
-		
+
 		// Button "9"
 		createButton(container, '9', false, "9", 1);
 
@@ -240,7 +238,8 @@ public class Calculator extends ViewPart {
 	/**
 	 * Set the LCD string and format zeros, decimal points and the sign
 	 * 
-	 * @param displayString The (unformated) input string
+	 * @param displayString
+	 *            The (unformated) input string
 	 * @param isResult
 	 */
 	private void setDisplayString(String displayString, boolean isResult) {
@@ -249,15 +248,15 @@ public class Calculator extends ViewPart {
 		// always display a ".", at least at the end
 		if (!LCDString.contains("."))
 			LCDString += ".";
-		
+
 		// never start with a "."
 		if (LCDString.startsWith("."))
 			LCDString = "0" + LCDString;
-		
+
 		// never start with a "-."
 		if (LCDString.startsWith("-."))
 			LCDString = LCDString.replaceFirst("-\\.", "-0.");
-		
+
 		// truncate to 10 digits
 		if (LCDString.length() >= 10)
 			LCDString = LCDString.substring(0, 10);
@@ -266,7 +265,7 @@ public class Calculator extends ViewPart {
 		if (isResult)
 			while (LCDString.endsWith("0"))
 				LCDString = LCDString.substring(0, LCDString.length() - 1);
-	
+
 		// Set the display text
 		displayText.setText(LCDString);
 	}
@@ -297,7 +296,8 @@ public class Calculator extends ViewPart {
 		case 'B': // Backspace
 			if (tempString.length() < 2) {
 				tempString = "";
-			} else {
+			}
+			else {
 				tempString = tempString.substring(0, tempString.length() - 1);
 			}
 			break;
@@ -327,7 +327,8 @@ public class Calculator extends ViewPart {
 		case '-': // Change Sign
 			if (tempString.startsWith("-")) {
 				tempString = tempString.substring(1, tempString.length());
-			} else {
+			}
+			else {
 				tempString = keyVal + tempString;
 			}
 			break;
@@ -358,14 +359,16 @@ public class Calculator extends ViewPart {
 		}
 	}
 
-	
 	/**
 	 * This method converts the operator and display strings to double values
 	 * and performs the calculation.
 	 * 
-	 * @param valAString First operand
-	 * @param valBString Second operand
-	 * @param opChar Operator
+	 * @param valAString
+	 *            First operand
+	 * @param valBString
+	 *            Second operand
+	 * @param opChar
+	 *            Operator
 	 * @return The result of the calculation
 	 */
 	private String doCalc(final String valAString, final String valBString, final char opChar) {
@@ -378,10 +381,12 @@ public class Calculator extends ViewPart {
 		if (valAString.length() > 0) {
 			try {
 				valA = Double.parseDouble(valAString);
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				return resultString;
 			}
-		} else {
+		}
+		else {
 			return resultString;
 		}
 
@@ -389,10 +394,12 @@ public class Calculator extends ViewPart {
 			if (valBString.length() > 0) {
 				try {
 					valB = Double.parseDouble(valBString);
-				} catch (NumberFormatException e) {
+				}
+				catch (NumberFormatException e) {
 					return resultString;
 				}
-			} else {
+			}
+			else {
 				return resultString;
 			}
 		}
@@ -401,10 +408,12 @@ public class Calculator extends ViewPart {
 			if (valBString.length() > 0) {
 				try {
 					valB = Double.parseDouble(valBString);
-				} catch (NumberFormatException e) {
+				}
+				catch (NumberFormatException e) {
 					return resultString;
 				}
-			} else {
+			}
+			else {
 				valB = 1.0;
 			}
 		}
@@ -449,15 +458,15 @@ public class Calculator extends ViewPart {
 		return resultString;
 	}
 
- 
-	 /**
-	  * 
-	  * This method updates the operator and display strings, and the pending
-	  * calculation flag.
-	  * 
-	  * @param keyPressed The operator
-	  */
-	 private void updateCalc(char keyPressed) {
+	/**
+	 * 
+	 * This method updates the operator and display strings, and the pending
+	 * calculation flag.
+	 * 
+	 * @param keyPressed
+	 *            The operator
+	 */
+	private void updateCalc(char keyPressed) {
 		char keyVal = keyPressed;
 		String tempString = displayString;
 
@@ -477,7 +486,8 @@ public class Calculator extends ViewPart {
 					clearDisplay = true;
 					operatorString = "";
 					calcChar = ' ';
-				} else {
+				}
+				else {
 					operatorString = tempString;
 					calcChar = keyVal;
 					clearDisplay = true;
@@ -497,7 +507,8 @@ public class Calculator extends ViewPart {
 		if (keyVal == '=' || displayString.startsWith(ERROR_STRING)) {
 			calcChar = ' ';
 			operatorString = "";
-		} else {
+		}
+		else {
 			calcChar = keyVal;
 			operatorString = displayString;
 		}
@@ -543,11 +554,16 @@ public class Calculator extends ViewPart {
 	/**
 	 * Creates a button and assign a mouse listener
 	 * 
-	 * @param parent The parent SWT composite
-	 * @param c The character of the button
-	 * @param isCalc True, if it is an operator
-	 * @param icon The icon's substring
-	 * @param vspan Number of rows
+	 * @param parent
+	 *            The parent SWT composite
+	 * @param c
+	 *            The character of the button
+	 * @param isCalc
+	 *            True, if it is an operator
+	 * @param icon
+	 *            The icon's substring
+	 * @param vspan
+	 *            Number of rows
 	 * @return A reference to the new button
 	 */
 	private Label createButton(Composite parent, final char c, boolean isCalc, String icon, int vspan) {
@@ -559,16 +575,17 @@ public class Calculator extends ViewPart {
 				updateDisplay(c);
 			}
 		});
-		
+
 		// Set the icon
 		try {
 			button.setImage((Activator.getImageDescriptor("/icons/calculator/calculator_" + icon + ".png").createImage()));
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}
 		GridDataFactory.swtDefaults().span(1, vspan).align(SWT.CENTER, SWT.CENTER).applyTo(button);
-		
+
 		return button;
 	}
-		
+
 }
