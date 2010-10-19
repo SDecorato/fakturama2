@@ -105,7 +105,13 @@ public class DataUtils {
 	 */
 	public static Double StringToDouble(String s) {
 		Double d = 0.0;
-
+		
+		// Remove leading and trailing spaces
+		s = s.trim();
+		
+		// Test, if it is a negative value
+		boolean isNegative = s.startsWith("-");
+		
 		// Test, if it is a percent value
 		boolean isPercent = s.contains("%");
 
@@ -113,12 +119,16 @@ public class DataUtils {
 		s = s.replaceAll(",", ".");
 
 		// use only numbers
-		Pattern p = Pattern.compile("[^\\d]*([+-]?\\d*\\.?\\d*).*");
+		Pattern p = Pattern.compile("[^\\d]*(\\d*\\.?\\d*E?\\d*).*");
 		Matcher m = p.matcher(s);
 
 		if (m.find()) {
 			// extract the number
 			s = m.group(1);
+
+			// add a "-", if d is negative
+			if (isNegative)
+				s = "-" + s;
 
 			//s = s.substring(m.start(), m.end());
 			try {

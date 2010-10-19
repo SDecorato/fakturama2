@@ -495,6 +495,10 @@ public class DocumentEditor extends Editor {
 		// Set the editors data set to the editors input
 		document = (DataSetDocument) ((UniDataSetEditorInput) input).getUniDataSet();
 
+		
+		//String s1 = document.getStringValueByKey("itemsdiscount");
+		//Double d1 = document.getDoubleValueByKey("itemsdiscount");
+		
 		// If the document is a duplicate of an other document,
 		// the input is the parent document.
 		DataSetDocument parent = document;
@@ -686,7 +690,7 @@ public class DocumentEditor extends Editor {
 		if (comboPayment != null)
 			if (!document.getStringValueByKey("paymentdescription").equals(comboPayment.getText())) { return true; }
 		if (document.getIntValueByKey("paymentid") != paymentId) { return true; }
-
+		
 		if (itemsDiscount != null)
 			if (!DataUtils.DoublesAreEqual(DataUtils.StringToDoubleDiscount(itemsDiscount.getText()), document.getDoubleValueByKey("itemsdiscount"))) { return true; }
 
@@ -1045,7 +1049,6 @@ public class DocumentEditor extends Editor {
 		noVat = document.getBooleanValueByKey("novat");
 		noVatName = document.getStringValueByKey("novatname");
 		noVatDescription = document.getStringValueByKey("novatdescription");
-		System.out.println(document.getDoubleValueByKey("payvalue"));
 		payedValue.setValue(document.getDoubleValueByKey("payvalue"));
 		if (dunningLevel <= 0)
 			dunningLevel = document.getIntValueByKey("dunninglevel");
