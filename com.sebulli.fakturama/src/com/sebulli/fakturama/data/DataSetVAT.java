@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
@@ -23,33 +21,31 @@ package com.sebulli.fakturama.data;
 import com.sebulli.fakturama.calculate.DataUtils;
 
 /**
- * UniDataSet for all vats 
+ * UniDataSet for all vats
  * 
  * @author Gerd Bartelt
  */
 public class DataSetVAT extends UniDataSet {
 
 	/**
-	 * Constructor
-	 * Creates a new vat
+	 * Constructor Creates a new vat
 	 */
 	public DataSetVAT() {
 		this("");
 	}
 
 	/**
-	 * Constructor
-	 * Creates a new vat
+	 * Constructor Creates a new vat
 	 * 
-	 * @param category of the new vat
+	 * @param category
+	 *            of the new vat
 	 */
 	public DataSetVAT(String category) {
 		this("", category, "", 0.0);
 	}
 
 	/**
-	 * Constructor
-	 * Creates a new vat
+	 * Constructor Creates a new vat
 	 * 
 	 * @param name
 	 * @param category
@@ -61,8 +57,7 @@ public class DataSetVAT extends UniDataSet {
 	}
 
 	/**
-	 * Constructor
-	 * Creates a new vat
+	 * Constructor Creates a new vat
 	 * 
 	 * @param id
 	 * @param name
@@ -84,21 +79,21 @@ public class DataSetVAT extends UniDataSet {
 	}
 
 	/**
-	 * Test, if this is equal to an other UniDataSet
-	 * Only the name and the values are compared
-	 * If the name is not set, only the values are used.
+	 * Test, if this is equal to an other UniDataSet Only the name and the
+	 * values are compared If the name is not set, only the values are used.
 	 * 
-	 * @param uds Other UniDataSet
+	 * @param uds
+	 *            Other UniDataSet
 	 * @return True, if it's equal
 	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
-		
+
 		// If the name of the DataSet to test is empty, than search for an entry with at least the same VAT value
 		if (!uds.getStringValueByKey("name").isEmpty())
-			if ( !uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")) )
+			if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
 				return false;
-		
+
 		if (!DataUtils.DoublesAreEqual(uds.getDoubleValueByKey("value"), this.getDoubleValueByKey("value")))
 			return false;
 		return true;

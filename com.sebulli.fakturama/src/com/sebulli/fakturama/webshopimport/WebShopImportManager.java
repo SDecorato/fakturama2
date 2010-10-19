@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.webshopimport;
@@ -75,12 +73,11 @@ import com.sebulli.fakturama.editors.ProductEditor;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
- * Web shop import manager
- * This class provides the functionality to connect to the web shop and import
- * the data, which is transmitted as a XML File 
+ * Web shop import manager This class provides the functionality to connect to
+ * the web shop and import the data, which is transmitted as a XML File
  * 
  * @author Gerd Bartelt
- *
+ * 
  */
 public class WebShopImportManager extends Thread implements IRunnableWithProgress {
 
@@ -88,31 +85,32 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	private DocumentBuilderFactory factory = null;
 	private DocumentBuilder builder = null;
 	private Document document = null;
-	
+
 	// The XML data
 	private String importXMLContent = "";
-	
+
 	// List of all orders, which are out of sync with the web shop.
 	private static Properties orderstosynchronize = null;
-	
+
 	// The result of this import process
 	private String runResult = "";
 
 	// Imported data
 	//private String shopSystem ="";
-	private String shopURL ="";
+	private String shopURL = "";
 	private String productImagePath = "";
-	
+
 	private IProgressMonitor monitor;
 	private int worked;
-	
+
 	// Configuration of the webshop request
 	private boolean getProducts;
 	private boolean getOrders;
-	
+
 	/**
 	 * Sets the progess of the job in percent
-	 * @param percent 
+	 * 
+	 * @param percent
 	 */
 	void setProgress(int percent) {
 		if (percent > worked) {
@@ -120,31 +118,29 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			worked = percent;
 		}
 	}
-	
+
 	/**
-	 * Prepare the web shop import to request
-	 * products and orders.
+	 * Prepare the web shop import to request products and orders.
 	 */
 	public void prepareGetProductsAndOrders() {
 		getProducts = true;
 		getOrders = true;
 	}
-	
+
 	/**
-	 * Prepare the web shop import to change the
-	 * state of an order.
+	 * Prepare the web shop import to change the state of an order.
 	 */
 	public void prepareChangeState() {
 		getProducts = false;
 		getOrders = false;
 	}
-	
+
 	@Override
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 		this.monitor = monitor;
 		runResult = "";
-		
+
 		// Get ULR, user name and password from the preference store
 		String address = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_URL");
 		String user = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_USER");
@@ -157,17 +153,18 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// Get the open order IDs that are out of sync with the webshop
 		// from the file system
 		readOrdersToSynchronize();
-		
+
 		// Create a new document builder
 		factory = DocumentBuilderFactory.newInstance();
 		try {
 			builder = factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
+		}
+		catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			
+
 			// Connect to web shop
 			worked = 0;
 			URLConnection conn = null;
@@ -185,9 +182,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			outputStream = conn.getOutputStream();
 			OutputStreamWriter writer = new OutputStreamWriter(outputStream);
 			setProgress(20);
-			String postString = "username=" + user + "&password=" + password ;
-			
-			String actionString ="";
+			String postString = "username=" + user + "&password=" + password;
+
+			String actionString = "";
 			if (getProducts)
 				actionString += "_products";
 			if (getOrders)
@@ -196,7 +193,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				actionString = "&action=get" + actionString;
 
 			postString += actionString;
-			
+
 			postString += "&setstate=" + orderstosynchronize.toString();
 			writer.write(postString);
 			writer.flush();
@@ -208,14 +205,13 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			monitor.subTask("Loading_data");
 			double progress = worked;
-			
-			
+
 			// Get the directory of the workspace
 			String filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-			
+
 			File logFile = null;
 			BufferedWriter bos = null;
-			
+
 			// Do not save log files, of there is no workspace set
 			if (!filename.isEmpty()) {
 
@@ -224,30 +220,30 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				File directory = new File(filename);
 				if (!directory.exists())
 					directory.mkdirs();
-				
+
 				// Name of the log file
 				filename += "WebShopImport.log";
-				
+
 				// Create a File object
 				logFile = new File(filename);
 
 				// Create a new file
 				// If the log file exists read the content
-				if (logFile.exists()) 
+				if (logFile.exists())
 					logFile.delete();
 
 				// Create a buffered writer to write the imported data to the file system
 				bos = new BufferedWriter(new FileWriter(logFile, true));
 
 			}
-			
+
 			// read line by line and set the progress bar
 			while (((line = reader.readLine()) != null) && (!monitor.isCanceled())) {
-				
+
 				// Write the imported data to the log file
 				if (bos != null)
 					bos.write(line + "\n");
-				
+
 				importXMLContent += line;
 
 				// exponential function to 50%
@@ -269,7 +265,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				// Clear the list of orders to sync, if the data was sent
 				if (ndList.getLength() != 0) {
 					orderstosynchronize = new Properties();
-				} else {
+				}
+				else {
 					runResult = importXMLContent;
 				}
 
@@ -289,12 +286,14 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Interpret the imported data (and load the product images)
 			if (runResult.isEmpty())
 				interpretWebShopData();
-			
+
 			monitor.done();
 
-		} catch (SAXException e) {
+		}
+		catch (SAXException e) {
 			runResult = importXMLContent;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			if (address.isEmpty())
 				runResult = "keine Webshop URL angegeben";
 			else {
@@ -327,11 +326,14 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		try {
 			reader = new FileReader(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE") + "/orders2sync.txt");
 			orderstosynchronize.load(reader);
-		} catch (IOException e) {
-		} finally {
+		}
+		catch (IOException e) {
+		}
+		finally {
 			try {
 				reader.close();
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 			}
 		}
 	}
@@ -343,19 +345,22 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	 */
 	public static void saveOrdersToSynchronize() {
 		Writer writer = null;
-		
+
 		if (orderstosynchronize.isEmpty())
 			return;
 
 		try {
 			writer = new FileWriter(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE") + "/orders2sync.txt");
 			orderstosynchronize.store(writer, "OrdersNotInSyncWithWebshop");
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
-		} finally {
+		}
+		finally {
 			try {
 				writer.close();
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 			}
 		}
 	}
@@ -363,7 +368,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	/**
 	 * Update the progress of an order
 	 * 
-	 * @param uds The UniDataSet with the new progress value
+	 * @param uds
+	 *            The UniDataSet with the new progress value
 	 */
 	static public void updateOrderProgress(UniDataSet uds, String comment, boolean notify) {
 
@@ -371,7 +377,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		int orderId = uds.getIntValueByKey("webshopid");
 		int progress = uds.getIntValueByKey("progress");
 		int webshopState;
-		
+
 		// Get the orders that are out of sync with the shop
 		readOrdersToSynchronize();
 
@@ -382,7 +388,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			webshopState = 2;
 		else
 			webshopState = 1;
-		
+
 		// Set the new progress state 
 		// Add an "*" to mark the ID as "notify customer"
 		String value = Integer.toString(webshopState);
@@ -407,8 +413,10 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	 * Get an attribute's value and return an empty string, of the attribute is
 	 * not specified
 	 * 
-	 * @param attributes  Attributes node
-	 * @param name  Name of the attribute
+	 * @param attributes
+	 *            Attributes node
+	 * @param name
+	 *            Name of the attribute
 	 * @return Attributes value
 	 */
 	private static String getAttributeAsString(NamedNodeMap attributes, String name) {
@@ -424,30 +432,33 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	/**
 	 * Returns the text of a specified child node.
 	 * 
-	 * @param parentNode The parent node.
-	 * @param name Name of the child
+	 * @param parentNode
+	 *            The parent node.
+	 * @param name
+	 *            Name of the child
 	 * @return The text, or an empty string
 	 */
 	private static String getChildTextAsString(Node parentNode, String name) {
 
 		String retVal = "";
-		
+
 		// Search all child nodes and find the node with the name "name"
 		for (int index = 0; index < parentNode.getChildNodes().getLength(); index++) {
 			Node child = parentNode.getChildNodes().item(index);
-			
+
 			// Node found
 			if (child.getNodeName().equals(name))
 				retVal = child.getTextContent();
 		}
-		
+
 		return retVal;
 	}
 
 	/**
 	 * Convert the payment method to a readable (and localized) text.
 	 * 
-	 * @param intext  order status
+	 * @param intext
+	 *            order status
 	 * @return payment method as readable (and localized) text
 	 */
 	public String getPaymentMethodText(String intext) {
@@ -465,14 +476,15 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		return paymentstatustext;
 
 	}
-	
+
 	/**
 	 * Parse an XML node and create a new product for each product entry
 	 * 
-	 * @param productNode The node with the products to import
+	 * @param productNode
+	 *            The node with the products to import
 	 */
 	public void createProductFromXMLOrderNode(Node productNode) {
-		
+
 		// Temporary variables to store the products data which will be imported
 		String productModel;
 		String productName;
@@ -484,18 +496,18 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String productDescription;
 		String productImage;
 		String pictureName;
-		
+
 		// Get the attributes ID and date of this order
 		NamedNodeMap attributes = productNode.getAttributes();
-		productNet 			= getAttributeAsString(attributes, "net");
-		productGross 		= getAttributeAsString(attributes, "gross");
-		productVatPercent 	= getAttributeAsString(attributes, "vatpercent");
-		productModel 		= getChildTextAsString(productNode, "model");
-		productName 		= getChildTextAsString(productNode, "name");
-		productCategory 	= getChildTextAsString(productNode, "category");
-		productVatName		= getChildTextAsString(productNode, "vatname");
-		productImage		= getChildTextAsString(productNode, "image");
-		
+		productNet = getAttributeAsString(attributes, "net");
+		productGross = getAttributeAsString(attributes, "gross");
+		productVatPercent = getAttributeAsString(attributes, "vatpercent");
+		productModel = getChildTextAsString(productNode, "model");
+		productName = getChildTextAsString(productNode, "name");
+		productCategory = getChildTextAsString(productNode, "category");
+		productVatName = getChildTextAsString(productNode, "vatname");
+		productImage = getChildTextAsString(productNode, "image");
+
 		// Get the product description as plain text.
 		productDescription = "";
 		for (int index = 0; index < productNode.getChildNodes().getLength(); index++) {
@@ -503,12 +515,13 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			if (productChild.getNodeName().equals("short_description"))
 				productDescription += productChild.getTextContent();
 		}
-		
+
 		// Convert VAT percent value to a factor (100% -> 1.00)
 		Double vatPercentDouble = 0.0;
 		try {
 			vatPercentDouble = Double.valueOf(productVatPercent).doubleValue() / 100;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 		}
 
 		// Convert the gross or net string to a double value
@@ -519,27 +532,26 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			if (!productNet.isEmpty()) {
 				priceNet = Double.valueOf(productNet).doubleValue();
 			}
-			
+
 			// Use the gross string, if it is set
 			if (!productGross.isEmpty()) {
-				priceNet = Double.valueOf(productGross).doubleValue() /  (1 + vatPercentDouble);
+				priceNet = Double.valueOf(productGross).doubleValue() / (1 + vatPercentDouble);
 			}
-			
-		} catch (Exception e) {
+
+		}
+		catch (Exception e) {
 		}
 
-		
 		// Add the VAT value to the data base, if it is a new one 
-		DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew( new DataSetVAT(productVatName, "", productVatName, vatPercentDouble) );
+		DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(new DataSetVAT(productVatName, "", productVatName, vatPercentDouble));
 		int vatId = vat.getIntValueByKey("id");
-		
+
 		// Import the item as a new product
 		DataSetProduct product;
-		
-		
+
 		// Get the category of the imported products from the preferences
 		String shopCategory = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PRODUCT_CATEGORY");
-		
+
 		// If the category is not set, use the shop category
 		if (!shopCategory.isEmpty())
 			if (!shopCategory.endsWith("/"))
@@ -552,16 +564,15 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// Use product model as product name, if name is empty
 		if (productName.isEmpty() && !productModel.isEmpty())
 			productName = productModel;
-		
+
 		pictureName = "";
-		
+
 		// Create the URL to the product image
 		if (!productImage.isEmpty()) {
 			pictureName = ProductEditor.createPictureName(productName, productModel);
-			downloadImageFromUrl(shopURL + productImagePath + productImage,
-					Workspace.INSTANCE.getWorkspace() + Workspace.productPictureFolderName, pictureName);
+			downloadImageFromUrl(shopURL + productImagePath + productImage, Workspace.INSTANCE.getWorkspace() + Workspace.productPictureFolderName, pictureName);
 		}
-		
+
 		// Create a new product object
 		product = new DataSetProduct(productName, productModel, shopCategory + productCategory, productDescription, priceNet, vatId, "", pictureName);
 
@@ -581,27 +592,30 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Update the modified product data
 			Data.INSTANCE.getProducts().updateDataSet(existingProduct);
 		}
-			
+
 	}
-	
+
 	/**
 	 * Download an image and save it to the file system
 	 * 
-	 * @param address The URL of the image
-	 * @param filePath The folder to store the image
-	 * @param fileName The filename of the image
+	 * @param address
+	 *            The URL of the image
+	 * @param filePath
+	 *            The folder to store the image
+	 * @param fileName
+	 *            The filename of the image
 	 */
 	public static void downloadImageFromUrl(String address, String filePath, String fileName) {
-		
+
 		// Cancel if address or filename is empty
 		if (address.isEmpty() || filePath.isEmpty() || fileName.isEmpty())
 			return;
-		
+
 		URLConnection conn = null;
 		URL url;
-		
+
 		try {
-			
+
 			// First of all check, if the output file already exists.
 			File outputFile = new File(filePath + fileName);
 			if (outputFile.exists())
@@ -618,42 +632,43 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			if (!directory.exists())
 				directory.mkdirs();
 
-			
 			// Create input and output streams to copy the image
 			// from the webserver to the file system
-			InputStream content = (InputStream)conn.getInputStream();
-			BufferedReader in = new BufferedReader (new InputStreamReader(content));
-            BufferedInputStream bis = new BufferedInputStream(content);
+			InputStream content = (InputStream) conn.getInputStream();
+			BufferedReader in = new BufferedReader(new InputStreamReader(content));
+			BufferedInputStream bis = new BufferedInputStream(content);
 
-            FileOutputStream fos = new FileOutputStream(outputFile);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			FileOutputStream fos = new FileOutputStream(outputFile);
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-            // Read the image from the webserver and store it in a byte array
-            int current = 0;
-            while ((current = bis.read()) != -1) {
-                    byteArrayOutputStream.write((byte) current);
-            }
+			// Read the image from the webserver and store it in a byte array
+			int current = 0;
+			while ((current = bis.read()) != -1) {
+				byteArrayOutputStream.write((byte) current);
+			}
 
-            // Write the byte array to the file system
-            fos.write(byteArrayOutputStream.toByteArray());
-			
-            // Close all open streams
-            byteArrayOutputStream.close();
-            fos.close();
-            in.close();
-			
-		} catch (MalformedURLException e) {
+			// Write the byte array to the file system
+			fos.write(byteArrayOutputStream.toByteArray());
+
+			// Close all open streams
+			byteArrayOutputStream.close();
+			fos.close();
+			in.close();
+
+		}
+		catch (MalformedURLException e) {
 			Logger.logError(e, "Malformated URL: " + address);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			Logger.logError(e, "Error downloading picture from " + address);
 		}
-	}  
-	
-	
+	}
+
 	/**
 	 * Parse an XML node and create a new order for each order entry
 	 * 
-	 * @param orderNode The node with the orders to import
+	 * @param orderNode
+	 *            The node with the orders to import
 	 */
 	public void createOrderFromXMLOrderNode(Node orderNode) {
 
@@ -691,7 +706,6 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String itemCategory;
 		String itemVatpercent;
 		String itemVatname;
-		
 
 		// Order data
 		String order_id;
@@ -850,31 +864,33 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				itemName = getChildTextAsString(childnode, "name");
 				itemCategory = getChildTextAsString(childnode, "category");
 				itemVatname = getChildTextAsString(childnode, "vatname");
-	
+
 				// Convert VAT percent value to a factor (100% -> 1.00)
 				Double vat_percentDouble = 0.0;
 				try {
 					vat_percentDouble = Double.valueOf(itemVatpercent).doubleValue() / 100;
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 				}
 
 				// Calculate the net value of the price
 				Double priceNet = 0.0;
 				try {
 					priceNet = Double.valueOf(itemGross).doubleValue() / (1 + vat_percentDouble);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 				}
 
 				// Add the VAT value to the data base, if it is a new one
-				DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew( new DataSetVAT(itemVatname, "", itemVatname, vat_percentDouble) );
+				DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(new DataSetVAT(itemVatname, "", itemVatname, vat_percentDouble));
 				int vatId = vat.getIntValueByKey("id");
-				
+
 				// Import the item as a new product
 				DataSetProduct product;
-				
+
 				// Get the category of the imported products from the preferences
 				String shopCategory = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PRODUCT_CATEGORY");
-				
+
 				// If the category is not set, use the shop category
 				if (!shopCategory.isEmpty())
 					if (!shopCategory.endsWith("/"))
@@ -887,12 +903,12 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				// Use item model as item name, if name is empty
 				if (itemName.isEmpty() && !itemModel.isEmpty())
 					itemName = itemModel;
-				
+
 				// Import the product attributes
 				itemDescription = "";
 				for (int index = 0; index < childnode.getChildNodes().getLength(); index++) {
 					Node itemChild = childnode.getChildNodes().item(index);
-					
+
 					// Get all attributes
 					if (itemChild.getNodeName().equals("attribute")) {
 						attributes = itemChild.getAttributes();
@@ -903,11 +919,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 					}
 				}
 
-				
-				
 				// Create a new product
 				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "");
-				
+
 				// Add the new product to the data base, if it's not existing yet
 				Data.INSTANCE.getProducts().addNewDataSetIfNew(product);
 
@@ -943,28 +957,30 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				Double shippingvat_percentDouble = 0.0;
 				try {
 					shippingvat_percentDouble = Double.valueOf(shipping_vatpercent).doubleValue() / 100;
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 				}
 
 				// Get the shipping gross value
 				Double shippingGross = 0.0;
 				try {
 					shippingGross = Double.valueOf(shipping_gross).doubleValue();
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 				}
 
 				// Get the category of the imported shippings from the preferences
 				String shopCategory = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_SHIPPING_CATEGORY");
-				
+
 				// Add the VAT entry to the data base, if there is not yet one
 				// with the same values
-				DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew( new DataSetVAT(shipping_vatname, "", shipping_vatname, shippingvat_percentDouble) );
+				DataSetVAT vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(new DataSetVAT(shipping_vatname, "", shipping_vatname, shippingvat_percentDouble));
 				int vatId = vat.getIntValueByKey("id");
-				
+
 				// Add the shipping to the data base, if it's a new shipping
 				DataSetShipping shipping = Data.INSTANCE.getShippings().addNewDataSetIfNew(
 						new DataSetShipping(shipping_name, shopCategory, shipping_name, shippingGross, vatId, 1));
-				
+
 				// Set the document entries for the shipping
 				dataSetDocument.setIntValueByKey("shippingid", shipping.getIntValueByKey("id"));
 				dataSetDocument.setDoubleValueByKey("shipping", shippingGross);
@@ -997,24 +1013,24 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				// Get the value of the payment
 				try {
 					order_totalDouble = Double.valueOf(order_total).doubleValue();
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 				}
 
 				// TODO: Get the unpayed text from the web shop
 				// Add the payment to the data base, if it's a new one
 				DataSetPayment payment = Data.INSTANCE.getPayments().addNewDataSetIfNew(
-						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")",0.0, 0, 0,"Zahlung dankend erhalten.","", false));
+						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")", 0.0, 0, 0, "Zahlung dankend erhalten.", "", false));
 				dataSetDocument.setIntValueByKey("paymentid", payment.getIntValueByKey("id"));
 				dataSetDocument.setStringValueByKey("paymentname", paymentName);
 				dataSetDocument.setStringValueByKey("paymentdescription", payment.getStringValueByKey("description"));
-
 
 			}
 		}
 
 		// Set the progess of an imported order to 10%
 		dataSetDocument.setIntValueByKey("progress", 10);
-		
+
 		// Set the document data
 		dataSetDocument.setStringValueByKey("date", DataUtils.DateAsISO8601String(order_date));
 		comment = dataSetDocument.getStringValueByKey("message") + comment;
@@ -1022,7 +1038,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 		dataSetDocument.setStringValueByKey("items", itemString);
 		dataSetDocument.setDoubleValueByKey("total", order_totalDouble);
-		
+
 		// Update the data base with the new document data
 		Data.INSTANCE.getDocuments().updateDataSet(dataSetDocument);
 
@@ -1057,20 +1073,20 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	 * Interpret the complete node of all orders and import them
 	 */
 	public void interpretWebShopData() {
-		
+
 		//shopSystem ="";
-		shopURL ="";
+		shopURL = "";
 		productImagePath = "";
-		
+
 		// Mark all orders as "in synch with the webshop"
 		allOrdersAreInSync();
-		
+
 		// There is no order
 		if (document == null)
 			return;
 
 		NodeList ndList;
-		
+
 		// Get the general shop data
 		ndList = document.getElementsByTagName("webshop");
 		if (ndList.getLength() == 1) {
@@ -1078,20 +1094,19 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			//shopSystem = getAttributeAsString(webshop.getAttributes(), "shop");
 			shopURL = getAttributeAsString(webshop.getAttributes(), "url");
 		}
-			
+
 		// Get the general products data
 		ndList = document.getElementsByTagName("products");
 		if (ndList.getLength() == 1) {
 			Node products = ndList.item(0);
 			productImagePath = getAttributeAsString(products.getAttributes(), "imagepath");
 		}
-		
+
 		// Get all products and import them
 		ndList = document.getElementsByTagName("product");
 		for (int productIndex = 0; productIndex < ndList.getLength(); productIndex++) {
-			monitor.subTask("Loading product image " + 
-					Integer.toString(productIndex+1) + "/" + Integer.toString(ndList.getLength()));
-			setProgress(50 + 40*(productIndex+1) / ndList.getLength());
+			monitor.subTask("Loading product image " + Integer.toString(productIndex + 1) + "/" + Integer.toString(ndList.getLength()));
+			setProgress(50 + 40 * (productIndex + 1) / ndList.getLength());
 			Node product = ndList.item(productIndex);
 			createProductFromXMLOrderNode(product);
 		}
@@ -1104,7 +1119,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			Node order = ndList.item(orderIndex);
 			createOrderFromXMLOrderNode(order);
 		}
-		
+
 		// Save the new list of orders that are not in synch with the shop
 		saveOrdersToSynchronize();
 	}

@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.views;
@@ -42,7 +40,7 @@ import com.sebulli.fakturama.logger.Logger;
  * @author Gerd Bartelt
  */
 public class ExpandBar extends Composite {
-	
+
 	// The SWT widgets of the expand bar 
 	private final Label image;
 	private final Label text;
@@ -56,16 +54,20 @@ public class ExpandBar extends Composite {
 	/**
 	 * Constructor
 	 * 
-	 * @param expandBarManager The expand bar manager
-	 * @param parent The parent composite
-	 * @param style The style of the Expand bar
-	 * @param description The expand bar text
-	 * @param icon File name of the icon
+	 * @param expandBarManager
+	 *            The expand bar manager
+	 * @param parent
+	 *            The parent composite
+	 * @param style
+	 *            The style of the Expand bar
+	 * @param description
+	 *            The expand bar text
+	 * @param icon
+	 *            File name of the icon
 	 */
-	public ExpandBar(ExpandBarManager expandBarManager, Composite parent, int style,
-			String description, String icon) {
+	public ExpandBar(ExpandBarManager expandBarManager, Composite parent, int style, String description, String icon) {
 		super(parent, style);
-		
+
 		// Create the top composite of the expand bar
 		top = new Composite(this, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
@@ -75,7 +77,7 @@ public class ExpandBar extends Composite {
 		GridLayoutFactory.swtDefaults().numColumns(3).margins(2, 2).applyTo(headbar);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(headbar);
 		changeBackground(headbar);
-		
+
 		// The icon of the headbar
 		image = new Label(headbar, SWT.NONE);
 		image.setText("icon");
@@ -112,12 +114,12 @@ public class ExpandBar extends Composite {
 		setText(description);
 		try {
 			setImage(Activator.getImageDescriptor(icon).createImage());
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(this);
 
-		
 		// Add the expand bar to the manager 
 		expandBarManager.addExpandBar(this);
 
@@ -126,32 +128,36 @@ public class ExpandBar extends Composite {
 	/**
 	 * Change the color of a widget to white
 	 * 
-	 * @param widget The widget
+	 * @param widget
+	 *            The widget
 	 */
 	private void changeBackground(Control widget) {
-		
+
 		// Set the background to white
-		Color white = new Color (null, 255, 255, 255);
+		Color white = new Color(null, 255, 255, 255);
 		widget.setBackground(white);
 		white.dispose();
-		
+
 	}
-	
+
 	/**
-	 * Set the ArrowImage to collapsed or uncollapsed, depending on the state
-	 * of the local variable "collapsed"
+	 * Set the ArrowImage to collapsed or uncollapsed, depending on the state of
+	 * the local variable "collapsed"
 	 */
 	private void setArrowImage() {
 		if (collapsed) {
 			try {
 				arrow.setImage(Activator.getImageDescriptor("/icons/expandbar/dropdownarrow.png").createImage());
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				Logger.logError(e, "Icon dropdownarrow.png not found");
 			}
-		} else {
+		}
+		else {
 			try {
 				arrow.setImage(Activator.getImageDescriptor("/icons/expandbar/dropuparrow.png").createImage());
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				Logger.logError(e, "Icon dropuparrow.png not found");
 			}
 		}
@@ -167,10 +173,11 @@ public class ExpandBar extends Composite {
 
 	/**
 	 * Set the state of the expand bar to collapsed or uncollapsed
+	 * 
 	 * @param collapseMe
 	 */
 	public void collapse(boolean collapseMe) {
-		
+
 		// Modifiy the local variable
 		collapsed = collapseMe;
 
@@ -178,23 +185,26 @@ public class ExpandBar extends Composite {
 			// Set the size to 0,0
 			GridDataFactory.fillDefaults().hint(0, 0).grab(true, false).applyTo(composite);
 
-		} else {
+		}
+		else {
 			GridDataFactory.fillDefaults().indent(5, 0).applyTo(composite);
 			// TODO: in Preferences :
 			// this.expandBarManager.collapseOthers(this);
 
 		}
-		
+
 		// update the arrow 
 		setArrowImage();
-		
+
 		// Redraw the expand bars
 		this.getParent().layout(true);
 	}
 
 	/**
 	 * Set the image
-	 * @param image of the expand bar
+	 * 
+	 * @param image
+	 *            of the expand bar
 	 */
 	public void setImage(Image image) {
 		this.image.setImage(image);
@@ -202,6 +212,7 @@ public class ExpandBar extends Composite {
 
 	/**
 	 * Set the text of the expand bar
+	 * 
 	 * @param text
 	 */
 	public void setText(String text) {
@@ -211,10 +222,11 @@ public class ExpandBar extends Composite {
 	/**
 	 * Add a new action to the body of the expand bar
 	 * 
-	 * @param action The action to add
+	 * @param action
+	 *            The action to add
 	 */
 	public void addAction(final Action action) {
-		
+
 		// Create a new composite for the action
 		Composite actionComposite = new Composite(composite, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(2).margins(0, 0).applyTo(actionComposite);
@@ -224,7 +236,8 @@ public class ExpandBar extends Composite {
 		Label actionImage = new Label(actionComposite, SWT.NONE);
 		try {
 			actionImage.setImage(action.getImageDescriptor().createImage());
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
 		}
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(0, 0).applyTo(actionImage);

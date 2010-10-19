@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
@@ -23,9 +21,8 @@ package com.sebulli.fakturama.data;
 import com.sebulli.fakturama.calculate.DataUtils;
 
 /**
- * This class is container for an value in different data types.
- * If you read the value in an other type than it was set, the value
- * will be converted.
+ * This class is container for an value in different data types. If you read the
+ * value in an other type than it was set, the value will be converted.
  * 
  * @author Gerd Bartelt
  */
@@ -40,7 +37,8 @@ public class UniData {
 	/**
 	 * Constructor with invalid initial values
 	 * 
-	 * @param i initial value
+	 * @param i
+	 *            initial value
 	 */
 	public UniData() {
 		this.dataType = UniDataType.NONE;
@@ -50,7 +48,8 @@ public class UniData {
 	/**
 	 * Constructor with initial value as int.
 	 * 
-	 * @param i initial value
+	 * @param i
+	 *            initial value
 	 */
 	public UniData(final UniDataType dataType, int i) {
 		this.dataType = dataType;
@@ -60,7 +59,8 @@ public class UniData {
 	/**
 	 * Constructor with initial value as boolean.
 	 * 
-	 * @param b initial value
+	 * @param b
+	 *            initial value
 	 */
 	public UniData(final UniDataType dataType, boolean b) {
 		this.dataType = dataType;
@@ -70,7 +70,8 @@ public class UniData {
 	/**
 	 * Constructor with initial value as double.
 	 * 
-	 * @param d initial value
+	 * @param d
+	 *            initial value
 	 */
 	public UniData(final UniDataType dataType, double d) {
 		this.dataType = dataType;
@@ -80,7 +81,8 @@ public class UniData {
 	/**
 	 * Constructor with initial value as String.
 	 * 
-	 * @param s initial value
+	 * @param s
+	 *            initial value
 	 */
 	UniData(final UniDataType dataType, String s) {
 		this.dataType = dataType;
@@ -94,7 +96,8 @@ public class UniData {
 	/**
 	 * sets the value as integer.
 	 * 
-	 * @param b new value
+	 * @param b
+	 *            new value
 	 */
 	public void setValue(Integer i) {
 		switch (this.dataType) {
@@ -122,7 +125,8 @@ public class UniData {
 	/**
 	 * sets the value as boolean.
 	 * 
-	 * @param b new value
+	 * @param b
+	 *            new value
 	 */
 	public void setValue(Boolean b) {
 		switch (this.dataType) {
@@ -151,7 +155,8 @@ public class UniData {
 	/**
 	 * sets the value as double.
 	 * 
-	 * @param b new value
+	 * @param b
+	 *            new value
 	 */
 	public void setValue(Double d) {
 		switch (this.dataType) {
@@ -179,7 +184,8 @@ public class UniData {
 	/**
 	 * sets the value as string.
 	 * 
-	 * @param b new value
+	 * @param b
+	 *            new value
 	 */
 	public void setValue(String s) {
 		if (s == null)
@@ -189,7 +195,8 @@ public class UniData {
 		case INT:
 			try {
 				this.i = Integer.parseInt(s);
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				this.i = 0;
 			}
 			break;
@@ -233,7 +240,8 @@ public class UniData {
 		case TEXT:
 			try {
 				return Integer.parseInt(this.s);
-			} catch (NumberFormatException e) {
+			}
+			catch (NumberFormatException e) {
 				return 0;
 			}
 		default:

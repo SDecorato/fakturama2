@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.views.datasettable;
@@ -50,7 +48,7 @@ import com.sebulli.fakturama.data.UniDataSet;
  * @author Gerd Bartelt
  */
 public class UniDataSetTableColumn {
-	
+
 	// All used images are loaded by default and when the table row is
 	// displayed. This makes the loading of the table faster.
 	private static final Image CHECKED = Activator.getImageDescriptor("icons/16/checked_16.png").createImage();
@@ -69,17 +67,24 @@ public class UniDataSetTableColumn {
 	private int stdId = 0;
 
 	/**
-	 * Constructor
-	 * Creates a UniDatSet table column with no editing support
+	 * Constructor Creates a UniDatSet table column with no editing support
 	 * 
-	 * @param tableColumnLayout The layout of the table column
-	 * @param tableViewer The table viewer
-	 * @param style SWT style of the column
-	 * @param header The header of the column
-	 * @param weight Width of the column
-	 * @param minimumWidth The minimum width
-	 * @param fixsize Set the width to a fix value
-	 * @param dataKey Key that represents the column's data
+	 * @param tableColumnLayout
+	 *            The layout of the table column
+	 * @param tableViewer
+	 *            The table viewer
+	 * @param style
+	 *            SWT style of the column
+	 * @param header
+	 *            The header of the column
+	 * @param weight
+	 *            Width of the column
+	 * @param minimumWidth
+	 *            The minimum width
+	 * @param fixsize
+	 *            Set the width to a fix value
+	 * @param dataKey
+	 *            Key that represents the column's data
 	 */
 	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight, int minimumWidth,
 			boolean fixsize, final String dataKey) {
@@ -87,18 +92,26 @@ public class UniDataSetTableColumn {
 	}
 
 	/**
-	 * Constructor
-	 * Creates a UniDatSet table column with  editing support
+	 * Constructor Creates a UniDatSet table column with editing support
 	 * 
-	 * @param tableColumnLayout The layout of the table column
-	 * @param tableViewer The table viewer
-	 * @param style SWT style of the column
-	 * @param header The header of the column
-	 * @param weight Width of the column
-	 * @param minimumWidth The minimum width
-	 * @param fixsize Set the width to a fix value
-	 * @param dataKey Key that represents the column's data
-	 * @param editingSupport The editing support of the cell
+	 * @param tableColumnLayout
+	 *            The layout of the table column
+	 * @param tableViewer
+	 *            The table viewer
+	 * @param style
+	 *            SWT style of the column
+	 * @param header
+	 *            The header of the column
+	 * @param weight
+	 *            Width of the column
+	 * @param minimumWidth
+	 *            The minimum width
+	 * @param fixsize
+	 *            Set the width to a fix value
+	 * @param dataKey
+	 *            Key that represents the column's data
+	 * @param editingSupport
+	 *            The editing support of the cell
 	 */
 	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, final TableViewer tableViewer, int style, String header, int weight, int minimumWidth,
 			boolean fixsize, final String dataKey, EditingSupport editingSupport) {
@@ -116,21 +129,22 @@ public class UniDataSetTableColumn {
 			// The table column was selected
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+
 				// Get the data key of the column
 				DataSetArray<?> datasets = (DataSetArray<?>) tableViewer.getInput();
 				((TableSorter) tableViewer.getSorter()).setDataKey(datasets.getTemplate(), dataKey);
 
 				// Get the sort order (direction)
 				int dir = tableViewer.getTable().getSortDirection();
-				
+
 				// Toggle the direction
 				if (tableViewer.getTable().getSortColumn() == column) {
 					if (dir == SWT.UP)
 						dir = SWT.DOWN;
 					else
 						dir = SWT.UP;
-				} else {
+				}
+				else {
 					dir = SWT.DOWN;
 				}
 
@@ -157,13 +171,13 @@ public class UniDataSetTableColumn {
 			@Override
 			public void update(ViewerCell cell) {
 				UniDataSet uds = (UniDataSet) cell.getElement();
-				
+
 				// Fill the cell with a UniData value, if the dataKey
 				// does not start with a "$"
 				if (!dataKey.startsWith("$")) {
 					cell.setText(getText(uds, dataKey));
 				}
-				
+
 				// Fill the cell with the icon for standard ID
 				else if (dataKey.equals("$stdId")) {
 					if (stdId == uds.getIntValueByKey("id"))
@@ -172,7 +186,7 @@ public class UniDataSetTableColumn {
 						cell.setImage(null);
 
 				}
-				
+
 				// Fill the cell with the icon for status
 				// eg. "payed/unpayed" for invoices
 				else if (dataKey.equals("$status")) {
@@ -181,14 +195,16 @@ public class UniDataSetTableColumn {
 					case CREDIT:
 						if (uds.getBooleanValueByKey("payed")) {
 							cell.setImage(CHECKED);
-						} else {
+						}
+						else {
 							cell.setImage(UNPAYED);
 						}
 						break;
 					case DUNNING:
 						if (uds.getBooleanValueByKey("payed")) {
 							cell.setImage(CHECKED);
-						} else {
+						}
+						else {
 							cell.setImage(UNPAYED);
 						}
 						break;
@@ -214,7 +230,7 @@ public class UniDataSetTableColumn {
 					}
 					cell.setText(getText(uds, dataKey));
 				}
-				
+
 				// Fill the cell with the icon of the document type
 				else if (dataKey.equals("$documenttype")) {
 					DocumentType documentType = DocumentType.getType(((UniDataSet) cell.getElement()).getIntValueByKey("category"));
@@ -245,22 +261,22 @@ public class UniDataSetTableColumn {
 						break;
 					}
 				}
-				
+
 				// Fill the cell with the VAT value
 				else if (dataKey.equals("$vatbyid")) {
 					cell.setText(((UniDataSet) cell.getElement()).getFormatedStringValueByKeyFromOtherTable("vatid.VATS:value"));
 				}
-				
+
 				// Fill the cell with the total net value of the item
 				else if (dataKey.equals("$ItemNetTotal")) {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getTotalNetRounded().asFormatedString());
 				}
-				
+
 				// Fill the cell with the VAT (percent) value of the item
 				else if (dataKey.equals("$ItemVatPercent")) {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getVatPercent());
 				}
-				
+
 				// Fill the cell with the VAT (percent) value of the item
 				else if (dataKey.equals("$ExpenditureItemVatPercent")) {
 					cell.setText(new Price(((DataSetExpenditureItem) cell.getElement())).getVatPercent());
@@ -270,7 +286,7 @@ public class UniDataSetTableColumn {
 				else if (dataKey.equals("$ItemGrossTotal")) {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getTotalGrossRounded().asFormatedString());
 				}
-				
+
 				// Fill the cell with the gross price of the item
 				else if (dataKey.equals("$ItemGrossPrice")) {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getUnitGross().asFormatedString());
@@ -284,15 +300,15 @@ public class UniDataSetTableColumn {
 				// Fill the cell with the net price of the product (quantity = 1)
 				else if (dataKey.equals("$Price1Net")) {
 					DataSetProduct product = (DataSetProduct) cell.getElement();
-					cell.setText(new Price(product.getDoubleValueByKey("price1"), product.getDoubleValueByKeyFromOtherTable("vatid.VATS:value") )
-							.getUnitNet().asFormatedString());
+					cell.setText(new Price(product.getDoubleValueByKey("price1"), product.getDoubleValueByKeyFromOtherTable("vatid.VATS:value")).getUnitNet()
+							.asFormatedString());
 				}
 
 				// Fill the cell with the gross price of the product (quantity = 1)
 				else if (dataKey.equals("$Price1Gross")) {
 					DataSetProduct product = (DataSetProduct) cell.getElement();
-					cell.setText(new Price(product.getDoubleValueByKey("price1"), product.getDoubleValueByKeyFromOtherTable("vatid.VATS:value") )
-							.getUnitGross().asFormatedString());
+					cell.setText(new Price(product.getDoubleValueByKey("price1"), product.getDoubleValueByKeyFromOtherTable("vatid.VATS:value")).getUnitGross()
+							.asFormatedString());
 				}
 
 			}
@@ -301,10 +317,12 @@ public class UniDataSetTableColumn {
 	}
 
 	/**
-	 * Get the value to fill the cell as text. 
+	 * Get the value to fill the cell as text.
 	 * 
-	 * @param uds The UniDataSet that contains the text
-	 * @param dataKey The data key to access the UniDataSet
+	 * @param uds
+	 *            The UniDataSet that contains the text
+	 * @param dataKey
+	 *            The data key to access the UniDataSet
 	 * @return The value as text string
 	 */
 	public static String getText(UniDataSet uds, String dataKey) {
@@ -313,7 +331,7 @@ public class UniDataSetTableColumn {
 		if (!dataKey.startsWith("$")) {
 			return uds.getFormatedStringValueByKey(dataKey);
 		}
-		
+
 		// Fill the cell with the status
 		// eg. "payed/unpayed" for invoices
 		else if (dataKey.equals("$status")) {
@@ -322,13 +340,15 @@ public class UniDataSetTableColumn {
 			case CREDIT:
 				if (uds.getBooleanValueByKey("payed")) {
 					return "bezahlt";
-				} else {
+				}
+				else {
 					return "nicht bezahlt";
 				}
 			case DUNNING:
 				if (uds.getBooleanValueByKey("payed")) {
 					return "bezahlt";
-				} else {
+				}
+				else {
 					return uds.getStringValueByKey("dunninglevel") + ".Mahnung";
 				}
 			case ORDER:
@@ -349,13 +369,13 @@ public class UniDataSetTableColumn {
 			}
 
 		}
-		
+
 		// Fill the cell with the document type
 		else if (dataKey.equals("$documenttype")) {
 			DocumentType documentType = DocumentType.getType(uds.getIntValueByKey("category"));
 			return documentType.getString();
 		}
-		
+
 		// Fill the cell with the VAT value
 		else if (dataKey.equals("$vatbyid")) { return uds.getFormatedStringValueByKeyFromOtherTable("vatid.VATS:value"); }
 
@@ -363,10 +383,12 @@ public class UniDataSetTableColumn {
 	}
 
 	/**
-	 * Get the value to fill the cell as number. 
+	 * Get the value to fill the cell as number.
 	 * 
-	 * @param uds The UniDataSet that contains the text
-	 * @param dataKey The data key to access the UniDataSet
+	 * @param uds
+	 *            The UniDataSet that contains the text
+	 * @param dataKey
+	 *            The data key to access the UniDataSet
 	 * @return The value as double
 	 */
 	public static Double getDoubleValue(UniDataSet uds, String dataKey) {
@@ -375,9 +397,9 @@ public class UniDataSetTableColumn {
 		// does not start with a "$"
 		if (!dataKey.startsWith("$")) {
 			return uds.getDoubleValueByKey(dataKey);
-			
+
 		}
-		
+
 		// Get the value of the status
 		// eg. "payed/unpayed" for invoices
 		else if (dataKey.equals("$status")) {
@@ -388,7 +410,8 @@ public class UniDataSetTableColumn {
 			case DUNNING:
 				if (uds.getBooleanValueByKey("payed")) {
 					return 0.0;
-				} else {
+				}
+				else {
 					return uds.getDoubleValueByKey("dunninglevel");
 				}
 			case ORDER:
@@ -398,12 +421,12 @@ public class UniDataSetTableColumn {
 			}
 
 		}
-		
+
 		// Get the number of the document type
 		else if (dataKey.equals("$documenttype")) {
 			return uds.getDoubleValueByKey("category");
 		}
-		
+
 		// Get the VAT
 		else if (dataKey.equals("$vatbyid")) { return DataUtils.StringToDouble(uds.getFormatedStringValueByKeyFromOtherTable("vatid.VATS:value")); }
 
@@ -413,35 +436,40 @@ public class UniDataSetTableColumn {
 	/**
 	 * Returns TRUE, if the dataKey describes a numeric value
 	 * 
-	 * @param uds The UnidataSet to test
-	 * @param dataKey The data key
+	 * @param uds
+	 *            The UnidataSet to test
+	 * @param dataKey
+	 *            The data key
 	 * @return TRUE, if the dataKey describes a numeric value
 	 */
 	public static boolean isNumeric(UniDataSet uds, String dataKey) {
-		
+
 		// If it does not start with a "$", test, if the UniDataSet contains
 		// a numeric value.
 		if (!dataKey.startsWith("$")) {
 			return uds.getUniDataTypeByKey(dataKey).isNumeric();
 		}
-		
+
 		// Status is not numeric
 		else if (dataKey.equals("$status")) {
 			return false;
 		}
-		
+
 		// Document type is not numeric
 		else if (dataKey.equals("$documenttype")) {
 			return false;
 		}
-		
+
 		// VAT is numeric
-		else if (dataKey.equals("$vatbyid")) { return true; }
+		else if (dataKey.equals("$vatbyid")) {
+			return true;
+		}
 
 		// Price is numeric
-		else if (dataKey.equals("$Price1Net")) { return true; }
+		else if (dataKey.equals("$Price1Net")) {
+			return true;
+		}
 		else if (dataKey.equals("$Price1Gross")) { return true; }
-
 
 		return false;
 	}
@@ -449,8 +477,10 @@ public class UniDataSetTableColumn {
 	/**
 	 * Returns TRUE, if the dataKey describes a date value
 	 * 
-	 * @param uds The UnidataSet to test
-	 * @param dataKey The data key
+	 * @param uds
+	 *            The UnidataSet to test
+	 * @param dataKey
+	 *            The data key
 	 * @return TRUE, if the dataKey describes a date value
 	 */
 	public static boolean isDate(UniDataSet uds, String dataKey) {
@@ -461,7 +491,8 @@ public class UniDataSetTableColumn {
 	/**
 	 * Set the standard entry
 	 * 
-	 * @param stdId ID of the standard entry
+	 * @param stdId
+	 *            ID of the standard entry
 	 */
 	public void setStdEntry(int stdId) {
 		this.stdId = stdId;

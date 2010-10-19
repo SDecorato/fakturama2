@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -41,26 +39,28 @@ import com.sebulli.fakturama.data.DataSetProduct;
  */
 public class ItemEditingSupport extends EditingSupport {
 
-	private static String TAX_CATEGORY = "Umsatzsteuer"; 
+	private static String TAX_CATEGORY = "Umsatzsteuer";
 
 	// The cell editor
 	private CellEditor editor;
 
 	// The current columns
 	private int column;
-	
+
 	private Object activeObject;
-	
+
 	// The parent document editor that contains the item table
 	private DocumentEditor documentEditor;
 
 	/**
-	 * Contructor
-	 * Create support to edit the table entries.
+	 * Contructor Create support to edit the table entries.
 	 * 
-	 * @param documentEditor The parent document editor that contains the item table
-	 * @param viewer The column viewer
-	 * @param column The column
+	 * @param documentEditor
+	 *            The parent document editor that contains the item table
+	 * @param viewer
+	 *            The column viewer
+	 * @param column
+	 *            The column
 	 */
 	public ItemEditingSupport(DocumentEditor documentEditor, ColumnViewer viewer, int column) {
 		super(viewer);
@@ -68,7 +68,7 @@ public class ItemEditingSupport extends EditingSupport {
 		// Set the local variables
 		this.documentEditor = documentEditor;
 		this.column = column;
-		
+
 		// Create the correct editor based on the column index
 		// Column nr.5 uses a combo box cell editor.
 		// The other columns a text cell editor.
@@ -122,7 +122,7 @@ public class ItemEditingSupport extends EditingSupport {
 
 		activeObject = element;
 		documentEditor.setItemEditing(this);
-		
+
 		DataSetItem item = (DataSetItem) element;
 		switch (this.column) {
 		case 1:
@@ -149,20 +149,21 @@ public class ItemEditingSupport extends EditingSupport {
 	/**
 	 * Sets the new value on the given element.
 	 * 
-	 * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object, java.lang.Object)
+	 * @see org.eclipse.jface.viewers.EditingSupport#setValue(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	@Override
 	protected void setValue(Object element, Object value) {
 		DataSetItem item = (DataSetItem) element;
 
 		documentEditor.setItemEditing(null);
-		
+
 		switch (this.column) {
 		case 1:
 			// Set the quantity
 			item.setStringValueByKey("quantity", String.valueOf(value));
 			int productId = item.getIntValueByKey("productid");
-			
+
 			// If the item is coupled with a product, get the graduated price
 			if (productId >= 0) {
 				DataSetProduct product = Data.INSTANCE.getProducts().getDatasetById(productId);
@@ -184,7 +185,7 @@ public class ItemEditingSupport extends EditingSupport {
 			break;
 		case 5:
 			// Set the VAT
-			
+
 			// Get the selected item from the combo box
 			Integer i = (Integer) value;
 			String s;
@@ -193,13 +194,13 @@ public class ItemEditingSupport extends EditingSupport {
 			if (i >= 0) {
 				s = ((ComboBoxCellEditor) this.editor).getItems()[i];
 				i = Data.INSTANCE.getVATs().getDataSetIDByStringValue("name", s, TAX_CATEGORY);
-			} 
+			}
 			// Get the VAT by the Value in percent
 			else {
 				s = ((CCombo) ((ComboBoxCellEditor) this.editor).getControl()).getText();
 				i = Data.INSTANCE.getVATs().getDataSetByDoubleValue("value", DataUtils.StringToDouble(s + "%"), TAX_CATEGORY);
 			}
-			
+
 			// If no VAT is found, use the standard VAT
 			if (i < 0)
 				i = Integer.parseInt(Data.INSTANCE.getProperty("standardvat"));
@@ -208,19 +209,20 @@ public class ItemEditingSupport extends EditingSupport {
 			Double oldVat = 1.0 + item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value");
 			item.setVat(i);
 			Double newVat = 1.0 + item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value");
-			
+
 			// Modify the net value that the gross value stays constant.
 			if (documentEditor.getUseGross())
 				item.setDoubleValueByKey("price", oldVat / newVat * item.getDoubleValueByKey("price"));
-			
+
 			break;
 		case 6:
 			// Set the price as gross or net value.
 			// If the editor displays gross values, calculate the net value,
 			// because only net values are stored.
 			if (documentEditor.getUseGross())
-				item.setDoubleValueByKey("price", new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKey("vatvalue"), item
-						.getBooleanValueByKey("novat"), true).getUnitNet().asDouble());
+				item.setDoubleValueByKey("price",
+						new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKey("vatvalue"), item.getBooleanValueByKey("novat"), true)
+								.getUnitNet().asDouble());
 			else
 				item.setStringValueByKey("price", String.valueOf(value));
 			break;
@@ -232,14 +234,14 @@ public class ItemEditingSupport extends EditingSupport {
 		default:
 			break;
 		}
-		
+
 		// Recalculate the total sum of the document
 		documentEditor.calculate();
-		
+
 		// Update the data
 		getViewer().update(element, null);
 	}
-	
+
 	/**
 	 * Cancel editing of this cell
 	 */

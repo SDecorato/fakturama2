@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.actions;
@@ -37,9 +35,9 @@ import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
 /**
- * This action deletes an selected data set.
- * An dialog appears to confirm the deletion.
- *  
+ * This action deletes an selected data set. An dialog appears to confirm the
+ * deletion.
+ * 
  * @author Gerd Bartelt
  */
 public class DeleteDataSetAction extends Action {
@@ -49,10 +47,10 @@ public class DeleteDataSetAction extends Action {
 	 */
 	public DeleteDataSetAction() {
 		super("löschen");
-		
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_DELETE_DATASET);
-		
+
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_DELETE_DATASET);
@@ -60,17 +58,17 @@ public class DeleteDataSetAction extends Action {
 	}
 
 	/**
-	 * Run the action
-	 * Search all views to get the selected element.
-	 * If a view with an selection is found, display the dialog before deleting the element
+	 * Run the action Search all views to get the selected element. If a view
+	 * with an selection is found, display the dialog before deleting the
+	 * element
 	 */
 	@Override
 	public void run() {
-		
+
 		// cancel, if the data base is not connected.
 		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
-	
+
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		IWorkbenchPage page = workbenchWindow.getActivePage();
 
@@ -78,12 +76,12 @@ public class DeleteDataSetAction extends Action {
 		IWorkbenchPart part = null;
 		if (page != null)
 			part = page.getActivePart();
-		
+
 		ISelection selection;
 
 		// Cast the part to ViewDataSetTable
 		if (part instanceof ViewDataSetTable) {
-			ViewDataSetTable view = (ViewDataSetTable) part; 
+			ViewDataSetTable view = (ViewDataSetTable) part;
 
 			// Does the part exist ?
 			if (view != null) {
@@ -92,7 +90,7 @@ public class DeleteDataSetAction extends Action {
 				selection = view.getSite().getSelectionProvider().getSelection();
 				if (selection != null && selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection) selection).getFirstElement();
-				
+
 					// If we had a selection let us delete the element
 					if (obj != null) {
 						UniDataSet uds = (UniDataSet) obj;
@@ -101,10 +99,10 @@ public class DeleteDataSetAction extends Action {
 						MessageBox messageBox = new MessageBox(workbenchWindow.getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
 						messageBox.setText("Löschen bestätigen");
 						messageBox.setMessage("Eintrag " + uds.getStringValueByKey("name") + " wird entgültig gelöscht !");
-						
+
 						// We can delete now.
 						if (messageBox.open() == SWT.OK) {
-							
+
 							// Instead of deleting is completely from the database, the element is just marked
 							// as deleted. So a document which still refers to this element would not cause an error.
 							uds.setBooleanValueByKey("deleted", true);
@@ -116,8 +114,8 @@ public class DeleteDataSetAction extends Action {
 					}
 				}
 			}
-			
+
 		}
-		
+
 	}
 }

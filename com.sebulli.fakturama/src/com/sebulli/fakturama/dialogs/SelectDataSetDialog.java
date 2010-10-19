@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.dialogs;
@@ -65,17 +63,19 @@ public abstract class SelectDataSetDialog extends Dialog {
 	/**
 	 * Constructor
 	 * 
-	 * @param parentShell The parent shell
+	 * @param parentShell
+	 *            The parent shell
 	 */
 	protected SelectDataSetDialog(Shell parentShell) {
 		super(parentShell);
 	}
 
 	/**
-	 * Constructor 
-	 * Creates a new dialog and uses the shell of the active workbench window
+	 * Constructor Creates a new dialog and uses the shell of the active
+	 * workbench window
 	 * 
-	 * @param title Title of the new dialog
+	 * @param title
+	 *            Title of the new dialog
 	 */
 	public SelectDataSetDialog(String title) {
 		this(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
@@ -83,10 +83,11 @@ public abstract class SelectDataSetDialog extends Dialog {
 	}
 
 	/**
-	 * Create this part of the dialog are that is common in all the different types
-	 * of SelectDataSetDialogs
-	 *  
-	 *  @param parent The parent composite
+	 * Create this part of the dialog are that is common in all the different
+	 * types of SelectDataSetDialogs
+	 * 
+	 * @param parent
+	 *            The parent composite
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -97,7 +98,7 @@ public abstract class SelectDataSetDialog extends Dialog {
 
 		// Set the title
 		this.getShell().setText(title);
-		
+
 		// The search composite
 		Composite searchComposite = new Composite(top, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(searchComposite);
@@ -117,7 +118,7 @@ public abstract class SelectDataSetDialog extends Dialog {
 				tableViewer.refresh();
 			}
 		});
-		
+
 		// Define the SWT layout
 		Composite tableComposite = new Composite(top, SWT.NONE);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(tableComposite);
@@ -130,7 +131,7 @@ public abstract class SelectDataSetDialog extends Dialog {
 		tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION);
 		tableViewer.getTable().setLinesVisible(true);
 		tableViewer.getTable().setHeaderVisible(true);
-		
+
 		// Add a selection change listener
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -152,9 +153,9 @@ public abstract class SelectDataSetDialog extends Dialog {
 
 		// Add a double click listener.
 		// Close the dialog
-		
+
 		tableViewer.addDoubleClickListener(new IDoubleClickListener() {
-			
+
 			/**
 			 * Double click method
 			 * 
@@ -168,7 +169,6 @@ public abstract class SelectDataSetDialog extends Dialog {
 		tableFilter = new TableFilter(searchColumns);
 		tableViewer.addFilter(tableFilter);
 
-		
 		return top;
 	}
 
@@ -185,7 +185,8 @@ public abstract class SelectDataSetDialog extends Dialog {
 	/**
 	 * Configures the shell
 	 * 
-	 * @param newShell The new shell
+	 * @param newShell
+	 *            The new shell
 	 */
 	@Override
 	protected void configureShell(Shell newShell) {

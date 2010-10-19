@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -61,7 +59,7 @@ public class ShippingEditor extends Editor {
 
 	// This UniDataSet represents the editor's input 
 	private DataSetShipping shipping;
-	
+
 	// SWT widgets of the editor
 	private Text textName;
 	private Text textDescription;
@@ -99,7 +97,8 @@ public class ShippingEditor extends Editor {
 	/**
 	 * Saves the contents of this part
 	 * 
-	 * @param monitor Progress monitor
+	 * @param monitor
+	 *            Progress monitor
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
@@ -145,14 +144,15 @@ public class ShippingEditor extends Editor {
 	}
 
 	/**
-	 * Initializes the editor. 
-	 * If an existing data set is opened, the local variable "shipping" is set to
-	 * This data set.
-	 * If the editor is opened to create a new one, a new data set is created and
-	 * the local variable "shipping" is set to this one.
+	 * Initializes the editor. If an existing data set is opened, the local
+	 * variable "shipping" is set to This data set. If the editor is opened to
+	 * create a new one, a new data set is created and the local variable
+	 * "shipping" is set to this one.
 	 * 
-	 * @param input The editor's input
-	 * @param site The editor's site
+	 * @param input
+	 *            The editor's input
+	 * @param site
+	 *            The editor's site
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -160,7 +160,7 @@ public class ShippingEditor extends Editor {
 		// Set the site and the input
 		setSite(site);
 		setInput(input);
-		
+
 		// Set the editor's data set to the editor's input
 		shipping = (DataSetShipping) ((UniDataSetEditorInput) input).getUniDataSet();
 
@@ -174,8 +174,9 @@ public class ShippingEditor extends Editor {
 			// Create a new data set
 			shipping = new DataSetShipping(((UniDataSetEditorInput) input).getCategory());
 			setPartName("neue Versandkosten");
-			
-		} else {
+
+		}
+		else {
 
 			// Set the Editor's name to the shipping name.
 			setPartName(shipping.getStringValueByKey("name"));
@@ -211,7 +212,7 @@ public class ShippingEditor extends Editor {
 
 	/**
 	 * Returns whether the "Save As" operation is supported by this part.
-
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 * @return False, SaveAs is not allowed
 	 */
@@ -221,12 +222,12 @@ public class ShippingEditor extends Editor {
 	}
 
 	/**
-	 * Show or hide the netText and grossText widget, depending on the
-	 * setting "autoVat".
+	 * Show or hide the netText and grossText widget, depending on the setting
+	 * "autoVat".
 	 */
 	private void autoVatChanged() {
 		switch (autoVat) {
-		
+
 		// The gross value is based on the net value by using
 		// a constant Vat factor
 		case DataSetShipping.SHIPPINGVATFIX:
@@ -240,7 +241,7 @@ public class ShippingEditor extends Editor {
 				grossText.setVatValue(vat);
 			}
 			break;
-			
+
 		// The shipping net value is based on the gross value using the
 		// same VAT factor as the items. The gross value is kept constant.
 		case DataSetShipping.SHIPPINGVATGROSS:
@@ -254,7 +255,7 @@ public class ShippingEditor extends Editor {
 				grossText.setVatValue(0.0);
 			}
 			break;
-		
+
 		// The shipping gross value is based on the net value using the
 		// same VAT factor as the items. The net value is kept constant.
 		case DataSetShipping.SHIPPINGVATNET:
@@ -273,14 +274,15 @@ public class ShippingEditor extends Editor {
 	}
 
 	/**
-	* Creates the SWT controls for this workbench part
-	* 
-	* @param the parent control
-	* @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-	*/
+	 * Creates the SWT controls for this workbench part
+	 * 
+	 * @param the
+	 *            parent control
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		
+
 		// Some of this editos's control elements can be hidden.
 		// Get the these settings from the preference store
 		useNet = (Activator.getDefault().getPreferenceStore().getInt("PRODUCT_USE_NET_GROSS") != 2);
@@ -300,10 +302,11 @@ public class ShippingEditor extends Editor {
 		// Get the VAT by the VAT ID
 		try {
 			vat = Data.INSTANCE.getVATs().getDatasetById(vatId).getDoubleValueByKey("value");
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			vat = 0.0;
 		}
-		
+
 		// Create the top Composite
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
@@ -410,7 +413,7 @@ public class ShippingEditor extends Editor {
 				// Handle selection changed event 
 				ISelection selection = event.getSelection();
 				IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-				
+
 				// If one element is selected
 				if (!structuredSelection.isEmpty()) {
 
@@ -449,7 +452,8 @@ public class ShippingEditor extends Editor {
 		comboViewer.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory("Umsatzsteuer"));
 		try {
 			comboViewer.setSelection(new StructuredSelection(Data.INSTANCE.getVATs().getDatasetById(vatId)), true);
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			comboVat.setText("invalid");
 			vatId = -1;
 		}
@@ -471,15 +475,15 @@ public class ShippingEditor extends Editor {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-			
+
 				// Get the selected list entry
 				autoVat = comboAutoVat.getSelectionIndex();
-				
+
 				// If no gross values are used, do not allow to select
 				// the entry "SHIPPINGVATGROSS"
 				if (!useGross && (autoVat == DataSetShipping.SHIPPINGVATGROSS))
 					autoVat = DataSetShipping.SHIPPINGVATNET;
-				
+
 				// Display or hide the net and gross widgets
 				autoVatChanged();
 
@@ -493,7 +497,8 @@ public class ShippingEditor extends Editor {
 		try {
 			comboAutoVat.select(autoVat);
 			autoVatChanged();
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			comboAutoVat.setText("invalid");
 			autoVat = DataSetShipping.SHIPPINGVATGROSS;
 		}

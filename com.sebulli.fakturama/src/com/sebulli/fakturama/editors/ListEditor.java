@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -47,7 +45,7 @@ import com.sebulli.fakturama.views.datasettable.ViewListTable;
  * @author Gerd Bartelt
  */
 public class ListEditor extends Editor {
-	
+
 	// Editor's ID
 	public static final String ID = "com.sebulli.fakturama.editors.listEditor";
 
@@ -58,7 +56,7 @@ public class ListEditor extends Editor {
 	private Combo comboCategory;
 	private Text textName;
 	private Text textValue;
-	
+
 	// defines, if the text is new created
 	private boolean newList;
 
@@ -72,11 +70,11 @@ public class ListEditor extends Editor {
 		editorID = "list";
 	}
 
-
 	/**
 	 * Saves the contents of this part
 	 * 
-	 * @param monitor Progress monitor
+	 * @param monitor
+	 *            Progress monitor
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
@@ -85,7 +83,7 @@ public class ListEditor extends Editor {
 		 * the following parameters are not saved:
 		 * - id (constant)
 		 */
-		
+
 		// Get the selected category
 		String category = "";
 		int i = comboCategory.getSelectionIndex();
@@ -93,21 +91,20 @@ public class ListEditor extends Editor {
 			category = comboCategory.getItem(i);
 		else
 			category = comboCategory.getText();
-		
+
 		category = DataSetListNames.NAMES.getName(category);
 
 		// Exit, if the selected entry is not a name of a valid list
 		if (!DataSetListNames.NAMES.exists(category))
 			return;
-		
-		
+
 		// Always set the editor's data set to "undeleted"
 		listEntry.setBooleanValueByKey("deleted", false);
-		
+
 		// Set the text data
 		listEntry.setStringValueByKey("name", textName.getText());
 		listEntry.setStringValueByKey("value", textValue.getText());
-		listEntry.setStringValueByKey("category", category );
+		listEntry.setStringValueByKey("category", category);
 
 		// If it is a new text, add it to the text list and
 		// to the data base
@@ -133,14 +130,15 @@ public class ListEditor extends Editor {
 	}
 
 	/**
-	 * Initializes the editor. 
-	 * If an existing data set is opened, the local variable "text" is set to
-	 * This data set.
-	 * If the editor is opened to create a new one, a new data set is created and
-	 * the local variable "text" is set to this one.
+	 * Initializes the editor. If an existing data set is opened, the local
+	 * variable "text" is set to This data set. If the editor is opened to
+	 * create a new one, a new data set is created and the local variable "text"
+	 * is set to this one.
 	 * 
-	 * @param input The editor's input
-	 * @param site The editor's site
+	 * @param input
+	 *            The editor's input
+	 * @param site
+	 *            The editor's site
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -148,22 +146,23 @@ public class ListEditor extends Editor {
 		// Set the site and the input
 		setSite(site);
 		setInput(input);
-		
+
 		// Set the editor's data set to the editor's input
 		listEntry = (DataSetList) ((UniDataSetEditorInput) input).getUniDataSet();
 
 		// test, if the editor is opened to create a new data set. This is,
 		// if there is no input set.
 		newList = (listEntry == null);
-		
+
 		// If new ..
 		if (newList) {
-			
+
 			// Create a new data set
 			listEntry = new DataSetList(((UniDataSetEditorInput) input).getCategory());
 			setPartName("neuer Eintrag");
-		} else {
-			
+		}
+		else {
+
 			// Set the Editor's name to the shipping name.
 			setPartName(listEntry.getStringValueByKey("name"));
 		}
@@ -187,7 +186,7 @@ public class ListEditor extends Editor {
 
 		if (!listEntry.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!listEntry.getStringValueByKey("value").equals(textValue.getText())) { return true; }
-		
+
 		// Get the selected entry
 		String category = "";
 		int i = comboCategory.getSelectionIndex();
@@ -195,7 +194,7 @@ public class ListEditor extends Editor {
 			category = comboCategory.getItem(i);
 		else
 			category = comboCategory.getText();
-		
+
 		category = DataSetListNames.NAMES.getName(category);
 
 		if (!listEntry.getStringValueByKey("category").equals(category)) { return true; }
@@ -205,7 +204,7 @@ public class ListEditor extends Editor {
 
 	/**
 	 * Returns whether the "Save As" operation is supported by this part.
-
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 * @return False, SaveAs is not allowed
 	 */
@@ -215,11 +214,12 @@ public class ListEditor extends Editor {
 	}
 
 	/**
-	* Creates the SWT controls for this workbench part
-	* 
-	* @param the parent control
-	* @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-	*/
+	 * Creates the SWT controls for this workbench part
+	 * 
+	 * @param the
+	 *            parent control
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 
@@ -239,22 +239,23 @@ public class ListEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).hint(200, SWT.DEFAULT).applyTo(comboCategory);
-		
-		// Add each localizes list name to the combo
-        for (Map.Entry<String, String> entry : DataSetListNames.NAMES.getLocalizedNames()) {
-            comboCategory.add(entry.getValue());
-        }
 
-        // Check dirty, if the selection changes
-        comboCategory.addSelectionListener(new SelectionAdapter(){
+		// Add each localizes list name to the combo
+		for (Map.Entry<String, String> entry : DataSetListNames.NAMES.getLocalizedNames()) {
+			comboCategory.add(entry.getValue());
+		}
+
+		// Check dirty, if the selection changes
+		comboCategory.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkDirty();
-			}});
-        
-        // Select the category
-        comboCategory.setText(DataSetListNames.NAMES.getLocalizedName(listEntry.getStringValueByKey("category")));
+			}
+		});
+
+		// Select the category
+		comboCategory.setText(DataSetListNames.NAMES.getLocalizedName(listEntry.getStringValueByKey("category")));
 
 		// The name
 		Label labelName = new Label(top, SWT.NONE);
@@ -269,7 +270,7 @@ public class ListEditor extends Editor {
 		Label labelCode = new Label(top, SWT.NONE);
 		labelCode.setText("Wert");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCode);
-		textValue = new Text(top, SWT.BORDER );
+		textValue = new Text(top, SWT.BORDER);
 		textValue.setText(listEntry.getStringValueByKey("value"));
 		superviceControl(textValue, 250);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textValue);

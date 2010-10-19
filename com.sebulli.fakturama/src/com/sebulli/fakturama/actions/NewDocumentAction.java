@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.actions;
@@ -36,15 +34,15 @@ import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 
 /**
  * This action creates a new contact in an editor.
- *  
+ * 
  * @author Gerd Bartelt
  */
 public class NewDocumentAction extends NewEditorAction {
 	private int iconSize = 16;
 
 	/**
-	 * Default Constructor with no parameters.
-	 * If no parameters are set, an order document is created.
+	 * Default Constructor with no parameters. If no parameters are set, an
+	 * order document is created.
 	 */
 	public NewDocumentAction() {
 		super("neues Dokument");
@@ -54,10 +52,10 @@ public class NewDocumentAction extends NewEditorAction {
 	}
 
 	/**
-	 * Constructor
-	 * Creates an Action with default icon size of 16x16 pixel
+	 * Constructor Creates an Action with default icon size of 16x16 pixel
 	 * 
-	 * @param documentType Type of document to create
+	 * @param documentType
+	 *            Type of document to create
 	 */
 	public NewDocumentAction(DocumentType documentType) {
 		super("");
@@ -66,31 +64,35 @@ public class NewDocumentAction extends NewEditorAction {
 	}
 
 	/**
-	 * Constructor
-	 * Creates an Action with default icon size of 16x16 pixel
+	 * Constructor Creates an Action with default icon size of 16x16 pixel
 	 * 
-	 * @param documentType Type of document to create
-	 * @param editor Parent editor. The Editors content is saved and duplicated. 
-	 * @param iconSize Size of icon (16, 32 or 48)
+	 * @param documentType
+	 *            Type of document to create
+	 * @param editor
+	 *            Parent editor. The Editors content is saved and duplicated.
+	 * @param iconSize
+	 *            Size of icon (16, 32 or 48)
 	 */
 	public NewDocumentAction(DocumentType documentType, Editor editor, int iconSize) {
 		super("", null, editor);
 		this.iconSize = iconSize;
 		setDocumentType(documentType);
 	}
-	
+
 	/**
 	 * Sets Command ID and icon name of this action
 	 * 
-	 * @param cmd Command ID
-	 * @param image Icon name 
+	 * @param cmd
+	 *            Command ID
+	 * @param image
+	 *            Icon name
 	 */
 	private void setSettings(String cmd, String image) {
 		setId(cmd);
 		setActionDefinitionId(cmd);
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor(image));
 	}
-	
+
 	/**
 	 * Sets Document Type and generates icon name
 	 * 
@@ -107,8 +109,8 @@ public class NewDocumentAction extends NewEditorAction {
 	}
 
 	/**
-	 * Run the action
-	 * If a parent editor is set: Save the content and duplicate it.
+	 * Run the action If a parent editor is set: Save the content and duplicate
+	 * it.
 	 * 
 	 * Open a new document editor.
 	 */
@@ -121,10 +123,10 @@ public class NewDocumentAction extends NewEditorAction {
 
 		// Does a parent editor exist ?
 		if (parentEditor != null) {
-			
+
 			//if yes and if it was an Document Editor ...
 			if (parentEditor instanceof DocumentEditor) {
-				
+
 				// Mark parent document, save it and use it as base
 				// for a new document editor.
 				((DocumentEditor) parentEditor).childDocumentGenerated();
@@ -132,7 +134,7 @@ public class NewDocumentAction extends NewEditorAction {
 				parent = ((DocumentEditor) parentEditor).getDocument();
 			}
 		}
-		
+
 		// Was the parent document an order with status pending ?
 		if (parent != null) {
 
@@ -140,12 +142,14 @@ public class NewDocumentAction extends NewEditorAction {
 			if (DocumentType.getType(parent.getCategory()) == DocumentType.ORDER) {
 
 				// State of order was pending
-				if (parent.getIntValueByKey("progress") <= 10 ) {
-					MarkOrderAsAction.markOrderAs((DataSetDocument)parent, 50, "" , Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING"));
-					
+				if (parent.getIntValueByKey("progress") <= 10) {
+					MarkOrderAsAction.markOrderAs((DataSetDocument) parent, 50, "",
+							Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING"));
+
 					// Find the view
-					ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewDocumentTable.ID);
-					
+					ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+							.findView(ViewDocumentTable.ID);
+
 					// Refresh it
 					if (view != null)
 						view.refresh();
@@ -153,14 +157,15 @@ public class NewDocumentAction extends NewEditorAction {
 				}
 			}
 		}
-		
+
 		// Set the editors input
 		UniDataSetEditorInput input = new UniDataSetEditorInput(category, parent);
-		
+
 		// Open the editor
 		try {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, DocumentEditor.ID);
-		} catch (PartInitException e) {
+		}
+		catch (PartInitException e) {
 			Logger.logError(e, "Error opening Editor: " + DocumentEditor.ID);
 		}
 	}

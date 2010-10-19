@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -48,7 +46,7 @@ public class PaymentEditor extends Editor {
 
 	// This UniDataSet represents the editor's input 
 	private DataSetPayment payment;
-	
+
 	// SWT widgets of the editor
 	private Text textName;
 	private Text textDescription;
@@ -75,7 +73,8 @@ public class PaymentEditor extends Editor {
 	/**
 	 * Saves the contents of this part
 	 * 
-	 * @param monitor Progress monitor
+	 * @param monitor
+	 *            Progress monitor
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
@@ -122,14 +121,15 @@ public class PaymentEditor extends Editor {
 	}
 
 	/**
-	 * Initializes the editor. 
-	 * If an existing data set is opened, the local variable "payment" is set to
-	 * This data set.
-	 * If the editor is opened to create a new one, a new data set is created and
-	 * the local variable "payment" is set to this one.
+	 * Initializes the editor. If an existing data set is opened, the local
+	 * variable "payment" is set to This data set. If the editor is opened to
+	 * create a new one, a new data set is created and the local variable
+	 * "payment" is set to this one.
 	 * 
-	 * @param input The editor's input
-	 * @param site The editor's site
+	 * @param input
+	 *            The editor's input
+	 * @param site
+	 *            The editor's site
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -137,7 +137,7 @@ public class PaymentEditor extends Editor {
 		// Set the site and the input
 		setSite(site);
 		setInput(input);
-		
+
 		// Set the editor's data set to the editor's input
 		payment = (DataSetPayment) ((UniDataSetEditorInput) input).getUniDataSet();
 
@@ -151,8 +151,9 @@ public class PaymentEditor extends Editor {
 			// Create a new data set
 			payment = new DataSetPayment(((UniDataSetEditorInput) input).getCategory());
 			setPartName("neue Zahlungsmethode");
-			
-		} else {
+
+		}
+		else {
 
 			// Set the Editor's name to the payment name.
 			setPartName(payment.getStringValueByKey("name"));
@@ -189,7 +190,7 @@ public class PaymentEditor extends Editor {
 
 	/**
 	 * Returns whether the "Save As" operation is supported by this part.
-
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 * @return False, SaveAs is not allowed
 	 */
@@ -199,11 +200,12 @@ public class PaymentEditor extends Editor {
 	}
 
 	/**
-	* Creates the SWT controls for this workbench part
-	* 
-	* @param the parent control
-	* @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-	*/
+	 * Creates the SWT controls for this workbench part
+	 * 
+	 * @param the
+	 *            parent control
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 
@@ -285,22 +287,22 @@ public class PaymentEditor extends Editor {
 		textPayed = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		textPayed.setText(payment.getStringValueByKey("payedtext"));
 		superviceControl(textPayed, 500);
-		GridDataFactory.fillDefaults().hint(SWT.DEFAULT,200).grab(true, true).applyTo(textPayed);
+		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textPayed);
 
 		// Label for the "payed" text message
 		Label labelUnpayed = new Label(top, SWT.NONE);
 		labelUnpayed.setText("Text 'Nicht bezahlt'");
 		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(labelUnpayed);
-		
+
 		// Create text field for "unpayed" text message
 		textUnpayed = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		textUnpayed.setText(payment.getStringValueByKey("unpayedtext"));
 		superviceControl(textUnpayed, 500);
-		GridDataFactory.fillDefaults().hint(SWT.DEFAULT,200).grab(true, true).applyTo(textUnpayed);
+		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textUnpayed);
 
 		// Empty label
 		new Label(top, SWT.NONE);
-		
+
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo1 = new Label(top, SWT.WRAP);
 		labelPlaceholderInfo1.setText("Platzhalter: <PAYED.VALUE>, <PAYED.DATE>");
@@ -309,18 +311,18 @@ public class PaymentEditor extends Editor {
 
 		// Empty label
 		new Label(top, SWT.NONE);
-		
+
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo2 = new Label(top, SWT.WRAP);
 		labelPlaceholderInfo2.setText("Platzhalter: <DUE.DAYS>, <DUE.DATE>");
 		makeSmallLabel(labelPlaceholderInfo2);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo2);
-		
+
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStd = new Label(top, SWT.NONE);
 		labelStd.setText("Standard");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStd);
-		stdComposite = new StdComposite(top, payment, Data.INSTANCE.getPayments(), "standardpayment", "diese Zahlmethode" ,3);
+		stdComposite = new StdComposite(top, payment, Data.INSTANCE.getPayments(), "standardpayment", "diese Zahlmethode", 3);
 
 	}
 

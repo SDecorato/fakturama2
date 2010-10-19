@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.views.datasettable;
@@ -40,16 +38,16 @@ import com.sebulli.fakturama.data.DocumentType;
  * View with the table of all documents
  * 
  * @author Gerd Bartelt
- *
+ * 
  */
 public class ViewDocumentTable extends ViewDataSetTable {
 
 	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewDocumentTable";
-	
+
 	// The document type that corresponds with the selected category
 	private DocumentType documentType = DocumentType.NONE;
-	
+
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * 
@@ -61,7 +59,6 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		// Add the action to create a new entry
 		addNewAction = new NewDocumentAction();
 
-		
 		// Mark the columns that are used by the search function.
 		searchColumns = new String[4];
 		searchColumns[0] = "name";
@@ -73,7 +70,7 @@ public class ViewDocumentTable extends ViewDataSetTable {
 
 		// Create the context menu
 		createContextMenu();
-		
+
 		// Name of the editor
 		editor = "Document";
 
@@ -106,7 +103,7 @@ public class ViewDocumentTable extends ViewDataSetTable {
 	 */
 	private void createContextMenu() {
 		super.createMenuManager();
-		
+
 		// Add the entries for orders
 		if (documentType.equals(DocumentType.ORDER)) {
 			menuManager.add(new MarkOrderAsAction("als \"offen\" markieren", 10));
@@ -132,16 +129,15 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		menuManager.add(new NewDocumentAction(DocumentType.DUNNING));
 
 		menuManager.add(new Separator());
-		
+
 		menuManager.add(new DeleteDataSetAction());
 	}
 
 	/**
-	 * Add a selection listener.
-	 * The document view is the only view that contains a entry in the
-	 * tree viewer for "THIS TRANSACTION" and "THIS CONTACT".
-	 * If an entry is selected, it's possible to filter all documents from
-	 * the same contact or with the same transaction ID.
+	 * Add a selection listener. The document view is the only view that
+	 * contains a entry in the tree viewer for "THIS TRANSACTION" and
+	 * "THIS CONTACT". If an entry is selected, it's possible to filter all
+	 * documents from the same contact or with the same transaction ID.
 	 */
 	private void hookSelect() {
 
@@ -159,7 +155,7 @@ public class ViewDocumentTable extends ViewDataSetTable {
 				ISelection selection = event.getSelection();
 				if (selection != null && selection instanceof IStructuredSelection) {
 					DataSetDocument uds = (DataSetDocument) ((IStructuredSelection) selection).getFirstElement();
-					
+
 					// Set the transaction and the contact filter
 					if ((uds != null)) {
 						topicTreeViewer.setTransaction(uds.getStringValueByKey("name"), uds.getIntValueByKey("transaction"));
@@ -178,13 +174,13 @@ public class ViewDocumentTable extends ViewDataSetTable {
 	@Override
 	public void setCategoryFilter(String filter) {
 		super.setCategoryFilter(filter);
-		
+
 		// Get the document of the filter string
-		for (int i = 0; i < DocumentType.MAXID; i++ ) {
+		for (int i = 0; i < DocumentType.MAXID; i++) {
 			if (filter.startsWith(DocumentType.getPluralString(i)))
 				documentType = DocumentType.getType(i);
 		}
-		
+
 		// Recreate the context menu
 		menuManager.removeAll();
 		createContextMenu();

@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.actions;
@@ -40,10 +38,9 @@ import com.sebulli.fakturama.openoffice.OOManager;
 import com.sebulli.fakturama.openoffice.OOTemplateFilename;
 
 /**
- * This action starts the OpenOffice exporter.
- * If there is more than one template, a menu appears and the 
- * user can select the template. 
- *  
+ * This action starts the OpenOffice exporter. If there is more than one
+ * template, a menu appears and the user can select the template.
+ * 
  * @author Gerd Bartelt
  */
 public class CreateOODocumentAction extends Action {
@@ -62,8 +59,10 @@ public class CreateOODocumentAction extends Action {
 	/**
 	 * constructor
 	 * 
-	 * @param text Action text
-	 * @param toolTipText Tool tip text
+	 * @param text
+	 *            Action text
+	 * @param toolTipText
+	 *            Tool tip text
 	 */
 	public CreateOODocumentAction(String text, String toolTipText) {
 		super(text);
@@ -74,10 +73,11 @@ public class CreateOODocumentAction extends Action {
 	}
 
 	/**
-	 * Scans the template path for all templates.
-	 * If a template exists, add it to the list of available templates 
+	 * Scans the template path for all templates. If a template exists, add it
+	 * to the list of available templates
 	 * 
-	 * @param templatePath path which is scanned
+	 * @param templatePath
+	 *            path which is scanned
 	 */
 	private void scanPathForTemplates(String templatePath) {
 		File dir = new File(templatePath);
@@ -93,14 +93,13 @@ public class CreateOODocumentAction extends Action {
 	}
 
 	/**
-	 * Run the action
-	 * Search for all available templates.
-	 * If there is more than one, display a menu to select one template.
-	 * The content of the editor is saved before exporting it.
+	 * Run the action Search for all available templates. If there is more than
+	 * one, display a menu to select one template. The content of the editor is
+	 * saved before exporting it.
 	 */
 	@Override
 	public void run() {
-		
+
 		// cancel, if the data base is not connected.
 		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
@@ -108,14 +107,14 @@ public class CreateOODocumentAction extends Action {
 		Editor editor = (Editor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (editor != null)
 			if (editor instanceof DocumentEditor) {
-				
+
 				// Search in the folder "Templates" and also in the folder with the localized  name
 				documentEditor = (DocumentEditor) editor;
-				
+
 				// Exit, if there is a document with the same number
 				if (documentEditor.thereIsOneWithSameNumber())
 					return;
-				
+
 				String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
 				String templatePath1 = workspace + "/Templates/" + documentEditor.getDocumentType().getTypeAsString() + "/";
 				String templatePath2 = workspace + "/" + Workspace.templateFolderName + "/" + documentEditor.getDocumentType().getString() + "/";
@@ -127,7 +126,7 @@ public class CreateOODocumentAction extends Action {
 				scanPathForTemplates(templatePath1);
 				if (!templatePath1.equals(templatePath2))
 					scanPathForTemplates(templatePath2);
-				
+
 				// If more than 1 template is found, show a pup up menu
 				if (templates.size() > 1) {
 					Menu menu = new Menu(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.POP_UP);
@@ -140,22 +139,23 @@ public class CreateOODocumentAction extends Action {
 							public void handleEvent(Event e) {
 								// save the document and open the exporter
 								documentEditor.doSave(null);
-								OOManager.INSTANCE.openOODocument( documentEditor.getDocument(), (String) e.widget.getData() );
+								OOManager.INSTANCE.openOODocument(documentEditor.getDocument(), (String) e.widget.getData());
 							}
 						});
 					}
-					
+
 					// Set the location of the pup up menu near to the upper left corner,
 					// but with an gap, so it should be under the tool bar icon of this action.
 					int x = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getLocation().x;
 					int y = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getLocation().y;
 					menu.setLocation(x + 80, y + 80);
 					menu.setVisible(true);
-					
-				} else if (templates.size() == 1) {
+
+				}
+				else if (templates.size() == 1) {
 					// Save the document and open the exporter
 					documentEditor.doSave(null);
-					OOManager.INSTANCE.openOODocument( documentEditor.getDocument(), templates.get(0).getPathAndFilename() );
+					OOManager.INSTANCE.openOODocument(documentEditor.getDocument(), templates.get(0).getPathAndFilename());
 				}
 			}
 	}

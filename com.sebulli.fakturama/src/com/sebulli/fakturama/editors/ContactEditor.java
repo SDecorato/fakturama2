@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -61,14 +59,14 @@ import com.sebulli.fakturama.views.datasettable.ViewContactTable;
  * 
  * @author Gerd Bartelt
  */
-public class ContactEditor extends Editor implements ISaveablePart2{
-	
+public class ContactEditor extends Editor implements ISaveablePart2 {
+
 	// Editor's ID
 	public static final String ID = "com.sebulli.fakturama.editors.contactEditor";
-	
+
 	// This UniDataSet represents the editor's input 
 	private DataSetContact contact;
-	
+
 	// SWT widgets of the editor
 	private TabFolder tabFolder;
 	private Text textNote;
@@ -110,7 +108,7 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 	private Text txtCategory;
 	private Group deliveryGroup;
 	private Button bDelAddrEquAddr;
-	
+
 	// These flags are set by the preference settings.
 	// They define, if elements of the editor are displayed, or not.
 	private boolean useDelivery;
@@ -122,7 +120,7 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 	private boolean useLastNameFirst;
 	private boolean useCompany;
 	private boolean useCountry;
-	
+
 	// defines, if the contact is new created
 	private boolean newContact;
 
@@ -139,7 +137,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 	/**
 	 * Saves the contents of this part
 	 * 
-	 * @param monitor Progress monitor
+	 * @param monitor
+	 *            Progress monitor
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
@@ -154,21 +153,19 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		if (newContact) {
 
 			// Check, if the contact number is the next one
-			int result = setNextNr(txtNr.getText(),"nr", Data.INSTANCE.getContacts() );
+			int result = setNextNr(txtNr.getText(), "nr", Data.INSTANCE.getContacts());
 
 			// It's not the next free ID
 			if (result == ERROR_NOT_NEXT_ID) {
 				// Display an error message
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 				messageBox.setText("Fehler in Kundennummer");
-				messageBox.setMessage("Kunde hat nicht die nächste freie Nummer: " + txtNr.getText() + 
-										"\nSiehe unter Einstellungen/Nummernkreise.");
+				messageBox.setMessage("Kunde hat nicht die nächste freie Nummer: " + txtNr.getText() + "\nSiehe unter Einstellungen/Nummernkreise.");
 				messageBox.open();
 			}
 
 		}
-		
-		
+
 		// If the Check Box "Address equals delivery address" is set,
 		// all the address data is copied to the delivery addres.s
 		if (bDelAddrEquAddr.getSelection())
@@ -235,7 +232,7 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		if (newContact) {
 			contact = Data.INSTANCE.getContacts().addNewDataSet(contact);
 			newContact = false;
-		} 
+		}
 		// If it's not new, update at least the data base
 		else {
 			Data.INSTANCE.getContacts().updateDataSet(contact);
@@ -255,22 +252,23 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 	}
 
 	/**
-	 * Initializes the editor. 
-	 * If an existing data set is opened, the local variable "contact" is set to
-	 * This data set.
-	 * If the editor is opened to create a new one, a new data set is created and
-	 * the local variable "contact" is set to this one.
+	 * Initializes the editor. If an existing data set is opened, the local
+	 * variable "contact" is set to This data set. If the editor is opened to
+	 * create a new one, a new data set is created and the local variable
+	 * "contact" is set to this one.
 	 * 
-	 * @param input The editor's input
-	 * @param site The editor's site
+	 * @param input
+	 *            The editor's input
+	 * @param site
+	 *            The editor's site
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-		
+
 		// Set the site and the input
 		setSite(site);
 		setInput(input);
-		
+
 		// Set the editor's data set to the editor's input
 		contact = (DataSetContact) ((UniDataSetEditorInput) input).getUniDataSet();
 
@@ -280,21 +278,22 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 
 		// If new ..
 		if (newContact) {
-			
+
 			// Create a new data set
 			contact = new DataSetContact(((UniDataSetEditorInput) input).getCategory());
 			setPartName("neuer Kontakt");
 
 			// Set the payment to the standard value
 			contact.setIntValueByKey("payment", Data.INSTANCE.getPropertyAsInt("standardpayment"));
-			
+
 			// Get the next contact number
 			contact.setStringValueByKey("nr", getNextNr());
 
-		} else {
-			
+		}
+		else {
+
 			// Set the Editor's name to the first name and last name of the contact.
-			setPartName( contact.getName() );
+			setPartName(contact.getName());
 		}
 	}
 
@@ -368,7 +367,7 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 
 	/**
 	 * Returns whether the "Save As" operation is supported by this part.
-
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 * @return False, SaveAs is not allowed
 	 */
@@ -390,8 +389,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 	}
 
 	/**
-	* Copy all the address data to the delivery address
-	*/
+	 * Copy all the address data to the delivery address
+	 */
 	private void copyAddressToDeliveryAdress() {
 		comboDeliveryGender.select(comboGender.getSelectionIndex());
 		txtDeliveryTitle.setText(txtTitle.getText());
@@ -405,10 +404,10 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 	}
 
 	/**
-	* Returns, if the address is equal to the delivery address
-	* 
-	* @return True, if both are equal
-	*/
+	 * Returns, if the address is equal to the delivery address
+	 * 
+	 * @return True, if both are equal
+	 */
 	private boolean isAddressEqualToDeliveryAdress() {
 		if (comboDeliveryGender.getSelectionIndex() != comboGender.getSelectionIndex()) { return false; }
 		if (!txtDeliveryTitle.getText().equals(txtTitle.getText())) { return false; }
@@ -424,14 +423,15 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 	}
 
 	/**
-	* Creates the SWT controls for this workbench part
-	* 
-	* @param the parent control
-	* @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-	*/
+	 * Creates the SWT controls for this workbench part
+	 * 
+	 * @param the
+	 *            parent control
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		
+
 		// Some of this editos's control elements can be hidden.
 		// Get the these settings from the preference store
 		useDelivery = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_DELIVERY");
@@ -463,7 +463,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			item1.setText("Adresse");
 			tabAddress = new Composite(tabFolder, SWT.NONE);
 			item1.setControl(tabAddress);
-		} else {
+		}
+		else {
 			tabAddress = new Composite(top, SWT.NONE);
 		}
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(tabAddress);
@@ -475,7 +476,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			item3.setText("Bankdaten");
 			tabBank = new Composite(tabFolder, SWT.NONE);
 			item3.setControl(tabBank);
-		} else {
+		}
+		else {
 			tabBank = new Composite(invisible, SWT.NONE);
 		}
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(tabBank);
@@ -487,7 +489,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			item4.setText("Sonstiges");
 			tabMisc = new Composite(tabFolder, SWT.NONE);
 			item4.setControl(tabMisc);
-		} else {
+		}
+		else {
 			tabMisc = new Composite(invisible, SWT.NONE);
 		}
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(tabMisc);
@@ -500,11 +503,12 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			item5.setText("Hinweis");
 			tabNote = new Composite(tabFolder, SWT.NONE);
 			item5.setControl(tabNote);
-		} else {
+		}
+		else {
 			tabNote = new Composite(invisible, SWT.NONE);
 		}
 		tabNote.setLayout(new FillLayout());
-		
+
 		// Composite for the customer's number
 		Composite customerNrComposite = new Composite(tabAddress, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(customerNrComposite);
@@ -530,18 +534,14 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			}
 		});
 
-		
-		
 		// Group: address
 		Group addressGroup = new Group(tabAddress, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(addressGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(addressGroup);
 		addressGroup.setText("Adresse");
 
-		
-		
 		// Controls in the group "address"
-		
+
 		// The title and gender's label
 		Label labelTitle = new Label((useGender || useTitle) ? addressGroup : invisible, SWT.NONE);
 		if (useGender)
@@ -551,7 +551,7 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		if (useTitle)
 			labelTitle.setText(labelTitle.getText() + "Titel");
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelTitle);
-		
+
 		// Gender
 		comboGender = new Combo(useGender ? addressGroup : invisible, SWT.BORDER);
 		for (int i = 0; i < 4; i++)
@@ -575,7 +575,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
 			txtFirstname = new Text(addressGroup, SWT.BORDER);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(txtFirstname);
-		} else {
+		}
+		else {
 			labelName.setText("Vorname Nachname");
 			txtFirstname = new Text(addressGroup, SWT.BORDER);
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtFirstname);
@@ -604,8 +605,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		txtStreet.setText(contact.getStringValueByKey("street"));
 		superviceControl(txtStreet, 64);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtStreet);
-		setTabOrder(txtCompany,txtStreet);
-		
+		setTabOrder(txtCompany, txtStreet);
+
 		// City
 		Label labelCity = new Label(addressGroup, SWT.NONE);
 		labelCity.setText("PLZ, Ort");
@@ -653,7 +654,7 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		comboDeliveryGender.select(contact.getIntValueByKey("delivery_gender"));
 		GridDataFactory.fillDefaults().grab(false, false).hint(100, SWT.DEFAULT).span(useTitle ? 1 : 2, 1).applyTo(comboDeliveryGender);
 		superviceControl(comboDeliveryGender);
-		
+
 		// Delivery Title
 		txtDeliveryTitle = new Text(useTitle ? deliveryGroup : invisible, SWT.BORDER);
 		txtDeliveryTitle.setText(contact.getStringValueByKey("delivery_title"));
@@ -669,7 +670,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(labelDeliveryName);
 			txtDeliveryFirstname = new Text(deliveryGroup, SWT.BORDER);
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(txtDeliveryFirstname);
-		} else {
+		}
+		else {
 			labelDeliveryName.setText("Vorname Nachname");
 			txtDeliveryFirstname = new Text(deliveryGroup, SWT.BORDER);
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtDeliveryFirstname);
@@ -699,9 +701,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		txtDeliveryStreet.setText(contact.getStringValueByKey("delivery_street"));
 		superviceControl(txtDeliveryStreet, 64);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtDeliveryStreet);
-		setTabOrder(txtDeliveryCompany,txtDeliveryStreet);
+		setTabOrder(txtDeliveryCompany, txtDeliveryStreet);
 
-		
 		// Delivery city
 		Label labelDeliveryCity = new Label(deliveryGroup, SWT.NONE);
 		labelDeliveryCity.setText("PLZ, Ort");
@@ -724,8 +725,6 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		superviceControl(txtDeliveryZip, 32);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtDeliveryCountry);
 
-		
-		
 		// Controls in the tab "Bank"
 
 		// Account holder
@@ -782,8 +781,6 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		superviceControl(txtBIC, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtBIC);
 
-
-		
 		// Controls in tab "Misc"
 
 		// Category 
@@ -857,7 +854,8 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 				comboPaymentViewer.setSelection(new StructuredSelection(Data.INSTANCE.getPayments().getDatasetById(paymentId)), true);
 			else
 				comboPayment.setText("");
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			comboPayment.setText("invalid");
 		}
 		superviceControl(comboPayment);
@@ -906,8 +904,6 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			}
 		});
 
-		
-		
 		// Controls in tab "Note"
 
 		// The note
@@ -943,7 +939,7 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 	 * 
 	 * @return TRUE, if one with the same number is found
 	 */
-	public boolean thereIsOneWithSameNumber () {
+	public boolean thereIsOneWithSameNumber() {
 
 		// Cancel, if there is already a document with the same ID
 		if (Data.INSTANCE.getDocuments().isExistingDataSet(contact, "nr", txtNr.getText())) {
@@ -952,7 +948,7 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 			messageBox.setText("Fehler in Kundennummer");
 			messageBox.setMessage("Es existiert bereits ein Kunde mit dieser Nummer: " + txtNr.getText());
 			messageBox.open();
-			
+
 			return true;
 		}
 
@@ -971,6 +967,5 @@ public class ContactEditor extends Editor implements ISaveablePart2{
 		// Save is allowed, if there is no product with the same number
 		return !thereIsOneWithSameNumber();
 	}
-
 
 }

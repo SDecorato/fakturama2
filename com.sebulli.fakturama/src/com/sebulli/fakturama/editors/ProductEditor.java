@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -73,7 +71,7 @@ public class ProductEditor extends Editor {
 
 	// Editor's ID
 	public static final String ID = "com.sebulli.fakturama.editors.productEditor";
-	
+
 	// This UniDataSet represents the editor's input 
 	private DataSetProduct product;
 
@@ -106,7 +104,7 @@ public class ProductEditor extends Editor {
 	private boolean useVat;
 	private boolean useDescription;
 	private boolean usePicture;
-	
+
 	// These are (non visible) values of the document
 	private Double vat = 0.0;
 	private int vatId = 0;
@@ -115,7 +113,7 @@ public class ProductEditor extends Editor {
 	private String picturePath = "";
 	private Display display;
 	private String pictureName = "";
-	
+
 	// defines, if the product is new created
 	private boolean newProduct;
 
@@ -132,7 +130,8 @@ public class ProductEditor extends Editor {
 	/**
 	 * Saves the contents of this part
 	 * 
-	 * @param monitor Progress monitor
+	 * @param monitor
+	 *            Progress monitor
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
@@ -147,20 +146,19 @@ public class ProductEditor extends Editor {
 
 		if (newProduct) {
 			// Check, if the item number is the next one
-			int result = setNextNr(textItemNr.getText(), "itemnr", Data.INSTANCE.getProducts() );
+			int result = setNextNr(textItemNr.getText(), "itemnr", Data.INSTANCE.getProducts());
 
 			// It's not the next free ID
 			if (result == ERROR_NOT_NEXT_ID) {
 				// Display an error message
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 				messageBox.setText("Fehler in Artikelnummer");
-				messageBox.setMessage("Artikel hat nicht die nächste freie Nummer: " + textItemNr.getText() + 
-										"\nSiehe unter Einstellungen/Nummernkreise.");
+				messageBox.setMessage("Artikel hat nicht die nächste freie Nummer: " + textItemNr.getText() + "\nSiehe unter Einstellungen/Nummernkreise.");
 				messageBox.open();
 			}
 
 		}
-		
+
 		// Always set the editor's data set to "undeleted"
 		product.setBooleanValueByKey("deleted", false);
 
@@ -197,7 +195,7 @@ public class ProductEditor extends Editor {
 		// Refresh the table view of all contacts
 		refreshView();
 		checkDirty();
-		
+
 	}
 
 	/**
@@ -207,16 +205,16 @@ public class ProductEditor extends Editor {
 	public void doSaveAs() {
 	}
 
-	
 	/**
-	 * Initializes the editor. 
-	 * If an existing data set is opened, the local variable "product" is set to
-	 * This data set.
-	 * If the editor is opened to create a new one, a new data set is created and
-	 * the local variable "product" is set to this one.
+	 * Initializes the editor. If an existing data set is opened, the local
+	 * variable "product" is set to This data set. If the editor is opened to
+	 * create a new one, a new data set is created and the local variable
+	 * "product" is set to this one.
 	 * 
-	 * @param input The editor's input
-	 * @param site The editor's site
+	 * @param input
+	 *            The editor's input
+	 * @param site
+	 *            The editor's site
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -224,7 +222,7 @@ public class ProductEditor extends Editor {
 		// Set the site and the input
 		setSite(site);
 		setInput(input);
-		
+
 		// Set the editor's data set to the editor's input
 		product = (DataSetProduct) ((UniDataSetEditorInput) input).getUniDataSet();
 
@@ -234,26 +232,25 @@ public class ProductEditor extends Editor {
 
 		// If new ..
 		if (newProduct) {
-			
+
 			// Create a new data set
 			product = new DataSetProduct(((UniDataSetEditorInput) input).getCategory());
 			setPartName("neues Produkt");
 
 			// Set the vat to the standard value
 			product.setIntValueByKey("vatid", Data.INSTANCE.getPropertyAsInt("standardvat"));
-			
+
 			// Get the next item number
 			product.setStringValueByKey("itemnr", getNextNr());
 
-
-		} else {
+		}
+		else {
 
 			// Set the Editor's name to the product name.
 			setPartName(product.getStringValueByKey("name"));
 		}
 	}
 
-	
 	/**
 	 * Returns whether the contents of this part have changed since the last
 	 * save operation
@@ -293,7 +290,7 @@ public class ProductEditor extends Editor {
 
 	/**
 	 * Returns whether the "Save As" operation is supported by this part.
-
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 * @return False, SaveAs is not allowed
 	 */
@@ -303,25 +300,25 @@ public class ProductEditor extends Editor {
 	}
 
 	/**
-	 * Set the variable picturePath to the path of the product picture,
-	 * which is a combination of the selected workspace, the /pics/products/
-	 * folder and the product name.
+	 * Set the variable picturePath to the path of the product picture, which is
+	 * a combination of the selected workspace, the /pics/products/ folder and
+	 * the product name.
 	 * 
 	 * Also update the text widget textProductPicturePath which is displayed
 	 * under the product picture.
 	 */
 	private void createPicturePathFromPictureName() {
-		
+
 		// Get the workspace
 		filename1 = Workspace.INSTANCE.getWorkspace();
-		
+
 		// add the picture subfolder
 		filename2 = Workspace.productPictureFolderName;
-		
+
 		// Set the variables
 		picturePath = filename1 + filename2;
 		filename2 += pictureName;
-		
+
 		// Display the text under the product picture
 		if (textProductPicturePath != null) {
 			textProductPicturePath.setText(filename2);
@@ -332,28 +329,30 @@ public class ProductEditor extends Editor {
 	 * Create the picture name based on the product's item number
 	 */
 	private void createPictureName() {
-		
+
 		pictureName = createPictureName(textName.getText(), textItemNr.getText());
-		
+
 		// Add the full path.
 		createPicturePathFromPictureName();
 	}
 
 	/**
-	 * Create the picture name based on the product's item number
-	 * Remove illegal characters and add an ".jpg"
+	 * Create the picture name based on the product's item number Remove illegal
+	 * characters and add an ".jpg"
 	 * 
-	 * @param name The name of the product
-	 * @param itemNr The item number of the product
+	 * @param name
+	 *            The name of the product
+	 * @param itemNr
+	 *            The item number of the product
 	 * @return Picture name as String
 	 */
 	public static String createPictureName(String name, String itemNr) {
-		
+
 		String pictureName;
-		
+
 		// Get the product's item number
 		pictureName = itemNr;
-		
+
 		// If the product name is different to the item number,
 		// add also the product name to the pictures name
 		if (!name.equals(itemNr))
@@ -363,56 +362,56 @@ public class ProductEditor extends Editor {
 		final char[] ILLEGAL_CHARACTERS = { '/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':', ' ', '.' };
 		for (char c : ILLEGAL_CHARACTERS)
 			pictureName = pictureName.replace(c, '_');
-		
+
 		// Add the .*jpg
 		pictureName += ".jpg";
-		
+
 		return pictureName;
 	}
 
-	
-	
-	
 	/**
-	 * Reload the product picture  
+	 * Reload the product picture
 	 */
 	private void setPicture() {
-		
-		try { 
+
+		try {
 			// Display the picture, if a product picture is set.
 			if (!pictureName.isEmpty()) {
-				
+
 				// Load the image, based on the picture name
 				Image image = new Image(display, filename1 + filename2);
-				
+
 				// Get the pictures size
 				int width = image.getBounds().width;
 				int height = image.getBounds().height;
-				
+
 				// Maximum picture width is 200px
 				if (width > 200) {
 					height = 200 * height / width;
 					width = 200;
 				}
-				
+
 				// Rescale the picture to maximum 200px width
 				Image scaledImage = new Image(display, image.getImageData().scaledTo(width, height));
 				labelProductPicture.setImage(scaledImage);
-			} 
+			}
 			// Display an empty background, if no picture is set.
 			else {
 				try {
 					labelProductPicture.setImage((Activator.getImageDescriptor("/icons/product/nopicture.png").createImage()));
-				} catch (Exception e1) {
+				}
+				catch (Exception e1) {
 					Logger.logError(e1, "Icon not found");
 				}
 			}
-		} catch (Exception e) {
-			
+		}
+		catch (Exception e) {
+
 			// Show an error icon, if the picture is not found
 			try {
 				labelProductPicture.setImage((Activator.getImageDescriptor("/icons/product/picturenotfound.png").createImage()));
-			} catch (Exception e1) {
+			}
+			catch (Exception e1) {
 				Logger.logError(e1, "Icon not found");
 			}
 		}
@@ -420,14 +419,15 @@ public class ProductEditor extends Editor {
 	}
 
 	/**
-	* Creates the SWT controls for this workbench part
-	* 
-	* @param the parent control
-	* @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-	*/
+	 * Creates the SWT controls for this workbench part
+	 * 
+	 * @param the
+	 *            parent control
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(final Composite parent) {
-		
+
 		// Get a reference to the display
 		display = parent.getDisplay();
 
@@ -446,7 +446,8 @@ public class ProductEditor extends Editor {
 		vatId = product.getIntValueByKey("vatid");
 		try {
 			vat = Data.INSTANCE.getVATs().getDatasetById(vatId).getDoubleValueByKey("value");
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			vat = 0.0;
 		}
 
@@ -536,7 +537,7 @@ public class ProductEditor extends Editor {
 
 		// Create a row for each entry of the scaled price table
 		for (int i = 0; i < 5; i++) {
-			
+
 			String indexNr = Integer.toString(i + 1);
 
 			// Get the net price scaled price
@@ -573,12 +574,12 @@ public class ProductEditor extends Editor {
 
 		// Set the tab order
 		if (scaledPrices >= 2)
-			setTabOrder(textDescription,textBlock[0]);
+			setTabOrder(textDescription, textBlock[0]);
 		else if (useNet)
-			setTabOrder(textDescription,netText[0].getNetText());
+			setTabOrder(textDescription, netText[0].getNetText());
 		else
-			setTabOrder(textDescription,grossText[0].getGrossText());
-			
+			setTabOrder(textDescription, grossText[0].getGrossText());
+
 		// product VAT
 		Label labelVat = new Label(useVat ? productDescGroup : invisible, SWT.NONE);
 		labelVat.setText("MwSt.");
@@ -598,7 +599,7 @@ public class ProductEditor extends Editor {
 
 					// Get the first element ...
 					Object firstElement = structuredSelection.getFirstElement();
-					
+
 					// Get the selected VAT
 					UniDataSet selectedVat = (UniDataSet) firstElement;
 
@@ -608,10 +609,10 @@ public class ProductEditor extends Editor {
 					// Get the new value
 					vatId = selectedVat.getIntValueByKey("id");
 					vat = selectedVat.getDoubleValueByKey("value");
-					
+
 					// Recalculate all the price values
 					for (int i = 0; i < scaledPrices; i++) {
-						
+
 						// Recalculate the price values if gross is selected,
 						// So the gross value will stay constant.
 						if (!useNet) {
@@ -625,7 +626,7 @@ public class ProductEditor extends Editor {
 							grossText[i].setVatValue(vat);
 					}
 				}
-				
+
 				// Check, if the document has changed.
 				checkDirty();
 			}
@@ -635,7 +636,8 @@ public class ProductEditor extends Editor {
 		comboViewer.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory("Umsatzsteuer"));
 		try {
 			comboViewer.setSelection(new StructuredSelection(Data.INSTANCE.getVATs().getDatasetById(vatId)), true);
-		} catch (IndexOutOfBoundsException e) {
+		}
+		catch (IndexOutOfBoundsException e) {
 			comboVat.setText("invalid");
 			vatId = -1;
 		}
@@ -661,7 +663,7 @@ public class ProductEditor extends Editor {
 		GridLayoutFactory.swtDefaults().margins(10, 10).numColumns(1).applyTo(photoComposite);
 		GridDataFactory.fillDefaults().indent(0, 10).align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(photoComposite);
 		photoComposite.setBackground(new Color(null, 255, 255, 255));
-		
+
 		// The picture name label
 		labelProductPicture = new Label(photoComposite, SWT.NONE);
 		pictureName = product.getStringValueByKey("picturename");
@@ -673,7 +675,7 @@ public class ProductEditor extends Editor {
 		textProductPicturePath.setBackground(new Color(null, 255, 255, 255));
 		superviceControl(textProductPicturePath, 250);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(textProductPicturePath);
-		
+
 		// Load the picture from the picture path
 		createPicturePathFromPictureName();
 		setPicture();
@@ -682,10 +684,10 @@ public class ProductEditor extends Editor {
 		Button selectPictureButton = new Button(productPictureGroup, SWT.PUSH);
 		selectPictureButton.setText("Bild auswählen");
 		selectPictureButton.addSelectionListener(new SelectionAdapter() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+
 				// Open a file dialog to select the picture
 				FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 				fileDialog.setFilterPath(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
@@ -693,7 +695,7 @@ public class ProductEditor extends Editor {
 				String selectedFile = fileDialog.open();
 
 				if (selectedFile != null) {
-					
+
 					// Create a new subfolder, if it does not exists yet.
 					createPictureName();
 					File directory = new File(picturePath);
@@ -705,18 +707,18 @@ public class ProductEditor extends Editor {
 					File outputFile = new File(filename1 + filename2);
 
 					try {
-						
+
 						// Copy it
-			            FileOutputStream out = new FileOutputStream(outputFile);
-			            FileInputStream ins = new FileInputStream(inputFile);
-			            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+						FileOutputStream out = new FileOutputStream(outputFile);
+						FileInputStream ins = new FileInputStream(inputFile);
+						ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 						int c;
-						
+
 						// Read the file to an input bufer
 						while ((c = ins.read()) != -1) {
-		                    byteArrayOutputStream.write((byte)c);
+							byteArrayOutputStream.write((byte) c);
 						}
-						
+
 						// Write it to an file
 						out.write(byteArrayOutputStream.toByteArray());
 
@@ -724,11 +726,12 @@ public class ProductEditor extends Editor {
 						byteArrayOutputStream.close();
 						ins.close();
 						out.close();
-						
-					} catch (IOException e1) {
+
+					}
+					catch (IOException e1) {
 						Logger.logError(e1, "Error copying picture from " + selectedFile + " to " + filename1 + filename2);
 					}
-					
+
 					// Display the new picture
 					setPicture();
 					checkDirty();
@@ -739,7 +742,7 @@ public class ProductEditor extends Editor {
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(selectPictureButton);
 
 	}
-	
+
 	/**
 	 * Asks this part to take focus within the workbench.
 	 * 
@@ -754,7 +757,7 @@ public class ProductEditor extends Editor {
 	 * 
 	 * @return TRUE, if one with the same number is found
 	 */
-	public boolean thereIsOneWithSameNumber () {
+	public boolean thereIsOneWithSameNumber() {
 
 		// Cancel, if there is already a document with the same ID
 		if (Data.INSTANCE.getDocuments().isExistingDataSet(product, "itemnr", textItemNr.getText())) {
@@ -763,7 +766,7 @@ public class ProductEditor extends Editor {
 			messageBox.setText("Fehler in Artikelnummer");
 			messageBox.setMessage("Es existiert bereits ein Artikel mit dieser Nummer: " + textItemNr.getText());
 			messageBox.open();
-			
+
 			return true;
 		}
 

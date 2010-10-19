@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.data;
@@ -28,37 +26,39 @@ import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
- * Array List of UniDataSets
- * This list is used to store all the data sets like documents, contacts, products ...
+ * Array List of UniDataSets This list is used to store all the data sets like
+ * documents, contacts, products ...
  * 
  * @author Gerd Bartelt
- *
+ * 
  * @param <T>
  */
 public class DataSetArray<T> {
-	
+
 	// The Array List to store the data
 	private ArrayList<T> datasets = new ArrayList<T>();
-	
+
 	// Reference to the data base
 	private DataBase db;
-	
+
 	private UniDataSet udsTemplate;
 	private int categoryStringsCode = 0;
 	private Properties oldProps = new Properties();
 
 	/**
-	 *	Constructor 
+	 * Constructor
 	 */
 	public DataSetArray() {
 	}
 
 	/**
-	 * Constructor
-	 * When this constructor is used, the data base table is copied into this ArrayList
+	 * Constructor When this constructor is used, the data base table is copied
+	 * into this ArrayList
 	 * 
-	 * @param db Data base
-	 * @param udsTemplate Template of the UniDataSet 
+	 * @param db
+	 *            Data base
+	 * @param udsTemplate
+	 *            Template of the UniDataSet
 	 */
 	public DataSetArray(DataBase db, UniDataSet udsTemplate) {
 		this.db = db;
@@ -92,11 +92,12 @@ public class DataSetArray<T> {
 	}
 
 	/**
-	 * Add a data set to the list of data sets.
-	 * The ID of the new data set is set to the next free id.
-	 * Also this new data set is insert into the data base
+	 * Add a data set to the list of data sets. The ID of the new data set is
+	 * set to the next free id. Also this new data set is insert into the data
+	 * base
 	 * 
-	 * @param dataset New data set
+	 * @param dataset
+	 *            New data set
 	 * @return the new data set (with modified ID)
 	 */
 	public T addNewDataSet(T dataset) {
@@ -107,12 +108,12 @@ public class DataSetArray<T> {
 		return datasets.get(datasets.size() - 1);
 	}
 
-	
 	/**
-	 * Add a data set to the list of data set, but
-	 * do it only, if the data set is not yet existing.
+	 * Add a data set to the list of data set, but do it only, if the data set
+	 * is not yet existing.
 	 * 
-	 * @param dataset New data set
+	 * @param dataset
+	 *            New data set
 	 * @return the new data set, or an the existing one
 	 */
 	public T addNewDataSetIfNew(T dataset) {
@@ -129,66 +130,71 @@ public class DataSetArray<T> {
 	/**
 	 * get an existing data set
 	 * 
-	 * @param dataset Search for this data set
+	 * @param dataset
+	 *            Search for this data set
 	 * @return The data set that was found, or null
 	 */
-	public T getExistingDataSet (T dataset) {
+	public T getExistingDataSet(T dataset) {
 
 		// Search the list for an existing data set and return it
 		ArrayList<T> undeletedDatasets = getActiveDatasets();
 		for (T testdataset : undeletedDatasets) {
 			if (((UniDataSet) testdataset).isTheSameAs((UniDataSet) dataset)) { return testdataset; }
 		}
-		
+
 		// nothing found
 		return null;
 	}
-	
+
 	/**
 	 * Tests if there is an entry with the same value
 	 * 
-	 * @param key Search the values from this key.
-	 * @param value The value to test
+	 * @param key
+	 *            Search the values from this key.
+	 * @param value
+	 *            The value to test
 	 * @return TRUE, if there is an entry with the same value
 	 */
-	public boolean isExistingDataSet (String key, String value) {
+	public boolean isExistingDataSet(String key, String value) {
 
 		// Search the list for an existing data set with the specified value
 		ArrayList<T> undeletedDatasets = getActiveDatasets();
 		for (T testdataset : undeletedDatasets) {
-			if (((UniDataSet) testdataset).getStringValueByKey(key).equalsIgnoreCase(value)) { return true; } 
+			if (((UniDataSet) testdataset).getStringValueByKey(key).equalsIgnoreCase(value)) { return true; }
 		}
-		
+
 		// nothing found
 		return false;
 	}
-	
+
 	/**
 	 * Tests if there is an entry with the same value
 	 * 
-	 * @param key Search the values from this key.
-	 * @param value The value to test
+	 * @param key
+	 *            Search the values from this key.
+	 * @param value
+	 *            The value to test
 	 * @return TRUE, if there is an entry with the same value
 	 */
-	public boolean isExistingDataSet (UniDataSet uds, String key, String value) {
+	public boolean isExistingDataSet(UniDataSet uds, String key, String value) {
 
 		// Search the list for an existing data set with the specified value
 		ArrayList<T> undeletedDatasets = getActiveDatasets();
 		for (T testdataset : undeletedDatasets) {
 			// Do only test other datasets
 			if (uds.getIntValueByKey("id") != ((UniDataSet) testdataset).getIntValueByKey("id"))
-				if (((UniDataSet) testdataset).getStringValueByKey(key).equalsIgnoreCase(value)) { return true; } 
+				if (((UniDataSet) testdataset).getStringValueByKey(key).equalsIgnoreCase(value)) { return true; }
 		}
-		
+
 		// nothing found
 		return false;
 	}
-	
-	
+
 	/**
 	 * Test, if the data set is a new data set
 	 * 
-	 * @param dataset Test this data set
+	 * @param dataset
+	 *            Test this data set
 	 * @return True, if it is new and not in the list
 	 */
 	public boolean isNew(T dataset) {
@@ -198,7 +204,8 @@ public class DataSetArray<T> {
 	/**
 	 * Update the data set in the data base
 	 * 
-	 * @param dataset Data set to update
+	 * @param dataset
+	 *            Data set to update
 	 */
 	public void updateDataSet(T dataset) {
 		if (this.db != null)
@@ -206,7 +213,7 @@ public class DataSetArray<T> {
 	}
 
 	/**
-	 * Get the List of all data sets 
+	 * Get the List of all data sets
 	 * 
 	 * @return all data sets
 	 */
@@ -217,14 +224,16 @@ public class DataSetArray<T> {
 	/**
 	 * Get a data set by its ID
 	 * 
-	 * @param id ID of the data set
+	 * @param id
+	 *            ID of the data set
 	 * @return The data set
 	 */
 	@SuppressWarnings("unchecked")
 	public T getDatasetById(int id) {
 		try {
 			return datasets.get(id);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			Logger.logError(e, "Fatal Error: ID " + Integer.toString(id) + " not in Dataset");
 			// Return index 0 is not correct, but if index 0 exists, the system
 			// is at least stable.
@@ -236,14 +245,15 @@ public class DataSetArray<T> {
 		}
 	}
 
-	
 	/**
-	 * Get an array of strings with all undeleted data sets
-	 * Return only those elements that are in the specified category and those
-	 * where no category is set.
+	 * Get an array of strings with all undeleted data sets Return only those
+	 * elements that are in the specified category and those where no category
+	 * is set.
 	 * 
-	 * @param key Key of the UniData value
-	 * @param category The preferred category. If it's empty, return all.
+	 * @param key
+	 *            Key of the UniData value
+	 * @param category
+	 *            The preferred category. If it's empty, return all.
 	 * @return Array of strings
 	 */
 	public String[] getStrings(String key, String category) {
@@ -257,29 +267,30 @@ public class DataSetArray<T> {
 			UniDataSet uds = (UniDataSet) dataset;
 			list.add(uds.getStringValueByKey(key));
 		}
-		
+
 		// .. and convert this list to an array
 		return list.toArray(new String[0]);
 	}
-	
+
 	/**
 	 * Get an array of strings with all undeleted data sets
 	 * 
-	 * @param key Key of the UniData value
+	 * @param key
+	 *            Key of the UniData value
 	 * @return Array of strings
 	 */
 	public String[] getStrings(String key) {
 		return getStrings(key, "");
 	}
-	
-	
 
 	/**
-	 * Get an array of strings with all undeleted data sets
-	 * from a given category
+	 * Get an array of strings with all undeleted data sets from a given
+	 * category
 	 * 
-	 * @param key Key of the UniData value
-	 * @param category Only entries with this category will be returned
+	 * @param key
+	 *            Key of the UniData value
+	 * @param category
+	 *            Only entries with this category will be returned
 	 * @return Array of strings
 	 */
 	public String[] getStringsInCategory(String key, String category) {
@@ -291,10 +302,10 @@ public class DataSetArray<T> {
 		// collect all Strings in a list ..
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
-			if ( uds.getStringValueByKey("category").equalsIgnoreCase(category))
-					list.add(uds.getStringValueByKey(key));
+			if (uds.getStringValueByKey("category").equalsIgnoreCase(category))
+				list.add(uds.getStringValueByKey(key));
 		}
-		
+
 		// .. and convert this list to an array
 		return list.toArray(new String[0]);
 	}
@@ -302,10 +313,10 @@ public class DataSetArray<T> {
 	/**
 	 * Get an array of strings of all category strings.
 	 * 
-	 * If this ArraySet is an set of documents, then only the categories
-	 * of the document types are returned, that are in use.
-	 * e.g. If there is an type "invoice", the categories
-	 * "invoice/payed" and "invoice/unpayed" are returned.  
+	 * If this ArraySet is an set of documents, then only the categories of the
+	 * document types are returned, that are in use. e.g. If there is an type
+	 * "invoice", the categories "invoice/payed" and "invoice/unpayed" are
+	 * returned.
 	 * 
 	 * @return Array of all category strings
 	 */
@@ -314,13 +325,13 @@ public class DataSetArray<T> {
 		oldProps = new Properties();
 		String category;
 		ArrayList<T> undeletedDatasets = getActiveDatasets();
-		
+
 		// Remember, which document types are used
 		boolean usedDocuments[] = { false, false, false, false, false, false, false, false, false };
 
 		// It's an ArraySet of documents
 		if (udsTemplate instanceof DataSetDocument) {
-			
+
 			// Scan all documents and mark all used document types.
 			for (T dataset : undeletedDatasets) {
 				DataSetDocument document = (DataSetDocument) dataset;
@@ -330,7 +341,7 @@ public class DataSetArray<T> {
 					categoryStringsCode |= 1 << docType;
 				}
 			}
-			
+
 			// Get the category strings of all marked document types.
 			return DataSetDocument.getCategoryStrings(usedDocuments);
 
@@ -338,13 +349,13 @@ public class DataSetArray<T> {
 
 		// It's not an ArraySet of documents - so collect all category strings
 		else {
-			
+
 			// Copy all strings to a Property object.
 			// In a property object, there are no duplicate objects
 			for (T dataset : undeletedDatasets) {
 				UniDataSet uds = (UniDataSet) dataset;
 				category = uds.getCategory();
-				if ( !category.isEmpty() ) {
+				if (!category.isEmpty()) {
 					oldProps.setProperty(category, category);
 					props.setProperty(category, category);
 				}
@@ -367,14 +378,14 @@ public class DataSetArray<T> {
 		// If the DataSetArray contains a set of document, 
 		// test, if the code of used documents has changed. 
 		if (udsTemplate instanceof DataSetDocument) {
-			
+
 			int oldCcategoryStringsCode = categoryStringsCode;
 			// generate the new code
 			getCategoryStrings();
 			// compare the new code with the old one
 			return oldCcategoryStringsCode != categoryStringsCode;
-			
-		} 
+
+		}
 		// If it's not a set of documents, compare all category strings
 		// This is done by filling a property object with the strings ..
 		else {
@@ -412,18 +423,21 @@ public class DataSetArray<T> {
 
 		// reset the old properties for all the rest
 		oldProps = new Properties();
-		
+
 	}
 
 	/**
-	 * Get a data set by a double value
-	 * Return only those elements that are in the specified category and those
-	 * where no category is set.
+	 * Get a data set by a double value Return only those elements that are in
+	 * the specified category and those where no category is set.
 	 * 
-	 * @param key Key to use for the search
-	 * @param value Double value to search for
-	 * @param category The preferred category. If it's empty, return all.
-	 * @return ID of the first data set with the same value (or -1, if there is nothing)
+	 * @param key
+	 *            Key to use for the search
+	 * @param value
+	 *            Double value to search for
+	 * @param category
+	 *            The preferred category. If it's empty, return all.
+	 * @return ID of the first data set with the same value (or -1, if there is
+	 *         nothing)
 	 */
 	public int getDataSetByDoubleValue(String key, Double value, String category) {
 		ArrayList<T> undeletedDatasets = getActiveDatasetsPrefereCategory(category);
@@ -441,27 +455,33 @@ public class DataSetArray<T> {
 	/**
 	 * Get a data set by a double value
 	 * 
-	 * @param key Key to use for the search
-	 * @param value Double value to search for
-	 * @return ID of the first data set with the same value (or -1, if there is nothing)
+	 * @param key
+	 *            Key to use for the search
+	 * @param value
+	 *            Double value to search for
+	 * @return ID of the first data set with the same value (or -1, if there is
+	 *         nothing)
 	 */
 	public int getDataSetByDoubleValue(String key, Double value) {
-		return getDataSetByDoubleValue (key, value, "");
+		return getDataSetByDoubleValue(key, value, "");
 	}
 
 	/**
-	 * Get the ID of a data set by a string value
-	 * Return only those elements that are in the specified category and those
-	 * where no category is set.
+	 * Get the ID of a data set by a string value Return only those elements
+	 * that are in the specified category and those where no category is set.
 	 * 
-	 * @param key Key to use for the search
-	 * @param value String value to search for
-	 * @param category The preferred category. If it's empty, return all.
-	 * @return ID of the first data set with the same value (or -1, if there is nothing)
+	 * @param key
+	 *            Key to use for the search
+	 * @param value
+	 *            String value to search for
+	 * @param category
+	 *            The preferred category. If it's empty, return all.
+	 * @return ID of the first data set with the same value (or -1, if there is
+	 *         nothing)
 	 */
 	public int getDataSetIDByStringValue(String key, String value, String category) {
 		ArrayList<T> undeletedDatasets = getActiveDatasetsPrefereCategory(category);
-		
+
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
 			if (uds.getStringValueByKey(key).equals(value)) {
@@ -475,70 +495,74 @@ public class DataSetArray<T> {
 	/**
 	 * Get the ID of a data set by a string value
 	 * 
-	 * @param key Key to use for the search
-	 * @param value String value to search for
-	 * @return ID of the first data set with the same value (or -1, if there is nothing)
+	 * @param key
+	 *            Key to use for the search
+	 * @param value
+	 *            String value to search for
+	 * @return ID of the first data set with the same value (or -1, if there is
+	 *         nothing)
 	 */
 	public int getDataSetIDByStringValue(String key, String value) {
 		return getDataSetIDByStringValue(key, value, "");
 	}
 
 	/**
-	 * Get a data set by a string value
-	 * Return only those elements that are in the specified category and those
-	 * where no category is set.
+	 * Get a data set by a string value Return only those elements that are in
+	 * the specified category and those where no category is set.
 	 * 
-	 * @param key Key to use for the search
-	 * @param value String value to search for
-	 * @param category The preferred category. If it's empty, return all.
-	 * @return The first data set with the same value (or -null, if there is nothing)
+	 * @param key
+	 *            Key to use for the search
+	 * @param value
+	 *            String value to search for
+	 * @param category
+	 *            The preferred category. If it's empty, return all.
+	 * @return The first data set with the same value (or -null, if there is
+	 *         nothing)
 	 */
 	public T getDataSetByStringValue(String key, String value, String category) {
 		ArrayList<T> undeletedDatasets = getActiveDatasetsPrefereCategory(category);
 
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
-			if (uds.getStringValueByKey(key).equals(value)) {
-				return (dataset);
-			}
+			if (uds.getStringValueByKey(key).equals(value)) { return (dataset); }
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get a data set by a string value
 	 * 
-	 * @param key Key to use for the search
-	 * @param value String value to search for
-	 * @return The first data set with the same value (or -null, if there is nothing)
+	 * @param key
+	 *            Key to use for the search
+	 * @param value
+	 *            String value to search for
+	 * @return The first data set with the same value (or -null, if there is
+	 *         nothing)
 	 */
 	public T getDataSetByStringValue(String key, String value) {
-		return getDataSetByStringValue (key, value , "");
+		return getDataSetByStringValue(key, value, "");
 	}
-	
+
 	/**
 	 * Get the data sets with a specified category and name
 	 * 
-	 * @param category the category 
-	 * @param name the name 
+	 * @param category
+	 *            the category
+	 * @param name
+	 *            the name
 	 * 
-	 * @return The specified dataset 
+	 * @return The specified dataset
 	 */
 	public T getDatasetByCategoryAndName(String category, String name) {
 		ArrayList<T> undeletedDatasets = getActiveDatasets();
 
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
-			if ( uds.getStringValueByKey("category").equalsIgnoreCase(category) &&
-				 uds.getStringValueByKey("name").equalsIgnoreCase(name)) {
-				return(dataset);
-			}
+			if (uds.getStringValueByKey("category").equalsIgnoreCase(category) && uds.getStringValueByKey("name").equalsIgnoreCase(name)) { return (dataset); }
 		}
 		return null;
 	}
 
-	
-	
 	/**
 	 * Get all active (undeleted) data sets
 	 * 
@@ -558,7 +582,8 @@ public class DataSetArray<T> {
 	/**
 	 * Get all active (undeleted) data sets with a specified category
 	 * 
-	 * @param category the category 
+	 * @param category
+	 *            the category
 	 * 
 	 * @return ArrayList with all undeleted data sets
 	 */
@@ -566,8 +591,7 @@ public class DataSetArray<T> {
 		ArrayList<T> filteredDatasets = new ArrayList<T>();
 		for (T dataset : datasets) {
 			UniDataSet uds = (UniDataSet) dataset;
-			if (!uds.getBooleanValueByKey("deleted") &&
-					uds.getStringValueByKey("category").equalsIgnoreCase(category)) {
+			if (!uds.getBooleanValueByKey("deleted") && uds.getStringValueByKey("category").equalsIgnoreCase(category)) {
 				filteredDatasets.add(dataset);
 			}
 		}
@@ -580,7 +604,8 @@ public class DataSetArray<T> {
 	 * Return only those elements that are in the specified category and those
 	 * where no category is set.
 	 * 
-	 * @param category The preferred category. If it's empty, return all.
+	 * @param category
+	 *            The preferred category. If it's empty, return all.
 	 * 
 	 * @return ArrayList with all undeleted data sets
 	 */
@@ -589,16 +614,13 @@ public class DataSetArray<T> {
 		for (T dataset : datasets) {
 			UniDataSet uds = (UniDataSet) dataset;
 			if (!uds.getBooleanValueByKey("deleted")) {
-				
+
 				// Use the specified category
-				if (category.isEmpty() || 
-						uds.getStringValueByKey("category").equals(category) ||
-						uds.getStringValueByKey("category").isEmpty())
-							filteredDatasets.add(dataset);
+				if (category.isEmpty() || uds.getStringValueByKey("category").equals(category) || uds.getStringValueByKey("category").isEmpty())
+					filteredDatasets.add(dataset);
 			}
 		}
 		return filteredDatasets;
 	}
-
 
 }

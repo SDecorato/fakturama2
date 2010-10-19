@@ -1,21 +1,19 @@
 /*
  * 
- *	Fakturama - Free Invoicing Software 
- *  Copyright (C) 2010  Gerd Bartelt
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ * Fakturama - Free Invoicing Software Copyright (C) 2010 Gerd Bartelt
+ * 
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.sebulli.fakturama.editors;
@@ -41,7 +39,7 @@ import com.sebulli.fakturama.views.datasettable.ViewTextTable;
  * @author Gerd Bartelt
  */
 public class TextEditor extends Editor {
-	
+
 	// Editor's ID
 	public static final String ID = "com.sebulli.fakturama.editors.textEditor";
 
@@ -66,11 +64,11 @@ public class TextEditor extends Editor {
 		editorID = "text";
 	}
 
-
 	/**
 	 * Saves the contents of this part
 	 * 
-	 * @param monitor Progress monitor
+	 * @param monitor
+	 *            Progress monitor
 	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
@@ -82,7 +80,7 @@ public class TextEditor extends Editor {
 
 		// Always set the editor's data set to "undeleted"
 		text.setBooleanValueByKey("deleted", false);
-		
+
 		// Set the text data
 		text.setStringValueByKey("name", textName.getText());
 		text.setStringValueByKey("text", textText.getText());
@@ -112,14 +110,15 @@ public class TextEditor extends Editor {
 	}
 
 	/**
-	 * Initializes the editor. 
-	 * If an existing data set is opened, the local variable "text" is set to
-	 * This data set.
-	 * If the editor is opened to create a new one, a new data set is created and
-	 * the local variable "text" is set to this one.
+	 * Initializes the editor. If an existing data set is opened, the local
+	 * variable "text" is set to This data set. If the editor is opened to
+	 * create a new one, a new data set is created and the local variable "text"
+	 * is set to this one.
 	 * 
-	 * @param input The editor's input
-	 * @param site The editor's site
+	 * @param input
+	 *            The editor's input
+	 * @param site
+	 *            The editor's site
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -127,7 +126,7 @@ public class TextEditor extends Editor {
 		// Set the site and the input
 		setSite(site);
 		setInput(input);
-		
+
 		// Set the editor's data set to the editor's input
 		text = (DataSetText) ((UniDataSetEditorInput) input).getUniDataSet();
 
@@ -137,12 +136,13 @@ public class TextEditor extends Editor {
 
 		// If new ..
 		if (newText) {
-			
+
 			// Create a new data set
 			text = new DataSetText(((UniDataSetEditorInput) input).getCategory());
 			setPartName("neuer Text");
-		} else {
-			
+		}
+		else {
+
 			// Set the Editor's name to the shipping name.
 			setPartName(text.getStringValueByKey("name"));
 		}
@@ -173,7 +173,7 @@ public class TextEditor extends Editor {
 
 	/**
 	 * Returns whether the "Save As" operation is supported by this part.
-
+	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 * @return False, SaveAs is not allowed
 	 */
@@ -183,11 +183,12 @@ public class TextEditor extends Editor {
 	}
 
 	/**
-	* Creates the SWT controls for this workbench part
-	* 
-	* @param the parent control
-	* @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-	*/
+	 * Creates the SWT controls for this workbench part
+	 * 
+	 * @param the
+	 *            parent control
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 
