@@ -737,6 +737,7 @@ public class OODocument extends Object{
 			setProperty("DOCUMENT.TRANSACTION", document.getStringValueByKey("transaction"));
 			setProperty("DOCUMENT.WEBSHOP.ID", document.getStringValueByKey("webshopid"));
 			setProperty("DOCUMENT.WEBSHOP.DATE", document.getFormatedStringValueByKey("webshopdate"));
+			setProperty("DOCUMENT.ORDER.DATE", document.getFormatedStringValueByKey("orderdate"));
 			setProperty("DOCUMENT.ITEMS.GROSS", document.getSummary().getItemsGross().asFormatedRoundedString());
 			setProperty("DOCUMENT.ITEMS.NET", document.getSummary().getItemsNet().asFormatedRoundedString());
 			setProperty("DOCUMENT.TOTAL.VAT", document.getSummary().getTotalVat().asFormatedRoundedString());
