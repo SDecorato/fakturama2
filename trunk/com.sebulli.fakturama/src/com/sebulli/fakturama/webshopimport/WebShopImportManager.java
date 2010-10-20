@@ -1017,7 +1017,6 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				catch (Exception e) {
 				}
 
-				// TODO: Get the unpayed text from the web shop
 				// Add the payment to the data base, if it's a new one
 				DataSetPayment payment = Data.INSTANCE.getPayments().addNewDataSetIfNew(
 						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")", 0.0, 0, 0, "Zahlung dankend erhalten.", "", false));
@@ -1046,9 +1045,6 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// It must be the same total value as in the web shop
 		dataSetDocument.calculate();
 		Double calcTotal = dataSetDocument.getSummary().getTotalGross().asDouble();
-
-		// TODO: There will be a difference, if there is an still a product in
-		// the data base with the same name but a different price or VAT value.  
 
 		// If there is a difference, show a warning.
 		if (!DataUtils.DoublesAreEqual(order_totalDouble, calcTotal)) {

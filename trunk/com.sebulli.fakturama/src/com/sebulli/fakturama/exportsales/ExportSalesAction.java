@@ -37,14 +37,14 @@ public class ExportSalesAction extends Action {
 	 * Constructor
 	 */
 	public ExportSalesAction() {
-		super("Export USt-Liste");
+		super("Export Umsätze");
 
 		// The id is used to refer to the action in a menu or toolbar
-		setId(ICommandIds.CMD_EXPORT_VAT_SUMMARY);
+		setId(ICommandIds.CMD_EXPORT_SALES_SUMMARY);
 
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
-		setActionDefinitionId(ICommandIds.CMD_EXPORT_VAT_SUMMARY);
+		setActionDefinitionId(ICommandIds.CMD_EXPORT_SALES_SUMMARY);
 
 		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/export_sales_16.png"));
@@ -66,7 +66,7 @@ public class ExportSalesAction extends Action {
 
 		// Create a new export wizard
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		WizardDialog exportVatSummaryWizard = new WizardDialog(workbenchWindow.getShell(), new ExportSalesWizard());
-		exportVatSummaryWizard.open();
+		WizardDialog exportSalesWizard = new WizardDialog(workbenchWindow.getShell(), new ExportSalesWizard());
+		exportSalesWizard.open();
 	}
 }

@@ -47,6 +47,7 @@ public class ExpandBar extends Composite {
 	private final Label arrow;
 	private Composite composite = null;
 	private Composite top;
+	private ExpandBarManager expandBarManager = null;
 
 	// Private variables representing the state, collapsed or not collapsed
 	private boolean collapsed = false;
@@ -68,6 +69,8 @@ public class ExpandBar extends Composite {
 	public ExpandBar(ExpandBarManager expandBarManager, Composite parent, int style, String description, String icon) {
 		super(parent, style);
 
+		this.expandBarManager = expandBarManager;
+		
 		// Create the top composite of the expand bar
 		top = new Composite(this, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
@@ -120,6 +123,10 @@ public class ExpandBar extends Composite {
 		}
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(this);
 
+		// Collapse all, if flag GENERAL_COLLAPSE_EXPANDBAR is set
+		if (Activator.getDefault().getPreferenceStore().getBoolean("GENERAL_COLLAPSE_EXPANDBAR"))
+			collapse(true);
+		
 		// Add the expand bar to the manager 
 		expandBarManager.addExpandBar(this);
 
@@ -178,7 +185,7 @@ public class ExpandBar extends Composite {
 	 */
 	public void collapse(boolean collapseMe) {
 
-		// Modifiy the local variable
+		// Modify the local variable
 		collapsed = collapseMe;
 
 		if (collapseMe) {
@@ -188,8 +195,10 @@ public class ExpandBar extends Composite {
 		}
 		else {
 			GridDataFactory.fillDefaults().indent(5, 0).applyTo(composite);
-			// TODO: in Preferences :
-			// this.expandBarManager.collapseOthers(this);
+
+			// Collapse expand bar items, or not
+			if (Activator.getDefault().getPreferenceStore().getBoolean("GENERAL_COLLAPSE_EXPANDBAR"))
+				this.expandBarManager.collapseOthers(this);
 
 		}
 
