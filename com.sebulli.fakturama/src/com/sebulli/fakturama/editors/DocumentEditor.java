@@ -1369,6 +1369,11 @@ public class DocumentEditor extends Editor {
 						product = (DataSetProduct) dialog.getSelection();
 						if (product != null) {
 							DataSetItem newItem = new DataSetItem(documentType.sign() * 1.0, product);
+							
+							// Use the products description, or clear it
+							if (!Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG"))
+								newItem.setStringValueByKey("description", "");
+							
 							addNewItem(newItem);
 							tableViewerItems.refresh();
 							calculate();
