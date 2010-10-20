@@ -21,11 +21,8 @@ package com.sebulli.fakturama.preferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
-import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 
@@ -82,14 +79,6 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
-
-		// TODO: remove (for debugging only)
-		if (Activator.getDefault().getPreferenceStore().getString("NUMBERRANGE_CONTACT_FORMAT").isEmpty()) {
-			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
-			messageBox.setText("Fehler");
-			messageBox.setMessage("leere NUMBERRANGE_CONTACT_FORMAT");
-			messageBox.open();
-		}
 
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CONTACT_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_PRODUCT_FORMAT", write);

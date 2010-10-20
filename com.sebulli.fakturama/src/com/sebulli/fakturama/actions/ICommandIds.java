@@ -63,7 +63,7 @@ public interface ICommandIds {
 
 	public static final String CMD_IMPORT_CSV = "com.sebulli.fakturama.actions.importCSV";
 
-	public static final String CMD_EXPORT_VAT_SUMMARY = "com.sebulli.fakturama.actions.exportVatSummary";
+	public static final String CMD_EXPORT_SALES_SUMMARY = "com.sebulli.fakturama.actions.exportSalesSummary";
 
 	public static final String CMD_OPEN_BROWSER_EDITOR = "com.sebulli.fakturama.actions.openBrowserEditor";
 	public static final String CMD_OPEN_CALCULATOR = "com.sebulli.fakturama.actions.openCalculator";

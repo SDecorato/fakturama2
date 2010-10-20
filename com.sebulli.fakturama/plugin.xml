@@ -489,7 +489,12 @@
       <page
             class="com.sebulli.fakturama.exportsales.ExportSalesPreferencePage"
             id="com.sebulli.fakturama.exportsales.exportSalesPreferencePage"
-            name="Export USt.">
+            name="Export Umsätze">
+      </page>
+      <page
+            class="com.sebulli.fakturama.preferences.GeneralPreferencePage"
+            id="com.sebulli.fakturama.preferences.generalPreferencePage"
+            name="Allgemein">
       </page>
    </extension>
    <extension
