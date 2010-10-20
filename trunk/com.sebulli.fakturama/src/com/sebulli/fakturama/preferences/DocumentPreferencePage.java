@@ -52,7 +52,8 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 
 		addField(new RadioGroupFieldEditor("DOCUMENT_USE_NET_GROSS", "Preise in Artikelliste:", 2, new String[][] { { "Netto", "0" }, { "Brutto", "1" } },
 				getFieldEditorParent()));
-		addField(new BooleanFieldEditor("DOCUMENT_COPY_MESSAGE_FROM_PARENT", "Feld 'Bemerkung' beim Kopieren übernehmen", getFieldEditorParent()));
+		addField(new BooleanFieldEditor("DOCUMENT_COPY_MESSAGE_FROM_PARENT", "Text 'Bemerkung' beim Kopieren eines Dokumentes übernehmen", getFieldEditorParent()));
+		addField(new BooleanFieldEditor("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", "Produktbeschreibung aus Produktauswahl übernehmen.", getFieldEditorParent()));
 
 	}
 
@@ -76,6 +77,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_NET_GROSS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_COPY_MESSAGE_FROM_PARENT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", write);
 	}
 
 	/**
@@ -87,6 +89,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 	public static void setInitValues(IEclipsePreferences node) {
 		node.put("DOCUMENT_USE_NET_GROSS", "1");
 		node.putBoolean("DOCUMENT_COPY_MESSAGE_FROM_PARENT", false);
+		node.putBoolean("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", false);
 
 	}
 
