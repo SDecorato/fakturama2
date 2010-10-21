@@ -77,13 +77,16 @@ public class OODocument extends Object {
 	private Properties properties;
 
 	// OpenOffice objects
-	IOfficeApplication officeApplication;
-	IDocument oOdocument;
-	ITextDocument textDocument;
-	IFrame officeFrame;
+	private IOfficeApplication officeApplication;
+	private IDocument oOdocument;
+	private ITextDocument textDocument;
+	private IFrame officeFrame;
 
-	ITextFieldService textFieldService;
+	private ITextFieldService textFieldService;
 
+	// Template name
+	private String template;	
+	
 	/**
 	 * Constructor Create a new OpenOffice document. Open it by using a template
 	 * and replace the placehlders with the UniDataSet document
@@ -98,7 +101,7 @@ public class OODocument extends Object {
 
 		// Url of the template file
 		String url = null;
-
+		this.template = template;
 		//Open an existing document instead of creating a new one
 		boolean openExisting = false;
 
@@ -112,11 +115,13 @@ public class OODocument extends Object {
 			officeApplication = OpenOfficeStarter.openOfficeAplication();
 			if (officeApplication == null)
 				return;
-
+			
 			// Check, whether there is already a document then do not 
 			// generate one by the data, but open the existing one.
 			File oODocumentFile = new File(getDocumentPath(true, true, false));
-			if (oODocumentFile.exists() && document.getBooleanValueByKey("printed")) {
+			
+			if (oODocumentFile.exists() && document.getBooleanValueByKey("printed") &&
+					document.getStringValueByKey("printedtemplate").equals(template)) {
 				openExisting = true;
 				template = getDocumentPath(true, true, false);
 			}
@@ -479,6 +484,7 @@ public class OODocument extends Object {
 		if (wasSaved) {
 			// Mark the document as "printed"
 			document.setBooleanValueByKey("printed", true);
+			document.setStringValueByKey("printedtemplate", template);
 			Data.INSTANCE.getDocuments().updateDataSet(document);
 		}
 
@@ -726,6 +732,12 @@ public class OODocument extends Object {
 		else
 			return;
 
+		// If iText's string is not empty, use that string instead of the template
+		String iTextString = iText.getText();
+		if (!iTextString.isEmpty()) {
+			cellText = iTextString;
+		}
+		
 		// Set the text of the cell
 		iText.setText(cellText.replaceAll(placeholderDisplayText, value));
 
