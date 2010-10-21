@@ -1396,6 +1396,11 @@ public class DocumentEditor extends Editor {
 
 				// Add a new item with default properties
 				public void mouseDown(MouseEvent e) {
+
+					// Cancel the item editing
+					if (itemEditingSupport != null)
+						itemEditingSupport.cancelAndSave();
+					
 					DataSetItem newItem = new DataSetItem("Name", "Art.Nr.", "", documentType.sign() * 1.0, "", 0.0, 0);
 
 					// Use the standard VAT value
