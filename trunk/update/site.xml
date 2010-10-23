@@ -9,5 +9,8 @@
    <feature url="features/com.sebulli.fakturama.core_0.2.1.201010231847.jar" id="com.sebulli.fakturama.core" version="0.2.1.201010231847">
       <category name="Fakturama_Category"/>
    </feature>
+   <feature url="features/com.sebulli.fakturama.core_0.2.2.201010231859.jar" id="com.sebulli.fakturama.core" version="0.2.2.201010231859">
+      <category name="Fakturama_Category"/>
+   </feature>
    <category-def name="Fakturama_Category" label="Fakturama"/>
 </site>
