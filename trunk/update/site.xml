@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Fakturama Update Site" url="fakturama.sebulli.com">
+      Fakturama&apos;s update site.
+   </description>
+   <feature url="features/com.sebulli.fakturama.core_0.2.0.201010231805.jar" id="com.sebulli.fakturama.core" version="0.2.0.201010231805"/>
+</site>
