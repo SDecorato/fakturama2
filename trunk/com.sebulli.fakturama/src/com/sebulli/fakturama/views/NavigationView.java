@@ -68,7 +68,7 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		bar1.addAction(new WebShopImportAction());
 
 		// Create the 2nd expand bar "Data"
-		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE, "Daten 0.2.3", "/icons/16/data_16.png");
+		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE, "Daten 0.2.4", "/icons/16/data_16.png");
 
 		bar2.addAction(new OpenDocumentsAction());
 		bar2.addAction(new OpenProductsAction());
