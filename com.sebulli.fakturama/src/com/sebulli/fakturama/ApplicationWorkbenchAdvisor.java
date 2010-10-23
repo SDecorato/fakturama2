@@ -62,5 +62,15 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 		super.initialize(configurer);
 		configurer.setSaveAndRestore(true);
 	}
+	
+	/**
+	 * Check for updates
+	 */
+	/*
+	@Override
+    public void preStartup() {
+        P2Util.checkForUpdates();
+    }
+	*/
 
 }
