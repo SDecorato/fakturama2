@@ -3,7 +3,7 @@
       id="org.eclipselabs.p2.rcpupdate"
       label="RCP Update"
       version="1.0.0.qualifier"
-      provider-name="Gerd Bartelt">
+      provider-name="sebulli.com">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
