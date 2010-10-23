@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Fakturama
 Bundle-SymbolicName: com.sebulli.fakturama;singleton:=true
-Bundle-Version: 0.2.0
+Bundle-Version: 0.2.0.qualifier
 Bundle-Activator: com.sebulli.fakturama.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.ui,
  ag.ion.noa;bundle-version="2.2.3"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-Vendor: Gerd Bartelt
+Bundle-Vendor: sebulli.com
 Bundle-ClassPath: .,
  resources/
 Import-Package: org.eclipselabs.p2.rcpupdate.utils
