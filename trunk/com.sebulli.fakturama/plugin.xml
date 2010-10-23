@@ -436,6 +436,16 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu">
       </menuContribution>
+	  <menuContribution locationURI="menu:help">
+        <command
+              commandId="org.eclipselabs.p2.rcpupdate.install"
+              label="Neue Software installieren"
+              style="push"/>
+        <command
+              commandId="org.eclipselabs.p2.rcpupdate.update"
+              label="Nach Updates suchen"
+              style="push"/>
+      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
