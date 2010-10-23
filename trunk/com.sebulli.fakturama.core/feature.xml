@@ -2,7 +2,7 @@
 <feature
       id="com.sebulli.fakturama.core"
       label="Fakturama Core Feature"
-      version="0.2.0.qualifier"
+      version="0.2.1.qualifier"
       provider-name="sebulli.com">
 
    <description url="http://www.example.com/description">
@@ -38,7 +38,7 @@
          id="com.sebulli.fakturama"
          download-size="0"
          install-size="0"
-         version="0.2.0.qualifier"
+         version="0.2.1.qualifier"
          unpack="false"/>
 
    <plugin

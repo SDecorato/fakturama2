@@ -3,5 +3,11 @@
    <description name="Fakturama Update Site" url="http://fakturama.googlecode.com/svn/trunk/update">
       Fakturama&apos;s update site on Google Code
    </description>
-   <feature url="features/com.sebulli.fakturama.core_0.2.0.201010231805.jar" id="com.sebulli.fakturama.core" version="0.2.0.201010231805"/>
+   <feature url="features/com.sebulli.fakturama.core_0.2.0.201010231841.jar" id="com.sebulli.fakturama.core" version="0.2.0.201010231841">
+      <category name="Fakturama_Category"/>
+   </feature>
+   <feature url="features/com.sebulli.fakturama.core_0.2.1.201010231847.jar" id="com.sebulli.fakturama.core" version="0.2.1.201010231847">
+      <category name="Fakturama_Category"/>
+   </feature>
+   <category-def name="Fakturama_Category" label="Fakturama"/>
 </site>
