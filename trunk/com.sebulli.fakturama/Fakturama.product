@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="0.2.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="0.3.1.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="icons/app/about.png"/>
       <text>
-         V0.2.0
+         V0.3.1
       </text>
    </aboutInfo>
 
@@ -37,6 +37,7 @@
             winLargeLow="/com.sebulli.fakturama/icons/app/app_48_8.bmp"/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>

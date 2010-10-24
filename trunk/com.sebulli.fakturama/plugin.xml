@@ -398,7 +398,7 @@
             
          <property
                name="aboutText"
-               value="V0.2.0">
+               value="V0.3.1">
          </property>
          <property
                name="aboutImage"
