@@ -497,7 +497,7 @@
             name="Open Office">
       </page>
       <page
-            class="com.sebulli.fakturama.exportsales.ExportSalesPreferencePage"
+            class="com.sebulli.fakturama.preferences.ExportSalesPreferencePage"
             id="com.sebulli.fakturama.exportsales.exportSalesPreferencePage"
             name="Export Umsätze">
       </page>
