@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.exportsales.ExportSalesPreferencePage;
 import com.sebulli.fakturama.webshopimport.WebShopImportPreferencePage;
 
 /**

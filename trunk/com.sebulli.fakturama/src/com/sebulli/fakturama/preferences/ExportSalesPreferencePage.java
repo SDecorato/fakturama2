@@ -16,7 +16,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.sebulli.fakturama.exportsales;
+package com.sebulli.fakturama.preferences;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
@@ -25,7 +25,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
 /**
  * Preference page for the sales export functionality

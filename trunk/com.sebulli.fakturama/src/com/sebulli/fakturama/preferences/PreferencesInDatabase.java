@@ -20,7 +20,6 @@ package com.sebulli.fakturama.preferences;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.exportsales.ExportSalesPreferencePage;
 import com.sebulli.fakturama.webshopimport.WebShopImportPreferencePage;
 
 /**
@@ -76,6 +75,7 @@ public class PreferencesInDatabase {
 		ContactFormatPreferencePage.syncWithPreferencesFromDatabase(save);
 		ContactPreferencePage.syncWithPreferencesFromDatabase(save);
 		DocumentPreferencePage.syncWithPreferencesFromDatabase(save);
+		GeneralPreferencePage.syncWithPreferencesFromDatabase(save);
 		NumberRangeFormatPreferencePage.syncWithPreferencesFromDatabase(save);
 		NumberRangeValuesPreferencePage.syncWithPreferencesFromDatabase(save);
 		OpenOfficePreferencePage.syncWithPreferencesFromDatabase(save);
