@@ -18,7 +18,13 @@
 
 package com.sebulli.fakturama;
 
-import java.util.ResourceBundle;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Properties;
+
+import com.sebulli.fakturama.logger.Logger;
 
 /**
  * Translate strings This class wraps the
@@ -28,22 +34,163 @@ import java.util.ResourceBundle;
  * @author Gerd Bartelt
  */
 public class Translate {
-	private static ResourceBundle catalog;
-	private static boolean initialized = false;
 
+	private static Properties messages = null;
+
+	private enum states {
+	    IDLE, MSGID, MSGSTR 
+	}
+
+	/**
+	 * Replace a string by the translated string.
+	 * If no translation is available, return the original one.
+	 * 
+	 * @param s
+	 * 			String to translate
+	 * @return
+	 * 			The translated String
+	 */
 	public static String _(String s) {
-		if (!initialized) {
-			try {
-				catalog = ResourceBundle.getBundle("Messages");
-			}
-			catch (Exception e) {
-			}
-			initialized = true;
+		
+		String sout;
+		
+		if (messages == null) {
+			messages = new Properties();
+			loadPoFile();
 		}
 
-		if (catalog == null)
+		if (!messages.containsKey(s))
 			return s;
-		else
-			return catalog.getString(s);
+		else {
+			sout = messages.getProperty(s);
+			if (sout.isEmpty())
+				return s;
+			else
+				return sout;
+		}
 	}
+	
+	/**
+	 * Load a PO file from the resource and fill the properties
+	 */
+	public static void loadPoFile () {
+
+		states state = states.IDLE;
+		String msgId = "";
+		String msgStr = "";
+		
+		try {
+			// Open the resource message po file.
+			InputStream	in = Activator.getDefault().getBundle().getResource("po/messages.po").openStream();
+
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+	        String strLine;
+	        
+	        //Read file line by line
+	        while ((strLine = br.readLine()) != null)   {
+	        	
+	        	// Search for lines with leading "msgid"
+	        	if (strLine.startsWith("msgid")) {
+
+	        		if (state != states.MSGID)
+	        			msgId = "";
+
+	        		// Set the state machine to MSGID
+        			state = states.MSGID;
+        			// Get the string
+        			strLine = strLine.substring(5).trim();
+        		} 
+	        	
+	        	// Search for lines with leading "msgstr"
+        		if (strLine.startsWith("msgstr")) {
+	        		
+        			if (state != states.MSGSTR)
+        				msgStr = "";
+
+	        		// Set the state machine to MSGSTR
+	        		state = states.MSGSTR;
+        			// Get the string
+        			strLine = strLine.substring(6).trim();
+        		}
+        		
+        		// Find lines with no translation information
+    			if (!strLine.startsWith("\"")) {
+        			state = states.IDLE;
+        			msgId = "";
+        			msgStr = "";
+    			} else {
+    				
+    				// Assemble the string and set the property
+    				if (state == states.MSGID) {
+    					msgId += format(strLine);
+    				}
+
+    				if (state == states.MSGSTR) { 
+    					msgStr += format(strLine);
+    					if (!msgId.isEmpty())
+    						messages.setProperty(msgId, msgStr);
+    				}
+    			}
+	        }
+	        //Close the input stream
+	        in.close();
+
+		}
+		catch (IOException e) {
+			Logger.logError(e, "Error loading message.po.");
+		}
+
+	}
+	
+	/**
+	 * Remove the trailing and leading quotes and unescape the string.
+	 * 
+	 * @param sin
+	 * 			The input string
+	 * @return
+	 * 			The formated string
+	 */
+	static String format (String sin) {
+		sin = sin.trim();
+		
+		//Remove leading quotes
+		if (sin.startsWith("\""))
+			sin = sin.substring(1);
+
+		//Remove trailing quotes
+		if (sin.endsWith("\""))
+			sin = sin.substring(0,sin.length()-1);
+		
+		String sout = "";
+		boolean escape = false;
+		
+		// Get character by character
+		for (int i = 0; i< sin.length(); i++) {
+			char c = sin.charAt(i);
+			
+			// Find the escape sequence
+			if (c == '\\' && !escape)
+				escape = true;
+			else {
+				if (escape) {
+					
+					// Replace the escape sequence
+					if (c == '\'') sout += '\'';
+					if (c == '\"') sout += '\"';
+					if (c == '\\') sout += '\\';
+					if (c == 'r') sout += '\r';
+					if (c == 'n') sout += '\n';
+					if (c == 'f') sout += '\f';
+					if (c == 't') sout += '\t';
+					if (c == 'b') sout += '\b';
+					escape = false;
+				}
+				else {
+					sout += c;
+				}
+			}
+		}
+		return sout;
+	}
+	
 }

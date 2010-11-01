@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.data;
 
+import static com.sebulli.fakturama.Translate._;
+
 import com.sebulli.fakturama.calculate.DataUtils;
 
 /**
@@ -99,4 +101,16 @@ public class DataSetVAT extends UniDataSet {
 		return true;
 	}
 
+	public static String getPurchaseTaxString() {
+		//T: Name of the tax that is raised when goods are purchased
+		return _("Purchase Tax");
+	}
+
+	public static String getSalesTaxString() {
+		//T: Name of the tax that is raised when goods are sold
+		return _("Sales Tax");
+	}
+	
+
+	
 }

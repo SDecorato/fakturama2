@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.exportsales;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -31,14 +33,14 @@ import org.eclipse.swt.widgets.Label;
 
 /**
  * Create the first (and only) page of the sales export wizard. This page is
- * used to select the begin and end date.
+ * used to select the start and end date.
  * 
  * @author Gerd Bartelt
  */
 public class ExportSalesWizandPage1 extends WizardPage {
 
-	// Begin and end date
-	private DateTime dtBeginDate;
+	// start and end date
+	private DateTime dtStartDate;
 	private DateTime dtEndDate;
 
 	/**
@@ -46,8 +48,10 @@ public class ExportSalesWizandPage1 extends WizardPage {
 	 */
 	protected ExportSalesWizandPage1() {
 		super("ExportVatSummaryWizardPage1");
-		setTitle("USt. Liste als Tabelle");
-		setMessage("Zeitraum wählen");
+		// Title of the Sales Export Wizard Page 1
+		setTitle(_("List of Sales as Table"));
+		// Text of the Sales Export Wizard Page 1
+		setMessage(_("Select a Periode"));
 	}
 
 	/**
@@ -66,48 +70,53 @@ public class ExportSalesWizandPage1 extends WizardPage {
 
 		// Create the label with the help text
 		Label labelDescription = new Label(top, SWT.NONE);
-		labelDescription.setText("Wählen Sie den Zeitraum der Zahlungseingänge.\n" + "Es werden alle Rechnungen exportiert, die bezahlt sind,\n"
-				+ "und deren Zahlungseingänge in diesem Zeitraum liegen.");
+		
+		//T: Export Sales Wizard Page 1 - Long description. Please use
+		//T: "\n" to add a new line.
+		labelDescription.setText(_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelDescription);
 
 		// Create a spacer
 		Label labelSpacer = new Label(top, SWT.NONE);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelSpacer);
 
-		// Label for begin date
-		Label labelBegin = new Label(top, SWT.NONE);
-		labelBegin.setText("Anfang:");
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelBegin);
+		// Label for start date
+		Label labelStart = new Label(top, SWT.NONE);
+		
+		//T: Export Sales Wizard - Label Start Date of the period
+		labelStart.setText(_("Start Date:"));
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelStart);
 
 		// Label for end date
 		Label labelEnd = new Label(top, SWT.NONE);
-		labelEnd.setText("Ende:");
+		//T: Export Sales Wizard - Label End Date of the period
+		labelEnd.setText(_("End Date:"));
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(20, 0).applyTo(labelEnd);
 
-		// Begin date
-		dtBeginDate = new DateTime(top, SWT.CALENDAR | SWT.BORDER);
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(dtBeginDate);
+		// Start date
+		dtStartDate = new DateTime(top, SWT.CALENDAR | SWT.BORDER);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(dtStartDate);
 
 		// End date
 		dtEndDate = new DateTime(top, SWT.CALENDAR | SWT.BORDER);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(20, 0).applyTo(dtEndDate);
 
-		// Set the begin and end date to the 1st and last day of the
+		// Set the start and end date to the 1st and last day of the
 		// last month.
 		GregorianCalendar calendar = new GregorianCalendar(dtEndDate.getYear(), dtEndDate.getMonth(), 1);
 		calendar.add(Calendar.DAY_OF_MONTH, -1);
 		dtEndDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		calendar = new GregorianCalendar(dtEndDate.getYear(), dtEndDate.getMonth(), 1);
-		dtBeginDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+		dtStartDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 	}
 
 	/**
-	 * Return the begin date as a GregorianCalendar object
+	 * Return the start date as a GregorianCalendar object
 	 * 
-	 * @return Begin date as a GregorianCalendar object
+	 * @return Start date as a GregorianCalendar object
 	 */
-	public GregorianCalendar getBeginDate() {
-		return new GregorianCalendar(dtBeginDate.getYear(), dtBeginDate.getMonth(), dtBeginDate.getDay());
+	public GregorianCalendar getStartDate() {
+		return new GregorianCalendar(dtStartDate.getYear(), dtStartDate.getMonth(), dtStartDate.getDay());
 	}
 
 	/**

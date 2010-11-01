@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.data;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -220,19 +222,21 @@ public class DataSetDocument extends UniDataSet {
 	/**
 	 * Get the payment state as localized string
 	 * 
-	 * @return String for "payed"
+	 * @return String for "paid"
 	 */
 	public static String getStringPAYED() {
-		return "bezahlt";
+		//T: An invoice is marked with this text, if it is paid.
+		return _("paid");
 	};
 
 	/**
 	 * Get the payment state as localized string
 	 * 
-	 * @return String for "not payed"
+	 * @return String for "unpaid"
 	 */
 	public static String getStringNOTPAYED() {
-		return "offen";
+		//T: An invoice is marked with this text, if it is not paid.
+		return _("unpaid");
 	};
 
 	/**
@@ -241,7 +245,8 @@ public class DataSetDocument extends UniDataSet {
 	 * @return String for "shipped"
 	 */
 	public static String getStringSHIPPED() {
-		return "versendet";
+		//T: An order is marked with this text, if it is shipped.
+		return _("shipped");
 	};
 
 	/**
@@ -250,11 +255,12 @@ public class DataSetDocument extends UniDataSet {
 	 * @return String for "not shipped"
 	 */
 	public static String getStringNOTSHIPPED() {
-		return "offen";
+		//T: An order is marked with this text, if it is shipped.
+		return _("not shipped");
 	};
 
 	/**
-	 * Get the catehory as string
+	 * Get the category as string
 	 * 
 	 * @return category as string
 	 */

@@ -48,13 +48,14 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		// Initialize every single preference page
 		ContactPreferencePage.setInitValues(node);
 		ContactFormatPreferencePage.setInitValues(node);
+		DocumentPreferencePage.setInitValues(node);
+		GeneralPreferencePage.setInitValues(node);
 		NumberRangeValuesPreferencePage.setInitValues(node);
 		NumberRangeFormatPreferencePage.setInitValues(node);
-		ProductPreferencePage.setInitValues(node);
-		YourCompanyPreferencePage.setInitValues(node);
-		WebShopImportPreferencePage.setInitValues(node);
-		DocumentPreferencePage.setInitValues(node);
 		OpenOfficePreferencePage.setInitValues(node);
+		ProductPreferencePage.setInitValues(node);
+		WebShopImportPreferencePage.setInitValues(node);
+		YourCompanyPreferencePage.setInitValues(node);
 		ExportSalesPreferencePage.setInitValues(node);
 
 	}

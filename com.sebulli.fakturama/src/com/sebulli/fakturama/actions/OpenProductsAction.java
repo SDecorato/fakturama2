@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Action;
 
 import com.sebulli.fakturama.views.ViewManager;
@@ -34,7 +36,9 @@ public class OpenProductsAction extends Action {
 	 * Constructor
 	 */
 	public OpenProductsAction() {
-		super("Produkte");
+
+		//T: Text of the action to open the products
+		super(_("Products"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_PRODUCTS);

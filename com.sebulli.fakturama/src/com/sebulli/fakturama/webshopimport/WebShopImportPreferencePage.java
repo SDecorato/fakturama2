@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.webshopimport;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -50,20 +52,29 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	 */
 	@Override
 	public void createFieldEditors() {
-		addField(new StringFieldEditor("WEBSHOP_URL", "Webshop Url", getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_USER", "Username", getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new StringFieldEditor("WEBSHOP_URL", _("Webshop Url"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_PASSWORD", "Passwort", getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new StringFieldEditor("WEBSHOP_USER", _("Username"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_PRODUCT_CATEGORY", "Produkte in Kategorie:", getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new StringFieldEditor("WEBSHOP_PASSWORD", _("Passwort"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_CONTACT_CATEGORY", "Kunden in Kategorie:", getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new StringFieldEditor("WEBSHOP_PRODUCT_CATEGORY", _("Products in category:"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("WEBSHOP_SHIPPING_CATEGORY", "Versandart in Kategorie:", getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new StringFieldEditor("WEBSHOP_CONTACT_CATEGORY", _("Customers in category:"), getFieldEditorParent()));
 
-		addField(new BooleanFieldEditor("WEBSHOP_NOTIFY_PROCESSING", "Kunde benachrichtigen bei 'In Bearbeitung'", getFieldEditorParent()));
-		addField(new BooleanFieldEditor("WEBSHOP_NOTIFY_SHIPPED", "Kunde benachrichtigen bei 'Versendet'", getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new StringFieldEditor("WEBSHOP_SHIPPING_CATEGORY", _("Shippings in category:"), getFieldEditorParent()));
+
+		//T: Preference page "Web Shop Import" - Label
+		addField(new BooleanFieldEditor("WEBSHOP_NOTIFY_PROCESSING", _("Notify customer on 'In Work'"), getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new BooleanFieldEditor("WEBSHOP_NOTIFY_SHIPPED", _("Notify customer on 'Shipped'"), getFieldEditorParent()));
 	}
 
 	/**
@@ -74,7 +85,8 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Einstellungen zum Importieren aus dem Webshop");
+		//T: Preference page "Web Shop Import" - Title
+		setDescription(_("Import from web shop"));
 	}
 
 	/**
@@ -104,9 +116,12 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		node.put("WEBSHOP_URL", "fakturama.sebulli.com/shop/admin/webshop_export.php");
 		node.put("WEBSHOP_USER", "user");
 		node.put("WEBSHOP_PASSWORD", "password");
-		node.put("WEBSHOP_PRODUCT_CATEGORY", "Shop");
-		node.put("WEBSHOP_CONTACT_CATEGORY", "Shop Kunden");
-		node.put("WEBSHOP_SHIPPING_CATEGORY", "Shop");
+		//T: Preference page "Web Shop Import" - Default value "Product Category"
+		node.put("WEBSHOP_PRODUCT_CATEGORY", _("Shop"));
+		//T: Preference page "Web Shop Import" - Default value "Contact Category"
+		node.put("WEBSHOP_CONTACT_CATEGORY", _("Shop Customer"));
+		//T: Preference page "Web Shop Import" - Default value "Shipping Category"
+		node.put("WEBSHOP_SHIPPING_CATEGORY", _("Shop"));
 		node.putBoolean("WEBSHOP_NOTIFY_PROCESSING", false);
 		node.putBoolean("WEBSHOP_NOTIFY_SHIPPED", true);
 

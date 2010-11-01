@@ -35,7 +35,7 @@ public class BrowserEditorInput implements IEditorInput {
 	 * Constructor
 	 * 
 	 * @param url
-	 *            Url of the web browser
+	 *            URL of the web browser
 	 */
 	public BrowserEditorInput(String url) {
 		this.url = url;
@@ -64,7 +64,7 @@ public class BrowserEditorInput implements IEditorInput {
 	/**
 	 * Returns the name of this editor input for display purposes
 	 * 
-	 * @return the url "fakturama.sebulli.com"
+	 * @return the URL "fakturama.sebulli.com"
 	 */
 	@Override
 	public String getName() {
@@ -116,7 +116,7 @@ public class BrowserEditorInput implements IEditorInput {
 		if (url == null)
 			return false;
 
-		// Compate the URLs
+		// Compare the URLs
 		if (obj instanceof BrowserEditorInput) { return url.equals(((BrowserEditorInput) obj).getUrl()); }
 		return false;
 	}

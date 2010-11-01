@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.preferences;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
@@ -50,21 +52,29 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	@Override
 	public void createFieldEditors() {
-		addField(new BooleanFieldEditor("PRODUCT_USE_ITEMNR", "Artikelnummer benutzen", getFieldEditorParent()));
+		
+		//T: Preference page "Product" - Label "Use item No."
+		addField(new BooleanFieldEditor("PRODUCT_USE_ITEMNR", _("Use item No."), getFieldEditorParent()));
 
-		addField(new BooleanFieldEditor("PRODUCT_USE_DESCRIPTION", "Beschreibung benutzen", getFieldEditorParent()));
+		//T: Preference page "Product" - Label "Use description"
+		addField(new BooleanFieldEditor("PRODUCT_USE_DESCRIPTION", _("Use description"), getFieldEditorParent()));
 
-		addField(new RadioGroupFieldEditor("PRODUCT_USE_NET_GROSS", "Eingabe von Netto oder Brutto Preisen:", 3, new String[][] { { "Netto", "1" },
-				{ "Brutto", "2" }, { "Netto und Brutto", "0" } }, getFieldEditorParent()));
+		//T: Preference page "Product" - Label "Use gross or net or both"
+		addField(new RadioGroupFieldEditor("PRODUCT_USE_NET_GROSS", _("Enter price as net or gross:"), 3, new String[][] { { _("Net"), "1" },
+				{ _("Gross"), "2" }, { _("Net and Gross"), "0" } }, getFieldEditorParent()));
 
-		addField(new ComboFieldEditor("PRODUCT_SCALED_PRICES", "Staffelpreise:", new String[][] { { "keine", "1" }, { "2", "2" }, { "3", "3" }, { "4", "4" },
+		//T: Preference page "Product" - Label "Use scaled prices"
+		addField(new ComboFieldEditor("PRODUCT_SCALED_PRICES", _("Use scaled prices:"), new String[][] { { "--", "1" }, { "2", "2" }, { "3", "3" }, { "4", "4" },
 				{ "5", "5" } }, getFieldEditorParent()));
 
-		addField(new BooleanFieldEditor("PRODUCT_USE_VAT", "Mehrwertsteuer auswählen", getFieldEditorParent()));
+		//T: Preference page "Product" - Label "Possibility to select the VAT"
+		addField(new BooleanFieldEditor("PRODUCT_USE_VAT", _("Select VAT"), getFieldEditorParent()));
 
-		addField(new BooleanFieldEditor("PRODUCT_USE_WEIGHT", "Gewichtsangabe benutzen", getFieldEditorParent()));
+		//T: Preference page "Product" - Label "Use weight"
+		addField(new BooleanFieldEditor("PRODUCT_USE_WEIGHT", _("Use weight"), getFieldEditorParent()));
 
-		addField(new BooleanFieldEditor("PRODUCT_USE_PICTURE", "Produktbild benutzen", getFieldEditorParent()));
+		//T: Preference page "Product" - Label "Use product picture"
+		addField(new BooleanFieldEditor("PRODUCT_USE_PICTURE", _("Use product picture"), getFieldEditorParent()));
 	}
 
 	/**
@@ -75,7 +85,8 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Einstellungen zum Produktdialog");
+		//T: Preference page "Product" - Title"
+		setDescription(_("Product Settings"));
 	}
 
 	/**

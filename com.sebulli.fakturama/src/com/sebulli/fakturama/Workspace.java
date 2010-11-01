@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -43,7 +45,7 @@ import com.sebulli.fakturama.logger.Logger;
 public enum Workspace {
 	INSTANCE;
 
-	public static final String templateFolderName = "Vorlagen";
+	public String templateFolderName;
 	public static final String productPictureFolderName = "/Pics/Products/";
 
 	// Workspace path
@@ -56,6 +58,8 @@ public enum Workspace {
 
 	Workspace() {
 
+		templateFolderName = _("Templates");
+		
 		isInitialized = false;
 
 		// Get the workspace from the preferences
@@ -208,8 +212,11 @@ public enum Workspace {
 		// Open a directory dialog 
 		DirectoryDialog directoryDialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		directoryDialog.setFilterPath(System.getProperty("user.home"));
-		directoryDialog.setMessage("Bitte wählen Sie ein Dateiverzeichnis aus, in dem die Firmendaten abgelegt werden.");
-		directoryDialog.setText("Arbeitsverzeichnis auswählen");
+
+		//T: Title of the dialog to select the working directory
+		directoryDialog.setText(_("Select your working directory"));
+		//T: Text of the dialog to select the working directory
+		directoryDialog.setMessage(_("Please select your working directory, where all the data is stored."));
 		String selectedDirectory = directoryDialog.open();
 
 		if (selectedDirectory != null) {
@@ -228,8 +235,11 @@ public enum Workspace {
 					// Store the requested directory in a preference value
 					Activator.getDefault().getPreferenceStore().setValue("GENERAL_WORKSPACE_REQUEST", selectedDirectory);
 					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
-					messageBox.setText("Hinweis");
-					messageBox.setMessage("Das Arbeitsverzeichnis wird gewechselt.\nBitte starten Sie Fakturama neu !");
+					
+					//T: Title of the dialog that the workspace will be changed.
+					messageBox.setText(_("Information"));
+					//T: Text of the dialog that the workspace will be switched and that you should restart Fakturama.
+					messageBox.setMessage("The working directory will be switched.\nPlease restart Fakturama!");
 					messageBox.open();
 
 					// Close the workbench
@@ -261,6 +271,16 @@ public enum Workspace {
 		}
 		;
 
+	}
+	
+	/**
+	 * Getter for the templateFolderName
+	 * 
+	 * @return
+	 * 			templateFolderName
+	 */
+	public String getTemplateFolderName () {
+		return templateFolderName;
 	}
 
 }

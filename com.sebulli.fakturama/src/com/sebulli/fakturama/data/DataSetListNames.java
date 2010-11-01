@@ -1,5 +1,7 @@
 package com.sebulli.fakturama.data;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -15,8 +17,10 @@ public enum DataSetListNames {
 	 * Constructor Fill the list with name pairs
 	 */
 	DataSetListNames() {
-		setNamePair("country_codes", "Länderkennung");
-		setNamePair("billing_accounts", "Buchungskonten");
+		//T: Title for the list with country codes
+		setNamePair("country_codes", _("Country Codes"));
+		//T: Title for the list with billing accounts
+		setNamePair("billing_accounts", _("Billing Accounts"));
 	}
 
 	/**

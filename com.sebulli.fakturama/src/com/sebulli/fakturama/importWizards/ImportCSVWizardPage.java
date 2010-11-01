@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.importWizards;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.wizard.WizardSelectionPage;
@@ -42,8 +44,11 @@ public class ImportCSVWizardPage extends WizardSelectionPage {
 	 * Creates the wizard page
 	 */
 	public ImportCSVWizardPage() {
-		super("ImportCSVWizardPage");
-		setTitle("Tabelle als CSV importieren");
+		
+		//T: Text of the Import CSV Wizard Page
+		super(_("ImportCSVWizardPage"));
+		//T: Text of the Import CSV Wizard Page
+		setTitle(_("Import Table as CSV"));
 		setMessage("Message");
 		setDescription("Description");
 	}
@@ -76,7 +81,8 @@ public class ImportCSVWizardPage extends WizardSelectionPage {
 
 		// Create the label with the help text
 		Label labelDescription = new Label(top, SWT.NONE);
-		labelDescription.setText("Importverlauf:");
+		//T: Import progress of the CSV import
+		labelDescription.setText(_("Import Progress:"));
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelDescription);
 
 		// Create the label with the status text

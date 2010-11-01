@@ -69,12 +69,12 @@ public class DataBase {
 			return "VARCHAR(256)";
 
 		case TEXT:
-			return "VARCHAR(60000)";
+			return "VARCHAR(32768)";
 
 		default:
 			Logger.logError("DataBase.java: Unknown UniDataType");
 		}
-		return "VARCHAR(60000)";
+		return "VARCHAR(32768)";
 	}
 
 	/**

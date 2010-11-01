@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -37,7 +39,9 @@ public class NewListEntryAction extends NewEditorAction {
 	 * Constructor
 	 */
 	public NewListEntryAction() {
-		super("neuer Listeneintrag");
+		
+		//T: Text of the action to create a new list entry
+		super(_("New List Entry"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_LISTENTRY);

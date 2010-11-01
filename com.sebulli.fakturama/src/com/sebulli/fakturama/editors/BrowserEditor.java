@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -164,7 +166,8 @@ public class BrowserEditor extends Editor {
 					else if (isValidURL) {
 						if (homeButton == null) {
 							homeButton = new Button(homeButtonComposite, SWT.NONE);
-							homeButton.setText("<< Zurück zu fakturama.sebulli.com");
+							//T: Button to go back to the Fakturama home page
+							homeButton.setText(_("<< Back to fakturama.sebulli.com"));
 							homeButton.addSelectionListener(new SelectionAdapter() {
 								public void widgetSelected(SelectionEvent e) {
 

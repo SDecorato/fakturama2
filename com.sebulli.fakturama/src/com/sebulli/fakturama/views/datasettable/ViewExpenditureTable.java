@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views.datasettable;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -62,10 +64,14 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		editor = "Expenditure";
 
 		// Create the table columns
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Datum", 80, 0, true, "date");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Belegnr.", 100, 0, true, "nr");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Dokumentnr.", 150, 0, true, "documentnr");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Lieferant", 200, 50, false, "name");
+		//T: View Expenditure: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), 80, 0, true, "date");
+		//T: View Expenditure: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Voucher"), 100, 0, true, "nr");
+		//T: View Expenditure: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Document"), 150, 0, true, "documentnr");
+		//T: View Expenditure: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Supplier"), 200, 50, false, "name");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getExpenditures());

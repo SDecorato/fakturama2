@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views.datasettable;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -60,10 +62,11 @@ public class ViewTextTable extends ViewDataSetTable {
 		editor = "Text";
 
 		// Create the table columns
-		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30,
-		// 0, true, "id");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Text", 200, 50, false, "text");
+		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
+		//T: View Text: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
+		//T: View Text: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Text"), 200, 50, false, "text");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getTexts());

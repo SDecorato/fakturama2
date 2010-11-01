@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
@@ -53,7 +55,8 @@ public class ErrorView extends ViewPart {
 
 		// create the label
 		Label labelItemNr = new Label(top, SWT.NONE);
-		labelItemNr.setText("Fehler:");
+		//T: Label of the error view
+		labelItemNr.setText(_("Error:"));
 
 		// fill the rest of the view with the text field
 		errorText = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);

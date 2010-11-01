@@ -1,0 +1,958 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Gerd Bartelt
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
+"POT-Creation-Date: 2010-10-31 16:51+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:149
+msgid "Export.."
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:154
+msgid "Import.."
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:159
+msgid "Preferences"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:164
+msgid "Quit Fakturama"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#. T: Text of the actions in the tool bar
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Text of the actions in the main menu
+#. T: Text of the actions in the tool bar
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:169
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:174
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:407
+msgid "Print"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:179
+msgid "Close"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:184
+msgid "Close All"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Text of the actions in the main menu
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:189
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:417
+msgid "Save"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:197
+msgid "Save All"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:202
+msgid "About Fakturama"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:207
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:312
+msgid "Help"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:212
+msgid "Reset Perspective"
+msgstr ""
+
+#. T: Title of the menus in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:310
+msgid "File"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:311
+msgid "Window"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Text of the action to connect to the web shop and import new data
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:397
+#: ../src/com/sebulli/fakturama/actions/WebShopImportAction.java:54
+msgid "Web Shop"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Type of the document (singular)
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:426
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:146
+msgid "Letter"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Type of the document (singular)
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:435
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:149
+msgid "Offer"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Type of the document (singular)
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:444
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:152
+msgid "Order"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Type of the document (singular)
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:453
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:155
+msgid "Confirmation"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Type of the document (singular)
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:462
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:158
+msgid "Invoice"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:471
+msgid "Delivery"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Type of the document (singular)
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:480
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:164
+msgid "Credit"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Type of the document (singular)
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:489
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:167
+msgid "Dunning"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:498
+msgid "Contact"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:507
+msgid "Product"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:516
+msgid "www"
+msgstr ""
+
+#. T: Text of the actions in the tool bar.
+#. T: They should be shortened to about 8 Letters that it can be placed
+#. T: under the icon.
+#. T: Text of the action to open the calculator
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:525
+#: ../src/com/sebulli/fakturama/actions/OpenCalculatorAction.java:44
+msgid "Calculator"
+msgstr ""
+
+#. T: Title of an expand bar in the navigations view
+#: ../src/com/sebulli/fakturama/views/NavigationView.java:69
+msgid "Import"
+msgstr ""
+
+#. T: Title of an expand bar in the navigations view
+#: ../src/com/sebulli/fakturama/views/NavigationView.java:75
+msgid "Data"
+msgstr ""
+
+#. T: Title of an expand bar in the navigations view
+#: ../src/com/sebulli/fakturama/views/NavigationView.java:89
+msgid "New"
+msgstr ""
+
+#. T: Title of an expand bar in the navigations view
+#: ../src/com/sebulli/fakturama/views/NavigationView.java:96
+msgid "Export"
+msgstr ""
+
+#. T: Title of an expand bar in the navigations view
+#. T: Contact Editor
+#. T: Title of the tab MISCELLANEOUS
+#. T: Title of an expand bar in the navigations view
+#: ../src/com/sebulli/fakturama/views/NavigationView.java:102
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:505
+msgid "Miscellaneous"
+msgstr ""
+
+#. T: Title of the message box, if there is no connection to the database
+#. T: Title of the dialog that the workspace will be changed.
+#: ../src/com/sebulli/fakturama/data/Data.java:113
+#: ../src/com/sebulli/fakturama/Workspace.java:240
+msgid "Information"
+msgstr ""
+
+#. T: Text of the message box, if there is no connection to the database
+#: ../src/com/sebulli/fakturama/data/Data.java:115
+msgid ""
+"No connection to the database.\n"
+"\n"
+msgstr ""
+
+#. T: Name and description of the default VAT entry
+#: ../src/com/sebulli/fakturama/data/Data.java:128
+msgid "Tax-free"
+msgstr ""
+
+#. T: Name and description of the default shipping entry
+#: ../src/com/sebulli/fakturama/data/Data.java:130
+msgid "Free"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/data/Data.java:130
+msgid "Free of shipping costs"
+msgstr ""
+
+#. T: Name, description, standard text for a paid and an unpaid invoice of the default VAT entry
+#: ../src/com/sebulli/fakturama/data/Data.java:132
+msgid "Cash"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/data/Data.java:132
+msgid "Thank you for the payment."
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/data/Data.java:132
+msgid "Payment due upon receipt of invoice."
+msgstr ""
+
+#. T: Gender specific title
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:360
+msgid "Mr"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:362
+msgid "Ms"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label of the company
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:364
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:629
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:745
+#: ../src/com/sebulli/fakturama/dialogs/SelectContactDialog.java:80
+msgid "Company"
+msgstr ""
+
+#. T: Title for the list with country codes
+#: ../src/com/sebulli/fakturama/data/DataSetListNames.java:21
+msgid "Country Codes"
+msgstr ""
+
+#. T: Title for the list with billing accounts
+#: ../src/com/sebulli/fakturama/data/DataSetListNames.java:23
+msgid "Billing Accounts"
+msgstr ""
+
+#. T: An invoice is marked with this text, if it is paid.
+#: ../src/com/sebulli/fakturama/data/DataSetDocument.java:229
+msgid "paid"
+msgstr ""
+
+#. T: An invoice is marked with this text, if it is not paid.
+#: ../src/com/sebulli/fakturama/data/DataSetDocument.java:239
+msgid "unpaid"
+msgstr ""
+
+#. T: An order is marked with this text, if it is shipped.
+#: ../src/com/sebulli/fakturama/data/DataSetDocument.java:249
+msgid "shipped"
+msgstr ""
+
+#. T: An order is marked with this text, if it is shipped.
+#: ../src/com/sebulli/fakturama/data/DataSetDocument.java:259
+msgid "not shipped"
+msgstr ""
+
+#. T: Type of the document (singular)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:161
+msgid "Delivery Note"
+msgstr ""
+
+#. T: Type of 2 or more documents (plural)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:193
+msgid "Letters"
+msgstr ""
+
+#. T: Type of 2 or more documents (plural)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:196
+msgid "Offers"
+msgstr ""
+
+#. T: Type of 2 or more documents (plural)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:199
+msgid "Orders"
+msgstr ""
+
+#. T: Type of 2 or more documents (plural)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:202
+msgid "Confirmations"
+msgstr ""
+
+#. T: Type of 2 or more documents (plural)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:205
+msgid "Invoices"
+msgstr ""
+
+#. T: Type of 2 or more documents (plural)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:208
+msgid "Delivery Notes"
+msgstr ""
+
+#. T: Type of 2 or more documents (plural)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:211
+msgid "Credit Items"
+msgstr ""
+
+#. T: Type of 2 or more documents (plural)
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:214
+msgid "Dunning Letters"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:535
+msgid "New Letter"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:538
+msgid "New Offer"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:541
+msgid "New Order"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:544
+msgid "New Confirmation"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:547
+msgid "New Invoice"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:550
+msgid "New Delivery Note"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:553
+msgid "New Credit"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:556
+msgid "New Dunning"
+msgstr ""
+
+#. T: A new document (singular). e.g. Used as button description to create a new document.
+#. T: Text of the action to create a new document
+#: ../src/com/sebulli/fakturama/data/DocumentType.java:559
+#: ../src/com/sebulli/fakturama/actions/NewDocumentAction.java:51
+msgid "New Document"
+msgstr ""
+
+#. T: Button to go back to the Fakturama home page
+#: ../src/com/sebulli/fakturama/editors/BrowserEditor.java:170
+msgid "<< Back to fakturama.sebulli.com"
+msgstr ""
+
+#. T: Title of the dialog that appears if the customer ID is
+#. T: not the next free one.
+#. T: Title of the dialog that appears if there is already a customer with the
+#. T: same customer ID
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:167
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:1045
+msgid "Error in customer ID"
+msgstr ""
+
+#. T: Text of the dialog that appears if the customer ID is
+#. T: not the next free one.
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:171
+msgid "Customer ID is not the next free one:"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:171
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:221
+msgid "See Preferences/Number Range."
+msgstr ""
+
+#. T: Contact Editor
+#. T: Title of the editor if the data set is a new one.
+#. T: Text of the action to create a new contact
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:294
+#: ../src/com/sebulli/fakturama/actions/NewContactAction.java:47
+msgid "New Contact"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Title of the tab ADDRESS
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:475
+msgid "Address"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Title of the tab BANK
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:490
+msgid "Bank Account"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Title of the tab Note
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:521
+msgid "Note"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label Customer ID
+#. T: Heading of the contact table in the "SelectContactDialog"
+#. T: This dialog appears, if you edit a document and click on the
+#. T: button to add a new address.
+#. T: The words should be short (max. 8-10 characters)
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:539
+#: ../src/com/sebulli/fakturama/dialogs/SelectContactDialog.java:77
+msgid "Customer ID"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Checkbox "delivery address equals invoice address"
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:550
+msgid "Delivery Address equals Invoice Address"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Group "Address"
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:565
+msgid "Addresse"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label "Gender"
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:574
+msgid "Gender"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label "Title"
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:580
+msgid "Title"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label that displays the format if the last name is in
+#. T: front of the first name
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:604
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:719
+msgid "Last name, First Name"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label that displays the format if the first name is in
+#. T: front of the last name
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:614
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:729
+msgid "First Name Last name"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label of the street
+#. T: Contact Editor
+#. T: Label of the stree
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:640
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:756
+msgid "Street"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label ZIP code and city
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:652
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:768
+msgid "ZIP, City"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label of the county
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:667
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:783
+msgid "Country"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Group of the delivery address
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:680
+msgid "Delivery Address"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label "Title"
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:695
+msgid "Titel"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label account holder
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:796
+msgid "Account Holder"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label account holder
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:807
+msgid "Account Number"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label bank code
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:818
+msgid "Bank Code"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label name of the bank
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:829
+msgid "Name of the Bank"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label IBAN
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:840
+msgid "IBAN"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label BIC
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:851
+msgid "BIC"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label Category
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:864
+msgid "Category"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label E-Mail
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:875
+msgid "E-Mail"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label Telephone
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:886
+msgid "Telephone"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label Telefax
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:897
+msgid "Telefax"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label Mobile
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:908
+msgid "Mobile"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label Web Site
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:919
+msgid "Web Site"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label Payment
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:930
+msgid "Payment"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label Reliability
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:955
+msgid "Reliability"
+msgstr ""
+
+#. T: Contact Editor
+#. T: Label VAT number
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:970
+msgid "VAT Number."
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:981
+msgid "Discount"
+msgstr ""
+
+#. T: Text of the dialog that appears if there is already a customer with the
+#. T: same customer ID
+#: ../src/com/sebulli/fakturama/editors/ContactEditor.java:1049
+msgid "There is already a customer with the number:"
+msgstr ""
+
+#. T: Title of the dialog that appears if the document ID is
+#. T: not the next free one.
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:217
+msgid "Error in document number"
+msgstr ""
+
+#. T: Text of the dialog that appears if the document ID is
+#. T: not the next free one.
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:221
+msgid "Document number is not the next free one:"
+msgstr ""
+
+#. T: Title of the dialog that appears if the document is assigned to
+#. T: an other address.
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:281
+msgid "Please verify"
+msgstr ""
+
+#. T: Text of the dialog that appears if the document is assigned to
+#. T: an other address.
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:285
+msgid "This document is assiged to the contact:"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:286
+msgid "You have entered a different one."
+msgstr ""
+
+#. T: Document Editor
+#. T: Label payment value
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:963
+msgid "Value"
+msgstr ""
+
+#. T: Document Editor
+#. T: Label before the Text Field "Due Days".
+#. T: Format: THIS LABEL <DAYS> PAYABLE UNTIL <ISSUE DATE>
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:990
+msgid "Due Days:"
+msgstr ""
+
+#. T: Document Editor
+#. T: Label between the Text Field "Due Days" and the Date Field "Issue Date"
+#. T: Format:  DUE DAYS: <DAYS> THIS LABEL <ISSUE DATE>
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1019
+msgid "Pay Until:"
+msgstr ""
+
+#. T: Document Editor
+#. T: Label Document Number
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1096
+msgid "Nr."
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1114
+msgid "Date"
+msgstr ""
+
+#. T: Document Editor
+#. T: Label Customer Reference
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1168
+msgid "Cust.Ref."
+msgstr ""
+
+#. T: Document Editor
+#. T: Label Order Date
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1189
+msgid "Order Date:"
+msgstr ""
+
+#. T: Document Editor
+#. T: Label Invoice
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1213
+msgid "Invoice:"
+msgstr ""
+
+#. T: Document Editor
+#. T: Label Vat
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1228
+msgid "VAT:"
+msgstr ""
+
+#. T: Document Editor
+#. T: Label Group box to create a new document based on this one.
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1285
+msgid "Create a duplicate"
+msgstr ""
+
+#. T: Text of the action to create a new shipping
+#: ../src/com/sebulli/fakturama/actions/NewShippingAction.java:44
+msgid "New Shipping"
+msgstr ""
+
+#. T: Text of the action to open the shippings
+#: ../src/com/sebulli/fakturama/actions/OpenShippingsAction.java:41
+msgid "Shippings"
+msgstr ""
+
+#. T: Text of the action to create a new product
+#: ../src/com/sebulli/fakturama/actions/NewProductAction.java:44
+msgid "neues Produkt"
+msgstr ""
+
+#. T: Text of the action to open the payments
+#: ../src/com/sebulli/fakturama/actions/OpenPaymentsAction.java:41
+msgid "Payments"
+msgstr ""
+
+#. T: Text of the action to create a new list entry
+#: ../src/com/sebulli/fakturama/actions/NewListEntryAction.java:43
+msgid "New List Entry"
+msgstr ""
+
+#. T: Text of the action to create a new VAT
+#: ../src/com/sebulli/fakturama/actions/NewVatAction.java:44
+msgid "New VAT"
+msgstr ""
+
+#. T: Text of the action to select the workspace
+#: ../src/com/sebulli/fakturama/actions/SelectWorkspaceAction.java:40
+msgid "Select Workspace"
+msgstr ""
+
+#. T: Text of the action to open the products
+#: ../src/com/sebulli/fakturama/actions/OpenProductsAction.java:41
+msgid "Products"
+msgstr ""
+
+#. T: Text of the action to create a new text entry
+#: ../src/com/sebulli/fakturama/actions/NewTextAction.java:44
+msgid "New Text"
+msgstr ""
+
+#. T: Text of the action to open the documents
+#: ../src/com/sebulli/fakturama/actions/OpenDocumentsAction.java:41
+msgid "Documents"
+msgstr ""
+
+#. T: Text of the DeleteDataSetAction
+#: ../src/com/sebulli/fakturama/actions/DeleteDataSetAction.java:52
+msgid "delete"
+msgstr ""
+
+#. T: Title of the dialog to confirm deleting a data set.
+#: ../src/com/sebulli/fakturama/actions/DeleteDataSetAction.java:104
+msgid "Confirm deleting"
+msgstr ""
+
+#. T: Text of the dialog to confirm deleting a data set.
+#: ../src/com/sebulli/fakturama/actions/DeleteDataSetAction.java:106
+msgid "Entry"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/actions/DeleteDataSetAction.java:106
+msgid "will be deleted !"
+msgstr ""
+
+#. T: Text of the action to open the texts
+#: ../src/com/sebulli/fakturama/actions/OpenTextsAction.java:41
+msgid "Texts"
+msgstr ""
+
+#. T: Text of the action to open the expenditures
+#: ../src/com/sebulli/fakturama/actions/OpenExpendituresAction.java:41
+msgid "Expenditures"
+msgstr ""
+
+#. T: Text of the action to create a new payment
+#: ../src/com/sebulli/fakturama/actions/NewPaymentAction.java:43
+msgid "New Payment"
+msgstr ""
+
+#. T: Text of the action to open the lists
+#: ../src/com/sebulli/fakturama/actions/OpenListsAction.java:41
+msgid "Lists"
+msgstr ""
+
+#. T: Text of the action to open the VATs
+#: ../src/com/sebulli/fakturama/actions/OpenVatsAction.java:41
+msgid "VATs"
+msgstr ""
+
+#. T: Text of the action to open the contacts
+#: ../src/com/sebulli/fakturama/actions/OpenContactsAction.java:41
+msgid "Contacts"
+msgstr ""
+
+#. T: Text of the action to create a new expenditure
+#: ../src/com/sebulli/fakturama/actions/NewExpenditureAction.java:43
+msgid "New Expenditure"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectContactDialog.java:78
+msgid "First Name"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectContactDialog.java:79
+msgid "Last Name"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectContactDialog.java:81
+msgid "ZIP"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectContactDialog.java:82
+msgid "City"
+msgstr ""
+
+#. T: Heading of the product table in the "SelectProductDialog"
+#. T: This dialog appears, if you edit a document and click on the
+#. T: button to add a new text for the comment.
+#. T: The words should be short (max. 8-10 characters)
+#: ../src/com/sebulli/fakturama/dialogs/SelectTextDialog.java:74
+#: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:78
+msgid "Name"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectTextDialog.java:75
+msgid "Text"
+msgstr ""
+
+#. T: Label of the search field
+#: ../src/com/sebulli/fakturama/dialogs/SelectDataSetDialog.java:113
+msgid "Search:"
+msgstr ""
+
+#. T: Dialog to change the state of an order.
+#. T: Text above the field to send a comment to the customer.
+#: ../src/com/sebulli/fakturama/dialogs/OrderStatusDialog.java:85
+msgid "Comment to the customer:"
+msgstr ""
+
+#. T: Dialog to change the state of an order.
+#. T: Checkbox to notify the customer by email.
+#: ../src/com/sebulli/fakturama/dialogs/OrderStatusDialog.java:97
+msgid "Notify customer by email."
+msgstr ""
+
+#. T: Title of the dialog to change the state of an order and to
+#. T: send a comment to the customer.
+#: ../src/com/sebulli/fakturama/dialogs/OrderStatusDialog.java:122
+msgid "Comment to the customer"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:77
+msgid "Itemnr"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:79
+msgid "Description"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:81
+#: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:83
+msgid "Price"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:84
+msgid "VAT"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/Workspace.java:61
+msgid "Templates"
+msgstr ""
+
+#. T: Title of the dialog to select the working directory
+#: ../src/com/sebulli/fakturama/Workspace.java:217
+msgid "Select your working directory"
+msgstr ""
+
+#. T: Text of the dialog to select the working directory
+#: ../src/com/sebulli/fakturama/Workspace.java:219
+msgid "Please select your working directory, where all the data is stored."
+msgstr ""

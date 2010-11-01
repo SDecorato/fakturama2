@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Action;
 
 import com.sebulli.fakturama.views.ViewManager;
@@ -34,7 +36,9 @@ public class OpenExpendituresAction extends Action {
 	 * Constructor
 	 */
 	public OpenExpendituresAction() {
-		super("Ausgaben");
+
+		//T: Text of the action to open the expenditures
+		super(_("Expenditures"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_EXPENDITURES);

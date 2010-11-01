@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.preferences;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
@@ -48,15 +50,17 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 	 */
 	@Override
 	public void createFieldEditors() {
-		addField(new IntegerFieldEditor("NUMBERRANGE_CONTACT_NR", "nächste Kundennummer:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_PRODUCT_NR", "nächste Artikelnr:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_INVOICE_NR", "nächste Rechnungsnr:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_DELIVERY_NR", "nächste Lieferscheinnr:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_OFFER_NR", "nächste Angebotsnr:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_ORDER_NR", "nächste Bestellungnr:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_CONFIRMATION_NR", "nächste Auftragsbestätigungsnr:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_CREDIT_NR", "nächste Gutschriftnr:", getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_DUNNING_NR", "nächste Mahnungsnr:", getFieldEditorParent()));
+		
+		//T: Preference page "Number Range Values" - Label "next free number"
+		addField(new IntegerFieldEditor("NUMBERRANGE_CONTACT_NR", _("Next customer No.:"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_PRODUCT_NR", _("Next item No.:"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_INVOICE_NR", _("Next invoice No.:"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_DELIVERY_NR", _("Next delivery note:"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_OFFER_NR", _("Next offer No."), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_ORDER_NR", _("Next order No.:"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_CONFIRMATION_NR", _("Next confirmation No.:"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_CREDIT_NR", _("Next credit No.:"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("NUMBERRANGE_DUNNING_NR", _("Next dunning No.:"), getFieldEditorParent()));
 	}
 
 	/**
@@ -67,7 +71,8 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Nächste Nummer");
+		//T: Preference page "umber Range Values" - Title"
+		setDescription(_("Next number"));
 	}
 
 	/**

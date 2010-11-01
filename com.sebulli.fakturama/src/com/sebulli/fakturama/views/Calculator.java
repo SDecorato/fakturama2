@@ -119,7 +119,7 @@ public class Calculator extends ViewPart {
 		createButton(container, 'I', false, "INV", 1);
 
 		// percent Button
-		createButton(container, '%', false, "PROZENT", 1);
+		createButton(container, '%', false, "PERCENT", 1);
 
 		// Divide Button
 		createButton(container, '/', true, "DIV", 1);
@@ -158,13 +158,13 @@ public class Calculator extends ViewPart {
 		createButton(container, '3', false, "3", 1);
 
 		// Button "="
-		createButton(container, '=', true, "ISTGLEICH", 2);
+		createButton(container, '=', true, "SUM", 2);
 
 		// Button "0"
 		createButton(container, '0', false, "0", 1);
 
 		// Button "."
-		createButton(container, '.', false, "PUNKT", 1);
+		createButton(container, '.', false, "POINT", 1);
 
 		// Sign Button
 		createButton(container, '-', false, "PLUSMINUS", 1);

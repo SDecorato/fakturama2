@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.openoffice;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -379,7 +381,8 @@ public class OODocument extends Object {
 	public String getDocumentPath(boolean inclFilename, boolean inclExtension, boolean PDF) {
 		String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
 
-		savePath += "/Dokumente";
+		//T: Subdirectory of the OpenOffice documents
+		savePath += _("/Documents");
 
 		if (PDF)
 			savePath += "/PDF/";

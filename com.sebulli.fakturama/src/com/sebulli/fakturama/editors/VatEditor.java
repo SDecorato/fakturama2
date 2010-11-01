@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -143,7 +145,9 @@ public class VatEditor extends Editor {
 
 			// Create a new data set
 			vat = new DataSetVAT(((UniDataSetEditorInput) input).getCategory());
-			setPartName("neue MwSt.");
+
+			//T: VAT Editor: Part Name of a new VAT Entry
+			setPartName(_("New TAX Rate"));
 
 		}
 		else {
@@ -209,13 +213,15 @@ public class VatEditor extends Editor {
 
 		// Large VAT label
 		Label labelTitle = new Label(top, SWT.NONE);
-		labelTitle.setText("Steuersatz");
+		//T: VAT Editor: Title VAT Entry
+		labelTitle.setText(_("TAX Rate"));
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
 		// Name of the VAT
 		Label labelName = new Label(top, SWT.NONE);
-		labelName.setText("Name");
+		//T: VAT Editor: label name
+		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(vat.getStringValueByKey("name"));
@@ -224,7 +230,8 @@ public class VatEditor extends Editor {
 
 		// Category of the VAT
 		Label labelCategory = new Label(top, SWT.NONE);
-		labelCategory.setText("Kategorie");
+		//T: VAT Editor: label category
+		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
 		txtCategory.setText(vat.getStringValueByKey("category"));
@@ -233,7 +240,8 @@ public class VatEditor extends Editor {
 
 		// The description
 		Label labelDescription = new Label(top, SWT.NONE);
-		labelDescription.setText("Beschreibung");
+		//T: VAT Editor: label description
+		labelDescription.setText(_("Description"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
 		textDescription.setText(vat.getStringValueByKey("description"));
@@ -242,7 +250,8 @@ public class VatEditor extends Editor {
 
 		// The value
 		Label labelValue = new Label(top, SWT.NONE);
-		labelValue.setText("Wert");
+		//T: VAT Editor: label value
+		labelValue.setText(_("Value"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelValue);
 		textValue = new Text(top, SWT.BORDER);
 		textValue.setText(DataUtils.DoubleToFormatedPercent(vat.getDoubleValueByKey("value")));
@@ -251,9 +260,11 @@ public class VatEditor extends Editor {
 
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStdVat = new Label(top, SWT.NONE);
-		labelStdVat.setText("Standard");
+		//T: VAT Editor: Label for the standard VAT.
+		labelStdVat.setText(_("Standard"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
-		stdComposite = new StdComposite(top, vat, Data.INSTANCE.getVATs(), "standardvat", "dieser Steuersatz", 1);
+		//T: VAT Editor: Button description to make this as standard VAT.
+		stdComposite = new StdComposite(top, vat, Data.INSTANCE.getVATs(), "standardvat",  _("This TAX Rate"), 1);
 
 	}
 

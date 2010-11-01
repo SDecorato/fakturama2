@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.data;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.ArrayList;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -140,21 +142,29 @@ public enum DocumentType {
 	public static String getString(int i) {
 		switch (i) {
 		case 1:
-			return "Brief";
+			//T: Type of the document (singular)
+			return _("Letter");
 		case 2:
-			return "Angebot";
+			//T: Type of the document (singular)
+			return _("Offer");
 		case 3:
-			return "Bestellung";
+			//T: Type of the document (singular)
+			return _("Order");
 		case 4:
-			return "Auftragsbestätigung";
+			//T: Type of the document (singular)
+			return _("Confirmation");
 		case 5:
-			return "Rechnung";
+			//T: Type of the document (singular)
+			return _("Invoice");
 		case 6:
-			return "Lieferschein";
+			//T: Type of the document (singular)
+			return _("Delivery Note");
 		case 7:
-			return "Gutschrift";
+			//T: Type of the document (singular)
+			return _("Credit");
 		case 8:
-			return "Mahnung";
+			//T: Type of the document (singular)
+			return _("Dunning");
 		}
 		return "";
 	}
@@ -179,21 +189,29 @@ public enum DocumentType {
 	public static String getPluralString(int i) {
 		switch (i) {
 		case 1:
-			return "Briefe";
+			//T: Type of 2 or more documents (plural)
+			return _("Letters");
 		case 2:
-			return "Angebote";
+			//T: Type of 2 or more documents (plural)
+			return _("Offers");
 		case 3:
-			return "Bestellungen";
+			//T: Type of 2 or more documents (plural)
+			return _("Orders");
 		case 4:
-			return "Auftragsbestätigungen";
+			//T: Type of 2 or more documents (plural)
+			return _("Confirmations");
 		case 5:
-			return "Rechnungen";
+			//T: Type of 2 or more documents (plural)
+			return _("Invoices");
 		case 6:
-			return "Lieferscheine";
+			//T: Type of 2 or more documents (plural)
+			return _("Delivery Notes");
 		case 7:
-			return "Gutschriften";
+			//T: Type of 2 or more documents (plural)
+			return _("Credit Items");
 		case 8:
-			return "Mahnungen";
+			//T: Type of 2 or more documents (plural)
+			return _("Dunning Letters");
 		}
 		return "";
 	}
@@ -513,23 +531,32 @@ public enum DocumentType {
 	public String getNewText() {
 		switch (this) {
 		case LETTER:
-			return "neuer Brief";
+			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			return _("New Letter");
 		case OFFER:
-			return "neues Angebot";
+			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			return _("New Offer");
 		case ORDER:
-			return "neue Bestellung";
+			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			return _("New Order");
 		case CONFIRMATION:
-			return "neue Auftragsbestätigung";
+			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			return _("New Confirmation");
 		case INVOICE:
-			return "neue Rechnung";
+			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			return _("New Invoice");
 		case DELIVERY:
-			return "neuer Lieferschein";
+			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			return _("New Delivery Note");
 		case CREDIT:
-			return "neue Gutschrift";
+			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			return _("New Credit");
 		case DUNNING:
-			return "neue Mahnung";
+			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			return _("New Dunning");
 		}
-		return "neues Dokument";
+		//T: A new document (singular). e.g. Used as button description to create a new document. 
+		return _("New Document");
 	}
 
 }

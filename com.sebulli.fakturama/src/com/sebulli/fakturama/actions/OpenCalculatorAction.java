@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -37,7 +39,9 @@ public class OpenCalculatorAction extends Action {
 	 * Constructor
 	 */
 	public OpenCalculatorAction() {
-		super("Rechner");
+
+		//T: Text of the action to open the calculator
+		super(_("Calculator"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_CALCULATOR);

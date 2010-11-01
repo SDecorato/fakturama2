@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.importWizards;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -37,7 +39,9 @@ public class ImportCSVAction extends Action {
 	 * Constructor
 	 */
 	public ImportCSVAction() {
-		super("Import CSV Tabelle");
+
+		//T: Text of the action to import a CSV table
+		super(_("Import CSV Table"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_IMPORT_CSV);

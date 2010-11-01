@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -159,7 +161,9 @@ public class ListEditor extends Editor {
 
 			// Create a new data set
 			listEntry = new DataSetList(((UniDataSetEditorInput) input).getCategory());
-			setPartName("neuer Eintrag");
+
+			//T: List Editor: Part Name of a new list entry
+			setPartName(_("New List Entry"));
 		}
 		else {
 
@@ -229,13 +233,15 @@ public class ListEditor extends Editor {
 
 		// Create the title
 		Label labelTitle = new Label(top, SWT.NONE);
-		labelTitle.setText("Listeneintrag");
+		//T: List Editor - Title
+		labelTitle.setText(_("List Entry"));
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
 		// The category
 		Label labelCategory = new Label(top, SWT.NONE);
-		labelCategory.setText("Liste");
+		//T: List Editor - Category ( Name of the List to place this entry)
+		labelCategory.setText(_("List"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).hint(200, SWT.DEFAULT).applyTo(comboCategory);
@@ -259,7 +265,8 @@ public class ListEditor extends Editor {
 
 		// The name
 		Label labelName = new Label(top, SWT.NONE);
-		labelName.setText("Name");
+		//T: List Editor - Name
+		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(listEntry.getStringValueByKey("name"));
@@ -268,7 +275,8 @@ public class ListEditor extends Editor {
 
 		// The value
 		Label labelCode = new Label(top, SWT.NONE);
-		labelCode.setText("Wert");
+		//T: List Editor - Value
+		labelCode.setText(_("Value"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCode);
 		textValue = new Text(top, SWT.BORDER);
 		textValue.setText(listEntry.getStringValueByKey("value"));

@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.exportsales;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +45,7 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetExpenditure;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.data.DataSetVAT;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.data.UniDataSetSorter;
 import com.sebulli.fakturama.logger.Logger;
@@ -65,7 +68,7 @@ import com.sun.star.uno.UnoRuntime;
 public class SalesExporter {
 
 	// The begin and end date to specify the export periode
-	private GregorianCalendar beginDate;
+	private GregorianCalendar startDate;
 	private GregorianCalendar endDate;
 
 	// the date key to sort the documents
@@ -80,20 +83,20 @@ public class SalesExporter {
 	 * Default constructor
 	 */
 	public SalesExporter() {
-		this.beginDate = null;
+		this.startDate = null;
 		this.endDate = null;
 	}
 
 	/**
 	 * Constructor Sets the begin and end date
 	 * 
-	 * @param beginDate
+	 * @param startDate
 	 *            Begin date
 	 * @param endDate
 	 *            Begin date
 	 */
-	public SalesExporter(GregorianCalendar beginDate, GregorianCalendar endDate) {
-		this.beginDate = beginDate;
+	public SalesExporter(GregorianCalendar startDate, GregorianCalendar endDate) {
+		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 
@@ -126,8 +129,8 @@ public class SalesExporter {
 		}
 
 		// Test, if the document's date is in the interval
-		if ((beginDate != null) && (endDate != null)) {
-			if (beginDate.after(documentDate))
+		if ((startDate != null) && (endDate != null)) {
+			if (startDate.after(documentDate))
 				isInIntervall = false;
 			if (endDate.before(documentDate))
 				isInIntervall = false;
@@ -170,8 +173,8 @@ public class SalesExporter {
 		}
 
 		// Test, if the document's date is in the interval
-		if ((beginDate != null) && (endDate != null)) {
-			if (beginDate.after(documentDate))
+		if ((startDate != null) && (endDate != null)) {
+			if (startDate.after(documentDate))
 				isInIntervall = false;
 			if (endDate.before(documentDate))
 				isInIntervall = false;
@@ -211,7 +214,8 @@ public class SalesExporter {
 		// Insert an "Export" spreadsheet
 		XSpreadsheet spreadsheet1 = null;
 		try {
-			String tableName = "Export";
+			//T: Name of the Table
+			String tableName = _("Export");
 			spreadsheets.insertNewByName(tableName, (short) 0);
 
 			// Remove all other spreadsheets
@@ -273,10 +277,13 @@ public class SalesExporter {
 		row++;
 
 		// Display the time interval
-		setCellTextInBold(spreadsheet1, row++, 0, "Zeitraum");
-		setCellText(spreadsheet1, row, 0, "von:");
-		setCellText(spreadsheet1, row++, 1, DataUtils.getDateTimeAsLocalString(beginDate));
-		setCellText(spreadsheet1, row, 0, "bis:");
+		//T: Sales Exporter - Text in the Calc document for the period
+		setCellTextInBold(spreadsheet1, row++, 0, _("Period"));
+		//T: Sales Exporter - Text in the Calc document for the period
+		setCellText(spreadsheet1, row, 0, _("from:"));
+		setCellText(spreadsheet1, row++, 1, DataUtils.getDateTimeAsLocalString(startDate));
+		//T: Sales Exporter - Text in the Calc document for the period
+		setCellText(spreadsheet1, row, 0, _("till:"));
 		setCellText(spreadsheet1, row++, 1, DataUtils.getDateTimeAsLocalString(endDate));
 		row++;
 
@@ -285,22 +292,34 @@ public class SalesExporter {
 		VatSummarySetManager vatSummarySetAllDocuments = new VatSummarySetManager();
 
 		// Table heading
-		setCellTextInBold(spreadsheet1, row++, 0, "Einnahmen");
+		//T: Sales Exporter - Text in the Calc document for the Earnings
+		setCellTextInBold(spreadsheet1, row++, 0, _("Earnings"));
 		row++;
 
 		// Table column headings
 		int headLine = row;
-		setCellTextInBold(spreadsheet1, row, col++, "Zahldatum");
-		setCellTextInBold(spreadsheet1, row, col++, "Rg-Nummer");
-		setCellTextInBold(spreadsheet1, row, col++, "Rg-Datum");
-		setCellTextInBold(spreadsheet1, row, col++, "Vorname");
-		setCellTextInBold(spreadsheet1, row, col++, "Nachname");
-		setCellTextInBold(spreadsheet1, row, col++, "Firma");
-		setCellTextInBold(spreadsheet1, row, col++, "USt-ID.");
-		setCellTextInBold(spreadsheet1, row, col++, "Land");
-		setCellTextInBold(spreadsheet1, row, col++, "Rg-Betrag");
-		setCellTextInBold(spreadsheet1, row, col++, "Zahlbetrag");
-		setCellTextInBold(spreadsheet1, row, col++, "Nettobetrag");
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Pay Date"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Nr."));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Date"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("First Name"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Last Name"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Company"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("VAT ID."));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Country"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Value"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Pay Value"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Net Value"));
 		row++;
 
 		// The documents are exported in 2 runs.
@@ -513,21 +532,30 @@ public class SalesExporter {
 		row += 3;
 		col = 0;
 
-		setCellTextInBold(spreadsheet1, row++, 0, "Ausgaben");
+		//T: Sales Exporter - Text in the Calc document for the Expenditures
+		setCellTextInBold(spreadsheet1, row++, 0, _("Expenditures"));
 		row++;
 
 		// Table column headings
 		headLine = row;
-		setCellTextInBold(spreadsheet1, row, col++, "Kategorie");
-		setCellTextInBold(spreadsheet1, row, col++, "Datum");
-		setCellTextInBold(spreadsheet1, row, col++, "Belegnr.");
-		setCellTextInBold(spreadsheet1, row, col++, "Dokumentnr.");
-		setCellTextInBold(spreadsheet1, row, col++, "Lieferant");
-		setCellTextInBold(spreadsheet1, row, col++, "Art");
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Category"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Date"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Voucher."));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Doc.Nr."));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Supplier"));
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Type"));
 
 		if (showExpenditureSumColumn) {
-			setCellTextInBold(spreadsheet1, row, col++, "Netto");
-			setCellTextInBold(spreadsheet1, row, col++, "Brutto");
+			//T: Sales Exporter - Heading of the table. Keep the names short.
+			setCellTextInBold(spreadsheet1, row, col++, _("Net"));
+			//T: Sales Exporter - Heading of the table. Keep the names short.
+			setCellTextInBold(spreadsheet1, row, col++, _("Gross"));
 		}
 
 		row++;
@@ -597,7 +625,8 @@ public class SalesExporter {
 			int column = expenditureSummarySetAllExpenditures.getIndex(item);
 
 			// Add VAT name and description and use 2 lines
-			String text = "Netto" + "\n" + item.getVatName();
+			//T: Sales Exporter - Table entry
+			String text = _("Net") + "\n" + item.getVatName();
 			String description = item.getDescription();
 
 			if (!description.isEmpty())
@@ -746,16 +775,19 @@ public class SalesExporter {
 
 		row += 3;
 		// Table heading
-		setCellTextInBold(spreadsheet1, row++, 0, "Zusammenfassung Ausgaben:");
+		
+		//T: Sales Exporter - Text in the Calc document
+		setCellTextInBold(spreadsheet1, row++, 0, _("Expenditures Summary:"));
 		row++;
 
 		col = 0;
 
 		//Heading for the categories
-		setCellTextInBold(spreadsheet1, row, col++, "Art");
-		setCellTextInBold(spreadsheet1, row, col++, "Vorsteuer");
-		setCellTextInBold(spreadsheet1, row, col++, "Vorsteuer");
-		setCellTextInBold(spreadsheet1, row, col++, "Netto");
+		//T: Sales Exporter - Heading of the table. Keep the names short.
+		setCellTextInBold(spreadsheet1, row, col++, _("Type"));
+		setCellTextInBold(spreadsheet1, row, col++, DataSetVAT.getPurchaseTaxString());
+		setCellTextInBold(spreadsheet1, row, col++, DataSetVAT.getPurchaseTaxString());
+		setCellTextInBold(spreadsheet1, row, col++, _("Net"));
 
 		// Draw a horizontal line
 		for (col = 0; col < 4; col++) {

@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -182,11 +184,16 @@ public class DocumentEditor extends Editor {
 	public void doSave(IProgressMonitor monitor) {
 
 		/*
-		 * the following parameters are not saved: - id (constant) - progress
-		 * (not modified by editor) - transaction (not modified by editor) -
-		 * webshopid (not modified by editor) - webshopdate (not modified by
-		 * editor) ITEMS: - id (constant) - deleted (is checked by the items
-		 * string) - shared (not modified by editor)
+		 * the following parameters are not saved: 
+		 * - id (constant) 
+		 * - progress (not modified by editor) 
+		 * - transaction (not modified by editor)
+		 * - webshopid (not modified by editor)
+		 * - webshopdate (not modified by editor)
+		 *  ITEMS:
+		 *  	- id (constant) 
+		 *  	- deleted (is checked by the items string)
+		 *  	- shared (not modified by editor)
 		 */
 
 		// Cancel the item editing
@@ -204,8 +211,14 @@ public class DocumentEditor extends Editor {
 				if (result == ERROR_NOT_NEXT_ID) {
 					// Display an error message
 					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-					messageBox.setText("Fehler in Dokumentennummer");
-					messageBox.setMessage("Dokument hat nicht die nächste freie Nummer: " + getNextNr() + "\nSiehe unter Einstellungen/Nummernkreise.");
+
+					//T: Title of the dialog that appears if the document ID is
+					//T: not the next free one.
+					messageBox.setText(_("Error in document number"));
+					
+					//T: Text of the dialog that appears if the document ID is
+					//T: not the next free one.
+					messageBox.setMessage(_("Document number is not the next free one:") + " " + getNextNr() + "\n" + _("See Preferences/Number Range."));
 					messageBox.open();
 				}
 			}
@@ -262,9 +275,15 @@ public class DocumentEditor extends Editor {
 		if ((addressId > 0) && (addressModified)) {
 			if (DataUtils.similarity(addressById, txtAddress.getText()) < 0.75) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
-				messageBox.setText("Bitte überprüfen");
-				messageBox.setMessage("Diesem Dokument ist folgende Adresse zugeordnet:\n\n" + addressById
-						+ "\n\nSie haben eine davon abweichende Adresse eingegeben.");
+
+				//T: Title of the dialog that appears if the document is assigned to
+				//T: an other address.
+				messageBox.setText(_("Please verify"));
+				
+				//T: Text of the dialog that appears if the document is assigned to
+				//T: an other address.
+				messageBox.setMessage(_("This document is assiged to the contact:") + "\n\n" + addressById
+						+ "\n\n" + _("You have entered a different one."));
 				messageBox.open();
 			}
 		}
@@ -298,7 +317,7 @@ public class DocumentEditor extends Editor {
 				document.setIntValueByKey("duedays", spDueDays.getSelection());
 				document.setDoubleValueByKey("payvalue", 0.0);
 
-				// Use the text for "unpayed" from the current payment
+				// Use the text for "unpaid" from the current payment
 				if (paymentId >= 0) {
 					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("unpayedtext");
 				}
@@ -495,10 +514,6 @@ public class DocumentEditor extends Editor {
 		// Set the editors data set to the editors input
 		document = (DataSetDocument) ((UniDataSetEditorInput) input).getUniDataSet();
 
-		
-		//String s1 = document.getStringValueByKey("itemsdiscount");
-		//Double d1 = document.getDoubleValueByKey("itemsdiscount");
-		
 		// If the document is a duplicate of an other document,
 		// the input is the parent document.
 		DataSetDocument parent = document;
@@ -942,7 +957,10 @@ public class DocumentEditor extends Editor {
 
 			// Create the widget for the value
 			Label payedValueLabel = new Label(payedDataContainer, SWT.NONE);
-			payedValueLabel.setText("Betrag");
+			
+			//T: Document Editor
+			//T: Label payment value
+			payedValueLabel.setText(_("Value"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedValueLabel);
 
 			// If it's the first time, that this document is marked as payed
@@ -965,7 +983,11 @@ public class DocumentEditor extends Editor {
 
 			// Create the due days label
 			Label dueDaysLabel = new Label(payedDataContainer, SWT.NONE);
-			dueDaysLabel.setText("zahlbar in");
+
+			//T: Document Editor
+			//T: Label before the Text Field "Due Days".
+			//T: Format: THIS LABEL <DAYS> PAYABLE UNTIL <ISSUE DATE>
+			dueDaysLabel.setText(_("Due Days:"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(dueDaysLabel);
 
 			// Creates the due days spinner
@@ -990,7 +1012,11 @@ public class DocumentEditor extends Editor {
 
 			// Create the issue date label
 			Label issueDateLabel = new Label(payedDataContainer, SWT.NONE);
-			issueDateLabel.setText("Tagen bis");
+
+			//T: Document Editor
+			//T: Label between the Text Field "Due Days" and the Date Field "Issue Date" 
+			//T: Format:  DUE DAYS: <DAYS> THIS LABEL <ISSUE DATE>
+			issueDateLabel.setText(_("Pay Until:"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(issueDateLabel);
 
 			// Create the issue date widget
@@ -999,7 +1025,7 @@ public class DocumentEditor extends Editor {
 			dtIssueDate.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					// Calculate the difference between the date of the
-					// isse date widget and the documents date,
+					// issue date widget and the documents date,
 					// calculate is in "days" and set the due day spinner
 					GregorianCalendar calendarIssue = new GregorianCalendar(dtIssueDate.getYear(), dtIssueDate.getMonth(), dtIssueDate.getDay());
 					GregorianCalendar calendarDocument = new GregorianCalendar(dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
@@ -1064,7 +1090,10 @@ public class DocumentEditor extends Editor {
 
 		// Document number label
 		Label labelName = new Label(top, SWT.NONE);
-		labelName.setText("Nr.");
+
+		//T: Document Editor
+		//T: Label Document Number
+		labelName.setText(_("Nr."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 
 		// Container for the document number and the date
@@ -1079,8 +1108,10 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
 
 		// Document date
+		//T: Document Editor
+		//T: Label Document Date
 		Label labelDate = new Label(nrDateComposite, SWT.NONE);
-		labelDate.setText("Datum");
+		labelDate.setText(_("Date"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
 		// Document date
@@ -1132,7 +1163,9 @@ public class DocumentEditor extends Editor {
 
 		// Customer reference label
 		Label labelCustomerRef = new Label(top, SWT.NONE);
-		labelCustomerRef.setText("Kd-Ref.");
+		//T: Document Editor
+		//T: Label Customer Reference
+		labelCustomerRef.setText(_("Cust.Ref."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCustomerRef);
 
 		// Customer reference
@@ -1151,7 +1184,9 @@ public class DocumentEditor extends Editor {
 
 		// Order date
 		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
-		labelOrderDate.setText("Bestellt:");
+		//T: Document Editor
+		//T: Label Order Date
+		labelOrderDate.setText(_("Order Date:"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelOrderDate);
 
 		// Order date
@@ -1173,7 +1208,9 @@ public class DocumentEditor extends Editor {
 
 		// A reference to the invoice
 		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
-		labelInvoiceRef.setText("Rechnung:");
+		//T: Document Editor
+		//T: Label Invoice
+		labelInvoiceRef.setText(_("Invoice:"));
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(labelInvoiceRef);
 		txtInvoiceRef = new Text(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.BORDER);
 		int invoiceId = document.getIntValueByKey("invoiceid");
@@ -1186,7 +1223,9 @@ public class DocumentEditor extends Editor {
 
 		// This document should use a VAT of 0%
 		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
-		labelNoVat.setText("MwSt:");
+		//T: Document Editor
+		//T: Label Vat
+		labelNoVat.setText(_("VAT:"));
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelNoVat);
 
 		// combo list with all 0% VATs
@@ -1231,7 +1270,7 @@ public class DocumentEditor extends Editor {
 		});
 
 		// Selects the no VAT entry
-		comboViewerNoVat.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory("Umsatzsteuer"));
+		comboViewerNoVat.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory(DataSetVAT.getSalesTaxString()));
 		if (noVat)
 			comboNoVat.setText(noVatName);
 		else
@@ -1240,7 +1279,10 @@ public class DocumentEditor extends Editor {
 		// Group with tool bar with buttons to generate
 		// a new document from this document
 		Group copyGroup = new Group(top, SWT.NONE);
-		copyGroup.setText("aus " + documentType.getString() + " erzeugen");
+
+		//T: Document Editor
+		//T: Label Group box to create a new document based on this one.
+		copyGroup.setText(_("Create a duplicate"));
 		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(copyGroup);
 		GridDataFactory.fillDefaults().minSize(200, SWT.DEFAULT).align(SWT.END, SWT.BOTTOM).grab(true, false).span(1, 2).applyTo(copyGroup);
 
@@ -1290,7 +1332,9 @@ public class DocumentEditor extends Editor {
 
 		// Address label
 		Label labelAddress = new Label(addressComposite, SWT.NONE | SWT.RIGHT);
-		labelAddress.setText("Adresse");
+		//T: Document Editor
+		//T: Label customerAddress.
+		labelAddress.setText(_("Address"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelAddress);
 
 		// Address icon
@@ -1306,7 +1350,10 @@ public class DocumentEditor extends Editor {
 
 			// Open the address dialog, if the icon is clicked.
 			public void mouseDown(MouseEvent e) {
-				SelectContactDialog dialog = new SelectContactDialog("Adresse auswählen");
+
+				//T: Document Editor
+				//T: Title of the dialog to select the address
+				SelectContactDialog dialog = new SelectContactDialog(_("Select the address"));
 				DataSetContact contact;
 				if (dialog.open() == Dialog.OK) {
 					contact = (DataSetContact) dialog.getSelection();
@@ -1346,7 +1393,9 @@ public class DocumentEditor extends Editor {
 
 			// Items label
 			Label labelItems = new Label(addButtonComposite, SWT.NONE | SWT.RIGHT);
-			labelItems.setText("Artikel");
+			//T: Document Editor
+			//T: Label items
+			labelItems.setText(_("Items"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelItems);
 
 			// Item add button
@@ -1363,7 +1412,10 @@ public class DocumentEditor extends Editor {
 				// Open the product dialog and add the
 				// selected product as new item.
 				public void mouseDown(MouseEvent e) {
-					SelectProductDialog dialog = new SelectProductDialog("Artikel auswählen");
+
+					//T: Document Editor
+					//T: Title of the dialog to select a product
+					SelectProductDialog dialog = new SelectProductDialog(_("Select a product"));
 					DataSetProduct product;
 					if (dialog.open() == Dialog.OK) {
 						product = (DataSetProduct) dialog.getSelection();
@@ -1401,7 +1453,9 @@ public class DocumentEditor extends Editor {
 					if (itemEditingSupport != null)
 						itemEditingSupport.cancelAndSave();
 					
-					DataSetItem newItem = new DataSetItem("Name", "Art.Nr.", "", documentType.sign() * 1.0, "", 0.0, 0);
+					//T: Document Editor
+					//T: Default name and Item Number if a new item is created
+					DataSetItem newItem = new DataSetItem(_("Name"), _("Item.Nr."), "", documentType.sign() * 1.0, "", 0.0, 0);
 
 					// Use the standard VAT value
 					newItem.setVat(Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
@@ -1454,31 +1508,51 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
 			// Create the table columns
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, "Menge", 60, 0, true, "quantity", new ItemEditingSupport(this,
+			//T: Document Editor item table heading for column: "Quantity"
+			//T: The word should be short (6-10 characters). It depends on the size of the column.
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Qty."), 60, 0, true, "quantity", new ItemEditingSupport(this,
 					tableViewerItems, 1));
 			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "ArtNr.", 80, 0, true, "itemnr", new ItemEditingSupport(this,
+				//T: Document Editor item table heading for column: "Item number"
+				//T: The word should be short (6-10 characters). It depends on the size of the column.
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("ItemNr."), 80, 0, true, "itemnr", new ItemEditingSupport(this,
 						tableViewerItems, 2));
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "Name", 100, 0, true, "name", new ItemEditingSupport(this,
+			//T: Document Editor item table heading for column: "Item name"
+			//T: The word should be short (6-10 characters). It depends on the size of the column.
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Name"), 100, 0, true, "name", new ItemEditingSupport(this,
 					tableViewerItems, 3));
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, "Beschreibung", 100, 30, false, "description", new ItemEditingSupport(
+			//T: Document Editor item table heading for column: "Item description"
+			//T: The word should be short (6-10 characters). It depends on the size of the column.
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Description"), 100, 30, false, "description", new ItemEditingSupport(
 					this, tableViewerItems, 4));
 			if (documentType.hasPrice()) {
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "MwSt.", 50, 0, true, "$ItemVatPercent", new ItemEditingSupport(this,
+				//T: Document Editor item table heading for column: "VAT"
+				//T: The word should be short (6-10 characters). It depends on the size of the column.
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT."), 50, 0, true, "$ItemVatPercent", new ItemEditingSupport(this,
 						tableViewerItems, 5));
 				if (useGross)
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "E.Preis", 85, 0, true, "$ItemGrossPrice",
+					//T: Document Editor item table heading for column: "Unit Price"
+					//T: The word should be short (6-10 characters). It depends on the size of the column.
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), 85, 0, true, "$ItemGrossPrice",
 							new ItemEditingSupport(this, tableViewerItems, 6));
 				else
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "E.Preis", 85, 0, true, "price", new ItemEditingSupport(this,
+					//T: Document Editor item table heading for column: "Unit Price"
+					//T: The word should be short (6-10 characters). It depends on the size of the column.
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), 85, 0, true, "price", new ItemEditingSupport(this,
 							tableViewerItems, 6));
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Rabatt", 60, 0, true, "discount", new ItemEditingSupport(this,
+				//T: Document Editor item table heading for column: "Discount"
+				//T: The word should be short (6-10 characters). It depends on the size of the column.
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Discount"), 60, 0, true, "discount", new ItemEditingSupport(this,
 						tableViewerItems, 7));
 				if (useGross)
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true, "$ItemGrossTotal", new ItemEditingSupport(
+					//T: Document Editor item table heading for column: "Price"
+					//T: The word should be short (6-10 characters). It depends on the size of the column.
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), 85, 0, true, "$ItemGrossTotal", new ItemEditingSupport(
 							this, tableViewerItems, 8));
 				else
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, "Preis", 85, 0, true, "$ItemNetTotal", new ItemEditingSupport(
+					//T: Document Editor item table heading for column: "Price"
+					//T: The word should be short (6-10 characters). It depends on the size of the column.
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), 85, 0, true, "$ItemNetTotal", new ItemEditingSupport(
 							this, tableViewerItems, 8));
 			}
 			// Fill the table with the items
@@ -1493,9 +1567,11 @@ public class DocumentEditor extends Editor {
 		// The message label
 		Label messageLabel = new Label(addMessageButtonComposite, SWT.NONE);
 		if (documentType.hasItems())
-			messageLabel.setText("Bemerkung");
+			//T: Document Editor Label for the text field under the item table.
+			messageLabel.setText(_("Remarks"));
 		else
-			messageLabel.setText("Text");
+			//T: Document Editor Label for the text field, if there is no item table
+			messageLabel.setText(_("Text"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(messageLabel);
 
 		// The add message button
@@ -1511,7 +1587,10 @@ public class DocumentEditor extends Editor {
 
 			// Open the text dialog and select a text
 			public void mouseDown(MouseEvent e) {
-				SelectTextDialog dialog = new SelectTextDialog("Text auswählen");
+				
+				//T: Document Editor
+				//T: Title of the dialog to select a text
+				SelectTextDialog dialog = new SelectTextDialog(_("Select a text"));
 				DataSetText text;
 				if (dialog.open() == Dialog.OK) {
 					text = (DataSetText) dialog.getSelection();
@@ -1575,9 +1654,11 @@ public class DocumentEditor extends Editor {
 			// Label sub total
 			Label netLabel = new Label(totalComposite, SWT.NONE);
 			if (useGross)
-				netLabel.setText("Summe brutto:");
+				//T: Document Editor - Label Total gross 
+				netLabel.setText(_("Total Gross:"));
 			else
-				netLabel.setText("Summe netto:");
+				//T: Document Editor - Label Total net 
+				netLabel.setText(_("Total Net:"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(netLabel);
 
 			// Sub total
@@ -1587,7 +1668,8 @@ public class DocumentEditor extends Editor {
 
 			// Label discount
 			Label discountLabel = new Label(totalComposite, SWT.NONE);
-			discountLabel.setText("Rabatt:");
+			//T: Document Editor - Label discount 
+			discountLabel.setText(_("Discount:"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(discountLabel);
 
 			// Discount field
@@ -1626,7 +1708,8 @@ public class DocumentEditor extends Editor {
 
 			// Shipping label
 			Label shippingLabel = new Label(shippingComposite, SWT.NONE);
-			shippingLabel.setText("Versand:");
+			//T: Document Editor - Label shipping 
+			shippingLabel.setText(_("Shipping:"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(shippingLabel);
 
 			// Shipping combo
@@ -1703,7 +1786,8 @@ public class DocumentEditor extends Editor {
 
 			// VAT label
 			Label vatLabel = new Label(totalComposite, SWT.NONE);
-			vatLabel.setText("MwSt:");
+			//T: Document Editor - Label VAT 
+			vatLabel.setText(_("VAT:"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(vatLabel);
 
 			// VAT value
@@ -1713,7 +1797,8 @@ public class DocumentEditor extends Editor {
 
 			// Total label
 			Label totalLabel = new Label(totalComposite, SWT.NONE);
-			totalLabel.setText("Gesamtsumme:");
+			//T: Document Editor - Total sum of this document 
+			totalLabel.setText(_("Total:"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(totalLabel);
 
 			// Total value
@@ -1728,7 +1813,8 @@ public class DocumentEditor extends Editor {
 				// The payed label
 				bPayed = new Button(top, SWT.CHECK | SWT.LEFT);
 				bPayed.setSelection(document.getBooleanValueByKey("payed"));
-				bPayed.setText("bezahlt");
+				//T: Document Editor - paid label 
+				bPayed.setText(_("paid"));
 				GridDataFactory.swtDefaults().applyTo(bPayed);
 
 				// Container for the payment and the payed state
@@ -1759,7 +1845,7 @@ public class DocumentEditor extends Editor {
 					// change the paymentId to the selected element
 					public void selectionChanged(SelectionChangedEvent event) {
 
-						// Get the selected elemen
+						// Get the selected element
 						ISelection selection = event.getSelection();
 						IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 						if (!structuredSelection.isEmpty()) {
@@ -1815,8 +1901,13 @@ public class DocumentEditor extends Editor {
 		if (Data.INSTANCE.getDocuments().isExistingDataSet(document, "name", txtName.getText())) {
 			// Display an error message
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-			messageBox.setText("Fehler in Dokumentennummer");
-			messageBox.setMessage("Es existiert bereits ein Dokument mit dieser Nummer: " + txtName.getText());
+
+			//T: Title of the dialog that appears if there is already a document with the same customer ID
+			messageBox.setText(_("Error in document number"));
+
+			//T: Text of the dialog that appears if there is already a document with the same customer ID
+			messageBox.setMessage(_("There is already a document with the number:") + " " + txtName.getText());
+			
 			messageBox.open();
 
 			return true;

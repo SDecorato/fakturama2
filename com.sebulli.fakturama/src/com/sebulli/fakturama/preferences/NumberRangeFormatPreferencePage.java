@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.preferences;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
@@ -49,15 +51,24 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	public void createFieldEditors() {
 
-		addField(new StringFieldEditor("NUMBERRANGE_CONTACT_FORMAT", "Format Kundennummer:", getFieldEditorParent()));
-		addField(new StringFieldEditor("NUMBERRANGE_PRODUCT_FORMAT", "Format Artikelnr:", getFieldEditorParent()));
-		addField(new StringFieldEditor("NUMBERRANGE_INVOICE_FORMAT", "Format Rechnungsnr.:", getFieldEditorParent()));
-		addField(new StringFieldEditor("NUMBERRANGE_DELIVERY_FORMAT", "Format Lieferscheinnr.:", getFieldEditorParent()));
-		addField(new StringFieldEditor("NUMBERRANGE_OFFER_FORMAT", "Format Angebotsnr.:", getFieldEditorParent()));
-		addField(new StringFieldEditor("NUMBERRANGE_ORDER_FORMAT", "Format Bestellungnr.:", getFieldEditorParent()));
-		addField(new StringFieldEditor("NUMBERRANGE_CONFIRMATION_FORMAT", "Format Auftragsbestätigungsnr.:", getFieldEditorParent()));
-		addField(new StringFieldEditor("NUMBERRANGE_CREDIT_FORMAT", "Format Gutschriftnr.:", getFieldEditorParent()));
-		addField(new StringFieldEditor("NUMBERRANGE_DUNNING_FORMAT", "Format Mahnungsnr.:", getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the Customer ID"
+		addField(new StringFieldEditor("NUMBERRANGE_CONTACT_FORMAT", _("Format customer ID:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the item No."
+		addField(new StringFieldEditor("NUMBERRANGE_PRODUCT_FORMAT", _("Format item No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the invoice No."
+		addField(new StringFieldEditor("NUMBERRANGE_INVOICE_FORMAT", _("Format invoice No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the delivery note No."
+		addField(new StringFieldEditor("NUMBERRANGE_DELIVERY_FORMAT", _("Format delivery n.No..:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the offer No."
+		addField(new StringFieldEditor("NUMBERRANGE_OFFER_FORMAT", _("Format offer No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the order No."
+		addField(new StringFieldEditor("NUMBERRANGE_ORDER_FORMAT", _("Format order No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the confirmation No."
+		addField(new StringFieldEditor("NUMBERRANGE_CONFIRMATION_FORMAT", _("Format confirmation No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the credit No."
+		addField(new StringFieldEditor("NUMBERRANGE_CREDIT_FORMAT", _("Format credit No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the dunning No."
+		addField(new StringFieldEditor("NUMBERRANGE_DUNNING_FORMAT", _("Format dunning No.:"), getFieldEditorParent()));
 	}
 
 	/**
@@ -68,8 +79,8 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Format der Nummernkreise für Dokumente" + "\n\n"
-				+ "Beispiel für Format:  RE{6nr}\nNummer wird 6 stellig angezeigt, mit führendem \"RE\" : RE000001" + "\n");
+		//T: Preference page "Number Range Format" - Title with an example of the format
+		setDescription(_("Number range format for documents\n\nExample:  INV{6nr}\nNumber will be displayed with 6 digits and a leading \"INV\" : INV000001\n"));
 	}
 
 	/**
@@ -98,16 +109,24 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("NUMBERRANGE_CONTACT_FORMAT", "");
-		node.put("NUMBERRANGE_CONTACT_FORMAT", "KD{6nr}");
-		node.put("NUMBERRANGE_PRODUCT_FORMAT", "{6nr}");
-		node.put("NUMBERRANGE_INVOICE_FORMAT", "RE{6nr}");
-		node.put("NUMBERRANGE_DELIVERY_FORMAT", "LS{6nr}");
-		node.put("NUMBERRANGE_OFFER_FORMAT", "AG{6nr}");
-		node.put("NUMBERRANGE_ORDER_FORMAT", "BS{6nr}");
-		node.put("NUMBERRANGE_CREDIT_FORMAT", "GS{6nr}");
-		node.put("NUMBERRANGE_CONFIRMATION_FORMAT", "AB{6nr}");
-		node.put("NUMBERRANGE_DUNNING_FORMAT", "MG{6nr}");
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_CONTACT_FORMAT", _("CUST{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_PRODUCT_FORMAT", _("PROD{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_INVOICE_FORMAT", _("INV{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_DELIVERY_FORMAT", _("D/O{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_OFFER_FORMAT", _("LO{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_ORDER_FORMAT", _("PO{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_CREDIT_FORMAT", _("CN{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_CONFIRMATION_FORMAT", _("CONF{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_DUNNING_FORMAT", _("MG{6nr}"));
 	}
 
 }

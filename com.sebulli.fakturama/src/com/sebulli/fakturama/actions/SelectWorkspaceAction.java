@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Action;
 
 import com.sebulli.fakturama.Workspace;
@@ -33,7 +35,9 @@ public class SelectWorkspaceAction extends Action {
 	 * Constructor
 	 */
 	public SelectWorkspaceAction() {
-		super("Arbeitsverzeichnis auswählen");
+
+		//T: Text of the action to select the workspace
+		super(_("Select Workspace"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_SELECT_WORKSPACE);

@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -139,7 +141,9 @@ public class TextEditor extends Editor {
 
 			// Create a new data set
 			text = new DataSetText(((UniDataSetEditorInput) input).getCategory());
-			setPartName("neuer Text");
+
+			//T: Text Editor: Part Name of a new text entry
+			setPartName(_("New Text Entry"));
 		}
 		else {
 
@@ -204,13 +208,15 @@ public class TextEditor extends Editor {
 
 		// Create the title
 		Label labelTitle = new Label(top, SWT.NONE);
-		labelTitle.setText("Text");
+		//T: Text Editor: Title
+		labelTitle.setText(_("Text Entry"));
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
 		// The name
 		Label labelName = new Label(top, SWT.NONE);
-		labelName.setText("Name");
+		//T: Text Editor: label Name
+		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(text.getStringValueByKey("name"));
@@ -219,7 +225,8 @@ public class TextEditor extends Editor {
 
 		// The category
 		Label labelCategory = new Label(top, SWT.NONE);
-		labelCategory.setText("Kategorie");
+		//T: Text Editor: label Category
+		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
 		txtCategory.setText(text.getStringValueByKey("category"));
@@ -228,7 +235,8 @@ public class TextEditor extends Editor {
 
 		// The text
 		Label labelText = new Label(top, SWT.NONE);
-		labelText.setText("Text");
+		//T: Text Editor: label Text
+		labelText.setText(_("Text"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelText);
 		textText = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		textText.setText(text.getStringValueByKey("text"));

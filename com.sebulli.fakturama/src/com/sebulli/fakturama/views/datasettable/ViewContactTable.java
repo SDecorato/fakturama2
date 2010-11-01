@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views.datasettable;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -64,14 +66,20 @@ public class ViewContactTable extends ViewDataSetTable {
 		editor = "Contact";
 
 		// Create the table columns
-		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30,
-		// 0, true, "id");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Kundennr", 60, 0, true, "nr");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Vorname", 200, 50, false, "firstname");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Firma", 150, 0, true, "company");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "PLZ", 50, 0, true, "zip");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Ort", 80, 0, true, "city");
+		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
+		
+		//T: View Contact: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("No."), 60, 0, true, "nr");
+		//T: View Contact: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("First Name"), 200, 50, false, "firstname");
+		//T: View Contact: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Last Name"), 120, 0, true, "name");
+		//T: View Contact: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Company"), 150, 0, true, "company");
+		//T: View Contact: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("ZIP"), 50, 0, true, "zip");
+		//T: View Contact: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("City"), 80, 0, true, "city");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getContacts());

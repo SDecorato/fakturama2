@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.dialogs;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -65,8 +67,15 @@ public class SelectTextDialog extends SelectDataSetDialog {
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
 		// Create the table columns
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Text", 200, 50, false, "text");
+		//T: Heading of the text table in the "SelectTextDialog"
+		//T: This dialog appears, if you edit a document and click on the
+		//T: button to add a new text for the comment.
+		//T: The words should be short (max. 8-10 characters)
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
+		//T: Heading of the text table in the "SelectTextDialog"
+		//T: This dialog appears, if you edit a document and click on the
+		//T: button to add a new text for the comment.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Text"), 200, 50, false, "text");
 
 		// Set the input
 		tableViewer.setInput(Data.INSTANCE.getTexts());
