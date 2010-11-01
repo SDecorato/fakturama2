@@ -48,9 +48,9 @@ public class ExportSalesWizandPage1 extends WizardPage {
 	 */
 	protected ExportSalesWizandPage1() {
 		super("ExportVatSummaryWizardPage1");
-		// Title of the Sales Export Wizard Page 1
+		//T: Title of the Sales Export Wizard Page 1
 		setTitle(_("List of Sales as Table"));
-		// Text of the Sales Export Wizard Page 1
+		//T: Text of the Sales Export Wizard Page 1
 		setMessage(_("Select a Periode"));
 	}
 
@@ -71,8 +71,7 @@ public class ExportSalesWizandPage1 extends WizardPage {
 		// Create the label with the help text
 		Label labelDescription = new Label(top, SWT.NONE);
 		
-		//T: Export Sales Wizard Page 1 - Long description. Please use
-		//T: "\n" to add a new line.
+		//T: Export Sales Wizard Page 1 - Long description.
 		labelDescription.setText(_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelDescription);
 

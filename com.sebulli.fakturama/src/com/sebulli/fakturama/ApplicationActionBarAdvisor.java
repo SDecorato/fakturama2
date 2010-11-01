@@ -170,8 +170,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(printAction);
 
 		printActionTB = ActionFactory.PRINT.create(window);
-		//T: Text of the actions in the tool bar
-		printActionTB.setText(_("Print"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		printActionTB.setText(_("Print", "TOOLBAR"));
 		register(printActionTB);
 
 		closeAction = ActionFactory.CLOSE.create(window);
@@ -391,138 +391,108 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		coolBar.add(new ToolBarContributionItem(toolbar3, "main3"));
 
 		webShopImportActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/shop_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		webShopImportActionTB.setText(_("Web Shop"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		webShopImportActionTB.setText(_("Web Shop", "TOOLBAR"));
 		ActionContributionItem webShopImportCI = new ActionContributionItem(webShopImportActionTB);
 		webShopImportCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar1.add(webShopImportCI);
 
 		printActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/printoo_32.png"));
 		printActionTB.setDisabledImageDescriptor(Activator.getImageDescriptor("/icons/32/printoo_dis_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		printActionTB.setText(_("Print"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		printActionTB.setText(_("Print", "TOOLBAR"));
 		ActionContributionItem printActionTBCI = new ActionContributionItem(printActionTB);
 		printActionTBCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar1.add(printActionTBCI);
 
 		saveActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/save_32.png"));
 		saveActionTB.setDisabledImageDescriptor(Activator.getImageDescriptor("/icons/32/save_dis_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		saveActionTB.setText(_("Save"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		saveActionTB.setText(_("Save", "TOOLBAR"));
 		ActionContributionItem saveCI = new ActionContributionItem(saveActionTB);
 		saveCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar1.add(saveCI);
 
 		newLetterAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/letter_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newLetterAction.setText(_("Letter"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newLetterAction.setText(_("Letter", "TOOLBAR"));
 		ActionContributionItem newLetterCI = new ActionContributionItem(newLetterAction);
 		newLetterCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newLetterCI);
 
 		newOfferAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/offer_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newOfferAction.setText(_("Offer"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newOfferAction.setText(_("Offer", "TOOLBAR"));
 		ActionContributionItem newOfferCI = new ActionContributionItem(newOfferAction);
 		newOfferCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newOfferCI);
 
 		newOrderAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/order_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newOrderAction.setText(_("Order"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newOrderAction.setText(_("Order", "TOOLBAR"));
 		ActionContributionItem newOrderCI = new ActionContributionItem(newOrderAction);
 		newOrderCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newOrderCI);
 
 		newConfirmationAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/confirmation_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newConfirmationAction.setText(_("Confirmation"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newConfirmationAction.setText(_("Confirmation", "TOOLBAR"));
 		ActionContributionItem newConfirmationCI = new ActionContributionItem(newConfirmationAction);
 		newConfirmationCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newConfirmationCI);
 
 		newInvoiceAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/invoice_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newInvoiceAction.setText(_("Invoice"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newInvoiceAction.setText(_("Invoice", "TOOLBAR"));
 		ActionContributionItem newInvoiceCI = new ActionContributionItem(newInvoiceAction);
 		newInvoiceCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newInvoiceCI);
 
 		newDeliveryAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/delivery_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newDeliveryAction.setText(_("Delivery"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newDeliveryAction.setText(_("Delivery", "TOOLBAR"));
 		ActionContributionItem newDeliveryCI = new ActionContributionItem(newDeliveryAction);
 		newDeliveryCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newDeliveryCI);
 
 		newCreditAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/credit_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newCreditAction.setText(_("Credit"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newCreditAction.setText(_("Credit", "TOOLBAR"));
 		ActionContributionItem newCreditCI = new ActionContributionItem(newCreditAction);
 		newCreditCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newCreditCI);
 
 		newDunningAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newDunningAction.setText(_("Dunning"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newDunningAction.setText(_("Dunning", "TOOLBAR"));
 		ActionContributionItem newDunningCI = new ActionContributionItem(newDunningAction);
 		newDunningCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newDunningCI);
 
 		newContactAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/contact_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newContactAction.setText(_("Contact"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newContactAction.setText(_("Contact", "TOOLBAR"));
 		ActionContributionItem newContactCI = new ActionContributionItem(newContactAction);
 		newContactCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newContactCI);
 
 		newProductAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/product_new_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		newProductAction.setText(_("Product"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newProductAction.setText(_("Product", "TOOLBAR"));
 		ActionContributionItem newProductCI = new ActionContributionItem(newProductAction);
 		newProductCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newProductCI);
 
 		openBrowserEditorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/www_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		openBrowserEditorActionTB.setText(_("www"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		openBrowserEditorActionTB.setText(_("www", "TOOLBAR"));
 		ActionContributionItem openBrowserEditorCI = new ActionContributionItem(openBrowserEditorActionTB);
 		openBrowserEditorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar3.add(openBrowserEditorCI);
 
 		openCalculatorAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/calculator_32.png"));
-		//T: Text of the actions in the tool bar.
-		//T: They should be shortened to about 8 Letters that it can be placed
-		//T: under the icon.
-		openCalculatorAction.setText(_("Calculator"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		openCalculatorAction.setText(_("Calculator", "TOOLBAR"));
 		ActionContributionItem openCalculatorCI = new ActionContributionItem(openCalculatorAction);
 		openCalculatorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar3.add(openCalculatorCI);

@@ -215,7 +215,6 @@ public class TextEditor extends Editor {
 
 		// The name
 		Label labelName = new Label(top, SWT.NONE);
-		//T: Text Editor: label Name
 		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -225,7 +224,6 @@ public class TextEditor extends Editor {
 
 		// The category
 		Label labelCategory = new Label(top, SWT.NONE);
-		//T: Text Editor: label Category
 		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
@@ -235,7 +233,6 @@ public class TextEditor extends Editor {
 
 		// The text
 		Label labelText = new Label(top, SWT.NONE);
-		//T: Text Editor: label Text
 		labelText.setText(_("Text"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelText);
 		textText = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);

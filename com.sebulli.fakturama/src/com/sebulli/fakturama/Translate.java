@@ -27,9 +27,8 @@ import java.util.Properties;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
- * Translate strings This class wraps the
- * ResourceBundle.getBundle("Messages").getString() call to be used by the GNU
- * gettext @see http://www.gnu.org/software/gettext/
+ * Translate strings using gettext
+ * @see http://www.gnu.org/software/gettext/
  * 
  * @author Gerd Bartelt
  */
@@ -38,7 +37,7 @@ public class Translate {
 	private static Properties messages = null;
 
 	private enum states {
-	    IDLE, MSGID, MSGSTR 
+	    IDLE, MSGCTXT, MSGID, MSGSTR 
 	}
 
 	/**
@@ -69,6 +68,24 @@ public class Translate {
 				return sout;
 		}
 	}
+
+	/**
+	 * Replace a string in a context by the translated string.
+	 * If no translation is available, return the original one.
+	 * 
+	 * @param s
+	 * 			String to translate
+	 * @param context
+	 * 			Context of the string
+	 * @return
+	 * 			The translated String
+	 */
+	public static String _(String s, String context) {
+
+		// Context and string are added and separated by a vertical line
+		s = context + "|" + s;
+		return _(s);
+	}
 	
 	/**
 	 * Load a PO file from the resource and fill the properties
@@ -76,6 +93,7 @@ public class Translate {
 	public static void loadPoFile () {
 
 		states state = states.IDLE;
+		String msgCtxt = "";
 		String msgId = "";
 		String msgStr = "";
 		
@@ -89,6 +107,18 @@ public class Translate {
 	        //Read file line by line
 	        while ((strLine = br.readLine()) != null)   {
 	        	
+	        	// Search for lines with leading "msgctxt"
+	        	if (strLine.startsWith("msgctxt")) {
+
+	        		if (state != states.MSGCTXT)
+	        			msgCtxt = "";
+
+	        		// Set the state machine to MSGCTXT
+        			state = states.MSGCTXT;
+        			// Get the string
+        			strLine = strLine.substring(7).trim();
+        		} 
+
 	        	// Search for lines with leading "msgid"
 	        	if (strLine.startsWith("msgid")) {
 
@@ -116,16 +146,32 @@ public class Translate {
         		// Find lines with no translation information
     			if (!strLine.startsWith("\"")) {
         			state = states.IDLE;
+        			msgCtxt = "";
         			msgId = "";
         			msgStr = "";
     			} else {
     				
     				// Assemble the string and set the property
+    				if (state == states.MSGCTXT) {
+    					msgCtxt += format(strLine);
+    				}
+
+    				
     				if (state == states.MSGID) {
+    				
+    					// Add the context to the message ID, separated by a "|"
+    					if (msgId.isEmpty()) {
+    						if (!msgCtxt.isEmpty()) {
+    							msgId = msgCtxt + "|";
+    	    					msgCtxt = "";
+    						}
+    					}
     					msgId += format(strLine);
     				}
 
-    				if (state == states.MSGSTR) { 
+    				if (state == states.MSGSTR) {
+    					
+    					msgCtxt = "";
     					msgStr += format(strLine);
     					if (!msgId.isEmpty())
     						messages.setProperty(msgId, msgStr);

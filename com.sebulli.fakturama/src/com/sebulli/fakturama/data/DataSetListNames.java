@@ -17,9 +17,9 @@ public enum DataSetListNames {
 	 * Constructor Fill the list with name pairs
 	 */
 	DataSetListNames() {
-		//T: Title for the list with country codes
+		//T: Title of the list with country codes
 		setNamePair("country_codes", _("Country Codes"));
-		//T: Title for the list with billing accounts
+		//T: Title of the list with billing accounts
 		setNamePair("billing_accounts", _("Billing Accounts"));
 	}
 

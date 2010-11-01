@@ -67,14 +67,9 @@ public class SelectTextDialog extends SelectDataSetDialog {
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
 		// Create the table columns
-		//T: Heading of the text table in the "SelectTextDialog"
-		//T: This dialog appears, if you edit a document and click on the
-		//T: button to add a new text for the comment.
-		//T: The words should be short (max. 8-10 characters)
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
-		//T: Heading of the text table in the "SelectTextDialog"
-		//T: This dialog appears, if you edit a document and click on the
-		//T: button to add a new text for the comment.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Text"), 200, 50, false, "text");
 
 		// Set the input

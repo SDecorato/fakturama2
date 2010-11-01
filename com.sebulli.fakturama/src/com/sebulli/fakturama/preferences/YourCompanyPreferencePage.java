@@ -59,25 +59,18 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_STREET", _("Street No."), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_ZIP", _("ZIP"), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_CITY", _("City"), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_TEL", _("Telephone"), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_FAX", _("Telefax"), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_EMAIL", _("E-Mail"), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_WEBSITE", _("Web Site"), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_VATNR", _("VAT No."), getFieldEditorParent()));
 
 	}

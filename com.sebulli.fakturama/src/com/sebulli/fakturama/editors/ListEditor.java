@@ -265,7 +265,6 @@ public class ListEditor extends Editor {
 
 		// The name
 		Label labelName = new Label(top, SWT.NONE);
-		//T: List Editor - Name
 		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -275,7 +274,6 @@ public class ListEditor extends Editor {
 
 		// The value
 		Label labelCode = new Label(top, SWT.NONE);
-		//T: List Editor - Value
 		labelCode.setText(_("Value"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCode);
 		textValue = new Text(top, SWT.BORDER);

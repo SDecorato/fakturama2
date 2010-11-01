@@ -120,7 +120,7 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 					//T: Error message if the selected file is not a valid OpenOffice app
 					msg = _("Not a valid OpenOffice App");
 				else
-					//T: Error message if the selected file is not a valid OpenOffice folder
+					//T: Error message if the selected folder is not a valid OpenOffice folder
 					msg = _("Not a valid OpenOffice program folder");
 			}
 		}

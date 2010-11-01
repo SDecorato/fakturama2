@@ -220,7 +220,6 @@ public class VatEditor extends Editor {
 
 		// Name of the VAT
 		Label labelName = new Label(top, SWT.NONE);
-		//T: VAT Editor: label name
 		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -230,7 +229,6 @@ public class VatEditor extends Editor {
 
 		// Category of the VAT
 		Label labelCategory = new Label(top, SWT.NONE);
-		//T: VAT Editor: label category
 		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
@@ -240,7 +238,6 @@ public class VatEditor extends Editor {
 
 		// The description
 		Label labelDescription = new Label(top, SWT.NONE);
-		//T: VAT Editor: label description
 		labelDescription.setText(_("Description"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
@@ -250,7 +247,6 @@ public class VatEditor extends Editor {
 
 		// The value
 		Label labelValue = new Label(top, SWT.NONE);
-		//T: VAT Editor: label value
 		labelValue.setText(_("Value"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelValue);
 		textValue = new Text(top, SWT.BORDER);
@@ -260,7 +256,6 @@ public class VatEditor extends Editor {
 
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStdVat = new Label(top, SWT.NONE);
-		//T: VAT Editor: Label for the standard VAT.
 		labelStdVat.setText(_("Standard"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
 		//T: VAT Editor: Button description to make this as standard VAT.

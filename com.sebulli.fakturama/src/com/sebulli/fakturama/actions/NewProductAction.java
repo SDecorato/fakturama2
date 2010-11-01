@@ -41,7 +41,7 @@ public class NewProductAction extends NewEditorAction {
 	public NewProductAction() {
 		
 		//T: Text of the action to create a new product
-		super(_("neues Produkt"));
+		super(_("New Product"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_PRODUCT);

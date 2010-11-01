@@ -531,31 +531,31 @@ public enum DocumentType {
 	public String getNewText() {
 		switch (this) {
 		case LETTER:
-			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			//T: Text of the action to create a new document
 			return _("New Letter");
 		case OFFER:
-			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			//T: Text of the action to create a new document
 			return _("New Offer");
 		case ORDER:
-			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			//T: Text of the action to create a new document
 			return _("New Order");
 		case CONFIRMATION:
-			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			//T: Text of the action to create a new document
 			return _("New Confirmation");
 		case INVOICE:
-			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			//T: Text of the action to create a new document
 			return _("New Invoice");
 		case DELIVERY:
-			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			//T: Text of the action to create a new document
 			return _("New Delivery Note");
 		case CREDIT:
-			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			//T: Text of the action to create a new document
 			return _("New Credit");
 		case DUNNING:
-			//T: A new document (singular). e.g. Used as button description to create a new document. 
+			//T: Text of the action to create a new document
 			return _("New Dunning");
 		}
-		//T: A new document (singular). e.g. Used as button description to create a new document. 
+		//T: Text of the action to create a new document
 		return _("New Document");
 	}
 

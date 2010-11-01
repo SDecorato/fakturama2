@@ -74,7 +74,10 @@ public class OpenOfficeStarter {
 
 			//T: Text of the Message Box that appears if the OpenOffice path is invalid.
 			//T: Format: OpenOffice path ... is invalid.
-			messageBox.setMessage(_("OpenOffice-Path:") + "\n\n" + preferencePath + "\n\n"+_("is invalid"));
+			messageBox.setMessage(_("OpenOffice-Path:") + "\n\n" + preferencePath + "\n\n"+
+					//T: Text of the Message Box that appears if the OpenOffice path is invalid.
+					//T: Format: OpenOffice path ... is invalid.
+					_("is invalid"));
 			messageBox.open();
 			return null;
 		}

@@ -452,7 +452,6 @@ public class ExpenditureEditor extends Editor {
 		// Expenditure category
 		Label labelCategory = new Label(top, SWT.NONE);
 
-		//T: ExpenditureEditor - Label category
 		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
@@ -469,7 +468,6 @@ public class ExpenditureEditor extends Editor {
 
 		// Document date
 		Label labelDate = new Label(top, SWT.NONE);
-		//T: ExpenditureEditor - Label date
 		labelDate.setText(_("Date"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
@@ -484,8 +482,7 @@ public class ExpenditureEditor extends Editor {
 
 		// Number
 		Label labelNr = new Label(top, SWT.NONE);
-		//T: ExpenditureEditor - Label date
-		labelNr.setText(_("Voucher Nr."));
+		labelNr.setText(_("Voucher No."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNr);
 		textNr = new Text(top, SWT.BORDER);
 		textNr.setText(expenditure.getStringValueByKey("nr"));
@@ -494,8 +491,7 @@ public class ExpenditureEditor extends Editor {
 
 		// Document number
 		Label labelDocumentNr = new Label(top, SWT.NONE);
-		//T: ExpenditureEditor - Label Document Number
-		labelDocumentNr.setText(_("Document Nr."));
+		labelDocumentNr.setText(_("Document No."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDocumentNr);
 		textDocumentNr = new Text(top, SWT.BORDER);
 		textDocumentNr.setText(expenditure.getStringValueByKey("documentnr"));
@@ -504,7 +500,6 @@ public class ExpenditureEditor extends Editor {
 
 		// Expenditure name
 		Label labelName = new Label(top, SWT.NONE);
-		//T: ExpenditureEditor - Label Supplier
 		labelName.setText(_("Supplier"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -520,7 +515,7 @@ public class ExpenditureEditor extends Editor {
 		// Items label
 		Label labelItems = new Label(addButtonComposite, SWT.NONE | SWT.RIGHT);
 		//T: ExpenditureEditor - Label Items
-		labelItems.setText(_("Items"));
+		labelItems.setText(_("Items", "EXPENDITURE"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelItems);
 
 		// Item add button
@@ -585,24 +580,19 @@ public class ExpenditureEditor extends Editor {
 		tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
 		// Create the table columns
-		//T: Expenditure Editor item table heading for column: "Item name"
-		//T: The word should be short (6-10 characters). It depends on the size of the column.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Name"), 200, 100, false, "name", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 1));
-		//T: Expenditure Editor item table heading for column: "Type/Category"
-		//T: The word should be short (6-10 characters). It depends on the size of the column.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Type"), 200, 0, true, "category", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 2));
-		//T: Expenditure Editor item table heading for column: "VAT"
-		//T: The word should be short (6-10 characters). It depends on the size of the column.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ExpenditureItemVatPercent",
 				new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
-		//T: Expenditure Editor item table heading for column: "Net"
-		//T: The word should be short (6-10 characters). It depends on the size of the column.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Net"), 85, 0, true, "price", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 4));
-		//T: Expenditure Editor item table heading for column: "Gross"
-		//T: The word should be short (6-10 characters). It depends on the size of the column.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Gross"), 85, 0, true, "$ExpenditureItemGrossPrice",
 				new ExpenditureItemEditingSupport(this, tableViewerItems, 5));
 

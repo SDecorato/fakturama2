@@ -80,9 +80,8 @@ public class OrderStatusDialog extends Dialog {
 
 		// The label
 		labelComment = new Label(composite, SWT.NONE);
-		//T: Dialog to change the state of an order.
-		//T: Text above the field to send a comment to the customer. 
-		labelComment.setText(_("Comment to the customer:"));
+		//T: Change the state of an order and send a notification to the customer.
+		labelComment.setText(_("Comment to the customer" + ":"));
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).indent(0, 10).applyTo(labelComment);
 
 		// The text field for the  comment
@@ -92,8 +91,7 @@ public class OrderStatusDialog extends Dialog {
 		// The notification check box
 		bNotification = new Button(composite, SWT.CHECK | SWT.LEFT);
 		bNotification.setSelection(true);
-		//T: Dialog to change the state of an order.
-		//T: Checkbox to notify the customer by email. 
+		//T: Change the state of an order and send a notification to the customer.
 		bNotification.setText(_("Notify customer by email."));
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(bNotification);
 
@@ -117,8 +115,7 @@ public class OrderStatusDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		//T: Title of the dialog to change the state of an order and to
-		//T: send a comment to the customer.
+		//T: Change the state of an order and send a notification to the customer.
 		newShell.setText(_("Comment to the customer"));
 	}
 

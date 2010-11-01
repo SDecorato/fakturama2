@@ -231,7 +231,6 @@ public class PaymentEditor extends Editor {
 
 		// Payment name
 		Label labelName = new Label(top, SWT.NONE);
-		//T: Payment Editor: Label name
 		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -241,7 +240,6 @@ public class PaymentEditor extends Editor {
 
 		// Payment category
 		Label labelCategory = new Label(top, SWT.NONE);
-		//T: Payment Editor: Label category
 		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
@@ -251,7 +249,6 @@ public class PaymentEditor extends Editor {
 
 		// Payment description
 		Label labelDescription = new Label(top, SWT.NONE);
-		//T: Payment Editor: Label description
 		labelDescription.setText(_("Description"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
@@ -261,7 +258,6 @@ public class PaymentEditor extends Editor {
 
 		// Payment discount value
 		Label labelDiscountValue = new Label(top, SWT.NONE);
-		//T: Payment Editor: Label discount
 		labelDiscountValue.setText(_("Discount"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscountValue);
 		textDiscountValue = new Text(top, SWT.BORDER);
@@ -271,7 +267,6 @@ public class PaymentEditor extends Editor {
 
 		// Payment days to pay the discount
 		Label labelDiscountDays = new Label(top, SWT.NONE);
-		//T: Payment Editor: Label Discount Days
 		labelDiscountDays.setText(_("Discount Days"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscountDays);
 		textDiscountDays = new Text(top, SWT.BORDER);
@@ -281,7 +276,6 @@ public class PaymentEditor extends Editor {
 
 		// Payment days to pay the net value
 		Label labelNetDays = new Label(top, SWT.NONE);
-		//T: Payment Editor: Label Net Days
 		labelNetDays.setText(_("Net Days"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNetDays);
 		textNetDays = new Text(top, SWT.BORDER);
@@ -318,8 +312,7 @@ public class PaymentEditor extends Editor {
 
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo1 = new Label(top, SWT.WRAP);
-		//T: Payment Editor: Info label with the possible placeholders.
-		labelPlaceholderInfo1.setText(_("Platzhalter") + ": <PAYED.VALUE>, <PAYED.DATE>");
+		labelPlaceholderInfo1.setText(_("Placeholder") + ": <PAYED.VALUE>, <PAYED.DATE>");
 		makeSmallLabel(labelPlaceholderInfo1);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo1);
 
@@ -328,14 +321,12 @@ public class PaymentEditor extends Editor {
 
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo2 = new Label(top, SWT.WRAP);
-		//T: Payment Editor: Info label with the possible placeholders.
-		labelPlaceholderInfo2.setText(_("Platzhalter") + ": <DUE.DAYS>, <DUE.DATE>");
+		labelPlaceholderInfo2.setText(_("Placeholder") + ": <DUE.DAYS>, <DUE.DATE>");
 		makeSmallLabel(labelPlaceholderInfo2);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo2);
 
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStd = new Label(top, SWT.NONE);
-		//T: Payment Editor: Label for the standard payment.
 		labelStd.setText(_("Standard"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStd);
 		//T: Payment Editor: Button description to make this as standard payment.

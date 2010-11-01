@@ -36,6 +36,14 @@ import com.sebulli.fakturama.Activator;
  */
 public class DocumentPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
+	
+	/* TRANSLATORS: The placeholder indicates the bug-reporting address
+    for this package.  Please add _another line_ saying
+    "Report translation bugs to <...>\n" with the address for translation
+    bugs (typically your translation team's web or email address).  */
+
+	
+	
 	/**
 	 * Constructor
 	 */
@@ -53,7 +61,9 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 	public void createFieldEditors() {
 
 		//T: Preference page "Document" - Label "Format (net or gross) of the price in the item list"
-		addField(new RadioGroupFieldEditor("DOCUMENT_USE_NET_GROSS", _("Price in the item list:"), 2, new String[][] { { _("Netto"), "0" }, { _("Brutto"), "1" } },
+		addField(new RadioGroupFieldEditor("DOCUMENT_USE_NET_GROSS", _("Price in the item list:"), 2, new String[][] { 
+					{ _("Net"), "0" },
+					{ _("Gross"), "1" } },
 				getFieldEditorParent()));
 		
 		//T: Preference page "Document" - Label "Copy the content of the message field when creating a duplicate of the document."

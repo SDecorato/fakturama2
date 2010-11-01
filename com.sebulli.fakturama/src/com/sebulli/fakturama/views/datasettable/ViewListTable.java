@@ -62,9 +62,9 @@ public class ViewListTable extends ViewDataSetTable {
 		editor = "List";
 
 		// Create the table columns
-		//T: View List: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 200, 0, true, "name");
-		//T: View List: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Value"), 200, 200, false, "value");
 
 		// Set the input of the table viewer and the tree viewer

@@ -53,9 +53,9 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	public void createFieldEditors() {
 		String defaultValue = Activator.getDefault().getPreferenceStore().getDefaultString("OPENOFFICE_PATH");
 		if (!defaultValue.isEmpty())
-			//T: Preference page "OpenOffice" - Label: Example of the default path. Format: (e.g. PATH ).
+			//T: Preference page "OpenOffice" - Label: Example of the default path. Format: (e.g. PATH).
 			//T: Only the "e.g." is translated
-			defaultValue = " (" + _("z.B.:") + " " + defaultValue + ")";
+			defaultValue = " (" + _("e.g.:") + " " + defaultValue + ")";
 
 		if (OSDependent.isOOApp())
 			//T: Preference page "OpenOffice" - Label: OpenOffice App
@@ -65,8 +65,14 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", _("OpenOffice folder") + defaultValue, getFieldEditorParent()));
 
 		//T: Preference page "OpenOffice" - Label: Export documents as ODT or as PDF / only ODT/PDF or both
-		addField(new RadioGroupFieldEditor("OPENOFFICE_ODT_PDF", _("Export document as ODT or PDF:"), 3, new String[][] { { _("only as ODT"), "ODT" },
-				{ _("only as PDF"), "PDF" }, { _("ODT and PDF"), "ODT+PDF" } }, getFieldEditorParent()));
+		addField(new RadioGroupFieldEditor("OPENOFFICE_ODT_PDF", _("Export document as ODT or PDF:"), 3, new String[][] { 
+				//T: Preference page "OpenOffice" - Label: Export documents as ODT or as PDF / only ODT/PDF or both
+				{ _("only as ODT"), "ODT" },
+				//T: Preference page "OpenOffice" - Label: Export documents as ODT or as PDF / only ODT/PDF or both
+				{ _("only as PDF"), "PDF" },
+				//T: Preference page "OpenOffice" - Label: Export documents as ODT or as PDF / only ODT/PDF or both
+				{ _("ODT and PDF"), "ODT+PDF" } },
+				getFieldEditorParent()));
 
 	}
 

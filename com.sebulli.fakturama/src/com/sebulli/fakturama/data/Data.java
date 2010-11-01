@@ -109,10 +109,10 @@ public enum Data {
 			if (!workspace.isEmpty()) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
 				
-				//T: Title of the message box, if there is no connection to the database
+				//T: Title of a message box
 				messageBox.setText(_("Information"));
 				//T: Text of the message box, if there is no connection to the database
-				messageBox.setMessage(_("No connection to the database.\n\n" + "Is the database opened by an other process ?"));
+				messageBox.setMessage(_("No connection to the database.\n\nIs the database opened by an other process ?"));
 				messageBox.open();
 			}
 		}
@@ -124,12 +124,24 @@ public enum Data {
 	public void fillWithInitialData() {
 
 		// Fill some UniDataSets
-		//T: Name and description of the default VAT entry
-		vats.addNewDataSet(new DataSetVAT(_("Tax-free"), "", _("Tax-free"), 0.0));
-		//T: Name and description of the default shipping entry
-		shippings.addNewDataSet(new DataSetShipping(_("Free"), "", _("Free of shipping costs"), 0.0, 0, 1));
-		//T: Name, description, standard text for a paid and an unpaid invoice of the default VAT entry
-		payments.addNewDataSet(new DataSetPayment(_("Cash"), "", _("Cash"), 0.0, 0, 0, _("Thank you for the payment."), _("Payment due upon receipt of invoice."), false));
+		//T: Name of default VAT entry
+		vats.addNewDataSet(new DataSetVAT(_("Tax-free"), "", 
+				//T: Description of default VAT entry
+				_("Free of Tax"), 0.0));
+
+		//T: Name of default shipping entry
+		shippings.addNewDataSet(new DataSetShipping(_("Free"), "", 
+				//T: Description of default shipping entry
+				_("Free of shipping costs"), 0.0, 0, 1));
+		
+		//T: Name of default payment entry
+		payments.addNewDataSet(new DataSetPayment(_("Cash"), "", 
+				//T: Description of default payment entry
+				_("Pay Cash"), 0.0, 0, 0, 
+				//T: Paid text of default payment entry
+				_("Thank you for the payment."), 
+				//T: Unpaid text of default payment entry
+				_("Payment due upon receipt of invoice."), false));
 
 		// Set the default value to this entries
 		setProperty("standardvat", "0");

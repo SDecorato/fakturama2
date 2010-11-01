@@ -69,18 +69,19 @@ public class ViewPaymentTable extends ViewDataSetTable {
 
 		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
-		//T: View Payment: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		stdIconColumn = new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Standard"), 55, 0, true, "$stdId");
 		refreshStdId();
-		//T: View Payment: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
-		//T: View Payment: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
-		//T: View Payment: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Discount"), 50, 0, true, "discountvalue");
-		//T: View Payment: Heading of the table. Keep the words short.
+		//T: Discount Days
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Disc. Days"), 70, 0, true, "discountdays");
-		//T: View Payment: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Net Days"), 70, 0, true, "netdays");
 
 		// Set the input of the table viewer and the tree viewer

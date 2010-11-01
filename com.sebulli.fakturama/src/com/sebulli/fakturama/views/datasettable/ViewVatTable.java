@@ -68,15 +68,15 @@ public class ViewVatTable extends ViewDataSetTable {
 		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		
-		//T: View VAT: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		stdIconColumn = new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Standard"), 55, 0, true, "$stdId");
 
 		refreshStdId();
-		//T: View VAT: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
-		//T: View VAT: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
-		//T: View VAT: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Value"), 40, 0, true, "value");
 
 		// Set the input of the table viewer and the tree viewer

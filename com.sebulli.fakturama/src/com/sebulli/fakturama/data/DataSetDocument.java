@@ -225,7 +225,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @return String for "paid"
 	 */
 	public static String getStringPAYED() {
-		//T: An invoice is marked with this text, if it is paid.
+		//T: Mark a paid document with this text.
 		return _("paid");
 	};
 
@@ -235,7 +235,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @return String for "unpaid"
 	 */
 	public static String getStringNOTPAYED() {
-		//T: An invoice is marked with this text, if it is not paid.
+		//T: Mark an unpaid document with this text.
 		return _("unpaid");
 	};
 
@@ -245,7 +245,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @return String for "shipped"
 	 */
 	public static String getStringSHIPPED() {
-		//T: An order is marked with this text, if it is shipped.
+		//T: Mark an order with this text.
 		return _("shipped");
 	};
 
@@ -255,7 +255,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @return String for "not shipped"
 	 */
 	public static String getStringNOTSHIPPED() {
-		//T: An order is marked with this text, if it is shipped.
+		//T: Mark an order with this text.
 		return _("not shipped");
 	};
 
