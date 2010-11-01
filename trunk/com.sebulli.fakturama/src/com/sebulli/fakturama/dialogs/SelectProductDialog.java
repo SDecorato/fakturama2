@@ -70,37 +70,19 @@ public class SelectProductDialog extends SelectDataSetDialog {
 
 		// Create the table columns
 		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
-			//T: Heading of the product table in the "SelectProductDialog"
-			//T: This dialog appears, if you edit a document and click on the
-			//T: button to add a new item from the product list.
-			//T: The words should be short (max. 8-10 characters)
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Itemnr"), 80, 0, true, "itemnr");
-		//T: Heading of the product table in the "SelectProductDialog"
-		//T: This dialog appears, if you edit a document and click on the
-		//T: button to add a new item from the product list.
-		//T: The words should be short (max. 8-10 characters)
+			//T: Used as heading of a table. Keep the word short.
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Item No."), 80, 0, true, "itemnr");
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 150, 0, true, "name");
-		//T: Heading of the product table in the "SelectProductDialog"
-		//T: This dialog appears, if you edit a document and click on the
-		//T: button to add a new item from the product list.
-		//T: The words should be short (max. 8-10 characters)
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
 		if (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1)
-			//T: Heading of the product table in the "SelectProductDialog"
-			//T: This dialog appears, if you edit a document and click on the
-			//T: button to add a new item from the product list.
-			//T: The words should be short (max. 8-10 characters)
+			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), 70, 0, true, "$Price1Gross");
 		else
-			//T: Heading of the product table in the "SelectProductDialog"
-			//T: This dialog appears, if you edit a document and click on the
-			//T: button to add a new item from the product list.
-			//T: The words should be short (max. 8-10 characters)
+			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), 70, 0, true, "$Price1Net");
-		//T: Heading of the product table in the "SelectProductDialog"
-		//T: This dialog appears, if you edit a document and click on the
-		//T: button to add a new item from the product list.
-		//T: The words should be short (max. 8-10 characters)
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("VAT"), 40, 0, true, "$vatbyid");
 
 		// Set the input

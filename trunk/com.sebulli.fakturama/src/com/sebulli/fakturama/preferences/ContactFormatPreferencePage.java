@@ -126,9 +126,9 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 		//T: Preference page "Contact Format" - Example format Strings (Hidden countries)
 		//T: Separate the country by a comma. 
 		//T: If the county name is one in this list, is won't be displayed in the address
-		//T: field. For a German language you should enter "Deutschland,Germany".
+		//T: field. E.g. for a German language you should enter "Deutschland,Germany".
 		//T: There should be at least 2 names, separated by a comma. So that the user
-		//T: can see the format. Even is 2 countries don't make much sense like 
+		//T: can see the format. Even if 2 countries don't make much sense like 
 		//T: USA,U.S.A. for the English language.
 		node.put("CONTACT_FORMAT_HIDE_COUNTRIES", _("USA,U.S.A."));
 

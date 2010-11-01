@@ -64,13 +64,13 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		editor = "Expenditure";
 
 		// Create the table columns
-		//T: View Expenditure: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), 80, 0, true, "date");
-		//T: View Expenditure: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Voucher"), 100, 0, true, "nr");
-		//T: View Expenditure: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Document"), 150, 0, true, "documentnr");
-		//T: View Expenditure: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Supplier"), 200, 50, false, "name");
 
 		// Set the input of the table viewer and the tree viewer

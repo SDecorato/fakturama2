@@ -54,13 +54,13 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	public void createFieldEditors() {
 
 		//T: Preference page "Web Shop Import" - Label
-		addField(new StringFieldEditor("WEBSHOP_URL", _("Webshop Url"), getFieldEditorParent()));
+		addField(new StringFieldEditor("WEBSHOP_URL", _("Webshop URL"), getFieldEditorParent()));
 
 		//T: Preference page "Web Shop Import" - Label
 		addField(new StringFieldEditor("WEBSHOP_USER", _("Username"), getFieldEditorParent()));
 
 		//T: Preference page "Web Shop Import" - Label
-		addField(new StringFieldEditor("WEBSHOP_PASSWORD", _("Passwort"), getFieldEditorParent()));
+		addField(new StringFieldEditor("WEBSHOP_PASSWORD", _("Password"), getFieldEditorParent()));
 
 		//T: Preference page "Web Shop Import" - Label
 		addField(new StringFieldEditor("WEBSHOP_PRODUCT_CATEGORY", _("Products in category:"), getFieldEditorParent()));

@@ -356,9 +356,10 @@ public class DataSetContact extends UniDataSet {
 		case 0:
 			return "---";
 		case 1:
-			//T: Gender specific title
+			//T: Gender
 			return _("Mr");
 		case 2:
+			//T: Gender
 			return _("Ms");
 		case 3:
 			return _("Company");

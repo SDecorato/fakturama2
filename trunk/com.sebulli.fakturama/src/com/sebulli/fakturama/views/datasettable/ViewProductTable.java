@@ -66,13 +66,13 @@ public class ViewProductTable extends ViewDataSetTable {
 
 		// Create the table columns
 		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
-			//T: View Product: Heading of the table. Keep the words short.
+			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Item No."), 50, 0, true, "itemnr");
 
-		//T: View Product: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
-		//T: View Product: Heading of the table. Keep the words short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Beschreibung"), 200, 50, false, "description");
+		//T: Used as heading of a table. Keep the word short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
 
 		// Fill the price column with the net or the gross price ( for quantity = 1)
 		String priceKey = "";
@@ -81,9 +81,9 @@ public class ViewProductTable extends ViewDataSetTable {
 		else
 			priceKey = "price1";
 
-		//T: View Product: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), 70, 0, true, priceKey);
-		//T: View Product: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("VAT"), 40, 0, true, "$vatbyid");
 
 		// Set the input of the table viewer and the tree viewer

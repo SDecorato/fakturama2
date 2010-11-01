@@ -103,7 +103,9 @@ public class DeleteDataSetAction extends Action {
 						//T: Title of the dialog to confirm deleting a data set.
 						messageBox.setText(_("Confirm deleting"));
 						//T: Text of the dialog to confirm deleting a data set.
-						messageBox.setMessage(_("Entry")+ " " + uds.getStringValueByKey("name") + " " + _("will be deleted !"));
+						messageBox.setMessage(_("Entry")+ " " + uds.getStringValueByKey("name") + " " + 
+								//T: Text of the dialog to confirm deleting a data set.
+								_("will be deleted !"));
 
 						// We can delete now.
 						if (messageBox.open() == SWT.OK) {

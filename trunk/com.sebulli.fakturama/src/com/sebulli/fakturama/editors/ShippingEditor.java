@@ -329,7 +329,6 @@ public class ShippingEditor extends Editor {
 
 		// Shipping name
 		Label labelName = new Label(top, SWT.NONE);
-		//T: Shipping Editor: Label Name
 		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
@@ -339,7 +338,6 @@ public class ShippingEditor extends Editor {
 
 		// Shipping category
 		Label labelCategory = new Label(top, SWT.NONE);
-		//T: Shipping Editor: Label Category
 		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
@@ -349,7 +347,6 @@ public class ShippingEditor extends Editor {
 
 		// Shipping description
 		Label labelDescription = new Label(top, SWT.NONE);
-		//T: Shipping Editor: Label Description
 		labelDescription.setText(_("Description"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
@@ -359,7 +356,6 @@ public class ShippingEditor extends Editor {
 
 		// Shipping value
 		Label labelValue = new Label(top, SWT.NONE);
-		//T: Shipping Editor: Label Value
 		labelValue.setText(_("Value"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelValue);
 
@@ -373,7 +369,6 @@ public class ShippingEditor extends Editor {
 		// Create a net label
 		if (useNet) {
 			Label netValueLabel = new Label(netGrossComposite, SWT.NONE);
-			//T: Shipping Editor: Label Net Value
 			netValueLabel.setText(_("Net Value"));
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(netValueLabel);
 		}
@@ -381,7 +376,6 @@ public class ShippingEditor extends Editor {
 		// Create a gross label
 		if (useGross) {
 			Label grossValueLabel = new Label(netGrossComposite, SWT.NONE);
-			//T: Shipping Editor: Label Gross Value
 			grossValueLabel.setText(_("Gross Value"));
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(grossValueLabel);
 		}
@@ -407,7 +401,6 @@ public class ShippingEditor extends Editor {
 
 		// VAT Label
 		Label labelVat = new Label(top, SWT.NONE);
-		//T: Shipping Editor: Label VAT
 		labelVat.setText(_("VAT"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVat);
 
@@ -475,7 +468,7 @@ public class ShippingEditor extends Editor {
 		labelAutoVat.setText(_("VAT Calculation"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAutoVat);
 
-		// Create a combox list box for the automatic VAT calculation
+		// Create a combo list box for the automatic VAT calculation
 		comboAutoVat = new Combo(top, SWT.BORDER);
 		//T: Shipping Editor: list entry for "constant VAT calculation"
 		comboAutoVat.add(_("Constant VAT"));
@@ -520,10 +513,9 @@ public class ShippingEditor extends Editor {
 
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStdVat = new Label(top, SWT.NONE);
-		//T: Shipping Editor: Label for the standard payment.
 		labelStdVat.setText(_("Standard"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
-		//T: Shipping Editor: Button description to make this as standard payment.
+		//T: Shipping Editor: Button description to make this as standard shipping.
 		stdComposite = new StdComposite(top, shipping, Data.INSTANCE.getShippings(), "standardshipping", _("This Shipping"), 1);
 
 	}

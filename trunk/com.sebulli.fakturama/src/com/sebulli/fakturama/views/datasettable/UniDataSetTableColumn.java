@@ -341,16 +341,16 @@ public class UniDataSetTableColumn {
 			case INVOICE:
 			case CREDIT:
 				if (uds.getBooleanValueByKey("payed")) {
-					//T: Marking for a paid credit in the document table
+					//T: Mark a paid document with this text.
 					return _("paid");
 				}
 				else {
-					//T: Marking for an unpaid credit in the document table
+					//T: Mark an unpaid document with this text.
 					return _("unpaid");
 				}
 			case DUNNING:
 				if (uds.getBooleanValueByKey("payed")) {
-					//T: Marking for a paid dunning in the document table
+					//T: Mark a paid document with this text.
 					return _("paid");
 				}
 				else {
@@ -362,16 +362,16 @@ public class UniDataSetTableColumn {
 				switch (uds.getIntValueByKey("progress")) {
 				case 0:
 				case 10:
-					//T: Marking for an order the document table
+					//T: Mark an order with this text.
 					return _("open");
 				case 50:
-					//T: Marking for an order the document table
+					//T: Mark an order with this text.
 					return _("in work");
 				case 90:
-					//T: Marking for an order the document table
+					//T: Mark an order with this text.
 					return _("shipped");
 				case 100:
-					//T: Marking for an order the document table
+					//T: Mark an order with this text.
 					return _("closed");
 				}
 				break;

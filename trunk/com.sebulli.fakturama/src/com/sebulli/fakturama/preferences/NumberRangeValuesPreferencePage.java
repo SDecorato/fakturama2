@@ -53,13 +53,21 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 		
 		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_CONTACT_NR", _("Next customer No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_PRODUCT_NR", _("Next item No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_INVOICE_NR", _("Next invoice No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_DELIVERY_NR", _("Next delivery note:"), getFieldEditorParent()));
-		addField(new IntegerFieldEditor("NUMBERRANGE_OFFER_NR", _("Next offer No."), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
+		addField(new IntegerFieldEditor("NUMBERRANGE_OFFER_NR", _("Next offer No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_ORDER_NR", _("Next order No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_CONFIRMATION_NR", _("Next confirmation No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_CREDIT_NR", _("Next credit No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_DUNNING_NR", _("Next dunning No.:"), getFieldEditorParent()));
 	}
 
@@ -71,7 +79,7 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		//T: Preference page "umber Range Values" - Title"
+		//T: Preference page "Number Range Values" - Title"
 		setDescription(_("Next number"));
 	}
 

@@ -155,13 +155,13 @@ public class ProductEditor extends Editor {
 				// Display an error message
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 
-				//T: Title of the dialog that appears if the product ID is
-				//T: not the next free one.
+				//T: Title of the dialog that appears if the item/product number is not valid.
 				messageBox.setText(_("Error in item number"));
 				
-				//T: Text of the dialog that appears if the document ID is
-				//T: not the next free one.
-				messageBox.setMessage(_("Item number is not the next free one:") + " " + textItemNr.getText() + "\n" + _("See Preferences/Number Range."));
+				//T: Text of the dialog that appears if the item/product number is not valid.
+				messageBox.setMessage(_("Item number is not the next free one:") + " " + textItemNr.getText() + "\n" +
+						//T: Text of the dialog that appears if the number is not valid.
+						_("See Preferences/Number Range."));
 				messageBox.open();
 			}
 
@@ -473,12 +473,10 @@ public class ProductEditor extends Editor {
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(productDescGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(productDescGroup);
 
-		//T: Product Editor - Group Description
 		productDescGroup.setText(_("Description"));
 
 		// Item number
 		Label labelItemNr = new Label(useItemNr ? productDescGroup : invisible, SWT.NONE);
-		//T: Product Editor - Label Item Number
 		labelItemNr.setText(_("Item Number"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelItemNr);
 		textItemNr = new Text(useItemNr ? productDescGroup : invisible, SWT.BORDER);
@@ -488,7 +486,6 @@ public class ProductEditor extends Editor {
 
 		// Product name
 		Label labelName = new Label(productDescGroup, SWT.NONE);
-		//T: Product Editor - Label Name
 		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(productDescGroup, SWT.BORDER);
@@ -498,7 +495,6 @@ public class ProductEditor extends Editor {
 
 		// Product category
 		Label labelCategory = new Label(productDescGroup, SWT.NONE);
-		//T: Product Editor - Label Category
 		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(productDescGroup, SWT.BORDER);
@@ -508,7 +504,6 @@ public class ProductEditor extends Editor {
 
 		// Product description
 		Label labelDescription = new Label(useDescription ? productDescGroup : invisible, SWT.NONE);
-		//T: Product Editor - Label Description
 		labelDescription.setText(_("Description"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(useDescription ? productDescGroup : invisible, SWT.BORDER | SWT.MULTI);
@@ -521,10 +516,8 @@ public class ProductEditor extends Editor {
 
 		// Use net or gross price
 		if (useNet && useGross)
-			//T: Product Editor - Label Price
 			labelPrice.setText(_("Price"));
 		else if (useNet)
-			//T: Product Editor - Label Price (Net)
 			labelPrice.setText(_("Price (net)"));
 		else if (useGross)
 			labelPrice.setText(_("Price (gross)"));
@@ -545,9 +538,7 @@ public class ProductEditor extends Editor {
 		// Display the heading for the net and gross columns
 		if (useNet && useGross) {
 			Label labelNet = new Label(pricetable, SWT.CENTER);
-			//T: Product Editor - Label Net
 			labelNet.setText(_("Net"));
-
 			Label labelGross = new Label(pricetable, SWT.CENTER);
 			labelGross.setText(_("Gross"));
 		}
@@ -563,7 +554,7 @@ public class ProductEditor extends Editor {
 			// Create the columns for the quantity
 			labelBlock[i] = new Label(((i < scaledPrices) && (scaledPrices >= 2)) ? pricetable : invisible, SWT.NONE);
 			//T: Product Editor - Label Scaled Prices "from" .. Quantity the price is ..
-			labelBlock[i].setText(_("from"));
+			labelBlock[i].setText(_("from", "QUANTITY"));
 
 			textBlock[i] = new Text(((i < scaledPrices) && (scaledPrices >= 2)) ? pricetable : invisible, SWT.BORDER | SWT.RIGHT);
 			textBlock[i].setText(product.getFormatedStringValueByKey("block" + indexNr));
@@ -600,7 +591,6 @@ public class ProductEditor extends Editor {
 
 		// product VAT
 		Label labelVat = new Label(useVat ? productDescGroup : invisible, SWT.NONE);
-		//T: Product Editor - Label VAT
 		labelVat.setText(_("VAT"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVat);
 		comboVat = new Combo(useVat ? productDescGroup : invisible, SWT.BORDER);
@@ -676,7 +666,6 @@ public class ProductEditor extends Editor {
 		Group productPictureGroup = new Group(usePicture ? top : invisible, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(productPictureGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(productPictureGroup);
-		//T: Product Editor - Label Product Picture
 		productPictureGroup.setText(_("Product Picture"));
 
 		// The photo
@@ -787,10 +776,10 @@ public class ProductEditor extends Editor {
 			// Display an error message
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 
-			//T: Title of the dialog that appears if there is already a product with the same customer ID
+			//T: Title of the dialog that appears if the item/product number is not valid.
 			messageBox.setText(_("Error in item number"));
 
-			//T: Text of the dialog that appears if there is already a product with the same customer ID
+			//T: Text of the dialog that appears if the item/product number is not valid.
 			messageBox.setMessage(_("There is already a product with the number:") + " " + textItemNr.getText());
 			messageBox.open();
 

@@ -58,6 +58,7 @@ public enum Workspace {
 
 	Workspace() {
 
+		//T: Templates folder name
 		templateFolderName = _("Templates");
 		
 		isInitialized = false;
@@ -236,7 +237,7 @@ public enum Workspace {
 					Activator.getDefault().getPreferenceStore().setValue("GENERAL_WORKSPACE_REQUEST", selectedDirectory);
 					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
 					
-					//T: Title of the dialog that the workspace will be changed.
+					//T: Title of a message box
 					messageBox.setText(_("Information"));
 					//T: Text of the dialog that the workspace will be switched and that you should restart Fakturama.
 					messageBox.setMessage("The working directory will be switched.\nPlease restart Fakturama!");

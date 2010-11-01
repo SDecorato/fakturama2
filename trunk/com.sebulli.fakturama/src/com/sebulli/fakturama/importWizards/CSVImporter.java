@@ -195,7 +195,11 @@ public class CSVImporter {
 						for (int i = 0; i < requiredHeaders.length; i++) {
 							if (!prop.containsKey(requiredHeaders[i]))
 								//T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
-								result += NL + _("Line") + ": " + Integer.toString(lineNr) + ": " + _("No Data in Column") + " \"" + requiredHeaders[i] + "\" " + _("found.");
+								result += NL + _("Line") + ": " + Integer.toString(lineNr) + ": " + 
+								//T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
+								_("No Data in Column") + " \"" + requiredHeaders[i] + "\" " + 
+								//T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
+								_("found.");
 						}
 					}
 					else {
@@ -223,7 +227,9 @@ public class CSVImporter {
 									//T: Error message Dataset is already imported
 									result += NL + _("Dataset is already imported");
 									//T: Error message: DATASET xx FROM date
-									result += NL + _("Datensatz")+ " " + prop.getProperty("name") + " " + _("from") + " " + prop.getProperty("date");
+									result += NL + _("Dataset")+ " " + prop.getProperty("name") + " " +
+										//T: DATASET xx FROM date
+										_("from", "DATE") + " " + prop.getProperty("date");
 									//T: Error message Import stopped
 									result += NL + _("Import stopped");
 									break;

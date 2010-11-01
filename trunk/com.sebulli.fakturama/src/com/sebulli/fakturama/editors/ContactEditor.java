@@ -162,13 +162,13 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 				// Display an error message
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 
-				//T: Title of the dialog that appears if the customer ID is
-				//T: not the next free one.
+				//T: Title of the dialog that appears if the item/product number is not valid.
 				messageBox.setText(_("Error in customer ID"));
 
-				//T: Text of the dialog that appears if the customer ID is
-				//T: not the next free one.
-				messageBox.setMessage(_("Customer ID is not the next free one:") + " " + txtNr.getText() + "\n" + _("See Preferences/Number Range."));
+				//T: Text of the dialog that appears if the customer number is not valid.
+				messageBox.setMessage(_("Customer ID is not the next free one:") + " " + txtNr.getText() + "\n" + 
+						//T: Text of the dialog that appears if the number is not valid.
+						_("See Preferences/Number Range."));
 				messageBox.open();
 			}
 
@@ -289,8 +289,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 			// Create a new data set
 			contact = new DataSetContact(((UniDataSetEditorInput) input).getCategory());
-			//T: Contact Editor
-			//T: Title of the editor if the data set is a new one.
+			//T: Contact Editor Title of the editor if the data set is a new one.
 			setPartName(_("New Contact"));
 
 			// Set the payment to the standard value
@@ -470,8 +469,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 			GridDataFactory.fillDefaults().grab(true, true).applyTo(tabFolder);
 
 			TabItem item1 = new TabItem(tabFolder, SWT.NONE);
-			//T: Contact Editor
-			//T: Title of the tab ADDRESS
 			item1.setText(_("Address"));
 			tabAddress = new Composite(tabFolder, SWT.NONE);
 			item1.setControl(tabAddress);
@@ -485,8 +482,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		Composite tabBank;
 		if (useBank) {
 			TabItem item3 = new TabItem(tabFolder, SWT.NONE);
-			//T: Contact Editor
-			//T: Title of the tab BANK
 			item3.setText(_("Bank Account"));
 			tabBank = new Composite(tabFolder, SWT.NONE);
 			item3.setControl(tabBank);
@@ -500,8 +495,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		Composite tabMisc;
 		if (useMisc) {
 			TabItem item4 = new TabItem(tabFolder, SWT.NONE);
-			//T: Contact Editor
-			//T: Title of the tab MISCELLANEOUS
 			item4.setText(_("Miscellaneous"));
 			tabMisc = new Composite(tabFolder, SWT.NONE);
 			item4.setControl(tabMisc);
@@ -516,8 +509,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		Composite tabNote;
 		if (useNote) {
 			item5 = new TabItem(tabFolder, SWT.NONE);
-			//T: Contact Editor
-			//T: Title of the tab Note
 			item5.setText(_("Notice"));
 			tabNote = new Composite(tabFolder, SWT.NONE);
 			item5.setControl(tabNote);
@@ -534,8 +525,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Customer's number
 		Label labelNr = new Label(customerNrComposite, SWT.NONE);
-		//T: Contact Editor
-		//T: Label Customer ID
 		labelNr.setText(_("Customer ID"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNr);
 		txtNr = new Text(customerNrComposite, SWT.BORDER);
@@ -545,8 +534,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Check button: delivery address equals address
 		bDelAddrEquAddr = new Button(tabAddress, SWT.CHECK);
-		//T: Contact Editor
-		//T: Checkbox "delivery address equals invoice address"
 		bDelAddrEquAddr.setText(_("Delivery Address equals Invoice Address"));
 		GridDataFactory.swtDefaults().applyTo(bDelAddrEquAddr);
 		bDelAddrEquAddr.addSelectionListener(new SelectionAdapter() {
@@ -560,24 +547,19 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		Group addressGroup = new Group(tabAddress, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(addressGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(addressGroup);
-		//T: Contact Editor
-		//T: Group "Address"
-		addressGroup.setText(_("Addresse"));
+		addressGroup.setText(_("Address"));
 
 		// Controls in the group "address"
 
 		// The title and gender's label
 		Label labelTitle = new Label((useGender || useTitle) ? addressGroup : invisible, SWT.NONE);
 		if (useGender)
-			//T: Contact Editor
-			//T: Label "Gender"
 			labelTitle.setText(_("Gender"));
 		if (useGender && useTitle)
 			labelTitle.setText(labelTitle.getText() + ", ");
 		if (useTitle)
-			//T: Contact Editor
-			//T: Label "Title"
-			labelTitle.setText(labelTitle.getText() + _("Title"));
+			//T: "Title" ( part of an address)
+			labelTitle.setText(labelTitle.getText() + _("Title","ADDRESS"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelTitle);
 
 		// Gender
@@ -598,9 +580,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		Label labelName = new Label(addressGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		if (useLastNameFirst) {
-			//T: Contact Editor
-			//T: Label that displays the format if the last name is in
-			//T: front of the first name
+			//T: Format of the name in an address
 			labelName.setText(_("Last name, First Name"));
 			txtName = new Text(addressGroup, SWT.BORDER);
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
@@ -608,9 +588,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(txtFirstname);
 		}
 		else {
-			//T: Contact Editor
-			//T: Label that displays the format if the first name is in
-			//T: front of the last name
+			//T: Format of the name in an address
 			labelName.setText(_("First Name Last name"));
 			txtFirstname = new Text(addressGroup, SWT.BORDER);
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtFirstname);
@@ -624,8 +602,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Company
 		Label labelCompany = new Label(useCompany ? addressGroup : invisible, SWT.NONE);
-		//T: Contact Editor
-		//T: Label of the company
 		labelCompany.setText(_("Company"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCompany);
 		txtCompany = new Text(useCompany ? addressGroup : invisible, SWT.BORDER | SWT.MULTI);
@@ -635,8 +611,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Street
 		Label labelStreet = new Label(addressGroup, SWT.NONE);
-		//T: Contact Editor
-		//T: Label of the street
 		labelStreet.setText(_("Street"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStreet);
 		txtStreet = new Text(addressGroup, SWT.BORDER);
@@ -647,8 +621,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// City
 		Label labelCity = new Label(addressGroup, SWT.NONE);
-		//T: Contact Editor
-		//T: Label ZIP code and city
 		labelCity.setText(_("ZIP, City"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCity);
 		txtZip = new Text(addressGroup, SWT.BORDER);
@@ -662,8 +634,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Country
 		Label labelCountry = new Label(useCountry ? addressGroup : invisible, SWT.NONE);
-		//T: Contact Editor
-		//T: Label of the county
 		labelCountry.setText(_("Country"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCountry);
 		txtCountry = new Text(useCountry ? addressGroup : invisible, SWT.BORDER);
@@ -675,8 +645,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		deliveryGroup = new Group(tabAddress, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(3).applyTo(deliveryGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(deliveryGroup);
-		//T: Contact Editor
-		//T: Group of the delivery address
 		deliveryGroup.setText(_("Delivery Address"));
 
 		// Controls in the group "Delivery"
@@ -684,15 +652,12 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Delivery gender and titel's label
 		Label labelDeliveryTitle = new Label((useGender || useTitle) ? deliveryGroup : invisible, SWT.NONE);
 		if (useGender)
-			//T: Contact Editor
-			//T: Label "Gender"
 			labelDeliveryTitle.setText(("Gender"));
 		if (useGender && useTitle)
 			labelDeliveryTitle.setText(labelDeliveryTitle.getText() + ", ");
 		if (useTitle)
-			//T: Contact Editor
-			//T: Label "Title"
-			labelDeliveryTitle.setText(labelDeliveryTitle.getText() + _("Titel"));
+			//T: "Title" (part of an address)
+			labelDeliveryTitle.setText(labelDeliveryTitle.getText() + _("Title", "ADDRESS"));
 
 		// Delivery Gender
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryTitle);
@@ -713,9 +678,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		Label labelDeliveryName = new Label(deliveryGroup, SWT.NONE);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryName);
 		if (useLastNameFirst) {
-			//T: Contact Editor
-			//T: Label that displays the format if the last name is in
-			//T: front of the first name
+			//T: Format of the name in an address
 			labelDeliveryName.setText(_("Last name, First Name"));
 			txtDeliveryName = new Text(deliveryGroup, SWT.BORDER);
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(labelDeliveryName);
@@ -723,9 +686,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(txtDeliveryFirstname);
 		}
 		else {
-			//T: Contact Editor
-			//T: Label that displays the format if the first name is in
-			//T: front of the last name
+			//T: Format of the name in an address
 			labelDeliveryName.setText(_("First Name Last name"));
 			txtDeliveryFirstname = new Text(deliveryGroup, SWT.BORDER);
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtDeliveryFirstname);
@@ -740,8 +701,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Delivery company
 		Label labelDeliveryCompany = new Label(useCompany ? deliveryGroup : invisible, SWT.NONE);
-		//T: Contact Editor
-		//T: Label of the company
 		labelDeliveryCompany.setText(_("Company"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryCompany);
 		txtDeliveryCompany = new Text(useCompany ? deliveryGroup : invisible, SWT.BORDER | SWT.MULTI);
@@ -751,8 +710,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Delivery street
 		Label labelDeliveryStreet = new Label(deliveryGroup, SWT.NONE);
-		//T: Contact Editor
-		//T: Label of the stree
 		labelDeliveryStreet.setText(_("Street"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryStreet);
 		txtDeliveryStreet = new Text(deliveryGroup, SWT.BORDER);
@@ -763,8 +720,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Delivery city
 		Label labelDeliveryCity = new Label(deliveryGroup, SWT.NONE);
-		//T: Contact Editor
-		//T: Label ZIP code and city
 		labelDeliveryCity.setText(_("ZIP, City"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryCity);
 		txtDeliveryZip = new Text(deliveryGroup, SWT.BORDER);
@@ -778,8 +733,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Delivery country
 		Label labelDeliveryCountry = new Label(useCountry ? deliveryGroup : invisible, SWT.NONE);
-		//T: Contact Editor
-		//T: Label of the county
 		labelDeliveryCountry.setText(_("Country"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryCountry);
 		txtDeliveryCountry = new Text(useCountry ? deliveryGroup : invisible, SWT.BORDER);
@@ -791,8 +744,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Account holder
 		Label labelAccountHolder = new Label(tabBank, SWT.NONE);
-		//T: Contact Editor
-		//T: Label account holder
 		labelAccountHolder.setText(_("Account Holder"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAccountHolder);
 		txtAccountHolder = new Text(tabBank, SWT.BORDER);
@@ -802,8 +753,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Account number
 		Label labelAccount = new Label(tabBank, SWT.NONE);
-		//T: Contact Editor
-		//T: Label account holder
 		labelAccount.setText(_("Account Number"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAccount);
 		txtAccount = new Text(tabBank, SWT.BORDER);
@@ -813,8 +762,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Bank code
 		Label labelBankCode = new Label(tabBank, SWT.NONE);
-		//T: Contact Editor
-		//T: Label bank code
 		labelBankCode.setText(_("Bank Code"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelBankCode);
 		txtBankCode = new Text(tabBank, SWT.BORDER);
@@ -824,8 +771,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Name of the bank
 		Label labelBankName = new Label(tabBank, SWT.NONE);
-		//T: Contact Editor
-		//T: Label name of the bank
 		labelBankName.setText(_("Name of the Bank"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelBankName);
 		txtBankName = new Text(tabBank, SWT.BORDER);
@@ -833,10 +778,9 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		superviceControl(txtBankName, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtBankName);
 
-		// IBAN
+		// IBAN Bank code
 		Label labelIBAN = new Label(tabBank, SWT.NONE);
-		//T: Contact Editor
-		//T: Label IBAN
+		//T: Bank code
 		labelIBAN.setText(_("IBAN"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelIBAN);
 		txtIBAN = new Text(tabBank, SWT.BORDER);
@@ -846,8 +790,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// BIC
 		Label labelBIC = new Label(tabBank, SWT.NONE);
-		//T: Contact Editor
-		//T: Label BIC
+		//T: Bank code
 		labelBIC.setText(_("BIC"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelBIC);
 		txtBIC = new Text(tabBank, SWT.BORDER);
@@ -859,8 +802,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Category 
 		Label labelCategory = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label Category
 		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(tabMisc, SWT.BORDER);
@@ -870,8 +811,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// EMail
 		Label labelEmail = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label E-Mail
 		labelEmail.setText(_("E-Mail"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelEmail);
 		txtEmail = new Text(tabMisc, SWT.BORDER);
@@ -881,8 +820,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Telephone
 		Label labelTel = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label Telephone
 		labelTel.setText(_("Telephone"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelTel);
 		txtPhone = new Text(tabMisc, SWT.BORDER);
@@ -892,8 +829,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Telefax
 		Label labelFax = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label Telefax
 		labelFax.setText(_("Telefax"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelFax);
 		txtFax = new Text(tabMisc, SWT.BORDER);
@@ -903,8 +838,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Mobile
 		Label labelMobile = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label Mobile
 		labelMobile.setText(_("Mobile"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelMobile);
 		txtMobile = new Text(tabMisc, SWT.BORDER);
@@ -914,8 +847,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Web Site
 		Label labelWebsite = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label Web Site
 		labelWebsite.setText(_("Web Site"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelWebsite);
 		txtWebsite = new Text(tabMisc, SWT.BORDER);
@@ -925,8 +856,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Payment
 		Label labelPayment = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label Payment
 		labelPayment.setText(_("Payment"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPayment);
 		comboPayment = new Combo(tabMisc, SWT.BORDER);
@@ -950,23 +879,22 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// Reliability
 		Label labelReliability = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label Reliability
 		labelReliability.setText(_("Reliability"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelReliability);
 		comboReliability = new Combo(tabMisc, SWT.BORDER);
 		comboReliability.add("---", 0);
-		comboReliability.add("schlecht", 1);
-		comboReliability.add("mittel", 2);
-		comboReliability.add("gut", 3);
+		//T: Reliability ranking of a customer
+		comboReliability.add(_("poor", "RELIABILITY"), 1);
+		//T: Reliability ranking of a customer
+		comboReliability.add(_("medium", "RELIABILITY"), 2);
+		//T: Reliability ranking of a customer
+		comboReliability.add(_("good", "RELIABILITY"), 3);
 		comboReliability.select(contact.getIntValueByKey("reliability"));
 		superviceControl(comboReliability);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboReliability);
 
 		// VAT number
 		Label labelVatNr = new Label(tabMisc, SWT.NONE);
-		//T: Contact Editor
-		//T: Label VAT number
 		labelVatNr.setText(_("VAT Number."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVatNr);
 		txtVatNr = new Text(tabMisc, SWT.BORDER);
@@ -975,10 +903,9 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtVatNr);
 
 		// Customer's discount
-		//T: Contact Editor
-		//T: Label discount
 		Label labelDiscount = new Label(tabMisc, SWT.NONE);
-		labelDiscount.setText(_("Discount"));
+		//T: Customer's discount
+		labelDiscount.setText(_("Discount","CUSTOMER"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscount);
 		txtDiscount = new Text(tabMisc, SWT.BORDER);
 		txtDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
@@ -1040,12 +967,10 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 			// Display an error message
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
 
-			//T: Title of the dialog that appears if there is already a customer with the
-			//T: same customer ID
+			//T: Title of the dialog that appears if the item/product number is not valid.
 			messageBox.setText(_("Error in customer ID"));
 
-			//T: Text of the dialog that appears if there is already a customer with the
-			//T: same customer ID
+			//T: Text of the dialog that appears if the customer number is not valid.
 			messageBox.setMessage(_("There is already a customer with the number:") + " " + txtNr.getText());
 			messageBox.open();
 

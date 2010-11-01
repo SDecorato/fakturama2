@@ -51,32 +51,32 @@ public class ContactPreferencePage extends FieldEditorPreferencePage implements 
 	@Override
 	public void createFieldEditors() {
 		//T: Preference page "Contact" - Label checkbox "Use delivery address"
-		addField(new BooleanFieldEditor("CONTACT_USE_DELIVERY", _("Use Delivery Address"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("CONTACT_USE_DELIVERY", _("Use delivery address"), getFieldEditorParent()));
 
 		//T: Preference page "Contact" - Label checkbox "Use bank account"
-		addField(new BooleanFieldEditor("CONTACT_USE_BANK", _("Use Bank Account"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("CONTACT_USE_BANK", _("Use bank account"), getFieldEditorParent()));
 
 		//T: Preference page "Contact" - Label checkbox "Use miscellaneous"
-		addField(new BooleanFieldEditor("CONTACT_USE_MISC", _("Use Page Miscellaneous"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("CONTACT_USE_MISC", _("Use page miscellaneous"), getFieldEditorParent()));
 
 		//T: Preference page "Contact" - Label checkbox "Use page notice"
-		addField(new BooleanFieldEditor("CONTACT_USE_NOTE", _("Use Page Notice"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("CONTACT_USE_NOTE", _("Use page notice"), getFieldEditorParent()));
 
 		//T: Preference page "Contact" - Label checkbox "Use gender"
-		addField(new BooleanFieldEditor("CONTACT_USE_GENDER", _("Use Gender"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("CONTACT_USE_GENDER", _("Use gender"), getFieldEditorParent()));
 
 		//T: Preference page "Contact" - Label checkbox "Use title"
-		addField(new BooleanFieldEditor("CONTACT_USE_TITLE", _("Use Title"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("CONTACT_USE_TITLE", _("Use title"), getFieldEditorParent()));
 
 		//T: Preference page "Contact" - Label format of the name
-		addField(new RadioGroupFieldEditor("CONTACT_NAME_FORMAT", _("Format of the Name:"), 2, new String[][] { { _("First name Last name"), "0" },
+		addField(new RadioGroupFieldEditor("CONTACT_NAME_FORMAT", _("Format of the name:"), 2, new String[][] { { _("First name Last name"), "0" },
 				{ _("Last name, First name"), "1" } }, getFieldEditorParent()));
 
 		//T: Preference page "Contact" - Label checkbox "Use company field"
-		addField(new BooleanFieldEditor("CONTACT_USE_COMPANY", _("Use Company Field"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("CONTACT_USE_COMPANY", _("Use company field"), getFieldEditorParent()));
 
 		//T: Preference page "Contact" - Label checkbox "Use Country Field"
-		addField(new BooleanFieldEditor("CONTACT_USE_COUNTRY", _("Use Country Field"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("CONTACT_USE_COUNTRY", _("Use country field"), getFieldEditorParent()));
 
 	}
 

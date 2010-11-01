@@ -298,27 +298,27 @@ public class SalesExporter {
 
 		// Table column headings
 		int headLine = row;
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Pay Date"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Nr."));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Date"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("First Name"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Last Name"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Company"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("VAT ID."));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Country"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Value"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Pay Value"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Net Value"));
 		row++;
 
@@ -538,23 +538,23 @@ public class SalesExporter {
 
 		// Table column headings
 		headLine = row;
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Category"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Date"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Voucher."));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Doc.Nr."));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Supplier"));
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Type"));
 
 		if (showExpenditureSumColumn) {
-			//T: Sales Exporter - Heading of the table. Keep the names short.
+			//T: Used as heading of a table. Keep the word short.
 			setCellTextInBold(spreadsheet1, row, col++, _("Net"));
-			//T: Sales Exporter - Heading of the table. Keep the names short.
+			//T: Used as heading of a table. Keep the word short.
 			setCellTextInBold(spreadsheet1, row, col++, _("Gross"));
 		}
 
@@ -625,7 +625,7 @@ public class SalesExporter {
 			int column = expenditureSummarySetAllExpenditures.getIndex(item);
 
 			// Add VAT name and description and use 2 lines
-			//T: Sales Exporter - Table entry
+			//T: Used as heading of a table. Keep the word short.
 			String text = _("Net") + "\n" + item.getVatName();
 			String description = item.getDescription();
 
@@ -783,7 +783,7 @@ public class SalesExporter {
 		col = 0;
 
 		//Heading for the categories
-		//T: Sales Exporter - Heading of the table. Keep the names short.
+		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Type"));
 		setCellTextInBold(spreadsheet1, row, col++, DataSetVAT.getPurchaseTaxString());
 		setCellTextInBold(spreadsheet1, row, col++, DataSetVAT.getPurchaseTaxString());

@@ -109,24 +109,24 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Customer" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_CONTACT_FORMAT", _("CUST{6nr}"));
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Product/Item" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_PRODUCT_FORMAT", _("PROD{6nr}"));
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Invoice" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_INVOICE_FORMAT", _("INV{6nr}"));
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Delivery Note" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_DELIVERY_FORMAT", _("D/O{6nr}"));
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Offer" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_OFFER_FORMAT", _("LO{6nr}"));
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Order" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_ORDER_FORMAT", _("PO{6nr}"));
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Credit Note" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_CREDIT_FORMAT", _("CN{6nr}"));
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Confirmation" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_CONFIRMATION_FORMAT", _("CONF{6nr}"));
-		//T: Preference page "Number Range Format" - Default value: Abbreviation with {6nr} for a 6 digits number
-		node.put("NUMBERRANGE_DUNNING_FORMAT", _("MG{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Dunning" with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_DUNNING_FORMAT", _("DUNNING{6nr}"));
 	}
 
 }

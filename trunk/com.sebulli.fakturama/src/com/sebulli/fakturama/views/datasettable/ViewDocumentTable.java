@@ -79,15 +79,15 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "", 20, 0, true, "$documenttype");
-		//T: View Document: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Document"), 80, 0, true, "name");
-		//T: View Document: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), 80, 0, true, "date");
-		//T: View Document: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 200, 50, false, "addressfirstline");
-		//T: View Document: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("State"), 100, 0, true, "$status");
-		//T: View Document: Heading of the table. Keep the words short.
+		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Total"), 70, 0, true, "total");
 
 		// Add a selection listener

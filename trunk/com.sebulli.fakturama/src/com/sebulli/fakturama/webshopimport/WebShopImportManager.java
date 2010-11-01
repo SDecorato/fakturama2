@@ -208,7 +208,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			importXMLContent = "";
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			//T: Status message importing data from web shop
-			monitor.subTask(_("Loading_data"));
+			monitor.subTask(_("Loading Data"));
 			double progress = worked;
 
 			// Get the directory of the workspace
@@ -1060,7 +1060,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		if (!DataUtils.DoublesAreEqual(order_totalDouble, calcTotal)) {
 			//T: Error message importing data from web shop
 			//T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
-			String error = _("Bestellung:");
+			String error = _("Order" + ":");
 			error += " " + order_id + "\n";
 			//T: Error message importing data from web shop
 			//T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
