@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -48,7 +50,7 @@ import com.sebulli.fakturama.exportsales.ExportSalesAction;
 public class NavigationView extends ViewPart implements ICommandIds {
 
 	// ID of this view
-	public static final String ID = "com.sebulli.fakturama.navigationView";
+	public static final String ID = "com.sebulli.fakturama.navigationView"; //$NON-NLS-1$
 
 	/**
 	 * This is a callback that will allow us to create the viewer and initialize
@@ -63,12 +65,14 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
 
 		// Create the first expand bar "Import"
-		final ExpandBar bar1 = new ExpandBar(expandBarManager, top, SWT.NONE, "Importieren", "/icons/16/import_16.png");
+		//T: Title of an expand bar in the navigations view
+		final ExpandBar bar1 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Import"), "/icons/16/import_16.png");
 
 		bar1.addAction(new WebShopImportAction());
 
 		// Create the 2nd expand bar "Data"
-		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE, "Daten", "/icons/16/data_16.png");
+		//T: Title of an expand bar in the navigations view
+		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Data"), "/icons/16/data_16.png");
 
 		bar2.addAction(new OpenDocumentsAction());
 		bar2.addAction(new OpenProductsAction());
@@ -81,18 +85,21 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		bar2.addAction(new OpenExpendituresAction());
 
 		// Create the 3rd expand bar "Create new"
-		final ExpandBar bar3 = new ExpandBar(expandBarManager, top, SWT.NONE, "Neu erstellen", "/icons/16/plus_16.png");
+		//T: Title of an expand bar in the navigations view
+		final ExpandBar bar3 = new ExpandBar(expandBarManager, top, SWT.NONE, _("New"), "/icons/16/plus_16.png");
 
 		bar3.addAction(new NewProductAction());
 		bar3.addAction(new NewContactAction(null));
 
 		// Create the 4th expand bar "export"
-		final ExpandBar bar4 = new ExpandBar(expandBarManager, top, SWT.NONE, "exportieren", "/icons/16/export_16.png");
+		//T: Title of an expand bar in the navigations view
+		final ExpandBar bar4 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Export"), "/icons/16/export_16.png");
 
 		bar4.addAction(new ExportSalesAction());
 
 		// Create the 5th expand bar "Miscellaneous"
-		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE, "sonstiges", "/icons/16/misc_16.png");
+		//T: Title of an expand bar in the navigations view
+		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Miscellaneous"), "/icons/16/misc_16.png");
 
 		bar5.addAction(new OpenBrowserEditorAction());
 		bar5.addAction(new OpenCalculatorAction());

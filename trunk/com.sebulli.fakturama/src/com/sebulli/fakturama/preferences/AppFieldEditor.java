@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.preferences;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.File;
 
 import org.eclipse.jface.preference.StringButtonFieldEditor;
@@ -115,9 +117,11 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 		if (path.length() != 0) {
 			if (!OpenOfficeStarter.isValidPath(path)) {
 				if (OSDependent.isOOApp())
-					msg = "keine gültige OpenOffice App";
+					//T: Error message if the selected file is not a valid OpenOffice app
+					msg = _("Not a valid OpenOffice App");
 				else
-					msg = "keine gültiger OpenOffice Programmordner";
+					//T: Error message if the selected file is not a valid OpenOffice folder
+					msg = _("Not a valid OpenOffice program folder");
 			}
 		}
 

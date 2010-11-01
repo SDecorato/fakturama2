@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -46,9 +48,10 @@ public class DeleteDataSetAction extends Action {
 	 * default constructor
 	 */
 	public DeleteDataSetAction() {
-		super("löschen");
+		//T: Text of the DeleteDataSetAction
+		super(_("delete"));
 
-		// The id is used to refer to the action in a menu or toolbar
+		// The id is used to refer to the action in a menu or tool bar
 		setId(ICommandIds.CMD_DELETE_DATASET);
 
 		// Associate the action with a pre-defined command, to allow key
@@ -97,8 +100,10 @@ public class DeleteDataSetAction extends Action {
 
 						// before deleting: ask !
 						MessageBox messageBox = new MessageBox(workbenchWindow.getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
-						messageBox.setText("Löschen bestätigen");
-						messageBox.setMessage("Eintrag " + uds.getStringValueByKey("name") + " wird entgültig gelöscht !");
+						//T: Title of the dialog to confirm deleting a data set.
+						messageBox.setText(_("Confirm deleting"));
+						//T: Text of the dialog to confirm deleting a data set.
+						messageBox.setMessage(_("Entry")+ " " + uds.getStringValueByKey("name") + " " + _("will be deleted !"));
 
 						// We can delete now.
 						if (messageBox.open() == SWT.OK) {

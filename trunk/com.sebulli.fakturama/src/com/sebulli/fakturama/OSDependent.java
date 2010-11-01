@@ -147,7 +147,7 @@ public class OSDependent {
 	}
 
 	/**
-	 * Returns the os dependent new line sequence
+	 * Returns the OS dependent new line sequence
 	 * 
 	 * @return new line sequence
 	 */

@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -40,12 +42,14 @@ public class NewContactAction extends NewEditorAction {
 	 *            Category of the new contact
 	 */
 	public NewContactAction(String category) {
-		super("neuer Kontakt", category);
+
+		//T: Text of the action to create a new contact
+		super(_("New Contact"), category);
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_CONTACT);
 
-		// Associate the action with a pre-defined command, to allow key
+		// Associate the action with a predefined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_NEW_CONTACT);
 

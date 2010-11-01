@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.data;
 
+import static com.sebulli.fakturama.Translate._;
+
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
 
@@ -238,7 +240,7 @@ public class DataSetContact extends UniDataSet {
 			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_MR");
 			break;
 		case 2:
-			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_MRS");
+			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_MS");
 			break;
 		case 3:
 			greeting = Activator.getDefault().getPreferenceStore().getString("CONTACT_FORMAT_GREETING_COMPANY");
@@ -354,11 +356,12 @@ public class DataSetContact extends UniDataSet {
 		case 0:
 			return "---";
 		case 1:
-			return "Herr";
+			//T: Gender specific title
+			return _("Mr");
 		case 2:
-			return "Frau";
+			return _("Ms");
 		case 3:
-			return "Firma";
+			return _("Company");
 		}
 		return "";
 	}

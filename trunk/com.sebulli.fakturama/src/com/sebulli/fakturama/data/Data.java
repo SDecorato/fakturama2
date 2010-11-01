@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.data;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
@@ -106,8 +108,11 @@ public enum Data {
 			// Display a warning
 			if (!workspace.isEmpty()) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_INFORMATION);
-				messageBox.setText("Hinweis");
-				messageBox.setMessage("Keine Verbindung zur Datenbank möglich.\n\n" + "Ist Datenbank von einem anderen Prozess geöffnet ?");
+				
+				//T: Title of the message box, if there is no connection to the database
+				messageBox.setText(_("Information"));
+				//T: Text of the message box, if there is no connection to the database
+				messageBox.setMessage(_("No connection to the database.\n\n" + "Is the database opened by an other process ?"));
 				messageBox.open();
 			}
 		}
@@ -119,11 +124,14 @@ public enum Data {
 	public void fillWithInitialData() {
 
 		// Fill some UniDataSets
-		vats.addNewDataSet(new DataSetVAT("keine", "", "keine MwSt.", 0.0));
-		shippings.addNewDataSet(new DataSetShipping("frei", "", "frei Haus", 0.0, 0, 1));
-		payments.addNewDataSet(new DataSetPayment("sofort", "", "sofort oder Vorkasse", 0.0, 0, 0, "Zahlung dankend erhalten.", "Zahlbar: sofort", false));
+		//T: Name and description of the default VAT entry
+		vats.addNewDataSet(new DataSetVAT(_("Tax-free"), "", _("Tax-free"), 0.0));
+		//T: Name and description of the default shipping entry
+		shippings.addNewDataSet(new DataSetShipping(_("Free"), "", _("Free of shipping costs"), 0.0, 0, 1));
+		//T: Name, description, standard text for a paid and an unpaid invoice of the default VAT entry
+		payments.addNewDataSet(new DataSetPayment(_("Cash"), "", _("Cash"), 0.0, 0, 0, _("Thank you for the payment."), _("Payment due upon receipt of invoice."), false));
 
-		// Set the dafault value to this entries
+		// Set the default value to this entries
 		setProperty("standardvat", "0");
 		setProperty("standardshipping", "0");
 		setProperty("standardpayment", "0");

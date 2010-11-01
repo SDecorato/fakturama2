@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.preferences;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -51,15 +53,20 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	public void createFieldEditors() {
 		String defaultValue = Activator.getDefault().getPreferenceStore().getDefaultString("OPENOFFICE_PATH");
 		if (!defaultValue.isEmpty())
-			defaultValue = " (z.B.: " + defaultValue + ")";
+			//T: Preference page "OpenOffice" - Label: Example of the default path. Format: (e.g. PATH ).
+			//T: Only the "e.g." is translated
+			defaultValue = " (" + _("z.B.:") + " " + defaultValue + ")";
 
 		if (OSDependent.isOOApp())
-			addField(new AppFieldEditor("OPENOFFICE_PATH", "OpenOffice App", getFieldEditorParent()));
+			//T: Preference page "OpenOffice" - Label: OpenOffice App
+			addField(new AppFieldEditor("OPENOFFICE_PATH", _("OpenOffice App"), getFieldEditorParent()));
 		else
-			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", "OpenOffice Ordner" + defaultValue, getFieldEditorParent()));
+			//T: Preference page "OpenOffice" - Label: OpenOffice folder
+			addField(new DirectoryFieldEditor("OPENOFFICE_PATH", _("OpenOffice folder") + defaultValue, getFieldEditorParent()));
 
-		addField(new RadioGroupFieldEditor("OPENOFFICE_ODT_PDF", "Dokumente als ODT oder PDF exportieren:", 3, new String[][] { { "nur ODT", "ODT" },
-				{ "nur PDF", "PDF" }, { "ODT und PDF", "ODT+PDF" } }, getFieldEditorParent()));
+		//T: Preference page "OpenOffice" - Label: Export documents as ODT or as PDF / only ODT/PDF or both
+		addField(new RadioGroupFieldEditor("OPENOFFICE_ODT_PDF", _("Export document as ODT or PDF:"), 3, new String[][] { { _("only as ODT"), "ODT" },
+				{ _("only as PDF"), "PDF" }, { _("ODT and PDF"), "ODT+PDF" } }, getFieldEditorParent()));
 
 	}
 
@@ -71,7 +78,8 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Open Office Einstellungen");
+		//T: Preference page "OpenOffice" - Title"
+		setDescription(_("OpenOffice Settings"));
 	}
 
 	/**

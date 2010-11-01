@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.preferences;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -49,7 +51,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	@Override
 	public void createFieldEditors() {
 
-		addField(new BooleanFieldEditor("GENERAL_COLLAPSE_EXPANDBAR", "Navigationsleiste: Einträge einklappen.", getFieldEditorParent()));
+		//T: Preference page "General" - Label "Collapse expand bar of the navigation view"
+		addField(new BooleanFieldEditor("GENERAL_COLLAPSE_EXPANDBAR",_("Navigation view: Collapse expand bar."), getFieldEditorParent()));
 
 	}
 
@@ -61,7 +64,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Allgemeine Programmeinstellungen");
+		//T: Preference page "General" - Title"
+		setDescription(_("General Settings"));
 	}
 
 	/**

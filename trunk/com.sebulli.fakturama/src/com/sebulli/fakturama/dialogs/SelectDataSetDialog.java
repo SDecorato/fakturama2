@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.dialogs;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -106,7 +108,9 @@ public abstract class SelectDataSetDialog extends Dialog {
 
 		// Search label an search field
 		Label searchLabel = new Label(searchComposite, SWT.NONE);
-		searchLabel.setText("Suchen:");
+		
+		//T: Label of the search field
+		searchLabel.setText(_("Search:"));
 		GridDataFactory.swtDefaults().applyTo(searchLabel);
 		final Text searchText = new Text(searchComposite, SWT.BORDER | SWT.SEARCH | SWT.CANCEL | SWT.ICON_SEARCH);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).hint(150, -1).applyTo(searchText);

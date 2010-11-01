@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.preferences;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
@@ -47,25 +49,36 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	@Override
 	public void createFieldEditors() {
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_NAME", "Firmenname", getFieldEditorParent()));
+		
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_NAME", _("Company Name"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_OWNER", "Inhaber", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_OWNER", _("Owner"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_STREET", "Straße Nr.", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_STREET", _("Street No."), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_ZIP", "PLZ.", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_ZIP", _("ZIP"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_CITY", "Ort", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_CITY", _("City"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_TEL", "Telefon", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_TEL", _("Telephone"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_FAX", "Telefax", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_FAX", _("Telefax"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_EMAIL", "E-Mail", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_EMAIL", _("E-Mail"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_WEBSITE", "Webseite", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_WEBSITE", _("Web Site"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_VATNR", "USt.Id-Nr.", getFieldEditorParent()));
+		//T: Preference page "Your company" - Label "Company name"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_VATNR", _("VAT No."), getFieldEditorParent()));
 
 	}
 
@@ -77,7 +90,8 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Ihre Firmendaten");
+		//T: Preference page "Your company" - Title"
+		setDescription(_("Your Company"));
 	}
 
 	/**

@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.webshopimport;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -103,12 +105,12 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	private IProgressMonitor monitor;
 	private int worked;
 
-	// Configuration of the webshop request
+	// Configuration of the web shop request
 	private boolean getProducts;
 	private boolean getOrders;
 
 	/**
-	 * Sets the progess of the job in percent
+	 * Sets the progress of the job in percent
 	 * 
 	 * @param percent
 	 */
@@ -168,8 +170,10 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Connect to web shop
 			worked = 0;
 			URLConnection conn = null;
-			monitor.beginTask("Connection to web shop", 100);
-			monitor.subTask("Connected to: " + address);
+			//T: Status message importing data from web shop
+			monitor.beginTask(_("Connection to web shop"), 100);
+			//T: Status message importing data from web shop
+			monitor.subTask(_("Connected to:") + " " + address);
 			setProgress(10);
 			URL url = new URL(address);
 			conn = url.openConnection();
@@ -203,7 +207,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// read the xml answer (the orders)
 			importXMLContent = "";
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			monitor.subTask("Loading_data");
+			//T: Status message importing data from web shop
+			monitor.subTask(_("Loading_data"));
 			double progress = worked;
 
 			// Get the directory of the workspace
@@ -295,9 +300,11 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		}
 		catch (Exception e) {
 			if (address.isEmpty())
-				runResult = "keine Webshop URL angegeben";
+				//T: Status message importing data from web shop
+				runResult = _("Web shop URL is not set.");
 			else {
-				runResult = "Fehler beim Öffnen von:\n" + address;
+				//T: Status message importing data from web shop
+				runResult = _("Error opening:") + "\n" + address;
 				if (!importXMLContent.isEmpty())
 					runResult += "\n\n" + importXMLContent;
 			}
@@ -657,10 +664,12 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 		}
 		catch (MalformedURLException e) {
-			Logger.logError(e, "Malformated URL: " + address);
+			//T: Status message importing data from web shop
+			Logger.logError(e, _("Malformated URL:") + " " + address);
 		}
 		catch (IOException e) {
-			Logger.logError(e, "Error downloading picture from " + address);
+			//T: Status message importing data from web shop
+			Logger.logError(e, _("Error downloading picture from:") + " " + address);
 		}
 	}
 
@@ -991,11 +1000,12 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				String s = "";
 
 				// Use the order ID of the web shop as customer reference for
-				// importes web shop orders
+				// imports web shop orders
 				if (order_id.length() <= 5)
 					s = "00000".substring(order_id.length(), 5);
 				s += order_id;
-				dataSetDocument.setStringValueByKey("customerref", "Webshop Nr. " + s);
+				//T: Text of the web shop reference
+				dataSetDocument.setStringValueByKey("customerref", _("Web shop No.") + " " + s);
 			}
 		}
 
@@ -1048,17 +1058,24 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 		// If there is a difference, show a warning.
 		if (!DataUtils.DoublesAreEqual(order_totalDouble, calcTotal)) {
-			String error = "Bestellung: ";
-			error += order_id + "\n";
-			error += "Gesamtsumme aus Webshop:\n";
-			error += DataUtils.DoubleToFormatedPriceRound(order_totalDouble) + "\n";
-			error += "stimmt nicht mit berechneter Summe:\n";
-			error += DataUtils.DoubleToFormatedPriceRound(calcTotal) + "\n";
-			;
-			error += "überein.\n\n";
-			error += "Bitte prüfen !";
+			//T: Error message importing data from web shop
+			//T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
+			String error = _("Bestellung:");
+			error += " " + order_id + "\n";
+			//T: Error message importing data from web shop
+			//T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
+			error += _("Total sum from web shop:");
+			error += "\n" + DataUtils.DoubleToFormatedPriceRound(order_totalDouble) + "\n";
+			//T: Error message importing data from web shop
+			//T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
+			error += _("is not equal to the calculated one:");
+			error += "\n" + DataUtils.DoubleToFormatedPriceRound(calcTotal) + "\n";
+			//T: Error message importing data from web shop
+			//T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
+			error += _("Please check this!");
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
-			messageBox.setText("Fehler beim Importieren vom Webshop");
+			//T: Error message importing data from web shop
+			messageBox.setText(_("Error importing data from web shop"));
 			messageBox.setMessage(error);
 			messageBox.open();
 		}
@@ -1074,7 +1091,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		shopURL = "";
 		productImagePath = "";
 
-		// Mark all orders as "in synch with the webshop"
+		// Mark all orders as "in synch with the web shop"
 		allOrdersAreInSync();
 
 		// There is no order
@@ -1101,14 +1118,16 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// Get all products and import them
 		ndList = document.getElementsByTagName("product");
 		for (int productIndex = 0; productIndex < ndList.getLength(); productIndex++) {
-			monitor.subTask("Loading product image " + Integer.toString(productIndex + 1) + "/" + Integer.toString(ndList.getLength()));
+			//T: Status message importing data from web shop
+			monitor.subTask(_("Loading product image") + " " + Integer.toString(productIndex + 1) + "/" + Integer.toString(ndList.getLength()));
 			setProgress(50 + 40 * (productIndex + 1) / ndList.getLength());
 			Node product = ndList.item(productIndex);
 			createProductFromXMLOrderNode(product);
 		}
 
 		// Get order by order and import it
-		monitor.subTask("Importing orders");
+		//T: Status message importing data from web shop
+		monitor.subTask(_("Importing orders"));
 		setProgress(95);
 		ndList = document.getElementsByTagName("order");
 		for (int orderIndex = 0; orderIndex < ndList.getLength(); orderIndex++) {

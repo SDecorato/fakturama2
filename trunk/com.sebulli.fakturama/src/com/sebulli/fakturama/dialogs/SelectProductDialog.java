@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.dialogs;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -68,14 +70,38 @@ public class SelectProductDialog extends SelectDataSetDialog {
 
 		// Create the table columns
 		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Artikelnr", 80, 0, true, "itemnr");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 150, 0, true, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Beschreibung", 200, 50, false, "description");
+			//T: Heading of the product table in the "SelectProductDialog"
+			//T: This dialog appears, if you edit a document and click on the
+			//T: button to add a new item from the product list.
+			//T: The words should be short (max. 8-10 characters)
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Itemnr"), 80, 0, true, "itemnr");
+		//T: Heading of the product table in the "SelectProductDialog"
+		//T: This dialog appears, if you edit a document and click on the
+		//T: button to add a new item from the product list.
+		//T: The words should be short (max. 8-10 characters)
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 150, 0, true, "name");
+		//T: Heading of the product table in the "SelectProductDialog"
+		//T: This dialog appears, if you edit a document and click on the
+		//T: button to add a new item from the product list.
+		//T: The words should be short (max. 8-10 characters)
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
 		if (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1)
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Preis", 70, 0, true, "$Price1Gross");
+			//T: Heading of the product table in the "SelectProductDialog"
+			//T: This dialog appears, if you edit a document and click on the
+			//T: button to add a new item from the product list.
+			//T: The words should be short (max. 8-10 characters)
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), 70, 0, true, "$Price1Gross");
 		else
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Preis", 70, 0, true, "$Price1Net");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "MwSt.", 40, 0, true, "$vatbyid");
+			//T: Heading of the product table in the "SelectProductDialog"
+			//T: This dialog appears, if you edit a document and click on the
+			//T: button to add a new item from the product list.
+			//T: The words should be short (max. 8-10 characters)
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), 70, 0, true, "$Price1Net");
+		//T: Heading of the product table in the "SelectProductDialog"
+		//T: This dialog appears, if you edit a document and click on the
+		//T: button to add a new item from the product list.
+		//T: The words should be short (max. 8-10 characters)
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("VAT"), 40, 0, true, "$vatbyid");
 
 		// Set the input
 		tableViewer.setInput(Data.INSTANCE.getProducts());

@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views.datasettable;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnPixelData;
@@ -339,29 +341,38 @@ public class UniDataSetTableColumn {
 			case INVOICE:
 			case CREDIT:
 				if (uds.getBooleanValueByKey("payed")) {
-					return "bezahlt";
+					//T: Marking for a paid credit in the document table
+					return _("paid");
 				}
 				else {
-					return "nicht bezahlt";
+					//T: Marking for an unpaid credit in the document table
+					return _("unpaid");
 				}
 			case DUNNING:
 				if (uds.getBooleanValueByKey("payed")) {
-					return "bezahlt";
+					//T: Marking for a paid dunning in the document table
+					return _("paid");
 				}
 				else {
-					return uds.getStringValueByKey("dunninglevel") + ".Mahnung";
+					//T: Marking of a dunning in the document table.
+					//T: Format: "Dunning No. xx"
+					return _("Dunning No.") + " " + uds.getStringValueByKey("dunninglevel");
 				}
 			case ORDER:
 				switch (uds.getIntValueByKey("progress")) {
 				case 0:
 				case 10:
-					return "offen";
+					//T: Marking for an order the document table
+					return _("open");
 				case 50:
-					return "in Bearbeitung";
+					//T: Marking for an order the document table
+					return _("in work");
 				case 90:
-					return "versendet";
+					//T: Marking for an order the document table
+					return _("shipped");
 				case 100:
-					return "abgeschlossen";
+					//T: Marking for an order the document table
+					return _("closed");
 				}
 				break;
 			default:

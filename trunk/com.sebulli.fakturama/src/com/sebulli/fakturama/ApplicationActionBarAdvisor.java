@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.ICoolBarManager;
@@ -143,59 +145,71 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	protected void makeActions(final IWorkbenchWindow window) {
 
 		exportWizardAction = ActionFactory.EXPORT.create(window);
-		exportWizardAction.setText("Daten exportieren ..");
+		//T: Text of the actions in the main menu
+		exportWizardAction.setText(_("Export.."));
 		register(exportWizardAction);
 
 		importWizardAction = ActionFactory.IMPORT.create(window);
-		importWizardAction.setText("Daten importieren ..");
+		//T: Text of the actions in the main menu
+		importWizardAction.setText(_("Import.."));
 		register(importWizardAction);
 
 		openPreferencesAction = ActionFactory.PREFERENCES.create(window);
-		openPreferencesAction.setText("Einstellungen");
+		//T: Text of the actions in the main menu
+		openPreferencesAction.setText(_("Preferences"));
 		register(openPreferencesAction);
 
 		exitAction = ActionFactory.QUIT.create(window);
-		exitAction.setText("Fakturama beenden");
+		//T: Text of the actions in the main menu
+		exitAction.setText(_("Quit Fakturama"));
 		register(exitAction);
 
 		printAction = ActionFactory.PRINT.create(window);
-		printAction.setText("Drucken");
+		//T: Text of the actions in the main menu
+		printAction.setText(_("Print"));
 		register(printAction);
 
 		printActionTB = ActionFactory.PRINT.create(window);
-		printActionTB.setText("Drucken");
+		//T: Text of the actions in the tool bar
+		printActionTB.setText(_("Print"));
 		register(printActionTB);
 
 		closeAction = ActionFactory.CLOSE.create(window);
-		closeAction.setText("Schließen");
+		//T: Text of the actions in the main menu
+		closeAction.setText(_("Close"));
 		register(closeAction);
 
 		closeAllAction = ActionFactory.CLOSE_ALL.create(window);
-		closeAllAction.setText("Alle schließen");
+		//T: Text of the actions in the main menu
+		closeAllAction.setText(_("Close All"));
 		register(closeAllAction);
 
 		saveAction = ActionFactory.SAVE.create(window);
-		saveAction.setText("Speichern");
+		//T: Text of the actions in the main menu
+		saveAction.setText(_("Save"));
 		register(saveAction);
 
 		saveActionTB = ActionFactory.SAVE.create(window);
-		saveActionTB.setText("Speichern");
 		register(saveActionTB);
 
 		saveAllAction = ActionFactory.SAVE_ALL.create(window);
-		saveAllAction.setText("Alle speichern");
+		//T: Text of the actions in the main menu
+		saveAllAction.setText(_("Save All"));
 		register(saveAllAction);
 
 		aboutAction = ActionFactory.ABOUT.create(window);
-		aboutAction.setText("Über Fakturama");
+		//T: Text of the actions in the main menu
+		aboutAction.setText(_("About Fakturama"));
 		register(aboutAction);
 
 		helpAction = ActionFactory.HELP_CONTENTS.create(window);
-		helpAction.setText("Hilfe");
+		//T: Text of the actions in the main menu
+		helpAction.setText(_("Help"));
 		register(helpAction);
 
 		resetViewAction = ActionFactory.RESET_PERSPECTIVE.create(window);
-		resetViewAction.setText("Perspektive zurücksetzen");
+		//T: Text of the actions in the main menu
+		resetViewAction.setText(_("Reset Perspective"));
 		register(resetViewAction);
 
 		openBrowserEditorAction = new OpenBrowserEditorAction();
@@ -291,9 +305,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	 */
 	@Override
 	protected void fillMenuBar(IMenuManager menuBar) {
-		MenuManager fileMenu = new MenuManager("&Datei", IWorkbenchActionConstants.M_FILE);
-		MenuManager windowMenu = new MenuManager("&Fenster", IWorkbenchActionConstants.M_WINDOW);
-		MenuManager helpMenu = new MenuManager("&Hilfe", IWorkbenchActionConstants.M_HELP);
+
+		//T: Title of the menus in the main menu
+		MenuManager fileMenu = new MenuManager(_("File"), IWorkbenchActionConstants.M_FILE);
+		MenuManager windowMenu = new MenuManager(_("Window"), IWorkbenchActionConstants.M_WINDOW);
+		MenuManager helpMenu = new MenuManager(_("Help"), IWorkbenchActionConstants.M_HELP);
 		MenuManager hiddenMenu = new MenuManager("Hidden", "com.sebulli.faktura.menu.hidden");
 		hiddenMenu.setVisible(false);
 
@@ -375,93 +391,138 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		coolBar.add(new ToolBarContributionItem(toolbar3, "main3"));
 
 		webShopImportActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/shop_32.png"));
-		webShopImportActionTB.setText("Webshop");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		webShopImportActionTB.setText(_("Web Shop"));
 		ActionContributionItem webShopImportCI = new ActionContributionItem(webShopImportActionTB);
 		webShopImportCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar1.add(webShopImportCI);
 
 		printActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/printoo_32.png"));
 		printActionTB.setDisabledImageDescriptor(Activator.getImageDescriptor("/icons/32/printoo_dis_32.png"));
-		printActionTB.setText("Drucken");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		printActionTB.setText(_("Print"));
 		ActionContributionItem printActionTBCI = new ActionContributionItem(printActionTB);
 		printActionTBCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar1.add(printActionTBCI);
 
 		saveActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/save_32.png"));
 		saveActionTB.setDisabledImageDescriptor(Activator.getImageDescriptor("/icons/32/save_dis_32.png"));
-		saveActionTB.setText("Speichern");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		saveActionTB.setText(_("Save"));
 		ActionContributionItem saveCI = new ActionContributionItem(saveActionTB);
 		saveCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar1.add(saveCI);
 
 		newLetterAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/letter_new_32.png"));
-		newLetterAction.setText("Brief");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newLetterAction.setText(_("Letter"));
 		ActionContributionItem newLetterCI = new ActionContributionItem(newLetterAction);
 		newLetterCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newLetterCI);
 
 		newOfferAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/offer_new_32.png"));
-		newOfferAction.setText("Angebot");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newOfferAction.setText(_("Offer"));
 		ActionContributionItem newOfferCI = new ActionContributionItem(newOfferAction);
 		newOfferCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newOfferCI);
 
 		newOrderAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/order_new_32.png"));
-		newOrderAction.setText("Bestellung");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newOrderAction.setText(_("Order"));
 		ActionContributionItem newOrderCI = new ActionContributionItem(newOrderAction);
 		newOrderCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newOrderCI);
 
 		newConfirmationAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/confirmation_new_32.png"));
-		newConfirmationAction.setText("Auftragsb.");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newConfirmationAction.setText(_("Confirmation"));
 		ActionContributionItem newConfirmationCI = new ActionContributionItem(newConfirmationAction);
 		newConfirmationCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newConfirmationCI);
 
 		newInvoiceAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/invoice_new_32.png"));
-		newInvoiceAction.setText("Rechnung");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newInvoiceAction.setText(_("Invoice"));
 		ActionContributionItem newInvoiceCI = new ActionContributionItem(newInvoiceAction);
 		newInvoiceCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newInvoiceCI);
 
 		newDeliveryAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/delivery_new_32.png"));
-		newDeliveryAction.setText("Lieferschein");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newDeliveryAction.setText(_("Delivery"));
 		ActionContributionItem newDeliveryCI = new ActionContributionItem(newDeliveryAction);
 		newDeliveryCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newDeliveryCI);
 
 		newCreditAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/credit_new_32.png"));
-		newCreditAction.setText("Gutschr.");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newCreditAction.setText(_("Credit"));
 		ActionContributionItem newCreditCI = new ActionContributionItem(newCreditAction);
 		newCreditCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newCreditCI);
 
 		newDunningAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
-		newDunningAction.setText("Mahnung");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newDunningAction.setText(_("Dunning"));
 		ActionContributionItem newDunningCI = new ActionContributionItem(newDunningAction);
 		newDunningCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newDunningCI);
 
 		newContactAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/contact_new_32.png"));
-		newContactAction.setText("Kontakt");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newContactAction.setText(_("Contact"));
 		ActionContributionItem newContactCI = new ActionContributionItem(newContactAction);
 		newContactCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newContactCI);
 
 		newProductAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/product_new_32.png"));
-		newProductAction.setText("Produkt");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		newProductAction.setText(_("Product"));
 		ActionContributionItem newProductCI = new ActionContributionItem(newProductAction);
 		newProductCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newProductCI);
 
 		openBrowserEditorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/www_32.png"));
-		openBrowserEditorActionTB.setText("www");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		openBrowserEditorActionTB.setText(_("www"));
 		ActionContributionItem openBrowserEditorCI = new ActionContributionItem(openBrowserEditorActionTB);
 		openBrowserEditorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar3.add(openBrowserEditorCI);
 
 		openCalculatorAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/calculator_32.png"));
-		openCalculatorAction.setText("Rechner");
+		//T: Text of the actions in the tool bar.
+		//T: They should be shortened to about 8 Letters that it can be placed
+		//T: under the icon.
+		openCalculatorAction.setText(_("Calculator"));
 		ActionContributionItem openCalculatorCI = new ActionContributionItem(openCalculatorAction);
 		openCalculatorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar3.add(openCalculatorCI);

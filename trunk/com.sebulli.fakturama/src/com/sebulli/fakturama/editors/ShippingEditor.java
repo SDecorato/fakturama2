@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -173,8 +175,9 @@ public class ShippingEditor extends Editor {
 
 			// Create a new data set
 			shipping = new DataSetShipping(((UniDataSetEditorInput) input).getCategory());
-			setPartName("neue Versandkosten");
 
+			//T: Shipping Editor: Part Name of a new shipping
+			setPartName(_("New Shipping"));
 		}
 		else {
 
@@ -313,19 +316,21 @@ public class ShippingEditor extends Editor {
 
 		// Create an invisible container for all hidden components
 		// There is no invisible component, so no container has to be created
-		//Composite invisible = new Composite(top, SWT.NONE);
-		//invisible.setVisible(false);
-		//GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
+		// Composite invisible = new Composite(top, SWT.NONE);
+		// invisible.setVisible(false);
+		// GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
 
 		// Create the title
 		Label labelTitle = new Label(top, SWT.NONE);
-		labelTitle.setText("Versandkosten");
+		//T: Shipping Editor: Title
+		labelTitle.setText(_("Shipping Costs"));
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
 		// Shipping name
 		Label labelName = new Label(top, SWT.NONE);
-		labelName.setText("Name");
+		//T: Shipping Editor: Label Name
+		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(shipping.getStringValueByKey("name"));
@@ -334,7 +339,8 @@ public class ShippingEditor extends Editor {
 
 		// Shipping category
 		Label labelCategory = new Label(top, SWT.NONE);
-		labelCategory.setText("Kategorie");
+		//T: Shipping Editor: Label Category
+		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
 		txtCategory.setText(shipping.getStringValueByKey("category"));
@@ -343,7 +349,8 @@ public class ShippingEditor extends Editor {
 
 		// Shipping description
 		Label labelDescription = new Label(top, SWT.NONE);
-		labelDescription.setText("Beschreibung");
+		//T: Shipping Editor: Label Description
+		labelDescription.setText(_("Description"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
 		textDescription.setText(shipping.getStringValueByKey("description"));
@@ -352,7 +359,8 @@ public class ShippingEditor extends Editor {
 
 		// Shipping value
 		Label labelValue = new Label(top, SWT.NONE);
-		labelValue.setText("Wert");
+		//T: Shipping Editor: Label Value
+		labelValue.setText(_("Value"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelValue);
 
 		// Variable to store the net value
@@ -365,14 +373,16 @@ public class ShippingEditor extends Editor {
 		// Create a net label
 		if (useNet) {
 			Label netValueLabel = new Label(netGrossComposite, SWT.NONE);
-			netValueLabel.setText("Netto");
+			//T: Shipping Editor: Label Net Value
+			netValueLabel.setText(_("Net Value"));
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(netValueLabel);
 		}
 
 		// Create a gross label
 		if (useGross) {
 			Label grossValueLabel = new Label(netGrossComposite, SWT.NONE);
-			grossValueLabel.setText("Brutto");
+			//T: Shipping Editor: Label Gross Value
+			grossValueLabel.setText(_("Gross Value"));
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(grossValueLabel);
 		}
 
@@ -397,7 +407,8 @@ public class ShippingEditor extends Editor {
 
 		// VAT Label
 		Label labelVat = new Label(top, SWT.NONE);
-		labelVat.setText("MwSt.");
+		//T: Shipping Editor: Label VAT
+		labelVat.setText(_("VAT"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVat);
 
 		// VAT combo list
@@ -460,16 +471,20 @@ public class ShippingEditor extends Editor {
 
 		// Create a label for the automatic VAT calculation
 		Label labelAutoVat = new Label(top, SWT.NONE);
-		labelAutoVat.setText("Berechnung");
+		//T: Shipping Editor: Label VAT Calculation
+		labelAutoVat.setText(_("VAT Calculation"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAutoVat);
 
 		// Create a combox list box for the automatic VAT calculation
 		comboAutoVat = new Combo(top, SWT.BORDER);
-		comboAutoVat.add("konstaner Mehrwersteuersatz");
+		//T: Shipping Editor: list entry for "constant VAT calculation"
+		comboAutoVat.add(_("Constant VAT"));
 		if (useGross)
-			comboAutoVat.add("MwSt. wird aus MwSt. der Waren berechnet - Bruttowert bleibt konstant");
+			//T: Shipping Editor: list entry for "Calculate VAT from goods VAT - constant Gross"
+			comboAutoVat.add(_("Calculate VAT from Value of Goods - Constant Gross Value"));
 		if (useNet)
-			comboAutoVat.add("MwSt. wird aus MwSt. der Waren berechnet - Nettowert bleibt konstant");
+			//T: Shipping Editor: list entry for "Calculate VAT from goods VAT - constant Net"
+			comboAutoVat.add(_("Calculate VAT from Value of Goods - Constant Net Value"));
 
 		comboAutoVat.addSelectionListener(new SelectionAdapter() {
 
@@ -505,10 +520,11 @@ public class ShippingEditor extends Editor {
 
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStdVat = new Label(top, SWT.NONE);
-		labelStdVat.setText("Standard");
+		//T: Shipping Editor: Label for the standard payment.
+		labelStdVat.setText(_("Standard"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
-
-		stdComposite = new StdComposite(top, shipping, Data.INSTANCE.getShippings(), "standardshipping", "diese Versandkosten", 1);
+		//T: Shipping Editor: Button description to make this as standard payment.
+		stdComposite = new StdComposite(top, shipping, Data.INSTANCE.getShippings(), "standardshipping", _("This Shipping"), 1);
 
 	}
 

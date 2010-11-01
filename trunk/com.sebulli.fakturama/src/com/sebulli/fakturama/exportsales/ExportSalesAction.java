@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.exportsales;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -37,7 +39,8 @@ public class ExportSalesAction extends Action {
 	 * Constructor
 	 */
 	public ExportSalesAction() {
-		super("Export Umsätze");
+		//T: Text of the action to export the list of sales 
+		super(_("Export List of Sales"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_EXPORT_SALES_SUMMARY);

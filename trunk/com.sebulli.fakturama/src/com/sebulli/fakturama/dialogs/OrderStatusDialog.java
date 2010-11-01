@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.dialogs;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -32,7 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 /**
- * Dialog to enter a comment send to the user via the webshop
+ * Dialog to enter a comment send to the user via the web shop
  * 
  * @author Gerd Bartelt
  */
@@ -49,7 +51,6 @@ public class OrderStatusDialog extends Dialog {
 	//True, if the customer should be notified
 	boolean notify = false;
 
-	String dialogTitle;
 
 	/**
 	 * Constructor
@@ -59,9 +60,8 @@ public class OrderStatusDialog extends Dialog {
 	 * @param dialogTitle
 	 *            The dialog title
 	 */
-	public OrderStatusDialog(Shell parentShell, String dialogTitle) {
+	public OrderStatusDialog(Shell parentShell) {
 		super(parentShell);
-		this.dialogTitle = dialogTitle;
 	}
 
 	/**
@@ -80,7 +80,9 @@ public class OrderStatusDialog extends Dialog {
 
 		// The label
 		labelComment = new Label(composite, SWT.NONE);
-		labelComment.setText("Kommentar an den Kunden:");
+		//T: Dialog to change the state of an order.
+		//T: Text above the field to send a comment to the customer. 
+		labelComment.setText(_("Comment to the customer:"));
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).indent(0, 10).applyTo(labelComment);
 
 		// The text field for the  comment
@@ -90,7 +92,9 @@ public class OrderStatusDialog extends Dialog {
 		// The notification check box
 		bNotification = new Button(composite, SWT.CHECK | SWT.LEFT);
 		bNotification.setSelection(true);
-		bNotification.setText("Per Mail benachrichten.");
+		//T: Dialog to change the state of an order.
+		//T: Checkbox to notify the customer by email. 
+		bNotification.setText(_("Notify customer by email."));
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(bNotification);
 
 		// Hide the text field, when "No notification" is selected
@@ -113,7 +117,9 @@ public class OrderStatusDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText(dialogTitle);
+		//T: Title of the dialog to change the state of an order and to
+		//T: send a comment to the customer.
+		newShell.setText(_("Comment to the customer"));
 	}
 
 	/**

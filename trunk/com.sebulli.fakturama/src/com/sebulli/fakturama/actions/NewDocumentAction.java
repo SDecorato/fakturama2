@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -45,7 +47,8 @@ public class NewDocumentAction extends NewEditorAction {
 	 * order document is created.
 	 */
 	public NewDocumentAction() {
-		super("neues Dokument");
+		//T: Text of the action to create a new document
+		super(_("New Document"));
 		category = DocumentType.ORDER.getString();
 		setText(DocumentType.ORDER.getString());
 		setSettings(ICommandIds.CMD_NEW_DOCUMENT, "");

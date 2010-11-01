@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.jface.action.Action;
@@ -47,7 +49,9 @@ public class WebShopImportAction extends Action {
 	 * Constructor
 	 */
 	public WebShopImportAction() {
-		super("Webshop");
+
+		//T: Text of the action to connect to the web shop and import new data
+		super(_("Web Shop"));
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_WEBSHOP_IMPORT);

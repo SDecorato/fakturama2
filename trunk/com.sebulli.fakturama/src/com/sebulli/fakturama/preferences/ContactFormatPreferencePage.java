@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.preferences;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
@@ -48,16 +50,23 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	@Override
 	public void createFieldEditors() {
 
-		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_COMMON", "Allgemeine Grußformel", getFieldEditorParent()));
+		//T: Preference page "Contact Format" - label "Common Salutation"
+		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_COMMON", _("Common Salutation"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_MR", "Grußformel Herr", getFieldEditorParent()));
+		//T: Preference page "Contact Format" - label "Salutation for men"
+		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_MR", _("Salutation Men"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_MRS", "Grußformel Frau", getFieldEditorParent()));
+		//T: Preference page "Contact Format" - label "Salutation for woman"
+		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_MS", _("Salutation Women"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_COMPANY", "Grußformel Firma", getFieldEditorParent()));
+		//T: Preference page "Contact Format" - label "Salutation for companies"
+		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_COMPANY", _("Salutation Company"), getFieldEditorParent()));
 
-		addField(new StringFieldEditor("CONTACT_FORMAT_ADDRESS", "Adressfeld", getFieldEditorParent()));
-		addField(new StringFieldEditor("CONTACT_FORMAT_HIDE_COUNTRIES", "Länder ausblenden", getFieldEditorParent()));
+		//T: Preference page "Contact Format" - label "Format of the address field"
+		addField(new StringFieldEditor("CONTACT_FORMAT_ADDRESS", _("Address Field"), getFieldEditorParent()));
+
+		//T: Preference page "Contact Format" - label "List of the countries whose names are not printed in the address label"
+		addField(new StringFieldEditor("CONTACT_FORMAT_HIDE_COUNTRIES", _("Hide this Countries"), getFieldEditorParent()));
 
 	}
 
@@ -69,7 +78,10 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("Grußformeln\n\n" + "Beispiel für Format:\nSehr geehrter Herr {title} {firstname} {lastname}\n");
+
+		//T: Preference page "Contact Format" - Title of this page with an example
+		//T: how to format the address field. Use \n to separate lines.
+		setDescription(_("Format of the address field\n\nEample:\nDear Mr. {title} {firstname} {lastname}\n"));
 
 	}
 
@@ -82,7 +94,7 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_COMMON", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_MR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_MRS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_MS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_GREETING_COMPANY", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_ADDRESS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("CONTACT_FORMAT_HIDE_COUNTRIES", write);
@@ -95,12 +107,30 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
+		
+		//T: Preference page "Contact Format" - Example format Strings (Common Salutation)
 		node.put("CONTACT_FORMAT_GREETING_COMMON", "Sehr geehrter Damen und Herren");
+
+		//T: Preference page "Contact Format" - Example format Strings (Salutation Men)
 		node.put("CONTACT_FORMAT_GREETING_MR", "Sehr geehrter Herr {firstname} {lastname}");
-		node.put("CONTACT_FORMAT_GREETING_MRS", "Sehr geehrte Frau {firstname} {lastname}");
+
+		//T: Preference page "Contact Format" - Example format Strings (Salutation Women)
+		node.put("CONTACT_FORMAT_GREETING_MS", "Sehr geehrte Frau {firstname} {lastname}");
+
+		//T: Preference page "Contact Format" - Example format Strings (Salutation Company)
 		node.put("CONTACT_FORMAT_GREETING_COMPANY", "Sehr geehrter Damen und Herren");
+		
+		//T: Preference page "Contact Format" - Example format Strings (Address format)
 		node.put("CONTACT_FORMAT_ADDRESS", "{company}<br>{title} {firstname} {lastname}<br>{street}<br>{countrycode}{zip} {city}<br>{country}");
-		node.put("CONTACT_FORMAT_HIDE_COUNTRIES", "Deutschland,Germany");
+		
+		//T: Preference page "Contact Format" - Example format Strings (Hidden countries)
+		//T: Separate the country by a comma. 
+		//T: If the county name is one in this list, is won't be displayed in the address
+		//T: field. For a German language you should enter "Deutschland,Germany".
+		//T: There should be at least 2 names, separated by a comma. So that the user
+		//T: can see the format. Even is 2 countries don't make much sense like 
+		//T: USA,U.S.A. for the English language.
+		node.put("CONTACT_FORMAT_HIDE_COUNTRIES", _("USA,U.S.A."));
 
 	}
 

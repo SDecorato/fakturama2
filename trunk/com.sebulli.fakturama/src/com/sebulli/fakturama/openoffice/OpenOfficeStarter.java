@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.openoffice;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,8 +68,13 @@ public class OpenOfficeStarter {
 		// Show a message (and exit), if there is no OpenOffice found
 		if (!isValidPath(preferencePath)) {
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
-			messageBox.setText("Fehler");
-			messageBox.setMessage("OpenOffice-Pfad:\n\n" + preferencePath + "\n\nist nicht gültig");
+			
+			//T: Title of the Message Box that appears if the OpenOffice path is invalid.
+			messageBox.setText(_("Error"));
+
+			//T: Text of the Message Box that appears if the OpenOffice path is invalid.
+			//T: Format: OpenOffice path ... is invalid.
+			messageBox.setMessage(_("OpenOffice-Path:") + "\n\n" + preferencePath + "\n\n"+_("is invalid"));
 			messageBox.open();
 			return null;
 		}

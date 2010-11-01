@@ -199,7 +199,7 @@ public class MarkOrderAsAction extends Action {
 						if ((progress == 50) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING")
 								|| ((progress == 90) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_SHIPPED"))) {
 
-							OrderStatusDialog dlg = new OrderStatusDialog(workbenchWindow.getShell(), "Kommentar an Kunden");
+							OrderStatusDialog dlg = new OrderStatusDialog(workbenchWindow.getShell());
 
 							if (dlg.open() == Window.OK) {
 

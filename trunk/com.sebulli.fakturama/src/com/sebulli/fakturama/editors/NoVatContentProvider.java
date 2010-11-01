@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.ArrayList;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -52,7 +54,9 @@ public class NoVatContentProvider implements IStructuredContentProvider {
 
 		// Add one entry WITH VAT. If this is selected, VAT is used.
 		// All the other entries are with 0% VAT
-		contentFiltered.add(new DataSetVAT(-1, "mit MwSt.", false, "", "", 0.0));
+		
+		//T: Name of a VAT entry that indicates, that VAT is not 0%
+		contentFiltered.add(new DataSetVAT(-1, _("With VAT"), false, "", "", 0.0));
 
 		// Get all entries with 0%
 		for (DataSetVAT vat : content) {

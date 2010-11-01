@@ -31,6 +31,7 @@ import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DataSetProduct;
+import com.sebulli.fakturama.data.DataSetVAT;
 
 /**
  * Item editing support for the item table of the document editor
@@ -38,8 +39,6 @@ import com.sebulli.fakturama.data.DataSetProduct;
  * @author Gerd Bartelt
  */
 public class ItemEditingSupport extends EditingSupport {
-
-	private static String TAX_CATEGORY = "Umsatzsteuer";
 
 	// The cell editor
 	private CellEditor editor;
@@ -74,7 +73,7 @@ public class ItemEditingSupport extends EditingSupport {
 		// The other columns a text cell editor.
 		switch (column) {
 		case 5:
-			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", TAX_CATEGORY));
+			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", DataSetVAT.getSalesTaxString()));
 			break;
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
@@ -193,12 +192,12 @@ public class ItemEditingSupport extends EditingSupport {
 			// Get the VAT by the selected name
 			if (i >= 0) {
 				s = ((ComboBoxCellEditor) this.editor).getItems()[i];
-				i = Data.INSTANCE.getVATs().getDataSetIDByStringValue("name", s, TAX_CATEGORY);
+				i = Data.INSTANCE.getVATs().getDataSetIDByStringValue("name", s, DataSetVAT.getSalesTaxString());
 			}
 			// Get the VAT by the Value in percent
 			else {
 				s = ((CCombo) ((ComboBoxCellEditor) this.editor).getControl()).getText();
-				i = Data.INSTANCE.getVATs().getDataSetByDoubleValue("value", DataUtils.StringToDouble(s + "%"), TAX_CATEGORY);
+				i = Data.INSTANCE.getVATs().getDataSetByDoubleValue("value", DataUtils.StringToDouble(s + "%"), DataSetVAT.getSalesTaxString());
 			}
 
 			// If no VAT is found, use the standard VAT

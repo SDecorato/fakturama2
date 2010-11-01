@@ -117,7 +117,7 @@ public class CreateOODocumentAction extends Action {
 
 				String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
 				String templatePath1 = workspace + "/Templates/" + documentEditor.getDocumentType().getTypeAsString() + "/";
-				String templatePath2 = workspace + "/" + Workspace.templateFolderName + "/" + documentEditor.getDocumentType().getString() + "/";
+				String templatePath2 = workspace + "/" + Workspace.INSTANCE.getTemplateFolderName() + "/" + documentEditor.getDocumentType().getString() + "/";
 
 				// Clear the list before adding new entries
 				templates.clear();

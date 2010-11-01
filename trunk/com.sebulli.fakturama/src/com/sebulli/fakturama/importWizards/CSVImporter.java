@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.importWizards;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -108,7 +110,8 @@ public class CSVImporter {
 	public void importCSV(final String fileName, boolean test) {
 
 		// Result string
-		result = "Importiere " + fileName;
+		//T: Importing + .. FILENAME
+		result = _("Importing") + " " + fileName;
 
 		// Count the imported expenditures
 		int importedExpenditures = 0;
@@ -128,7 +131,8 @@ public class CSVImporter {
 				in = new BufferedReader(new FileReader(file));
 			}
 			catch (FileNotFoundException e1) {
-				result += NL + "Datei nicht gefunden.";
+				//T: Error message
+				result += NL + _("File not found.");
 				return;
 			}
 
@@ -152,7 +156,8 @@ public class CSVImporter {
 				}
 			}
 			catch (IOException e1) {
-				result += NL + "Fehler beim Lesen der ersten Zeile";
+				//T: Error message
+				result += NL + _("Error reading the first line");
 				return;
 			}
 
@@ -189,7 +194,8 @@ public class CSVImporter {
 					if ((prop.size() > 0) && (prop.size() != requiredHeaders.length)) {
 						for (int i = 0; i < requiredHeaders.length; i++) {
 							if (!prop.containsKey(requiredHeaders[i]))
-								result += NL + "Zeile: " + Integer.toString(lineNr) + ": Keine Daten in Spalte \"" + requiredHeaders[i] + "\" gefunden.";
+								//T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
+								result += NL + _("Line") + ": " + Integer.toString(lineNr) + ": " + _("No Data in Column") + " \"" + requiredHeaders[i] + "\" " + _("found.");
 						}
 					}
 					else {
@@ -214,9 +220,12 @@ public class CSVImporter {
 							// If the data set is already existing, stop the CSV import
 							if (!repeatedExpenditure)
 								if (!Data.INSTANCE.getExpenditures().isNew(expenditure)) {
-									result += NL + "Fehler: Datensatz wurde bereits importiert";
-									result += NL + "Datensatz " + prop.getProperty("name") + " vom " + prop.getProperty("date");
-									result += NL + "Import wird abgebrochen";
+									//T: Error message Dataset is already imported
+									result += NL + _("Dataset is already imported");
+									//T: Error message: DATASET xx FROM date
+									result += NL + _("Datensatz")+ " " + prop.getProperty("name") + " " + _("from") + " " + prop.getProperty("date");
+									//T: Error message Import stopped
+									result += NL + _("Import stopped");
 									break;
 								}
 
@@ -228,7 +237,7 @@ public class CSVImporter {
 							String vatName = prop.getProperty("item vat");
 
 							Double vatValue = DataUtils.StringToDouble(vatName);
-							DataSetVAT vat = new DataSetVAT(vatName, "Vorsteuer", vatName, vatValue);
+							DataSetVAT vat = new DataSetVAT(vatName, DataSetVAT.getPurchaseTaxString(), vatName, vatValue);
 							vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(vat);
 							expenditureItem.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
 
@@ -257,11 +266,13 @@ public class CSVImporter {
 				}
 
 				// The result string
-				result += NL + Integer.toString(importedExpenditures) + " Belege wurden importiert.";
+				//T: Message: xx VOUCHERS HAVE BEEN IMPORTED 
+				result += NL + Integer.toString(importedExpenditures) + " " + "Vouchers have been imported.";
 
 			}
 			catch (IOException e) {
-				result += NL + "Fehler beim Dateizugriff";
+				//T: Error message
+				result += NL + _("Error opening the file.");
 			}
 		}
 

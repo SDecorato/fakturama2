@@ -315,7 +315,7 @@ public class DataSetArray<T> {
 	 * 
 	 * If this ArraySet is an set of documents, then only the categories of the
 	 * document types are returned, that are in use. e.g. If there is an type
-	 * "invoice", the categories "invoice/payed" and "invoice/unpayed" are
+	 * "invoice", the categories "invoice/paid" and "invoice/unpaid" are
 	 * returned.
 	 * 
 	 * @return Array of all category strings

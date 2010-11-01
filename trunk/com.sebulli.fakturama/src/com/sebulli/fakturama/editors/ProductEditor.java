@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -152,8 +154,14 @@ public class ProductEditor extends Editor {
 			if (result == ERROR_NOT_NEXT_ID) {
 				// Display an error message
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-				messageBox.setText("Fehler in Artikelnummer");
-				messageBox.setMessage("Artikel hat nicht die nächste freie Nummer: " + textItemNr.getText() + "\nSiehe unter Einstellungen/Nummernkreise.");
+
+				//T: Title of the dialog that appears if the product ID is
+				//T: not the next free one.
+				messageBox.setText(_("Error in item number"));
+				
+				//T: Text of the dialog that appears if the document ID is
+				//T: not the next free one.
+				messageBox.setMessage(_("Item number is not the next free one:") + " " + textItemNr.getText() + "\n" + _("See Preferences/Number Range."));
 				messageBox.open();
 			}
 
@@ -312,7 +320,7 @@ public class ProductEditor extends Editor {
 		// Get the workspace
 		filename1 = Workspace.INSTANCE.getWorkspace();
 
-		// add the picture subfolder
+		// add the picture sub folder
 		filename2 = Workspace.productPictureFolderName;
 
 		// Set the variables
@@ -464,11 +472,14 @@ public class ProductEditor extends Editor {
 		Group productDescGroup = new Group(top, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(productDescGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(productDescGroup);
-		productDescGroup.setText("Beschreibung");
+
+		//T: Product Editor - Group Description
+		productDescGroup.setText(_("Description"));
 
 		// Item number
 		Label labelItemNr = new Label(useItemNr ? productDescGroup : invisible, SWT.NONE);
-		labelItemNr.setText("Artikelnummer");
+		//T: Product Editor - Label Item Number
+		labelItemNr.setText(_("Item Number"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelItemNr);
 		textItemNr = new Text(useItemNr ? productDescGroup : invisible, SWT.BORDER);
 		textItemNr.setText(product.getStringValueByKey("itemnr"));
@@ -477,7 +488,8 @@ public class ProductEditor extends Editor {
 
 		// Product name
 		Label labelName = new Label(productDescGroup, SWT.NONE);
-		labelName.setText("Name");
+		//T: Product Editor - Label Name
+		labelName.setText(_("Name"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(productDescGroup, SWT.BORDER);
 		textName.setText(product.getStringValueByKey("name"));
@@ -486,7 +498,8 @@ public class ProductEditor extends Editor {
 
 		// Product category
 		Label labelCategory = new Label(productDescGroup, SWT.NONE);
-		labelCategory.setText("Kategorie");
+		//T: Product Editor - Label Category
+		labelCategory.setText(_("Category"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(productDescGroup, SWT.BORDER);
 		txtCategory.setText(product.getStringValueByKey("category"));
@@ -495,7 +508,8 @@ public class ProductEditor extends Editor {
 
 		// Product description
 		Label labelDescription = new Label(useDescription ? productDescGroup : invisible, SWT.NONE);
-		labelDescription.setText("Beschreibung");
+		//T: Product Editor - Label Description
+		labelDescription.setText(_("Description"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(useDescription ? productDescGroup : invisible, SWT.BORDER | SWT.MULTI);
 		textDescription.setText(product.getStringValueByKey("description"));
@@ -507,11 +521,13 @@ public class ProductEditor extends Editor {
 
 		// Use net or gross price
 		if (useNet && useGross)
-			labelPrice.setText("Preis");
+			//T: Product Editor - Label Price
+			labelPrice.setText(_("Price"));
 		else if (useNet)
-			labelPrice.setText("Preis (netto)");
+			//T: Product Editor - Label Price (Net)
+			labelPrice.setText(_("Price (net)"));
 		else if (useGross)
-			labelPrice.setText("Preis (brutto)");
+			labelPrice.setText(_("Price (gross)"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPrice);
 
@@ -529,10 +545,11 @@ public class ProductEditor extends Editor {
 		// Display the heading for the net and gross columns
 		if (useNet && useGross) {
 			Label labelNet = new Label(pricetable, SWT.CENTER);
-			labelNet.setText("Netto");
+			//T: Product Editor - Label Net
+			labelNet.setText(_("Net"));
 
 			Label labelGross = new Label(pricetable, SWT.CENTER);
-			labelGross.setText("Brutto");
+			labelGross.setText(_("Gross"));
 		}
 
 		// Create a row for each entry of the scaled price table
@@ -545,7 +562,8 @@ public class ProductEditor extends Editor {
 
 			// Create the columns for the quantity
 			labelBlock[i] = new Label(((i < scaledPrices) && (scaledPrices >= 2)) ? pricetable : invisible, SWT.NONE);
-			labelBlock[i].setText("ab");
+			//T: Product Editor - Label Scaled Prices "from" .. Quantity the price is ..
+			labelBlock[i].setText(_("from"));
 
 			textBlock[i] = new Text(((i < scaledPrices) && (scaledPrices >= 2)) ? pricetable : invisible, SWT.BORDER | SWT.RIGHT);
 			textBlock[i].setText(product.getFormatedStringValueByKey("block" + indexNr));
@@ -582,7 +600,8 @@ public class ProductEditor extends Editor {
 
 		// product VAT
 		Label labelVat = new Label(useVat ? productDescGroup : invisible, SWT.NONE);
-		labelVat.setText("MwSt.");
+		//T: Product Editor - Label VAT
+		labelVat.setText(_("VAT"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVat);
 		comboVat = new Combo(useVat ? productDescGroup : invisible, SWT.BORDER);
 		comboViewer = new ComboViewer(comboVat);
@@ -645,7 +664,8 @@ public class ProductEditor extends Editor {
 
 		// Product weight
 		Label labelWeight = new Label(useWeight ? productDescGroup : invisible, SWT.NONE);
-		labelWeight.setText("Gewicht (kg)");
+		//T: Product Editor - Label Product Weight with unit (kg)
+		labelWeight.setText(_("Weight (kg)"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelWeight);
 		textWeight = new Text(useWeight ? productDescGroup : invisible, SWT.BORDER);
 		textWeight.setText(product.getStringValueByKey("weight"));
@@ -656,7 +676,8 @@ public class ProductEditor extends Editor {
 		Group productPictureGroup = new Group(usePicture ? top : invisible, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(productPictureGroup);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(productPictureGroup);
-		productPictureGroup.setText("Produktbild");
+		//T: Product Editor - Label Product Picture
+		productPictureGroup.setText(_("Product Picture"));
 
 		// The photo
 		photoComposite = new Composite(productPictureGroup, SWT.BORDER);
@@ -669,7 +690,7 @@ public class ProductEditor extends Editor {
 		pictureName = product.getStringValueByKey("picturename");
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelProductPicture);
 
-		// The picture pathe
+		// The picture path
 		textProductPicturePath = new Text(photoComposite, SWT.NONE);
 		textProductPicturePath.setEditable(false);
 		textProductPicturePath.setBackground(new Color(null, 255, 255, 255));
@@ -682,7 +703,8 @@ public class ProductEditor extends Editor {
 
 		// Add a button to select a new picture
 		Button selectPictureButton = new Button(productPictureGroup, SWT.PUSH);
-		selectPictureButton.setText("Bild auswählen");
+		//T: Product Editor - Button Description: Select a Picture
+		selectPictureButton.setText(_("Select a Picture"));
 		selectPictureButton.addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -691,7 +713,8 @@ public class ProductEditor extends Editor {
 				// Open a file dialog to select the picture
 				FileDialog fileDialog = new FileDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 				fileDialog.setFilterPath(Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE"));
-				fileDialog.setText("Produktbild auswählen");
+				//T: Product Editor - File Dialog: Select a Picture
+				fileDialog.setText(_("Select a Picture"));
 				String selectedFile = fileDialog.open();
 
 				if (selectedFile != null) {
@@ -714,7 +737,7 @@ public class ProductEditor extends Editor {
 						ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 						int c;
 
-						// Read the file to an input bufer
+						// Read the file to an input buffer
 						while ((c = ins.read()) != -1) {
 							byteArrayOutputStream.write((byte) c);
 						}
@@ -763,8 +786,12 @@ public class ProductEditor extends Editor {
 		if (Data.INSTANCE.getDocuments().isExistingDataSet(product, "itemnr", textItemNr.getText())) {
 			// Display an error message
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR | SWT.OK);
-			messageBox.setText("Fehler in Artikelnummer");
-			messageBox.setMessage("Es existiert bereits ein Artikel mit dieser Nummer: " + textItemNr.getText());
+
+			//T: Title of the dialog that appears if there is already a product with the same customer ID
+			messageBox.setText(_("Error in item number"));
+
+			//T: Text of the dialog that appears if there is already a product with the same customer ID
+			messageBox.setMessage(_("There is already a product with the number:") + " " + textItemNr.getText());
 			messageBox.open();
 
 			return true;

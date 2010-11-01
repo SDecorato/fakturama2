@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.importWizards;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.FileDialog;
@@ -48,7 +50,8 @@ public class ImportCSVWizard extends Wizard implements IImportWizard {
 	 * Creates a new wizard with one page
 	 */
 	public ImportCSVWizard() {
-		setWindowTitle("Import CSV");
+		//T: Title of the CSV Import wizard
+		setWindowTitle(_("Import CSV"));
 		mainPage = new ImportCSVWizardPage();
 		mainPage.setPageComplete(true);
 		addPage(mainPage);
@@ -76,8 +79,12 @@ public class ImportCSVWizard extends Wizard implements IImportWizard {
 		FileDialog fileDialog = new FileDialog(workbench.getActiveWorkbenchWindow().getShell());
 		fileDialog.setFilterPath("/");
 		fileDialog.setFilterExtensions(new String[] { "*.csv" });
-		fileDialog.setFilterNames(new String[] { "Tabelle als CSV (*.csv)" });
-		fileDialog.setText("Dateiauswahl");
+		
+		//T: CSV Import File Dialog Title
+		fileDialog.setText(_("Select file to import"));
+
+		//T: CSV Import File Filter
+		fileDialog.setFilterNames(new String[] { _("Table as CSV")+ " (*.csv)" });
 		selectedFile = fileDialog.open();
 		if (selectedFile != null) {
 

@@ -1,0 +1,6 @@
+# Generate .pot file from your Java sources
+#
+# -k_ indicates that the it must scan for calls to _()
+
+find ../src/com/sebulli/fakturama/ -iname "*.java" -exec xgettext  -C -j -o ../resources/po/messages.pot --msgid-bugs-address=fakturamaATsebulli.com --copyright-holder="Gerd Bartelt" --from-code="UTF-8" --add-comments=T: --keyword=_ {} \;
+echo "done !"

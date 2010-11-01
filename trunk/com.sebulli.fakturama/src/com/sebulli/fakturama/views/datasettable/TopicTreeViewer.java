@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views.datasettable;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.AssertionFailedException;
@@ -93,7 +95,8 @@ public class TopicTreeViewer extends TreeViewer {
 
 		// Add a "show all" entry
 		if (useAll) {
-			all = new TreeParent("alle");
+			//T: Tree viewer entry for "show all"
+			all = new TreeParent(_("all"));
 			root.addChild(all);
 		}
 
@@ -686,7 +689,8 @@ public class TopicTreeViewer extends TreeViewer {
 		transactionItem.setTransactionId(transactionId);
 
 		// Set the name
-		transactionItem.setName("Vorgang");
+		//T: Topic Tree Viewer transaction title
+		transactionItem.setName(_("Transaction"));
 		refresh();
 	}
 

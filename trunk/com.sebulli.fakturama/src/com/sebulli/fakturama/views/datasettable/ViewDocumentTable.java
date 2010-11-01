@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views.datasettable;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -75,16 +77,18 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		editor = "Document";
 
 		// Create the table columns
-		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30,
-		// 0, true, "id");
+		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "", 20, 0, true, "$documenttype");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Dokument", 80, 0, true, "name");
-		// new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT,
-		// "Transaction", 80, 0, true, "transaction");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Datum", 80, 0, true, "date");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 200, 50, false, "addressfirstline");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Status", 100, 0, true, "$status");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Summe", 70, 0, true, "total");
+		//T: View Document: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Document"), 80, 0, true, "name");
+		//T: View Document: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), 80, 0, true, "date");
+		//T: View Document: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 200, 50, false, "addressfirstline");
+		//T: View Document: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("State"), 100, 0, true, "$status");
+		//T: View Document: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Total"), 70, 0, true, "total");
 
 		// Add a selection listener
 		hookSelect();

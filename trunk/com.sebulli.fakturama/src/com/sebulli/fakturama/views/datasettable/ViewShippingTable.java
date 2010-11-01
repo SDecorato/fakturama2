@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views.datasettable;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -64,13 +66,15 @@ public class ViewShippingTable extends ViewDataSetTable {
 		editor = "Shipping";
 
 		// Create the table columns
-		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30,
-		// 0, true, "id");
+		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
 		stdIconColumn = new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Standard", 55, 0, true, "$stdId");
 		refreshStdId();
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Name", 120, 0, true, "name");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, "Bezeichnung", 200, 50, false, "description");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Wert", 70, 0, true, "value");
+		//T: View Shipping: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
+		//T: View Shipping: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
+		//T: View Shipping: Heading of the table. Keep the words short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Value"), 70, 0, true, "value");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getShippings());

@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.exportsales;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
@@ -37,7 +39,8 @@ public class ExportSalesWizard extends Wizard implements IExportWizard {
 	 * Constructor Adds the first page to the wizard
 	 */
 	public ExportSalesWizard() {
-		setWindowTitle("Export");
+		//T: Title of the sales export wizard
+		setWindowTitle(_("Export"));
 		page1 = new ExportSalesWizandPage1();
 		addPage(page1);
 	}
@@ -50,7 +53,7 @@ public class ExportSalesWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		SalesExporter salesExporter = new SalesExporter(page1.getBeginDate(), page1.getEndDate());
+		SalesExporter salesExporter = new SalesExporter(page1.getStartDate(), page1.getEndDate());
 		return salesExporter.export();
 	}
 
