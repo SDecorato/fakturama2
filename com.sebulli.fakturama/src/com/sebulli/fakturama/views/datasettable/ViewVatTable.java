@@ -59,6 +59,9 @@ public class ViewVatTable extends ViewDataSetTable {
 
 		super.createPartControl(parent, false, true);
 
+		// Name of this view
+		this.setPartName(_("VATs"));
+
 		// Create the context menu
 		super.createDefaultContextMenu();
 

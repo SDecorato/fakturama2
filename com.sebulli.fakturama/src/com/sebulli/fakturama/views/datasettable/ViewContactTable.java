@@ -59,6 +59,9 @@ public class ViewContactTable extends ViewDataSetTable {
 
 		super.createPartControl(parent, false, true);
 
+		// Name of this view
+		this.setPartName(_("Contacts"));
+
 		// Create the context menu
 		super.createDefaultContextMenu();
 

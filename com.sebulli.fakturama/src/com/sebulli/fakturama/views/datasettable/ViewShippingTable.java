@@ -59,6 +59,9 @@ public class ViewShippingTable extends ViewDataSetTable {
 
 		super.createPartControl(parent, false, true);
 
+		// Name of this view
+		this.setPartName(_("Shippings"));
+
 		// Create the context menu
 		super.createDefaultContextMenu();
 

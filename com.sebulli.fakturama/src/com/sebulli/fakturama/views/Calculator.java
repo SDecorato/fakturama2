@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.text.DecimalFormat;
 
 import org.eclipse.jface.layout.GridDataFactory;
@@ -71,6 +73,9 @@ public class Calculator extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
+
+		// Name of this view
+		this.setPartName(_("Calculator"));
 
 		// Top container
 		Composite container = new Composite(parent, SWT.NONE);
