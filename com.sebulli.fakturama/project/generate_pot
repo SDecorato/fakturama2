@@ -1,6 +1,4 @@
-# Generate .pot file from your Java sources
-#
-# -k_ indicates that the it must scan for calls to _()
+# Generate .pot file from Java sources
 
 echo  > ../resources/po/messages.pot
 
