@@ -111,7 +111,27 @@ public class Translate {
 		
 		try {
 			// Open the resource message po file.
-			URL url = Activator.getDefault().getBundle().getResource("po/messages.po");
+			URL url;
+			
+			String localCode = System.getProperty("osgi.nl");
+			
+			url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode + ".po");
+
+			// Try to open the messages with language and country code
+			if (url == null) {
+				localCode = localCode.split("_")[0];
+				url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode + ".po");
+			}
+			
+			// Try to open the messages with language code
+			if (url == null) {
+				localCode = localCode.split("_")[0];
+				url = Activator.getDefault().getBundle().getResource("po/messages.po");
+			}
+			
+			// Try to open the messages with no language code
+			if (url == null)
+				Activator.getDefault().getBundle().getResource("po/messages.po");
 			
 			if (url == null)
 				return;
