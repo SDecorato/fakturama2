@@ -77,7 +77,7 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 
 		//T: Preference page "Contact Format" - Title of this page with an example
 		//T: how to format the address field. Use \n to separate lines.
-		setDescription(_("Format of the address field\n\nEample:\nDear Mr. {title} {firstname} {lastname}\n"));
+		setDescription(_("Format of the address field\n\nExample:\nDear Mr. {title} {firstname} {lastname}\n"));
 
 	}
 
