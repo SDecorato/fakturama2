@@ -457,12 +457,12 @@
             category="com.sebulli.fakturama.preferences.contactPreferencePage"
             class="com.sebulli.fakturama.preferences.ContactFormatPreferencePage"
             id="com.sebulli.fakturama.preferences.contactFormatGreetingPreferencePage"
-            name="%page.greeting.format">
+            name="%page.contacts.format">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.NumberRangeValuesPreferencePage"
             id="com.sebulli.fakturama.preferences.numberRangeValuesPreferencePage"
-            name="%page.numberrange.value">
+            name="%page.numberrange">
       </page>
       <page
             category="com.sebulli.fakturama.preferences.numberRangeValuesPreferencePage"
