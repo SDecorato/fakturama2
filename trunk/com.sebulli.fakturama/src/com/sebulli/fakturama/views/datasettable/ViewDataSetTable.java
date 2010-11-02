@@ -18,6 +18,8 @@
 
 package com.sebulli.fakturama.views.datasettable;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -153,7 +155,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 
 		// Search label an search field
 		Label searchLabel = new Label(searchComposite, SWT.NONE);
-		searchLabel.setText("Suchen:");
+		searchLabel.setText(_("Search:"));
 		GridDataFactory.swtDefaults().applyTo(searchLabel);
 		final Text searchText = new Text(searchComposite, SWT.BORDER | SWT.SEARCH | SWT.CANCEL | SWT.ICON_SEARCH);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).hint(150, -1).applyTo(searchText);

@@ -70,6 +70,9 @@ public class ViewDocumentTable extends ViewDataSetTable {
 
 		super.createPartControl(parent, true, false);
 
+		// Name of this view
+		this.setPartName(_("Documents"));
+
 		// Create the context menu
 		createContextMenu();
 

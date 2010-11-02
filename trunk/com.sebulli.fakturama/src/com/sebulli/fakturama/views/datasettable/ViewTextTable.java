@@ -55,6 +55,9 @@ public class ViewTextTable extends ViewDataSetTable {
 
 		super.createPartControl(parent, false, true);
 
+		// Name of this view
+		this.setPartName(_("Texts"));
+
 		// Create the context menu
 		super.createDefaultContextMenu();
 

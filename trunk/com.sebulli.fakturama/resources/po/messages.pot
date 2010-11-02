@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-11-01 19:44+0100\n"
+"POT-Creation-Date: 2010-11-01 20:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -319,12 +319,12 @@ msgid "USA,U.S.A."
 msgstr ""
 
 #. T: Preference page "General" - Label "Collapse expand bar of the navigation view"
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:55
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:57
 msgid "Navigation view: Collapse expand bar."
 msgstr ""
 
 #. T: Preference page "General" - Title"
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:68
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:70
 msgid "General Settings"
 msgstr ""
 
@@ -2067,7 +2067,7 @@ msgstr ""
 
 #. T: Preference page "Web Shop Import" - Label
 #: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:57
-msgid "Webshop Url"
+msgid "Webshop URL"
 msgstr ""
 
 #. T: Preference page "Web Shop Import" - Label

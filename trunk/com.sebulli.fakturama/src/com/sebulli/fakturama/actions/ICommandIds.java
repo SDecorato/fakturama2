@@ -67,4 +67,8 @@ public interface ICommandIds {
 
 	public static final String CMD_OPEN_BROWSER_EDITOR = "com.sebulli.fakturama.actions.openBrowserEditor";
 	public static final String CMD_OPEN_CALCULATOR = "com.sebulli.fakturama.actions.openCalculator";
+
+	public static final String CMD_P2_UPDATE = "com.sebulli.fakturama.actions.update";
+	public static final String CMD_P2_INSTALL = "com.sebulli.fakturama.actions.install";
+	
 }

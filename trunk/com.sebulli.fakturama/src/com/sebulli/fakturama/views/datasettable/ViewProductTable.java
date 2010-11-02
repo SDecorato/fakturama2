@@ -58,6 +58,9 @@ public class ViewProductTable extends ViewDataSetTable {
 
 		super.createPartControl(parent, false, true);
 
+		// Name of this view
+		this.setPartName(_("Products"));
+
 		// Create the context menu
 		super.createDefaultContextMenu();
 

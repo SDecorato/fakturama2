@@ -49,6 +49,9 @@ public class ErrorView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 
+		// Name of this view
+		this.setPartName(_("Error"));
+
 		// Create top composite
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);

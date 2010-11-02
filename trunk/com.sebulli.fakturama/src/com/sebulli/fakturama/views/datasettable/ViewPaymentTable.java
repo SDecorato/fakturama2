@@ -61,6 +61,9 @@ public class ViewPaymentTable extends ViewDataSetTable {
 
 		super.createPartControl(parent, false, true);
 
+		// Name of this view
+		this.setPartName(_("Payments"));
+
 		// Create the context menu
 		super.createDefaultContextMenu();
 

@@ -28,7 +28,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewProductTable"
             icon="icons/16/product_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewProductTable"
-            name="Produkte"
+            name="Products"
             restorable="true">
       </view>
       <view
@@ -42,7 +42,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewContactTable"
             icon="icons/16/contact_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewContactTable"
-            name="Adressen"
+            name="Contacts"
             restorable="true">
       </view>
       <view
@@ -50,7 +50,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewVatTable"
             icon="icons/16/vat_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewVatTable"
-            name="Steuersätze"
+            name="VATs"
             restorable="true">
       </view>
       <view
@@ -58,14 +58,14 @@
             class="com.sebulli.fakturama.views.ErrorView"
             icon="icons/16/error_16.png"
             id="com.sebulli.fakturama.views.errorView"
-            name="Fehler"
+            name="Error"
             restorable="false">
       </view>
       <view
             class="com.sebulli.fakturama.views.Calculator"
             icon="icons/16/calculator_16.png"
             id="com.sebulli.fakturama.views.calculator"
-            name="Rechner"
+            name="Calculator"
             restorable="false">
       </view>
       <view
@@ -73,7 +73,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewDocumentTable"
             icon="icons/16/letter_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewDocumentTable"
-            name="Dokumente"
+            name="Documents"
             restorable="true">
       </view>
       <view
@@ -81,7 +81,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewShippingTable"
             icon="icons/16/shipping_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewShippingTable"
-            name="Versandkosten"
+            name="Shippings"
             restorable="true">
       </view>
       <view
@@ -89,7 +89,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewPaymentTable"
             icon="icons/16/payment_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewPaymentTable"
-            name="Zahlungsmethoden"
+            name="Payments"
             restorable="true">
       </view>
       <view
@@ -97,7 +97,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewTextTable"
             icon="icons/16/text_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewTextTable"
-            name="Texte"
+            name="Texts"
             restorable="true">
       </view>
       <view
@@ -105,7 +105,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewListTable"
             icon="icons/16/list_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewListTable"
-            name="Liste"
+            name="Lists"
             restorable="true">
       </view>
       <view
@@ -113,7 +113,7 @@
             class="com.sebulli.fakturama.views.datasettable.ViewExpenditureTable"
             icon="icons/16/expenditure_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewExpenditureTable"
-            name="Ausgaben"
+            name="Expenditures"
             restorable="true">
       </view>
    </extension>
@@ -181,12 +181,6 @@
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
-            description="Open Discounts"
-            id="com.sebulli.fakturama.actions.openDiscounts"
-            name="Open Discounts">
-      </command>
-      <command
-            categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
             description="Open Payments"
             id="com.sebulli.fakturama.actions.openPayments"
             name="Open Payments">
@@ -199,9 +193,9 @@
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
-            description="Open List"
+            description="Open Lists"
             id="com.sebulli.fakturama.actions.openListEntry"
-            name="Open List">
+            name="Open Lists">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
@@ -299,9 +293,9 @@
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
-            description="Create New Vat"
+            description="Create New VAT"
             id="com.sebulli.fakturama.actions.newVat"
-            name="Create New Vat">
+            name="Create New VAT">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
@@ -371,14 +365,24 @@
             name="Mark Order As">
       </command>
       <command
-            description="Mark Document As Payed"
-            id="com.sebulli.fakturama.actions.markDocumentAsPayed"
-            name="Mark Document As Payed">
+            description="Mark Document As Paid"
+            id="com.sebulli.fakturama.actions.markDocumentAsPaid"
+            name="Mark Document As Paid">
       </command>
       <command
             description="Save"
             id="com.sebulli.fakturama.actions.save"
             name="Save">
+      </command>
+      <command
+            description="Update"
+            id="com.sebulli.fakturama.actions.update"
+            name="Update">
+      </command>
+      <command
+            description="Install"
+            id="com.sebulli.fakturama.actions.install"
+            name="Install">
       </command>
    </extension>
    <extension
@@ -436,75 +440,65 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu">
       </menuContribution>
-	  <menuContribution locationURI="menu:help">
-        <command
-              commandId="org.eclipselabs.p2.rcpupdate.install"
-              label="Neue Software installieren"
-              style="push"/>
-        <command
-              commandId="org.eclipselabs.p2.rcpupdate.update"
-              label="Nach Updates suchen"
-              style="push"/>
-      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
             class="com.sebulli.fakturama.preferences.ProductPreferencePage"
             id="com.sebulli.fakturama.preferences.productPreferencePage"
-            name="Produkte">
+            name="%page.products">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.ContactPreferencePage"
             id="com.sebulli.fakturama.preferences.contactPreferencePage"
-            name="Kontakte">
+            name="%page.contacts">
       </page>
       <page
             category="com.sebulli.fakturama.preferences.contactPreferencePage"
             class="com.sebulli.fakturama.preferences.ContactFormatPreferencePage"
             id="com.sebulli.fakturama.preferences.contactFormatGreetingPreferencePage"
-            name="Format">
+            name="%page.greeting.format">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.NumberRangeValuesPreferencePage"
             id="com.sebulli.fakturama.preferences.numberRangeValuesPreferencePage"
-            name="Nummernkreise">
+            name="%page.numberrange.value">
       </page>
       <page
             category="com.sebulli.fakturama.preferences.numberRangeValuesPreferencePage"
             class="com.sebulli.fakturama.preferences.NumberRangeFormatPreferencePage"
             id="com.sebulli.fakturama.preferences.numberRangeFormatPreferencePage"
-            name="Format">
+            name="%page.numberrange.format">
       </page>
       <page
             class="com.sebulli.fakturama.webshopimport.WebShopImportPreferencePage"
             id="com.sebulli.fakturama.webshopimport.webShopImportPreferencePage"
-            name="Webshop">
+            name="%page.webshop">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.YourCompanyPreferencePage"
             id="com.sebulli.fakturama.preferences.yourCompanyPreferencePage"
-            name="Firmendaten">
+            name="%page.company">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.DocumentPreferencePage"
             id="com.sebulli.fakturama.preferences.documentPreferencePage"
-            name="Dokumente">
+            name="%page.documents">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.OpenOfficePreferencePage"
             id="com.sebulli.fakturama.preferences.openOfficePreferencePage"
-            name="Open Office">
+            name="%page.openoffice">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.ExportSalesPreferencePage"
             id="com.sebulli.fakturama.exportsales.exportSalesPreferencePage"
-            name="Export Umsätze">
+            name="%page.exportsales">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.GeneralPreferencePage"
             id="com.sebulli.fakturama.preferences.generalPreferencePage"
-            name="Allgemein">
+            name="%page.general">
       </page>
    </extension>
    <extension
@@ -534,7 +528,7 @@
             default="false"
             icon="icons/16/vat_16.png"
             id="com.sebulli.fakturama.editors.vatEditor"
-            name="Vat Editor">
+            name="VAT Editor">
       </editor>
       <editor
             class="com.sebulli.fakturama.editors.DocumentEditor"
@@ -592,7 +586,7 @@
             class="com.sebulli.fakturama.exportsales.ExportSalesWizard"
             icon="icons/16/export_16.png"
             id="com.sebulli.fakturama.exportsales.exportSalesWizard"
-            name="Zusammenfassung Umsätze">
+            name="%wizard.export.sales">
       </wizard>
    </extension>
    <extension
@@ -617,9 +611,9 @@
             class="com.sebulli.fakturama.importWizards.ImportCSVWizard"
             icon="icons/16/import_16.png"
             id="com.sebulli.fakturama.importWizards.CSVImportWizard"
-            name="Import CSV Tabelle">
+            name="%wizard.import.csv">
          <description>
-            Import a file from the local file system into the workspace.
+            %wizard.import.csv.description
          </description>
       </wizard>
    </extension>

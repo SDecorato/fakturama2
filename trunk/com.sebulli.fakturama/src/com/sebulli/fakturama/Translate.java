@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Properties;
 
 import com.sebulli.fakturama.logger.Logger;
@@ -83,8 +84,23 @@ public class Translate {
 	public static String _(String s, String context) {
 
 		// Context and string are added and separated by a vertical line
-		s = context + "|" + s;
-		return _(s);
+		String sWithContext = context + "|" + s;
+		String sout;
+		
+		if (messages == null) {
+			messages = new Properties();
+			loadPoFile();
+		}
+
+		if (!messages.containsKey(sWithContext))
+			return s;
+		else {
+			sout = messages.getProperty(sWithContext);
+			if (sout.isEmpty())
+				return s;
+			else
+				return sout;
+		}
 	}
 	
 	/**
@@ -99,7 +115,12 @@ public class Translate {
 		
 		try {
 			// Open the resource message po file.
-			InputStream	in = Activator.getDefault().getBundle().getResource("po/messages.po").openStream();
+			URL url = Activator.getDefault().getBundle().getResource("po/messages.po");
+			
+			if (url == null)
+				return;
+			
+			InputStream	in = url.openStream();
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 	        String strLine;

@@ -37,6 +37,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
+import com.sebulli.fakturama.actions.InstallAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
@@ -59,6 +60,7 @@ import com.sebulli.fakturama.actions.OpenShippingsAction;
 import com.sebulli.fakturama.actions.OpenTextsAction;
 import com.sebulli.fakturama.actions.OpenVatsAction;
 import com.sebulli.fakturama.actions.SelectWorkspaceAction;
+import com.sebulli.fakturama.actions.UpdateAction;
 import com.sebulli.fakturama.actions.WebShopImportAction;
 import com.sebulli.fakturama.data.DocumentType;
 
@@ -127,6 +129,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
 	private MarkOrderAsAction markAsProcessingAction;
+	private UpdateAction updateAction;
+	private InstallAction installAction;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -291,6 +295,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		markAsProcessingAction = new MarkOrderAsAction("", 50);
 		register(markAsProcessingAction);
+		
+		updateAction = new UpdateAction();
+		register(updateAction);
+
+		installAction = new InstallAction();
+		register(installAction);
 
 	}
 
@@ -355,6 +365,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		// Help menu
 		helpMenu.add(openBrowserEditorAction);
 		helpMenu.add(helpAction);
+
+		helpMenu.add(new Separator());
+		helpMenu.add(updateAction);
+		helpMenu.add(installAction);
 
 		if (OSDependent.canAddAboutMenuItem()) {
 			helpMenu.add(new Separator());
