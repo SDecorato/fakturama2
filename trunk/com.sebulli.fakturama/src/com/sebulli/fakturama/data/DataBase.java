@@ -36,6 +36,9 @@ import com.sebulli.fakturama.logger.Logger;
  * @author Gerd Bartelt
  */
 public class DataBase {
+	
+	private final static Integer DBVersion = 2;
+	
 	private Connection con = null;
 
 	/**
@@ -467,6 +470,25 @@ public class DataBase {
 					for (int i = 1; i <= columns; i++) {
 						if (rsmd.getColumnName(i).equalsIgnoreCase(columnname)) {
 							columnExists = true;
+							
+							// Get the Type
+							String typeName = rsmd.getColumnTypeName(i);
+							int size = rsmd.getPrecision(i);
+							
+							// Get the Type name incl. size
+							if (typeName.equalsIgnoreCase("VARCHAR"))
+								typeName += "(" + size + ")";
+							
+							// Get the type of the UniData
+							String udsDbType = getDataBaseTypeByUniDataType(uds.hashMap.get(key).getUniDataType());
+							
+							// Check whether the type is correct
+							if (!typeName.equalsIgnoreCase(udsDbType)) {
+								String info = "Column Type not correct: " + uds.sqlTabeName + ":" + columnname + ":" + typeName + " - " + udsDbType;
+								Logger.logInfo(info);
+								System.out.println(info);
+								
+							}
 						}
 					}
 
@@ -488,6 +510,135 @@ public class DataBase {
 
 	}
 
+	
+	/**
+	 * Rename a table column
+	 * 
+	 * @param table
+	 * 				The table that contains the column
+	 * @param oldName
+	 * 				The old name of the column
+	 * @param newName
+	 * 				The new name of the column
+	 */
+	private void renameColumn (String table, String oldName, String newName) {
+		ResultSet rs = null;
+		Statement stmt;
+		ResultSetMetaData rsmd;
+		int columns = 0;
+
+		try {
+
+			// Get the columns of the table.
+			stmt = con.createStatement();
+			try {
+				rs = stmt.executeQuery("SELECT * FROM " + table);
+				rsmd = rs.getMetaData();
+				columns = rsmd.getColumnCount();
+
+				int oldColumnIndex = -1;
+
+				// Search all column for those with the "oldName"
+				for (int i = 1; i <= columns; i++) {
+					if (rsmd.getColumnName(i).equalsIgnoreCase(oldName)) {
+						oldColumnIndex = i;
+					}
+				}
+				
+				//One with the oldName was found
+				if (oldColumnIndex >= 0 ) {
+					
+					// Rename the column
+					stmt = con.createStatement();
+					String s = "ALTER TABLE " + table + 
+					" ALTER COLUMN " + oldName + " RENAME TO " + newName ;
+					stmt.executeUpdate(s);
+					stmt.close();
+					
+					Logger.logInfo("Column: " + oldName + " in Table " + table + " renamed to: " + newName);
+
+				}
+			}
+			catch (SQLException e) {
+				Logger.logError(e, "Error renaming table column.");
+			}
+
+			rs.close();
+			stmt.close();
+		}
+		catch (SQLException e) {
+			Logger.logError(e, "Error inserting a new table column.");
+		}
+
+		
+	}
+	
+	/**
+	 * Perfrom updates
+	 * 
+	 * @param version
+	 * 			The version of the database
+	 */
+	private void performUpdates (int version) {
+
+		// Rename some columns
+		if (version < 2) {
+			renameColumn("Documents", "payed", "paid");
+			renameColumn("Payments", "payedtext", "paidtext");
+			renameColumn("Payments", "unpayedtext", "unpaidtext");
+			renameColumn("Payments", "defaultpayed", "defaultpaid");
+		}
+	}
+	
+	
+	/**
+	 * Check for updates and perform them
+	 */
+	private void check4Updates () {
+		String s;
+		ResultSet rs;
+		Statement stmt;
+		int version = 0;
+
+		try {
+
+			// read the data base table
+			stmt = con.createStatement();
+			s = "SELECT * FROM Properties WHERE name = 'Version'";
+			rs = stmt.executeQuery(s);
+
+			// Get the version of the database
+			if (rs.next()) {
+				if (rs.getString("name").equals("Version")) {
+					version = rs.getInt("value");
+				}
+			}
+			rs.close();
+			stmt.close();
+			
+			// perform the Updates
+			performUpdates(version);
+			
+			// Update the Database Version
+			if (version != DBVersion ) {
+				try {
+					stmt = con.createStatement();
+					stmt.executeUpdate("UPDATE Properties SET value='" + DBVersion + "' WHERE name='Version'");
+					stmt.close();
+				}
+				catch (SQLException e) {
+					Logger.logError(e, "Error saving dataset Properties:Version");
+				}
+			}
+
+		}
+		catch (Exception e) {
+			Logger.logError(e, "Error reading database table Properties" );
+		}
+
+
+	}
+	
 	/**
 	 * Connect to the data base
 	 * 
@@ -529,6 +680,8 @@ public class DataBase {
 				rs = stmt.executeQuery("SELECT * FROM Properties");
 				rs.close();
 
+				check4Updates();
+				
 				// Check all tables, if there is a column for each
 				// UniDataSet property.
 				checkTableAndInsertNewColumns(new DataSetProduct());
@@ -548,7 +701,7 @@ public class DataBase {
 				// In a new data base: create all the tables
 				try {
 					stmt.executeUpdate("CREATE TABLE Properties(Id INT IDENTITY PRIMARY KEY, Name VARCHAR (256), Value VARCHAR (60000) )");
-					stmt.executeUpdate("INSERT INTO Properties VALUES(0,'Version','1')");
+					stmt.executeUpdate("INSERT INTO Properties VALUES(0,'Version','" + DBVersion + "')");
 					stmt.executeUpdate("INSERT INTO Properties VALUES(1,'BundleVersion','" + bundleVersion + "')");
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetProduct()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetContact()));

@@ -807,12 +807,12 @@ public class OODocument extends Object {
 			setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
 			setProperty("PAYMENT.DESCRIPTION", document.getStringValueByKey("paymentdescription"));
 			setProperty("PAYMENT.TEXT", document.getStringValueByKey("paymenttext"));
-			setProperty("PAYMENT.PAYED.VALUE", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
-			setProperty("PAYMENT.PAYED.DATE", document.getFormatedStringValueByKey("paydate"));
+			setProperty("PAYMENT.PAID.VALUE", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
+			setProperty("PAYMENT.PAID.DATE", document.getFormatedStringValueByKey("paydate"));
 			setProperty("PAYMENT.DUE.DAYS", Integer.toString(document.getIntValueByKey("duedays")));
 			setProperty("PAYMENT.DUE.DATE",
 					DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
-			setProperty("PAYMENT.PAYED", document.getStringValueByKey("payed"));
+			setProperty("PAYMENT.PAID", document.getStringValueByKey("paid"));
 		}
 
 		if (contact != null) {

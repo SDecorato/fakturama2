@@ -58,7 +58,7 @@ public class UniDataSetTableColumn {
 	private static final Image CREDIT = Activator.getImageDescriptor("icons/16/credit_16.png").createImage();
 	private static final Image DUNNING = Activator.getImageDescriptor("icons/16/dunning_16.png").createImage();
 	private static final Image LETTER = Activator.getImageDescriptor("icons/16/letter_16.png").createImage();
-	private static final Image UNPAYED = Activator.getImageDescriptor("icons/16/error_16.png").createImage();
+	private static final Image UNPAID = Activator.getImageDescriptor("icons/16/error_16.png").createImage();
 	private static final Image ORDER_PENDING = Activator.getImageDescriptor("icons/16/order_pending_16.png").createImage();
 	private static final Image ORDER_PROCESSING = Activator.getImageDescriptor("icons/16/order_processing_16.png").createImage();
 	private static final Image ORDER_SHIPPED = Activator.getImageDescriptor("icons/16/order_shipped_16.png").createImage();
@@ -186,24 +186,24 @@ public class UniDataSetTableColumn {
 				}
 
 				// Fill the cell with the icon for status
-				// eg. "payed/unpayed" for invoices
+				// eg. "paid/unpaid" for invoices
 				else if (dataKey.equals("$status")) {
 					switch (DocumentType.getType(uds.getIntValueByKey("category"))) {
 					case INVOICE:
 					case CREDIT:
-						if (uds.getBooleanValueByKey("payed")) {
+						if (uds.getBooleanValueByKey("paid")) {
 							cell.setImage(CHECKED);
 						}
 						else {
-							cell.setImage(UNPAYED);
+							cell.setImage(UNPAID);
 						}
 						break;
 					case DUNNING:
-						if (uds.getBooleanValueByKey("payed")) {
+						if (uds.getBooleanValueByKey("paid")) {
 							cell.setImage(CHECKED);
 						}
 						else {
-							cell.setImage(UNPAYED);
+							cell.setImage(UNPAID);
 						}
 						break;
 					case ORDER:
@@ -331,12 +331,12 @@ public class UniDataSetTableColumn {
 		}
 
 		// Fill the cell with the status
-		// eg. "payed/unpayed" for invoices
+		// eg. "paid/unpaid" for invoices
 		else if (dataKey.equals("$status")) {
 			switch (DocumentType.getType(uds.getIntValueByKey("category"))) {
 			case INVOICE:
 			case CREDIT:
-				if (uds.getBooleanValueByKey("payed")) {
+				if (uds.getBooleanValueByKey("paid")) {
 					//T: Mark a paid document with this text.
 					return _("paid");
 				}
@@ -345,7 +345,7 @@ public class UniDataSetTableColumn {
 					return _("unpaid");
 				}
 			case DUNNING:
-				if (uds.getBooleanValueByKey("payed")) {
+				if (uds.getBooleanValueByKey("paid")) {
 					//T: Mark a paid document with this text.
 					return _("paid");
 				}
@@ -408,14 +408,14 @@ public class UniDataSetTableColumn {
 		}
 
 		// Get the value of the status
-		// eg. "payed/unpayed" for invoices
+		// eg. "paid/unpaid" for invoices
 		else if (dataKey.equals("$status")) {
 			switch (DocumentType.getType(uds.getIntValueByKey("category"))) {
 			case INVOICE:
 			case CREDIT:
-				return uds.getDoubleValueByKey("payed");
+				return uds.getDoubleValueByKey("paid");
 			case DUNNING:
-				if (uds.getBooleanValueByKey("payed")) {
+				if (uds.getBooleanValueByKey("paid")) {
 					return 0.0;
 				}
 				else {

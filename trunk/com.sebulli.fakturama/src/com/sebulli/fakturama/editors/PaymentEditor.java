@@ -51,8 +51,8 @@ public class PaymentEditor extends Editor {
 	private Text textDiscountValue;
 	private Text textDiscountDays;
 	private Text textNetDays;
-	private Text textPayed;
-	private Text textUnpayed;
+	private Text textPaid;
+	private Text textUnpaid;
 	private Text txtCategory;
 
 	// defines, if the payment is new created
@@ -92,8 +92,8 @@ public class PaymentEditor extends Editor {
 		payment.setDoubleValueByKey("discountvalue", DataUtils.StringToDouble(textDiscountValue.getText()));
 		payment.setStringValueByKey("discountdays", textDiscountDays.getText());
 		payment.setStringValueByKey("netdays", textNetDays.getText());
-		payment.setStringValueByKey("payedtext", textPayed.getText());
-		payment.setStringValueByKey("unpayedtext", textUnpayed.getText());
+		payment.setStringValueByKey("paidtext", textPaid.getText());
+		payment.setStringValueByKey("unpaidtext", textUnpaid.getText());
 
 		// If it is a new payment, add it to the payment list and
 		// to the data base
@@ -182,8 +182,8 @@ public class PaymentEditor extends Editor {
 		if (!payment.getStringValueByKey("discountdays").equals(textDiscountDays.getText())) { return true; }
 		if (!payment.getStringValueByKey("netdays").equals(textNetDays.getText())) { return true; }
 		if (!payment.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
-		if (!payment.getStringValueByKey("payedtext").equals(textPayed.getText())) { return true; }
-		if (!payment.getStringValueByKey("unpayedtext").equals(textUnpayed.getText())) { return true; }
+		if (!payment.getStringValueByKey("paidtext").equals(textPaid.getText())) { return true; }
+		if (!payment.getStringValueByKey("unpaidtext").equals(textUnpaid.getText())) { return true; }
 
 		return false;
 	}
@@ -280,35 +280,35 @@ public class PaymentEditor extends Editor {
 		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textNetDays);
 
 		// Label for the "paid" text message
-		Label labelPayed = new Label(top, SWT.NONE);
+		Label labelPaid = new Label(top, SWT.NONE);
 		//T: Payment Editor: Label for the text paid
-		labelPayed.setText(_("Text 'paid'"));
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPayed);
+		labelPaid.setText(_("Text 'paid'"));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPaid);
 
-		// Create text field for the "payed" text message
-		textPayed = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		textPayed.setText(payment.getStringValueByKey("payedtext"));
-		superviceControl(textPayed, 500);
-		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textPayed);
+		// Create text field for the "paid" text message
+		textPaid = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		textPaid.setText(payment.getStringValueByKey("paidtext"));
+		superviceControl(textPaid, 500);
+		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textPaid);
 
-		// Label for the "payed" text message
-		Label labelUnpayed = new Label(top, SWT.NONE);
+		// Label for the "paid" text message
+		Label labelUnpaid = new Label(top, SWT.NONE);
 		//T: Payment Editor: Label for the text unpaid
-		labelUnpayed.setText(_("Text 'unpaid'"));
-		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(labelUnpayed);
+		labelUnpaid.setText(_("Text 'unpaid'"));
+		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(labelUnpaid);
 
 		// Create text field for "unpaid" text message
-		textUnpayed = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		textUnpayed.setText(payment.getStringValueByKey("unpayedtext"));
-		superviceControl(textUnpayed, 500);
-		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textUnpayed);
+		textUnpaid = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		textUnpaid.setText(payment.getStringValueByKey("unpaidtext"));
+		superviceControl(textUnpaid, 500);
+		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textUnpaid);
 
 		// Empty label
 		new Label(top, SWT.NONE);
 
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo1 = new Label(top, SWT.WRAP);
-		labelPlaceholderInfo1.setText(_("Placeholder") + ": <PAYED.VALUE>, <PAYED.DATE>");
+		labelPlaceholderInfo1.setText(_("Placeholder") + ": <PAID.VALUE>, <PAID.DATE>");
 		makeSmallLabel(labelPlaceholderInfo1);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo1);
 

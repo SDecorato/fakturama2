@@ -47,13 +47,13 @@ public class DataSetPayment extends UniDataSet {
 	 * @param discountvalue
 	 * @param discountdays
 	 * @param netdays
-	 * @param payedtext
-	 * @param unpayedtext
-	 * @param defaultPayed
+	 * @param paidtext
+	 * @param unpaidtext
+	 * @param defaultPaid
 	 */
-	public DataSetPayment(String name, String category, String description, double discountvalue, int discountdays, int netdays, String payedtext,
-			String unpayedtext, boolean defaultPayed) {
-		this(0, name, false, category, description, discountvalue, discountdays, netdays, payedtext, unpayedtext, defaultPayed);
+	public DataSetPayment(String name, String category, String description, double discountvalue, int discountdays, int netdays, String paidtext,
+			String unpaidtext, boolean defaultPaid) {
+		this(0, name, false, category, description, discountvalue, discountdays, netdays, paidtext, unpaidtext, defaultPaid);
 	}
 
 	/**
@@ -67,12 +67,12 @@ public class DataSetPayment extends UniDataSet {
 	 * @param discountvalue
 	 * @param discountdays
 	 * @param netdays
-	 * @param payedtext
-	 * @param unpayedtext
-	 * @param defaultPayed
+	 * @param paidtext
+	 * @param unpaidtext
+	 * @param defaultPaid
 	 */
 	public DataSetPayment(int id, String name, boolean deleted, String category, String description, double discountvalue, int discountdays, int netdays,
-			String payedtext, String unpayedtext, boolean defaultPayed) {
+			String paidtext, String unpaidtext, boolean defaultPaid) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
@@ -81,9 +81,9 @@ public class DataSetPayment extends UniDataSet {
 		this.hashMap.put("discountvalue", new UniData(UniDataType.PERCENT, discountvalue));
 		this.hashMap.put("discountdays", new UniData(UniDataType.INT, discountdays));
 		this.hashMap.put("netdays", new UniData(UniDataType.INT, netdays));
-		this.hashMap.put("payedtext", new UniData(UniDataType.TEXT, payedtext));
-		this.hashMap.put("unpayedtext", new UniData(UniDataType.TEXT, unpayedtext));
-		this.hashMap.put("defaultpayed", new UniData(UniDataType.BOOLEAN, defaultPayed));
+		this.hashMap.put("paidtext", new UniData(UniDataType.TEXT, paidtext));
+		this.hashMap.put("unpaidtext", new UniData(UniDataType.TEXT, unpaidtext));
+		this.hashMap.put("defaultpaid", new UniData(UniDataType.BOOLEAN, defaultPaid));
 
 		// Name of the table in the data base
 		sqlTabeName = "Payments";

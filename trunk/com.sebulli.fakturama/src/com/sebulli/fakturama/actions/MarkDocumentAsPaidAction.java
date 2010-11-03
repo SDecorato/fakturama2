@@ -29,17 +29,17 @@ import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
 /**
- * This action marks an entry in the invoice table as unpayed or payed.
+ * This action marks an entry in the invoice table as unpaid or paid.
  * 
  * @author Gerd Bartelt
  */
-public class MarkDocumentAsPayedAction extends Action {
+public class MarkDocumentAsPaidAction extends Action {
 
 	// progress of the order. Value from 0 to 100 (percent)
-	boolean payed;
+	boolean paid;
 
 	/**
-	 * Constructor Instead of using a value for the states "unpayed" or "payed"
+	 * Constructor Instead of using a value for the states "unpaid" or "paid"
 	 * a progress value from 0 to 100 (percent) is used.
 	 * 
 	 * So it's possible to insert states between these.
@@ -47,17 +47,17 @@ public class MarkDocumentAsPayedAction extends Action {
 	 * @param text
 	 * @param progress
 	 */
-	public MarkDocumentAsPayedAction(String text, boolean payed) {
+	public MarkDocumentAsPaidAction(String text, boolean paid) {
 		super(text);
-		this.payed = payed;
+		this.paid = paid;
 
 		// Correlation between progress value and state.
 		// Depending on the state, the icon and the command ID is selected.
-		if (payed) {
-			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAYED, "/16/checked_16.png");
+		if (paid) {
+			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAID, "/16/checked_16.png");
 		}
 		else {
-			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAYED, "/16/error_16.png");
+			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAID, "/16/error_16.png");
 		}
 
 	}
@@ -117,11 +117,11 @@ public class MarkDocumentAsPayedAction extends Action {
 						DataSetDocument uds = (DataSetDocument) obj;
 						if (uds instanceof DataSetDocument) {
 
-							// Do it only, if it is allowed to mark this kind of document as payed.
-							if (DocumentType.getType(uds.getIntValueByKey("category")).hasPayed()) {
+							// Do it only, if it is allowed to mark this kind of document as paid.
+							if (DocumentType.getType(uds.getIntValueByKey("category")).hasPaid()) {
 
 								// change the state
-								uds.setPayed(payed);
+								uds.setPaid(paid);
 
 								// also in the database
 								Data.INSTANCE.updateDataSet(uds);

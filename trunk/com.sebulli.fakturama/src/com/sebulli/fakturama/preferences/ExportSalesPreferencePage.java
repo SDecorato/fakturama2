@@ -48,7 +48,7 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	public void createFieldEditors() {
 
 		//T: Preference page "Export Sales" - Label "Use Pay Date instead of Invoice Date"
-		addField(new BooleanFieldEditor("EXPORTSALES_PAYEDDATE", _("Use pay date instead of invoice date"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("EXPORTSALES_PAIDDATE", _("Use pay date instead of invoice date"), getFieldEditorParent()));
 
 		//T: Preference page "Export Sales" - Label "Display column sum of expenditures"
 		addField(new BooleanFieldEditor("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", _("Display column sum of expenditures"), getFieldEditorParent()));
@@ -76,7 +76,7 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_PAYEDDATE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_PAIDDATE", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_SHOW_ZERO_VAT_COLUMN", write);
 	}
@@ -88,7 +88,7 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.putBoolean("EXPORTSALES_PAYEDDATE", true);
+		node.putBoolean("EXPORTSALES_PAIDDATE", true);
 		node.putBoolean("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", false);
 		node.putBoolean("EXPORTSALES_SHOW_ZERO_VAT_COLUMN", false);
 

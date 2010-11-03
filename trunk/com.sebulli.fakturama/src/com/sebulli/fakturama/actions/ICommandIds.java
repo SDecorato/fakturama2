@@ -55,7 +55,7 @@ public interface ICommandIds {
 	public static final String CMD_WEBSHOP_IMPORT = "com.sebulli.fakturama.actions.webShopImport";
 
 	public static final String CMD_MARK_ORDER_AS = "com.sebulli.fakturama.actions.markOrderAs";
-	public static final String CMD_MARK_DOCUMENT_AS_PAYED = "com.sebulli.fakturama.actions.markDocumentAsPayed";
+	public static final String CMD_MARK_DOCUMENT_AS_PAID = "com.sebulli.fakturama.actions.markDocumentAsPaid";
 
 	public static final String CMD_IMPORT_CSV = "com.sebulli.fakturama.actions.importCSV";
 
