@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Text;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.UniData;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -37,6 +38,16 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class DataUtils {
 
+	private static String currencySymbol = null;
+	
+	/**
+	 * Update the currency symbol from the preferences
+	 */
+	public static void updateCurrencySymbol() {
+		
+		currencySymbol = Activator.getDefault().getPreferenceStore().getString("GENERAL_CURRENCY");
+	}
+	
 	/**
 	 * Test, if a value is rounded to cent values. e.g. 39,43000 € is a rounded
 	 * value 39,43200 € is not.
@@ -208,7 +219,9 @@ public class DataUtils {
 	 * @return Converted value as string
 	 */
 	public static String DoubleToFormatedPrice(Double d) {
-		return DoubleToFormatedValue(d, true) + " €";
+		if (currencySymbol == null)
+			updateCurrencySymbol();
+		return DoubleToFormatedValue(d, true) + " " + currencySymbol;
 	}
 
 	/**
@@ -245,7 +258,7 @@ public class DataUtils {
 	 * @return Converted value as string
 	 */
 	public static String DoubleToFormatedPriceRound(Double d) {
-		return DoubleToFormatedValue(round(d), true) + " €";
+		return DoubleToFormatedPrice(round(d));
 	}
 
 	/**

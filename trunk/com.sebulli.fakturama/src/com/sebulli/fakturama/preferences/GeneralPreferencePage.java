@@ -16,13 +16,18 @@ package com.sebulli.fakturama.preferences;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.calculate.DataUtils;
 
 /**
  * Preference page for the document settings
@@ -50,6 +55,9 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		//T: Preference page "General" - Label "Collapse expand bar of the navigation view"
 		addField(new BooleanFieldEditor("GENERAL_COLLAPSE_EXPANDBAR",_("Navigation view: Collapse expand bar."), getFieldEditorParent()));
 
+		//T: Preference page "General" - Label Currency
+		addField(new StringFieldEditor("GENERAL_CURRENCY", _("Currency"), getFieldEditorParent()));
+
 	}
 
 	/**
@@ -72,6 +80,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_COLLAPSE_EXPANDBAR", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_CURRENCY", write);
 	}
 
 	/**
@@ -82,6 +91,50 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.putBoolean("GENERAL_COLLAPSE_EXPANDBAR", false);
+
+		//Set the currency symbol of the default local
+		String currency = "$";
+		try {
+			NumberFormat numberFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
+			currency = numberFormatter.getCurrency().getSymbol();
+		}
+		catch (Exception e) {
+		}
+		node.put("GENERAL_CURRENCY", currency);
+		
+	}
+
+	/**
+	 * Update the currency Symbol for the whole application
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performOk()
+	 */
+	@Override
+	public boolean performOk() {
+		DataUtils.updateCurrencySymbol();
+		return super.performOk();
+	}
+
+	/**
+	 * Update the currency Symbol for the whole application
+	 * 
+	 * @see org.eclipse.jface.preference.PreferencePage#performApply()
+	 */
+	@Override
+	protected void performApply() {
+		DataUtils.updateCurrencySymbol();
+		super.performApply();
+	}
+
+	/**
+	 * Update the currency Symbol for the whole application
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performDefaults()
+	 */
+	@Override
+	protected void performDefaults() {
+		DataUtils.updateCurrencySymbol();
+		super.performDefaults();
 	}
 
 }
