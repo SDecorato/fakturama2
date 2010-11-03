@@ -437,11 +437,11 @@ public enum DocumentType {
 	}
 
 	/**
-	 * Defines all Document Types that can be marked as payed
+	 * Defines all Document Types that can be marked as paid
 	 * 
 	 * @return True for all types with a price
 	 */
-	public boolean hasPayed() {
+	public boolean hasPaid() {
 		switch (this) {
 		case LETTER:
 			return false;

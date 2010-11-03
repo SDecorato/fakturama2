@@ -108,14 +108,14 @@ public class DocumentEditor extends Editor {
 	private Text txtInvoiceRef;
 	private TableViewer tableViewerItems;
 	private Text txtMessage;
-	private Button bPayed;
-	private Composite payedContainer;
-	private Composite payedDataContainer = null;
+	private Button bPaid;
+	private Composite paidContainer;
+	private Composite paidDataContainer = null;
 	private Combo comboPayment;
 	private ComboViewer comboViewerPayment;
 	private Spinner spDueDays;
 	private DateTime dtIssueDate;
-	private DateTime dtPayedDate;
+	private DateTime dtPaidDate;
 	private Label itemsSum;
 	private Text itemsDiscount;
 	private Combo comboShipping;
@@ -140,7 +140,7 @@ public class DocumentEditor extends Editor {
 	private String noVatName;
 	private String noVatDescription;
 	private int paymentId;
-	private UniData payedValue = new UniData(UniDataType.DOUBLE, 0.0);
+	private UniData paidValue = new UniData(UniDataType.DOUBLE, 0.0);
 	private int shippingId;
 	private Double shipping = 0.0;
 	private Double shippingVat = 0.0;
@@ -286,35 +286,35 @@ public class DocumentEditor extends Editor {
 		// Set the customer reference number
 		document.setStringValueByKey("customerref", txtCustomerRef.getText());
 
-		// Set the payment values depending on if the document is payed or not
+		// Set the payment values depending on if the document is paid or not
 		// Set the shipping values
 		if (comboPayment != null) {
 			document.setStringValueByKey("paymentdescription", comboPayment.getText());
 		}
 		document.setIntValueByKey("paymentid", paymentId);
 
-		if (bPayed != null) {
+		if (bPaid != null) {
 			String paymentText = "";
 
-			if (bPayed.getSelection()) {
-				document.setBooleanValueByKey("payed", true);
-				document.setStringValueByKey("paydate", DataUtils.getDateTimeAsString(dtPayedDate));
-				document.setDoubleValueByKey("payvalue", payedValue.getValueAsDouble());
+			if (bPaid.getSelection()) {
+				document.setBooleanValueByKey("paid", true);
+				document.setStringValueByKey("paydate", DataUtils.getDateTimeAsString(dtPaidDate));
+				document.setDoubleValueByKey("payvalue", paidValue.getValueAsDouble());
 
-				// Use the text for "payed" from the current payment
+				// Use the text for "paid" from the current payment
 				if (paymentId >= 0) {
-					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("payedtext");
+					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("paidtext");
 				}
 
 			}
 			else {
-				document.setBooleanValueByKey("payed", false);
+				document.setBooleanValueByKey("paid", false);
 				document.setIntValueByKey("duedays", spDueDays.getSelection());
 				document.setDoubleValueByKey("payvalue", 0.0);
 
 				// Use the text for "unpaid" from the current payment
 				if (paymentId >= 0) {
-					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("unpayedtext");
+					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("unpaidtext");
 				}
 
 			}
@@ -687,11 +687,11 @@ public class DocumentEditor extends Editor {
 		if (!document.getStringValueByKey("customerref").equals(txtCustomerRef.getText())) { return true; }
 
 		if (spDueDays != null)
-			if (document.getBooleanValueByKey("payed") != bPayed.getSelection()) { return true; }
-		if (bPayed != null) {
-			if (bPayed.getSelection()) {
-				if (!document.getStringValueByKey("paydate").equals(DataUtils.getDateTimeAsString(dtPayedDate))) { return true; }
-				if (!DataUtils.DoublesAreEqual(payedValue.getValueAsDouble(), document.getDoubleValueByKey("payvalue"))) { return true; }
+			if (document.getBooleanValueByKey("paid") != bPaid.getSelection()) { return true; }
+		if (bPaid != null) {
+			if (bPaid.getSelection()) {
+				if (!document.getStringValueByKey("paydate").equals(DataUtils.getDateTimeAsString(dtPaidDate))) { return true; }
+				if (!DataUtils.DoublesAreEqual(paidValue.getValueAsDouble(), document.getDoubleValueByKey("payvalue"))) { return true; }
 			}
 			else {
 				if (document.getIntValueByKey("duedays") != spDueDays.getSelection()) { return true; }
@@ -912,70 +912,70 @@ public class DocumentEditor extends Editor {
 
 	/**
 	 * Create a SWT composite witch contains other SWT widgets like the payment
-	 * date or the payed value. Depending on the parameter "payed" widgets are
-	 * created to set the due values or the payed values.
+	 * date or the paid value. Depending on the parameter "paid" widgets are
+	 * created to set the due values or the paid values.
 	 * 
-	 * @param payed
-	 *            If true, the widgets for "payed" are generated
+	 * @param paid
+	 *            If true, the widgets for "paid" are generated
 	 */
-	private void createPayedComposite(boolean payed, boolean clickedByUser) {
+	private void createPaidComposite(boolean paid, boolean clickedByUser) {
 
 		// If this widget exists yet, remove it to create it new.
 		boolean changed = false;
-		if ((payedDataContainer != null) && (!payedDataContainer.isDisposed())) {
-			payedDataContainer.dispose();
+		if ((paidDataContainer != null) && (!paidDataContainer.isDisposed())) {
+			paidDataContainer.dispose();
 			changed = true;
 		}
 
-		// Create the new payed container
-		payedDataContainer = new Composite(payedContainer, SWT.NONE);
-		GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(4).applyTo(payedDataContainer);
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(payedDataContainer);
+		// Create the new paid container
+		paidDataContainer = new Composite(paidContainer, SWT.NONE);
+		GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(4).applyTo(paidDataContainer);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(paidDataContainer);
 
-		// Should this container have the widgets for the state "payed" ?
-		if (payed) {
+		// Should this container have the widgets for the state "paid" ?
+		if (paid) {
 
-			// Create the widget for the date, when the invoice was payed
-			Label payedDateLabel = new Label(payedDataContainer, SWT.NONE);
-			payedDateLabel.setText("am");
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedDateLabel);
+			// Create the widget for the date, when the invoice was paid
+			Label paidDateLabel = new Label(paidDataContainer, SWT.NONE);
+			paidDateLabel.setText("am");
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidDateLabel);
 
-			dtPayedDate = new DateTime(payedDataContainer, SWT.DATE);
-			GridDataFactory.swtDefaults().applyTo(dtPayedDate);
+			dtPaidDate = new DateTime(paidDataContainer, SWT.DATE);
+			GridDataFactory.swtDefaults().applyTo(dtPaidDate);
 
-			// Set the payed date to the documents "paydate" parameter
+			// Set the paid date to the documents "paydate" parameter
 			GregorianCalendar calendar = new GregorianCalendar();
 			calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("paydate"));
-			dtPayedDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-			superviceControl(dtPayedDate);
+			superviceControl(dtPaidDate);
 
 			// Create the widget for the value
-			Label payedValueLabel = new Label(payedDataContainer, SWT.NONE);
+			Label paidValueLabel = new Label(paidDataContainer, SWT.NONE);
 			
-			payedValueLabel.setText(_("Value"));
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(payedValueLabel);
+			paidValueLabel.setText(_("Value"));
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidValueLabel);
 
-			// If it's the first time, that this document is marked as payed
+			// If it's the first time, that this document is marked as paid
 			// (if the value is 0.0), then also set the date to "today"
-			if ((payedValue.getValueAsDouble() == 0.0) && clickedByUser) {
-				payedValue.setValue(total);
+			if ((paidValue.getValueAsDouble() == 0.0) && clickedByUser) {
+				paidValue.setValue(total);
 				calendar = new GregorianCalendar();
-				dtPayedDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+				dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 			}
-			CurrencyText txtPayValue = new CurrencyText(this, payedDataContainer, SWT.BORDER | SWT.RIGHT, payedValue);
+			CurrencyText txtPayValue = new CurrencyText(this, paidDataContainer, SWT.BORDER | SWT.RIGHT, paidValue);
 			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
 
 		}
 		// The container is created with the widgets that are shown,
-		// if the invoice is not payed.
+		// if the invoice is not paid.
 		else {
 
-			// Reset the payed value to 0
-			payedValue.setValue(0.0);
+			// Reset the paid value to 0
+			paidValue.setValue(0.0);
 
 			// Create the due days label
-			Label dueDaysLabel = new Label(payedDataContainer, SWT.NONE);
+			Label dueDaysLabel = new Label(paidDataContainer, SWT.NONE);
 
 			//T: Document Editor - Label before the Text Field "Due Days".
 			//T: Format: THIS LABEL <DAYS> PAYABLE UNTIL <ISSUE DATE>
@@ -983,7 +983,7 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(dueDaysLabel);
 
 			// Creates the due days spinner
-			spDueDays = new Spinner(payedDataContainer, SWT.BORDER | SWT.RIGHT);
+			spDueDays = new Spinner(paidDataContainer, SWT.BORDER | SWT.RIGHT);
 			spDueDays.setMinimum(0);
 			spDueDays.setMaximum(365);
 			spDueDays.setSelection(document.getIntValueByKey("duedays"));
@@ -1003,7 +1003,7 @@ public class DocumentEditor extends Editor {
 			});
 
 			// Create the issue date label
-			Label issueDateLabel = new Label(payedDataContainer, SWT.NONE);
+			Label issueDateLabel = new Label(paidDataContainer, SWT.NONE);
 
 			//T: Document Editor - Label between the Text Field "Due Days" and the Date Field "Issue Date" 
 			//T: Format:  DUE DAYS: <DAYS> THIS LABEL <ISSUE DATE>
@@ -1011,7 +1011,7 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(issueDateLabel);
 
 			// Create the issue date widget
-			dtIssueDate = new DateTime(payedDataContainer, SWT.DATE);
+			dtIssueDate = new DateTime(paidDataContainer, SWT.DATE);
 			GridDataFactory.swtDefaults().applyTo(dtIssueDate);
 			dtIssueDate.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
@@ -1035,8 +1035,8 @@ public class DocumentEditor extends Editor {
 		}
 
 		// Resize the container
-		payedContainer.layout(changed);
-		payedContainer.pack(changed);
+		paidContainer.layout(changed);
+		paidContainer.pack(changed);
 	}
 
 	/**
@@ -1066,7 +1066,7 @@ public class DocumentEditor extends Editor {
 		noVat = document.getBooleanValueByKey("novat");
 		noVatName = document.getStringValueByKey("novatname");
 		noVatDescription = document.getStringValueByKey("novatdescription");
-		payedValue.setValue(document.getDoubleValueByKey("payvalue"));
+		paidValue.setValue(document.getDoubleValueByKey("payvalue"));
 		if (dunningLevel <= 0)
 			dunningLevel = document.getIntValueByKey("dunninglevel");
 
@@ -1611,7 +1611,7 @@ public class DocumentEditor extends Editor {
 
 		else {
 
-			if (documentType.hasPayed())
+			if (documentType.hasPaid())
 				GridDataFactory.fillDefaults().span(2, 1).hint(SWT.DEFAULT, 70).grab(true, false).applyTo(txtMessage);
 			else
 				GridDataFactory.fillDefaults().span(2, 1).grab(true, true).applyTo(txtMessage);
@@ -1776,34 +1776,34 @@ public class DocumentEditor extends Editor {
 			totalValue.setText("---");
 			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(totalValue);
 
-			// Create the "payed"-controls, only if the document type allows
+			// Create the "paid"-controls, only if the document type allows
 			// this.
-			if (documentType.hasPayed()) {
+			if (documentType.hasPaid()) {
 
-				// The payed label
-				bPayed = new Button(top, SWT.CHECK | SWT.LEFT);
-				bPayed.setSelection(document.getBooleanValueByKey("payed"));
+				// The paid label
+				bPaid = new Button(top, SWT.CHECK | SWT.LEFT);
+				bPaid.setSelection(document.getBooleanValueByKey("paid"));
 				//T: Mark a paid document with this text.
-				bPayed.setText(_("paid"));
-				GridDataFactory.swtDefaults().applyTo(bPayed);
+				bPaid.setText(_("paid"));
+				GridDataFactory.swtDefaults().applyTo(bPaid);
 
-				// Container for the payment and the payed state
-				payedContainer = new Composite(top, SWT.NONE);
-				GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(payedContainer);
-				GridDataFactory.swtDefaults().span(2, 1).align(SWT.BEGINNING, SWT.CENTER).applyTo(payedContainer);
+				// Container for the payment and the paid state
+				paidContainer = new Composite(top, SWT.NONE);
+				GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(paidContainer);
+				GridDataFactory.swtDefaults().span(2, 1).align(SWT.BEGINNING, SWT.CENTER).applyTo(paidContainer);
 
-				// If the payed check box is selected ...
-				bPayed.addSelectionListener(new SelectionAdapter() {
+				// If the paid check box is selected ...
+				bPaid.addSelectionListener(new SelectionAdapter() {
 
-					// ... Recreate the payed composite
+					// ... Recreate the paid composite
 					public void widgetSelected(SelectionEvent e) {
-						createPayedComposite(bPayed.getSelection(), true);
+						createPaidComposite(bPaid.getSelection(), true);
 						checkDirty();
 					}
 				});
 
 				// Combo to select the payment
-				comboPayment = new Combo(payedContainer, SWT.BORDER);
+				comboPayment = new Combo(paidContainer, SWT.BORDER);
 				comboViewerPayment = new ComboViewer(comboPayment);
 				comboViewerPayment.setContentProvider(new UniDataSetContentProvider());
 				comboViewerPayment.setLabelProvider(new UniDataSetLabelProvider("description"));
@@ -1832,9 +1832,9 @@ public class DocumentEditor extends Editor {
 				comboViewerPayment.setInput(Data.INSTANCE.getPayments().getDatasets());
 				superviceControl(comboPayment);
 
-				// Create a default payed composite with the document's
+				// Create a default paid composite with the document's
 				// state for "paid"
-				createPayedComposite(document.getBooleanValueByKey("payed"), false);
+				createPaidComposite(document.getBooleanValueByKey("paid"), false);
 
 				// Set the combo
 				comboPayment.setText(document.getStringValueByKey("paymentdescription"));

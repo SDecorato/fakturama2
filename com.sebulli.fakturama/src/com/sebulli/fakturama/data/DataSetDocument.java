@@ -85,7 +85,7 @@ public class DataSetDocument extends UniDataSet {
 				.getStringValueByKey("deliveryaddress"), parent.getStringValueByKey("addressfirstline"), parent.getIntValueByKey("progress"), parent
 				.getStringValueByKey("customerref"), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd"))
 				.format(new Date()), parent.getIntValueByKey("paymentid"), parent.getStringValueByKey("paymentname"), parent.getIntValueByKey("duedays"),
-				parent.getBooleanValueByKey("payed"), parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"), parent
+				parent.getBooleanValueByKey("paid"), parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"), parent
 						.getStringValueByKey("items"), parent.getIntValueByKey("shippingid"), parent.getStringValueByKey("shippingname"), parent
 						.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"), parent.getStringValueByKey("shippingvatdescription"),
 				parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent.getStringValueByKey("message"), parent
@@ -136,7 +136,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @param paymentid
 	 * @param paymentname
 	 * @param duedays
-	 * @param payed
+	 * @param paid
 	 * @param paydate
 	 * @param payvalue
 	 * @param paymenttext
@@ -164,7 +164,7 @@ public class DataSetDocument extends UniDataSet {
 	 */
 	public DataSetDocument(int id, String name, boolean deleted, DocumentType documentType, int addressid, String address, String deliveryaddress,
 			String addressfirstline, int progress, String customerref, String date, String servicedate, int paymentid, String paymentname, int duedays,
-			boolean payed, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping,
+			boolean paid, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping,
 			Double shippingvat, String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid,
 			String webshopdate, String orderdate, boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel,
 			int invoiceid, String paymentdescription, String shippingdescription) {
@@ -184,7 +184,7 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("paymentname", new UniData(UniDataType.STRING, paymentname));
 		this.hashMap.put("paymentdescription", new UniData(UniDataType.STRING, paymentdescription));
 		this.hashMap.put("duedays", new UniData(UniDataType.INT, duedays));
-		this.hashMap.put("payed", new UniData(UniDataType.BOOLEAN, payed));
+		this.hashMap.put("paid", new UniData(UniDataType.BOOLEAN, paid));
 		this.hashMap.put("paydate", new UniData(UniDataType.DATE, paydate));
 		this.hashMap.put("payvalue", new UniData(UniDataType.PRICE, payvalue));
 		this.hashMap.put("paymenttext", new UniData(UniDataType.STRING, paymenttext));
@@ -220,7 +220,7 @@ public class DataSetDocument extends UniDataSet {
 	 * 
 	 * @return String for "paid"
 	 */
-	public static String getStringPAYED() {
+	public static String getStringPAID() {
 		//T: Mark a paid document with this text.
 		return _("paid");
 	};
@@ -230,7 +230,7 @@ public class DataSetDocument extends UniDataSet {
 	 * 
 	 * @return String for "unpaid"
 	 */
-	public static String getStringNOTPAYED() {
+	public static String getStringNOTPAID() {
 		//T: Mark an unpaid document with this text.
 		return _("unpaid");
 	};
@@ -271,10 +271,10 @@ public class DataSetDocument extends UniDataSet {
 			case CREDIT:
 			case DUNNING:
 				// .. the state of the payment ..
-				if (this.hashMap.get("payed").getValueAsBoolean())
-					category += "/" + DataSetDocument.getStringPAYED();
+				if (this.hashMap.get("paid").getValueAsBoolean())
+					category += "/" + DataSetDocument.getStringPAID();
 				else
-					category += "/" + DataSetDocument.getStringNOTPAYED();
+					category += "/" + DataSetDocument.getStringNOTPAID();
 				break;
 			case ORDER:
 				// .. and the state of the shipping
@@ -329,8 +329,8 @@ public class DataSetDocument extends UniDataSet {
 
 		if (usedDocuments[DocumentType.INVOICE.getInt()]) {
 			// add payment state
-			list.add(DocumentType.INVOICE.getPluralString() + "/" + getStringNOTPAYED());
-			list.add(DocumentType.INVOICE.getPluralString() + "/" + getStringPAYED());
+			list.add(DocumentType.INVOICE.getPluralString() + "/" + getStringNOTPAID());
+			list.add(DocumentType.INVOICE.getPluralString() + "/" + getStringPAID());
 		}
 
 		if (usedDocuments[DocumentType.DELIVERY.getInt()])
@@ -338,14 +338,14 @@ public class DataSetDocument extends UniDataSet {
 
 		if (usedDocuments[DocumentType.CREDIT.getInt()]) {
 			// add payment state
-			list.add(DocumentType.CREDIT.getPluralString() + "/" + getStringNOTPAYED());
-			list.add(DocumentType.CREDIT.getPluralString() + "/" + getStringPAYED());
+			list.add(DocumentType.CREDIT.getPluralString() + "/" + getStringNOTPAID());
+			list.add(DocumentType.CREDIT.getPluralString() + "/" + getStringPAID());
 		}
 
 		if (usedDocuments[DocumentType.DUNNING.getInt()]) {
 			// add payment state
-			list.add(DocumentType.DUNNING.getPluralString() + "/" + getStringNOTPAYED());
-			list.add(DocumentType.DUNNING.getPluralString() + "/" + getStringPAYED());
+			list.add(DocumentType.DUNNING.getPluralString() + "/" + getStringNOTPAID());
+			list.add(DocumentType.DUNNING.getPluralString() + "/" + getStringPAID());
 		}
 
 		return list.toArray();
@@ -425,14 +425,14 @@ public class DataSetDocument extends UniDataSet {
 	}
 
 	/**
-	 * Sets the state of the document to payed or unpayed Take the total value
-	 * as payed value and the date of today.
+	 * Sets the state of the document to paid or unpaid Take the total value
+	 * as paid value and the date of today.
 	 * 
-	 * @param payed
+	 * @param paid
 	 */
-	public void setPayed(boolean payed) {
-		this.setBooleanValueByKey("payed", payed);
-		if (payed) {
+	public void setPaid(boolean paid) {
+		this.setBooleanValueByKey("paid", paid);
+		if (paid) {
 			this.setStringValueByKey("paydate", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 			this.setDoubleValueByKey("payvalue", this.getDoubleValueByKey("total"));
 		}

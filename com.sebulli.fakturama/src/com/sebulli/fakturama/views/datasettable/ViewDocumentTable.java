@@ -25,7 +25,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import com.sebulli.fakturama.actions.DeleteDataSetAction;
-import com.sebulli.fakturama.actions.MarkDocumentAsPayedAction;
+import com.sebulli.fakturama.actions.MarkDocumentAsPaidAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.data.Data;
@@ -96,8 +96,8 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		tableViewer.setInput(Data.INSTANCE.getDocuments());
 		topicTreeViewer.setInput(Data.INSTANCE.getDocuments());
 
-		// On creating, set the unpayed invoices
-		topicTreeViewer.selectItemByName(DocumentType.getPluralString(DocumentType.INVOICE) + "/" + DataSetDocument.getStringNOTPAYED());
+		// On creating, set the unpaid invoices
+		topicTreeViewer.selectItemByName(DocumentType.getPluralString(DocumentType.INVOICE) + "/" + DataSetDocument.getStringNOTPAID());
 
 	}
 
@@ -113,10 +113,10 @@ public class ViewDocumentTable extends ViewDataSetTable {
 			menuManager.add(new MarkOrderAsAction("als \"in Bearbeitung\" markieren", 50));
 			menuManager.add(new MarkOrderAsAction("als \"versendet\" markieren", 90));
 		}
-		// Add the entries to mark a document as payed
-		else if (documentType.hasPayed()) {
-			menuManager.add(new MarkDocumentAsPayedAction("als \"unbezahlt\" markieren", false));
-			menuManager.add(new MarkDocumentAsPayedAction("als \"bezahlt\" markieren", true));
+		// Add the entries to mark a document as paid
+		else if (documentType.hasPaid()) {
+			menuManager.add(new MarkDocumentAsPaidAction("als \"unbezahlt\" markieren", false));
+			menuManager.add(new MarkDocumentAsPaidAction("als \"bezahlt\" markieren", true));
 		}
 
 		menuManager.add(new Separator());

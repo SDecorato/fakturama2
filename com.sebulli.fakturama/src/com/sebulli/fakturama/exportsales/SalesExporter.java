@@ -73,7 +73,7 @@ public class SalesExporter {
 	// Settings from the preference page
 	boolean showExpenditureSumColumn;
 	boolean showZeroVatColumn;
-	boolean usePayedDate;
+	boolean usePaidDate;
 
 	/**
 	 * Default constructor
@@ -98,7 +98,7 @@ public class SalesExporter {
 
 	/**
 	 * Returns, if a given document should be used to export. Only invoice and
-	 * credit documents that are payed in the specified time interval are
+	 * credit documents that are paid in the specified time interval are
 	 * exported.
 	 * 
 	 * @param document
@@ -132,10 +132,10 @@ public class SalesExporter {
 				isInIntervall = false;
 		}
 
-		// Only payed invoiced and credits in the interval
+		// Only paid invoiced and credits in the interval
 		// will be exported.
 		return ((document.getIntValueByKey("category") == DocumentType.INVOICE.getInt()) || (document.getIntValueByKey("category") == DocumentType.CREDIT
-				.getInt())) && document.getBooleanValueByKey("payed") && isInIntervall;
+				.getInt())) && document.getBooleanValueByKey("paid") && isInIntervall;
 	}
 
 	/**
@@ -232,12 +232,12 @@ public class SalesExporter {
 			Logger.logError(e, "Error getting spreadsheet");
 		}
 
-		usePayedDate = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAYEDDATE");
+		usePaidDate = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAIDDATE");
 		showExpenditureSumColumn = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN");
 		showZeroVatColumn = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_SHOW_ZERO_VAT_COLUMN");
 
 		// Use pay date or document date
-		if (usePayedDate)
+		if (usePaidDate)
 			documentDateKey = "paydate";
 		else
 			documentDateKey = "date";
@@ -386,7 +386,7 @@ public class SalesExporter {
 				VatSummarySetManager vatSummarySetOneDocument = new VatSummarySetManager();
 				document.calculate();
 
-				// Calculate the relation between payed value and the value
+				// Calculate the relation between paid value and the value
 				// of the invoice. This is used to calculate the VAT.
 				// Example.
 				// The net sum of the invoice is 100€.
@@ -394,13 +394,13 @@ public class SalesExporter {
 				//
 				// The customer pays only 115€.
 				// 
-				// Then the payedFactor is 115/120 = 0.9583333..
+				// Then the paidFactor is 115/120 = 0.9583333..
 				// The VAT value in the invoice is also scaled by this 0.958333...
 				// to 19.17€
-				Double payedFactor = document.getDoubleValueByKey("payvalue") / document.getDoubleValueByKey("total");
+				Double paidFactor = document.getDoubleValueByKey("payvalue") / document.getDoubleValueByKey("total");
 
-				// Use the payed value
-				vatSummarySetOneDocument.add(document, payedFactor);
+				// Use the paid value
+				vatSummarySetOneDocument.add(document, paidFactor);
 
 				// Fill the row with the document data
 				col = 0;
@@ -476,7 +476,7 @@ public class SalesExporter {
 				Double totalNet = document.getSummary().getTotalNet().asDouble();
 				//totalNet += document.getSummary().getShipping().getUnitNet().asDouble();
 
-				Double roundingError = totalNet * payedFactor - net;
+				Double roundingError = totalNet * paidFactor - net;
 
 				// Normally both results must be equal.
 				// If the difference is grater than 1 Cent, display a warning.
