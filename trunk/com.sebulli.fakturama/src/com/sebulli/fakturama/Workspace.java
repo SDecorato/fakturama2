@@ -78,7 +78,7 @@ public enum Workspace {
 			selectWorkspace();
 		}
 		else {
-			// Checks, wheter the workspace exists
+			// Checks, whether the workspace exists
 			// Exit, if the workspace path is not valid
 			File workspacePath = new File(workspace);
 			if (!workspacePath.exists()) {
@@ -236,12 +236,12 @@ public enum Workspace {
 					//T: Title of a message box
 					messageBox.setText(_("Information"));
 					//T: Text of the dialog that the workspace will be switched and that you should restart Fakturama.
-					messageBox.setMessage("The working directory will be switched.\nPlease restart Fakturama!");
+					messageBox.setMessage(_("To switch the workspace,\nFakturama will be restarted!"));
 					messageBox.open();
 
 					// Close the workbench
 					//					ViewManager.INSTANCE.closeAll();
-					PlatformUI.getWorkbench().close();
+					PlatformUI.getWorkbench().restart();
 				}
 				// if there is no connection, use it immediately
 				else {
