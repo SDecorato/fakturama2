@@ -217,27 +217,39 @@ public class VatEditor extends Editor {
 		// Name of the VAT
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText(_("Name"));
+		//T: Tool Tip Text
+		labelName.setToolTipText(_("Name of the tax rate. This is also the identifier used by the shop system."));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(vat.getStringValueByKey("name"));
+		textName.setToolTipText(labelName.getToolTipText());
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
 		// Category of the VAT
 		Label labelCategory = new Label(top, SWT.NONE);
 		labelCategory.setText(_("Category"));
+		//T: Tool Tip Text
+		labelCategory.setToolTipText(_("You can set a category to classify the tax rates"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
 		txtCategory.setText(vat.getStringValueByKey("category"));
+		txtCategory.setToolTipText(labelCategory.getToolTipText());
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
 		// The description
 		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText(_("Description"));
+		//T: Tool Tip Text
+		labelDescription.setToolTipText(_("The description is the text used in the documents"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
 		textDescription.setText(vat.getStringValueByKey("description"));
+		textDescription.setToolTipText(labelDescription.getToolTipText());
 		superviceControl(textDescription, 250);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDescription);
 
@@ -253,9 +265,14 @@ public class VatEditor extends Editor {
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStdVat = new Label(top, SWT.NONE);
 		labelStdVat.setText(_("Standard"));
+		//T: Tool Tip Text
+		labelStdVat.setToolTipText(_("Name of the tax rate that is the standard"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
 		//T: VAT Editor: Button description to make this as standard VAT.
 		stdComposite = new StdComposite(top, vat, Data.INSTANCE.getVATs(), "standardvat",  _("This TAX Rate"), 1);
+		//T: Tool Tip Text
+		stdComposite.setToolTipText(_("Make this tax rate to the standard"));
 
 	}
 

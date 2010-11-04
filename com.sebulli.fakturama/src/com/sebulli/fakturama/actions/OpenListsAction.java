@@ -36,6 +36,9 @@ public class OpenListsAction extends Action {
 		//T: Text of the action to open the lists
 		super(_("Lists"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Open miscellaneous lists") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_LISTS);
 

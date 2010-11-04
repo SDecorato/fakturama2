@@ -22,15 +22,17 @@ import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
+import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
@@ -99,7 +101,14 @@ public class TopicTreeViewer extends TreeViewer {
 		// Add a transaction and contact entry
 		if (useDocumentAndContactFilter) {
 			transactionItem = new TreeParent("---", "document_10.png");
+			//T: Tool Tip Text
+			transactionItem.setToolTip(_("Show all documents that belong to this transaction."));
+
 			contactItem = new TreeParent("---", "contact_10.png");
+			//T: Tool Tip Text
+			contactItem.setToolTip(_("Show all documents that belong to this customer."));
+			
+
 		}
 
 		// If an element of the tree is selected, update the filter
@@ -187,6 +196,7 @@ public class TopicTreeViewer extends TreeViewer {
 	class TreeObject {
 		private String name;
 		private String command;
+		private String toolTip;
 		private TreeParent parent;
 		private String icon;
 		private int transactionId = -1;
@@ -202,6 +212,7 @@ public class TopicTreeViewer extends TreeViewer {
 			this.command = null;
 			this.name = name;
 			this.icon = null;
+			this.toolTip = null;
 		}
 
 		/**
@@ -216,6 +227,7 @@ public class TopicTreeViewer extends TreeViewer {
 			this.command = null;
 			this.name = name;
 			this.icon = icon;
+			this.toolTip = null;
 		}
 
 		/**
@@ -232,6 +244,16 @@ public class TopicTreeViewer extends TreeViewer {
 			this.name = name;
 			this.command = command;
 			this.icon = icon;
+			this.toolTip = null;
+		}
+
+		/**
+		 * Returns the tool tip text of the tree object
+		 * 
+		 * @return The name
+		 */
+		public String getToolTip() {
+			return toolTip;
 		}
 
 		/**
@@ -277,6 +299,16 @@ public class TopicTreeViewer extends TreeViewer {
 		 */
 		public int getContactId() {
 			return this.contactId;
+		}
+
+		/**
+		 * Sets the tool tip text
+		 * 
+		 * @param toolTip
+		 *            the tool tip text
+		 */
+		public void setToolTip(String toolTip) {
+			this.toolTip = toolTip;
 		}
 
 		/**
@@ -563,7 +595,7 @@ public class TopicTreeViewer extends TreeViewer {
 	 * 
 	 * @author Gerd Bartelt
 	 */
-	class ViewLabelProvider extends LabelProvider {
+	class ViewLabelProvider extends CellLabelProvider {
 
 		/**
 		 * The LabelProvider implementation of this ILabelProvider method
@@ -571,7 +603,7 @@ public class TopicTreeViewer extends TreeViewer {
 		 * 
 		 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
 		 */
-		@Override
+		//@Override
 		public String getText(Object obj) {
 
 			// Display the localizes list names.
@@ -587,7 +619,7 @@ public class TopicTreeViewer extends TreeViewer {
 		 * 
 		 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 		 */
-		@Override
+		//@Override
 		public Image getImage(Object obj) {
 
 			// Get the icon string of the element
@@ -613,6 +645,26 @@ public class TopicTreeViewer extends TreeViewer {
 			// Return no icon
 			return PlatformUI.getWorkbench().getSharedImages().getImage(null);
 		}
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.ViewerLabelProvider#getTooltipText(java.lang.Object)
+		 */
+		@Override
+		public String getToolTipText(Object element) {
+			return ((TreeObject) element).getToolTip();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.viewers.CellLabelProvider#update(org.eclipse.jface.viewers.ViewerCell)
+		 */
+		@Override
+		public void update(ViewerCell cell) {
+			cell.setText(getText(cell.getElement()));
+			cell.setImage(getImage(cell.getElement()));
+		}
+
+		
 	}
 
 	/**
@@ -687,6 +739,7 @@ public class TopicTreeViewer extends TreeViewer {
 		// Set the name
 		//T: Topic Tree Viewer transaction title
 		transactionItem.setName(_("Transaction"));
+		
 		refresh();
 	}
 
@@ -785,6 +838,8 @@ public class TopicTreeViewer extends TreeViewer {
 
 		// Expand the tree only to level 2
 		this.expandToLevel(2);
+		ColumnViewerToolTipSupport.enableFor(this);
+
 	}
 
 	/**

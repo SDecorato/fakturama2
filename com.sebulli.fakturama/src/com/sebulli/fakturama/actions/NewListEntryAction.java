@@ -39,6 +39,9 @@ public class NewListEntryAction extends NewEditorAction {
 		//T: Text of the action to create a new list entry
 		super(_("New List Entry"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Create a new list entry") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_LISTENTRY);
 

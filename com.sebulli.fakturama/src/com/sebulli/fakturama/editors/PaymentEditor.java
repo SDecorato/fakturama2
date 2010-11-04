@@ -228,54 +228,77 @@ public class PaymentEditor extends Editor {
 		// Payment name
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText(_("Name"));
+		//T: Tool Tip Text
+		labelName.setToolTipText(_("Name of the payment. This is also the identifier used by the shop system."));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(payment.getStringValueByKey("name"));
+		textName.setToolTipText(labelName.getToolTipText());
 		superviceControl(textName, 32);
 		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textName);
 
 		// Payment category
 		Label labelCategory = new Label(top, SWT.NONE);
 		labelCategory.setText(_("Category"));
+		//T: Tool Tip Text
+		labelCategory.setToolTipText(_("You can set a category to classify the payments"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
 		txtCategory.setText(payment.getStringValueByKey("category"));
+		txtCategory.setToolTipText(labelCategory.getToolTipText());
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(txtCategory);
 
 		// Payment description
 		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText(_("Description"));
+		//T: Tool Tip Text
+		labelDescription.setToolTipText(_("The description is the text used in the documents"));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
 		textDescription.setText(payment.getStringValueByKey("description"));
+		textDescription.setToolTipText(labelDescription.getToolTipText());
 		superviceControl(textDescription, 64);
 		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textDescription);
 
 		// Payment discount value
 		Label labelDiscountValue = new Label(top, SWT.NONE);
 		labelDiscountValue.setText(_("Discount"));
+		//T: Tool Tip Text
+		labelDiscountValue.setToolTipText(_("Discount value in percent"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscountValue);
 		textDiscountValue = new Text(top, SWT.BORDER);
 		textDiscountValue.setText(DataUtils.DoubleToFormatedPercent(payment.getDoubleValueByKey("discountvalue")));
+		textDiscountValue.setToolTipText(labelDiscountValue.getToolTipText());
 		superviceControl(textDiscountValue, 12);
 		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textDiscountValue);
 
 		// Payment days to pay the discount
 		Label labelDiscountDays = new Label(top, SWT.NONE);
 		labelDiscountDays.setText(_("Discount Days"));
+		//T: Tool Tip Text
+		labelDiscountDays.setToolTipText(_("Within these days the reduced price can be paid"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscountDays);
 		textDiscountDays = new Text(top, SWT.BORDER);
 		textDiscountDays.setText(payment.getStringValueByKey("discountdays"));
+		textDiscountDays.setToolTipText(labelDiscountDays.getToolTipText());
 		superviceControl(textDiscountDays, 8);
 		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textDiscountDays);
 
 		// Payment days to pay the net value
 		Label labelNetDays = new Label(top, SWT.NONE);
 		labelNetDays.setText(_("Net Days"));
+		//T: Tool Tip Text
+		labelNetDays.setToolTipText(_("Within these days the unreduced price has to be paid"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNetDays);
 		textNetDays = new Text(top, SWT.BORDER);
 		textNetDays.setText(payment.getStringValueByKey("netdays"));
+		textNetDays.setToolTipText(labelNetDays.getToolTipText());
 		superviceControl(textNetDays, 8);
 		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(textNetDays);
 
@@ -283,11 +306,15 @@ public class PaymentEditor extends Editor {
 		Label labelPaid = new Label(top, SWT.NONE);
 		//T: Payment Editor: Label for the text paid
 		labelPaid.setText(_("Text 'paid'"));
+		//T: Tool Tip Text
+		labelPaid.setToolTipText(_("Enter the text that appears in the document, if the invoice is paid. Placeholders can be used."));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPaid);
 
 		// Create text field for the "paid" text message
 		textPaid = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		textPaid.setText(payment.getStringValueByKey("paidtext"));
+		textPaid.setToolTipText(labelPaid.getToolTipText());
 		superviceControl(textPaid, 500);
 		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textPaid);
 
@@ -295,11 +322,14 @@ public class PaymentEditor extends Editor {
 		Label labelUnpaid = new Label(top, SWT.NONE);
 		//T: Payment Editor: Label for the text unpaid
 		labelUnpaid.setText(_("Text 'unpaid'"));
+		//T: Tool Tip Text
+		labelUnpaid.setToolTipText(_("Enter the text that appears in the document, if the invoice is not paid. Placeholders can be used."));
 		GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(labelUnpaid);
 
 		// Create text field for "unpaid" text message
 		textUnpaid = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		textUnpaid.setText(payment.getStringValueByKey("unpaidtext"));
+		textUnpaid.setToolTipText(labelUnpaid.getToolTipText());
 		superviceControl(textUnpaid, 500);
 		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textUnpaid);
 
@@ -324,9 +354,14 @@ public class PaymentEditor extends Editor {
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStd = new Label(top, SWT.NONE);
 		labelStd.setText(_("Standard"));
+		//T: Tool Tip Text
+		labelStd.setToolTipText(_("Name of the payment method that is the standard"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStd);
 		//T: Payment Editor: Button description to make this as standard payment.
 		stdComposite = new StdComposite(top, payment, Data.INSTANCE.getPayments(), "standardpayment", _("This Payment"), 3);
+		//T: Tool Tip Text
+		stdComposite.setToolTipText(_("Make this payment to the standard payment"));
 
 	}
 

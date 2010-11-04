@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.util.Locale;
 
 import org.eclipse.jface.action.Action;
@@ -39,6 +41,9 @@ public class OpenBrowserEditorAction extends Action {
 	 */
 	public OpenBrowserEditorAction() {
 		super("fakturama.sebulli.com");
+
+		//T: Tool Tip Text
+		setToolTipText(_("Open the project web site fakturama.sebulli.com") );
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_BROWSER_EDITOR);

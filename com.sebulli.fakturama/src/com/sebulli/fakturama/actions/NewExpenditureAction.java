@@ -38,6 +38,9 @@ public class NewExpenditureAction extends NewEditorAction {
 		//T: Text of the action to create a new expenditure
 		super(_("New Expenditure"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Create a new expenditure") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_EXPENDITURE);
 

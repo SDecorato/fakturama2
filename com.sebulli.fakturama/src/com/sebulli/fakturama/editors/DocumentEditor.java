@@ -938,9 +938,13 @@ public class DocumentEditor extends Editor {
 			// Create the widget for the date, when the invoice was paid
 			Label paidDateLabel = new Label(paidDataContainer, SWT.NONE);
 			paidDateLabel.setText("am");
+			//T: Tool Tip Text
+			paidDateLabel.setToolTipText(_("Date of the payment"));
+
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidDateLabel);
 
 			dtPaidDate = new DateTime(paidDataContainer, SWT.DATE);
+			dtPaidDate.setToolTipText(paidDateLabel.getToolTipText());
 			GridDataFactory.swtDefaults().applyTo(dtPaidDate);
 
 			// Set the paid date to the documents "paydate" parameter
@@ -954,6 +958,8 @@ public class DocumentEditor extends Editor {
 			Label paidValueLabel = new Label(paidDataContainer, SWT.NONE);
 			
 			paidValueLabel.setText(_("Value"));
+			//T: Tool Tip Text
+			paidValueLabel.setToolTipText(_("The paid value"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidValueLabel);
 
 			// If it's the first time, that this document is marked as paid
@@ -964,7 +970,9 @@ public class DocumentEditor extends Editor {
 				dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 			}
 			CurrencyText txtPayValue = new CurrencyText(this, paidDataContainer, SWT.BORDER | SWT.RIGHT, paidValue);
+			txtPayValue.setToolTipText(paidValueLabel.getToolTipText());
 			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
+			
 
 		}
 		// The container is created with the widgets that are shown,
@@ -980,6 +988,9 @@ public class DocumentEditor extends Editor {
 			//T: Document Editor - Label before the Text Field "Due Days".
 			//T: Format: THIS LABEL <DAYS> PAYABLE UNTIL <ISSUE DATE>
 			dueDaysLabel.setText(_("Due Days:"));
+			//T: Tool Tip Text
+			dueDaysLabel.setToolTipText(_("Please pay the invoice within those days"));
+
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(dueDaysLabel);
 
 			// Creates the due days spinner
@@ -989,6 +1000,7 @@ public class DocumentEditor extends Editor {
 			spDueDays.setSelection(document.getIntValueByKey("duedays"));
 			spDueDays.setIncrement(1);
 			spDueDays.setPageIncrement(10);
+			spDueDays.setToolTipText(dueDaysLabel.getToolTipText());
 			GridDataFactory.swtDefaults().hint(50, SWT.DEFAULT).applyTo(spDueDays);
 
 			// If the spinner's value changes, add the due days to the
@@ -1008,10 +1020,14 @@ public class DocumentEditor extends Editor {
 			//T: Document Editor - Label between the Text Field "Due Days" and the Date Field "Issue Date" 
 			//T: Format:  DUE DAYS: <DAYS> THIS LABEL <ISSUE DATE>
 			issueDateLabel.setText(_("Pay Until:"));
+			//T: Tool Tip Text
+			issueDateLabel.setToolTipText(_("Please pay the invoice before this date"));
+
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(issueDateLabel);
 
 			// Create the issue date widget
 			dtIssueDate = new DateTime(paidDataContainer, SWT.DATE);
+			dtIssueDate.setToolTipText(issueDateLabel.getToolTipText());
 			GridDataFactory.swtDefaults().applyTo(dtIssueDate);
 			dtIssueDate.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
@@ -1084,16 +1100,21 @@ public class DocumentEditor extends Editor {
 
 		//T: Document Editor - Label Document Number
 		labelName.setText(_("No."));
+		//T: Tool Tip Text
+		labelName.setToolTipText(_("Reference number of this document. Next document number and the format can be set unter preferences/number range"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 
 		// Container for the document number and the date
 		Composite nrDateComposite = new Composite(top, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(3).applyTo(nrDateComposite);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).grab(true, false).applyTo(nrDateComposite);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(nrDateComposite);
 
 		// The document number is the document name
 		txtName = new Text(nrDateComposite, SWT.BORDER);
 		txtName.setText(document.getStringValueByKey("name"));
+		txtName.setToolTipText(labelName.getToolTipText());
+		
 		superviceControl(txtName, 32);
 		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
 
@@ -1102,10 +1123,14 @@ public class DocumentEditor extends Editor {
 		//T: Label Document Date
 		Label labelDate = new Label(nrDateComposite, SWT.NONE);
 		labelDate.setText(_("Date"));
+		//T: Tool Tip Text
+		labelDate.setToolTipText(_("The document's date"));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
 		// Document date
 		dtDate = new DateTime(nrDateComposite, SWT.DATE);
+		dtDate.setToolTipText(labelDate.getToolTipText());
 		dtDate.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// If the date is modified, also modify the issue date.
@@ -1155,11 +1180,15 @@ public class DocumentEditor extends Editor {
 		Label labelCustomerRef = new Label(top, SWT.NONE);
 		//T: Document Editor - Label Customer Reference
 		labelCustomerRef.setText(_("Cust.Ref."));
+		//T: Tool Tip Text
+		labelCustomerRef.setToolTipText(_("Customer's reference. E.g.: Your order No.0001"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCustomerRef);
 
 		// Customer reference
 		txtCustomerRef = new Text(top, SWT.BORDER);
 		txtCustomerRef.setText(document.getStringValueByKey("customerref"));
+		txtCustomerRef.setToolTipText(labelCustomerRef.getToolTipText());
 		superviceControl(txtCustomerRef, 32);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
 
@@ -1174,10 +1203,14 @@ public class DocumentEditor extends Editor {
 		// Order date
 		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelOrderDate.setText(_("Order Date:"));
+		//T: Tool Tip Text
+		labelOrderDate.setToolTipText(_("Date when the order was palced"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelOrderDate);
 
 		// Order date
 		dtOrderDate = new DateTime(useOrderDate ? xtraSettingsComposite : invisible, SWT.DATE);
+		dtOrderDate.setToolTipText(labelOrderDate.getToolTipText());
 		GridDataFactory.swtDefaults().applyTo(dtOrderDate);
 		superviceControl(dtOrderDate);
 
@@ -1196,8 +1229,12 @@ public class DocumentEditor extends Editor {
 		// A reference to the invoice
 		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelInvoiceRef.setText(_("Invoice")+":");
+		//T: Tool Tip Text
+		labelInvoiceRef.setToolTipText(_("Number of the Invoice that belongs to this document."));
+
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(labelInvoiceRef);
 		txtInvoiceRef = new Text(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.BORDER);
+		txtInvoiceRef.setToolTipText(labelInvoiceRef.getToolTipText());
 		int invoiceId = document.getIntValueByKey("invoiceid");
 		if (invoiceId >= 0)
 			txtInvoiceRef.setText(Data.INSTANCE.getDocuments().getDatasetById(invoiceId).getStringValueByKey("name"));
@@ -1209,10 +1246,14 @@ public class DocumentEditor extends Editor {
 		// This document should use a VAT of 0%
 		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelNoVat.setText(_("VAT") +":");
+		//T: Tool Tip Text
+		labelNoVat.setToolTipText(_("If this document is set to a tax rate with 0%, all the items of the document are calculated with 0% tax."));
+
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelNoVat);
 
 		// combo list with all 0% VATs
 		comboNoVat = new Combo(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.BORDER);
+		comboNoVat.setToolTipText(labelNoVat.getToolTipText());
 		comboViewerNoVat = new ComboViewer(comboNoVat);
 		comboViewerNoVat.setContentProvider(new NoVatContentProvider());
 		GridDataFactory.fillDefaults().grab(true, false).align(SWT.FILL, SWT.CENTER).applyTo(comboNoVat);
@@ -1320,6 +1361,9 @@ public class DocumentEditor extends Editor {
 
 		// Address icon
 		Label selectAddressButton = new Label(addressComposite, SWT.NONE | SWT.RIGHT);
+		//T: Tool Tip Text
+		selectAddressButton.setToolTipText(_("Pick an address from the list of all contacts"));
+
 		try {
 			selectAddressButton.setImage((Activator.getImageDescriptor("/icons/16/contact_16.png").createImage()));
 		}
@@ -1381,6 +1425,9 @@ public class DocumentEditor extends Editor {
 
 			// Item add button
 			Label addFromListButton = new Label(addButtonComposite, SWT.NONE);
+			//T: Tool Tip Text
+			addFromListButton.setToolTipText(_("Pick an item from the list of all products"));
+
 			try {
 				addFromListButton.setImage((Activator.getImageDescriptor("/icons/20/plus_list_20.png").createImage()));
 			}
@@ -1418,6 +1465,8 @@ public class DocumentEditor extends Editor {
 
 			// Item add button
 			Label addButton = new Label(addButtonComposite, SWT.NONE);
+			//T: Tool Tip Text
+			addButton.setToolTipText(_("Add a new item with default name and quantity '1'"));
 			try {
 				addButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
 			}
@@ -1448,6 +1497,9 @@ public class DocumentEditor extends Editor {
 
 			// Item delete button
 			Label deleteButton = new Label(addButtonComposite, SWT.NONE);
+			//T: Tool Tip Text
+			deleteButton.setToolTipText(_("Delete the selected item from the list of items"));
+
 			try {
 				deleteButton.setImage((Activator.getImageDescriptor("/icons/16/delete_16.png").createImage()));
 			}
@@ -1485,6 +1537,7 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.getTable().setLinesVisible(true);
 			tableViewerItems.getTable().setHeaderVisible(true);
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
+
 
 			// Create the table columns
 			//T: Used as heading of a table. Keep the word short.
@@ -1536,16 +1589,27 @@ public class DocumentEditor extends Editor {
 
 		// The message label
 		Label messageLabel = new Label(addMessageButtonComposite, SWT.NONE);
-		if (documentType.hasItems())
+		if (documentType.hasItems()) {
 			//T: Document Editor Label for the text field under the item table.
 			messageLabel.setText(_("Remarks"));
-		else
+			//T: Tool Tip Text
+			messageLabel.setToolTipText(_("Enter an additional text that will be placed under the list of items."));
+
+		}	
+		else {
 			//T: Document Editor Label for the text field, if there is no item table
 			messageLabel.setText(_("Text"));
+			//T: Tool Tip Text
+			messageLabel.setToolTipText(_("Enter the text that will be placed in the document."));
+		}
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(messageLabel);
 
 		// The add message button
 		Label addMessageButton = new Label(addMessageButtonComposite, SWT.NONE);
+		//T: Tool Tip Text
+		addMessageButton.setToolTipText(_("Select one of the text templates in of the list of texts"));
+
 		try {
 			addMessageButton.setImage((Activator.getImageDescriptor("/icons/20/plus_list_20.png").createImage()));
 		}
@@ -1587,6 +1651,7 @@ public class DocumentEditor extends Editor {
 		// Add a multi line text field for the message.
 		txtMessage = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		txtMessage.setText(document.getStringValueByKey("message"));
+		txtMessage.setToolTipText(messageLabel.getToolTipText());
 		superviceControl(txtMessage, 10000);
 
 		// Set the tab order
@@ -1640,11 +1705,15 @@ public class DocumentEditor extends Editor {
 			Label discountLabel = new Label(totalComposite, SWT.NONE);
 			//T: Document Editor - Label discount 
 			discountLabel.setText(_("Discount:"));
+			//T: Tool Tip Text
+			discountLabel.setToolTipText(_("Enter a discount value in % for all items."));
+
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(discountLabel);
 
 			// Discount field
 			itemsDiscount = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
 			itemsDiscount.setText(document.getFormatedStringValueByKey("itemsdiscount"));
+			itemsDiscount.setToolTipText(discountLabel.getToolTipText());
 			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
 
 			// Set the tab order
@@ -1681,9 +1750,12 @@ public class DocumentEditor extends Editor {
 			//T: Document Editor - Label shipping 
 			shippingLabel.setText(_("Shipping:"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(shippingLabel);
+			//T: Tool Tip Text
+			shippingLabel.setToolTipText(_("It's possible to enter a different shipping value than those of the selected shipping entry"));
 
 			// Shipping combo
 			comboShipping = new Combo(shippingComposite, SWT.BORDER);
+			comboShipping.setToolTipText(shippingLabel.getToolTipText());
 			comboViewerShipping = new ComboViewer(comboShipping);
 			comboViewerShipping.setContentProvider(new UniDataSetContentProvider());
 			comboViewerShipping.setLabelProvider(new UniDataSetLabelProvider("description"));
@@ -1731,6 +1803,7 @@ public class DocumentEditor extends Editor {
 			// Shipping value field
 			shippingValue = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
 			shippingValue.setText(DataUtils.DoubleToFormatedPrice(shipping));
+			shippingValue.setToolTipText(shippingLabel.getToolTipText());
 			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(shippingValue);
 
 			// Recalculate, if the discount field looses the focus.
@@ -1785,6 +1858,9 @@ public class DocumentEditor extends Editor {
 				bPaid.setSelection(document.getBooleanValueByKey("paid"));
 				//T: Mark a paid document with this text.
 				bPaid.setText(_("paid"));
+				//T: Tool Tip Text
+				bPaid.setToolTipText(_("Check this, if the invoice is paid"));
+				
 				GridDataFactory.swtDefaults().applyTo(bPaid);
 
 				// Container for the payment and the paid state

@@ -36,6 +36,9 @@ public class OpenContactsAction extends Action {
 		//T: Text of the action to open the contacts
 		super(_("Contacts"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Open the list with all contacts") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_CONTACTS);
 

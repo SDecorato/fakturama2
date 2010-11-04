@@ -36,6 +36,9 @@ public class OpenPaymentsAction extends Action {
 		//T: Text of the action to open the payments
 		super(_("Payments"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Open a list with all payments") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_PAYMENTS);
 

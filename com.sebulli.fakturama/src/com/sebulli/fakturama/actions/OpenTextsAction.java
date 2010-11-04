@@ -36,6 +36,9 @@ public class OpenTextsAction extends Action {
 		//T: Text of the action to open the texts
 		super(_("Texts"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Open a list with all texts") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_TEXTS);
 

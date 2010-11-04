@@ -39,6 +39,9 @@ public class NewShippingAction extends NewEditorAction {
 		//T: Text of the action to create a new shipping 
 		super(_("New Shipping"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Create a new shipping method") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_SHIPPING);
 

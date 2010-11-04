@@ -38,6 +38,9 @@ public class InstallAction extends Action {
 		//T: Text of the action to open the calculator
 		super(_("Install New Software"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Install new features") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_P2_INSTALL);
 

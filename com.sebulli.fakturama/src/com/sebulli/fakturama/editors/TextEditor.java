@@ -212,27 +212,39 @@ public class TextEditor extends Editor {
 		// The name
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText(_("Name"));
+		//T: Tool Tip Text
+		labelName.setToolTipText(_("Name to identify the text"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(text.getStringValueByKey("name"));
+		textName.setToolTipText(labelName.getToolTipText());
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
 		// The category
 		Label labelCategory = new Label(top, SWT.NONE);
 		labelCategory.setText(_("Category"));
+		//T: Tool Tip Text
+		labelCategory.setToolTipText(_("You can set a category to classify the texts"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
 		txtCategory.setText(text.getStringValueByKey("category"));
+		txtCategory.setToolTipText(labelCategory.getToolTipText());
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
 		// The text
 		Label labelText = new Label(top, SWT.NONE);
 		labelText.setText(_("Text"));
+		//T: Tool Tip Text
+		labelText.setToolTipText(_("Enter a text. It can be used as template. E.g. for the message field in the document editor."));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelText);
 		textText = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		textText.setText(text.getStringValueByKey("text"));
+		textText.setToolTipText(labelText.getToolTipText());
 		superviceControl(textText, 10000);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(textText);
 	}

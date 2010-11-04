@@ -47,10 +47,13 @@ public class DeleteDataSetAction extends Action {
 		//T: Text of the DeleteDataSetAction
 		super(_("delete"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Delete the marked entry"));
+		
 		// The id is used to refer to the action in a menu or tool bar
 		setId(ICommandIds.CMD_DELETE_DATASET);
 
-		// Associate the action with a pre-defined command, to allow key
+		// Associate the action with a predefined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_DELETE_DATASET);
 		setImageDescriptor(Activator.getImageDescriptor("/icons/16/delete_16.png"));

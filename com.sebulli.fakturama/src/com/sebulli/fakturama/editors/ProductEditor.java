@@ -483,27 +483,40 @@ public class ProductEditor extends Editor {
 		// Product name
 		Label labelName = new Label(productDescGroup, SWT.NONE);
 		labelName.setText(_("Name"));
+		//T: Tool Tip Text
+		labelName.setToolTipText(_("Name of the product. This is used for the items in the document."));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(productDescGroup, SWT.BORDER);
 		textName.setText(product.getStringValueByKey("name"));
+		textName.setToolTipText(labelName.getToolTipText());
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
 		// Product category
 		Label labelCategory = new Label(productDescGroup, SWT.NONE);
 		labelCategory.setText(_("Category"));
+		//T: Tool Tip Text
+		labelCategory.setToolTipText(_("You can set a category to classify the products. This is also the web shop category."));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(productDescGroup, SWT.BORDER);
 		txtCategory.setText(product.getStringValueByKey("category"));
+		txtCategory.setToolTipText(labelCategory.getToolTipText());
+
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
 		// Product description
 		Label labelDescription = new Label(useDescription ? productDescGroup : invisible, SWT.NONE);
 		labelDescription.setText(_("Description"));
+		//T: Tool Tip Text
+		labelDescription.setToolTipText(_("Additional description. Can, but must not be used for the item. This can be selected in preferences/documents."));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(useDescription ? productDescGroup : invisible, SWT.BORDER | SWT.MULTI);
 		textDescription.setText(product.getStringValueByKey("description"));
+		textDescription.setToolTipText(labelDescription.getToolTipText());
 		superviceControl(textDescription, 250);
 		GridDataFactory.fillDefaults().hint(10, 80).grab(true, false).applyTo(textDescription);
 
@@ -588,8 +601,12 @@ public class ProductEditor extends Editor {
 		// product VAT
 		Label labelVat = new Label(useVat ? productDescGroup : invisible, SWT.NONE);
 		labelVat.setText(_("VAT"));
+		//T: Tool Tip Text
+		labelVat.setToolTipText(_("Tax rate of the product"));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVat);
 		comboVat = new Combo(useVat ? productDescGroup : invisible, SWT.BORDER);
+		comboVat.setToolTipText(labelVat.getToolTipText());
 		comboViewer = new ComboViewer(comboVat);
 		comboViewer.setContentProvider(new UniDataSetContentProvider());
 		comboViewer.setLabelProvider(new UniDataSetLabelProvider());
@@ -652,6 +669,7 @@ public class ProductEditor extends Editor {
 		Label labelWeight = new Label(useWeight ? productDescGroup : invisible, SWT.NONE);
 		//T: Product Editor - Label Product Weight with unit (kg)
 		labelWeight.setText(_("Weight (kg)"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelWeight);
 		textWeight = new Text(useWeight ? productDescGroup : invisible, SWT.BORDER);
 		textWeight.setText(product.getStringValueByKey("weight"));

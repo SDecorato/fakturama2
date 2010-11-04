@@ -109,5 +109,15 @@ public class CurrencyText {
 	public Text getText() {
 		return text;
 	}
+	
+	/**
+	 * Sets the tool tip text
+	 * 
+	 * @param toolTip
+	 * 			The tool tip text
+	 */
+	public void setToolTipText(String toolTip) {
+		text.setToolTipText(toolTip);
+	}
 
 }

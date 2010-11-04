@@ -36,6 +36,9 @@ public class UpdateAction extends Action {
 		//T: Text of the action to open the calculator
 		super(_("Check for Updates"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Check for Updates") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_P2_UPDATE);
 

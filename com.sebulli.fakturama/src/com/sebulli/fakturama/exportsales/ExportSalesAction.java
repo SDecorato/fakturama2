@@ -38,6 +38,9 @@ public class ExportSalesAction extends Action {
 		//T: Text of the action to export the list of sales 
 		super(_("Export List of Sales"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Export a list of sales as an OpenOffice table") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_EXPORT_SALES_SUMMARY);
 

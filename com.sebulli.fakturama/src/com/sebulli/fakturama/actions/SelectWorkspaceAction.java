@@ -35,6 +35,9 @@ public class SelectWorkspaceAction extends Action {
 		//T: Text of the action to select the workspace
 		super(_("Select Workspace"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Select a new Workspace") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_SELECT_WORKSPACE);
 

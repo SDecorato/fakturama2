@@ -277,7 +277,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 					runResult = ndList.item(0).getTextContent();
 				}
 			}
-			// cancel the download
+			// cancel the download process
 			else {
 			}
 
@@ -468,13 +468,13 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String paymentstatustext = intext;
 
 		if (intext.equalsIgnoreCase("cod"))
-			paymentstatustext = "Cash_on_Delivery";
+			paymentstatustext = _("Cash_on_Delivery");
 		else if (intext.equalsIgnoreCase("prepayment"))
-			paymentstatustext = "Prepayment";
+			paymentstatustext = _("Prepayment");
 		else if (intext.equalsIgnoreCase("creditcard"))
-			paymentstatustext = "Credit_Card";
+			paymentstatustext = _("Credit_Card");
 		else if (intext.equalsIgnoreCase("check"))
-			paymentstatustext = "Check";
+			paymentstatustext = _("Check");
 
 		return paymentstatustext;
 

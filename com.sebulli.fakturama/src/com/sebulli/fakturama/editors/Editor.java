@@ -104,6 +104,8 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 
 		// Text widgets that displays the standard widget
 		private Text txtStd;
+		// The button
+		private Button stdButton;
 
 		// The property key that defines the standard
 		private String propertyKey = null;
@@ -149,11 +151,12 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 			// Create the text widget that displays the standard entry
 			txtStd = new Text(stdComposite, SWT.BORDER);
 			txtStd.setEnabled(false);
+
 			GridDataFactory.swtDefaults().hint(150, -1).align(SWT.BEGINNING, SWT.CENTER).applyTo(txtStd);
 			setStdText();
 
 			// Create the button to make this entry to the standard
-			Button stdButton = new Button(stdComposite, SWT.BORDER);
+			stdButton = new Button(stdComposite, SWT.BORDER);
 			stdButton.setText("zum Standard machen");
 			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(stdButton);
 			stdButton.addSelectionListener(new SelectionAdapter() {
@@ -196,8 +199,19 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 				else
 					// .. or display the one that is the standard entry.
 					txtStd.setText(((UniDataSet) dataSetArray.getDatasetById(stdID)).getStringValueByKey("name"));
+
 			}
 
+		}
+		
+		/**
+		 * Set the tool tip text
+		 * 
+		 * @param toolTipText
+		 * 				The tool tip text
+		 */
+		public void setToolTipText (String toolTipText) {
+			stdButton.setToolTipText(toolTipText);
 		}
 
 	}

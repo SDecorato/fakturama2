@@ -36,6 +36,9 @@ public class OpenShippingsAction extends Action {
 		//T: Text of the action to open the shippings
 		super(_("Shippings"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Open a list with all shipping methods") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_SHIPPINGS);
 
