@@ -36,6 +36,9 @@ public class OpenDocumentsAction extends Action {
 		//T: Text of the action to open the documents
 		super(_("Documents"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Open a list with all the documents") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_DOCUMENTS);
 

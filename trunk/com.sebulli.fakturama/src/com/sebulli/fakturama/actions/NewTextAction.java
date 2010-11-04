@@ -39,6 +39,9 @@ public class NewTextAction extends NewEditorAction {
 		//T: Text of the action to create a new text entry 
 		super(_("New Text"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Create a new text") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_TEXT);
 

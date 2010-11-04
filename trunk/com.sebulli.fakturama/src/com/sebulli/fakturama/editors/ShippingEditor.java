@@ -326,27 +326,41 @@ public class ShippingEditor extends Editor {
 		// Shipping name
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText(_("Name"));
+		//T: Tool Tip Text
+		labelName.setToolTipText(_("Name of the shipping. This is also the identifier used by the shop system."));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(shipping.getStringValueByKey("name"));
+		textName.setToolTipText(labelName.getToolTipText());
+
 		superviceControl(textName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
 		// Shipping category
 		Label labelCategory = new Label(top, SWT.NONE);
 		labelCategory.setText(_("Category"));
+		//T: Tool Tip Text
+		labelCategory.setToolTipText(_("You can set a category to classify the shippings"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(top, SWT.BORDER);
 		txtCategory.setText(shipping.getStringValueByKey("category"));
+		txtCategory.setToolTipText(labelCategory.getToolTipText());
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
 		// Shipping description
 		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText(_("Description"));
+		//T: Tool Tip Text
+		labelDescription.setToolTipText(_("The description is the text used in the documents"));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(top, SWT.BORDER);
 		textDescription.setText(shipping.getStringValueByKey("description"));
+		textDescription.setToolTipText(labelDescription.getToolTipText());
+
 		superviceControl(textDescription, 250);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDescription);
 
@@ -462,12 +476,16 @@ public class ShippingEditor extends Editor {
 		Label labelAutoVat = new Label(top, SWT.NONE);
 		//T: Shipping Editor: Label VAT Calculation
 		labelAutoVat.setText(_("VAT Calculation"));
+		//T: Tool Tip Text
+		labelAutoVat.setToolTipText(_("Define how the VAT for the shipping is calculated. Should a fix value be used, or should the VAT calculated based on the VAT of the items."));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAutoVat);
 
 		// Create a combo list box for the automatic VAT calculation
 		comboAutoVat = new Combo(top, SWT.BORDER);
 		//T: Shipping Editor: list entry for "constant VAT calculation"
 		comboAutoVat.add(_("Constant VAT"));
+		comboAutoVat.setToolTipText(labelAutoVat.getToolTipText());
 		if (useGross)
 			//T: Shipping Editor: list entry for "Calculate VAT from goods VAT - constant Gross"
 			comboAutoVat.add(_("Calculate VAT from Value of Goods - Constant Gross Value"));
@@ -508,11 +526,16 @@ public class ShippingEditor extends Editor {
 		}
 
 		// Create the composite to make this payment to the standard payment. 
-		Label labelStdVat = new Label(top, SWT.NONE);
-		labelStdVat.setText(_("Standard"));
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdVat);
+		Label labelStdShipping = new Label(top, SWT.NONE);
+		labelStdShipping.setText(_("Standard"));
+		//T: Tool Tip Text
+		labelStdShipping.setToolTipText(_("Name of the shipping that is the standard"));
+
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdShipping);
 		//T: Shipping Editor: Button description to make this as standard shipping.
 		stdComposite = new StdComposite(top, shipping, Data.INSTANCE.getShippings(), "standardshipping", _("This Shipping"), 1);
+		//T: Tool Tip Text
+		stdComposite.setToolTipText(_("Make this shipping to the standard shipping"));
 
 	}
 

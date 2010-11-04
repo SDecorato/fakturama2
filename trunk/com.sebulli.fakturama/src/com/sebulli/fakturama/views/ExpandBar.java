@@ -62,7 +62,7 @@ public class ExpandBar extends Composite {
 	 * @param icon
 	 *            File name of the icon
 	 */
-	public ExpandBar(ExpandBarManager expandBarManager, Composite parent, int style, String description, String icon) {
+	public ExpandBar(ExpandBarManager expandBarManager, Composite parent, int style, String description, String icon, String toolTip) {
 		super(parent, style);
 
 		this.expandBarManager = expandBarManager;
@@ -81,17 +81,20 @@ public class ExpandBar extends Composite {
 		image = new Label(headbar, SWT.NONE);
 		image.setText("icon");
 		changeBackground(image);
+		image.setToolTipText(toolTip);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(image);
 
 		// The text of the headbar
 		text = new Label(headbar, SWT.NONE);
 		changeBackground(text);
+		text.setToolTipText(toolTip);
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).grab(true, false).applyTo(text);
 
 		// The arrow to minimize or maximize the headbar
 		arrow = new Label(headbar, SWT.NONE);
 		setArrowImage();
 		changeBackground(arrow);
+		arrow.setToolTipText(toolTip);
 		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).applyTo(arrow);
 		arrow.addMouseListener(new MouseAdapter() {
 
@@ -106,6 +109,7 @@ public class ExpandBar extends Composite {
 		// Create the expandable body of the expand bar
 		setLayout(new FillLayout());
 		composite = new Composite(top, SWT.NONE);
+		composite.setToolTipText(toolTip);
 		GridLayoutFactory.fillDefaults().margins(0, 0).applyTo(composite);
 		GridDataFactory.fillDefaults().indent(5, 0).applyTo(composite);
 
@@ -241,6 +245,7 @@ public class ExpandBar extends Composite {
 		Label actionImage = new Label(actionComposite, SWT.NONE);
 		try {
 			actionImage.setImage(action.getImageDescriptor().createImage());
+			actionImage.setToolTipText(action.getToolTipText());
 		}
 		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
@@ -250,6 +255,7 @@ public class ExpandBar extends Composite {
 		// Create the action's text
 		Label actionLabel = new Label(actionComposite, SWT.NONE);
 		actionLabel.setText(action.getText());
+		actionLabel.setToolTipText(action.getToolTipText());
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(0, 0).applyTo(actionImage);
 
 		// Run the action, if the user clicks in the composite

@@ -42,6 +42,9 @@ public class NewContactAction extends NewEditorAction {
 		//T: Text of the action to create a new contact
 		super(_("New Contact"), category);
 
+		//T: Tool Tip Text
+		setToolTipText(_("Create a new contact") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_CONTACT);
 

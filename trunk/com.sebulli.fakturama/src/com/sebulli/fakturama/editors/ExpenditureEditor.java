@@ -449,8 +449,12 @@ public class ExpenditureEditor extends Editor {
 		Label labelCategory = new Label(top, SWT.NONE);
 
 		labelCategory.setText(_("Category"));
+		//T: Tool Tip Text
+		labelCategory.setToolTipText(_("Category of this expense voucher. E.g. 'Bank', 'Cash', 'Credit Card'"));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
+		comboCategory.setToolTipText(labelCategory.getToolTipText());
 		comboCategory.setText(expenditure.getStringValueByKey("category"));
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
 
@@ -465,10 +469,14 @@ public class ExpenditureEditor extends Editor {
 		// Document date
 		Label labelDate = new Label(top, SWT.NONE);
 		labelDate.setText(_("Date"));
+		//T: Tool Tip Text
+		labelDate.setToolTipText(_("Date of the voucher"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
 		// Document date
 		dtDate = new DateTime(top, SWT.DATE);
+		dtDate.setToolTipText(labelDate.getToolTipText());
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(dtDate);
 
 		// Set the dtDate widget to the expenditures date
@@ -479,27 +487,39 @@ public class ExpenditureEditor extends Editor {
 		// Number
 		Label labelNr = new Label(top, SWT.NONE);
 		labelNr.setText(_("Voucher No."));
+		//T: Tool Tip Text
+		labelNr.setToolTipText(_("Consecutive number of all vouchers"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNr);
 		textNr = new Text(top, SWT.BORDER);
 		textNr.setText(expenditure.getStringValueByKey("nr"));
+		textNr.setToolTipText(labelNr.getToolTipText());
 		superviceControl(textNr, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textNr);
 
 		// Document number
 		Label labelDocumentNr = new Label(top, SWT.NONE);
 		labelDocumentNr.setText(_("Document No."));
+		//T: Tool Tip Text
+		labelDocumentNr.setToolTipText(_("Number found on the voucher. (Document No of the supplier)"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDocumentNr);
 		textDocumentNr = new Text(top, SWT.BORDER);
 		textDocumentNr.setText(expenditure.getStringValueByKey("documentnr"));
+		textDocumentNr.setToolTipText(labelDocumentNr.getToolTipText());
 		superviceControl(textDocumentNr, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDocumentNr);
 
 		// Expenditure name
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText(_("Supplier"));
+		//T: Tool Tip Text
+		labelName.setToolTipText(_("Name of the supplier"));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(expenditure.getStringValueByKey("name"));
+		textName.setToolTipText(labelName.getToolTipText());
 		superviceControl(textName, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
@@ -518,6 +538,9 @@ public class ExpenditureEditor extends Editor {
 		Label addButton = new Label(addButtonComposite, SWT.NONE);
 		try {
 			addButton.setImage((Activator.getImageDescriptor("/icons/16/plus_16.png").createImage()));
+			//T: Tool Tip Text
+			addButton.setToolTipText(_("Add a new item"));
+
 		}
 		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
@@ -540,6 +563,8 @@ public class ExpenditureEditor extends Editor {
 		Label deleteButton = new Label(addButtonComposite, SWT.NONE);
 		try {
 			deleteButton.setImage((Activator.getImageDescriptor("/icons/16/delete_16.png").createImage()));
+			//T: Tool Tip Text
+			deleteButton.setToolTipText(_("Delete the selected item"));
 		}
 		catch (Exception e) {
 			Logger.logError(e, "Icon not found");

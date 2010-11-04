@@ -39,6 +39,9 @@ public class ImportCSVAction extends Action {
 		//T: Text of the action to import a CSV table
 		super(_("Import CSV Table"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Import a CSV table into Fakturama") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_IMPORT_CSV);
 

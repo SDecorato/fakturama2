@@ -62,13 +62,14 @@ public class NavigationView extends ViewPart implements ICommandIds {
 
 		// Create the first expand bar "Import"
 		//T: Title of an expand bar in the navigations view
-		final ExpandBar bar1 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Import"), "/icons/16/import_16.png");
+		final ExpandBar bar1 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Import"), "/icons/16/import_16.png" ,
+				_("Import data into Fakturama"));
 
 		bar1.addAction(new WebShopImportAction());
-
 		// Create the 2nd expand bar "Data"
 		//T: Title of an expand bar in the navigations view
-		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Data"), "/icons/16/data_16.png");
+		final ExpandBar bar2 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Data"), "/icons/16/data_16.png" ,
+				_("Data like documents, products ... "));
 
 		bar2.addAction(new OpenDocumentsAction());
 		bar2.addAction(new OpenProductsAction());
@@ -82,20 +83,23 @@ public class NavigationView extends ViewPart implements ICommandIds {
 
 		// Create the 3rd expand bar "Create new"
 		//T: Title of an expand bar in the navigations view
-		final ExpandBar bar3 = new ExpandBar(expandBarManager, top, SWT.NONE, _("New"), "/icons/16/plus_16.png");
+		final ExpandBar bar3 = new ExpandBar(expandBarManager, top, SWT.NONE, _("New"), "/icons/16/plus_16.png" ,
+				_("Create new documents, products, contacts .. "));
 
 		bar3.addAction(new NewProductAction());
 		bar3.addAction(new NewContactAction(null));
 
 		// Create the 4th expand bar "export"
 		//T: Title of an expand bar in the navigations view
-		final ExpandBar bar4 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Export"), "/icons/16/export_16.png");
+		final ExpandBar bar4 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Export"), "/icons/16/export_16.png" ,
+				_("Export documents, contacts .. to tables and files"));
 
 		bar4.addAction(new ExportSalesAction());
 
 		// Create the 5th expand bar "Miscellaneous"
 		//T: Title of an expand bar in the navigations view
-		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Miscellaneous"), "/icons/16/misc_16.png");
+		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Miscellaneous"), "/icons/16/misc_16.png" ,
+				_("Miscellaneous"));
 
 		bar5.addAction(new OpenBrowserEditorAction());
 		bar5.addAction(new OpenCalculatorAction());

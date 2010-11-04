@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -49,7 +51,7 @@ public class CreateOODocumentAction extends Action {
 	 * default constructor
 	 */
 	public CreateOODocumentAction() {
-		this("", "");
+		this(_("Print as OO document"), _("Print/Export this document as an OpenOffice Writer document"));
 	}
 
 	/**

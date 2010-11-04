@@ -39,6 +39,9 @@ public class NewVatAction extends NewEditorAction {
 		//T: Text of the action to create a new VAT
 		super(_("New VAT"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Create a new tax rate") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_NEW_VAT);
 

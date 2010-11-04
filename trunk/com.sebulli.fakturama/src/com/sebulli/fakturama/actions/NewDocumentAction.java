@@ -47,7 +47,7 @@ public class NewDocumentAction extends NewEditorAction {
 		super(_("New Document"));
 		category = DocumentType.ORDER.getString();
 		setText(DocumentType.ORDER.getString());
-		setSettings(ICommandIds.CMD_NEW_DOCUMENT, "");
+		setSettings(ICommandIds.CMD_NEW_DOCUMENT, "" , DocumentType.ORDER );
 	}
 
 	/**
@@ -86,10 +86,14 @@ public class NewDocumentAction extends NewEditorAction {
 	 * @param image
 	 *            Icon name
 	 */
-	private void setSettings(String cmd, String image) {
+	private void setSettings(String cmd, String image, DocumentType documentType) {
 		setId(cmd);
 		setActionDefinitionId(cmd);
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor(image));
+		
+		//T: Tool Tip Text
+		setToolTipText(_("Create:") + " " + documentType.getNewText());
+
 	}
 
 	/**
@@ -98,13 +102,14 @@ public class NewDocumentAction extends NewEditorAction {
 	 * @param documentType
 	 */
 	private void setDocumentType(DocumentType documentType) {
+
 		category = documentType.getString();
 		setText(documentType.getString());
 		String iconSizeString = "_" + Integer.toString(iconSize);
 		if (iconSize == 32)
 			iconSizeString = "_new" + iconSizeString;
 		setSettings(ICommandIds.CMD_NEW_ + documentType.getTypeAsString(), "/icons/" + Integer.toString(iconSize) + "/"
-				+ documentType.getTypeAsString().toLowerCase() + iconSizeString + ".png");
+				+ documentType.getTypeAsString().toLowerCase() + iconSizeString + ".png", documentType);
 	}
 
 	/**

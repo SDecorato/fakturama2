@@ -238,8 +238,12 @@ public class ListEditor extends Editor {
 		Label labelCategory = new Label(top, SWT.NONE);
 		//T: List Editor - Category ( Name of the List to place this entry)
 		labelCategory.setText(_("List"));
+		//T: Tool Tip Text
+		labelCategory.setToolTipText(_("Please select a list"));
+		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
+		comboCategory.setToolTipText(labelCategory.getToolTipText());
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).hint(200, SWT.DEFAULT).applyTo(comboCategory);
 
 		// Add each localizes list name to the combo

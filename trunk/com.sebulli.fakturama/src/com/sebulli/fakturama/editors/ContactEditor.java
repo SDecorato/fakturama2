@@ -522,9 +522,13 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Customer's number
 		Label labelNr = new Label(customerNrComposite, SWT.NONE);
 		labelNr.setText(_("Customer ID"));
+		//T: Tool Tip Text
+		labelNr.setToolTipText(_("Next contact ID and the format can be set unter preferences/number range"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNr);
 		txtNr = new Text(customerNrComposite, SWT.BORDER);
 		txtNr.setText(contact.getStringValueByKey("nr"));
+		txtNr.setToolTipText(labelNr.getToolTipText());
 		superviceControl(txtNr, 32);
 		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtNr);
 
@@ -631,9 +635,12 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Country
 		Label labelCountry = new Label(useCountry ? addressGroup : invisible, SWT.NONE);
 		labelCountry.setText(_("Country"));
+		//T: Tool Tip Text
+		labelCountry.setToolTipText(_("Set also your home county. Under preferences/contacts you can set those country names that are not displayed on the address label"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCountry);
 		txtCountry = new Text(useCountry ? addressGroup : invisible, SWT.BORDER);
 		txtCountry.setText(contact.getStringValueByKey("country"));
+		txtCountry.setToolTipText(labelCountry.getToolTipText());
 		superviceControl(txtCountry, 32);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtCountry);
 
@@ -730,9 +737,11 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Delivery country
 		Label labelDeliveryCountry = new Label(useCountry ? deliveryGroup : invisible, SWT.NONE);
 		labelDeliveryCountry.setText(_("Country"));
+		labelDeliveryCountry.setToolTipText(labelCountry.getToolTipText());
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryCountry);
 		txtDeliveryCountry = new Text(useCountry ? deliveryGroup : invisible, SWT.BORDER);
 		txtDeliveryCountry.setText(contact.getStringValueByKey("delivery_country"));
+		txtDeliveryCountry.setToolTipText(labelCountry.getToolTipText());
 		superviceControl(txtDeliveryZip, 32);
 		GridDataFactory.fillDefaults().grab(true, false).span(2, 1).applyTo(txtDeliveryCountry);
 
@@ -799,9 +808,12 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Category 
 		Label labelCategory = new Label(tabMisc, SWT.NONE);
 		labelCategory.setText(_("Category"));
+		//T: Tool Tip Text
+		labelCategory.setToolTipText(_("Choose a category like 'Customer', 'Customer Web Shop' or 'Supplier'"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		txtCategory = new Text(tabMisc, SWT.BORDER);
 		txtCategory.setText(contact.getStringValueByKey("category"));
+		txtCategory.setToolTipText(labelCategory.getToolTipText());
 		superviceControl(txtCategory, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
@@ -853,9 +865,13 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Payment
 		Label labelPayment = new Label(tabMisc, SWT.NONE);
 		labelPayment.setText(_("Payment"));
+		//T: Tool Tip Text
+		labelPayment.setToolTipText(_("This payment method is used when creating a new document"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPayment);
 		comboPayment = new Combo(tabMisc, SWT.BORDER);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboPayment);
+		comboPayment.setToolTipText(labelPayment.getToolTipText());
 		comboPaymentViewer = new ComboViewer(comboPayment);
 		comboPaymentViewer.setContentProvider(new UniDataSetContentProvider());
 		comboPaymentViewer.setLabelProvider(new UniDataSetLabelProvider());
@@ -902,10 +918,14 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		Label labelDiscount = new Label(tabMisc, SWT.NONE);
 		//T: Customer's discount
 		labelDiscount.setText(_("Discount","CUSTOMER"));
+		//T: Tool Tip Text
+		labelDiscount.setToolTipText(_("This customer's discount is used when creating a new document"));
+
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscount);
 		txtDiscount = new Text(tabMisc, SWT.BORDER);
 		txtDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtDiscount);
+		txtDiscount.setToolTipText(labelDiscount.getToolTipText());
 		txtDiscount.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e) {
 				txtDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(txtDiscount.getText())));

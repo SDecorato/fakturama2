@@ -49,6 +49,9 @@ public class WebShopImportAction extends Action {
 		//T: Text of the action to connect to the web shop and import new data
 		super(_("Web Shop"));
 
+		//T: Tool Tip Text
+		setToolTipText(_("Get new orders and products from web shop") );
+
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_WEBSHOP_IMPORT);
 
