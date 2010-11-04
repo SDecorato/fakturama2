@@ -475,7 +475,7 @@ public class DataBase {
 							String typeName = rsmd.getColumnTypeName(i);
 							int size = rsmd.getPrecision(i);
 							
-							// Get the Type name incl. size
+							// Get the Type name and size
 							if (typeName.equalsIgnoreCase("VARCHAR"))
 								typeName += "(" + size + ")";
 							
@@ -484,9 +484,16 @@ public class DataBase {
 							
 							// Check whether the type is correct
 							if (!typeName.equalsIgnoreCase(udsDbType)) {
-								String info = "Column Type not correct: " + uds.sqlTabeName + ":" + columnname + ":" + typeName + " - " + udsDbType;
+								String info = "Column Type not correct - will be changed ..: " + uds.sqlTabeName + ":" + columnname + ":" + typeName + " - " + udsDbType;
 								Logger.logInfo(info);
-								System.out.println(info);
+
+								// Change the type of the column
+								try {
+									stmt.executeUpdate("ALTER TABLE " + uds.sqlTabeName + " ALTER COLUMN " + columnname + " " + udsDbType);
+								}
+								catch (SQLException e) {
+									Logger.logError(e, "Error changing type of table column:" + columnname + " " + udsDbType);
+								}
 								
 							}
 						}
@@ -604,12 +611,12 @@ public class DataBase {
 
 			// read the data base table
 			stmt = con.createStatement();
-			s = "SELECT * FROM Properties WHERE name = 'Version'";
+			s = "SELECT * FROM Properties WHERE name = 'version'";
 			rs = stmt.executeQuery(s);
 
 			// Get the version of the database
 			if (rs.next()) {
-				if (rs.getString("name").equals("Version")) {
+				if (rs.getString("name").equals("version")) {
 					version = rs.getInt("value");
 				}
 			}
@@ -617,17 +624,18 @@ public class DataBase {
 			stmt.close();
 			
 			// perform the Updates
-			performUpdates(version);
+			if (version > 0)
+				performUpdates(version);
 			
 			// Update the Database Version
 			if (version != DBVersion ) {
 				try {
 					stmt = con.createStatement();
-					stmt.executeUpdate("UPDATE Properties SET value='" + DBVersion + "' WHERE name='Version'");
+					stmt.executeUpdate("UPDATE Properties SET value='" + DBVersion + "' WHERE name='version'");
 					stmt.close();
 				}
 				catch (SQLException e) {
-					Logger.logError(e, "Error saving dataset Properties:Version");
+					Logger.logError(e, "Error saving dataset Properties:version");
 				}
 			}
 
@@ -701,8 +709,8 @@ public class DataBase {
 				// In a new data base: create all the tables
 				try {
 					stmt.executeUpdate("CREATE TABLE Properties(Id INT IDENTITY PRIMARY KEY, Name VARCHAR (256), Value VARCHAR (60000) )");
-					stmt.executeUpdate("INSERT INTO Properties VALUES(0,'Version','" + DBVersion + "')");
-					stmt.executeUpdate("INSERT INTO Properties VALUES(1,'BundleVersion','" + bundleVersion + "')");
+					stmt.executeUpdate("INSERT INTO Properties VALUES(0,'version','" + DBVersion + "')");
+					stmt.executeUpdate("INSERT INTO Properties VALUES(1,'bundleversion','" + bundleVersion + "')");
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetProduct()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetContact()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetItem()));
