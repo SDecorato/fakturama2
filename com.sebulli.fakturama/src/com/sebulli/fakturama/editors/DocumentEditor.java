@@ -1204,7 +1204,7 @@ public class DocumentEditor extends Editor {
 		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
 		labelOrderDate.setText(_("Order Date:"));
 		//T: Tool Tip Text
-		labelOrderDate.setToolTipText(_("Date when the order was palced"));
+		labelOrderDate.setToolTipText(_("Date when the order was placed"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelOrderDate);
 
