@@ -38,6 +38,8 @@
       </win>
    </launcher>
 
+   <intro introId="com.sebulli.fakturama.intro"/>
+
    <vm>
    </vm>
 

@@ -636,5 +636,32 @@
          </description>
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.intro">
+      <intro
+            class="org.eclipse.ui.intro.config.CustomizableIntroPart"
+            id="com.sebulli.fakturama.intro">
+      </intro>
+      <introProductBinding
+            introId="com.sebulli.fakturama.intro"
+            productId="com.sebulli.fakturama.product">
+      </introProductBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.intro.config">
+      <config
+            content="introContent.xml"
+            id="com.sebulli.fakturama.introConfigId"
+            introId="com.sebulli.fakturama.intro">
+         <presentation
+               home-page-id="%intro.root">
+            <implementation
+                  kind="html"
+                  os="win32,linux,macosx"
+                  style="content/shared.css">
+            </implementation>
+         </presentation>
+      </config>
+   </extension>
 
 </plugin>

@@ -7,7 +7,8 @@ Bundle-Activator: com.sebulli.fakturama.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.hsqldb;bundle-version="2.0.0",
- ag.ion.noa;bundle-version="2.2.3"
+ ag.ion.noa;bundle-version="2.2.3",
+ org.eclipse.ui.intro
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: sebulli.com
