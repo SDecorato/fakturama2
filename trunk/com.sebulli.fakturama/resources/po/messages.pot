@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-11-04 20:27+0100\n"
+"POT-Creation-Date: 2010-11-05 10:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1869,162 +1869,175 @@ msgid "Delete the selected item"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:149
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:154
 msgid "Export.."
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:154
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:159
 msgid "Import.."
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:159
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:164
 msgid "Preferences"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:164
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:169
 msgid "Quit Fakturama"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:169
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:174
 msgid "Print"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:174
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:413
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:179
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:435
 msgctxt "TOOLBAR"
 msgid "Print"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:179
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:184
 msgid "Close"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:184
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:189
 msgid "Close All"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:189
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:194
 msgid "Save"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:197
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:202
 msgid "Save All"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:202
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:207
 msgid "About Fakturama"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:207
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:318
-msgid "Help"
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:212
+msgid "Help Contents"
 msgstr ""
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:212
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:217
+msgid "Search"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:222
+msgid "Dynamic Help"
+msgstr ""
+
+#. T: Text of the actions in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:229
 msgid "Reset Perspective"
 msgstr ""
 
 #. T: Title of the menus in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:316
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:336
 msgid "File"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:317
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:337
 msgid "Window"
 msgstr ""
 
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:338
+msgid "Help"
+msgstr ""
+
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:405
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:427
 msgctxt "TOOLBAR"
 msgid "Web Shop"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:421
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:443
 msgctxt "TOOLBAR"
 msgid "Save"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:428
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:450
 msgctxt "TOOLBAR"
 msgid "Letter"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:435
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:457
 msgctxt "TOOLBAR"
 msgid "Offer"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:442
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:464
 msgctxt "TOOLBAR"
 msgid "Order"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:449
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:471
 msgctxt "TOOLBAR"
 msgid "Confirmation"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:456
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:478
 msgctxt "TOOLBAR"
 msgid "Invoice"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:463
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:485
 msgctxt "TOOLBAR"
 msgid "Delivery"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:470
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:492
 msgctxt "TOOLBAR"
 msgid "Credit"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:477
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:499
 msgctxt "TOOLBAR"
 msgid "Dunning"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:484
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:506
 msgctxt "TOOLBAR"
 msgid "Contact"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:491
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:513
 msgctxt "TOOLBAR"
 msgid "Product"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:498
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:520
 msgctxt "TOOLBAR"
 msgid "www"
 msgstr ""
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:505
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:527
 msgctxt "TOOLBAR"
 msgid "Calculator"
 msgstr ""
