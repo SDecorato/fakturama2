@@ -93,7 +93,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction exportWizardAction;
 	private IWorkbenchAction openPreferencesAction;
 	private IWorkbenchAction resetViewAction;
-	private IWorkbenchAction helpAction;
+	private IWorkbenchAction showHelpAction;
+    private IWorkbenchAction searchHelpAction;
+    private IWorkbenchAction dynamicHelpAction;	
+	
 	private OpenBrowserEditorAction openBrowserEditorAction;
 	private OpenBrowserEditorAction openBrowserEditorActionTB;
 	private OpenCalculatorAction openCalculatorAction;
@@ -203,11 +206,23 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		//T: Text of the actions in the main menu
 		aboutAction.setText(_("About Fakturama"));
 		register(aboutAction);
-
-		helpAction = ActionFactory.HELP_CONTENTS.create(window);
+		
+		showHelpAction = ActionFactory.HELP_CONTENTS.create(window);
 		//T: Text of the actions in the main menu
-		helpAction.setText(_("Help"));
-		register(helpAction);
+		showHelpAction.setText(_("Help Contents"));
+		register(showHelpAction);
+
+		searchHelpAction = ActionFactory.HELP_SEARCH.create(window);
+		//T: Text of the actions in the main menu
+		searchHelpAction.setText(_("Search"));
+		register(searchHelpAction);
+
+		dynamicHelpAction = ActionFactory.DYNAMIC_HELP.create(window);
+		//T: Text of the actions in the main menu
+		dynamicHelpAction.setText(_("Dynamic Help"));
+		register(dynamicHelpAction);
+		
+		
 
 		resetViewAction = ActionFactory.RESET_PERSPECTIVE.create(window);
 		//T: Text of the actions in the main menu
@@ -365,7 +380,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		// Help menu
 		helpMenu.add(openBrowserEditorAction);
-		helpMenu.add(helpAction);
+		helpMenu.add(showHelpAction);
+		helpMenu.add(searchHelpAction);
+		helpMenu.add(dynamicHelpAction);
 
 		helpMenu.add(new Separator());
 		helpMenu.add(updateAction);
