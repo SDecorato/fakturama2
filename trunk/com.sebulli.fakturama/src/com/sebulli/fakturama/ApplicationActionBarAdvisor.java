@@ -96,6 +96,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction showHelpAction;
     private IWorkbenchAction searchHelpAction;
     private IWorkbenchAction dynamicHelpAction;	
+    private IWorkbenchAction introAction;
+
 	
 	private OpenBrowserEditorAction openBrowserEditorAction;
 	private OpenBrowserEditorAction openBrowserEditorActionTB;
@@ -222,7 +224,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		dynamicHelpAction.setText(_("Dynamic Help"));
 		register(dynamicHelpAction);
 		
-		
+		introAction = ActionFactory.INTRO.create(window);
+		//T: Text of the actions in the main menu
+		introAction.setText(_("Show Intro"));
+		register(introAction);
+
 
 		resetViewAction = ActionFactory.RESET_PERSPECTIVE.create(window);
 		//T: Text of the actions in the main menu
@@ -383,6 +389,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		helpMenu.add(showHelpAction);
 		helpMenu.add(searchHelpAction);
 		helpMenu.add(dynamicHelpAction);
+
+		// Intro
+		helpMenu.add(new Separator());
+		helpMenu.add(introAction);
 
 		helpMenu.add(new Separator());
 		helpMenu.add(updateAction);
