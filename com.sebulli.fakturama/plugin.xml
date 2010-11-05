@@ -389,8 +389,27 @@
          point="org.eclipse.ui.bindings">
       <key
             commandId="org.eclipse.ui.file.exit"
-            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
-            sequence="CTRL+X">
+            schemeId="com.sebulli.fakturama.scheme"
+            sequence="M1+X">
+      </key>
+      <key
+            commandId="com.sebulli.fakturama.actions.deleteDataSet"
+            schemeId="com.sebulli.fakturama.scheme"
+            sequence="DEL">
+      </key>
+      <scheme
+            id="com.sebulli.fakturama.scheme"
+            name="FakturamaScheme">
+      </scheme>
+      <key
+            commandId="org.eclipse.ui.file.print"
+            schemeId="com.sebulli.fakturama.scheme"
+            sequence="M1+P">
+      </key>
+      <key
+            commandId="org.eclipse.ui.file.save"
+            schemeId="com.sebulli.fakturama.scheme"
+            sequence="M1+S">
       </key>
    </extension>
    <extension
