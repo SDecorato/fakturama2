@@ -33,6 +33,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
+import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.InstallAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewContactAction;
@@ -125,6 +126,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
 	private MarkOrderAsAction markAsProcessingAction;
+	private DeleteDataSetAction deleteDataSetAction;
 	private UpdateAction updateAction;
 	private InstallAction installAction;
 
@@ -220,6 +222,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		openCalculatorAction = new OpenCalculatorAction();
 		register(openCalculatorAction);
+
+		deleteDataSetAction = new DeleteDataSetAction();
+		register(deleteDataSetAction);
 
 		webShopImportAction = new WebShopImportAction();
 		register(webShopImportAction);
