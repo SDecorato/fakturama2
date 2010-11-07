@@ -342,7 +342,7 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 	 * 
 	 * @prama ID of the view to refresh
 	 */
-	protected void refreshView(String viewId) {
+	static public void refreshView(String viewId) {
 
 		// Find the view
 		ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(viewId);
