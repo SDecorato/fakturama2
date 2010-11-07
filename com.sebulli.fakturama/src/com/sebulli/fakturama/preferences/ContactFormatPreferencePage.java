@@ -105,16 +105,16 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	public static void setInitValues(IEclipsePreferences node) {
 		
 		//T: Preference page "Contact Format" - Example format Strings (Common Salutation)
-		node.put("CONTACT_FORMAT_GREETING_COMMON", "Sehr geehrter Damen und Herren");
+		node.put("CONTACT_FORMAT_GREETING_COMMON", _("Dear Sir or Madam"));
 
-		//T: Preference page "Contact Format" - Example format Strings (Salutation Men)
-		node.put("CONTACT_FORMAT_GREETING_MR", "Sehr geehrter Herr {firstname} {lastname}");
+		//T: Preference page "Contact Format" - Example format Strings (Salutation Men) - do not translate the placeholders
+		node.put("CONTACT_FORMAT_GREETING_MR", _("Dear Mr. {firstname} {lastname}"));
 
-		//T: Preference page "Contact Format" - Example format Strings (Salutation Women)
-		node.put("CONTACT_FORMAT_GREETING_MS", "Sehr geehrte Frau {firstname} {lastname}");
+		//T: Preference page "Contact Format" - Example format Strings (Salutation Women) - do not translate the placeholders
+		node.put("CONTACT_FORMAT_GREETING_MS", _("Dear Ms. {firstname} {lastname}"));
 
 		//T: Preference page "Contact Format" - Example format Strings (Salutation Company)
-		node.put("CONTACT_FORMAT_GREETING_COMPANY", "Sehr geehrter Damen und Herren");
+		node.put("CONTACT_FORMAT_GREETING_COMPANY", _("Dear Sir or Madam"));
 		
 		//T: Preference page "Contact Format" - Example format Strings (Address format)
 		node.put("CONTACT_FORMAT_ADDRESS", "{company}<br>{title} {firstname} {lastname}<br>{street}<br>{countrycode}{zip} {city}<br>{country}");

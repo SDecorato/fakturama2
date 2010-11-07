@@ -105,15 +105,15 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("NUMBERRANGE_CONTACT_NR", "0");
-		node.put("NUMBERRANGE_PRODUCT_NR", "0");
-		node.put("NUMBERRANGE_INVOICE_NR", "0");
-		node.put("NUMBERRANGE_DELIVERY_NR", "0");
-		node.put("NUMBERRANGE_OFFER_NR", "0");
-		node.put("NUMBERRANGE_ORDER_NR", "0");
-		node.put("NUMBERRANGE_CREDIT_NR", "0");
-		node.put("NUMBERRANGE_CONFIRMATION_NR", "0");
-		node.put("NUMBERRANGE_DUNNING_NR", "0");
+		node.put("NUMBERRANGE_CONTACT_NR", "1");
+		node.put("NUMBERRANGE_PRODUCT_NR", "1");
+		node.put("NUMBERRANGE_INVOICE_NR", "1");
+		node.put("NUMBERRANGE_DELIVERY_NR", "1");
+		node.put("NUMBERRANGE_OFFER_NR", "1");
+		node.put("NUMBERRANGE_ORDER_NR", "1");
+		node.put("NUMBERRANGE_CREDIT_NR", "1");
+		node.put("NUMBERRANGE_CONFIRMATION_NR", "1");
+		node.put("NUMBERRANGE_DUNNING_NR", "1");
 	}
 
 }

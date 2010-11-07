@@ -8,19 +8,10 @@
             primary="true">
       </toc>
       <toc
-            file="tocconcepts.xml">
-      </toc>
-      <toc
             file="tocgettingstarted.xml">
       </toc>
       <toc
-            file="tocreference.xml">
-      </toc>
-      <toc
-            file="tocsamples.xml">
-      </toc>
-      <toc
-            file="toctasks.xml">
+            file="tocpreferences.xml">
       </toc>
    </extension>
 

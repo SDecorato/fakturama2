@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Format des Adressfeldes</title>
+  	<link rel="stylesheet" href="../common/style.css" type="text/css" />
+</head>
+
+<body>
+	<h1>Format des Adressfeldes</h1>
+	<p>Definiert den Text der Grußformel und den Aufbau des Adressfeldes bei allen Dokumenten.</p>
+	<h3>Folgende Platzhalter können verwendet werden:</h3>
+		<ul>
+			<li><span class="usertext">{title}</span> Platzhalter für Titel</li>
+			<li><span class="usertext">{firstname}</span> Platzhalter für Vorname</li>
+			<li><span class="usertext">{lastname}</span> Platzhalter für Nachname</li>
+			<li><span class="usertext">{company}</span> Platzhalter für Firmenname</li>
+			<li><span class="usertext">{street}</span> Platzhalter für Strasse</li>
+			<li><span class="usertext">{zip}</span> Platzhalter für PLZ</li>
+			<li><span class="usertext">{city}</span> Platzhalter für Ort</li>
+			<li><span class="usertext">{country}</span> Platzhalter für Land</li>
+		</ul>
+
+
+	<h2>Allgemeine Grußformel</h2>
+	<p>Format der Grußformel, die dann benutzt wird, wenn dem Kontakteintrag kein Geschlecht zugewiesen wurde.</p>
+	<h3>Beispiel:</h3>
+	<p class="code">Sehr geehrte Damen und Herren der Firma <b>{company}</b></p>
+	<p>wird auf einer Rechnung ersetzt zu:</p>
+	<p class="documenttext">Sehr geehrte Damen und Herren der Firma <b>Impex Import Export GmbH</b></p>
+
+	<h2>Grußformel Männer</h2>
+	<p>Format der Grußformel, die dann benutzt wird, wenn es sich bei dem Kontakt um einen Mann handelt.</p>
+	<h3>Beispiel:</h3>
+	<p class="code">Sehr geehrter Herr <b>{lastname}</b></p>
+	<p>wird auf einer Rechnung ersetzt zu:</p>
+	<p class="documenttext">Sehr geehrter Herr <b>Müller</b></p>
+
+
+	<h2>Grußformel Frauen</h2>
+	<p>Format der Grußformel, die dann benutzt wird, wenn es sich bei dem Kontakt um eine Frau handelt.</p>
+	<h3>Beispiel:</h3>
+	<p class="code">Sehr geehrte Frau <b>{lastname}</b></p>
+	<p>wird auf einer Rechnung ersetzt zu:</p>
+	<p class="documenttext">Sehr geehrte Frau <b>Müller</b></p>
+
+
+	<h2>Grußformel Firma</h2>
+	<p>Format der Grußformel, die dann benutzt wird, wenn es sich bei dem Kontakt um eine Firma handelt.</p>
+	<h3>Beispiel:</h3>
+	<p class="code">Sehr geehrte Damen und Herren der Firma <b>{company}</b></p>
+	<p>wird auf einer Rechnung ersetzt zu:</p>
+	<p class="documenttext">Sehr geehrte Damen und Herren der Firma <b>Impex Import Export GmbH</b></p>
+
+
+</body>
+</html>
