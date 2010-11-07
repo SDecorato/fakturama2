@@ -278,7 +278,7 @@ public class CSVImporter {
 				
 				// The result string
 				//T: Message: xx VOUCHERS HAVE BEEN IMPORTED 
-				result += NL + Integer.toString(importedExpenditures) + " " + "Vouchers have been imported.";
+				result += NL + Integer.toString(importedExpenditures) + " " + _("Vouchers have been imported.");
 
 			}
 			catch (IOException e) {
