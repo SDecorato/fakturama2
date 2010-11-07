@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Format der Nummernkreise</title>
+  	<link rel="stylesheet" href="../common/style.css" type="text/css" />
+</head>
+
+<body>
+	<h1>Format der Nummernkreise</h1>
+	<p>Beim Anlegen eines neuen Kunden, eines Produktes oder eines Dokumentes wird automatisch die Kunden-, Artikel- oder Dokumentenummer hochgezählt.</p>
+	<p>Für Kunden, Produkte und jede Art von Dokument kann ein unterschiedliches Format vorgegeben werden.</p>
+	<img class="screenshot" src="numberrange_documentnr.png" alt="" />
+
+
+	<p>Als Platzhalter für die Nummer dient die Zeichensequenz: <span class="usertext">{<span class="black">X</span>nr}</span><br />
+	Das <span class="usertext"><span class="black">X</span></span> ist durch die Anzahl der Stellen zu ersetzen.
+	Die Zahl wird mit Nullen aufgefüllt, bis die Anzahl der Stellen erreicht ist.</p>
+
+	<h3>Beispiel:</h3>
+	<p class="code">RE{5nr}</p>
+	<p>erzeugt bei einer Rechnungsnummer <span class="markedblue">'200'</span> eine formatierte Rechnungsnummer von:</p>
+	<p class="documenttext">RE00200</p>
+
+	<h3>Für folgende Daten kann das Format vorgegeben werden:</h3>
+		<ul>
+			<li><span class="markedblue">Kundennummer</span></li>
+			<li><span class="markedblue">Artikelnummer</span></li>
+			<li><span class="markedblue">Rechnungsnummer</span></li>
+			<li><span class="markedblue">Lieferscheinnummer</span></li>
+			<li><span class="markedblue">Angebotsnummer</span></li>
+			<li><span class="markedblue">Bestellungsnummer</span></li>
+			<li><span class="markedblue">Auftragsbestätigungsnummer</span></li>
+			<li><span class="markedblue">Gutschriftnummer</span></li>
+			<li><span class="markedblue">Mahnungsnummer</span></li>
+		</ul>
+
+
+</body>
+</html>

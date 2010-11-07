@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Einstellungen" link_to="toc.xml#preferences"> 
+
+	<topic label="Allgemein"  href="html/preferences/general.html">
+	</topic>
+
+	<topic label="Dokumente"  href="html/preferences/document.html">
+	</topic>
+
+	<topic label="Export Umsätze"  href="html/preferences/exportsales.html">
+	</topic>
+
+	<topic label="Firmendaten"  href="html/preferences/yourcompany.html">
+	</topic>
+
+	<topic label="Hilfe"  href="html/common/nohelp.html"> 
+		<topic label="Inhalt" href="html/common/nohelp.html" /> 
+	</topic>
+
+	<topic label="Kontakte"  href="html/preferences/contact.html"> 
+		<topic label="Format" href="html/preferences/contactformat.html" /> 
+	</topic>
+	
+	<topic label="Nummernkreise"  href="html/preferences/numberrangevalues.html"> 
+		<topic label="Format" href="html/preferences/numberrangeformat.html" /> 
+	</topic>
+
+	<topic label="OpenOffice"  href="html/preferences/openoffice.html">
+	</topic>
+
+	<topic label="Produkte"  href="html/preferences/product.html">
+	</topic>
+
+	<topic label="Security"  href="html/common/nohelp.html"> 
+		<topic label="Secure Storage" href="html/common/nohelp.html" />
+	</topic>
+
+	<topic label="Webshop"  href="html/preferences/webshopimport.html">
+	</topic>
+</toc>
