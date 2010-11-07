@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-11-06 21:44+0100\n"
-"PO-Revision-Date: 2010-11-06 21:46+0100\n"
+"POT-Creation-Date: 2010-11-07 20:08+0100\n"
+"PO-Revision-Date: 2010-11-07 20:09+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Preise in Artikelliste:"
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:625
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:786
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:550
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:614
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:631
 msgid "Net"
 msgstr "Netto"
 
@@ -40,7 +40,7 @@ msgstr "Netto"
 #: ../src/com/sebulli/fakturama/preferences/ProductPreferencePage.java:61
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:554
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:552
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:617
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:634
 msgid "Gross"
 msgstr "Brutto"
 
@@ -675,14 +675,14 @@ msgstr "Ausgaben"
 #: ../src/com/sebulli/fakturama/editors/VatEditor.java:232
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:810
 #: ../src/com/sebulli/fakturama/editors/TextEditor.java:227
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:451
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:468
 msgid "Category"
 msgstr "Kategorie"
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:540
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1125
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:471
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:488
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:84
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewExpenditureTable.java:67
 msgid "Date"
@@ -700,7 +700,7 @@ msgstr "Dok.nr."
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:546
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:515
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:532
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewExpenditureTable.java:73
 msgid "Supplier"
 msgstr "Lieferant"
@@ -708,7 +708,7 @@ msgstr "Lieferant"
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:548
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:783
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:608
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:625
 msgid "Type"
 msgstr "Art"
 
@@ -1015,7 +1015,7 @@ msgstr "Artikelnummer"
 #: ../src/com/sebulli/fakturama/editors/TextEditor.java:214
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1486
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1551
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:605
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:622
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:75
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:86
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewListTable.java:65
@@ -1072,7 +1072,7 @@ msgstr "ab"
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:414
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1248
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1558
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:611
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:628
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewProductTable.java:86
 #: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:82
 msgid "VAT"
@@ -1819,62 +1819,62 @@ msgstr "Es gibt bereits ein Dokument mit der Nummer:"
 
 #. T: Expenditure Editor: Name of a new Expenditure
 #. T: Text of the action to create a new expenditure
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:267
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:284
 #: ../src/com/sebulli/fakturama/actions/NewExpenditureAction.java:39
 msgid "New Expenditure"
 msgstr "Neuer Ausgabenbeleg"
 
 #. T: ExpenditureEditor - Title
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:444
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:461
 msgid "Expense Voucher"
 msgstr "Ausgabenbeleg"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:453
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:470
 msgid "Category of this expense voucher. E.g. 'Bank', 'Cash', 'Credit Card'"
 msgstr "Kategorie dieses Ausgabenbeleges. Zum Beispiel 'Bank', 'Barzahlung', 'Kreditkarte'"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:473
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:490
 msgid "Date of the voucher"
 msgstr "Datum des Beleges"
 
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:489
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:506
 msgid "Voucher No."
 msgstr "Beleg Nr."
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:491
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:508
 msgid "Consecutive number of all vouchers"
 msgstr "Fortlaufende (selbst vergebene) Belegnummer."
 
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:502
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:519
 msgid "Document No."
 msgstr "Dokument Nr."
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:504
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:521
 msgid "Number found on the voucher. (Document No of the supplier)"
 msgstr "Nummer des Beleges. (Dokumentennummer des Lieferanten)"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:517
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:534
 msgid "Name of the supplier"
 msgstr "Name des Lieferanten"
 
 #. T: ExpenditureEditor - Label Items
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:534
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:551
 msgctxt "EXPENDITURE"
 msgid "Items"
 msgstr "Positionen"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:542
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:559
 msgid "Add a new item"
 msgstr "Einen neue Position hinzufügen"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:567
+#: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:584
 msgid "Delete the selected item"
 msgstr "Die ausgewählte Position löschen."
 
@@ -2453,58 +2453,63 @@ msgid "Import a CSV table into Fakturama"
 msgstr "Eine CSV Tabelle in Fakturama importieren"
 
 #. T: Importing + .. FILENAME
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:110
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:114
 msgid "Importing"
 msgstr "Importieren von"
 
 #. T: Error message
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:131
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:135
 msgid "File not found."
 msgstr "Datei nicht gefunden."
 
 #. T: Error message
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:156
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:160
 msgid "Error reading the first line"
 msgstr "Fehler beim Lesen der ersten Zeile"
 
 #. T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:194
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:198
 msgid "Line"
 msgstr "Zeile"
 
 #. T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:196
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:200
 msgid "No Data in Column"
 msgstr "Keine Daten in Spalte"
 
 #. T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:198
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:202
 msgid "found."
 msgstr "gefunden."
 
 #. T: Error message Dataset is already imported
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:224
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:228
 msgid "Dataset is already imported"
 msgstr "Datensatz wurde bereits importiert"
 
 #. T: Error message: DATASET xx FROM date
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:226
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:230
 msgid "Dataset"
 msgstr "Datensatz"
 
 #. T: DATASET xx FROM date
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:228
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:232
 msgctxt "DATE"
 msgid "from"
 msgstr "vom"
 
 #. T: Error message Import stopped
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:230
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:234
 msgid "Import stopped"
 msgstr "Import gestoppt"
 
+#. T: Message: xx VOUCHERS HAVE BEEN IMPORTED
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:281
+msgid "Vouchers have been imported."
+msgstr "Belege wurden importiert."
+
 #. T: Error message
-#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:277
+#: ../src/com/sebulli/fakturama/importWizards/CSVImporter.java:286
 msgid "Error opening the file."
 msgstr "Fehler beim Öffnen der Datei."
 
