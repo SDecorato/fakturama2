@@ -5,6 +5,9 @@
    <topic label="Getting Started">
       <anchor id="gettingstarted"/>
    </topic>
+   <topic label="Installation" href="html/install/main.html">
+      <anchor id="install"/>
+   </topic>
    <topic label="Einstellungen" href="html/preferences/main.html">
       <anchor id="preferences"/>
    </topic>

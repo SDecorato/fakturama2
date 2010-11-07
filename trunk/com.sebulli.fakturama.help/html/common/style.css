@@ -71,6 +71,12 @@ a {
 	border: 1px solid #000;
 	margin: 5px 10px 10px 10px;
 }	
+
+.screenshotnoborder {
+	border: none;
+	margin: 5px 10px 10px 10px;
+
+}	
 	
 .icon {
 	margin: 5px 10px 10px 10px;
@@ -102,11 +108,11 @@ a {
 	border: 1px solid #888;
 }
 
-
 .markedblue {
 	font-weight: bold;
 	color: #458;
 }
+
 .black {
 	color: #000;
 }
