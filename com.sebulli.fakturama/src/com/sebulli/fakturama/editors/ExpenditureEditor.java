@@ -148,48 +148,10 @@ public class ExpenditureEditor extends Editor {
 			else
 				item = itemDataset;
 
-			// Get list of all billing accounts
-			ArrayList<DataSetList> billing_accounts = Data.INSTANCE.getListEntries().getActiveDatasetsByCategory("billing_accounts");
-
-			boolean found = false;
-
-			// Get the VAT of this item
-			int vatID = item.getIntValueByKey("vatid");
-			DataSetVAT vat = null;
-			String vatName = "";
-			if (vatID >= 0) {
-				vat = Data.INSTANCE.getVATs().getDatasetById(vatID);
-				vatName = vat.getStringValueByKey("name");
-			}
-
-			// Search for the billing account with the same name as the item
-			for (DataSetList billing_account : billing_accounts) {
-				if (billing_account.getStringValueByKey("name").equals(item.getStringValueByKey("category"))) {
-
-					found = true;
-
-					// Get the VAT value from the billing account list
-					String billingVatName = billing_account.getStringValueByKey("value");
-
-					// If the vat is set to another value, refresh it.
-					if (!vatName.equalsIgnoreCase(billingVatName)) {
-						billing_account.setStringValueByKey("value", vatName);
-						Data.INSTANCE.getListEntries().updateDataSet(billing_account);
-						refreshView(ViewListTable.ID);
-					}
-					break;
-				}
-			}
-
-			// Entry not found in the billing accounts list, so create a new
-			// one.
-			if (!found) {
-				DataSetList billing_account;
-				billing_account = new DataSetList("billing_accounts", item.getStringValueByKey("category"), vatName);
-				Data.INSTANCE.getListEntries().addNewDataSet(billing_account);
-				refreshView(ViewListTable.ID);
-			}
-
+			// Updates the list of billing account
+			updateBillingAccount(item);
+			
+			
 			// If the ID of this item is -1, this was a new item.
 			// In this case, update the existing one
 			if (id >= 0) {
@@ -221,10 +183,65 @@ public class ExpenditureEditor extends Editor {
 		}
 
 		// Refresh the table view of all expenditures
+		refreshView(ViewListTable.ID);
 		refreshView();
 		checkDirty();
 	}
 
+	/**
+	 * Updates the list of billing account. Check, whether there is already
+	 * an entry with the same name 
+	 * 
+	 * @param vatID
+	 * 			VAT id of the expenditure item
+	 * @param category
+	 * 			Category of the expenditure item
+	 */
+	public static void updateBillingAccount(DataSetExpenditureItem item) {
+		
+		// Get list of all billing accounts
+		ArrayList<DataSetList> billing_accounts = Data.INSTANCE.getListEntries().getActiveDatasetsByCategory("billing_accounts");
+
+		boolean found = false;
+
+		// Get the VAT of this item
+		int vatID  = item.getIntValueByKey("vatid");
+		DataSetVAT vat = null;
+		String vatName = "";
+		if (vatID >= 0) {
+			vat = Data.INSTANCE.getVATs().getDatasetById(vatID);
+			vatName = vat.getStringValueByKey("name");
+		}
+
+		// Search for the billing account with the same name as the item
+		for (DataSetList billing_account : billing_accounts) {
+			if (billing_account.getStringValueByKey("name").equals(item.getStringValueByKey("category"))) {
+
+				found = true;
+
+				// Get the VAT value from the billing account list
+				String billingVatName = billing_account.getStringValueByKey("value");
+
+				// If the vat is set to another value, refresh it.
+				if (!vatName.equalsIgnoreCase(billingVatName)) {
+					billing_account.setStringValueByKey("value", vatName);
+					Data.INSTANCE.getListEntries().updateDataSet(billing_account);
+				}
+				break;
+			}
+		}
+
+		// Entry not found in the billing accounts list, so create a new
+		// one.
+		if (!found) {
+			DataSetList billing_account;
+			billing_account = new DataSetList("billing_accounts", item.getStringValueByKey("category"), vatName);
+			Data.INSTANCE.getListEntries().addNewDataSet(billing_account);
+		}
+
+	}
+	
+	
 	/**
 	 * There is no saveAs function
 	 */

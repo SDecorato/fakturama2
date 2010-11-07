@@ -29,6 +29,10 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetExpenditure;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetVAT;
+import com.sebulli.fakturama.editors.Editor;
+import com.sebulli.fakturama.editors.ExpenditureEditor;
+import com.sebulli.fakturama.views.datasettable.ViewExpenditureTable;
+import com.sebulli.fakturama.views.datasettable.ViewListTable;
 
 /**
  * CSV importer
@@ -245,6 +249,7 @@ public class CSVImporter {
 
 							// Add the expenditure and expenditure item to the data base
 							expenditureItem = Data.INSTANCE.getExpenditureItems().addNewDataSet(expenditureItem);
+							ExpenditureEditor.updateBillingAccount (expenditureItem);
 							expenditure = Data.INSTANCE.getExpenditures().addNewDataSetIfNew(expenditure);
 
 							// Add the item to the item string
@@ -266,7 +271,11 @@ public class CSVImporter {
 					}
 
 				}
-
+				
+				// Refresh the views
+				Editor.refreshView(ViewListTable.ID);
+				Editor.refreshView(ViewExpenditureTable.ID);
+				
 				// The result string
 				//T: Message: xx VOUCHERS HAVE BEEN IMPORTED 
 				result += NL + Integer.toString(importedExpenditures) + " " + "Vouchers have been imported.";
