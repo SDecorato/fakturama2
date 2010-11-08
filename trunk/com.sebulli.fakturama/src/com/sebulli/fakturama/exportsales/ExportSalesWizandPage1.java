@@ -62,6 +62,7 @@ public class ExportSalesWizandPage1 extends WizardPage {
 		// Create the top composite
 		Composite top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(top);
 		setControl(top);
 
 		// Create the label with the help text
@@ -69,7 +70,7 @@ public class ExportSalesWizandPage1 extends WizardPage {
 		
 		//T: Export Sales Wizard Page 1 - Long description.
 		labelDescription.setText(_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelDescription);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelDescription);
 
 		// Create a spacer
 		Label labelSpacer = new Label(top, SWT.NONE);
