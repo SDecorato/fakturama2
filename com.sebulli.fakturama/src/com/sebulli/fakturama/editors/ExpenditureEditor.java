@@ -47,7 +47,9 @@ import com.sebulli.fakturama.data.DataSetExpenditure;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetList;
 import com.sebulli.fakturama.data.DataSetVAT;
+import com.sebulli.fakturama.data.UniData;
 import com.sebulli.fakturama.data.UniDataSet;
+import com.sebulli.fakturama.data.UniDataType;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
@@ -74,6 +76,11 @@ public class ExpenditureEditor extends Editor {
 	private Text textNr;
 	private Text textDocumentNr;
 	private TableViewer tableViewerItems;
+	private CurrencyText textPaidValue;
+	private CurrencyText textTotalValue;
+	private UniData paidValue = new UniData(UniDataType.DOUBLE, 0.0);
+	private UniData totalValue = new UniData(UniDataType.DOUBLE, 0.0);
+
 
 	// The items of this document
 	private DataSetArray<DataSetExpenditureItem> expenditureItems;
@@ -170,8 +177,12 @@ public class ExpenditureEditor extends Editor {
 		}
 		// Set the string value
 		expenditure.setStringValueByKey("items", itemsString);
+		
+		// Set total and paid value
+		expenditure.setDoubleValueByKey("paid",paidValue.getValueAsDouble() );
+		expenditure.setDoubleValueByKey("total",totalValue.getValueAsDouble() );
 
-		// If it is a new payment, add it to the payment list and
+		// If it is a new expenditure, add it to the expenditure list and
 		// to the data base
 		if (newExpenditure) {
 			expenditure = Data.INSTANCE.getExpenditures().addNewDataSet(expenditure);
@@ -342,9 +353,14 @@ public class ExpenditureEditor extends Editor {
 	@Override
 	public boolean isDirty() {
 		/*
-		 * the following parameters are not checked: - id (constant)
+		 * the following parameters are not checked: 
+		 * - id (constant)
+		 * - total (this value is calculated during the idDirty() method
 		 */
 
+		// Calculate the total sum of all items
+		calculateTotal();
+		
 		// Check, if a cell is being modified at this moment
 		if (tableViewerItems != null)
 			if (tableViewerItems.isCellEditorActive() && (itemEditingSupport != null))
@@ -385,9 +401,35 @@ public class ExpenditureEditor extends Editor {
 		// been deleted.
 		if (!expenditure.getStringValueByKey("items").equals(itemsString)) { return true; }
 
+		// Compare paid value
+		if (!DataUtils.DoublesAreEqual(expenditure.getDoubleValueByKey("paid"), paidValue.getValueAsDouble() )) { return true; }
+		
 		return false;
 	}
 
+	/**
+	 * Calculate the total sum of all expenditure items
+	 */
+	private void calculateTotal() {
+
+		// Get all the items
+		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems.getActiveDatasets();
+
+		Double total = 0.0;
+		
+		for (DataSetExpenditureItem itemDataset : itemDatasets) {
+
+			// Add the value of the item to the total sum
+			total += itemDataset.getDoubleValueByKey("price");
+		}
+		
+		// Update the text widget
+		totalValue.setValue(total);
+		textTotalValue.update();
+		
+	}
+	
+	
 	/**
 	 * Returns whether the "Save As" operation is supported by this part.
 	 * 
@@ -527,7 +569,7 @@ public class ExpenditureEditor extends Editor {
 		superviceControl(textDocumentNr, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDocumentNr);
 
-		// Expenditure name
+		// Supplier name
 		Label labelName = new Label(top, SWT.NONE);
 		labelName.setText(_("Supplier"));
 		//T: Tool Tip Text
@@ -633,6 +675,42 @@ public class ExpenditureEditor extends Editor {
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Gross"), 85, 0, true, "$ExpenditureItemGrossPrice",
 				new ExpenditureItemEditingSupport(this, tableViewerItems, 5));
+
+		// Create the top Composite
+		Composite bottom = new Composite(top, SWT.NONE);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2,1).applyTo(bottom);
+		
+		GridLayoutFactory.swtDefaults().numColumns(4).applyTo(bottom);
+
+		// Paid value
+		Label labelPaidValue = new Label(bottom, SWT.NONE);
+		labelPaidValue.setText(_("Paid Value") + ":");
+		//T: Tool Tip Text
+		labelPaidValue.setToolTipText(_("The paid value (e.g. 97$, if the total value was 100$ with 3% discount."));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPaidValue);
+
+		paidValue.setValue(expenditure.getStringValueByKey("paid"));
+
+		textPaidValue = new CurrencyText(this, bottom, SWT.BORDER | SWT.RIGHT, paidValue);
+		textPaidValue.setToolTipText(labelPaidValue.getToolTipText());
+		superviceControl(textPaidValue.getText(), 32);
+		GridDataFactory.swtDefaults().hint(80, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(textPaidValue.getText());
+
+		// Total value
+		Label labelTotalValue = new Label(bottom, SWT.NONE);
+		labelTotalValue.setText(_("Total Value") + ":");
+		//T: Tool Tip Text
+		labelTotalValue.setToolTipText(_("The total value of the voucher (without discount)."));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelTotalValue);
+
+		totalValue.setValue(expenditure.getStringValueByKey("total"));
+
+		textTotalValue = new CurrencyText(this, bottom, SWT.BORDER | SWT.RIGHT, totalValue);
+		textTotalValue.getText().setEditable(false);
+		textTotalValue.setToolTipText(labelTotalValue.getToolTipText());
+//		superviceControl(textTotalValue.getText(), 32);
+		GridDataFactory.swtDefaults().hint(80, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(textTotalValue.getText());
+
 
 		// Fill the table with the items
 		tableViewerItems.setInput(expenditureItems);

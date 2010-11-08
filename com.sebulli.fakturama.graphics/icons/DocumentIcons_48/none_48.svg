@@ -14,7 +14,7 @@
    height="48"
    id="svg2862"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="0.47pre3 r22311"
    sodipodi:docname="none_48.svg"
    inkscape:export-filename="/Users/gerdbartelt/Documents/Fakturama/com.sebulli.fakturama/icons/48/none_48.png"
    inkscape:export-xdpi="90"
@@ -405,19 +405,19 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="31.204756"
-     inkscape:cy="14.942241"
+     inkscape:zoom="8"
+     inkscape:cx="51.851708"
+     inkscape:cy="7.9627348"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      showborder="true"
      inkscape:showpageshadow="true"
      objecttolerance="1"
-     inkscape:window-width="1022"
-     inkscape:window-height="544"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="1209"
+     inkscape:window-height="1050"
+     inkscape:window-x="445"
+     inkscape:window-y="32"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -452,7 +452,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -477,13 +477,5 @@
        d="m 31.499777,1006.8622 9,9 -9,0.014 0,-9.014 0,0 z"
        id="path2980"
        sodipodi:nodetypes="ccccc" />
-    <rect
-       style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#e50000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect2880"
-       width="20"
-       height="5"
-       x="5.5"
-       y="12.5"
-       transform="translate(0,1004.3622)" />
   </g>
 </svg>

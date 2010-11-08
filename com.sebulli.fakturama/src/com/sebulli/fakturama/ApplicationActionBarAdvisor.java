@@ -16,6 +16,9 @@ package com.sebulli.fakturama;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.ICoolBarManager;
@@ -424,6 +427,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	 */
 	@Override
 	protected void fillCoolBar(ICoolBarManager coolBar) {
+		
 		IToolBarManager toolbar1 = new ToolBarManager(SWT.FLAT);
 		IToolBarManager toolbar2 = new ToolBarManager(SWT.FLAT);
 		IToolBarManager toolbar3 = new ToolBarManager(SWT.FLAT);
@@ -431,6 +435,14 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		coolBar.add(new ToolBarContributionItem(toolbar1, "main1"));
 		coolBar.add(new ToolBarContributionItem(toolbar2, "main2"));
 		coolBar.add(new ToolBarContributionItem(toolbar3, "main3"));
+
+		// Get the screen width
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenWidth = screenSize.width;
+		
+		// Use a default screen width, if the value is invalid
+		if (screenWidth <= 0)
+			screenWidth = 1280;
 
 		webShopImportActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/shop_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
@@ -455,12 +467,14 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		saveCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar1.add(saveCI);
 
-		newLetterAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/letter_new_32.png"));
-		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newLetterAction.setText(_("Letter", "TOOLBAR"));
-		ActionContributionItem newLetterCI = new ActionContributionItem(newLetterAction);
-		newLetterCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newLetterCI);
+		if (screenWidth > 1024) {
+			newLetterAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/letter_new_32.png"));
+			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+			newLetterAction.setText(_("Letter", "TOOLBAR"));
+			ActionContributionItem newLetterCI = new ActionContributionItem(newLetterAction);
+			newLetterCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+			toolbar2.add(newLetterCI);
+		}
 
 		newOfferAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/offer_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
@@ -504,12 +518,14 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newCreditCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newCreditCI);
 
-		newDunningAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
-		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newDunningAction.setText(_("Dunning", "TOOLBAR"));
-		ActionContributionItem newDunningCI = new ActionContributionItem(newDunningAction);
-		newDunningCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newDunningCI);
+		if (screenWidth > 1024) {
+			newDunningAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
+			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+			newDunningAction.setText(_("Dunning", "TOOLBAR"));
+			ActionContributionItem newDunningCI = new ActionContributionItem(newDunningAction);
+			newDunningCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+			toolbar2.add(newDunningCI);
+		}
 
 		newContactAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/contact_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
@@ -524,6 +540,13 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		ActionContributionItem newProductCI = new ActionContributionItem(newProductAction);
 		newProductCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newProductCI);
+
+		newExpenditureAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_new_32.png"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newExpenditureAction.setText(_("Voucher", "TOOLBAR"));
+		ActionContributionItem newExpenditureCI = new ActionContributionItem(newExpenditureAction);
+		newExpenditureCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		toolbar2.add(newExpenditureCI);
 
 		openBrowserEditorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/www_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.

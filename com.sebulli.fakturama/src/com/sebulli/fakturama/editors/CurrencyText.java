@@ -16,6 +16,8 @@ package com.sebulli.fakturama.editors;
 
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
@@ -58,6 +60,18 @@ public class CurrencyText {
 		this.text = new Text(parent, style);
 		this.text.setText(DataUtils.DoubleToFormatedPrice(this.value.getValueAsDouble()));
 
+		//Update the value on 'ENTER'
+		text.addKeyListener(new KeyAdapter() {
+				public void keyPressed(KeyEvent e) {
+					if (e.keyCode == 13) {
+						value.setValue(DataUtils.StringToDouble(text.getText()));
+						update();
+						editor.checkDirty();
+					}
+				}
+			});
+
+		
 		// Add a selection listener
 		text.addSelectionListener(new SelectionAdapter() {
 
@@ -70,7 +84,7 @@ public class CurrencyText {
 			 */
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				text.setText(DataUtils.DoubleToFormatedPrice(value.getValueAsDouble()));
+				update();
 				editor.checkDirty();
 			}
 
@@ -94,7 +108,7 @@ public class CurrencyText {
 			@Override
 			public void focusLost(FocusEvent e) {
 				value.setValue(DataUtils.StringToDouble(text.getText()));
-				text.setText(DataUtils.DoubleToFormatedPrice(value.getValueAsDouble()));
+				update();
 				editor.checkDirty();
 			}
 
@@ -118,6 +132,15 @@ public class CurrencyText {
 	 */
 	public void setToolTipText(String toolTip) {
 		text.setToolTipText(toolTip);
+	}
+	
+	/**
+	 * Update the text widget with the data
+	 */
+	public void update () {
+		String s = DataUtils.DoubleToFormatedPrice(value.getValueAsDouble());
+		if (!s.equals(text.getText()))
+			text.setText(s);
 	}
 
 }

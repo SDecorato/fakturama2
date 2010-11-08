@@ -43,7 +43,7 @@ public class DataSetExpenditure extends UniDataSet {
 	 *            Category of the new expenditure
 	 */
 	public DataSetExpenditure(String category) {
-		this("", category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "", "");
+		this("", category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "", "", 0.0, 0.0);
 	}
 
 	/**
@@ -55,9 +55,11 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param nr
 	 * @param documentnr
 	 * @param items
+	 * @param paid
+	 * @param total
 	 */
-	public DataSetExpenditure(String name, String category, String date, String nr, String documentnr, String items) {
-		this(-1, name, false, category, date, nr, documentnr, items);
+	public DataSetExpenditure(String name, String category, String date, String nr, String documentnr, String items, Double paid, Double total) {
+		this(-1, name, false, category, date, nr, documentnr, items, paid, total);
 	}
 
 	/**
@@ -71,8 +73,11 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param nr
 	 * @param documentnr
 	 * @param items
+	 * @param paid
+	 * @param total
 	 */
-	public DataSetExpenditure(int id, String name, boolean deleted, String category, String date, String nr, String documentnr, String items) {
+	public DataSetExpenditure(int id, String name, boolean deleted, String category, String date, String nr, String documentnr, String items,
+				Double paid, Double total) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
@@ -81,6 +86,8 @@ public class DataSetExpenditure extends UniDataSet {
 		this.hashMap.put("nr", new UniData(UniDataType.STRING, documentnr));
 		this.hashMap.put("documentnr", new UniData(UniDataType.STRING, documentnr));
 		this.hashMap.put("items", new UniData(UniDataType.STRING, items));
+		this.hashMap.put("paid", new UniData(UniDataType.PRICE, paid));
+		this.hashMap.put("total", new UniData(UniDataType.PRICE, total));
 
 		// Name of the table in the data base
 		sqlTabeName = "Expenditures";
