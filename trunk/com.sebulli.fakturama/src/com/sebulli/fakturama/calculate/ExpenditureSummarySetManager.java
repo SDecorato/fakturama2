@@ -46,7 +46,8 @@ public class ExpenditureSummarySetManager {
 		// Create a new summary object and start the calculation.
 		// This will add all the entries to the VatSummarySet
 		ExpenditureSummary summary = new ExpenditureSummary();
-		summary.calculate(expenditureSummarySet, expenditure.getItems(), useCategory);
+		summary.calculate(expenditureSummarySet, expenditure.getItems(), useCategory,
+				expenditure.getDoubleValueByKey("paid"),expenditure.getDoubleValueByKey("total"), expenditure.getBooleanValueByKey("discounted"));
 	}
 
 	/**
@@ -64,7 +65,8 @@ public class ExpenditureSummarySetManager {
 		// Create a new summary object and start the calculation.
 		// This will add all the entries to the VatSummarySet
 		ExpenditureSummary summary = new ExpenditureSummary();
-		summary.calculate(expenditureSummarySet, expenditure.getItems(itemNr), useCategory);
+		summary.calculate(expenditureSummarySet, expenditure.getItems(itemNr), useCategory,
+				expenditure.getDoubleValueByKey("paid"),expenditure.getDoubleValueByKey("total"), expenditure.getBooleanValueByKey("discounted"));
 	}
 
 	/**

@@ -59,11 +59,19 @@ public class ExpenditureSummary {
 	 *            If true, the category is also used for the vat summary as a
 	 *            description
 	 */
-	public void calculate(VatSummarySet globalExpenditureSummarySet, DataSetArray<DataSetExpenditureItem> items, boolean useCategory) {
+	public void calculate(VatSummarySet globalExpenditureSummarySet, DataSetArray<DataSetExpenditureItem> items, boolean useCategory, Double paid, Double total, boolean discounted) {
 
 		Double vatPercent;
 		String vatDescription;
 
+		// PaidFactor is the relation between paid and total value.
+		// e.g. if there is a discount of 3%, the total value is 100$
+		// and the paid value is 97$, then the paidFactor is 0.97
+		Double paidFactor = 1.0;
+		if (discounted)
+			paidFactor = paid / total;
+
+		
 		// This Vat summary contains only the VAT entries of this document,
 		// whereas the the parameter vatSummaryItems is a global VAT summary
 		// and contains entries from this document and from others.
@@ -80,7 +88,7 @@ public class ExpenditureSummary {
 			vatDescription = item.getStringValueByKeyFromOtherTable("vatid.VATS:description");
 			vatPercent = item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value");
 
-			Price price = new Price(item);
+			Price price = new Price(item, paidFactor);
 			Double itemVat = price.getTotalVat().asDouble();
 
 			// Add the total net value of this item to the sum of net items

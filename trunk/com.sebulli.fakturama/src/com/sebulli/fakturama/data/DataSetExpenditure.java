@@ -43,7 +43,7 @@ public class DataSetExpenditure extends UniDataSet {
 	 *            Category of the new expenditure
 	 */
 	public DataSetExpenditure(String category) {
-		this("", category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "", "", 0.0, 0.0);
+		this("", category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "", "", 0.0, 0.0, false);
 	}
 
 	/**
@@ -57,9 +57,10 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param items
 	 * @param paid
 	 * @param total
+	 * @param discounted
 	 */
-	public DataSetExpenditure(String name, String category, String date, String nr, String documentnr, String items, Double paid, Double total) {
-		this(-1, name, false, category, date, nr, documentnr, items, paid, total);
+	public DataSetExpenditure(String name, String category, String date, String nr, String documentnr, String items, Double paid, Double total, boolean discounted) {
+		this(-1, name, false, category, date, nr, documentnr, items, paid, total, discounted);
 	}
 
 	/**
@@ -75,9 +76,10 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param items
 	 * @param paid
 	 * @param total
+	 * @param discounted
 	 */
 	public DataSetExpenditure(int id, String name, boolean deleted, String category, String date, String nr, String documentnr, String items,
-				Double paid, Double total) {
+				Double paid, Double total, boolean discounted) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
@@ -88,7 +90,8 @@ public class DataSetExpenditure extends UniDataSet {
 		this.hashMap.put("items", new UniData(UniDataType.STRING, items));
 		this.hashMap.put("paid", new UniData(UniDataType.PRICE, paid));
 		this.hashMap.put("total", new UniData(UniDataType.PRICE, total));
-
+		this.hashMap.put("discounted", new UniData(UniDataType.BOOLEAN, discounted));
+		
 		// Name of the table in the data base
 		sqlTabeName = "Expenditures";
 
@@ -168,7 +171,7 @@ public class DataSetExpenditure extends UniDataSet {
 	 * Recalculate the expenditure total values
 	 */
 	public void calculate() {
-		calculate(this.getItems(), false);
+		calculate(this.getItems(), false, this.getDoubleValueByKey("paid"),this.getDoubleValueByKey("total"), this.getBooleanValueByKey("discounted") );
 	}
 
 	/**
@@ -180,8 +183,8 @@ public class DataSetExpenditure extends UniDataSet {
 	 *            If true, the category is also used for the vat summary as a
 	 *            description
 	 */
-	public void calculate(DataSetArray<DataSetExpenditureItem> items, boolean useCategory) {
-		summary.calculate(null, items, useCategory);
+	public void calculate(DataSetArray<DataSetExpenditureItem> items, boolean useCategory, Double paid, Double total, boolean discounted) {
+		summary.calculate(null, items, useCategory, paid, total, discounted);
 	}
 
 	/**
