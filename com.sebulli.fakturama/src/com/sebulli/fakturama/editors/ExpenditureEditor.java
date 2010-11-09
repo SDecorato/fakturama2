@@ -30,6 +30,9 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
@@ -80,6 +83,7 @@ public class ExpenditureEditor extends Editor {
 	private CurrencyText textTotalValue;
 	private UniData paidValue = new UniData(UniDataType.DOUBLE, 0.0);
 	private UniData totalValue = new UniData(UniDataType.DOUBLE, 0.0);
+	private Button bPaidWithDiscount;
 
 
 	// The items of this document
@@ -179,8 +183,19 @@ public class ExpenditureEditor extends Editor {
 		expenditure.setStringValueByKey("items", itemsString);
 		
 		// Set total and paid value
-		expenditure.setDoubleValueByKey("paid",paidValue.getValueAsDouble() );
 		expenditure.setDoubleValueByKey("total",totalValue.getValueAsDouble() );
+
+		// The the expenditure was paid with a discount, use the paid value
+		if (bPaidWithDiscount.getSelection()) {
+			expenditure.setBooleanValueByKey("discounted", true);
+			expenditure.setDoubleValueByKey("paid",paidValue.getValueAsDouble() );
+		}
+		// else use the total value
+		else {
+			expenditure.setBooleanValueByKey("discounted", false);
+			expenditure.setDoubleValueByKey("paid",totalValue.getValueAsDouble() );
+		}
+
 
 		// If it is a new expenditure, add it to the expenditure list and
 		// to the data base
@@ -403,7 +418,8 @@ public class ExpenditureEditor extends Editor {
 
 		// Compare paid value
 		if (!DataUtils.DoublesAreEqual(expenditure.getDoubleValueByKey("paid"), paidValue.getValueAsDouble() )) { return true; }
-		
+		if (expenditure.getBooleanValueByKey("discounted") != bPaidWithDiscount.getSelection()) { return true; }
+
 		return false;
 	}
 
@@ -411,18 +427,13 @@ public class ExpenditureEditor extends Editor {
 	 * Calculate the total sum of all expenditure items
 	 */
 	private void calculateTotal() {
-
-		// Get all the items
-		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems.getActiveDatasets();
-
-		Double total = 0.0;
 		
-		for (DataSetExpenditureItem itemDataset : itemDatasets) {
+		// Do the calculation
+		expenditure.calculate(expenditureItems, false, paidValue.getValueAsDouble(), totalValue.getValueAsDouble(),bPaidWithDiscount.getSelection() );
 
-			// Add the value of the item to the total sum
-			total += itemDataset.getDoubleValueByKey("price");
-		}
-		
+		// Get the total result
+		Double total = expenditure.getSummary().getTotalGross().asDouble();
+
 		// Update the text widget
 		totalValue.setValue(total);
 		textTotalValue.update();
@@ -661,10 +672,10 @@ public class ExpenditureEditor extends Editor {
 
 		// Create the table columns
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Name"), 200, 100, false, "name", new ExpenditureItemEditingSupport(this,
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Text"), 200, 100, false, "name", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 1));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Type"), 200, 0, true, "category", new ExpenditureItemEditingSupport(this,
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Account Type"), 200, 0, true, "category", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 2));
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ExpenditureItemVatPercent",
@@ -680,18 +691,41 @@ public class ExpenditureEditor extends Editor {
 		Composite bottom = new Composite(top, SWT.NONE);
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2,1).applyTo(bottom);
 		
-		GridLayoutFactory.swtDefaults().numColumns(4).applyTo(bottom);
+		GridLayoutFactory.swtDefaults().numColumns(5).applyTo(bottom);
 
+		// The paid label
+		bPaidWithDiscount = new Button(bottom, SWT.CHECK | SWT.RIGHT);
+		bPaidWithDiscount.setSelection(expenditure.getBooleanValueByKey("discounted"));
+		//T: Mark an expenditure, if the paid value is not equal to the total value.
+		bPaidWithDiscount.setText(_("Paid with discount"));
+		//T: Tool Tip Text
+		bPaidWithDiscount.setToolTipText(_("Check this, if not the total value was paid. Then enter the paid value."));
+		
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(bPaidWithDiscount);
+
+		// If the bPaidWithDiscount check box is selected ...
+		bPaidWithDiscount.addSelectionListener(new SelectionAdapter() {
+
+			// check dirty
+			public void widgetSelected(SelectionEvent e) {
+				checkDirty();
+				if (textPaidValue != null)
+					textPaidValue.getText().setVisible(bPaidWithDiscount.getSelection());
+			}
+		});
+
+		
 		// Paid value
 		Label labelPaidValue = new Label(bottom, SWT.NONE);
 		labelPaidValue.setText(_("Paid Value") + ":");
 		//T: Tool Tip Text
-		labelPaidValue.setToolTipText(_("The paid value (e.g. 97$, if the total value was 100$ with 3% discount."));
+		labelPaidValue.setToolTipText(_("The paid value (e.g. 97$, if the total value was 100$ with 3% discount)."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPaidValue);
 
 		paidValue.setValue(expenditure.getStringValueByKey("paid"));
 
 		textPaidValue = new CurrencyText(this, bottom, SWT.BORDER | SWT.RIGHT, paidValue);
+		textPaidValue.getText().setVisible(bPaidWithDiscount.getSelection());
 		textPaidValue.setToolTipText(labelPaidValue.getToolTipText());
 		superviceControl(textPaidValue.getText(), 32);
 		GridDataFactory.swtDefaults().hint(80, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(textPaidValue.getText());

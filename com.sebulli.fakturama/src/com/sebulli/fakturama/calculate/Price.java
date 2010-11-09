@@ -37,6 +37,11 @@ public class Price {
 	private Double unitVat;
 	private Double unitGross;
 
+	// unit values but with discount
+	private Double unitNetDiscounted;
+	private Double unitVatDiscounted;
+	private Double unitGrossDiscounted;
+
 	// total values
 	private Double totalNet;
 	private Double totalVat;
@@ -46,7 +51,12 @@ public class Price {
 	private Double unitNetRounded;
 	private Double unitVatRounded;
 	private Double unitGrossRounded;
-
+	
+	// unit values but with discount rounded
+	private Double unitNetDiscountedRounded;
+	private Double unitVatDiscountedRounded;
+	private Double unitGrossDiscountedRounded;
+	
 	// total values rounded
 	private Double totalNetRounded;
 	private Double totalVatRounded;
@@ -68,6 +78,9 @@ public class Price {
 	 * 
 	 * @param item
 	 *            Item as UniDataSet
+	 *            
+	 * @param scaleFactor
+	 * 				Scale factor of this item
 	 */
 	public Price(DataSetItem item, Double scaleFactor) {
 		this(item.getDoubleValueByKey("quantity"), item.getDoubleValueByKey("price") * scaleFactor, item.getDoubleValueByKey("vatvalue"), item
@@ -84,6 +97,20 @@ public class Price {
 		this(1.0, item.getDoubleValueByKey("price"), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"), 0.0, false, false);
 	}
 
+	/**
+	 * Constructor Create a price value from an expenditure item and a scale factor
+	 * 
+	 * @param item
+	 *            Item as UniDataSet
+	 *            
+	 * @param scaleFactor
+	 * 				Scale factor of this expenditure item
+	 */
+	public Price(DataSetExpenditureItem item, Double scaleFactor) {
+		this(1.0, item.getDoubleValueByKey("price") * scaleFactor, item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"), 0.0, false, false);
+	}
+
+	
 	/**
 	 * Constructor Create a price value from a net value
 	 * 
@@ -189,6 +216,11 @@ public class Price {
 			discountFactor = 1.0;
 		}
 
+		// Calculate the discounted values and use the quantity
+		this.unitNetDiscounted = this.unitNet * discountFactor;
+		this.unitVatDiscounted =  this.unitVat * discountFactor;
+		this.unitGrossDiscounted =  this.unitGross * discountFactor;
+
 		// Calculate the total values and use the quantity
 		this.totalNet = this.quantity * this.unitNet * discountFactor;
 		this.totalVat = this.quantity * this.unitVat * discountFactor;
@@ -203,6 +235,11 @@ public class Price {
 			this.unitVatRounded = DataUtils.round(unitVat);
 			this.unitGrossRounded = this.unitNetRounded + this.unitVatRounded;
 
+
+			this.unitNetDiscountedRounded = DataUtils.round(unitNetDiscounted);
+			this.unitVatDiscountedRounded = DataUtils.round(unitVatDiscounted);
+			this.unitGrossDiscountedRounded = this.unitNetDiscountedRounded + this.unitVatDiscountedRounded;
+
 			this.totalNetRounded = DataUtils.round(totalNet);
 			this.totalVatRounded = DataUtils.round(totalVat);
 			this.totalGrossRounded = this.totalNetRounded + this.totalVatRounded;
@@ -211,6 +248,10 @@ public class Price {
 			this.unitGrossRounded = DataUtils.round(unitGross);
 			this.unitVatRounded = DataUtils.round(unitVat);
 			this.unitNetRounded = this.unitGrossRounded - this.unitVatRounded;
+
+			this.unitGrossDiscountedRounded = DataUtils.round(unitGrossDiscounted);
+			this.unitVatDiscountedRounded = DataUtils.round(unitVatDiscounted);
+			this.unitNetDiscountedRounded = this.unitGrossDiscountedRounded - this.unitVatDiscountedRounded;
 
 			this.totalGrossRounded = DataUtils.round(totalGross);
 			this.totalVatRounded = DataUtils.round(totalVat);
@@ -225,6 +266,33 @@ public class Price {
 	 */
 	public String getVatPercent() {
 		return DataUtils.DoubleToFormatedPercent(vatPercent);
+	}
+
+	/**
+	 * Get the discounted net value of one unit.
+	 * 
+	 * @return Net value as PriceValue
+	 */
+	public PriceValue getUnitNetDiscounted() {
+		return new PriceValue(unitNetDiscounted);
+	}
+
+	/**
+	 * Get the discounted VAT value of one unit
+	 * 
+	 * @return VAT value as PriceValue
+	 */
+	public PriceValue getUnitVatDiscounted() {
+		return new PriceValue(unitVatDiscounted);
+	}
+
+	/**
+	 * Get the discounted gross value of one unit.
+	 * 
+	 * @return Gross value as PriceValue
+	 */
+	public PriceValue getUnitGrossDiscounted() {
+		return new PriceValue(unitGrossDiscounted);
 	}
 
 	/**
@@ -306,6 +374,33 @@ public class Price {
 	 */
 	public PriceValue getUnitGrossRounded() {
 		return new PriceValue(unitGrossRounded);
+	}
+
+	/**
+	 * Get the discounted net value of one unit as rounded value.
+	 * 
+	 * @return discounted Net value as PriceValue
+	 */
+	public PriceValue getUnitNetDiscountedRounded() {
+		return new PriceValue(unitNetDiscountedRounded);
+	}
+
+	/**
+	 * Get the discounted VAT value of one unit as rounded value.
+	 * 
+	 * @return discounted VAT value as PriceValue
+	 */
+	public PriceValue getUnitVatDiscountedRounded() {
+		return new PriceValue(unitVatDiscountedRounded);
+	}
+
+	/**
+	 * Get the discounted gross value of one unit as rounded value.
+	 * 
+	 * @return discounted gross value as PriceValue
+	 */
+	public PriceValue getUnitGrossDiscountedRounded() {
+		return new PriceValue(unitGrossDiscountedRounded);
 	}
 
 	/**

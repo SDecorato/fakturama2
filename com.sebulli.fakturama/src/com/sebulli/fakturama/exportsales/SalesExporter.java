@@ -545,7 +545,7 @@ public class SalesExporter {
 		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(spreadsheet1, row, col++, _("Supplier"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Type"));
+		setCellTextInBold(spreadsheet1, row, col++, _("Text"));
 
 		if (showExpenditureSumColumn) {
 			//T: Used as heading of a table. Keep the word short.
@@ -780,7 +780,7 @@ public class SalesExporter {
 
 		//Heading for the categories
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Type"));
+		setCellTextInBold(spreadsheet1, row, col++, _("Account Type"));
 		setCellTextInBold(spreadsheet1, row, col++, DataSetVAT.getPurchaseTaxString());
 		setCellTextInBold(spreadsheet1, row, col++, DataSetVAT.getPurchaseTaxString());
 		setCellTextInBold(spreadsheet1, row, col++, _("Net"));

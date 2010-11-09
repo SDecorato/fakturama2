@@ -714,6 +714,21 @@ public class OODocument extends Object {
 			value = price.getUnitGrossRounded().asFormatedString();
 		}
 
+		// Get the discounted item net value
+		else if (placeholderDisplayText.equals("<ITEM.UNIT.NET.DISCOUNTED>")) {
+			value = price.getUnitNetDiscountedRounded().asFormatedString();
+		}
+
+		// Get the discounted item VAT
+		else if (placeholderDisplayText.equals("<ITEM.UNIT.VAT.DISCOUNTED>")) {
+			value = price.getUnitVatDiscountedRounded().asFormatedString();
+		}
+
+		// Get the discounted item gross value
+		else if (placeholderDisplayText.equals("<ITEM.UNIT.GROSS.DISCOUNTED>")) {
+			value = price.getUnitGrossDiscountedRounded().asFormatedString();
+		}
+
 		// Get the total net value
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.NET>")) {
 			value = price.getTotalNetRounded().asFormatedString();
