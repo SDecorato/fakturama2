@@ -13,6 +13,9 @@
       <toc
             file="tocpreferences.xml">
       </toc>
+      <toc
+            file="toclicense.xml">
+      </toc>
    </extension>
 
 </plugin>

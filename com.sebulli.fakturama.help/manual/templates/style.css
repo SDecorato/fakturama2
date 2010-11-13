@@ -16,7 +16,7 @@
 }	
 
 .usertext {
-	font-family: "Courier New",Courier,monospace; 
+	font-family: "Courier New";
 	font-weight: bold;
 	color: #458;
 
@@ -24,7 +24,7 @@
 
 .code {
 	margin-left:10px;
-	font-family: "Courier New",Courier,monospace; 
+	font-family: "Courier New";
 	font-weight: normal;
 	color: #000;
 	background-color: #f0f4f8;
@@ -34,7 +34,7 @@
 .documenttext {
 	margin-left:10px;
 	font-size: 17px;
-	font-family: Georgia,"Times New Roman",Times,serif; 
+	font-family: Georgia;
 	font-weight: normal;
 	color: #000;
 	background-color: #f0f4f8;
@@ -50,4 +50,14 @@
 	color: #000;
 }
 
+.licenselist {
+	font-family: Georgia;
+	font-size: 9pt;
+	margin-left: 20px;
+}
+
+.license{
+	font-family: Georgia;
+	font-size: 9pt;
+}
 
