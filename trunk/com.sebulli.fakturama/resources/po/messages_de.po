@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2010-11-09 20:00+0100\n"
-"PO-Revision-Date: 2010-11-09 20:05+0100\n"
+"PO-Revision-Date: 2010-11-13 17:44+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -1968,7 +1968,7 @@ msgstr "Über Fakturama"
 #. T: Text of the actions in the main menu
 #: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:217
 msgid "Help Contents"
-msgstr "Hilfethemen"
+msgstr "Hilfe / Handbuch"
 
 #. T: Text of the actions in the main menu
 #: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:222

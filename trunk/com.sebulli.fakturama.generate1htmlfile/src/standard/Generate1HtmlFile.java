@@ -218,11 +218,9 @@ public class Generate1HtmlFile {
 					}
 					else if (body || !onlyBody) {
 						// Convert the headings
-						line = line.replace("<h3>", "<h4>");
-						line = line.replace("</h3>", "</h4>");
-						line = line.replace("<h2>", "<h3>");
-						line = line.replace("</h2>", "</h3>");
 						if (isNotH1) {
+							line = line.replace("<h2>", "<h3>");
+							line = line.replace("</h2>", "</h3>");
 							line = line.replace("<h1>", "<h2>");
 							line = line.replace("</h1>", "</h2>");
 						}
