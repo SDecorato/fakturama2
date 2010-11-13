@@ -5,4 +5,7 @@
    <topic label="Einstellungen" href="html/preferences/main.html">
       <anchor id="preferences"/>
    </topic>
+   <topic label="Lizenz" href="html/license/license.html">
+      <anchor id="license"/>
+   </topic>
 </toc>
