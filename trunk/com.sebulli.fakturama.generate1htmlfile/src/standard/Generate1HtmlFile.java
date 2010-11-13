@@ -50,7 +50,7 @@ public class Generate1HtmlFile {
 		try {
 			
 			// Add the header
-			addHtmlFile( "templates/header.html", "templates/",  false, true, false);
+			addHtmlFile( path + "manual/templates/" + "header.html", path + "manual/templates/",  false, true, false);
 			
 			// Parse the toc.xml file
 			builder = factory.newDocumentBuilder();
@@ -74,7 +74,7 @@ public class Generate1HtmlFile {
 		    }
 		    
 		    // Add the footer
-			addHtmlFile( "templates/footer.html", "templates/", false, false, false);
+			addHtmlFile( path + "manual/templates/" + "footer.html", path + "manual/templates/", false, false, false);
 
 		
 		}
@@ -140,26 +140,6 @@ public class Generate1HtmlFile {
 	}
 	
 	/**
-	 * Add a new line to the output file
-	 * 
-	 * @param line
-	 * 		The line to add
-	 */
-	@SuppressWarnings("unused")
-	private static void addLine(String line) {
-		try {
-			File outputFile = new File("output/index.html");
-			BufferedWriter outputWriter = new BufferedWriter(new FileWriter(outputFile, true));
-			outputWriter.write(line + "\r\n");
-			outputWriter.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	/**
 	 * Add a HTML file to the output file
 	 * 
 	 * @param fileName
@@ -179,13 +159,9 @@ public class Generate1HtmlFile {
 			return;
 		
 		try {
-			// Create a folder "output", if it does not exist yet.
-			File directory = new File("output");
-			if (!directory.exists())
-				directory.mkdirs();
 			
 			// Create a new output file - delete the old one
-			File outputFile = new File("output/index.html");
+			File outputFile = new File(path + "manual/index.html");
 			if (newFile) {
 				if (outputFile.exists())
 					outputFile.delete();
