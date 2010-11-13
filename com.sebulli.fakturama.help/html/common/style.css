@@ -1,5 +1,4 @@
-/* Style for all Help pages */
-
+/* Style for all help pages (only the style for the web based help) */
 
 html {
 	border:0px;
@@ -16,14 +15,6 @@ body {
 	color:#000;
 } 
 
-
-#heading {
-	padding-bottom: 10px;
-	border-bottom: 1px solid #000;
-	margin-bottom: 10px;
-}
-
-	
 h1 {
 	text-align:left;
 	font-family: Georgia,"Times New Roman",Times,serif; 
@@ -54,6 +45,12 @@ h3 {
 	font-weight:bold;
 	color:#000;
 } 
+
+#heading {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #000;
+	margin-bottom: 10px;
+}
 
 p {
 	padding-left:10px;
@@ -116,4 +113,5 @@ a {
 .black {
 	color: #000;
 }
+
 
