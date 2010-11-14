@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.47pre3 r22311"
    sodipodi:docname="plus_16.svg"
-   inkscape:export-filename="/Users/gerdbartelt/Documents/Fakturama/com.sebulli.fakturama/icons/plus_16.png"
+   inkscape:export-filename="/Users/gerdbartelt/Documents/Fakturama/com.sebulli.fakturama/icons/16/plus_16.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -24,11 +24,11 @@
     <linearGradient
        id="linearGradient9562">
       <stop
-         style="stop-color:#c9c9c9;stop-opacity:1;"
+         style="stop-color:#bad8bc;stop-opacity:1;"
          offset="0"
          id="stop9564" />
       <stop
-         style="stop-color:#848484;stop-opacity:1;"
+         style="stop-color:#62a667;stop-opacity:1;"
          offset="1"
          id="stop9566" />
     </linearGradient>
@@ -565,16 +565,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="18.384776"
-     inkscape:cx="12.528603"
-     inkscape:cy="3.3944736"
+     inkscape:zoom="11.313708"
+     inkscape:cx="14.726917"
+     inkscape:cy="17.350284"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1327"
      inkscape:window-height="1043"
-     inkscape:window-x="459"
-     inkscape:window-y="56"
+     inkscape:window-x="968"
+     inkscape:window-y="59"
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true">
@@ -582,7 +582,7 @@
        type="xygrid"
        id="grid2816"
        empspacing="5"
-       visible="true"
+       visible="false"
        enabled="true"
        snapvisiblegridlinesonly="true"
        originx="0.5px"
@@ -596,7 +596,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
