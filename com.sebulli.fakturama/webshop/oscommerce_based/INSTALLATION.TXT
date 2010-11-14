@@ -1,5 +1,4 @@
-This is the web shop export script for a xtcModified web shop.
-http://www.xtc-modified.org/
+This is the web shop export script 
 
 (C) 2010 - Fakturama
 2010-08-31
