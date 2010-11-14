@@ -15,6 +15,7 @@
 package com.sebulli.fakturama.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -298,10 +299,16 @@ public class DataSetArray<T> {
 		// collect all Strings in a list ..
 		for (T dataset : undeletedDatasets) {
 			UniDataSet uds = (UniDataSet) dataset;
-			if (uds.getStringValueByKey("category").equalsIgnoreCase(category))
-				list.add(uds.getStringValueByKey(key));
+			if (uds.getStringValueByKey("category").equalsIgnoreCase(category)) {
+				String s = uds.getStringValueByKey(key);
+				if (!s.isEmpty())
+					list.add(s);
+			}
 		}
 
+		// Sort the list alphabetically
+		Collections.sort(list);
+		
 		// .. and convert this list to an array
 		return list.toArray(new String[0]);
 	}

@@ -128,11 +128,13 @@ public abstract class ViewDataSetTable extends ViewPart {
 		GridDataFactory.fillDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(toolBar);
 		ToolBarManager tbm = new ToolBarManager(toolBar);
 
+		tbm.add(new DeleteDataSetAction());
+
 		if (addNewAction != null) {
 			addNewAction.setImageDescriptor(Activator.getImageDescriptor("/icons/16/plus_16.png"));
 			tbm.add(addNewAction);
 		}
-		tbm.add(new DeleteDataSetAction());
+
 		tbm.update(true);
 
 		// The filter label
