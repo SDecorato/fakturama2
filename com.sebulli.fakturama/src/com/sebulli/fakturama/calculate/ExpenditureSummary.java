@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.logger.Logger;
 
 /**
  * Calculates the tax, gross and sum of one document. This is the central
@@ -68,7 +69,13 @@ public class ExpenditureSummary {
 		// e.g. if there is a discount of 3%, the total value is 100$
 		// and the paid value is 97$, then the paidFactor is 0.97
 		Double paidFactor = 1.0;
-		if (discounted)
+		
+		// Total value must not be 0, if paid value is != 0
+		if  ((total.compareTo(0.0) == 0) && (paid.compareTo(0.0) != 0)) {
+			Logger.logError("Expenditure Summary: Total value is 0, but paid value != 0");
+		}
+		
+		if (discounted && (total.compareTo(0.0) != 0))
 			paidFactor = paid / total;
 
 		

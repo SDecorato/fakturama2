@@ -81,7 +81,7 @@ public class ExpenditureEditor extends Editor {
 	private TableViewer tableViewerItems;
 	private CurrencyText textPaidValue;
 	private CurrencyText textTotalValue;
-	private UniData paidValue = new UniData(UniDataType.DOUBLE, 0.0);
+	private UniData paidValue; 
 	private UniData totalValue = new UniData(UniDataType.DOUBLE, 0.0);
 	private Button bPaidWithDiscount;
 
@@ -357,6 +357,8 @@ public class ExpenditureEditor extends Editor {
 		if (expenditureItems.getDatasets().isEmpty())
 			addNewItem();
 
+		paidValue = new UniData(UniDataType.DOUBLE, 0.0);
+		
 	}
 
 	/**
@@ -429,7 +431,7 @@ public class ExpenditureEditor extends Editor {
 	private void calculateTotal() {
 		
 		// Do the calculation
-		expenditure.calculate(expenditureItems, false, paidValue.getValueAsDouble(), totalValue.getValueAsDouble(),bPaidWithDiscount.getSelection() );
+		expenditure.calculate(expenditureItems, false, 0.0, totalValue.getValueAsDouble(),false );
 
 		// Get the total result
 		Double total = expenditure.getSummary().getTotalGross().asDouble();
@@ -593,6 +595,10 @@ public class ExpenditureEditor extends Editor {
 		superviceControl(textName, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
+		// Add the suggestion listener
+		textName.addVerifyListener(new Suggestion(textName, Data.INSTANCE.getExpenditures().getStrings("name")));
+
+
 		// Container for the label and the add and delete button.
 		Composite addButtonComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addButtonComposite);
@@ -709,8 +715,19 @@ public class ExpenditureEditor extends Editor {
 			// check dirty
 			public void widgetSelected(SelectionEvent e) {
 				checkDirty();
-				if (textPaidValue != null)
-					textPaidValue.getText().setVisible(bPaidWithDiscount.getSelection());
+				if (textPaidValue != null) {
+					boolean selection = bPaidWithDiscount.getSelection();
+					
+					// If selected and the paid value was not already set,
+					// use the total value
+					if (selection && DataUtils.DoublesAreEqual(paidValue.getValueAsDouble(), 0.0)) {
+						paidValue.setValue(totalValue.getValueAsDouble());
+						textPaidValue.update();
+					}
+
+					textPaidValue.getText().setVisible(selection);
+					
+				}
 			}
 		});
 
@@ -742,7 +759,6 @@ public class ExpenditureEditor extends Editor {
 		textTotalValue = new CurrencyText(this, bottom, SWT.BORDER | SWT.RIGHT, totalValue);
 		textTotalValue.getText().setEditable(false);
 		textTotalValue.setToolTipText(labelTotalValue.getToolTipText());
-//		superviceControl(textTotalValue.getText(), 32);
 		GridDataFactory.swtDefaults().hint(80, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(textTotalValue.getText());
 
 

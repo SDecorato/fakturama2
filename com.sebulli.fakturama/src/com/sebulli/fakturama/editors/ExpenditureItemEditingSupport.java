@@ -25,8 +25,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.VerifyEvent;
-import org.eclipse.swt.events.VerifyListener;
+import org.eclipse.swt.widgets.Text;
 
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
@@ -55,10 +54,12 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 	private CCombo combo = null;
 	private String carryString = "";
 
+	// Text field "name"
+	private Text text = null;
+	
 	private DataSetExpenditureItem item = null;
 
 	private Object activeObject;
-	boolean textCorrected = false;
 
 	// The parent expenditure editor that contains the item table
 	private ExpenditureEditor expenditureEditor;
@@ -84,6 +85,12 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		// Column nr 2 and nr.3 use a combo box cell editor.
 		// The other columns a text cell editor.
 		switch (column) {
+		case 1:
+			editor = new TextCellEditor(((TableViewer) viewer).getTable());
+			text = (Text) editor.getControl();
+			text.addVerifyListener(new Suggestion(text, Data.INSTANCE.getExpenditureItems().getStrings("name")));
+
+			break;
 		case 2:
 			categoryListEntries = Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts");
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), categoryListEntries);
@@ -104,14 +111,14 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 					}
 
 					// Get the content of the combo box
-					String text = combo.getText();
+					String s = combo.getText();
 
 					// Get list of all billing accounts
 					ArrayList<DataSetList> billing_accounts = Data.INSTANCE.getListEntries().getActiveDatasetsByCategory("billing_accounts");
 
 					// Search for the billing account with the same name as in the cell
 					for (DataSetList billing_account : billing_accounts) {
-						if (billing_account.getStringValueByKey("name").equalsIgnoreCase(text)) {
+						if (billing_account.getStringValueByKey("name").equalsIgnoreCase(s) && !s.isEmpty()) {
 
 							// Get the VAT value from the billing account list
 							String vatName = billing_account.getStringValueByKey("value");
@@ -135,35 +142,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 				}
 			});
 
-			combo.addVerifyListener(new VerifyListener() {
-
-				@Override
-				public void verifyText(VerifyEvent e) {
-
-					// Delete or backslash will end the suggestion mode
-					if ((e.keyCode == 8) || (e.keyCode == 127))
-						textCorrected = true;
-
-					// Do it only, if the new text is not empty.
-					// This must be done to prevent an event loop.
-					if (!e.text.isEmpty() && !textCorrected) {
-
-						// The complete text is the old one of the combo and
-						// the new sequence from the event.
-						String text = combo.getText() + e.text;
-
-						// Get the suggestion ..
-						String suggestion = getSuggestion(text);
-						if (!suggestion.isEmpty()) {
-
-							// .. and use it.
-							combo.setText("");
-							e.text = suggestion;
-						}
-					}
-
-				}
-			});
+			combo.addVerifyListener(new Suggestion(combo, Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts")));
 			break;
 		case 3:
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", TAX_CATEGORY));
@@ -269,14 +248,14 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			// If there is an entry with the same name as one of the combo list
 			else {
 				// get the text of the combo box
-				String text = ((CCombo) editor.getControl()).getText();
+				String s = ((CCombo) editor.getControl()).getText();
 
 				boolean found = false;
 
 				// Search for the entry with the same value of the category
 				for (int ii = 0; ii < categoryListEntries.length && !found; ii++) {
 					String listEntry = categoryListEntries[ii];
-					if (listEntry.equals(text)) {
+					if (listEntry.equals(s)) {
 						item.setStringValueByKey("category", listEntry);
 						found = true;
 					}
@@ -284,7 +263,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 
 				// No entry found
 				if (!found)
-					item.setStringValueByKey("category", text);
+					item.setStringValueByKey("category", s);
 
 			}
 			break;
@@ -330,67 +309,6 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		getViewer().update(element, null);
 	}
 
-	/**
-	 * Search for the "base" string in the list and get those part of the string
-	 * that was found in the list. If there are more than one entry that starts
-	 * with the same sequence, return the sequence, that is equal in all strings
-	 * of the list.
-	 * 
-	 * @param base
-	 *            String to search for
-	 * @return Result string
-	 */
-	private String getSuggestion(String base) {
-
-		// Do not work with empty strings
-		if (base.isEmpty())
-			return "";
-
-		// Get list to search for
-		String[] suggestions = Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts");
-
-		// Temporary list with all strings that start with the base string
-		ArrayList<String> resultStrings = new ArrayList<String>();
-
-		// Get all strings that start with the base string
-		// and copy them to the temporary list
-		for (int i = 0; i < suggestions.length; i++) {
-			if (suggestions[i].toLowerCase().startsWith(base.toLowerCase()))
-				resultStrings.add(suggestions[i]);
-		}
-
-		// No string matches: return with an empty string
-		if (resultStrings.isEmpty())
-			return "";
-
-		// There was at least one string found in the list.
-		// Start with this entry.
-		String tempResult = resultStrings.get(0);
-		String result = "";
-
-		// Get that part of the all the strings, that is equal
-		for (String resultString : resultStrings) {
-
-			// To compare two strings character by character, the minimum
-			// length of both must be used for the loop
-			int length = tempResult.length();
-			if (resultString.length() < length)
-				length = resultString.length();
-
-			// Compare both strings, and get the part, that is equal
-			for (int i = 0; i < length; i++) {
-				if (tempResult.substring(0, i + 1).equalsIgnoreCase(resultString.substring(0, i + 1)))
-					result = tempResult.substring(0, i + 1);
-
-			}
-
-			// Use the result to compare it with the next entry
-			tempResult = result;
-		}
-
-		// Return the result
-		return result;
-	}
 
 	/**
 	 * Cancel editing of this cell
