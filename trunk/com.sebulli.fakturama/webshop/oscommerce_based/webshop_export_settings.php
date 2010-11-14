@@ -3,6 +3,14 @@
 /* 
  * Fakturama - Free Invoicing Software - http://fakturama.sebulli.com
  * 
+ * 
+ * Web shop export script
+ *
+ * Version 1.0.9
+ * Date: 2010-11-14
+ * 
+ * 
+ *
  * Copyright (C) 2010 Gerd Bartelt
  * 
  * All rights reserved. This program and the accompanying materials

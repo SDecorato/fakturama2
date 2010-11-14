@@ -3,6 +3,14 @@
 /* 
  * Fakturama - Free Invoicing Software - http://fakturama.sebulli.com
  * 
+ * 
+ * Web shop export script
+ *
+ * Version 1.0.9
+ * Date: 2010-11-14
+ * 
+ * 
+ * 
  * Copyright (C) 2010 Gerd Bartelt
  * 
  * All rights reserved. This program and the accompanying materials
@@ -13,6 +21,16 @@
  * Contributors:
  *     Gerd Bartelt - initial API and implementation
  */
+
+
+/* 
+ * Web shop export script
+ *
+ * Version 1.0.9
+ * Date: 2010-11-14
+ *
+ */
+
 
 // Use the settings from webshop_export_settings.php, if it exists.
 if( file_exists('webshop_export_settings.php')) {
@@ -477,7 +495,7 @@ class order {
 
 
       $orders_address_query = sbf_db_query("SELECT
-      											customers_id, entry_gender, entry_firstname, entry_lastname
+      											customers_id, entry_gender, entry_firstname, entry_lastname, entry_country_id, entry_zone_id
       										FROM
       											address_book
       										WHERE
@@ -485,7 +503,11 @@ class order {
       										");
 
      while ($orders_address = sbf_db_fetch_array($orders_address_query)) {
-		$firstandlastname = $orders_address['entry_firstname'] . " " . $orders_address['entry_lastname'];         
+		$firstandlastname = $orders_address['entry_firstname'] . " " . $orders_address['entry_lastname'];  
+
+		$customer_entry_country_id = $orders_address['entry_country_id'];
+		$customer_entry_zone_id = $orders_address['entry_zone_id'];
+
 		if ($firstandlastname == $this->billing['name']) {
 			$this->billing['firstname'] = $orders_address['entry_firstname'];
 			$this->billing['lastname'] = $orders_address['entry_lastname'];
@@ -498,16 +520,40 @@ class order {
 			$this->delivery['gender'] = $orders_address['entry_gender'];
 		}             
      }
-                                        
 
+                                         
+     //start with a default value
+     $customer_geo_zone = 1; 
+	
+     // Get the geozone if only the country matches
+     $geo_zone_query = sbf_db_query("SELECT
+      						geo_zone_id, zone_country_id, zone_id 
+      						FROM
+      					zones_to_geo_zones
+      						WHERE
+      					zone_country_id = '". (int)$customer_entry_country_id ."'");
 
+     while ($geo_zone_line = sbf_db_fetch_array($geo_zone_query)) {
+	if ($geo_zone_line['geo_zone_id'] > 0)
+		 $customer_geo_zone = $geo_zone_line['geo_zone_id']+10;
+     }
 
-                             
-                             
+     // Get the geozone if only the country and the zone matches
+     $geo_zone_query = sbf_db_query("SELECT
+      						geo_zone_id, zone_country_id, zone_id 
+      						FROM
+      					zones_to_geo_zones
+      						WHERE
+      					((zone_country_id = '". (int)$customer_entry_country_id ."') AND (zone_id = '". (int)$customer_entry_zone_id ."'))");
+
+     while ($geo_zone_line = sbf_db_fetch_array($geo_zone_query)) {
+	if ($geo_zone_line['geo_zone_id'] > 0)
+		 $customer_geo_zone = $geo_zone_line['geo_zone_id'];
+     }
+
 
       $index = 0;
 
-     										
      $orders_products_query = sbf_db_query("SELECT
      											tax.tax_description, ordprod.orders_products_id, ordprod.products_name,ordprod.products_id,
      											ordprod.products_model, ordprod.products_price, ordprod.products_tax,
@@ -515,14 +561,13 @@ class order {
      										FROM
      											tax_rates tax 
      											RIGHT JOIN
-     											products prod ON (prod.products_tax_class_id = tax.tax_rates_id)
+     											products prod ON ((prod.products_tax_class_id = tax.tax_class_id) AND (tax.tax_zone_id = '" . (int)$customer_geo_zone . "'))
      											RIGHT JOIN 
      											orders_products ordprod	ON (prod.products_id = ordprod.products_id) 
      										WHERE 
-     											ordprod.orders_id = '" . (int)$order_id . "'
+     											ordprod.orders_id = '" . (int)$order_id . "' 
      										");
      										
-
 	$language_query = sbf_db_query("SELECT
        									langu.code
     								FROM
