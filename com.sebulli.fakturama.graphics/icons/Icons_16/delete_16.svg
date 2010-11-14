@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.47pre3 r22311"
    sodipodi:docname="delete_16.svg"
-   inkscape:export-filename="/Users/gerdbartelt/Documents/Fakturama/com.sebulli.fakturama/icons/delete_16.png"
+   inkscape:export-filename="/Users/gerdbartelt/Documents/Fakturama/com.sebulli.fakturama/icons/16/delete_16.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -24,11 +24,11 @@
     <linearGradient
        id="linearGradient9562">
       <stop
-         style="stop-color:#c9c9c9;stop-opacity:1;"
+         style="stop-color:#deb4b4;stop-opacity:1;"
          offset="0"
          id="stop9564" />
       <stop
-         style="stop-color:#848484;stop-opacity:1;"
+         style="stop-color:#b45454;stop-opacity:1;"
          offset="1"
          id="stop9566" />
     </linearGradient>
@@ -596,7 +596,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -613,7 +613,7 @@
        sodipodi:cy="5.1875"
        sodipodi:rx="2.453125"
        sodipodi:ry="2.46875"
-       d="m -1.375,5.1875 a 2.453125,2.46875 0 1 1 -4.90625,0 2.453125,2.46875 0 1 1 4.90625,0 z"
+       d="m -1.375,5.1875 c 0,1.363453 -1.0983015,2.46875 -2.453125,2.46875 -1.3548235,0 -2.453125,-1.105297 -2.453125,-2.46875 0,-1.363453 1.0983015,-2.46875 2.453125,-2.46875 1.3548235,0 2.453125,1.105297 2.453125,2.46875 z"
        transform="matrix(2.8535032,0,0,2.8354403,19.423567,1030.1534)" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
