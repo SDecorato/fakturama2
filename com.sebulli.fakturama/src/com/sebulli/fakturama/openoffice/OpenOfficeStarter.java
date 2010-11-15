@@ -24,9 +24,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
+import ag.ion.bion.officelayer.application.IApplicationAssistant;
+import ag.ion.bion.officelayer.application.ILazyApplicationInfo;
 import ag.ion.bion.officelayer.application.IOfficeApplication;
 import ag.ion.bion.officelayer.application.OfficeApplicationException;
 import ag.ion.bion.officelayer.application.OfficeApplicationRuntime;
+import ag.ion.bion.officelayer.internal.application.ApplicationAssistant;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
@@ -51,6 +54,34 @@ public class OpenOfficeStarter {
 		return file.isFile();
 	}
 
+	/**
+	 * Get the path of the OpenOffice installation 
+	 * 
+	 * @return
+	 */
+	static public String getHome () {
+		IApplicationAssistant applicationAssistant;
+		
+		// Return an empty string, if no OpenOffice was found
+		String home = "";
+		
+		try {
+			applicationAssistant = new ApplicationAssistant();
+			ILazyApplicationInfo appInfo = applicationAssistant.getLatestLocalApplication();
+			
+			// An OpenOffice installation was found
+			if (appInfo!=null) { 
+				home = appInfo.getHome();
+			}
+		}
+		catch (OfficeApplicationException e) {
+			Logger.logError(e, "Error retrieving the OpenOffice home location.");
+		}
+		
+		return home;
+	}
+
+	
 	/**
 	 * Opens the OpenOffice application
 	 * 

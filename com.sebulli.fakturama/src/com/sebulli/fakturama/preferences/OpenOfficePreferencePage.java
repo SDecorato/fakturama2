@@ -25,6 +25,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
+import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
 
 /**
  * Preference page for the OpenOffice settings
@@ -102,7 +103,10 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("OPENOFFICE_PATH", OSDependent.getOODefaultPath());
+		String 	oOHome = OpenOfficeStarter.getHome();
+		if (oOHome.isEmpty())
+			oOHome = OSDependent.getOODefaultPath();	
+		node.put("OPENOFFICE_PATH", oOHome);
 		node.put("OPENOFFICE_ODT_PDF", "ODT+PDF");
 	}
 
