@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import java.text.DecimalFormat;
 
 import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -73,8 +74,12 @@ public class Calculator extends ViewPart {
 		// Name of this view
 		this.setPartName(_("Calculator"));
 
+		// Create the top Composite
+		Composite top = new Composite(parent, SWT.NONE);
+		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
+		
 		// Top container
-		Composite container = new Composite(parent, SWT.NONE);
+		Composite container = new Composite(top, SWT.NONE);
 		final GridLayout calculatorGridLayout = new GridLayout();
 		calculatorGridLayout.marginRight = 10;
 		calculatorGridLayout.marginLeft = 10;
@@ -83,10 +88,12 @@ public class Calculator extends ViewPart {
 		calculatorGridLayout.marginWidth = 0;
 		calculatorGridLayout.marginHeight = 0;
 		calculatorGridLayout.numColumns = 4;
-		calculatorGridLayout.verticalSpacing = 5;
 		calculatorGridLayout.makeColumnsEqualWidth = true;
-		calculatorGridLayout.horizontalSpacing = 2;
+		calculatorGridLayout.verticalSpacing = 5;
+		calculatorGridLayout.horizontalSpacing = 10;
 		container.setLayout(calculatorGridLayout);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, true).applyTo(container);
+
 
 		// The display. Note that it has a limit of 30 characters,
 		// much greater than the length of a double-precision number.
