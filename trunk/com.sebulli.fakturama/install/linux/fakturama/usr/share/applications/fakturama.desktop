@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Fakturama
+Name[­de­]=Fakturama
+Comment=Invoicing Software - http://fakturama.sebulli.com
+Comment[­de­]=Programm  - http://fakturama.sebulli.com
+Exec=/usr/share/fakturama/fakturama
+Icon=icon
+Terminal=false
+Type=Application
+Categories=Office;
+StartupNotify=false
