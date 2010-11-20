@@ -4,10 +4,10 @@
  * Fakturama - Free Invoicing Software - http://fakturama.sebulli.com
  * 
  * 
- * Web shop export script
+ * Web shop connector script settings
  *
- * Version 1.0.9
- * Date: 2010-11-14
+ * Version 1.1.0
+ * Date: 2010-11-20
  * 
  * 
  *
@@ -22,6 +22,11 @@
  *     Gerd Bartelt - initial API and implementation
  */
   
+// Define Shop system. Allowed values are:
+// 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
+// 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
+// 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
+define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
 
 // Define user name and password
 define ('FAKTURAMA_USERNAME',	'user');		

@@ -14,10 +14,13 @@
 
 package com.sebulli.fakturama;
 
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+
+import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
 /**
  * This workbench advisor creates the window advisor, and specifies the
@@ -68,5 +71,22 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
         P2Util.checkForUpdates();
     }
 	*/
+	
+	/**
+	 * Refresh a view by the view ID
+	 * 
+	 * @prama ID of the view to refresh
+	 */
+	static public void refreshView(String viewId) {
+
+		// Find the view
+		ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(viewId);
+
+		// Refresh it
+		if (view != null)
+			view.refresh();
+
+	}
+
 
 }

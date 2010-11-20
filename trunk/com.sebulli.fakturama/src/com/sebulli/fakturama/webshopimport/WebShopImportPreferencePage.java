@@ -109,7 +109,7 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("WEBSHOP_URL", "fakturama.sebulli.com/shop/admin/webshop_export.php");
+		node.put("WEBSHOP_URL", "fakturama.sebulli.com/shop/admin/fakturama_connector.php");
 		node.put("WEBSHOP_USER", "user");
 		node.put("WEBSHOP_PASSWORD", "password");
 		//T: Preference page "Web Shop Import" - Default value "Product Category"

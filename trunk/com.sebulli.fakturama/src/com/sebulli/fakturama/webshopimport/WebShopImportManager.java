@@ -1133,6 +1133,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 		// Save the new list of orders that are not in synch with the shop
 		saveOrdersToSynchronize();
+		
 	}
 
 }

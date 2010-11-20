@@ -43,6 +43,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
@@ -209,7 +210,7 @@ public class ExpenditureEditor extends Editor {
 		}
 
 		// Refresh the table view of all expenditures
-		refreshView(ViewListTable.ID);
+		ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
 		refreshView();
 		checkDirty();
 	}
