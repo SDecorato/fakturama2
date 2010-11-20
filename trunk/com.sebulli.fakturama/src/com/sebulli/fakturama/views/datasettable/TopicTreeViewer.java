@@ -17,6 +17,8 @@ package com.sebulli.fakturama.views.datasettable;
 import static com.sebulli.fakturama.Translate._;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -54,6 +56,12 @@ public class TopicTreeViewer extends TreeViewer {
 
 	private TopicTreeViewer me = this;
 
+	// Stores the dot image
+	private Image dotImage;
+	
+	// Image map that stores all the used icons
+	private Map<String,Image> imageMap = new HashMap<String,Image>();
+	
 	protected TreeParent root;
 	private TreeParent all;
 
@@ -86,6 +94,10 @@ public class TopicTreeViewer extends TreeViewer {
 		super(parent, style);
 		this.useAll = useAll;
 
+		// Create a dot Image
+		LocalResourceManager resources = new LocalResourceManager(JFaceResources.getResources());
+		dotImage = resources.createImage(Activator.getImageDescriptor("/icons/10/dot_10.png"));
+		
 		// Create a new root element
 		root = new TreeParent("");
 		// select nothing
@@ -624,12 +636,15 @@ public class TopicTreeViewer extends TreeViewer {
 
 			// Get the icon string of the element
 			String icon = ((TreeObject) obj).getIcon();
-			LocalResourceManager resources = new LocalResourceManager(JFaceResources.getResources());
 			if (icon != null) {
 				try {
-
-					// Load the icon by the icon name
-					return resources.createImage(Activator.getImageDescriptor("/icons/10/" + icon));
+					//Store the icon in the image map, if it not already there
+					if (!imageMap.containsKey(icon)) {
+						LocalResourceManager resources = new LocalResourceManager(JFaceResources.getResources());
+						imageMap.put(icon, resources.createImage(Activator.getImageDescriptor("/icons/10/" + icon)));
+					}
+					// Load the icon by the icon name from the image map
+					return imageMap.get(icon);
 
 				}
 				catch (AssertionFailedException e) {
@@ -640,7 +655,7 @@ public class TopicTreeViewer extends TreeViewer {
 			}
 
 			// Return a "dot" icon for parent elements
-			if (obj instanceof TreeParent) { return resources.createImage(Activator.getImageDescriptor("/icons/10/dot_10.png")); }
+			if (obj instanceof TreeParent) { return dotImage; }
 
 			// Return no icon
 			return PlatformUI.getWorkbench().getSharedImages().getImage(null);
