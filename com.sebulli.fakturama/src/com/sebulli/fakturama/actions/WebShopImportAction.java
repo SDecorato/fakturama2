@@ -26,12 +26,18 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.views.ViewManager;
+import com.sebulli.fakturama.views.datasettable.ViewContactTable;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
+import com.sebulli.fakturama.views.datasettable.ViewPaymentTable;
+import com.sebulli.fakturama.views.datasettable.ViewProductTable;
+import com.sebulli.fakturama.views.datasettable.ViewShippingTable;
+import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 import com.sebulli.fakturama.webshopimport.WebShopImportManager;
 
 /**
@@ -101,6 +107,13 @@ public class WebShopImportAction extends Action {
 		catch (InterruptedException e) {
 			Logger.logError(e, "Web shop import manager was interrupted.");
 		}
+
+		// Refresh the views
+		ApplicationWorkbenchAdvisor.refreshView(ViewProductTable.ID);
+		ApplicationWorkbenchAdvisor.refreshView(ViewContactTable.ID);
+		ApplicationWorkbenchAdvisor.refreshView(ViewPaymentTable.ID);
+		ApplicationWorkbenchAdvisor.refreshView(ViewShippingTable.ID);
+		ApplicationWorkbenchAdvisor.refreshView(ViewVatTable.ID);
 
 		// After the web shop import, open the document view
 		// and set the focus to the new imported orders.

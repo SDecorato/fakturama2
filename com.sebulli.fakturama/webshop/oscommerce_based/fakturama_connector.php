@@ -4,10 +4,10 @@
  * Fakturama - Free Invoicing Software - http://fakturama.sebulli.com
  * 
  * 
- * Web shop export script
+ * Web shop connector script
  *
- * Version 1.0.9
- * Date: 2010-11-14
+ * Version 1.1.0
+ * Date: 2010-11-20
  * 
  * 
  * 
@@ -23,34 +23,9 @@
  */
 
 
-/* 
- * Web shop export script
- *
- * Version 1.0.9
- * Date: 2010-11-14
- *
- */
 
-
-// Use the settings from webshop_export_settings.php, if it exists.
-if( file_exists('webshop_export_settings.php')) {
-    include('webshop_export_settings.php');
-}
-
-// Define Shop system. Allowed values are:
-// 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
-// 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
-// 'XTCMODIFIED'	// xtcModified	1.05 ..			www.xtc-modified.org
-define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
-
-
-/***********************************************************************************************************************************************/
-/***********************************************************************************************************************************************/
-/***********************************************************************************************************************************************/
-/***********************************************************************************************************************************************/
-/***********************************************************************************************************************************************/
-
-
+// Use the settings from FakturamaConnector_Settings.php
+    include('fakturama_connector_settings.php');
 
 // Some shop systems are based on osCommerce, some on xtCommerce
 if (FAKTURAMA_WEBSHOP == OSCOMMERCE) {
@@ -128,7 +103,12 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
   require_once(DIR_FS_INC . 'xtc_db_input.inc.php');
   require_once(DIR_FS_INC . 'xtc_db_prepare_input.inc.php');
   require_once(DIR_FS_INC . 'xtc_not_null.inc.php');
-  require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.26/Smarty.class.php');
+
+  if (FAKTURAMA_WEBSHOP == XTCOMMERCE) 
+  	require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.14/Smarty.class.php');
+  else if (FAKTURAMA_WEBSHOP == XTCMODIFIED)
+  	require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.26/Smarty.class.php');
+
   require_once (DIR_FS_CATALOG.DIR_WS_CLASSES.'class.phpmailer.php');
   require_once (DIR_FS_INC.'xtc_php_mail.inc.php');
 

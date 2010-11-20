@@ -39,14 +39,13 @@ import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISaveablePart2;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.UniDataSet;
-import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
 /**
  * Parent class for all editors
@@ -333,25 +332,10 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 	protected void refreshView() {
 
 		// Refresh the view that corresponds to this editor
-		refreshView(tableViewID);
+		ApplicationWorkbenchAdvisor.refreshView(tableViewID);
 
 	}
 
-	/**
-	 * Refresh a view that corresponds to this editor
-	 * 
-	 * @prama ID of the view to refresh
-	 */
-	static public void refreshView(String viewId) {
-
-		// Find the view
-		ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(viewId);
-
-		// Refresh it
-		if (view != null)
-			view.refresh();
-
-	}
 
 	/**
 	 * Request a new validation, if the document is dirty.

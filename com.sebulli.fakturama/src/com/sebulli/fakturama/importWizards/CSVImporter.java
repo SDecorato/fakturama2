@@ -23,13 +23,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetExpenditure;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetVAT;
-import com.sebulli.fakturama.editors.Editor;
 import com.sebulli.fakturama.editors.ExpenditureEditor;
 import com.sebulli.fakturama.views.datasettable.ViewExpenditureTable;
 import com.sebulli.fakturama.views.datasettable.ViewListTable;
@@ -273,8 +273,8 @@ public class CSVImporter {
 				}
 				
 				// Refresh the views
-				Editor.refreshView(ViewListTable.ID);
-				Editor.refreshView(ViewExpenditureTable.ID);
+				ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
+				ApplicationWorkbenchAdvisor.refreshView(ViewExpenditureTable.ID);
 				
 				// The result string
 				//T: Message: xx VOUCHERS HAVE BEEN IMPORTED 

@@ -77,7 +77,7 @@ public class OrderStatusDialog extends Dialog {
 		// The label
 		labelComment = new Label(composite, SWT.NONE);
 		//T: Change the state of an order and send a notification to the customer.
-		labelComment.setText(_("Comment to the customer" + ":"));
+		labelComment.setText(_("Comment to the customer") + ":");
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.CENTER).indent(0, 10).applyTo(labelComment);
 
 		// The text field for the  comment
