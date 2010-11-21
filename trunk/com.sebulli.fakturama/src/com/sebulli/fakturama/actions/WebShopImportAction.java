@@ -93,7 +93,7 @@ public class WebShopImportAction extends Action {
 			if (!webShopImportManager.getRunResult().isEmpty()) {
 				// If there is an error - display it in a message box
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
-				messageBox.setText("Fehler beim Importieren vom Webshop");
+				messageBox.setText(_("Error importing data from web shop"));
 				String errorMessage = webShopImportManager.getRunResult();
 				if (errorMessage.length() > 400)
 					errorMessage = errorMessage.substring(0, 400) + "...";

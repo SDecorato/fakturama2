@@ -33,6 +33,7 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -79,6 +80,67 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class WebShopImportManager extends Thread implements IRunnableWithProgress {
 
+	
+	/**
+	 * Runs the reading of a http stream in an extra thread.
+	 * So it can be interruped by clicking the cancel button. 
+	 * 
+	 * @author Gerd Bartelt
+	 */
+	public class InterruptConnection implements Runnable {
+	    
+		// The connection 
+		private URLConnection conn;
+		
+		// Reference to the input stream data
+	    private InputStream inputStream = null;
+	    
+	    // true, if the reading was successfull
+	    private boolean isFinished = false;
+	    
+	    /**
+	     * Constructor. Creates a new connection to use it in an extra thread
+	     * 
+	     * @param conn
+	     * 			The connection
+	     */
+	    public InterruptConnection(URLConnection conn) {
+	        this.conn = conn;
+	    }
+
+	    /**
+	     * Return whether the reading was successfull
+	     * 
+	     * @return
+	     * 		True, if the stream was read completely
+	     */
+	    public boolean isFinished() {
+	    	return isFinished;
+	    }
+
+	    /**
+	     * Returns a reference to the input stream
+	     * 
+	     * @return
+	     * 		Reference to the input stream
+	     */
+	    public InputStream getInputStream() {
+	    	return inputStream;
+	    }
+	    
+	    /**
+	     * Start reading the input stream 
+	     */
+	    public void run() {
+	        try {
+	        	inputStream = conn.getInputStream();
+	        	isFinished = true;
+	        } catch (IOException e) {
+			}
+	    }
+	}
+
+	
 	// Data model
 	private DocumentBuilderFactory factory = null;
 	private DocumentBuilder builder = null;
@@ -133,12 +195,13 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		getOrders = false;
 	}
 
+	
 	@Override
 	public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 		this.monitor = monitor;
 		runResult = "";
-
+		
 		// Get ULR, user name and password from the preference store
 		String address = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_URL");
 		String user = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_USER");
@@ -173,6 +236,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			setProgress(10);
 			URL url = new URL(address);
 			conn = url.openConnection();
+			conn.setDoInput(true);
 			conn.setDoOutput(true);
 			conn.setConnectTimeout(4000);
 
@@ -202,7 +266,21 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 			// read the xml answer (the orders)
 			importXMLContent = "";
-			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			
+			// Start a connection in an extra thread
+			InterruptConnection interruptConnection = new InterruptConnection(conn);
+			new Thread(interruptConnection).start();
+			while (!monitor.isCanceled() && !interruptConnection.isFinished());
+
+			// If the connection was interruped and not finished: return
+			if (!interruptConnection.isFinished) {
+		        ((HttpURLConnection)conn).disconnect();
+				return;
+			}
+			
+			// Read the input stream
+			BufferedReader reader = new BufferedReader(new InputStreamReader(interruptConnection.getInputStream()));
+
 			//T: Status message importing data from web shop
 			monitor.subTask(_("Loading Data"));
 			double progress = worked;
@@ -286,7 +364,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 			// Interpret the imported data (and load the product images)
 			if (runResult.isEmpty())
-				interpretWebShopData();
+				interpretWebShopData(monitor);
 
 			monitor.done();
 
@@ -573,7 +651,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// Create the URL to the product image
 		if (!productImage.isEmpty()) {
 			pictureName = ProductEditor.createPictureName(productName, productModel);
-			downloadImageFromUrl(shopURL + productImagePath + productImage, Workspace.INSTANCE.getWorkspace() + Workspace.productPictureFolderName, pictureName);
+			downloadImageFromUrl(monitor, shopURL + productImagePath + productImage, Workspace.INSTANCE.getWorkspace() + Workspace.productPictureFolderName, pictureName);
 		}
 
 		// Create a new product object
@@ -608,7 +686,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	 * @param fileName
 	 *            The filename of the image
 	 */
-	public static void downloadImageFromUrl(String address, String filePath, String fileName) {
+	public void downloadImageFromUrl(IProgressMonitor monitor, String address, String filePath, String fileName) {
 
 		// Cancel if address or filename is empty
 		if (address.isEmpty() || filePath.isEmpty() || fileName.isEmpty())
@@ -635,9 +713,22 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			if (!directory.exists())
 				directory.mkdirs();
 
+			
+			// Start a connection in an extra thread
+			InterruptConnection interruptConnection = new InterruptConnection(conn);
+			new Thread(interruptConnection).start();
+			while (!monitor.isCanceled() && !interruptConnection.isFinished());
+
+			// If the connection was interruped and not finished: return
+			if (!interruptConnection.isFinished){
+		        ((HttpURLConnection)conn).disconnect();
+				return;
+			}
+			
+			
 			// Create input and output streams to copy the image
 			// from the webserver to the file system
-			InputStream content = (InputStream) conn.getInputStream();
+			InputStream content = (InputStream) interruptConnection.getInputStream();
 			BufferedReader in = new BufferedReader(new InputStreamReader(content));
 			BufferedInputStream bis = new BufferedInputStream(content);
 
@@ -1081,7 +1172,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	/**
 	 * Interpret the complete node of all orders and import them
 	 */
-	public void interpretWebShopData() {
+	public void interpretWebShopData(IProgressMonitor monitor) {
 
 		//shopSystem ="";
 		shopURL = "";
@@ -1134,6 +1225,18 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// Save the new list of orders that are not in synch with the shop
 		saveOrdersToSynchronize();
 		
+	}
+
+	@Override
+	public void interrupt() {
+		// TODO Auto-generated method stub
+		super.interrupt();
+	}
+
+	@Override
+	public boolean isInterrupted() {
+		// TODO Auto-generated method stub
+		return super.isInterrupted();
 	}
 
 }
