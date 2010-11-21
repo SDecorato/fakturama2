@@ -34,14 +34,15 @@ define ('FAKTURAMA_PASSWORD',	'password');
 
 // Language code of the product categorie which will be imported.
 // (en = English, de = German, es = Spanish ..) 
-define ('FAKTURAMA_LANGUAGE', 'de');			
+define ('FAKTURAMA_LANGUAGE_CODE', 'de');			
 
 // ISO 3166-1-alpha-2 country code of the country of the web shop.
 // (US = USA, GB = United Kingdom, DE = Germany ..) 
 define ('FAKTURAMA_COUNTRY', 'DE');				
 
-// Character encoding of the confirmation email.
-define ('FAKTURAMA_MAIL_ENCODING', 'ISO-8859-15');				
-
+// Language of the notification email 
+// Name must be in lower case and must match a folder name under /admin/includes/languages
+// (english = English, german = German, espanol = Spanish ..) 
+define ('FAKTURAMA_LANGUAGE', 'german');			
 
 ?>

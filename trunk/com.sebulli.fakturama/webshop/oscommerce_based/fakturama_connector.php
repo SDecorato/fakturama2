@@ -25,7 +25,7 @@
 
 
 // Use the settings from FakturamaConnector_Settings.php
-    include('fakturama_connector_settings.php');
+include('fakturama_connector_settings.php');
 
 // Some shop systems are based on osCommerce, some on xtCommerce
 if (FAKTURAMA_WEBSHOP == OSCOMMERCE) {
@@ -66,6 +66,12 @@ if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 	
 	// include the database functions
 	require(DIR_WS_FUNCTIONS . 'database.php');
+	
+	// email classes
+  	require(DIR_WS_CLASSES . 'mime.php');
+  	require(DIR_WS_CLASSES . 'email.php');
+
+	define('FILENAME_CATALOG_ACCOUNT_HISTORY_INFO', 'account_history_info.php');
 }
 
 if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
@@ -81,8 +87,6 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
   }
 
   define('LANG_DIR','../lang/');
-  
-//  define('SQL_CACHEDIR',DIR_FS_CATALOG.'cache/');
 
   // Define the project version
   define('PROJECT_VERSION', 'xt:Commerce v 3.x');
@@ -113,6 +117,12 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
   require_once (DIR_FS_INC.'xtc_php_mail.inc.php');
 
 }
+
+
+// include the language translations
+require_once(DIR_WS_LANGUAGES . FAKTURAMA_LANGUAGE . '.php');
+require_once(DIR_WS_LANGUAGES . FAKTURAMA_LANGUAGE . '/orders.php');  
+
 
 function sbf_not_null($p) {
 	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_not_null($p);
@@ -153,8 +163,6 @@ function sbf_db_num_rows($p) {
 	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_num_rows($p);
 	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_num_rows($p);
 }
-
-
 
 
 // include the mail classes
@@ -310,6 +318,7 @@ while ($configuration = sbf_db_fetch_array($configuration_query)) {
 	define($configuration['cfgKey'], $configuration['cfgValue']);
 }
 
+
 // Define our general functions used application-wide
 require(DIR_WS_FUNCTIONS . 'general.php');
 require(DIR_WS_FUNCTIONS . 'html_output.php');
@@ -342,7 +351,11 @@ function my_encode_with_quotes($s) {
 	$s = utf8_encode($s);
 	
 	// Convert entities like &uuml; to ü
-	$s = html_entity_decode($s, ENT_COMPAT , "UTF-8");
+	if((version_compare( phpversion(), '5.0' ) < 0)) {
+		$s = html_entity_decode($s);
+	} else {
+		$s = html_entity_decode($s, ENT_COMPAT, 'UTF-8');
+	}
 
 	// Replace ampersand
 	$s = str_replace("&", "&amp;", $s);
@@ -378,19 +391,30 @@ class order {
 
     function query($order_id) {
     
-      $order_query_payment_class = "";
-      if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE)
-      	$order_query_payment_class = "payment_class, ";
+
+	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
+		$order_query_payment_class = "";
+		$customers_cid_shs = '';
+		$language_shs = '';
+
+	}
+	else {
+	      	$order_query_payment_class = ",payment_class";
+		$customers_cid_shs = ', customers_cid';
+		$language_shs = ',language';
+	}
+
+
       $order_query = sbf_db_query("SELECT
-      									customers_id, customers_cid, customers_name, customers_company, customers_street_address,
+      									customers_id " . $customers_cid_shs . ", customers_name, customers_company, customers_street_address,
       									customers_suburb, customers_city, customers_postcode, customers_state,
       									customers_country, customers_telephone, customers_email_address, customers_address_format_id,
       									delivery_name, delivery_company, delivery_street_address, delivery_suburb, delivery_city,
       									delivery_postcode, delivery_state, delivery_country, delivery_address_format_id,
       									billing_name, billing_company, billing_street_address, billing_suburb, billing_city, billing_postcode,
-      									billing_state, billing_country, billing_address_format_id, payment_method,".$order_query_payment_class."
+      									billing_state, billing_country, billing_address_format_id, payment_method" . $order_query_payment_class . ",
       									cc_type, cc_owner, cc_number, cc_expires, currency, currency_value, date_purchased,
-      									orders_status, last_modified, language
+      									orders_status, last_modified" . $language_shs . "
       								FROM
       									orders
       								WHERE
@@ -426,6 +450,10 @@ class order {
                           'orders_status' => $order['orders_status'],
                           'language' => $order['language'],
                           'last_modified' => $order['last_modified']);
+
+	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
+	     $this->info['language'] = FAKTURAMA_LANGUAGE;
+	}
 
       $this->customer = array(
       						  'id' => $order['customers_id'],
@@ -560,7 +588,7 @@ class order {
 	while ($category_languages = sbf_db_fetch_array($language_query)) {
 		if (empty ($category_language))
 			$category_language = $category_languages['code'];
-		if (FAKTURAMA_LANGUAGE == $category_languages['code'])
+		if (FAKTURAMA_LANGUAGE_CODE == $category_languages['code'])
 			$category_language = $category_languages['code'];
     }
  
@@ -816,10 +844,9 @@ $category_language = "en";
 while ($category_languages = sbf_db_fetch_array($language_query)) {
 	if (empty ($category_language))
 		$category_language = $category_languages['code'];
-	if (FAKTURAMA_LANGUAGE == $category_languages['code'])
+	if (FAKTURAMA_LANGUAGE_CODE == $category_languages['code'])
 		$category_language = $category_languages['code'];
 }
-
 
 if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 
@@ -853,23 +880,14 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 	    $notify_comments = substr($notify_comments,1);
 
 	    // Convert it into the correct character encoding
-	    $notify_comments_mail = iconv("UTF-8", FAKTURAMA_MAIL_ENCODING, $notify_comments);
+	    if (function_exists('iconv'))
+	    	$notify_comments_mail = iconv("UTF-8", CHARSET, $notify_comments);
+	    else
+		$notify_comments_mail = $notify_comments;
 
 	    
 	    $order = new order($orders_id_tosync);
-	    $smarty = new Smarty;
-	    // assign language to template for caching
-	    $smarty->assign('language', $_SESSION['language']);
-	    $smarty->caching = false;
 
-	    // set dirs manual
-	    $smarty->template_dir = DIR_FS_CATALOG.'templates';
-	    $smarty->compile_dir = DIR_FS_CATALOG.'templates_c';
-            $smarty->config_dir = DIR_FS_CATALOG.'lang';
-
-	    $smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
-	    $smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
-		
 	    $lang_query = sbf_db_query("select languages_id from languages where directory = '" . $order->info['language'] . "'");
 	    $lang = sbf_db_fetch_array($lang_query);
 	    $lang=$lang['languages_id'];
@@ -883,49 +901,98 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 	      $orders_status_array[$orders_status['orders_status_id']] = $orders_status['orders_status_name'];
 	    }
 
-	    $smarty->assign('NAME', $order->customer['name']);
-	    $smarty->assign('ORDER_NR', $orders_id_tosync);
-	    $smarty->assign('ORDER_LINK', xtc_catalog_href_link("account_history_info.php", 'order_id='.$orders_id_tosync, 'SSL'));
-	    $smarty->assign('ORDER_DATE', sbf_date_long($order->info['date_purchased']));
-	    $smarty->assign('NOTIFY_COMMENTS', nl2br($notify_comments_mail)); 
-	    $smarty->assign('ORDER_STATUS', $orders_status_array[$orders_status_tosync]);
+		echo ("l1".$order->info['language'] );
+		echo ("l2".$lang );
 
-	    $html_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.html');
-	    $txt_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.txt');
+	    if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 
-	    $email_send_status = sbf_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail); 
-	    if (empty ($email_send_status))
-		$customer_notified = 1;
-	    else
-		echo (" <error>" . $email_send_status . "</error>\n");
+		if (!empty($notify_comments_mail))
+			$notify_comments_mail .= "\n\n";
+
+            	$email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $orders_id_tosync . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . $orders_id_tosync, 'SSL') . "\n" . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($order->info['date_purchased']) . "\n\n" . $notify_comments_mail . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$orders_status_tosync]);
+
+	    	if (!empty ($order->customer['email_address'])) {
+	            	tep_mail($order->customer['name'], $order->customer['email_address'] , EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+			$customer_notified = 1;
+		}
+	    	else {
+			echo (" <error>" . 'No valid email' . "</error>\n");
+	    	}
 
 	    }
+	    else {
+	    	$smarty = new Smarty;
+	    	// assign language to template for caching
+	    	$smarty->assign('language', $_SESSION['language']);
+	    	$smarty->caching = false;
+
+	    	// set dirs manual
+	    	$smarty->template_dir = DIR_FS_CATALOG.'templates';
+	    	$smarty->compile_dir = DIR_FS_CATALOG.'templates_c';
+            	$smarty->config_dir = DIR_FS_CATALOG.'lang';
+
+	    	$smarty->assign('tpl_path', 'templates/'.CURRENT_TEMPLATE.'/');
+	    	$smarty->assign('logo_path', HTTP_SERVER.DIR_WS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/img/');
+
+	    	$smarty->assign('NAME', $order->customer['name']);
+	    	$smarty->assign('ORDER_NR', $orders_id_tosync);
+	    	$smarty->assign('ORDER_LINK', xtc_catalog_href_link("account_history_info.php", 'order_id='.$orders_id_tosync, 'SSL'));
+	    	$smarty->assign('ORDER_DATE', sbf_date_long($order->info['date_purchased']));
+	    	$smarty->assign('NOTIFY_COMMENTS', nl2br($notify_comments_mail)); 
+	    	$smarty->assign('ORDER_STATUS', $orders_status_array[$orders_status_tosync]);
+
+	    	$html_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.html');
+	    	$txt_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.txt');
+
+	    	$email_send_status = sbf_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail); 
+	    	if (empty ($email_send_status))
+			$customer_notified = 1;
+	    	else
+			echo (" <error>" . $email_send_status . "</error>\n");
+	    	}
 
 
-
-	    if (($orders_id_tosync > 0) && ($orders_status_tosync >= 1) && ($orders_status_tosync <= 3)){
-		sbf_db_query("UPDATE
+	    	if (($orders_id_tosync > 0) && ($orders_status_tosync >= 1) && ($orders_status_tosync <= 3)){
+			sbf_db_query("UPDATE
 						orders
 					  SET
 					  	orders_status = '".$orders_status_tosync. "'
 					  WHERE
 					  	orders_id = '" . (int)$orders_id_tosync . "'
 					  ");
-		sbf_db_query("INSERT INTO
+			sbf_db_query("INSERT INTO
 						orders_status_history (orders_id, orders_status_id, date_added, customer_notified, comments)
 					  VALUES ('" . (int)$orders_id_tosync . "', '" . $orders_status_tosync . "',
 					  		now(), '" . $customer_notified . "', '" . $notify_comments  . "')");
+	    	}
+
+
 	    }
+
 	}
 
 
 		// generate list of all products
 		if ($action_getproducts) {
-			echo (" <products imagepath=\"" . DIR_WS_CATALOG_INFO_IMAGES . "\">\n");
 			
+			if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
+				$imagepath = DIR_WS_CATALOG_IMAGES;
+			else
+				$imagepath = DIR_WS_CATALOG_INFO_IMAGES;
+			
+			
+
+			echo (" <products imagepath=\"" . $imagepath . "\">\n");
+
+			
+			if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
+				$products_short_description_query = '';
+			else
+				$products_short_description_query = 'prod_desc.products_short_description,';
+
 			$products_query = sbf_db_query("SELECT 
- 												prod.products_model, prod_desc.products_name, prod_desc.products_description, prod_desc.products_short_description, 
-												prod.products_image,	 												
+ 												prod.products_model, prod_desc.products_name, prod_desc.products_description, " . $products_short_description_query . 
+												"prod.products_image,	 												
 												cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
 											FROM 
 												tax_rates tax
@@ -947,6 +1014,10 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
   												(langu.code = '". $category_language ."')
 										   ");
 			while ($products = sbf_db_fetch_array($products_query)) {
+
+				if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
+					$products['products_short_description'] = $products['products_description'];
+
 				echo ("  <product ");
 				echo ("gross=\"". number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2) ."\" " );
 				echo ("vatpercent=\"". number_format( $products['tax_rate'], 2) ."\" " );
