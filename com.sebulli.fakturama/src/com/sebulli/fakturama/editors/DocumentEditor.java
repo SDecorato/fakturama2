@@ -1399,15 +1399,49 @@ public class DocumentEditor extends Editor {
 			}
 		});
 
+		// Check, whether the delivery address is the same as the billing address
+		boolean differentDeliveryAddress = !document.getStringValueByKey("deliveryaddress").equalsIgnoreCase(document.getStringValueByKey("address"));
+
+		// Composite that contains the address label and the address icon
+		Composite addressAndIconComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
+		GridLayoutFactory.fillDefaults().numColumns(differentDeliveryAddress? 2 : 1).applyTo(addressAndIconComposite);
+		GridDataFactory.fillDefaults().minSize(180, 80).align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(addressAndIconComposite);
+
 		// The address field
-		txtAddress = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		txtAddress = new Text(addressAndIconComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		if (documentType == DocumentType.DELIVERY)
 			txtAddress.setText(document.getStringValueByKey("deliveryaddress"));
 		else
 			txtAddress.setText(document.getStringValueByKey("address"));
 		superviceControl(txtAddress, 250);
-		GridDataFactory.fillDefaults().minSize(180, 80).align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(txtAddress);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(txtAddress);
 
+		// Add the attention sign if the delivery address is not equal to the billing address
+		if (differentDeliveryAddress) {
+			
+			// Item add attention icon
+			Label differentDeliveryAddressIcon = new Label(addressAndIconComposite, SWT.NONE);
+
+			if (documentType == DocumentType.DELIVERY) {
+				//T: Tool Tip Text
+				differentDeliveryAddressIcon.setToolTipText(_("Different billing address !"));
+			}
+			else {
+				//T: Tool Tip Text
+				differentDeliveryAddressIcon.setToolTipText(_("Different delivery address !"));
+			}
+
+			try {
+				differentDeliveryAddressIcon.setImage((Activator.getImageDescriptor("/icons/32/warning_32.png").createImage()));
+			}
+			catch (Exception e) {
+				Logger.logError(e, "Icon not found");
+			}
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(differentDeliveryAddressIcon);
+		}
+
+		
+		
 		// Add the item table, if the document is one with items.
 		if (documentType.hasItems()) {
 

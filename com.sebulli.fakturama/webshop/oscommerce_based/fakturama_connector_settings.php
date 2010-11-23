@@ -29,8 +29,8 @@
 define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
 
 // Define user name and password
-define ('FAKTURAMA_USERNAME',	'user');		
-define ('FAKTURAMA_PASSWORD',	'password');	
+define ('FAKTURAMA_USERNAME', 'user');		
+define ('FAKTURAMA_PASSWORD', 'password');	
 
 // Language code of the product categorie which will be imported.
 // (en = English, de = German, es = Spanish ..) 
