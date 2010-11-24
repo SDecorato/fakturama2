@@ -3,7 +3,11 @@
 
 <toc label="Installation" link_to="toc.xml#install"> 
 
-	<topic label="Allgemein"  href="html/install/general.html">
+	<topic label="Webshop"  href="html/install/webshop.html">
+	</topic>
+
+	<topic label="Webshop Schnittstelle"  href="html/install/webshop_connector.html">
+		<topic label="fakturama_connector_settings.php"  href="html/install/webshop_connector_edit.html"></topic>
 	</topic>
 
 </toc>

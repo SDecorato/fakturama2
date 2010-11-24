@@ -58,6 +58,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.actions.CreateOODocumentAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.calculate.DataUtils;
@@ -123,7 +124,9 @@ public class DocumentEditor extends Editor {
 	private Text shippingValue;
 	private Label vatValue;
 	private Label totalValue;
-
+	private Composite addressAndIconComposite;
+	private Label differentDeliveryAddressIcon;
+	
 	// These flags are set by the preference settings.
 	// They define, if elements of the editor are displayed, or not.
 	private boolean useGross;
@@ -148,6 +151,8 @@ public class DocumentEditor extends Editor {
 	private int shippingAutoVat = DataSetShipping.SHIPPINGVATGROSS;
 	private Double total = 0.0;
 	private int dunningLevel = 0;
+	private String billingAddress = "";
+	private String deliveryAddress = "";
 
 	// Flag, if item editing is active
 	ItemEditingSupport itemEditingSupport = null;
@@ -255,6 +260,8 @@ public class DocumentEditor extends Editor {
 			if (!document.getStringValueByKey("deliveryaddress").equals(txtAddress.getText()))
 				addressModified = true;
 			document.setStringValueByKey("deliveryaddress", txtAddress.getText());
+			document.setStringValueByKey("address", billingAddress);
+
 			if (addressId > 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(true);
 		}
@@ -262,6 +269,8 @@ public class DocumentEditor extends Editor {
 			if (!document.getStringValueByKey("address").equals(txtAddress.getText()))
 				addressModified = true;
 			document.setStringValueByKey("address", txtAddress.getText());
+			document.setStringValueByKey("deliveryaddress", deliveryAddress);
+
 			if (addressId > 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(false);
 		}
@@ -604,6 +613,9 @@ public class DocumentEditor extends Editor {
 		String itemsString = document.getStringValueByKey("items");
 		String[] itemsStringParts = itemsString.split(",");
 
+		billingAddress = document.getStringValueByKey("address");
+		deliveryAddress = document.getStringValueByKey("deliveryaddress");
+		
 		// Parse the item string ..
 		for (String itemsStringPart : itemsStringParts) {
 			int id;
@@ -679,9 +691,11 @@ public class DocumentEditor extends Editor {
 		if (document.getIntValueByKey("addressid") != addressId) { return true; }
 		if (documentType == DocumentType.DELIVERY) {
 			if (!document.getStringValueByKey("deliveryaddress").equals(txtAddress.getText())) { return true; }
+			if (!document.getStringValueByKey("address").equals(billingAddress)) { return true; }
 		}
 		else {
 			if (!document.getStringValueByKey("address").equals(txtAddress.getText())) { return true; }
+			if (!document.getStringValueByKey("deliveryaddress").equals(deliveryAddress)) { return true; }
 		}
 
 		if (!document.getStringValueByKey("customerref").equals(txtCustomerRef.getText())) { return true; }
@@ -1056,6 +1070,34 @@ public class DocumentEditor extends Editor {
 	}
 
 	/**
+	 * Show or hide the warning icon
+	 */
+	void showHideWarningIcon() {
+		
+		// Check, whether the delivery address is the same as the billing address
+		boolean differentDeliveryAddress;
+		
+		if (documentType == DocumentType.DELIVERY) {
+			differentDeliveryAddress = !billingAddress.equalsIgnoreCase(txtAddress.getText());
+			//T: Tool Tip Text
+			differentDeliveryAddressIcon.setToolTipText(_("Different billing address !") +  OSDependent.getNewLine() + billingAddress);
+		}
+		else {
+			differentDeliveryAddress = !deliveryAddress.equalsIgnoreCase(txtAddress.getText());
+			//T: Tool Tip Text
+			differentDeliveryAddressIcon.setToolTipText(_("Different delivery address !") + OSDependent.getNewLine() + deliveryAddress);
+		}
+
+		if (differentDeliveryAddress)
+			// Show the icon
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(differentDeliveryAddressIcon);
+		else
+			// Hide the icon
+			GridDataFactory.swtDefaults().hint(0,0).align(SWT.END, SWT.CENTER).applyTo(differentDeliveryAddressIcon);
+		
+	}
+	
+	/**
 	 * Creates the SWT controls for this workbench part
 	 * 
 	 * @param the
@@ -1389,6 +1431,10 @@ public class DocumentEditor extends Editor {
 							txtAddress.setText(contact.getAddress(true));
 						else
 							txtAddress.setText(contact.getAddress(false));
+						
+						billingAddress = contact.getAddress(false);
+						deliveryAddress = contact.getAddress(true);
+
 						addressId = contact.getIntValueByKey("id");
 
 						// Use the customers discount
@@ -1396,15 +1442,17 @@ public class DocumentEditor extends Editor {
 							itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
 					}
 				}
+				
+				showHideWarningIcon();
+				addressAndIconComposite.layout(true);
+
 			}
 		});
 
-		// Check, whether the delivery address is the same as the billing address
-		boolean differentDeliveryAddress = !document.getStringValueByKey("deliveryaddress").equalsIgnoreCase(document.getStringValueByKey("address"));
 
 		// Composite that contains the address label and the address icon
-		Composite addressAndIconComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
-		GridLayoutFactory.fillDefaults().numColumns(differentDeliveryAddress? 2 : 1).applyTo(addressAndIconComposite);
+		addressAndIconComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
+		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(addressAndIconComposite);
 		GridDataFactory.fillDefaults().minSize(180, 80).align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(addressAndIconComposite);
 
 		// The address field
@@ -1417,28 +1465,16 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(txtAddress);
 
 		// Add the attention sign if the delivery address is not equal to the billing address
-		if (differentDeliveryAddress) {
-			
-			// Item add attention icon
-			Label differentDeliveryAddressIcon = new Label(addressAndIconComposite, SWT.NONE);
+		differentDeliveryAddressIcon = new Label(addressAndIconComposite, SWT.NONE);
 
-			if (documentType == DocumentType.DELIVERY) {
-				//T: Tool Tip Text
-				differentDeliveryAddressIcon.setToolTipText(_("Different billing address !"));
-			}
-			else {
-				//T: Tool Tip Text
-				differentDeliveryAddressIcon.setToolTipText(_("Different delivery address !"));
-			}
-
-			try {
-				differentDeliveryAddressIcon.setImage((Activator.getImageDescriptor("/icons/32/warning_32.png").createImage()));
-			}
-			catch (Exception e) {
-				Logger.logError(e, "Icon not found");
-			}
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(differentDeliveryAddressIcon);
+		try {
+			differentDeliveryAddressIcon.setImage((Activator.getImageDescriptor("/icons/32/warning_32.png").createImage()));
 		}
+		catch (Exception e) {
+			Logger.logError(e, "Icon not found");
+		}
+		
+		showHideWarningIcon();
 
 		
 		

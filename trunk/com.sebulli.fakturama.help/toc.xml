@@ -2,6 +2,9 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Fakturama Handbuch" topic="html/toc.html">
+   <topic label="Installation" href="html/install/main.html">
+      <anchor id="install"/>
+   </topic>
    <topic label="Einstellungen" href="html/preferences/main.html">
       <anchor id="preferences"/>
    </topic>
