@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Einstellungen in fakturama_connector_settings.php</title>
+  	<link rel="stylesheet" href="../common/style.css" type="text/css" />
+</head>
+
+<body>
+
+	<h1>Einstellungen in fakturama_connector_settings.php</h1>
+
+	<p>Öffnen Sie die Datei <span class="markedblue">fakturama_connector_settings.php</span> mit einem Texteditor.
+	In der Datei befinden sich einige Einstellungen in folgender Schreibweise:</p>
+	
+	<p class="code">define ('PARAMETER_NAME','<b>Wert</b>');</p>
+	
+	<p>Es ist darauf zu achten, nur die Zeichenkette die hier mit <b>Wert</b> markiert ist zu ändern.
+	Diese muss weiterhin durch zwei Hochkommas eingeschlossen bleiben.</p>
+
+	<h2>Festlegen des Shopsystems</h2>
+	<p>Das Shopsystem wird durch den Parameter <span class="markedblue">FAKTURAMA_WEBSHOP</span> gesetzt.
+	Dieser Wert ist in der Regel bereits richtig gesetzt und muss nicht geändert werden. Folgende Werte sind möglich:</p>
+	<p class="code">define ('FAKTURAMA_WEBSHOP','OSCOMMERCE');</p>
+	<p class="code">define ('FAKTURAMA_WEBSHOP','XTCOMMERCE');</p>
+	<p class="code">define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');</p>
+
+	<h2>Benutzername und Passwort</h2>
+	<p>Benutzername und Passwort sind nicht identisch mit denen des Shopadministrators.
+	Sie können fast beliebig gewählt werden. Beispiel:</p>
+	<p class="code">define ('FAKTURAMA_USERNAME', 'Romeo');</p>
+	<p class="code">define ('FAKTURAMA_PASSWORD', 'julia1234');</p>
+
+	<p>Diese beiden Werte sind auch im Programm unter <span class="markedblue">Einstellungen/Webshop</span> zu setzen:</p>
+	<img class="icon" src="preferences_username_password.png" alt="" />
+
+	<h2>Sprache</h2>
+
+</body>
+</html>
