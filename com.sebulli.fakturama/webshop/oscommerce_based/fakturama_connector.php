@@ -862,8 +862,8 @@ if (sbf_db_num_rows($language_query) != 1)
 
 // include the language translations
 if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
-	require_once(DIR_WS_LANGUAGES . $language['directory'] . '.php');
-	require_once(DIR_WS_LANGUAGES . $language['directory'] . '/orders.php');  
+	require_once(DIR_WS_LANGUAGES . $languages['directory'] . '.php');
+	require_once(DIR_WS_LANGUAGES . $languages['directory'] . '/orders.php');  
 }
 
 
@@ -880,7 +880,26 @@ if (defined('FAKTURAMA_USERNAME') && (TEST != '')) {
 */
 
 // Get the admins from the database
-$admin_query = sbf_db_query('
+if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
+
+	require('includes/functions/password_funcs.php');
+	$admin_query = sbf_db_query('
+		SELECT id,user_name, user_password
+		FROM administrators
+		WHERE
+			user_name  = 	"' . $username . '" 	
+		');
+
+	// Verify password
+        if (sbf_db_num_rows($admin_query) == 1) {
+          $admin = tep_db_fetch_array($admin_query);
+          if (tep_validate_password($password, $admin['user_password'])) 
+		$admin_valid = 1;
+	}
+}
+
+if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
+	$admin_query = sbf_db_query('
 		SELECT customers_id
 		FROM customers
 		WHERE
@@ -889,9 +908,14 @@ $admin_query = sbf_db_query('
 			customers_status				= 0
 		');
 
-// At least one admin was found
-if (sbf_db_num_rows($admin_query) > 0 )
-	$admin_valid = 1;
+	// At least one admin was found
+	if (sbf_db_num_rows($admin_query) > 0 )
+		$admin_valid = 1;
+
+
+}
+
+
 
 // No admin with valid password found
 if ($admin_valid != 1)
