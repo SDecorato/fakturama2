@@ -1,18 +1,7 @@
-This is the web shop export script 
-
 (C) 2010 - Fakturama
-2010-11-20
+2010-11-25
 http://fakturama.sebulli.com
 
 ################ INSTALLATION ##############
-Copy the files
-- fakturama_connector.php
-- fakturama_connector_settings.php
-into the folder /admin/ in your web shop.
-
-Edit fakturama_connector_settings.php and ..
-
-- Set the shop system
-- Choose a user name and password.
-- Set your language and your country.
+Copy the file fakturama_connector.php into the folder /admin/ in your web shop.
 
