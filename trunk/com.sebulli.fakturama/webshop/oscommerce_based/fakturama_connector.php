@@ -23,9 +23,23 @@
  */
 
 
+// Define Shop system. Allowed values are:
+// 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
+// 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
+// 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
+define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
 
-// Use the settings from FakturamaConnector_Settings.php
-include('fakturama_connector_settings.php');
+
+
+
+
+
+
+
+
+
+
+
 
 // Some shop systems are based on osCommerce, some on xtCommerce
 if (FAKTURAMA_WEBSHOP == OSCOMMERCE) {
@@ -72,6 +86,7 @@ if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
   	require(DIR_WS_CLASSES . 'email.php');
 
 	define('FILENAME_CATALOG_ACCOUNT_HISTORY_INFO', 'account_history_info.php');
+
 }
 
 if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
@@ -119,9 +134,6 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
 }
 
 
-// include the language translations
-require_once(DIR_WS_LANGUAGES . FAKTURAMA_LANGUAGE . '.php');
-require_once(DIR_WS_LANGUAGES . FAKTURAMA_LANGUAGE . '/orders.php');  
 
 
 function sbf_not_null($p) {
@@ -363,6 +375,14 @@ function my_encode_with_quotes($s) {
 	return $s;
 }
 
+// Exit with error message
+function exit_with_error($err) {
+	echo (" <error>" . $err . "</error>\n");
+	echo ("</webshopexport>\n");
+	exit(); 
+}
+
+
 // Remove the HTML tags but keep the BR-tags
 function my_strip_tags($s) {
 	
@@ -584,13 +604,6 @@ class order {
   										languages_id ASC
         							");
         							
-	$category_language = "";
-	while ($category_languages = sbf_db_fetch_array($language_query)) {
-		if (empty ($category_language))
-			$category_language = $category_languages['code'];
-		if (FAKTURAMA_LANGUAGE_CODE == $category_languages['code'])
-			$category_language = $category_languages['code'];
-    }
  
       
       while ($orders_products = sbf_db_fetch_array($orders_products_query)) {
@@ -616,7 +629,7 @@ class order {
   												languages langu ON (langu.languages_id = cat_desc.language_id)
         								  WHERE 
         								  		prod_cat.products_id = '" . (int)$orders_products['products_id'] . "'
-        								  		AND langu.code ='". $category_language ."' 
+        								  		AND langu.code ='". DEFAULT_LANGUAGE ."' 
         								  ");
 
 		$category = "";
@@ -829,28 +842,62 @@ if (($getshipped_number > 0) && ($getshipped_datetype))
 if ($getshipped_datetype == 'ever')
 	$getshipped_condition = " or TRUE";
 
+if (!defined('DEFAULT_LANGUAGE'))
+	exit_with_error('DEFAULT_LANGUAGE not defined');
+
+$language_query = sbf_db_query('SELECT
+   					code, directory
+   				FROM
+					languages
+				WHERE
+					code = "'. DEFAULT_LANGUAGE . '"
+       				');
+
+$languages = sbf_db_fetch_array($language_query);
+
+// The language must be in the database
+if (sbf_db_num_rows($language_query) != 1)
+	exit_with_error('Language ' . DEFAULT_LANGUAGE . ' not found');
 
 
-// Get the selected language or at least the 
-$language_query = sbf_db_query("SELECT
-   									langu.code
-   								FROM
-									languages langu
-								ORDER BY
-									languages_id ASC
-       							");
-        							
-$category_language = "en";
-while ($category_languages = sbf_db_fetch_array($language_query)) {
-	if (empty ($category_language))
-		$category_language = $category_languages['code'];
-	if (FAKTURAMA_LANGUAGE_CODE == $category_languages['code'])
-		$category_language = $category_languages['code'];
+// include the language translations
+if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
+	require_once(DIR_WS_LANGUAGES . $language['directory'] . '.php');
+	require_once(DIR_WS_LANGUAGES . $language['directory'] . '/orders.php');  
 }
 
-if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 
-		//password ok
+
+$admin_valid = 0;
+
+// Exit, if username or password are invalid
+
+/*
+if (defined('FAKTURAMA_USERNAME') && (TEST != '')) {
+	if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ) 
+		$admin_valid = 1;
+}
+*/
+
+// Get the admins from the database
+$admin_query = sbf_db_query('
+		SELECT customers_id
+		FROM customers
+		WHERE
+			customers_email_address = 		"' . $username . '" AND
+			customers_password 			= md5("' . $password . '")	AND
+			customers_status				= 0
+		');
+
+// At least one admin was found
+if (sbf_db_num_rows($admin_query) > 0 )
+	$admin_valid = 1;
+
+// No admin with valid password found
+if ($admin_valid != 1)
+	exit_with_error('Invalid username or password');
+
+
 
 
 	// update the shop values
@@ -999,7 +1046,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 											RIGHT JOIN
 												zones_to_geo_zones z2geozones ON (z2geozones.geo_zone_id = tax.tax_zone_id) 
 											RIGHT JOIN
-												countries ON (countries.countries_id =  z2geozones.zone_country_id) AND (countries.countries_iso_code_2 = '". FAKTURAMA_COUNTRY. "')
+												countries ON (countries.countries_id =  z2geozones.zone_country_id) AND (countries.countries_id = '". STORE_COUNTRY . "')
 											RIGHT JOIN
 												products prod ON (prod.products_tax_class_id = tax.tax_class_id)
 											RIGHT JOIN
@@ -1011,8 +1058,9 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 											LEFT JOIN
 												languages langu ON (langu.languages_id = cat_desc.language_id) AND (langu.languages_id = prod_desc.language_id)
   											WHERE 
-  												(langu.code = '". $category_language ."')
+  												(langu.code = '". DEFAULT_LANGUAGE ."')
 										   ");
+
 			while ($products = sbf_db_fetch_array($products_query)) {
 
 				if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
@@ -1306,14 +1354,7 @@ if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ){
 			}
 			echo (" </orders>\n");
 		}	
-		else {
-//			echo (" <error>no valid action set</error>\n");
-		}
 
-	}
-	else{
-		echo (" <error>invalid username or password</error>\n");
-	}    
 
 echo ("</webshopexport>\n");
 
