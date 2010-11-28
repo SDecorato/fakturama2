@@ -2,4 +2,9 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Lizenz" link_to="toc.xml#license"> 
+	
+	<topic label="Software"  href="html/license/epl-v10.html"></topic>
+	<topic label="Grafiken und Hilfe/Handbuch"  href="html/license/creative_commons.html"></topic>
+	<topic label="Markennamen"  href="html/license/trademarks.html"></topic>
+
 </toc>

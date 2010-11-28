@@ -2,12 +2,11 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Installation" link_to="toc.xml#install"> 
-
-	<topic label="Webshop"  href="html/install/webshop.html">
-	</topic>
-
-	<topic label="Webshop Schnittstelle"  href="html/install/webshop_connector.html">
-		<topic label="fakturama_connector_settings.php"  href="html/install/webshop_connector_edit.html"></topic>
-	</topic>
+	
+	<topic label="Download"  href="html/install/download.html"></topic>
+	<topic label="Installation Windows"  href="html/install/install_windows.html"></topic>
+	<topic label="Installation Linux"  href="html/install/install_linux.html"></topic>
+	<topic label="Installation Mac OS X"  href="html/install/install_mac_os_x.html"></topic>
+	<topic label="Start von Fakturama"  href="html/install/start.html"></topic>
 
 </toc>

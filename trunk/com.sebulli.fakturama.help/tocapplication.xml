@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Das Programm" link_to="toc.xml#application"> 
+	
+	<topic label="Menüleiste"  href="html/application/menubar.html"></topic>
+	<topic label="Werkzeugleiste"  href="html/application/toolbar.html"></topic>
+	<topic label="Navigationsleiste"  href="html/application/navigationbar.html"></topic>
+	<topic label="Editorfenster"  href="html/application/editor.html"></topic>
+	<topic label="Übersichtsfenster"  href="html/application/overview.html"></topic>
+
+</toc>

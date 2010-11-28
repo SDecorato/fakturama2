@@ -10,23 +10,21 @@
 <body>
 
 	<h1>Import aus Webshop</h1>
-
+	
+	<a name="webshop_url" />
 	<h2>Webshop URL</h2>
 	<p>Vollständige URL des Importscriptes des Webshops (ohne <span class="markedblue">http://</span>).</p>
 
 	<p class="miniheading">Beispiel:</p>
-	<p class="code">www.deinshop.de/admin/webshop_export.php</p>
-	<p>Die Datei <span class="markedblue">webshop_export.php</span> muss auf dem Webserver zur Verfügung stehen.
+	<p class="code">www.deinshop.de/admin/fakturama_connector.php</p>
+	<p>Die Datei <span class="markedblue">fakturama_connector.php</span> muss auf dem Webserver zur Verfügung stehen.
 	Siehe dazu Kapitel 'Installation'.</p>
 
 	<h2>Benutzername</h2>
-	<p>Benutzername des Webshop Importzuganges.</p>
+	<p>Benutzername (z.B. eMail) des Shop-Administrators.</p>
 
 	<h2>Passwort</h2>
-	<p>Passwort des Webshop Importzuganges.</p>
-	<p>Benutzername und Passwort sind unabhängig von Benutzername und Passwort des Shop-Administrators und werden in der Datei
-	Datei <span class="markedblue">webshop_export_settings.php</span> festgelegt. Diese muss auf dem Webserver zur Verfügung stehen.
-	Siehe dazu Kapitel 'Installation'.</p>
+	<p>Passwort des Shop-Administrators.</p>
 
 	<h2>Produkte in Kategorie</h2>
 	<p>Kategorie, in die alle importierten Produkte aus dem Webshop abgelegt werden. Ist keine Kategorie angegeben,
@@ -47,6 +45,11 @@
 	<h2>Kunde bei 'versendet' benachrichtigen</h2>
 	<p>Wird der Status einer Bestellung auf 'versendet' gesetzt, so kann der Kunde darüber per E-Mail benachrichtigt werden.
 	Der Status im Webshop wird ebenfalls aktualisiert.</p>
+
+	<h6>Siehe auch:</h6>
+	<ul>
+		<li><span class="markedblue"><a href="../webshop/webshop_connector.html">Die Schnittstelle zum Webshop</a></span></li>
+	</ul>
 
 
 </body>

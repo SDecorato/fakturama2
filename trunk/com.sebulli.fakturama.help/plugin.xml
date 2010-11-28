@@ -8,7 +8,22 @@
             primary="true">
       </toc>
       <toc
+            file="tocquickguide.xml">
+      </toc>
+      <toc
             file="tocinstall.xml">
+      </toc>
+      <toc
+            file="tocapplication.xml">
+      </toc>
+      <toc
+            file="tocopenoffice.xml">
+      </toc>
+      <toc
+            file="tocwebshop.xml">
+      </toc>
+      <toc
+            file="tocworkspace.xml">
       </toc>
       <toc
             file="tocpreferences.xml">
