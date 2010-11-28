@@ -254,6 +254,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(webShopImportAction);
 		webShopImportActionTB = new WebShopImportAction();
 		register(webShopImportActionTB);
+		
 
 		openProductsAction = new OpenProductsAction();
 		register(openProductsAction);

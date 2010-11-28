@@ -49,6 +49,8 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	@Override
 	public void createFieldEditors() {
 
+		//T: Preference page "Contact" - Label checkbox "Use delivery address"
+		addField(new BooleanFieldEditor("WEBSHOP_ENABLED", _("Web shop enabled"), getFieldEditorParent()));
 		
 		//T: Preference page "Web Shop Import" - Label
 		addField(new StringFieldEditor("WEBSHOP_URL", _("Webshop URL"), getFieldEditorParent()));
@@ -95,6 +97,7 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_ENABLED", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_URL", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_USER", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_PASSWORD", write);
@@ -112,6 +115,7 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
+		node.putBoolean("WEBSHOP_ENABLED", true);
 		node.put("WEBSHOP_URL", "fakturama.sebulli.com/shop/admin/fakturama_connector.php");
 		node.put("WEBSHOP_USER", "user");
 		node.put("WEBSHOP_PASSWORD", "password");
@@ -125,5 +129,5 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		node.putBoolean("WEBSHOP_NOTIFY_SHIPPED", true);
 
 	}
-
+	
 }
