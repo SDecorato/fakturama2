@@ -1227,16 +1227,4 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		
 	}
 
-	@Override
-	public void interrupt() {
-		// TODO Auto-generated method stub
-		super.interrupt();
-	}
-
-	@Override
-	public boolean isInterrupted() {
-		// TODO Auto-generated method stub
-		return super.isInterrupted();
-	}
-
 }
