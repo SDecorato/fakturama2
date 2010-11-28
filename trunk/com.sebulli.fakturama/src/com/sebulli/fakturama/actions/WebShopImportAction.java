@@ -26,6 +26,7 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
@@ -81,6 +82,10 @@ public class WebShopImportAction extends Action {
 		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
+		// cancel, if the webshop is disabled.
+		if (!Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_ENABLED"))
+			return;
+		
 		// Start a new web shop import manager in a
 		// progress Monitor Dialog
 		WebShopImportManager webShopImportManager = new WebShopImportManager();

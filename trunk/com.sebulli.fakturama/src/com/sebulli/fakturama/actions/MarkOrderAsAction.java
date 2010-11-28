@@ -123,7 +123,7 @@ public class MarkOrderAsAction extends Action {
 				Data.INSTANCE.updateDataSet(uds);
 
 				// Change the state also in the webshop
-				if (!uds.getStringValueByKey("webshopid").isEmpty()) {
+				if (!uds.getStringValueByKey("webshopid").isEmpty() && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_ENABLED")) {
 					// Start a new web shop import manager in a
 					// progress Monitor Dialog
 					WebShopImportManager webShopImportManager = new WebShopImportManager();
@@ -192,27 +192,31 @@ public class MarkOrderAsAction extends Action {
 						String comment = "";
 						boolean notify = false;
 
-						if ((progress == 50) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING")
-								|| ((progress == 90) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_SHIPPED"))) {
+						// Notify the customer only if the web shop is enabled
+						if (Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_ENABLED")) {
+							if ((progress == 50) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING")
+									|| ((progress == 90) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_SHIPPED"))) {
 
-							OrderStatusDialog dlg = new OrderStatusDialog(workbenchWindow.getShell());
+								OrderStatusDialog dlg = new OrderStatusDialog(workbenchWindow.getShell());
 
-							if (dlg.open() == Window.OK) {
+								if (dlg.open() == Window.OK) {
 
-								// User clicked OK; update the label with the input
-								try {
-									// Encode the comment to send it via HTTP POST request
-									comment = java.net.URLEncoder.encode(dlg.getComment(), "UTF-8");
+									// User clicked OK; update the label with the input
+									try {
+										// Encode the comment to send it via HTTP POST request
+										comment = java.net.URLEncoder.encode(dlg.getComment(), "UTF-8");
+									}
+									catch (UnsupportedEncodingException e) {
+										Logger.logError(e, "Error encoding comment.");
+										comment = "";
+									}
 								}
-								catch (UnsupportedEncodingException e) {
-									Logger.logError(e, "Error encoding comment.");
-									comment = "";
-								}
+								else
+									return;
+
+								notify = dlg.getNotify();
 							}
-							else
-								return;
-
-							notify = dlg.getNotify();
+							
 						}
 
 						// Mark the order as ...

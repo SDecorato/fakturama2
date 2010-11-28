@@ -83,7 +83,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	
 	/**
 	 * Runs the reading of a http stream in an extra thread.
-	 * So it can be interruped by clicking the cancel button. 
+	 * So it can be interrupted by clicking the cancel button. 
 	 * 
 	 * @author Gerd Bartelt
 	 */
