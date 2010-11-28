@@ -344,13 +344,24 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		//T: Title of the menus in the main menu
 		MenuManager fileMenu = new MenuManager(_("File"), IWorkbenchActionConstants.M_FILE);
+		//T: Title of the menus in the main menu
+		MenuManager dataMenu = new MenuManager(_("Data"), "com.sebulli.faktura.menu.data");
+		//T: Title of the menus in the main menu
+		MenuManager newMenu = new MenuManager(_("New"), "com.sebulli.faktura.menu.create");
+		//T: Title of the menus in the main menu
 		MenuManager windowMenu = new MenuManager(_("Window"), IWorkbenchActionConstants.M_WINDOW);
+		//T: Title of the menus in the main menu
 		MenuManager helpMenu = new MenuManager(_("Help"), IWorkbenchActionConstants.M_HELP);
+		//T: Title of the menus in the main menu
 		MenuManager hiddenMenu = new MenuManager("Hidden", "com.sebulli.faktura.menu.hidden");
 		hiddenMenu.setVisible(false);
 
 		menuBar.add(fileMenu);
 		// Add a group marker indicating where action set menus will appear.
+		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		menuBar.add(dataMenu);
+		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		menuBar.add(newMenu);
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuBar.add(windowMenu);
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -385,6 +396,36 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		fileMenu.add(new Separator());
 		fileMenu.add(exitAction);
 
+		// data menu
+		dataMenu.add(openContactsAction);
+		dataMenu.add(openProductsAction);
+		dataMenu.add(openDocumentsAction);
+		dataMenu.add(openShippingsAction);
+		dataMenu.add(openPaymentsAction);
+		dataMenu.add(openVatsAction);
+		dataMenu.add(openTextsAction);
+		dataMenu.add(openListsAction);
+		dataMenu.add(openExpendituresAction);
+
+		// create menu
+		newMenu.add(newProductAction);
+		newMenu.add(newContactAction);
+		newMenu.add(newVatAction);
+		newMenu.add(newShippingAction);
+		newMenu.add(newPaymentAction);
+		newMenu.add(newTextAction);
+		newMenu.add(newListEntryAction);
+		newMenu.add(newExpenditureAction);
+		newMenu.add(new Separator());
+		newMenu.add(newLetterAction);
+		newMenu.add(newOfferAction);
+		newMenu.add(newOrderAction);
+		newMenu.add(newConfirmationAction);
+		newMenu.add(newInvoiceAction);
+		newMenu.add(newDeliveryAction);
+		newMenu.add(newCreditAction);
+		newMenu.add(newDunningAction);
+		
 		// window menu
 		windowMenu.add(resetViewAction);
 
