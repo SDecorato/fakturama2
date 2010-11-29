@@ -105,6 +105,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private OpenBrowserEditorAction openBrowserEditorAction;
 	private OpenBrowserEditorAction openBrowserEditorActionTB;
 	private OpenCalculatorAction openCalculatorAction;
+	private OpenCalculatorAction openCalculatorActionTB;
 	private OpenContactsAction openContactsAction;
 	private OpenProductsAction openProductsAction;
 	private OpenVatsAction openVatsAction;
@@ -115,21 +116,32 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private OpenListsAction openListsAction;
 	private OpenExpendituresAction openExpendituresAction;
 	private NewProductAction newProductAction;
+	private NewProductAction newProductActionTB;
 	private NewContactAction newContactAction;
+	private NewContactAction newContactActionTB;
 	private NewVatAction newVatAction;
 	private NewShippingAction newShippingAction;
 	private NewPaymentAction newPaymentAction;
 	private NewDocumentAction newLetterAction;
+	private NewDocumentAction newLetterActionTB;
 	private NewDocumentAction newOfferAction;
+	private NewDocumentAction newOfferActionTB;
 	private NewDocumentAction newOrderAction;
+	private NewDocumentAction newOrderActionTB;
 	private NewDocumentAction newConfirmationAction;
+	private NewDocumentAction newConfirmationActionTB;
 	private NewDocumentAction newInvoiceAction;
+	private NewDocumentAction newInvoiceActionTB;
 	private NewDocumentAction newDeliveryAction;
+	private NewDocumentAction newDeliveryActionTB;
 	private NewDocumentAction newCreditAction;
+	private NewDocumentAction newCreditActionTB;
 	private NewDocumentAction newDunningAction;
+	private NewDocumentAction newDunningActionTB;
 	private NewTextAction newTextAction;
 	private NewListEntryAction newListEntryAction;
 	private NewExpenditureAction newExpenditureAction;
+	private NewExpenditureAction newExpenditureActionTB;
 	private SelectWorkspaceAction selectWorkspaceAction;
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
@@ -155,11 +167,13 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	protected void makeActions(final IWorkbenchWindow window) {
 
 		exportWizardAction = ActionFactory.EXPORT.create(window);
+		exportWizardAction.setImageDescriptor(Activator.getImageDescriptor("/icons/16/export_16.png"));
 		//T: Text of the actions in the main menu
 		exportWizardAction.setText(_("Export.."));
 		register(exportWizardAction);
 
 		importWizardAction = ActionFactory.IMPORT.create(window);
+		importWizardAction.setImageDescriptor(Activator.getImageDescriptor("/icons/16/import_16.png"));
 		//T: Text of the actions in the main menu
 		importWizardAction.setText(_("Import.."));
 		register(importWizardAction);
@@ -208,6 +222,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(saveAllAction);
 
 		aboutAction = ActionFactory.ABOUT.create(window);
+		aboutAction.setImageDescriptor(Activator.getImageDescriptor("/icons/16/app_16.png"));
+
 		//T: Text of the actions in the main menu
 		aboutAction.setText(_("About Fakturama"));
 		register(aboutAction);
@@ -240,12 +256,13 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		openBrowserEditorAction = new OpenBrowserEditorAction();
 		register(openBrowserEditorAction);
-
 		openBrowserEditorActionTB = new OpenBrowserEditorAction();
 		register(openBrowserEditorActionTB);
 
 		openCalculatorAction = new OpenCalculatorAction();
 		register(openCalculatorAction);
+		openCalculatorActionTB = new OpenCalculatorAction();
+		register(openCalculatorActionTB);
 
 		deleteDataSetAction = new DeleteDataSetAction();
 		register(deleteDataSetAction);
@@ -260,11 +277,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(openProductsAction);
 		newProductAction = new NewProductAction();
 		register(newProductAction);
+		newProductActionTB = new NewProductAction();
+		register(newProductActionTB);
 
 		openContactsAction = new OpenContactsAction();
 		register(openContactsAction);
 		newContactAction = new NewContactAction(null);
 		register(newContactAction);
+		newContactActionTB = new NewContactAction(null);
+		register(newContactActionTB);
 
 		openVatsAction = new OpenVatsAction();
 		register(openVatsAction);
@@ -295,26 +316,51 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		register(openExpendituresAction);
 		newExpenditureAction = new NewExpenditureAction();
 		register(newExpenditureAction);
+		newExpenditureActionTB = new NewExpenditureAction();
+		register(newExpenditureActionTB);
 
 		openDocumentsAction = new OpenDocumentsAction();
 		register(openDocumentsAction);
 
 		newLetterAction = new NewDocumentAction(DocumentType.LETTER);
 		register(newLetterAction);
+		newLetterActionTB = new NewDocumentAction(DocumentType.LETTER);
+		register(newLetterActionTB);
+		
 		newOfferAction = new NewDocumentAction(DocumentType.OFFER);
 		register(newOfferAction);
+		newOfferActionTB = new NewDocumentAction(DocumentType.OFFER);
+		register(newOfferActionTB);
+
 		newOrderAction = new NewDocumentAction(DocumentType.ORDER);
 		register(newOrderAction);
+		newOrderActionTB = new NewDocumentAction(DocumentType.ORDER);
+		register(newOrderActionTB);
+
 		newConfirmationAction = new NewDocumentAction(DocumentType.CONFIRMATION);
 		register(newConfirmationAction);
+		newConfirmationActionTB = new NewDocumentAction(DocumentType.CONFIRMATION);
+		register(newConfirmationActionTB);
+
 		newInvoiceAction = new NewDocumentAction(DocumentType.INVOICE);
 		register(newInvoiceAction);
+		newInvoiceActionTB = new NewDocumentAction(DocumentType.INVOICE);
+		register(newInvoiceActionTB);
+
 		newDeliveryAction = new NewDocumentAction(DocumentType.DELIVERY);
 		register(newDeliveryAction);
+		newDeliveryActionTB = new NewDocumentAction(DocumentType.DELIVERY);
+		register(newDeliveryActionTB);
+
 		newCreditAction = new NewDocumentAction(DocumentType.CREDIT);
 		register(newCreditAction);
+		newCreditActionTB = new NewDocumentAction(DocumentType.CREDIT);
+		register(newCreditActionTB);
+
 		newDunningAction = new NewDocumentAction(DocumentType.DUNNING);
 		register(newDunningAction);
+		newDunningActionTB = new NewDocumentAction(DocumentType.DUNNING);
+		register(newDunningActionTB);
 
 		selectWorkspaceAction = new SelectWorkspaceAction();
 		register(selectWorkspaceAction);
@@ -397,26 +443,17 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		fileMenu.add(exitAction);
 
 		// data menu
-		dataMenu.add(openContactsAction);
-		dataMenu.add(openProductsAction);
 		dataMenu.add(openDocumentsAction);
-		dataMenu.add(openShippingsAction);
+		dataMenu.add(openProductsAction);
+		dataMenu.add(openContactsAction);
 		dataMenu.add(openPaymentsAction);
+		dataMenu.add(openShippingsAction);
 		dataMenu.add(openVatsAction);
 		dataMenu.add(openTextsAction);
 		dataMenu.add(openListsAction);
 		dataMenu.add(openExpendituresAction);
 
 		// create menu
-		newMenu.add(newProductAction);
-		newMenu.add(newContactAction);
-		newMenu.add(newVatAction);
-		newMenu.add(newShippingAction);
-		newMenu.add(newPaymentAction);
-		newMenu.add(newTextAction);
-		newMenu.add(newListEntryAction);
-		newMenu.add(newExpenditureAction);
-		newMenu.add(new Separator());
 		newMenu.add(newLetterAction);
 		newMenu.add(newOfferAction);
 		newMenu.add(newOrderAction);
@@ -425,9 +462,23 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newMenu.add(newDeliveryAction);
 		newMenu.add(newCreditAction);
 		newMenu.add(newDunningAction);
+
+		newMenu.add(new Separator());
+
+		newMenu.add(newProductAction);
+		newMenu.add(newContactAction);
+		newMenu.add(newPaymentAction);
+		newMenu.add(newShippingAction);
+		newMenu.add(newVatAction);
+		newMenu.add(newTextAction);
+		newMenu.add(newListEntryAction);
+		newMenu.add(newExpenditureAction);
 		
 		// window menu
 		windowMenu.add(resetViewAction);
+		windowMenu.add(new Separator());
+		windowMenu.add(openCalculatorAction);
+		
 
 		// Help menu
 		helpMenu.add(openBrowserEditorAction);
@@ -510,83 +561,83 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		toolbar1.add(saveCI);
 
 		if (screenWidth > 1024) {
-			newLetterAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/letter_new_32.png"));
+			newLetterActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/letter_new_32.png"));
 			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-			newLetterAction.setText(_("Letter", "TOOLBAR"));
-			ActionContributionItem newLetterCI = new ActionContributionItem(newLetterAction);
+			newLetterActionTB.setText(_("Letter", "TOOLBAR"));
+			ActionContributionItem newLetterCI = new ActionContributionItem(newLetterActionTB);
 			newLetterCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 			toolbar2.add(newLetterCI);
 		}
 
-		newOfferAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/offer_new_32.png"));
+		newOfferActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/offer_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newOfferAction.setText(_("Offer", "TOOLBAR"));
-		ActionContributionItem newOfferCI = new ActionContributionItem(newOfferAction);
+		newOfferActionTB.setText(_("Offer", "TOOLBAR"));
+		ActionContributionItem newOfferCI = new ActionContributionItem(newOfferActionTB);
 		newOfferCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newOfferCI);
 
-		newOrderAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/order_new_32.png"));
+		newOrderActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/order_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newOrderAction.setText(_("Order", "TOOLBAR"));
-		ActionContributionItem newOrderCI = new ActionContributionItem(newOrderAction);
+		newOrderActionTB.setText(_("Order", "TOOLBAR"));
+		ActionContributionItem newOrderCI = new ActionContributionItem(newOrderActionTB);
 		newOrderCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newOrderCI);
 
-		newConfirmationAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/confirmation_new_32.png"));
+		newConfirmationActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/confirmation_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newConfirmationAction.setText(_("Confirmation", "TOOLBAR"));
-		ActionContributionItem newConfirmationCI = new ActionContributionItem(newConfirmationAction);
+		newConfirmationActionTB.setText(_("Confirmation", "TOOLBAR"));
+		ActionContributionItem newConfirmationCI = new ActionContributionItem(newConfirmationActionTB);
 		newConfirmationCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newConfirmationCI);
 
-		newInvoiceAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/invoice_new_32.png"));
+		newInvoiceActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/invoice_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newInvoiceAction.setText(_("Invoice", "TOOLBAR"));
-		ActionContributionItem newInvoiceCI = new ActionContributionItem(newInvoiceAction);
+		newInvoiceActionTB.setText(_("Invoice", "TOOLBAR"));
+		ActionContributionItem newInvoiceCI = new ActionContributionItem(newInvoiceActionTB);
 		newInvoiceCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newInvoiceCI);
 
-		newDeliveryAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/delivery_new_32.png"));
+		newDeliveryActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/delivery_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newDeliveryAction.setText(_("Delivery", "TOOLBAR"));
-		ActionContributionItem newDeliveryCI = new ActionContributionItem(newDeliveryAction);
+		newDeliveryActionTB.setText(_("Delivery", "TOOLBAR"));
+		ActionContributionItem newDeliveryCI = new ActionContributionItem(newDeliveryActionTB);
 		newDeliveryCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newDeliveryCI);
 
-		newCreditAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/credit_new_32.png"));
+		newCreditActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/credit_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newCreditAction.setText(_("Credit", "TOOLBAR"));
-		ActionContributionItem newCreditCI = new ActionContributionItem(newCreditAction);
+		newCreditActionTB.setText(_("Credit", "TOOLBAR"));
+		ActionContributionItem newCreditCI = new ActionContributionItem(newCreditActionTB);
 		newCreditCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newCreditCI);
 
 		if (screenWidth > 1024) {
-			newDunningAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
+			newDunningActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
 			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-			newDunningAction.setText(_("Dunning", "TOOLBAR"));
-			ActionContributionItem newDunningCI = new ActionContributionItem(newDunningAction);
+			newDunningActionTB.setText(_("Dunning", "TOOLBAR"));
+			ActionContributionItem newDunningCI = new ActionContributionItem(newDunningActionTB);
 			newDunningCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 			toolbar2.add(newDunningCI);
 		}
 
-		newContactAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/contact_new_32.png"));
+		newProductActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/product_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newContactAction.setText(_("Contact", "TOOLBAR"));
-		ActionContributionItem newContactCI = new ActionContributionItem(newContactAction);
-		newContactCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newContactCI);
-
-		newProductAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/product_new_32.png"));
-		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newProductAction.setText(_("Product", "TOOLBAR"));
-		ActionContributionItem newProductCI = new ActionContributionItem(newProductAction);
+		newProductActionTB.setText(_("Product", "TOOLBAR"));
+		ActionContributionItem newProductCI = new ActionContributionItem(newProductActionTB);
 		newProductCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newProductCI);
 
-		newExpenditureAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_new_32.png"));
+		newContactActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/contact_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newExpenditureAction.setText(_("Voucher", "TOOLBAR"));
-		ActionContributionItem newExpenditureCI = new ActionContributionItem(newExpenditureAction);
+		newContactActionTB.setText(_("Contact", "TOOLBAR"));
+		ActionContributionItem newContactCI = new ActionContributionItem(newContactActionTB);
+		newContactCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		toolbar2.add(newContactCI);
+
+		newExpenditureActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_new_32.png"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newExpenditureActionTB.setText(_("Voucher", "TOOLBAR"));
+		ActionContributionItem newExpenditureCI = new ActionContributionItem(newExpenditureActionTB);
 		newExpenditureCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newExpenditureCI);
 
@@ -597,10 +648,10 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		openBrowserEditorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar3.add(openBrowserEditorCI);
 
-		openCalculatorAction.setImageDescriptor(Activator.getImageDescriptor("/icons/32/calculator_32.png"));
+		openCalculatorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/calculator_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		openCalculatorAction.setText(_("Calculator", "TOOLBAR"));
-		ActionContributionItem openCalculatorCI = new ActionContributionItem(openCalculatorAction);
+		openCalculatorActionTB.setText(_("Calculator", "TOOLBAR"));
+		ActionContributionItem openCalculatorCI = new ActionContributionItem(openCalculatorActionTB);
 		openCalculatorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar3.add(openCalculatorCI);
 
