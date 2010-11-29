@@ -104,7 +104,7 @@ public class NewDocumentAction extends NewEditorAction {
 	private void setDocumentType(DocumentType documentType) {
 
 		category = documentType.getString();
-		setText(documentType.getString());
+		setText(documentType.getNewText());
 		String iconSizeString = "_" + Integer.toString(iconSize);
 		if (iconSize == 32)
 			iconSizeString = "_new" + iconSizeString;
