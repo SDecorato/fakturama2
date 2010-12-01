@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-11-28 10:28+0100\n"
-"PO-Revision-Date: 2010-11-28 10:29+0100\n"
+"POT-Creation-Date: 2010-12-01 12:54+0100\n"
+"PO-Revision-Date: 2010-12-01 12:56+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -681,7 +681,7 @@ msgstr "Kategorie"
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:540
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1167
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1178
 #: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:544
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:84
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewExpenditureTable.java:67
@@ -710,7 +710,7 @@ msgstr "Lieferant"
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/exportsales/SalesExporter.java:548
 #: ../src/com/sebulli/fakturama/editors/TextEditor.java:240
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1671
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1682
 #: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:682
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewTextTable.java:68
 #: ../src/com/sebulli/fakturama/dialogs/SelectTextDialog.java:69
@@ -817,7 +817,7 @@ msgstr "Kontennummern"
 
 #. T: Mark a paid document with this text.
 #: ../src/com/sebulli/fakturama/data/DataSetDocument.java:225
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1930
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1941
 #: ../src/com/sebulli/fakturama/views/datasettable/UniDataSetTableColumn.java:341
 #: ../src/com/sebulli/fakturama/views/datasettable/UniDataSetTableColumn.java:350
 msgid "paid"
@@ -875,7 +875,7 @@ msgstr "Auftragsbestätigung"
 
 #. T: Type of the document (singular)
 #: ../src/com/sebulli/fakturama/data/DocumentType.java:154
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1273
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1284
 msgid "Invoice"
 msgstr "Rechnung"
 
@@ -1004,7 +1004,7 @@ msgstr "Siehe Einstellungen/Nummernkreise."
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:256
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:355
 #: ../src/com/sebulli/fakturama/editors/VatEditor.java:245
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1624
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1635
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:77
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewShippingTable.java:74
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewVatTable.java:77
@@ -1024,8 +1024,8 @@ msgstr "Artikelnummer"
 #: ../src/com/sebulli/fakturama/editors/ListEditor.java:268
 #: ../src/com/sebulli/fakturama/editors/VatEditor.java:219
 #: ../src/com/sebulli/fakturama/editors/TextEditor.java:214
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1556
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1621
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1567
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1632
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:75
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:86
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewListTable.java:65
@@ -1055,8 +1055,8 @@ msgstr "Zusätzliche Beschreibung. In Einstellungen/Dokumente kann festgelegt we
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:528
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1644
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1648
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1655
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1659
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewProductTable.java:84
 #: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:77
 #: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:80
@@ -1078,10 +1078,13 @@ msgid "from"
 msgstr "ab"
 
 #. T: Used as heading of a table. Keep the word short.
+#. T: Document Editor - Label VAT
+#. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:603
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:414
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1290
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1628
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1301
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1639
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1914
 #: ../src/com/sebulli/fakturama/editors/ExpenditureEditor.java:688
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewProductTable.java:86
 #: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:82
@@ -1145,8 +1148,11 @@ msgid "The description is the text used in the documents"
 msgstr "Diese Beschreibung wird als Text auf den Dokumenten verwendet"
 
 #. T: Used as heading of a table. Keep the word short.
+#. T: Document Editor - Label discount
+#. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:269
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1640
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1651
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1788
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:79
 msgid "Discount"
 msgstr "Rabatt"
@@ -1256,7 +1262,7 @@ msgstr "Ein Kategorie kann angegeben werden, um Versandarten zu gruppieren."
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:369
 #: ../src/com/sebulli/fakturama/editors/ListEditor.java:277
 #: ../src/com/sebulli/fakturama/editors/VatEditor.java:258
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:974
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:985
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewListTable.java:67
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewShippingTable.java:76
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewVatTable.java:79
@@ -1384,7 +1390,7 @@ msgstr "Neuer Kontakt"
 
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:468
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:550
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1401
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1412
 msgid "Address"
 msgstr "Adresse"
 
@@ -1575,7 +1581,7 @@ msgstr "Einen Text eingeben. Dieser kann später als Vorlage benutzt werden. Zum
 
 #. T: Title of the dialog that appears if the document number is not valid.
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:217
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:2022
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:2033
 msgid "Error in document number"
 msgstr "Fehler in Dokumentennummer"
 
@@ -1585,246 +1591,238 @@ msgid "Document number is not the next free one:"
 msgstr "Dokumentennummer ist nicht die nächste freie:"
 
 #. T: Title of the dialog that appears if the document is assigned to  an other address.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:285
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:296
 msgid "Please verify"
 msgstr "Bitte überprüfen"
 
 #. T: Text of the dialog that appears if the document is assigned to  an other address.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:288
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:299
 msgid "This document is assiged to the contact:"
 msgstr "Dieses Dokument ist mit folgender Adresse verbunden:"
 
 #. T: Text of the dialog that appears if the document is assigned to  an other address.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:290
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:301
 msgid "You have entered a different one."
 msgstr "Sie haben eine abweichende Adresse eingegeben."
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:956
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:967
 msgid "Date of the payment"
 msgstr "Datum der Bezahlung"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:976
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:987
 msgid "The paid value"
 msgstr "Die Zahlbetrag"
 
 #. T: Document Editor - Label before the Text Field "Due Days".
 #. T: Format: THIS LABEL <DAYS> PAYABLE UNTIL <ISSUE DATE>
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1004
-msgid "Due Days:"
-msgstr "zahlbar in:"
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1015
+msgid "Due Days"
+msgstr "zahlbar in"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1006
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1017
 msgid "Please pay the invoice within those days"
 msgstr "Bitte die Rechnung innerhalb diesen Tagen bezahlen"
 
 #. T: Document Editor - Label between the Text Field "Due Days" and the Date Field "Issue Date"
 #. T: Format:  DUE DAYS: <DAYS> THIS LABEL <ISSUE DATE>
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1036
-msgid "Pay Until:"
-msgstr "Tagen bis zum:"
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1047
+msgid "Pay Until"
+msgstr "Tagen bis zum"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1038
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1049
 msgid "Please pay the invoice before this date"
 msgstr "Bitte die Rechnung bis zu diesem Datum bezahlen"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1083
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1094
 msgid "Different billing address !"
 msgstr "Unterschiedliche Rechnungsadresse !"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1088
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1099
 msgid "Different delivery address !"
 msgstr "Unterschiedliche Lieferadresse !"
 
 #. T: Document Editor - Label Document Number
 #. T: Used as heading of a table. Keep the word short.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1144
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1155
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewContactTable.java:71
 msgid "No."
 msgstr "Nr."
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1146
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1157
 msgid "Reference number of this document. Next document number and the format can be set unter preferences/number range"
 msgstr "Dokumentennummer. Die nächste freie Nummer und das Zahlenformat können unter Einstellungen/Nummernkreise festgelegt werden"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1169
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1180
 msgid "The document's date"
 msgstr "Datum des Dokumentes"
 
 #. T: Document Editor - Label Customer Reference
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1224
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1235
 msgid "Cust.Ref."
 msgstr "Kundenreferenz"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1226
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1237
 msgid "Customer's reference. E.g.: Your order No.0001"
 msgstr "Kunden Referenznummer. Zum Beispiel 'Ihre Bestellung Nr.0001'"
 
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1247
-msgid "Order Date:"
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1258
+msgid "Order Date"
 msgstr "Bestelldatum"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1249
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1260
 msgid "Date when the order was placed"
 msgstr "Datum der Bestellung"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1275
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1286
 msgid "Number of the Invoice that belongs to this document."
 msgstr "Rechnungsnummer, die zu dem Vorgang dieses Dokumentes gehört"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1292
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1303
 msgid "If this document is set to a tax rate with 0%, all the items of the document are calculated with 0% tax."
 msgstr "Wenn der Steuersatz dieses Dokumentes auf 0% gesetzt wird, werden alle Artikel mit 0% berechnet."
 
 #. T: Document Editor
 #. T: Label Group box to create a new document based on this one.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1351
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1362
 msgid "Create a duplicate"
 msgstr "Duplikat erzeugen"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1407
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1418
 msgid "Pick an address from the list of all contacts"
 msgstr "Eine Adresse aus der Liste der Kontakte auswählen"
 
 #. T: Document Editor
 #. T: Title of the dialog to select the address
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1423
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1434
 msgid "Select the address"
 msgstr "Adresse auswählen"
 
 #. T: Document Editor
 #. T: Label items
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1493
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1504
 msgid "Items"
 msgstr "Artikel"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1499
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1510
 msgid "Pick an item from the list of all products"
 msgstr "Einen Artikel aus der Liste aller Produkte auswählen"
 
 #. T: Document Editor
 #. T: Title of the dialog to select a product
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1516
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1527
 msgid "Select a product"
 msgstr "Artikel auswählen"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1539
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1550
 msgid "Add a new item with default name and quantity '1'"
 msgstr "Einen neuen Artikel mit Anzahl '1' anlegen"
 
 #. T: Used as heading of a table. Keep the word short.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1556
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1618
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1567
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1629
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewProductTable.java:69
 #: ../src/com/sebulli/fakturama/dialogs/SelectProductDialog.java:70
 msgid "Item No."
 msgstr "Artikelnummer"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1571
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1582
 msgid "Delete the selected item from the list of items"
 msgstr "Die ausgewählten Artikel löschen"
 
 #. T: Used as heading of a table. Keep the word short.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1614
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1625
 msgid "Qty."
 msgstr "Anzahl"
 
 #. T: Unit Price.
 #. T: Used as heading of a table. Keep the word short.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1633
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1637
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1644
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1648
 msgid "U.Price"
 msgstr "E-Preis"
 
 #. T: Document Editor Label for the text field under the item table.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1664
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1675
 msgid "Remarks"
 msgstr "Bemerkung"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1666
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1677
 msgid "Enter an additional text that will be placed under the list of items."
 msgstr "Einen zusätzlichen Text eingeben, der unter der Artikelliste erscheint."
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1673
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1684
 msgid "Enter the text that will be placed in the document."
 msgstr "Einen Text eingeben, der im Dokument erscheint."
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1681
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1692
 msgid "Select one of the text templates in of the list of texts"
 msgstr "Einen Text aus den Vorlagen auswählen"
 
 #. T: Document Editor
 #. T: Title of the dialog to select a text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1697
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1708
 msgid "Select a text"
 msgstr "Text auswählen"
 
 #. T: Document Editor - Label Total gross
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1763
-msgid "Total Gross:"
-msgstr "Summe Brutto:"
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1774
+msgid "Total Gross"
+msgstr "Summe Brutto"
 
 #. T: Document Editor - Label Total net
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1766
-msgid "Total Net:"
-msgstr "Summe Netto:"
-
-#. T: Document Editor - Label discount
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1777
-msgid "Discount:"
-msgstr "Rabatt"
+msgid "Total Net"
+msgstr "Summe Netto"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1779
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1790
 #, c-format
 msgid "Enter a discount value in % for all items."
 msgstr "Einen Rabatt in % auf die Artikel eingeben."
 
 #. T: Document Editor - Label shipping
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1821
-msgid "Shipping:"
-msgstr "Versand:"
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1832
+msgid "Shipping"
+msgstr "Versand"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1824
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1835
 msgid "It's possible to enter a different shipping value than those of the selected shipping entry"
 msgstr "Es es möglich, einen Versandkostenbetrag einzugeben, der von der ausgewählten Versandart abweicht"
 
-#. T: Document Editor - Label VAT
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1903
-msgid "VAT:"
-msgstr "MwSt.:"
-
 #. T: Document Editor - Total sum of this document
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1914
-msgid "Total:"
-msgstr "Gesamt:"
+#. T: Used as heading of a table. Keep the word short.
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1925
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:90
+msgid "Total"
+msgstr "Gesamt"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1932
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1943
 msgid "Check this, if the invoice is paid"
 msgstr "Hier anwählen, wenn die Rechnung bezahlt wurde"
 
 #. T: Text of the dialog that appears if the customer number is not valid.
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:2025
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:2036
 msgid "There is already a document with the number:"
 msgstr "Es gibt bereits ein Dokument mit der Nummer:"
 
@@ -1919,186 +1917,202 @@ msgid "The total value of the voucher (without discount)."
 msgstr "Gesamtbetrag des Beleges (ohne Skonto)."
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:159
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:172
 msgid "Export.."
 msgstr "Exportieren.."
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:164
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:178
 msgid "Import.."
 msgstr "Importieren.."
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:169
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:183
 msgid "Preferences"
 msgstr "Einstellungen"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:174
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:188
 msgid "Quit Fakturama"
 msgstr "Fakturama beenden"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:179
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:193
 msgid "Print"
 msgstr "Drucken"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:184
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:458
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:198
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:550
 msgctxt "TOOLBAR"
 msgid "Print"
 msgstr "Drucken"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:189
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:203
 msgid "Close"
 msgstr "Schließen"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:194
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:208
 msgid "Close All"
 msgstr "Alle schließen"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:199
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:213
 msgid "Save"
 msgstr "Speichern"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:207
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:221
 msgid "Save All"
 msgstr "Alle speichern"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:212
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:228
 msgid "About Fakturama"
 msgstr "Über Fakturama"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:217
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:233
 msgid "Help Contents"
 msgstr "Hilfe / Handbuch"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:222
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:238
 msgid "Search"
 msgstr "Suchen"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:227
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:243
 msgid "Dynamic Help"
 msgstr "Dynamische Hilfe"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:232
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:248
 msgid "Show Intro"
 msgstr "Zeige Intro"
 
 #. T: Text of the actions in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:238
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:254
 msgid "Reset Perspective"
 msgstr "Perspektive zurücksetzen"
 
 #. T: Title of the menus in the main menu
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:346
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:392
 msgid "File"
 msgstr "Datei"
 
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:347
+#. T: Title of the menus in the main menu
+#. T: Title of an expand bar in the navigations view
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:394
+#: ../src/com/sebulli/fakturama/views/NavigationView.java:71
+msgid "Data"
+msgstr "Daten"
+
+#. T: Title of the menus in the main menu
+#. T: Title of an expand bar in the navigations view
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:396
+#: ../src/com/sebulli/fakturama/views/NavigationView.java:86
+msgid "New"
+msgstr "Neu erzeugen"
+
+#. T: Title of the menus in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:398
 msgid "Window"
 msgstr "Fenster"
 
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:348
+#. T: Title of the menus in the main menu
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:400
 msgid "Help"
 msgstr "Hilfe"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:450
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:542
 msgctxt "TOOLBAR"
 msgid "Web Shop"
 msgstr "Webshop"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:466
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:558
 msgctxt "TOOLBAR"
 msgid "Save"
 msgstr "Speichern"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:474
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:566
 msgctxt "TOOLBAR"
 msgid "Letter"
 msgstr "Brief"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:482
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:574
 msgctxt "TOOLBAR"
 msgid "Offer"
 msgstr "Angebot"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:489
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:581
 msgctxt "TOOLBAR"
 msgid "Order"
 msgstr "Bestellung"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:496
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:588
 msgctxt "TOOLBAR"
 msgid "Confirmation"
 msgstr "Auftragsb."
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:503
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:595
 msgctxt "TOOLBAR"
 msgid "Invoice"
 msgstr "Rechnung"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:510
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:602
 msgctxt "TOOLBAR"
 msgid "Delivery"
 msgstr "Lieferschein"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:517
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:609
 msgctxt "TOOLBAR"
 msgid "Credit"
 msgstr "Gutschr."
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:525
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:617
 msgctxt "TOOLBAR"
 msgid "Dunning"
 msgstr "Mahnung"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:533
-msgctxt "TOOLBAR"
-msgid "Contact"
-msgstr "Kontakt"
-
-#. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:540
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:625
 msgctxt "TOOLBAR"
 msgid "Product"
 msgstr "Produkt"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:547
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:632
+msgctxt "TOOLBAR"
+msgid "Contact"
+msgstr "Kontakt"
+
+#. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:639
 msgctxt "TOOLBAR"
 msgid "Voucher"
 msgstr "Beleg"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:554
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:646
 msgctxt "TOOLBAR"
 msgid "www"
 msgstr "www"
 
 #. T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:561
+#: ../src/com/sebulli/fakturama/ApplicationActionBarAdvisor.java:653
 msgctxt "TOOLBAR"
 msgid "Calculator"
 msgstr "Rechner"
@@ -2112,19 +2126,9 @@ msgstr "Importieren"
 msgid "Import data into Fakturama"
 msgstr "Daten in Fakturama importieren"
 
-#. T: Title of an expand bar in the navigations view
-#: ../src/com/sebulli/fakturama/views/NavigationView.java:71
-msgid "Data"
-msgstr "Daten"
-
 #: ../src/com/sebulli/fakturama/views/NavigationView.java:72
 msgid "Data like documents, products ... "
 msgstr "Daten wie Dokumente, Produkte ..."
-
-#. T: Title of an expand bar in the navigations view
-#: ../src/com/sebulli/fakturama/views/NavigationView.java:86
-msgid "New"
-msgstr "Neu erzeugen"
 
 #: ../src/com/sebulli/fakturama/views/NavigationView.java:87
 msgid "Create new documents, products, contacts .. "
@@ -2179,11 +2183,6 @@ msgstr "Dokument"
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:88
 msgid "State"
 msgstr "Status"
-
-#. T: Used as heading of a table. Keep the word short.
-#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:90
-msgid "Total"
-msgstr "Gesamt"
 
 #. T: Marking of a dunning in the document table.
 #. T: Format: "Dunning No. xx"
@@ -2763,6 +2762,12 @@ msgstr ""
 "Zum Wechsel des Arbeitsverzeichnisses\n"
 "wird Fakturama neu gestartet!"
 
+#~ msgid "Discount:"
+#~ msgstr "Rabatt"
+#~ msgid "VAT:"
+#~ msgstr "MwSt.:"
+#~ msgid "Total:"
+#~ msgstr "Gesamt:"
 #~ msgid "Type"
 #~ msgstr "Art"
 
