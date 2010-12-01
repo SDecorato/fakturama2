@@ -260,7 +260,13 @@ public class DocumentEditor extends Editor {
 			if (!document.getStringValueByKey("deliveryaddress").equals(txtAddress.getText()))
 				addressModified = true;
 			document.setStringValueByKey("deliveryaddress", txtAddress.getText());
-			document.setStringValueByKey("address", billingAddress);
+
+			// Use the billing address, if the delivery address is empty
+			if (!billingAddress.isEmpty())
+				document.setStringValueByKey("address", billingAddress);
+			else
+				document.setStringValueByKey("address", txtAddress.getText());
+				
 
 			if (addressId > 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(true);
@@ -269,7 +275,12 @@ public class DocumentEditor extends Editor {
 			if (!document.getStringValueByKey("address").equals(txtAddress.getText()))
 				addressModified = true;
 			document.setStringValueByKey("address", txtAddress.getText());
-			document.setStringValueByKey("deliveryaddress", deliveryAddress);
+
+			// Use the delivery address, if the billing address is empty
+			if (!deliveryAddress.isEmpty())
+				document.setStringValueByKey("deliveryaddress", deliveryAddress);
+			else
+				document.setStringValueByKey("deliveryaddress", txtAddress.getText());
 
 			if (addressId > 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(false);
