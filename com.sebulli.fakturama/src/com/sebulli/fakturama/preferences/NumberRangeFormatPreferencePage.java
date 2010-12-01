@@ -108,7 +108,7 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Customer" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_CONTACT_FORMAT", _("CUST{6nr}"));
 		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Product/Item" with {6nr} for a 6 digits number
-		node.put("NUMBERRANGE_PRODUCT_FORMAT", _("PROD{6nr}"));
+		node.put("NUMBERRANGE_PRODUCT_FORMAT", _("PROD{5nr}"));
 		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Invoice" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_INVOICE_FORMAT", _("INV{6nr}"));
 		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Delivery Note" with {6nr} for a 6 digits number

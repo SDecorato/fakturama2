@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.webshopimport.WebShopImportPreferencePage;
 
 /**
  * Initializes the preference pages with default values

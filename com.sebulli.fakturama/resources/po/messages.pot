@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-12-01 12:54+0100\n"
+"POT-Creation-Date: 2010-12-01 19:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,7 +117,7 @@ msgstr ""
 
 #. T: Preference page "Number Range Format" - Default value: Abbreviation for "Product/Item" with {6nr} for a 6 digits number
 #: ../src/com/sebulli/fakturama/preferences/NumberRangeFormatPreferencePage.java:111
-msgid "PROD{6nr}"
+msgid "PROD{5nr}"
 msgstr ""
 
 #. T: Preference page "Number Range Format" - Default value: Abbreviation for "Invoice" with {6nr} for a 6 digits number
@@ -358,6 +358,68 @@ msgstr ""
 #. T: Error message if the selected folder is not a valid OpenOffice folder
 #: ../src/com/sebulli/fakturama/preferences/AppFieldEditor.java:120
 msgid "Not a valid OpenOffice program folder"
+msgstr ""
+
+#. T: Preference page "Contact" - Label checkbox "Use delivery address"
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:52
+msgid "Web shop enabled"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Label
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:55
+msgid "Webshop URL"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Label
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:58
+msgid "Username"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Label
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:61
+msgid "Password"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Label
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:66
+msgid "Products in category:"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Label
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:69
+msgid "Customers in category:"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Label
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:72
+msgid "Shippings in category:"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Label
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:75
+msgid "Notify customer on 'In Work'"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Label
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:77
+msgid "Notify customer on 'Shipped'"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Title
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:89
+msgid "Import from web shop"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Default value "Product Category"
+#. T: Preference page "Web Shop Import" - Default value "Shipping Category"
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:122
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:126
+msgid "Shop"
+msgstr ""
+
+#. T: Preference page "Web Shop Import" - Default value "Contact Category"
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:124
+msgid "Shop Customer"
 msgstr ""
 
 #. T: Preference page "Product" - Label "Use item No."
@@ -2682,68 +2744,6 @@ msgstr ""
 #. T: Status message importing data from web shop
 #: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1217
 msgid "Importing orders"
-msgstr ""
-
-#. T: Preference page "Contact" - Label checkbox "Use delivery address"
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:53
-msgid "Web shop enabled"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Label
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:56
-msgid "Webshop URL"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Label
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:59
-msgid "Username"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Label
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:62
-msgid "Password"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Label
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:67
-msgid "Products in category:"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Label
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:70
-msgid "Customers in category:"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Label
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:73
-msgid "Shippings in category:"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Label
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:76
-msgid "Notify customer on 'In Work'"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Label
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:78
-msgid "Notify customer on 'Shipped'"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Title
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:90
-msgid "Import from web shop"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Default value "Product Category"
-#. T: Preference page "Web Shop Import" - Default value "Shipping Category"
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:123
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:127
-msgid "Shop"
-msgstr ""
-
-#. T: Preference page "Web Shop Import" - Default value "Contact Category"
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportPreferencePage.java:125
-msgid "Shop Customer"
 msgstr ""
 
 #. T: Templates folder name

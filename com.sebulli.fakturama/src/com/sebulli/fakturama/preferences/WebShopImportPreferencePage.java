@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.webshopimport;
+package com.sebulli.fakturama.preferences;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -24,7 +24,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
 /**
  * Preference page for the webshop settings
