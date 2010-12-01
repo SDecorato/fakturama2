@@ -1012,7 +1012,7 @@ public class DocumentEditor extends Editor {
 
 			//T: Document Editor - Label before the Text Field "Due Days".
 			//T: Format: THIS LABEL <DAYS> PAYABLE UNTIL <ISSUE DATE>
-			dueDaysLabel.setText(_("Due Days:"));
+			dueDaysLabel.setText(_("Due Days"));
 			//T: Tool Tip Text
 			dueDaysLabel.setToolTipText(_("Please pay the invoice within those days"));
 
@@ -1044,7 +1044,7 @@ public class DocumentEditor extends Editor {
 
 			//T: Document Editor - Label between the Text Field "Due Days" and the Date Field "Issue Date" 
 			//T: Format:  DUE DAYS: <DAYS> THIS LABEL <ISSUE DATE>
-			issueDateLabel.setText(_("Pay Until:"));
+			issueDateLabel.setText(_("Pay Until"));
 			//T: Tool Tip Text
 			issueDateLabel.setToolTipText(_("Please pay the invoice before this date"));
 
@@ -1255,7 +1255,7 @@ public class DocumentEditor extends Editor {
 
 		// Order date
 		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
-		labelOrderDate.setText(_("Order Date:"));
+		labelOrderDate.setText(_("Order Date"));
 		//T: Tool Tip Text
 		labelOrderDate.setToolTipText(_("Date when the order was placed"));
 
@@ -1281,11 +1281,11 @@ public class DocumentEditor extends Editor {
 
 		// A reference to the invoice
 		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
-		labelInvoiceRef.setText(_("Invoice")+":");
+		labelInvoiceRef.setText(_("Invoice"));
 		//T: Tool Tip Text
 		labelInvoiceRef.setToolTipText(_("Number of the Invoice that belongs to this document."));
 
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(labelInvoiceRef);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.BOTTOM).applyTo(labelInvoiceRef);
 		txtInvoiceRef = new Text(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.BORDER);
 		txtInvoiceRef.setToolTipText(labelInvoiceRef.getToolTipText());
 		int invoiceId = document.getIntValueByKey("invoiceid");
@@ -1298,11 +1298,11 @@ public class DocumentEditor extends Editor {
 
 		// This document should use a VAT of 0%
 		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
-		labelNoVat.setText(_("VAT") +":");
+		labelNoVat.setText(_("VAT") );
 		//T: Tool Tip Text
 		labelNoVat.setToolTipText(_("If this document is set to a tax rate with 0%, all the items of the document are calculated with 0% tax."));
 
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelNoVat);
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNoVat);
 
 		// combo list with all 0% VATs
 		comboNoVat = new Combo(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.BORDER);
@@ -1771,10 +1771,10 @@ public class DocumentEditor extends Editor {
 			Label netLabel = new Label(totalComposite, SWT.NONE);
 			if (useGross)
 				//T: Document Editor - Label Total gross 
-				netLabel.setText(_("Total Gross:"));
+				netLabel.setText(_("Total Gross"));
 			else
 				//T: Document Editor - Label Total net 
-				netLabel.setText(_("Total Net:"));
+				netLabel.setText(_("Total Net"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(netLabel);
 
 			// Sub total
@@ -1785,7 +1785,7 @@ public class DocumentEditor extends Editor {
 			// Label discount
 			Label discountLabel = new Label(totalComposite, SWT.NONE);
 			//T: Document Editor - Label discount 
-			discountLabel.setText(_("Discount:"));
+			discountLabel.setText(_("Discount"));
 			//T: Tool Tip Text
 			discountLabel.setToolTipText(_("Enter a discount value in % for all items."));
 
@@ -1829,7 +1829,7 @@ public class DocumentEditor extends Editor {
 			// Shipping label
 			Label shippingLabel = new Label(shippingComposite, SWT.NONE);
 			//T: Document Editor - Label shipping 
-			shippingLabel.setText(_("Shipping:"));
+			shippingLabel.setText(_("Shipping"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(shippingLabel);
 			//T: Tool Tip Text
 			shippingLabel.setToolTipText(_("It's possible to enter a different shipping value than those of the selected shipping entry"));
@@ -1911,7 +1911,7 @@ public class DocumentEditor extends Editor {
 			// VAT label
 			Label vatLabel = new Label(totalComposite, SWT.NONE);
 			//T: Document Editor - Label VAT 
-			vatLabel.setText(_("VAT:"));
+			vatLabel.setText(_("VAT"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(vatLabel);
 
 			// VAT value
@@ -1922,7 +1922,7 @@ public class DocumentEditor extends Editor {
 			// Total label
 			Label totalLabel = new Label(totalComposite, SWT.NONE);
 			//T: Document Editor - Total sum of this document 
-			totalLabel.setText(_("Total:"));
+			totalLabel.setText(_("Total"));
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(totalLabel);
 
 			// Total value

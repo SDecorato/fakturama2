@@ -255,7 +255,14 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 		// replace "{Xnr}" with "%0Xd"
 		if (m.find()) {
 			nrExp = format.substring(m.start(), m.end());
-			nrExp = "%0" + nrExp.substring(1, nrExp.length() - 3) + "d";
+			int nrExpLength = nrExp.length();
+			if (nrExpLength > 4 ) {
+				nrExp = "%0" + nrExp.substring(1, nrExp.length() - 3) + "d";
+			}
+			else {
+				nrExp = "%d";
+			}
+		
 			format = m.replaceFirst(nrExp);
 		}
 
