@@ -490,7 +490,7 @@
             name="%page.numberrange.format">
       </page>
       <page
-            class="com.sebulli.fakturama.webshopimport.WebShopImportPreferencePage"
+            class="com.sebulli.fakturama.preferences.WebShopImportPreferencePage"
             id="com.sebulli.fakturama.webshopimport.webShopImportPreferencePage"
             name="%page.webshop">
       </page>
