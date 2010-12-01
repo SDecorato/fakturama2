@@ -21,7 +21,17 @@
 		<topic label="Gruppe Sonstiges"  href="html/application/navigationbar_misc.html"></topic>
 	</topic>
 
-	<topic label="Editorfenster"  href="html/application/editor.html"></topic>
+	<topic label="Editorfenster"  href="html/editor/main.html">
+		<topic label="Dokumenteneditor"  href="html/editor/editor_document.html"></topic>
+		<topic label="Produkteditor"  href="html/editor/editor_product.html"></topic>
+		<topic label="Kontakteditor"  href="html/editor/editor_contact.html"></topic>
+		<topic label="Editor Zahlmedthoden"  href="html/editor/editor_payment.html"></topic>
+		<topic label="Editor Versandarten"  href="html/editor/editor_shipping.html"></topic>
+		<topic label="Editor Steuersätze"  href="html/editor/editor_vat.html"></topic>
+		<topic label="Editor Text"  href="html/editor/editor_text.html"></topic>
+		<topic label="Editor Listeneintrag"  href="html/editor/editor_list.html"></topic>
+		<topic label="Editor Ausgabenbeleg"  href="html/editor/editor_expenditure.html"></topic>
+	</topic>
 
 	<topic label="Übersichtsfenster"  href="html/application/overview.html"></topic>
 
