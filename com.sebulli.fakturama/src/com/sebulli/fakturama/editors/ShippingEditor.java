@@ -379,27 +379,25 @@ public class ShippingEditor extends Editor {
 		// Create a net label
 		if (useNet) {
 			Label netValueLabel = new Label(netGrossComposite, SWT.NONE);
-			netValueLabel.setText(_("Net Value"));
+			netValueLabel.setText(_("Net"));
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(netValueLabel);
 		}
 
 		// Create a gross label
 		if (useGross) {
 			Label grossValueLabel = new Label(netGrossComposite, SWT.NONE);
-			grossValueLabel.setText(_("Gross Value"));
+			grossValueLabel.setText(_("Gross"));
 			GridDataFactory.swtDefaults().align(SWT.CENTER, SWT.CENTER).applyTo(grossValueLabel);
 		}
 
 		// Create a net text widget
 		if (useNet) {
 			netText = new NetText(this, netGrossComposite, SWT.BORDER | SWT.RIGHT, net, vat);
-			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(netText.getNetText());
 		}
 
 		// Create a gross text widget
 		if (useGross) {
 			grossText = new GrossText(this, netGrossComposite, SWT.BORDER | SWT.RIGHT, net, vat);
-			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(grossText.getGrossText());
 		}
 
 		// If net and gross were created, link both together
@@ -409,6 +407,18 @@ public class ShippingEditor extends Editor {
 			grossText.setNetText(netText.getNetText());
 		}
 
+
+
+		// Apply the gross text widget
+		if (useGross) {
+			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(grossText.getGrossText());
+		}
+		// Apply the net text widget
+		if (useNet) {
+			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(netText.getNetText());
+		}
+
+		
 		// VAT Label
 		Label labelVat = new Label(top, SWT.NONE);
 		labelVat.setText(_("VAT"));
@@ -472,6 +482,7 @@ public class ShippingEditor extends Editor {
 			vatId = -1;
 		}
 
+		
 		// Create a label for the automatic VAT calculation
 		Label labelAutoVat = new Label(top, SWT.NONE);
 		//T: Shipping Editor: Label VAT Calculation
@@ -481,6 +492,7 @@ public class ShippingEditor extends Editor {
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelAutoVat);
 
+		
 		// Create a combo list box for the automatic VAT calculation
 		comboAutoVat = new Combo(top, SWT.BORDER);
 		//T: Shipping Editor: list entry for "constant VAT calculation"
