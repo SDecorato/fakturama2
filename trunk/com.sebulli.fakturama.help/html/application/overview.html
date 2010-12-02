@@ -3,44 +3,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Das Programm</title>
+	<title>Das Übersichtsfenster</title>
   	<link rel="stylesheet" href="../common/style.css" type="text/css" />
 </head>
 
 <body>
-	<h1>Das Programm</h1>
-	<p>Die Programmoberfläche ist in verschiedenen Bereiche eingeteilt.</p>
-	<img class="icon" src="application.png" alt="" /> <br />
+	<h1>Das Übersichtsfenster</h1>
+	<p>Das Übersichtsfenster stellt alle Datensätze tabellarisch dar.</p>
+	<img class="screenshot" src="overview.png" alt="" /> <br />
 
-	<h2>(1) Die Titelleiste</h2>
-	<p>Das Fakturama Arbeitsverzeichnis wird in der Titelleiste angezeigt.</p>
+	<h2>Der Kategoriebaum</h2>
+	<p>Alle Datensätze können in eine Kategorie eingeordnet werden. 
+	Am linken Rand des Übersichtsfenster erscheint ein Baum mit allen verwendeten Kategorien. 
+	Wird das Element <span class="markedblue">alle</span> ausgewählt, werden alle Datensätze angezeigt.
+	Ist ein Kategorieelement angewählt, erscheinen nur diejenigen Datensätze, die in die gleiche Kategorie
+	eingeordnet wurden.</p>
 
-	<h2>(2) Die Menüleiste</h2>
-	<p>Viele Kommandos können über die Menüleiste aufgerufen werden.
-	Manche sind zusätzlich auch in der Werkzeugleiste oder der Navigationsleiste verfügbar. Einige nur hier.</p>
-	<p class="markedblue">Siehe <a href="menubar.html">Menüleiste</a></p>
+	<h2>Der Kategoriebaum für Dokumente</h2>
+	<p>Der Kategoriebaum für Dokumente unterscheidet sich etwas von dem für andere Datensätze.
+	Dokumente werden je nach Art des Dokumentes automatisch in Kategorien sortiert.</p>
+	<img class="icon" src="document_10.png" alt="" /><br />
+	<p><span class="markedblue">Vorgang.</span> Wird dieses Element ausgewählt, werden diejenigen Dokumente angezeigt,
+	die dem gleichen Vorgang zugeordnet werden können.</p>
+	
+	<img class="icon" src="contact_10.png" alt="" /> <br />
+	<p><span class="markedblue">Name des Kontaktes.</span> Wird dieses Element ausgewählt, werden diejenigen Dokumente angezeigt,
+	die dem gleichen Kontak (Kunde/Lieferant) zugeordnet werden können.</p>
 
-	<h2>(3) Die Werkzeugleiste</h2>
-	<p>Die Kommandos, die am häufigsten benutzt werden sind zusätzlich in der Werkzeugleiste vorhanden.</p>
-	<p class="markedblue">Siehe <a href="toolbar.html">Werkzeugleiste</a></p>
+	<h2>Löschen von Datensätzen</h2>
+	<img class="icon" src="delete_16.png" alt="" /><br />
+	<p>Über diesen Knopf oder über das Kontextmenü (rechte Maustaste) oder mit der Taste <span class="markedblue">Entf</span>
+	kann der ausgewählte Datensatz gelöscht werden.</p>
 
-	<h2>(4) Die Navigationsleiste</h2>
-	<p>Die wichtigsten Vorgänge können aus der Navigationsleiste gestartet werden. Übersichtlich mit Icons versehen und in Gruppen sortiert.
-	Das Verhalten der Navigationsleiste kann in den <a href="../preferences/general.html#preferences_general_navigationbar">Einstellungen</a> festgelegt werden.</p>
-	<p class="markedblue">Siehe <a href="navigationbar.html">Navigationsleiste</a></p>
+	<h2>Hinzufügen eines neuen Datensatzes</h2>
+	<img class="icon" src="plus_16.png" alt="" /><br />
+	<p>Über diesen Knopf oder über das Kontextmenü (rechte Maustaste) kann ein neuer Datensatz hinzugefügt werden.</p>
 
-	<h2>(5) Die Editorfenster</h2>
-	<p>Jedes Produkt, jeder Kontakt oder jedes Dokument kann einem Editorfenster geöffnet und bearbeitet werden.
-	Gleichzeitig können mehrere Editoren geöffnet sein.</p>
-	<p class="markedblue">Siehe <a href="editor.html">Editoren</a></p>
+	<h2>Suchfeld</h2>
+	<img class="screenshot" src="search.png" alt="" /><br />
+	<p>Die Menge der angezeigten Datensätzen lässt sich einschränken. Wird in das Suchfeld eine Zeichenkette eingetragen,
+	so werden nur diejenigen Datensätze angezeigt, die diese beinhalten. Je nach Art des Datensatzes werden unterschiedliche
+	Spalten zur Suche verwendet. Die Spalte <span class="markedblue">Name</span> wird immer verwendet.</p>
+	<p>Ist das Suchfeld leer, werden alle angezeigt.</p>
 
-	<h2>(6) Das Übersichtsfenster</h2>
-	<p>Hier wird tabellarisch eine Übersicht aller Produkte, Kontaktadressen oder Dokumente angezeigt.
-	Ein Eintrag kann angewählt und im Editorfenster zum Bearbeiten geöffnet werden.</p>
-	<p class="markedblue">Siehe <a href="overview.html">Übersichtsfenster</a></p>
-
-	<h2>(7) Die Statusleiste</h2>
-	<p>Die Statusleiste kann den Zustand verschiedener Programmabläufe darstellen.</p>
+	<h2>Tabelle</h2>
+	<p>Die Datensätze sind tabellarisch dargestellt.</p>
+	<img class="screenshot" src="overview_table_heading.png" alt="" /><br />
+	<p>Durch Klicken auf die Kopfzeile der Tabelle lassen sich die Datensätze aufsteigend oder absteigend sortieren.</p>
+	
+	<h2>Tabelle für Dokumente</h2>
+	<img class="screenshot" src="order_status.png" alt="" /><br />
+	<p>Die Tabelle für Dokumente enthält eine Spalte <span class="markedblue">Status</span>.</p>
+	<p>Rechnungen werden als <span class="markedblue">bezahlt</span> oder <span class="markedblue">unbezahlt</span> markiert.</p>
+	<p>Bestellungen werden als <span class="markedblue">offen</span>, <span class="markedblue">in Bearbeitung</span> oder <span class="markedblue">versendet</span> markiert.</p>
+	<p>Über das Kontextmenü (rechte Maustaste) kann der Status einer Bestellung geändert werden.
+	Je nach Einstellung wird der Kunde per E-Mail über den neuen Status benachrichtigt.</p>
+	<p class="markedblue">Siehe <a href="../preferences/webshopimport.html#preferences_notification">Kunde benachrichtigen</a></p>
 
 
 </body>

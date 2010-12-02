@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-12-02 16:17+0100\n"
+"POT-Creation-Date: 2010-12-02 20:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1131,7 +1131,7 @@ msgstr ""
 #. T: Document Editor - Label VAT
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:603
-#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:426
+#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:424
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1307
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1645
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1920
@@ -1320,12 +1320,12 @@ msgid "Value"
 msgstr ""
 
 #. T: Shipping Editor: Label VAT Calculation
-#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:490
+#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:489
 msgid "VAT Calculation"
 msgstr ""
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:492
+#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:491
 msgid ""
 "Define how the VAT for the shipping is calculated. Should a fix value be "
 "used, or should the VAT calculated based on the VAT of the items."
@@ -2252,6 +2252,26 @@ msgstr ""
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:88
 msgid "State"
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:112
+msgid "mark as \"pending\""
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:113
+msgid "mark as \"processing\""
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:114
+msgid "mark as \"shipped\""
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:118
+msgid "mark as \"unpaid\""
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:119
+msgid "mark as \"paid\""
 msgstr ""
 
 #. T: Marking of a dunning in the document table.

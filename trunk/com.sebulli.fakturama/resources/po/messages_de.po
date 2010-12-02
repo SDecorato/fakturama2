@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-12-02 16:17+0100\n"
-"PO-Revision-Date: 2010-12-02 16:18+0100\n"
+"POT-Creation-Date: 2010-12-02 20:07+0100\n"
+"PO-Revision-Date: 2010-12-02 20:10+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -1144,7 +1144,7 @@ msgstr "ab"
 #. T: Document Editor - Label VAT
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:603
-#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:426
+#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:424
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1307
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1645
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1920
@@ -1327,12 +1327,12 @@ msgid "Value"
 msgstr "Wert"
 
 #. T: Shipping Editor: Label VAT Calculation
-#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:490
+#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:489
 msgid "VAT Calculation"
 msgstr "MwSt. Berechnung"
 
 #. T: Tool Tip Text
-#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:492
+#: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:491
 msgid "Define how the VAT for the shipping is calculated. Should a fix value be used, or should the VAT calculated based on the VAT of the items."
 msgstr "Festlegen, wie die MwSt. auf Versandkosten berechnet wird. Soll ein fester Steuersatz verwendet werden, oder soll er abhängig von der MwSt. der Artikel berechnet werden."
 
@@ -2246,6 +2246,26 @@ msgstr "Dokument"
 msgid "State"
 msgstr "Status"
 
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:112
+msgid "mark as \"pending\""
+msgstr "Als \"offen\" markieren"
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:113
+msgid "mark as \"processing\""
+msgstr "Als \"in Bearbeitung\" markieren"
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:114
+msgid "mark as \"shipped\""
+msgstr "Als \"versendet\" markieren"
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:118
+msgid "mark as \"unpaid\""
+msgstr "Als \"unbezahlt\" markieren"
+
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewDocumentTable.java:119
+msgid "mark as \"paid\""
+msgstr "Als \"bezahlt\" markieren"
+
 #. T: Marking of a dunning in the document table.
 #. T: Format: "Dunning No. xx"
 #: ../src/com/sebulli/fakturama/views/datasettable/UniDataSetTableColumn.java:355
@@ -2260,7 +2280,7 @@ msgstr "offen"
 #. T: Mark an order with this text.
 #: ../src/com/sebulli/fakturama/views/datasettable/UniDataSetTableColumn.java:365
 msgid "in work"
-msgstr "in bearbeitung"
+msgstr "in Bearbeitung"
 
 #. T: Mark an order with this text.
 #: ../src/com/sebulli/fakturama/views/datasettable/UniDataSetTableColumn.java:371
