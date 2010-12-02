@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Editor Zahlmethoden</title>
+  	<link rel="stylesheet" href="../common/style.css" type="text/css" />
+</head>
+
+<body>
+	<h1>Editor Zahlmethoden</h1>
+	<img class="screenshot" src="editor_payment.png" alt="" /> <br />
+
+	<h2>Name</h2>
+	<p>Eindeutiger Name der Zahlmethode. Dies ist auch die Kennung, die vom Shopsystem verwendet wird.
+	Der Name sollte dann nicht verändert werden. Anstatt dessen sollte der Text <span class="markedblue">Beschreibung</span>
+	angepasst werden.</p>
+
+	<h2>Kategorie</h2>
+	<p>Kategorie, in die die Zahlungsmethode einsortiert wird.
+	Die Verwendung von Unterkategorien ist möglich. 
+	Die Bezeichnungen sind dann durch einen Schrägstrich <span class="markedblue">/</span> zu trennen. Beispiel:</p>
+	<p class="code">Hauptkategorie/Unterkategorie/WeitereUnterkategorie</p>
+
+	<h2>Beschreibung</h2>
+	<p>Dieser Text wird auf den Dokumenten verwendet.</p>
+
+	<h2>Skonto</h2>
+	<p>Skonto in %, das innerhalb der Frist <span class="markedblue">Tage Skonto</span> abgezogen werden darf.</p>
+
+	<h2>Tage Skonto</h2>
+	<p>Innerhalb dieser Zeit ist ein Skontoabzug möglich.</p>
+
+	<h2>Tage Netto</h2>
+	<p>Innerhalb dieser Zeit ist der Rechnungsbetrag ohne Skontoabzug zu bezahlen.</p>
+
+	<h2>Text 'bezahlt'</h2>
+	<p>Dieser Text wird auf die Rechnung gedruckt, wenn diese als 'bezahlt' markiert ist.</p>
+
+	<h2>Text 'unbezahlt'</h2>
+	<p>Dieser Text wird auf die Rechnung gedruckt, wenn diese als 'bezahlt' markiert ist.</p>
+
+	<p>Bei beiden Texten ist es möglich, folgende Platzhalter zu verwenden:</p>
+	<ul>
+		<li><span class="markedblue">&lt;PAID.VALUE&gt;</span> bezahlter Betrag</li>
+		<li><span class="markedblue">&lt;PAID.DATE&gt;</span> Zahldatum</li>
+		<li><span class="markedblue">&lt;DUE.DAYS&gt;</span> Tage, innderhalb deren zu zahlen ist</li>
+		<li><span class="markedblue">&lt;DUE.DATE&gt;</span> Datum, bis zu dem zu zahlen ist</li>
+	</ul>
+
+	<h2>Standard</h2>
+	<p>Zeigt den Namen derjenigen Zahlmethode, die momentan die Standardzahlmethode ist.</p>
+
+	<h2>zum Standard machen</h2>
+	<p>Macht diese Zahlmethode zur Standardzahlmethode.</p>
+
+</body>
+</html>

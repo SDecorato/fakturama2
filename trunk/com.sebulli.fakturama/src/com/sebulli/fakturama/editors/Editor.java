@@ -149,7 +149,7 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 
 			// Create the text widget that displays the standard entry
 			txtStd = new Text(stdComposite, SWT.BORDER);
-			txtStd.setEnabled(false);
+			txtStd.setEditable(false);
 
 			GridDataFactory.swtDefaults().hint(150, -1).align(SWT.BEGINNING, SWT.CENTER).applyTo(txtStd);
 			setStdText();
