@@ -1065,7 +1065,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				catch (Exception e) {
 				}
 
-				// Get the category of the imported shippings from the preferences
+				// Get the category of the imported shipping from the preferences
 				String shopCategory = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_SHIPPING_CATEGORY");
 
 				// Add the VAT entry to the data base, if there is not yet one
@@ -1124,7 +1124,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			}
 		}
 
-		// Set the progess of an imported order to 10%
+		// Set the progress of an imported order to 10%
 		dataSetDocument.setIntValueByKey("progress", 10);
 
 		// Set the document data

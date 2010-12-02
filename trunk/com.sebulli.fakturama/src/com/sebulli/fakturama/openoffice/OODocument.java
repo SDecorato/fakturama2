@@ -413,39 +413,6 @@ public class OODocument extends Object {
 
 		boolean wasSaved = false;
 
-		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("ODT")) {
-
-			// Create the directories, if they don't exist.
-			File directory = new File(getDocumentPath(false, false, false));
-			if (!directory.exists())
-				directory.mkdirs();
-
-			// Add the time String, if this file is still existing
-			/*
-			File file = new File(savePath + ".odt");
-			if (file.exists()) {
-				DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-				savePath += "_" + dfmt.format(new Date());
-			}
-			*/
-
-			// Save the document
-			try {
-				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(true, true, false)));
-				textDocument.getPersistenceService().storeAs(fs);
-
-				wasSaved = true;
-
-			}
-			catch (FileNotFoundException e) {
-				Logger.logError(e, "Error saving the OpenOffice Document");
-			}
-			catch (NOAException e) {
-				Logger.logError(e, "Error saving the OpenOffice Document");
-			}
-
-		}
-
 		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("PDF")) {
 
 			// Create the directories, if they don't exist.
@@ -478,6 +445,41 @@ public class OODocument extends Object {
 			}
 
 		}
+
+		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("ODT")) {
+
+			// Create the directories, if they don't exist.
+			File directory = new File(getDocumentPath(false, false, false));
+			if (!directory.exists())
+				directory.mkdirs();
+
+			// Add the time String, if this file is still existing
+			/*
+			File file = new File(savePath + ".odt");
+			if (file.exists()) {
+				DateFormat dfmt = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
+				savePath += "_" + dfmt.format(new Date());
+			}
+			*/
+
+			// Save the document
+			try {
+				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(true, true, false)));
+				textDocument.getPersistenceService().storeAs(fs);
+				
+
+				wasSaved = true;
+
+			}
+			catch (FileNotFoundException e) {
+				Logger.logError(e, "Error saving the OpenOffice Document");
+			}
+			catch (NOAException e) {
+				Logger.logError(e, "Error saving the OpenOffice Document");
+			}
+
+		}
+
 
 		// Mark the document as printed, if it was saved as ODT or PDF
 		if (wasSaved) {
@@ -811,17 +813,17 @@ public class OODocument extends Object {
 			setProperty("SHIPPING.DESCRIPTION", document.getStringValueByKey("shippingdescription"));
 			setProperty("SHIPPING.VAT.DESCRIPTION", document.getStringValueByKey("shippingvatdescription"));
 
-			/*
-			 * setProperty("PAYMENT.DISCOUNT.PERCENT",
-			 * document.getFormatedStringValueByKey("paymentdiscount"));
-			 * setProperty("PAYMENT.DISCOUNT.VALUE",
-			 * DataUtils.DoubleToFormatedPriceRound
-			 * (document.getDoubleValueByKey("paymentdiscount")
-			 * document.getSummary().getTotalGross().asDouble()));
-			 */
+			
+			// Replace the placeholders in the payment text
+			String pamenttext = document.getStringValueByKey("paymenttext");
+			pamenttext = pamenttext.replace("<PAID.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
+			pamenttext = pamenttext.replace("<PAID.DATE>", document.getFormatedStringValueByKey("paydate"));
+			pamenttext = pamenttext.replace("<DUE.DAYS>", Integer.toString(document.getIntValueByKey("duedays")));
+			pamenttext = pamenttext.replace("<DUE.DATE>", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
+			
+			setProperty("PAYMENT.TEXT", pamenttext);
 			setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
 			setProperty("PAYMENT.DESCRIPTION", document.getStringValueByKey("paymentdescription"));
-			setProperty("PAYMENT.TEXT", document.getStringValueByKey("paymenttext"));
 			setProperty("PAYMENT.PAID.VALUE", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
 			setProperty("PAYMENT.PAID.DATE", document.getFormatedStringValueByKey("paydate"));
 			setProperty("PAYMENT.DUE.DAYS", Integer.toString(document.getIntValueByKey("duedays")));

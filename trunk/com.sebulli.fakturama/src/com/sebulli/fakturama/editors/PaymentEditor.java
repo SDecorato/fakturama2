@@ -266,9 +266,9 @@ public class PaymentEditor extends Editor {
 
 		// Payment discount value
 		Label labelDiscountValue = new Label(top, SWT.NONE);
-		labelDiscountValue.setText(_("Discount"));
+		labelDiscountValue.setText(_("Cash discount"));
 		//T: Tool Tip Text
-		labelDiscountValue.setToolTipText(_("Discount value in percent"));
+		labelDiscountValue.setToolTipText(_("Cash discount value in percent"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDiscountValue);
 		textDiscountValue = new Text(top, SWT.BORDER);

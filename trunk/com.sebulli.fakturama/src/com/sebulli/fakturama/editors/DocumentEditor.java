@@ -261,12 +261,10 @@ public class DocumentEditor extends Editor {
 				addressModified = true;
 			document.setStringValueByKey("deliveryaddress", txtAddress.getText());
 
-			// Use the billing address, if the delivery address is empty
-			if (!billingAddress.isEmpty())
-				document.setStringValueByKey("address", billingAddress);
-			else
-				document.setStringValueByKey("address", txtAddress.getText());
-				
+			// Use the delivery address, if the billing address is empty
+			if (billingAddress.isEmpty())
+				billingAddress = txtAddress.getText();
+			document.setStringValueByKey("address", billingAddress);
 
 			if (addressId > 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(true);
@@ -276,11 +274,11 @@ public class DocumentEditor extends Editor {
 				addressModified = true;
 			document.setStringValueByKey("address", txtAddress.getText());
 
-			// Use the delivery address, if the billing address is empty
-			if (!deliveryAddress.isEmpty())
-				document.setStringValueByKey("deliveryaddress", deliveryAddress);
-			else
-				document.setStringValueByKey("deliveryaddress", txtAddress.getText());
+			// Use the billing address, if the delivery address is empty
+			if (deliveryAddress.isEmpty())
+				deliveryAddress = txtAddress.getText();
+			
+			document.setStringValueByKey("deliveryaddress", deliveryAddress);
 
 			if (addressId > 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(false);
@@ -597,6 +595,10 @@ public class DocumentEditor extends Editor {
 				document.setStringValueByKey("paymentdescription", Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("description"));
 
 			}
+			else {
+				paymentId = document.getIntValueByKey("paymentid");
+				shippingId = document.getIntValueByKey("shippingid");
+			}
 
 			// Get the next document number
 			document.setStringValueByKey("name", getNextNr());
@@ -609,10 +611,26 @@ public class DocumentEditor extends Editor {
 			documentType = DocumentType.getType(document.getIntValueByKey("category"));
 			editorID = documentType.getTypeAsString();
 
+			paymentId = document.getIntValueByKey("paymentid");
+			shippingId = document.getIntValueByKey("shippingid");
+
 			// and the editor's part name
 			setPartName(document.getStringValueByKey("name"));
+
 		}
 
+		// These variables contain settings, that are not in
+		// visible SWT widgets.
+		addressId = document.getIntValueByKey("addressid");
+		noVat = document.getBooleanValueByKey("novat");
+		noVatName = document.getStringValueByKey("novatname");
+		noVatDescription = document.getStringValueByKey("novatdescription");
+		paidValue.setValue(document.getDoubleValueByKey("payvalue"));
+		if (dunningLevel <= 0)
+			dunningLevel = document.getIntValueByKey("dunninglevel");
+
+		
+		
 		// Create a set of new temporary items.
 		// These items exist only in the memory.
 		// If the editor is opened, the items from the document are
@@ -1126,18 +1144,6 @@ public class DocumentEditor extends Editor {
 
 		// Get the some settings from the preference store
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
-
-		// These variables contain settings, that are not in
-		// visible SWT widgets.
-		addressId = document.getIntValueByKey("addressid");
-		shippingId = document.getIntValueByKey("shippingid");
-		paymentId = document.getIntValueByKey("paymentid");
-		noVat = document.getBooleanValueByKey("novat");
-		noVatName = document.getStringValueByKey("novatname");
-		noVatDescription = document.getStringValueByKey("novatdescription");
-		paidValue.setValue(document.getDoubleValueByKey("payvalue"));
-		if (dunningLevel <= 0)
-			dunningLevel = document.getIntValueByKey("dunninglevel");
 
 		// Create the top composite of the editor
 		Composite top = new Composite(parent, SWT.NONE);
