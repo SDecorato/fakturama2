@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-12-01 19:54+0100\n"
-"PO-Revision-Date: 2010-12-01 19:54+0100\n"
+"POT-Creation-Date: 2010-12-02 10:15+0100\n"
+"PO-Revision-Date: 2010-12-02 10:16+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -1209,19 +1209,13 @@ msgstr "Ein Kategorie kann angegeben werden, um Zahlungsarten zu gruppieren."
 msgid "The description is the text used in the documents"
 msgstr "Diese Beschreibung wird als Text auf den Dokumenten verwendet"
 
-#. T: Used as heading of a table. Keep the word short.
-#. T: Document Editor - Label discount
-#. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:269
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1651
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1788
-#: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:79
-msgid "Discount"
-msgstr "Rabatt"
+msgid "Cash discount"
+msgstr "Skonto"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:271
-msgid "Discount value in percent"
+msgid "Cash discount value in percent"
 msgstr "Rabatt/Skonto in %"
 
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:282
@@ -1818,6 +1812,15 @@ msgstr "Anzahl"
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1648
 msgid "U.Price"
 msgstr "E-Preis"
+
+#. T: Used as heading of a table. Keep the word short.
+#. T: Document Editor - Label discount
+#. T: Used as heading of a table. Keep the word short.
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1651
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1788
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:79
+msgid "Discount"
+msgstr "Rabatt"
 
 #. T: Document Editor Label for the text field under the item table.
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1675

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2010-12-01 19:54+0100\n"
+"POT-Creation-Date: 2010-12-02 10:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1197,19 +1197,13 @@ msgstr ""
 msgid "The description is the text used in the documents"
 msgstr ""
 
-#. T: Used as heading of a table. Keep the word short.
-#. T: Document Editor - Label discount
-#. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:269
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1651
-#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1788
-#: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:79
-msgid "Discount"
+msgid "Cash discount"
 msgstr ""
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:271
-msgid "Discount value in percent"
+msgid "Cash discount value in percent"
 msgstr ""
 
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:282
@@ -1822,6 +1816,15 @@ msgstr ""
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1644
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1648
 msgid "U.Price"
+msgstr ""
+
+#. T: Used as heading of a table. Keep the word short.
+#. T: Document Editor - Label discount
+#. T: Used as heading of a table. Keep the word short.
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1651
+#: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1788
+#: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:79
+msgid "Discount"
 msgstr ""
 
 #. T: Document Editor Label for the text field under the item table.

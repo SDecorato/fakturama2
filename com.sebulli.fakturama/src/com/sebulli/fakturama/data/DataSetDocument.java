@@ -86,8 +86,8 @@ public class DataSetDocument extends UniDataSet {
 				.getStringValueByKey("customerref"), (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat("yyyy-MM-dd"))
 				.format(new Date()), parent.getIntValueByKey("paymentid"), parent.getStringValueByKey("paymentname"), parent.getIntValueByKey("duedays"),
 				parent.getBooleanValueByKey("paid"), parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"), parent
-						.getStringValueByKey("items"), parent.getIntValueByKey("shippingid"), parent.getStringValueByKey("shippingname"), parent
-						.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"), parent.getStringValueByKey("shippingvatdescription"),
+				.getStringValueByKey("items"), parent.getIntValueByKey("shippingid"), parent.getStringValueByKey("shippingname"), parent
+				.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"), parent.getStringValueByKey("shippingvatdescription"),
 				parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent.getStringValueByKey("message"), parent
 						.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent.getStringValueByKey("webshopdate"), parent
 						.getStringValueByKey("orderdate"), parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent
