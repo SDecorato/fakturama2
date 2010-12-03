@@ -109,14 +109,14 @@ public class ViewDocumentTable extends ViewDataSetTable {
 
 		// Add the entries for orders
 		if (documentType.equals(DocumentType.ORDER)) {
-			menuManager.add(new MarkOrderAsAction(_("mark as \"pending\""), 10));
-			menuManager.add(new MarkOrderAsAction(_("mark as \"processing\""), 50));
-			menuManager.add(new MarkOrderAsAction(_("mark as \"shipped\""), 90));
+			menuManager.add(new MarkOrderAsAction(MarkOrderAsAction.PENDING));
+			menuManager.add(new MarkOrderAsAction(MarkOrderAsAction.PROCESSING));
+			menuManager.add(new MarkOrderAsAction(MarkOrderAsAction.SHIPPED));
 		}
 		// Add the entries to mark a document as paid
 		else if (documentType.hasPaid()) {
-			menuManager.add(new MarkDocumentAsPaidAction(_("mark as \"unpaid\""), false));
-			menuManager.add(new MarkDocumentAsPaidAction(_("mark as \"paid\""), true));
+			menuManager.add(new MarkDocumentAsPaidAction(false));
+			menuManager.add(new MarkDocumentAsPaidAction(true));
 		}
 
 		menuManager.add(new Separator());

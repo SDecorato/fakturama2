@@ -31,6 +31,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.TableColumn;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.DataSetArray;
@@ -209,16 +210,16 @@ public class UniDataSetTableColumn {
 					case ORDER:
 						switch (uds.getIntValueByKey("progress")) {
 						case 0:
-						case 10:
+						case MarkOrderAsAction.PENDING:
 							cell.setImage(ORDER_PENDING);
 							break;
-						case 50:
+						case MarkOrderAsAction.PROCESSING:
 							cell.setImage(ORDER_PROCESSING);
 							break;
-						case 90:
+						case MarkOrderAsAction.SHIPPED:
 							cell.setImage(ORDER_SHIPPED);
 							break;
-						case 100:
+						case MarkOrderAsAction.COMPLETED:
 							cell.setImage(CHECKED);
 							break;
 						}
@@ -357,16 +358,16 @@ public class UniDataSetTableColumn {
 			case ORDER:
 				switch (uds.getIntValueByKey("progress")) {
 				case 0:
-				case 10:
+				case MarkOrderAsAction.PENDING:
 					//T: Mark an order with this text.
 					return _("open");
-				case 50:
+				case MarkOrderAsAction.PROCESSING:
 					//T: Mark an order with this text.
 					return _("in work");
-				case 90:
+				case MarkOrderAsAction.SHIPPED:
 					//T: Mark an order with this text.
 					return _("shipped");
-				case 100:
+				case MarkOrderAsAction.COMPLETED:
 					//T: Mark an order with this text.
 					return _("closed");
 				}

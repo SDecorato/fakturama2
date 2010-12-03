@@ -46,7 +46,7 @@ public class DeleteDataSetAction extends Action {
 	public DeleteDataSetAction() {
 		//T: Text of the DeleteDataSetAction
 		super(_("delete"));
-
+		
 		//T: Tool Tip Text
 		setToolTipText(_("Delete the marked entry"));
 		

@@ -146,8 +146,8 @@ public class NewDocumentAction extends NewEditorAction {
 			if (DocumentType.getType(parent.getCategory()) == DocumentType.ORDER) {
 
 				// State of order was pending
-				if (parent.getIntValueByKey("progress") <= 10) {
-					MarkOrderAsAction.markOrderAs((DataSetDocument) parent, 50, "",
+				if (parent.getIntValueByKey("progress") <=  MarkOrderAsAction.PENDING) {
+					MarkOrderAsAction.markOrderAs((DataSetDocument) parent, MarkOrderAsAction.PROCESSING, "",
 							Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING"));
 
 					// Find the view

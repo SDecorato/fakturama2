@@ -38,6 +38,7 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 
 import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.InstallAction;
+import com.sebulli.fakturama.actions.MarkDocumentAsPaidAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
@@ -145,7 +146,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private SelectWorkspaceAction selectWorkspaceAction;
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
+	private MarkOrderAsAction markAsPendingAction;
 	private MarkOrderAsAction markAsProcessingAction;
+	private MarkOrderAsAction markAsShippedAction;
+	private MarkDocumentAsPaidAction markDocumentAsPaidAction;
+	private MarkDocumentAsPaidAction markDocumentAsUnpaidAction;
 	private DeleteDataSetAction deleteDataSetAction;
 	private UpdateAction updateAction;
 	private InstallAction installAction;
@@ -365,8 +370,21 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		selectWorkspaceAction = new SelectWorkspaceAction();
 		register(selectWorkspaceAction);
 
-		markAsProcessingAction = new MarkOrderAsAction("", 50);
+		markAsPendingAction = new MarkOrderAsAction( MarkOrderAsAction.PENDING);
+		register(markAsPendingAction);
+		
+		markAsProcessingAction = new MarkOrderAsAction( MarkOrderAsAction.PROCESSING);
 		register(markAsProcessingAction);
+
+		markAsShippedAction = new MarkOrderAsAction( MarkOrderAsAction.SHIPPED);
+		register(markAsShippedAction);
+		
+		markDocumentAsPaidAction = new MarkDocumentAsPaidAction(true);
+		register(markDocumentAsPaidAction);
+		
+		markDocumentAsUnpaidAction = new MarkDocumentAsPaidAction(false);
+		register(markDocumentAsUnpaidAction);
+		
 		
 		updateAction = new UpdateAction();
 		register(updateAction);
@@ -391,6 +409,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		//T: Title of the menus in the main menu
 		MenuManager fileMenu = new MenuManager(_("File"), IWorkbenchActionConstants.M_FILE);
 		//T: Title of the menus in the main menu
+		MenuManager editMenu = new MenuManager(_("Edit"), IWorkbenchActionConstants.M_EDIT);
+		//T: Title of the menus in the main menu
 		MenuManager dataMenu = new MenuManager(_("Data"), "com.sebulli.faktura.menu.data");
 		//T: Title of the menus in the main menu
 		MenuManager newMenu = new MenuManager(_("New"), "com.sebulli.faktura.menu.create");
@@ -404,6 +424,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		menuBar.add(fileMenu);
 		// Add a group marker indicating where action set menus will appear.
+		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		menuBar.add(editMenu);
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuBar.add(dataMenu);
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -442,6 +464,18 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		fileMenu.add(new Separator());
 		fileMenu.add(exitAction);
 
+		// edit menu
+		editMenu.add(deleteDataSetAction);
+		editMenu.add(new Separator());
+		editMenu.add(markDocumentAsUnpaidAction);
+		editMenu.add(markDocumentAsPaidAction);
+		editMenu.add(new Separator());
+		editMenu.add(markAsPendingAction);
+		editMenu.add(markAsProcessingAction);
+		editMenu.add(markAsShippedAction);
+		
+		
+
 		// data menu
 		dataMenu.add(openDocumentsAction);
 		dataMenu.add(openProductsAction);
@@ -462,9 +496,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newMenu.add(newDeliveryAction);
 		newMenu.add(newCreditAction);
 		newMenu.add(newDunningAction);
-
 		newMenu.add(new Separator());
-
 		newMenu.add(newProductAction);
 		newMenu.add(newContactAction);
 		newMenu.add(newPaymentAction);
