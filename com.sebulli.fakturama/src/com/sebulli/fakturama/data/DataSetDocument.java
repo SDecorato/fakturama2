@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.calculate.DocumentSummary;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -280,12 +281,12 @@ public class DataSetDocument extends UniDataSet {
 				// .. and the state of the shipping
 				switch (this.hashMap.get("progress").getValueAsInteger()) {
 				case 0:
-				case 10:
-				case 50:
+				case MarkOrderAsAction.PENDING:
+				case MarkOrderAsAction.PROCESSING:
 					category += "/" + DataSetDocument.getStringNOTSHIPPED();
 					break;
-				case 90:
-				case 100:
+				case MarkOrderAsAction.SHIPPED:
+				case MarkOrderAsAction.COMPLETED:
 					category += "/" + DataSetDocument.getStringSHIPPED();
 					break;
 				}

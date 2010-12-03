@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -45,6 +47,11 @@ import com.sebulli.fakturama.webshopimport.WebShopImportManager;
  */
 public class MarkOrderAsAction extends Action {
 
+	public final static int PENDING = 10;
+	public final static int PROCESSING = 50;
+	public final static int SHIPPED = 90;
+	public final static int COMPLETED = 100;
+	
 	// progress of the order. Value from 0 to 100 (percent)
 	int progress;
 
@@ -58,25 +65,29 @@ public class MarkOrderAsAction extends Action {
 	 * @param text
 	 * @param progress
 	 */
-	public MarkOrderAsAction(String text, int progress) {
-		super(text);
+	public MarkOrderAsAction( int progress) {
+		super();
 		this.progress = progress;
 
 		// Correlation between progress value and state.
 		// Depending on the state, the icon and the command ID is selected.
 		switch (progress) {
 		case 0:
-		case 10:
-			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/16/order_pending_16.png");
+		case PENDING:
+			this.setText(_("mark as \"pending\""));
+			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/16/order_pending_16.png");
 			break;
-		case 50:
-			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/16/order_processing_16.png");
+		case PROCESSING:
+			this.setText(_("mark as \"processing\""));
+			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/16/order_processing_16.png");
 			break;
-		case 90:
-			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/16/order_shipped_16.png");
+		case SHIPPED:
+			this.setText(_("mark as \"shipped\""));
+			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/16/order_shipped_16.png");
 			break;
-		case 100:
-			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/16/checked_16.png");
+		case COMPLETED:
+			this.setText(_("mark as \"completed\""));
+			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/16/checked_16.png");
 			break;
 		}
 
@@ -189,13 +200,23 @@ public class MarkOrderAsAction extends Action {
 					// If there is a selection let change the state
 					if (obj != null) {
 
+						// Get the document
+						DataSetDocument uds = (DataSetDocument) obj;
+						// and the type of the document
+						DocumentType documentType = DocumentType.getType(uds.getCategory());
+
+						// Exit, if it was not an order
+						if (documentType != DocumentType.ORDER)
+							return;
+						
+
 						String comment = "";
 						boolean notify = false;
 
 						// Notify the customer only if the web shop is enabled
 						if (Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_ENABLED")) {
-							if ((progress == 50) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING")
-									|| ((progress == 90) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_SHIPPED"))) {
+							if ((progress == PROCESSING) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_PROCESSING")
+									|| ((progress == SHIPPED) && Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_NOTIFY_SHIPPED"))) {
 
 								OrderStatusDialog dlg = new OrderStatusDialog(workbenchWindow.getShell());
 
@@ -220,7 +241,6 @@ public class MarkOrderAsAction extends Action {
 						}
 
 						// Mark the order as ...
-						DataSetDocument uds = (DataSetDocument) obj;
 						markOrderAs(uds, progress, comment, notify);
 
 						// Refresh the table with orders.

@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.actions;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -47,17 +49,19 @@ public class MarkDocumentAsPaidAction extends Action {
 	 * @param text
 	 * @param progress
 	 */
-	public MarkDocumentAsPaidAction(String text, boolean paid) {
-		super(text);
+	public MarkDocumentAsPaidAction(boolean paid) {
+		super();
 		this.paid = paid;
 
 		// Correlation between progress value and state.
 		// Depending on the state, the icon and the command ID is selected.
 		if (paid) {
-			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAID, "/16/checked_16.png");
+			this.setText(_("mark as \"paid\""));
+			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAID, "/icons/16/checked_16.png");
 		}
 		else {
-			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAID, "/16/error_16.png");
+			this.setText(_("mark as \"unpaid\""));
+			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAID, "/icons/16/error_16.png");
 		}
 
 	}

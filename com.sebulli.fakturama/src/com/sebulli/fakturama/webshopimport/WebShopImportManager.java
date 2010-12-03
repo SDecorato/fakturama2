@@ -57,6 +57,7 @@ import org.xml.sax.SAXException;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.Workspace;
+import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
@@ -463,9 +464,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		readOrdersToSynchronize();
 
 		// Convert a percent value of 0..100% to a state of 1,2,3
-		if (progress >= 90)
+		if (progress >= MarkOrderAsAction.SHIPPED)
 			webshopState = 3;
-		else if (progress >= 50)
+		else if (progress >= MarkOrderAsAction.PROCESSING)
 			webshopState = 2;
 		else
 			webshopState = 1;

@@ -60,6 +60,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.actions.CreateOODocumentAction;
+import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
@@ -867,7 +868,7 @@ public class DocumentEditor extends Editor {
 	 */
 	public void childDocumentGenerated() {
 		if (document.getIntValueByKey("progress") == 0) {
-			document.setIntValueByKey("progress", 50);
+			document.setIntValueByKey("progress", MarkOrderAsAction.PROCESSING);
 			Data.INSTANCE.updateDataSet(document);
 		}
 	}
