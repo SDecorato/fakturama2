@@ -796,6 +796,7 @@ public class OODocument extends Object {
 			setProperty("DOCUMENT.SERVICEDATE", document.getFormatedStringValueByKey("servicedate"));
 			setProperty("DOCUMENT.MESSAGE", document.getStringValueByKey("message"));
 			setProperty("DOCUMENT.TRANSACTION", document.getStringValueByKey("transaction"));
+			setProperty("DOCUMENT.INVOICE", document.getStringValueByKeyFromOtherTable("invoiceid.DOCUMENTS:name"));
 			setProperty("DOCUMENT.WEBSHOP.ID", document.getStringValueByKey("webshopid"));
 			setProperty("DOCUMENT.WEBSHOP.DATE", document.getFormatedStringValueByKey("webshopdate"));
 			setProperty("DOCUMENT.ORDER.DATE", document.getFormatedStringValueByKey("orderdate"));
