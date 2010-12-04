@@ -115,30 +115,26 @@ public class Translate {
 			
 			String localCode = System.getProperty("osgi.nl");
 			
+			// Try to open the messages with language and country code
 			url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode + ".po");
 
-			// Try to open the messages with language and country code
 			if (url == null) {
+				// Try to open the messages with language code
 				localCode = localCode.split("_")[0];
 				url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode + ".po");
 			}
 			
-			// Try to open the messages with language code
 			if (url == null) {
-				localCode = localCode.split("_")[0];
+				// Try to open the messages with no language code
 				url = Activator.getDefault().getBundle().getResource("po/messages.po");
 			}
-			
-			// Try to open the messages with no language code
-			if (url == null)
-				Activator.getDefault().getBundle().getResource("po/messages.po");
 			
 			if (url == null)
 				return;
 			
 			InputStream	in = url.openStream();
 
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			BufferedReader br = new BufferedReader(new InputStreamReader(in,"UTF8"));
 	        String strLine;
 	        
 	        //Read file line by line
