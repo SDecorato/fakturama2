@@ -10,7 +10,34 @@
 <body>
 
 	<h1>Schnelleinstieg</h1>
-	<p>...</p>
+
+	<h2>Installation</h2>
+	<p>Laden Sie die Software von der <a href="http://fakturama.sebulli.com">Projektseite</a> und installieren Sie diese.</p>
+	<p class="see">Siehe auch <a href="../install/main.html">Installation</a></p>
+
+	<h2>Start</h2>
+	<p>Wählen Sie nach dem ersten Start ein Arbeitsverzeichnis.</p>
+	<p class="see">Siehe auch <a href="../install/start.html">Start von Fakturama</a> und <a href="../workspace/workspace.html">Arbeitsverzeichnis</a>.</p>
+
+	<h2>Webshop Schnittstelle</h2>
+	<p>Laden Sie die Webshop Schnittstelle von der <a href="http://fakturama.sebulli.com">Projektseite</a> und kopieren Sie diese in den Ordner 
+	<b>/admin/</b> Ihres Webshops.</p>
+	<p class="see">Siehe auch <a href="../webshop/webshop_connector.html">Webshop Schnittstelle</a></p>
+
+	<h2>Einstellungen</h2>
+	<p>Setzen Sie die Einstellungen des Programms auf die von Ihnen gewünschten Werte. 
+	Vor allem wichtige Einstellungen wie <b>Firmendaten</b>, <b>Verbindungsdaten Webshop</b> oder <b>Nummernkreise</b>.</p>
+	<p class="see">Siehe auch <a href="../preferences/main.html">Einstellungen</a></p>
+
+	<h2>OpenOffice.org Vorlagen</h2>
+	<p>Passen Sie die Dokumentenvorlagen an Ihr Design an.</p>
+	<p class="see">Siehe auch <a href="../openoffice/templates.html">OpenOffice.org Vorlagen</a></p>
+
+	<h2>Abrufen der Webshop Daten</h2>
+	<img class="icon" src="../../com.sebulli.fakturama.help/html/quickguide/../application/shop_32.png" alt="" />
+	<p>Laden Sie die Daten wie Produkte, Adressen und offene Bestellungen aus dem Webshop.</p>
+	<p class="see">Siehe auch <a href="../application/main.html">Das Programm</a></p>
+
 	<h1>Installation</h1>
 	<p>In diesem Kapitel ist beschrieben, wie Fakturama installiert wird und was vor dem erstmaligen Benutzen zu beachten ist.</p>
 	<h2>Download der Software</h2>
@@ -97,7 +124,7 @@
 		<li><a href="../workspace/workspace.html">Arbeitsverzeichnis</a></li>
 	</ul>
 
-	<h2>Ersters Starten von Fakturama</h2>
+	<h2>Erstes Starten von Fakturama</h2>
 
 	<p>Starten Sie Fakturama</p>
 	<p>Sie werden zuerst aufgefordert, das Arbeitsverzeichnis auszuwählen.
@@ -1101,16 +1128,348 @@
 
 	<h3>Ordner für Vorlagen</h3>
 	<p>Vorlagen für Dokumente wie Rechnungen, Lieferscheine usw. werden im Arbeitsverzeichnis im Ordner <b>Vorlagen</b>
-	</p>
-	<p>Fakturama benutzt OpenOffice.org Writer, um Dokumente wie Rechnungen und Lieferscheine zu drucken
-	und Berichte als OpenOffice.org Calc Tabelle zu exportieren.</p>
-	<p>Für die Dokumente werden OpenOffice.org Vorlagen mit Firmenlogo, Adresse usw. angelegt, die dann mit dem
-	eigentlichen Dokumenteninhalt befüllt werden.</p>
+	und dort im entsprechenden Unterordner abgelegt.</p>
+	<p>Beim Drucken eines Dokumentes wird die entsprechende Vorlage verwendet.
+	Existiert mehr als eine Vorlage, so wird ein Auswahlmenü eingeblendet.</p>
+	<p>Vorlagen müssen im OpenOffice.org Vorlagenformat <b>*.ott</b> vorliegen.
+	Der Dateiname kann ansonsten beliebig gewählt werden, sollte jedoch kurz und aussagekräftig sein,
+	da er bei mehr als einer Vorlage auch im Auswahlmenü erscheint.</p>
 
-	<h3>OpenOffice.org Projektseite</h3>
-	<p>OpenOffice.org ist eine freie Bürosoftware. Das Projekt ist Open-Source und steht in zahlreichen Sprachen und für verschiedenen Betriebssysteme zur Verfügung.</p>
-	<p>Link zur deutschsprachigen Seite des OpenOffice.org Projektes: <a href="http://de.openoffice.org/">de.openoffice.org</a></p>
-	<p>Link zum Downloadbereich: <a href="http://de.openoffice.org/downloads/download.html">OpenOffice.org Download</a></p>
+	<h3>Aufbau einer Vorlage</h3>
+	<img class="screenshot" src="../../com.sebulli.fakturama.help/html/openoffice/template.png" alt="" /> <br/>
+	<p>Eine Vorlage kann aus Texten, Grafiken und Tabellen bestehen.
+	Über verschiedenen Platzhalter füllt Fakturama die Vorlage mit dem entsprechenden Inhalt.</p>
+	<img class="icon" src="../../com.sebulli.fakturama.help/html/openoffice/template_tables.png" alt="" /> <br/>
+	<p>Unterschiedliche Platzhalter sind für unterschiedliche Bereiche vorgesehene:</p>
+	<ul>
+		<li>Allgemeine Platzhalter, die an jede Stelle gesetzt werden dürfen (1).</li>
+		<li>Platzhalter in der Artikeltabelle (2).</li>
+		<li>Platzhalter in der Tabelle der Zwischensumme (3).</li>
+	</ul>
+
+	<h3>Platzhalter in OpenOffice.org Writer</h3>
+	<img class="icon" src="../../com.sebulli.fakturama.help/html/openoffice/placeholder_dialog.png" alt="" /> <br/>
+	<p>Ein Plathalter wird in OpenOffice.org Writer eingefügt über das Menü <b>Einfügen/Feldbefehl/Andere</b>
+	oder die Tastenkombination <b>Strg.+F2</b>. Im Dialog im Reiter<b>Funktionen</b> als Feldtyp <b>Platzhalter</b>
+	auswählen und als <b>Format</b> den Eintrag <b>Text</b>. Der Platzhalter wird in Großbuchstaben ohne die
+	<b>spitzen Klammern</b> im Feld <b>Platzhalter</b> eingegeben.</p>
+
+	<h3>Abspeichern</h3>
+	<p>Die bearbeitete Vorlage muss im entsprechenden Ordner über das Menü <b>Datei/Speichern unter ..</b> als
+	<b>ODF Textdokumentvorlage *.ott abgespeichert werden.</b></p>
+
+
+
+
+	<h2>Allgemeine Platzhalter</h2>
+	<p>Platzhalter, die an jeder Stelle in der Vorlage stehen dürfen.</p>
+	<img class="icon" src="../../com.sebulli.fakturama.help/html/openoffice/placeholders_common.png" alt="" /> <br />
+
+	<h3>DOCUMENT.DATE</h3>
+	<p>Datum des Dokumentes. Zum Beispiel Rechnungsdatum bei einer Rechnung.</p>
+
+	<h3>DOCUMENT.ADDRESS</h3>
+	<p>(Rechnungs-)Adresse</p>
+
+	<h3>DOCUMENT.DELIVERYADDRESS</h3>
+	<p>Lieferadresse</p>
+
+	<h3>DOCUMENT.TYPE</h3>
+	<p>Art des Dokumentes. Zum Beispiel: <b>Rechnung</b>, <b>Lieferschein</b></p>
+
+	<h3>DOCUMENT.NAME</h3>
+	<p>Dokumentennummer</p>
+
+	<h3>DOCUMENT.CUSTOMERREF</h3>
+	<p>Kundenreferenz</p>
+
+	<h3>DOCUMENT.SERVICEDATE</h3>
+	<p>Leistungsdatum (wird zur Zeit nicht benutzt).</p>
+
+	<h3>DOCUMENT.MESSAGE</h3>
+	<p>Text der Nachricht</p>
+
+	<h3>DOCUMENT.TRANSACTION</h3>
+	<p>Eindeutiger Transaktionscode des Vorganges. Ist für Bestellung, Rechnung, Lieferschein identisch.</p>
+
+	<h3>DOCUMENT.INVOICE</h3>
+	<p>Rechnungsnummer zu diesem Vorgang.</p>
+
+	<h3>DOCUMENT.WEBSHOP.ID</h3>
+	<p>Bestellnummer aus dem Webshop.</p>
+
+	<h3>DOCUMENT.WEBSHOP.DATE</h3>
+	<p>Bestelldatum aus dem Webshop.</p>
+
+	<h3>DOCUMENT.ORDER.DATE</h3>
+	<p>Bestelldatum.</p>
+
+	<h3>DOCUMENT.ITEMS.GROSS</h3>
+	<p>Zwischensumme der Artikel (brutto).</p>
+
+	<h3>DOCUMENT.ITEMS.NET</h3>
+	<p>Zwischensumme der Artikel (netto).</p>
+
+	<h3>DOCUMENT.TOTAL.VAT</h3>
+	<p>Mehrwertsteuer.</p>
+
+	<h3>DOCUMENT.TOTAL.GROSS</h3>
+	<p>Gesamtsumme incl. Versandkosten, Rabatt, Steuer (brutto)</p>
+
+	<h3>SHIPPING.NET</h3>
+	<p>Versandkosten (netto).</p>
+
+	<h3>SHIPPING.NET</h3>
+	<p>Versandkosten (netto).</p>
+
+	<h3>SHIPPING.VAT</h3>
+	<p>Versandkosten Mehrwertsteuer.</p>
+
+	<h3>SHIPPING.GROSS</h3>
+	<p>Versandkosten (brutto).</p>
+
+	<h3>SHIPPING.NAME</h3>
+	<p>Name Versandkosten/Versandart. Auf den Dokumenten sollte SHIPPING.DESCRIPTION, da der Name die Identifikation
+	mit der Bezeichnung aus dem Webshop darstellt und nicht geändert werden sollte.</p>
+
+	<h3>SHIPPING.DESCRIPTION</h3>
+	<p>Bezeichnung Versandkosten/Versandart.</p>
+
+	<h3>SHIPPING.VAT.DESCRIPTION</h3>
+	<p>Bezeichnung Steuer der Versandkosten/Versandart.</p>
+
+	<h3>PAYMENT.TEXT</h3>
+	<p>Text der Zahlmethode. Abhängig davon, ob bezahlt wurde wird der Text für <b>bezahlt</b> oder
+	<b>unbezahlt</b> verwendet.</p>
+
+	<h3>PAYMENT.NAME</h3>
+	<p>Name der Zahlmethode. Auf den Dokumenten sollte PAYMENT.DESCRIPTION, da der Name die Identifikation
+	mit der Bezeichnung aus dem Webshop darstellt und nicht geändert werden sollte.</p>
+
+	<h3>PAYMENT.DESCRIPTION</h3>
+	<p>Bezeichnung Zahlmethode.</p>
+
+	<h3>PAYMENT.PAID.VALUE</h3>
+	<p>Bezahlter Betrag.</p>
+
+	<h3>PAYMENT.PAID.DATE</h3>
+	<p>Datum der Einzahlung.</p>
+
+	<h3>PAYMENT.DUE.DAYS</h3>
+	<p>Tage, innerhalb derer die Rechnung beglichen werden muss.</p>
+
+	<h3>PAYMENT.DUE.DATE</h3>
+	<p>Datum, bis zu dem die Rechnung beglichen werden muss.</p>
+
+	<h3>PAYMENT.PAID</h3>
+	<p><b>true</b> oder <b>false</b> - abhängig davon, ob bezahlt wurde oder nicht.</p>
+
+
+	<h3>ADDRESS</h3>
+	<p>Adresse des Kontaktes (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.GENDER</h3>
+	<p>Geschlecht (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.GREETING</h3>
+	<p>Anrede (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.TITLE</h3>
+	<p>Titel (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.FIRSTNAME</h3>
+	<p>Vorname (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.LASTNAME</h3>
+	<p>Nachname (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.NAME</h3>
+	<p>Vor- und Nachname (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.COMPANY</h3>
+	<p>Firmenbezeichnung (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.STREET</h3>
+	<p>Strasse incl. Hausnummer (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.ZIP</h3>
+	<p>Postleitzahl (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.CITY</h3>
+	<p>Stadt (Rechnungsadresse).</p>
+
+	<h3>ADDRESS.COUNTRY</h3>
+	<p>Land (Rechnungsadresse).</p>
+
+
+	<h3>DELIVERY.ADDRESS</h3>
+	<p>Adresse des Kontaktes (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.GENDER</h3>
+	<p>Geschlecht (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.GREETING</h3>
+	<p>Anrede (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.TITLE</h3>
+	<p>Titel (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.FIRSTNAME</h3>
+	<p>Vorname (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.LASTNAME</h3>
+	<p>Nachname (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.NAME</h3>
+	<p>Vor- und Nachname (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.COMPANY</h3>
+	<p>Firmenbezeichnung (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.STREET</h3>
+	<p>Strasse incl. Hausnummer (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.ZIP</h3>
+	<p>Postleitzahl (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.CITY</h3>
+	<p>Stadt (Lieferadresse).</p>
+
+	<h3>DELIVERY.ADDRESS.COUNTRY</h3>
+	<p>Land (Lieferadresse).</p>
+
+	<h3>ADDRESS.BANK.ACCOUNT.HOLDER</h3>
+	<p>Kontoinhaber.</p>
+
+	<h3>ADDRESS.BANK.ACCOUNT</h3>
+	<p>Kontonummer.</p>
+
+	<h3>ADDRESS.BANK.CODE</h3>
+	<p>Bankleitzahl.</p>
+
+	<h3>ADDRESS.BANK.NAME</h3>
+	<p>Name der Bank.</p>
+
+	<h3>ADDRESS.BANK.IBAN</h3>
+	<p>IBAN.</p>
+
+	<h3>ADDRESS.BANK.BIC</h3>
+	<p>BIC.</p>
+
+	<h3>ADDRESS.NR</h3>
+	<p>Kundennummer</p>
+
+	<h3>ADDRESS.PHONE</h3>
+	<p>Rufnummer.</p>
+
+	<h3>ADDRESS.FAX</h3>
+	<p>Faxnummer.</p>
+
+	<h3>ADDRESS.MOBILE</h3>
+	<p>Mobilnummer.</p>
+
+	<h3>ADDRESS.EMAIL</h3>
+	<p>E-Mail Adresse.</p>
+
+	<h3>ADDRESS.MOBILE</h3>
+	<p>Mobilnummer.</p>
+
+	<h3>ADDRESS.WEBSITE</h3>
+	<p>Webseite.</p>
+
+	<h3>ADDRESS.VATNR</h3>
+	<p>USt-IdNr.</p>
+
+	<h3>ADDRESS.NOTE</h3>
+	<p>Text der Notiz über diesen Kunden/Lieferanten. Vorsicht bei der Benutzung. Dieser Text sollte nicht immer auf einem Dokument erscheinen.</p>
+
+	<h3>ADDRESS.DISCOUNT</h3>
+	<p>Rabatt der diesem Kunden üblicherweise gewährt wird.</p>
+
+
+	<h2>Platzhalter der Artikeltabelle</h2>
+	<p>Platzhalter der Artikeltabelle stehen exemplarisch für die erste Zeile einer Tabelle.
+	Je nach Anzahl der Artikel wird diese Tabellenzeile vervielfacht. Einer der beiden Platzhalter
+	<b>ITEM.NAME</b> oder <b>ITEM.DESCRIPTION</b> ist mindestens erforderlich.</p>
+	<img class="icon" src="../../com.sebulli.fakturama.help/html/openoffice/placeholders_itemtable.png" alt="" /> <br />
+
+	<h3>ITEM.QUANTITY</h3>
+	<p>Artikelanzahl.</p>
+
+	<h3>ITEM.NAME</h3>
+	<p>Artikelname.</p>
+
+	<h3>ITEM.NR</h3>
+	<p>Artikelnummer.</p>
+
+	<h3>ITEM.DESCRIPTION</h3>
+	<p>Beschreibung des Artikels.</p>
+
+	<h3>ITEM.VAT.PERCENT</h3>
+	<p>Steuersatz des Artikels (in %).</p>
+
+	<h3>ITEM.VAT.NAME</h3>
+	<p>Name des Steuersatzes des Artikels.</p>
+
+	<h3>ITEM.VAT.DESCRIPTION</h3>
+	<p>Bezeichnung des Steuersatzes des Artikels.</p>
+
+	<h3>ITEM.UNIT.NET</h3>
+	<p>Einzelpreis (netto).</p>
+
+	<h3>ITEM.UNIT.VAT</h3>
+	<p>Steueranteil eines Artikels.</p>
+
+	<h3>ITEM.UNIT.GROSS</h3>
+	<p>Einzelpreis (brutto).</p>
+
+	<h3>ITEM.UNIT.NET.DISCOUNTED</h3>
+	<p>Einzelpreis unter Berücksichtigung eines Rabattes (netto).</p>
+
+	<h3>ITEM.UNIT.VAT.DISCOUNTED</h3>
+	<p>Steueranteil unter Berücksichtigung eines Rabattes eines Artikels.</p>
+
+	<h3>ITEM.UNIT.GROSS.DISCOUNTED</h3>
+	<p>Einzelpreis unter Berücksichtigung eines Rabattes (brutto).</p>
+
+	<h3>ITEM.TOTAL.NET</h3>
+	<p>Gesamtpreis unter Berücksichtigung eines Rabattes (netto).</p>
+
+	<h3>ITEM.TOTAL.VAT</h3>
+	<p>Gesamter Steueranteil unter Berücksichtigung eines Rabattes.</p>
+
+	<h3>ITEM.TOTAL.GROSS</h3>
+	<p>Gesamtpreis unter Berücksichtigung eines Rabattes (brutto).</p>
+
+
+	<h2>Platzhalter der Summenfelder</h2>
+	<p>Die Platzhalter für die <b>Zwischensumme der Artikel</b>, für <b>Versandkosten</b> und die <b>Gesamtsumme</b>
+	sind allgemeine Platzhalter.</p>
+	<p class="see">Siehe auch <a href="placeholders_common.html">Allgemeine Platzhalter</a></p>
+	<p>Die Platzhalter für <b>Rabatt</b> und die <b>Anteile der Mehrwertsteuer</b> haben eine erweiterte Funktionalität
+	und müssen in ein zweispaltigen Tabelle gesetzt werden.</p>
+	<img class="icon" src="../../com.sebulli.fakturama.help/html/openoffice/placeholders_sum.png" alt="" /> <br />
+
+	<h3>ITEMS.DISCOUNT.PERCENT</h3>
+	<p>Rabatt auf alle Artikel (% Wert).</p>
+
+	<h3>ITEMS.DISCOUNT.NET</h3>
+	<p>Rabatt auf alle Artikel (netto).</p>
+
+	<h3>ITEMS.DISCOUNT.GROSS</h3>
+	<p>Rabatt auf alle Artikel (brutto).</p>
+
+	<p>Diese drei Platzhalter für <b>Rabatt auf alle Artikel</b> haben die Besonderheit, dass für den Fall 
+	<b>kein Rabatt (0%)</b>, die komplette Zeile der Tabelle gelöscht wird.</p>
+	 
+	<h3>VATLIST.DESCRIPTIONS</h3>
+	<p>Liste mit allen Steuersätzen (Beschreibung).</p>
+
+	<h3>VATLIST.VALUES</h3>
+	<p>Liste mit allen Steuersätzen (Werte).</p>
+
+	<p>Diese zwei Platzhalter für <b>Liste mit allen Steuersätzen</b> haben die Besonderheit,
+	dass für jeden weiteren Steuersatz eine neue Zeile der Tabelle angelegt wird.</p>
 
 
 
@@ -1800,11 +2159,12 @@ rights to a jury trial in any resulting litigation.</p>
 
 	<p>Diese "Commons Deed" ist lediglich eine vereinfachte Zusammenfassung des <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/de/legalcode">rechtsverbindlichen Lizenzvertrages</a> in allgemeinverständlicher Sprache.</p>
  
-	<h2>Markennamen</h2>
+	<h2>Markennamen und Logos</h2>
 	<p>Alle verwendeten Markennamen und Bezeichnungen sind eingetragene Warenzeichen und Marken der jeweiligen Eigentümer.</p>
 	<p>Windows und Windows Vista sind eingetragene Warenzeichen der Microsoft, Inc., USA.</p>
 	<p>Mac OS X ist ein eingetragenes Warenzeichen der Apple, Inc., USA.</p>
 	<p>Java™ und alle Java-basierten Zeichen sind Markenzeichen oder eingetragene Markenzeichen der Oracle Corporation und/oder ihrer Tochtergesellschaften in den U.S.A. oder in anderen Ländern.</p>
+	<p>OpenOffice.org und das OpenOffice.org Logo sind eingetragene Markenzeichen der Oracle Corporation und/oder ihrer Tochtergesellschaften in den U.S.A. oder in anderen Ländern.</p>
 
 </body>
 </html>
