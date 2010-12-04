@@ -546,7 +546,7 @@ public class DocumentEditor extends Editor {
 			if (documentType == DocumentType.NONE)
 				documentType = DocumentType.ORDER;
 
-			// create a new data set in this document type
+			// create a new data set with this document type
 			if (duplicated)
 				document = new DataSetDocument(documentType, parent);
 			else
@@ -572,6 +572,11 @@ public class DocumentEditor extends Editor {
 					dunningLevel = 1;
 			}
 
+			// If it's a credit or a dunning, set it to unpaid
+			if ( (documentType == DocumentType.CREDIT)|| (documentType == DocumentType.DUNNING)) {
+				document.setBooleanValueByKey("paid", false);
+			}
+			
 			// Set the editors name
 			setPartName(documentType.getNewText());
 
