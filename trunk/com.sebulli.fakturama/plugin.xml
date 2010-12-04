@@ -194,13 +194,13 @@
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
             description="Open Lists"
-            id="com.sebulli.fakturama.actions.openListEntry"
+            id="com.sebulli.fakturama.actions.openLists"
             name="Open Lists">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
             description="Open Expenditures"
-            id="com.sebulli.fakturama.actions.openExpenditure"
+            id="com.sebulli.fakturama.actions.openExpenditures"
             name="Open Expenditures">
       </command>
       <command
