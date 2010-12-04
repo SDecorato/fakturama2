@@ -280,7 +280,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			}
 			
 			// Read the input stream
-			BufferedReader reader = new BufferedReader(new InputStreamReader(interruptConnection.getInputStream(),"UTF8"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(interruptConnection.getInputStream()));
 
 			//T: Status message importing data from web shop
 			monitor.subTask(_("Loading Data"));
@@ -730,7 +730,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Create input and output streams to copy the image
 			// from the webserver to the file system
 			InputStream content = (InputStream) interruptConnection.getInputStream();
-			BufferedReader in = new BufferedReader(new InputStreamReader(content,"UTF8"));
+			BufferedReader in = new BufferedReader(new InputStreamReader(content));
 			BufferedInputStream bis = new BufferedInputStream(content);
 
 			FileOutputStream fos = new FileOutputStream(outputFile);
