@@ -65,6 +65,9 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public abstract class ViewDataSetTable extends ViewPart {
 
+	//The top composite
+	Composite top;
+	
 	// The table with the UniDataSets
 	protected TableViewer tableViewer;
 	protected TableColumnLayout tableColumnLayout;
@@ -100,15 +103,18 @@ public abstract class ViewDataSetTable extends ViewPart {
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createPartControl(Composite parent, boolean useDocumentAndContactFilter, boolean useAll) {
+	public void createPartControl(Composite parent, boolean useDocumentAndContactFilter, boolean useAll, String contextHelpId) {
 
 		me = this;
 
 		// Create the top composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(top);
 		GridDataFactory.swtDefaults().align(SWT.FILL, SWT.FILL).applyTo(top);
 
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, contextHelpId);
+		
 		// Create the tree viewer
 		topicTreeViewer = new TopicTreeViewer(top, SWT.BORDER, useDocumentAndContactFilter, useAll);
 		GridDataFactory.swtDefaults().hint(10, -1).applyTo(topicTreeViewer.getTree());

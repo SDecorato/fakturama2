@@ -31,7 +31,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetList;
 import com.sebulli.fakturama.data.DataSetListNames;
@@ -51,6 +53,7 @@ public class ListEditor extends Editor {
 	private DataSetList listEntry;
 
 	// SWT widgets of the editor
+	private Composite top;
 	private Combo comboCategory;
 	private Text textName;
 	private Text textValue;
@@ -224,8 +227,11 @@ public class ListEditor extends Editor {
 	public void createPartControl(Composite parent) {
 
 		// Create the top Composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.LIST_EDITOR);
 
 		// Create the title
 		Label labelTitle = new Label(top, SWT.NONE);
@@ -280,6 +286,17 @@ public class ListEditor extends Editor {
 		textValue.setText(listEntry.getStringValueByKey("value"));
 		superviceControl(textValue, 250);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textValue);
+	}
+	
+	/**
+	 * Set the focus to the top composite.
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
+	 */
+	@Override
+	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
 	}
 
 }

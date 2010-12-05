@@ -51,6 +51,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetProduct;
@@ -74,6 +75,7 @@ public class ProductEditor extends Editor {
 	private DataSetProduct product;
 
 	// SWT widgets of the editor
+	private Composite top;
 	private Text textItemNr;
 	private Text textName;
 	private Text textDescription;
@@ -456,7 +458,7 @@ public class ProductEditor extends Editor {
 		}
 
 		// Create the top Composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
 
 		// Create an invisible container for all hidden components
@@ -464,6 +466,9 @@ public class ProductEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
 
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.PRODUCT_EDITOR);
+		
 		// Group: Product description
 		Group productDescGroup = new Group(top, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(productDescGroup);
@@ -770,13 +775,16 @@ public class ProductEditor extends Editor {
 	}
 
 	/**
-	 * Asks this part to take focus within the workbench.
+	 * Set the focus to the top composite.
 	 * 
 	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
 	 */
 	@Override
 	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
 	}
+
 
 	/**
 	 * Test, if there is a document with the same number

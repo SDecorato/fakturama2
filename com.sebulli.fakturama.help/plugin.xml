@@ -32,5 +32,12 @@
             file="toclicense.xml">
       </toc>
    </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml"
+            plugin="com.sebulli.fakturama.help">
+      </contexts>
+   </extension>
 
 </plugin>

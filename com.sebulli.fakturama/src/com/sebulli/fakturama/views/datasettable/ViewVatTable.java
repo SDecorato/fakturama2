@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewVatAction;
 import com.sebulli.fakturama.data.Data;
 
@@ -53,7 +54,7 @@ public class ViewVatTable extends ViewDataSetTable {
 		searchColumns[1] = "description";
 		searchColumns[2] = "value";
 
-		super.createPartControl(parent, false, true);
+		super.createPartControl(parent, false, true, ContextHelpConstants.VAT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("VATs"));

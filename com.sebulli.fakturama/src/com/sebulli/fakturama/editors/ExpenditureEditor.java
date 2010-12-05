@@ -41,9 +41,11 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
@@ -74,6 +76,7 @@ public class ExpenditureEditor extends Editor {
 	private DataSetExpenditure expenditure;
 
 	// SWT widgets of the editor
+	private Composite top;
 	private Combo comboCategory;
 	private DateTime dtDate;
 	private Text textName;
@@ -502,8 +505,11 @@ public class ExpenditureEditor extends Editor {
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
 
 		// Create the top Composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.EXPENDITURE_EDITOR);
 
 		// There is no invisible component, so no container has to be created
 		// Composite invisible = new Composite(top, SWT.NONE);
@@ -775,6 +781,17 @@ public class ExpenditureEditor extends Editor {
 	 */
 	public TableViewer getTableViewerItems() {
 		return tableViewerItems;
+	}
+	
+	/**
+	 * Set the focus to the top composite.
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
+	 */
+	@Override
+	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
 	}
 
 }

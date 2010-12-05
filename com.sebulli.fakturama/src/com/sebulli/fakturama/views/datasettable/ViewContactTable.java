@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.data.Data;
 
@@ -53,7 +54,7 @@ public class ViewContactTable extends ViewDataSetTable {
 		searchColumns[4] = "zip";
 		searchColumns[5] = "city";
 
-		super.createPartControl(parent, false, true);
+		super.createPartControl(parent, false, true, ContextHelpConstants.CONTACT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Contacts"));
@@ -84,5 +85,17 @@ public class ViewContactTable extends ViewDataSetTable {
 		tableViewer.setInput(Data.INSTANCE.getContacts());
 		topicTreeViewer.setInput(Data.INSTANCE.getContacts());
 	}
+	
+	/**
+	 * Set the focus to the top composite.
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
+	 */
+	@Override
+	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
+	}
+
 
 }

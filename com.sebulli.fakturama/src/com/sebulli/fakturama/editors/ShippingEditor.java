@@ -35,8 +35,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetShipping;
@@ -59,6 +61,7 @@ public class ShippingEditor extends Editor {
 	private DataSetShipping shipping;
 
 	// SWT widgets of the editor
+	private Composite top;
 	private Text textName;
 	private Text textDescription;
 	private Combo comboVat;
@@ -307,8 +310,11 @@ public class ShippingEditor extends Editor {
 		}
 
 		// Create the top Composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.SHIPPING_EDITOR);
 
 		// Create an invisible container for all hidden components
 		// There is no invisible component, so no container has to be created
@@ -549,6 +555,17 @@ public class ShippingEditor extends Editor {
 		//T: Tool Tip Text
 		stdComposite.setToolTipText(_("Make this shipping to the standard shipping"));
 
+	}
+	
+	/**
+	 * Set the focus to the top composite.
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
+	 */
+	@Override
+	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
 	}
 
 }

@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewPaymentAction;
 import com.sebulli.fakturama.data.Data;
 
@@ -55,7 +56,7 @@ public class ViewPaymentTable extends ViewDataSetTable {
 		searchColumns[3] = "discountdays";
 		searchColumns[4] = "netdays";
 
-		super.createPartControl(parent, false, true);
+		super.createPartControl(parent, false, true, ContextHelpConstants.PAYMENT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Payments"));

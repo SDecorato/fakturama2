@@ -58,6 +58,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.actions.CreateOODocumentAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
@@ -100,6 +101,7 @@ public class DocumentEditor extends Editor {
 	private DataSetDocument document;
 
 	// SWT components of the editor
+	private Composite top;
 	private Text txtName;
 	private DateTime dtDate;
 	private DateTime dtOrderDate;
@@ -1152,7 +1154,7 @@ public class DocumentEditor extends Editor {
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
 
 		// Create the top composite of the editor
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(4).applyTo(top);
 
 		// Create an invisible container for all hidden components
@@ -1160,6 +1162,9 @@ public class DocumentEditor extends Editor {
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).span(4, 1).applyTo(invisible);
 
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.DOCUMENT_EDITOR);
+		
 		// Document number label
 		Label labelName = new Label(top, SWT.NONE);
 
@@ -1179,7 +1184,7 @@ public class DocumentEditor extends Editor {
 		txtName = new Text(nrDateComposite, SWT.BORDER);
 		txtName.setText(document.getStringValueByKey("name"));
 		txtName.setToolTipText(labelName.getToolTipText());
-		
+
 		superviceControl(txtName, 32);
 		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
 
@@ -1256,7 +1261,7 @@ public class DocumentEditor extends Editor {
 		txtCustomerRef.setToolTipText(labelCustomerRef.getToolTipText());
 		superviceControl(txtCustomerRef, 32);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
-
+		
 		// The extra settings composite contains additional fields like
 		// the no-Vat widget or a reference to the invoice
 		Composite xtraSettingsComposite = new Composite(top, SWT.NONE);
@@ -2017,13 +2022,14 @@ public class DocumentEditor extends Editor {
 	}
 
 	/**
-	 * Asks this part to take focus within the workbench.
+	 * Set the focus to the top composite.
 	 * 
 	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
 	 */
 	@Override
 	public void setFocus() {
-		super.setFocus();
+		if(top != null) 
+			top.setFocus();
 	}
 
 	/**

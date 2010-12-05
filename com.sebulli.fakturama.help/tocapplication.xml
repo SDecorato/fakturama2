@@ -23,10 +23,11 @@
 	</topic>
 
 	<topic label="Editorfenster"  href="html/editor/main.html">
+		<topic label="Webbrowser"  href="html/editor/editor_browser.html"></topic>
 		<topic label="Dokumenteneditor"  href="html/editor/editor_document.html"></topic>
 		<topic label="Produkteditor"  href="html/editor/editor_product.html"></topic>
 		<topic label="Kontakteditor"  href="html/editor/editor_contact.html"></topic>
-		<topic label="Editor Zahlmedthode"  href="html/editor/editor_payment.html"></topic>
+		<topic label="Editor Zahlungsmethode"  href="html/editor/editor_payment.html"></topic>
 		<topic label="Editor Versandart"  href="html/editor/editor_shipping.html"></topic>
 		<topic label="Editor Steuersatz"  href="html/editor/editor_vat.html"></topic>
 		<topic label="Editor Text"  href="html/editor/editor_text.html"></topic>
@@ -35,5 +36,7 @@
 	</topic>
 
 	<topic label="Übersichtsfenster"  href="html/application/overview.html"></topic>
+	<topic label="Taschenrechner"  href="html/application/calculator.html"></topic>
+	<topic label="Fehlerfenster"  href="html/application/errorview.html"></topic>
 
 </toc>

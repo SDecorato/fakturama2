@@ -22,7 +22,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * This class represents the error view of the workbench
@@ -30,6 +33,10 @@ import org.eclipse.ui.part.ViewPart;
  * @author Gerd Bartelt
  */
 public class ErrorView extends ViewPart {
+
+	
+	// The top composite
+	private Composite top;
 
 	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.errorView";
@@ -49,9 +56,13 @@ public class ErrorView extends ViewPart {
 		this.setPartName(_("Error"));
 
 		// Create top composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(top);
 
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.ERROR_VIEW);
+
+		
 		// create the label
 		Label labelItemNr = new Label(top, SWT.NONE);
 		//T: Label of the error view
@@ -63,13 +74,14 @@ public class ErrorView extends ViewPart {
 	}
 
 	/**
-	 * Asks this part to take focus within the workbench.
+	 * Set the focus to the top composite.
 	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
 	 */
 	@Override
 	public void setFocus() {
-
+		if(top != null) 
+			top.setFocus();
 	}
 
 	/**

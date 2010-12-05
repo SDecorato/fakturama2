@@ -1,0 +1,93 @@
+<contexts>
+   <context id="browserEditor" title="Browserfenster">
+      <description>Projektseite in einem Browserfenster. </description>
+      <topic label="Browser"  href="html/editor/editor_browser.html" />
+   </context>
+   <context id="contactEditor" title="Kontakteditor">
+      <description>Editor für Kontaktadressen wie Kunden und Lieferanten.</description>
+      <topic label="Kontakteditor"  href="html/editor/editor_contact.html" />
+   </context>
+   <context id="documentEditor" title="Dokumenteneditor">
+      <description>Dokumenteditor für Rechnungen, Lieferscheine etc.</description>
+      <topic label="Dokumenteneditor"  href="html/editor/editor_document.html" />
+   </context>
+   <context id="expenditureEditor" title="Editor Ausgabenbeleg">
+      <description>Editor für Ausgabenbelege. Alle Ausgaben können tabellarisch exportiert werden.</description>
+      <topic label="Editor Ausgabenbeleg"  href="html/editor/editor_expenditure.html" />
+   </context>
+   <context id="listEditor" title="Editor Listeneintrag">
+      <description>Fakturama benutzt Listen (Tabelle mit 2 Spalten) für Daten wie Kontennummern oder Länderkennungen.</description>
+      <topic label="Editor Listeneintrag"  href="html/editor/editor_list.html" />
+   </context>
+   <context id="paymentEditor" title="Editor Zahlungsmethoden">
+      <description>Editor für Zahlungsmethoden.</description>
+      <topic label="Editor Zahlungsmethode"  href="html/editor/editor_payment.html" />
+   </context>
+   <context id="productEditor" title="Produkteditor">
+      <description>Editor für alle Produkte.</description>
+      <topic label="Produkteditor"  href="html/editor/editor_product.html" />
+   </context>
+   <context id="shippingEditor" title="Editor Versandarten">
+      <description>Editor zum Erstellen und Bearbeiten von  Versandarten.</description>
+      <topic label="Editor Versandart"  href="html/editor/editor_shipping.html" />
+   </context>
+   <context id="textEditor" title="Editor Texteinträge">
+      <description>Mit dem Texteditor können oft benutzte Texte erstellt werden, die dann später einfach zu benutzen sind.</description>
+      <topic label="Editor Text"  href="html/editor/editor_text.html" />
+   </context>
+   <context id="vatEditor" title="Editor Steuersatz">
+      <description>Editor zum Erstellen und Bearbeiten von Steuersätzen.</description>
+      <topic label="Editor Steuersatz"  href="html/editor/editor_vat.html" />
+   </context>
+
+   <context id="contactTableView" title="Übersicht aller Kontakte">
+      <description>Tabelle mit einer Übersicht aller Kontaktadressen.</description>
+      <topic label="Übersichtsfester Kontakte"  href="html/application/overview.html" />
+   </context>
+   <context id="documentTableView" title="Übersicht aller Dokumente">
+      <description>Tabelle mit einer Übersicht aller Dokumente.</description>
+      <topic label="Übersichtsfester Dokumente"  href="html/application/overview.html" />
+   </context>
+   <context id="expenditureTableView" title="Übersicht aller Ausgabenbelege">
+      <description>Tabelle mit einer Übersicht aller Ausgabenbelege</description>
+      <topic label="Übersichtsfester Ausgabenbelege"  href="html/application/overview.html" />
+   </context>
+   <context id="listTableView" title="Übersicht aller Listeneinträge">
+      <description>Tabelle mit einer Übersicht aller Listeneinträge</description>
+      <topic label="Übersichtsfester Listeneinträge"  href="html/application/overview.html" />
+   </context>
+   <context id="paymentTableView" title="Übersicht aller Zahlungsmethoden">
+      <description>Tabelle mit einer Übersicht aller Zahlungsmethoden.</description>
+      <topic label="Übersichtsfester Zahlungsmethoden"  href="html/application/overview.html" />
+   </context>
+   <context id="productsTableView" title="Übersicht aller Produkte">
+      <description>Tabelle mit einer Übersicht aller Produkte.</description>
+      <topic label="Übersichtsfester Produkte"  href="html/application/overview.html" />
+   </context>
+   <context id="shippingTableView" title="Übersicht aller Versandarten">
+      <description>Tabelle mit einer Übersicht aller Versandarten.</description>
+      <topic label="Übersichtsfester Versandarten"  href="html/application/overview.html" />
+   </context>
+   <context id="textTableView" title="Übersicht aller Texteinträge">
+      <description>Tabelle mit einer Übersicht aller Texteinträge.</description>
+      <topic label="Übersichtsfester Texte"  href="html/application/overview.html" />
+   </context>
+   <context id="vatTableView" title="Übersicht aller Steuersätze">
+      <description>Tabelle mit einer Übersicht aller Steuersätze.</description>
+      <topic label="Übersichtsfester Steuersätze"  href="html/application/overview.html" />
+   </context>
+   
+   <context id="calculatorView" title="Taschenrechner">
+      <description>Ein Taschenrechner, der immer schnell zur Verfügung steht.</description>
+      <topic label="Taschenrechner"  href="html/application/calculator.html" />
+   </context>
+   <context id="navigationView" title="Navigationsleiste">
+      <description>Navigationsleiste mit den wichtigsten Daten und Kommandos.</description>
+      <topic label="Navigationsleiste"  href="html/application/navigationbar.html" />
+   </context>
+   <context id="errorView" title="Fehlerfenster">
+      <description>Das Fehlerfenster wird bei einem internen Fehler eingeblendet.</description>
+      <topic label="Fehlerfenster"  href="html/application/errorview.html" />
+   </context>
+   
+</contexts>

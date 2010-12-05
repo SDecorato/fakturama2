@@ -19,8 +19,10 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.ICommandIds;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.actions.NewProductAction;
@@ -45,6 +47,9 @@ import com.sebulli.fakturama.exportsales.ExportSalesAction;
  */
 public class NavigationView extends ViewPart implements ICommandIds {
 
+	// The top composite
+	private Composite top;
+	
 	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.navigationView"; //$NON-NLS-1$
 
@@ -57,8 +62,11 @@ public class NavigationView extends ViewPart implements ICommandIds {
 
 		// Create a new expand bar manager.
 		ExpandBarManager expandBarManager = new ExpandBarManager();
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.NAVIGATION_VIEW);
 
 		// Create the first expand bar "Import"
 		//T: Title of an expand bar in the navigations view
@@ -106,9 +114,13 @@ public class NavigationView extends ViewPart implements ICommandIds {
 	}
 
 	/**
-	 * Passing the focus request to the viewer's control.
+	 * Set the focus to the top composite.
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
 	 */
 	@Override
 	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
 	}
 }
