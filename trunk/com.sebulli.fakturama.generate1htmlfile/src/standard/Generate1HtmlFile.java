@@ -50,7 +50,7 @@ public class Generate1HtmlFile {
 		try {
 			
 			// Add the header
-			addHtmlFile( path + "manual/templates/" + "header.html", path + "manual/templates/",  false, true, false);
+			addHtmlFile( path + "manual/templates/" + "header.html", path + "manual/templates/",  false, true, true);
 			
 			// Parse the toc.xml file
 			builder = factory.newDocumentBuilder();
@@ -66,7 +66,7 @@ public class Generate1HtmlFile {
 			    		
 			    		// Add the HTML file of each toc file
 				    	String htmlFileName = path + nodeList.item(i).getAttributes().getNamedItem("href").getNodeValue();
-				    	addHtmlFile( htmlFileName, getPath(htmlFileName), true, false, false);
+				    	addHtmlFile( htmlFileName, getPath(htmlFileName), true, false, true);
 
 			    		parseTocFile(path + "toc"+childNode.getAttributes().getNamedItem("id").getNodeValue()+".xml");
 			    	}
@@ -105,7 +105,7 @@ public class Generate1HtmlFile {
 		    	
 		    	// Add the HTML file of the topic entry
 		    	String htmlFileName = path + nodeList.item(i).getAttributes().getNamedItem("href").getNodeValue();
-		    	addHtmlFile( htmlFileName, getPath(htmlFileName), true, false, true);
+		    	addHtmlFile( htmlFileName, getPath(htmlFileName), true, false, false);
 		    }
 		}
 		catch (Exception e) {
@@ -153,7 +153,7 @@ public class Generate1HtmlFile {
 	 * @param isNotH1
 	 * 			True, of all H1 headings should be converted to H2 headings
 	 */
-	private static void addHtmlFile (String fileName, String p, boolean onlyBody, boolean newFile, boolean isNotH1) {
+	private static void addHtmlFile (String fileName, String p, boolean onlyBody, boolean newFile, boolean isRoot) {
 		
 		if (fileName.endsWith("nohelp.html"))
 			return;
@@ -193,13 +193,20 @@ public class Generate1HtmlFile {
 							body = false;
 					}
 					else if (body || !onlyBody) {
+
+						line = line.replace("<h3>", "<h4>");
+						line = line.replace("</h3>", "</h4>");
+
+						line = line.replace("<h2>", "<h3>");
+						line = line.replace("</h2>", "</h3>");
+
 						// Convert the headings
-						if (isNotH1) {
-							line = line.replace("<h2>", "<h3>");
-							line = line.replace("</h2>", "</h3>");
+						if (!isRoot) {
 							line = line.replace("<h1>", "<h2>");
 							line = line.replace("</h1>", "</h2>");
 						}
+						
+
 						line = line.replace("src=\"", "src=\"" +"../"+ p);
 						
 						outputWriter.write(line + "\r\n");
