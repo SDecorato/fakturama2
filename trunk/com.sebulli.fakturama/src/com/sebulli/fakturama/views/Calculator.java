@@ -33,9 +33,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -45,6 +47,8 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class Calculator extends ViewPart {
 
+	private Composite top;
+	
 	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.calculator";
 
@@ -75,9 +79,12 @@ public class Calculator extends ViewPart {
 		this.setPartName(_("Calculator"));
 
 		// Create the top Composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
 		
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.CALCULATOR_VIEW);
+
 		// Top container
 		Composite container = new Composite(top, SWT.NONE);
 		final GridLayout calculatorGridLayout = new GridLayout();
@@ -105,6 +112,7 @@ public class Calculator extends ViewPart {
 		displayText.setText(displayString);
 		displayText.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 4, 1));
 
+		
 		// Set the font of the display
 		FontData fD = displayText.getFont().getFontData()[0];
 		fD.setHeight(24);
@@ -285,7 +293,10 @@ public class Calculator extends ViewPart {
 	 */
 	@Override
 	public void setFocus() {
-		displayText.setFocus();
+//		displayText.setFocus();
+		if(top != null) 
+			top.setFocus();
+
 	}
 
 	/**

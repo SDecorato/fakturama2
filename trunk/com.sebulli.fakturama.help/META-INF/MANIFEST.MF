@@ -6,6 +6,7 @@ Bundle-Version: 0.2.0.qualifier
 Bundle-Activator: com.sebulli.fakturama.help.Activator
 Bundle-Vendor: sebulli.com
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.help
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

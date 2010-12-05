@@ -46,6 +46,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
@@ -66,6 +67,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	private DataSetContact contact;
 
 	// SWT widgets of the editor
+	private Composite top;
 	private TabFolder tabFolder;
 	private Text textNote;
 	private Combo comboGender;
@@ -450,13 +452,16 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		useCountry = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_COUNTRY");
 
 		// Create the top Composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
 
 		// Create an invisible container for all hidden components
 		Composite invisible = new Composite(top, SWT.NONE);
 		invisible.setVisible(false);
 		GridDataFactory.fillDefaults().hint(0, 0).applyTo(invisible);
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.CONTACT_EDITOR);
 
 		// Create the address tab
 		Composite tabAddress;
@@ -963,13 +968,16 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	}
 
 	/**
-	 * Asks this part to take focus within the workbench.
+	 * Set the focus to the top composite.
 	 * 
 	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
 	 */
 	@Override
 	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
 	}
+
 
 	/**
 	 * Test, if there is a document with the same number

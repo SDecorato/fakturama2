@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewExpenditureAction;
 import com.sebulli.fakturama.data.Data;
 
@@ -51,7 +52,7 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		searchColumns[2] = "documentnr";
 		searchColumns[3] = "date";
 
-		super.createPartControl(parent, false, true);
+		super.createPartControl(parent, false, true, ContextHelpConstants.EXPENDITURE_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Expenditures"));

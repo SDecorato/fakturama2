@@ -26,7 +26,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetText;
 import com.sebulli.fakturama.views.datasettable.ViewTextTable;
@@ -45,6 +47,7 @@ public class TextEditor extends Editor {
 	private DataSetText text;
 
 	// SWT widgets of the editor
+	private Composite top;
 	private Text textName;
 	private Text textText;
 	private Text txtCategory;
@@ -193,8 +196,11 @@ public class TextEditor extends Editor {
 	public void createPartControl(Composite parent) {
 
 		// Create the top Composite
-		Composite top = new Composite(parent, SWT.NONE);
+		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.TEXT_EDITOR);
 
 		// Create an invisible container for all hidden components
 		// There is no invisible component, so no container has to be created
@@ -248,5 +254,17 @@ public class TextEditor extends Editor {
 		superviceControl(textText, 10000);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(textText);
 	}
+	
+	/**
+	 * Set the focus to the top composite.
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
+	 */
+	@Override
+	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
+	}
+
 
 }

@@ -24,6 +24,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.MarkDocumentAsPaidAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
@@ -64,7 +65,7 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		searchColumns[2] = "addressfirstline";
 		searchColumns[3] = "total";
 
-		super.createPartControl(parent, true, false);
+		super.createPartControl(parent, true, false, ContextHelpConstants.DOCUMENT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Documents"));

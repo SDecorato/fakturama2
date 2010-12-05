@@ -31,7 +31,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -41,14 +43,17 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class BrowserEditor extends Editor {
 	public static final String ID = "com.sebulli.fakturama.editors.browserEditor";
-	String url;
-	Browser browser;
+	private String url;
+
+	// SWT components of the editor
+	private Composite top;
+	private Browser browser;
 
 	// Button, to go home to the fakturama website
-	Button homeButton;
+	private Button homeButton;
 
 	// URL of the last site on fakturama.sebulli.com
-	String lastFakturamaURL = "";
+	private String lastFakturamaURL = "";
 
 	/**
 	 * Constructor
@@ -115,12 +120,19 @@ public class BrowserEditor extends Editor {
 	@Override
 	public void createPartControl(final Composite parent) {
 
-		// Format the parent composite
-		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(parent);
-		GridLayoutFactory.fillDefaults().spacing(0, 0).applyTo(parent);
+		GridLayoutFactory.fillDefaults().numColumns(1).spacing(0, 0).applyTo(parent);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(parent);
+
+		// Format the top composite
+		top = new Composite(parent, SWT.NONE);
+		GridLayoutFactory.fillDefaults().numColumns(1).spacing(0, 0).applyTo(top);
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(top);
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.BROWSER_EDITOR);
 
 		// Create a composite that will contain the home button
-		final Composite homeButtonComposite = new Composite(parent, SWT.NONE);
+		final Composite homeButtonComposite = new Composite(top, SWT.NONE);
 		Color color = new Color(null, 0xc8, 0xda, 0xe4);
 		homeButtonComposite.setBackground(color);
 		GridDataFactory.fillDefaults().grab(true, false).hint(0, 0).applyTo(homeButtonComposite);
@@ -129,7 +141,7 @@ public class BrowserEditor extends Editor {
 
 		// Create a new web browser control
 		try {
-			browser = new Browser(parent, SWT.NONE);
+			browser = new Browser(top, SWT.NONE);
 			color = new Color(null, 0xff, 0xff, 0xff);
 			browser.setBackground(color);
 			color.dispose();
@@ -155,7 +167,7 @@ public class BrowserEditor extends Editor {
 							homeButton.dispose();
 							homeButton = null;
 							GridDataFactory.fillDefaults().grab(true, false).hint(0, 0).applyTo(homeButtonComposite);
-							parent.layout(true);
+							top.layout(true);
 						}
 					}
 					// We are on an other web site - add the back to home button
@@ -173,7 +185,7 @@ public class BrowserEditor extends Editor {
 							});
 							GridDataFactory.swtDefaults().applyTo(homeButton);
 							GridDataFactory.fillDefaults().grab(true, false).applyTo(homeButtonComposite);
-							parent.layout(true);
+							top.layout(true);
 						}
 					}
 				}
@@ -202,8 +214,17 @@ public class BrowserEditor extends Editor {
 			browser.setUrl(url);
 	}
 
-	public void createBrowser() {
-
+	
+	/**
+	 * Set the focus to the top composite.
+	 * 
+	 * @see com.sebulli.fakturama.editors.Editor#setFocus()
+	 */
+	@Override
+	public void setFocus() {
+		if(top != null) 
+			top.setFocus();
 	}
+
 
 }

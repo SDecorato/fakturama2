@@ -20,6 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewProductAction;
 import com.sebulli.fakturama.data.Data;
 
@@ -52,7 +53,7 @@ public class ViewProductTable extends ViewDataSetTable {
 		searchColumns[2] = "description";
 		searchColumns[3] = "price1";
 
-		super.createPartControl(parent, false, true);
+		super.createPartControl(parent, false, true, ContextHelpConstants.PRODUCT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Products"));
