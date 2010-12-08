@@ -156,7 +156,9 @@ public class Generate1HtmlFile {
 			idFileName = idFileName.substring(0, idFileName.length() - 5);
 		
 		// Replace last "/"
-		idFileName = idFileName.substring(0, idFileName.lastIndexOf("/") ) + "_" + idFileName.substring(idFileName.lastIndexOf("/") + 1, idFileName.length());
+		if (idFileName.contains("/")) 
+			idFileName = idFileName.substring(0, idFileName.lastIndexOf("/") ) + "_" + idFileName.substring(idFileName.lastIndexOf("/") + 1, idFileName.length());
+		
 		
 		if (idFileName.contains("/"))
 			idFileName = idFileName.substring(idFileName.lastIndexOf('/') + 1 , idFileName.length());
