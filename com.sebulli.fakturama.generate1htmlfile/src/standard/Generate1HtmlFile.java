@@ -140,6 +140,31 @@ public class Generate1HtmlFile {
 	}
 	
 	/**
+	 * Converts a file name to an unique name without the extension.
+	 * The Name and the name of the upper folder name is used.
+	 * 
+	 * @param s
+	 * 		The file name to parse
+	 * @return
+	 * 		The file converted to a name
+	 */
+	private static String getidFileName(String s) {
+		String idFileName = s;
+
+		// Remove ".html"
+		if (idFileName.endsWith(".html"))
+			idFileName = idFileName.substring(0, idFileName.length() - 5);
+		
+		// Replace last "/"
+		idFileName = idFileName.substring(0, idFileName.lastIndexOf("/") ) + "_" + idFileName.substring(idFileName.lastIndexOf("/") + 1, idFileName.length());
+		
+		if (idFileName.contains("/"))
+			idFileName = idFileName.substring(idFileName.lastIndexOf('/') + 1 , idFileName.length());
+
+		return idFileName;
+	}
+	
+	/**
 	 * Add a HTML file to the output file
 	 * 
 	 * @param fileName
@@ -155,6 +180,8 @@ public class Generate1HtmlFile {
 	 */
 	private static void addHtmlFile (String fileName, String p, boolean onlyBody, boolean newFile, boolean isRoot) {
 		
+		String idFileName = getidFileName(fileName);
+
 		if (fileName.endsWith("nohelp.html"))
 			return;
 		
@@ -178,9 +205,13 @@ public class Generate1HtmlFile {
 
 			    System.out.println("  Adding: " + fileName); 
 
+				String line = "";
+			    line = "	<a name=\"" + idFileName +  "\">";
+			    
+			    outputWriter.write(line + "\r\n");
+			    
 			    // Open the existing file
 				BufferedReader in = new BufferedReader(new FileReader(fileName));
-				String line = "";
 
 				boolean body = false;
 				while ((line = in.readLine()) != null) {
@@ -208,6 +239,30 @@ public class Generate1HtmlFile {
 						
 
 						line = line.replace("src=\"", "src=\"" +"../"+ p);
+						
+						
+						if (line.contains("href=\"")) {
+							String ref = line;
+							int start, end;
+							start = ref.lastIndexOf("href=\"") + 6;
+							ref = ref.substring(start, ref.length());
+							end = ref.indexOf("\"");
+							ref = ref.substring(0, end);
+							end = start + end;
+							
+							if (!ref.startsWith("http://") && 
+								!ref.contains(".css")) {
+									if (ref.contains("#")) {
+										ref = ref.substring(ref.indexOf("#"), ref.length());
+									}
+									else {
+										ref = "#" + getidFileName(ref);
+									}
+									line = line.substring(0, start) + ref + line.substring(end, line.length());
+							}
+						}
+						
+						
 						
 						outputWriter.write(line + "\r\n");
 					}
