@@ -209,8 +209,9 @@ public class Generate1HtmlFile {
 
 				String line = "";
 			    line = "	<a name=\"" + idFileName +  "\">";
-			    
-			    outputWriter.write(line + "\r\n");
+				if ( !idFileName.equals("templates_header") &&
+						!idFileName.equals("templates_footer") )					
+		    		    outputWriter.write(line + "\r\n");
 			    
 			    // Open the existing file
 				BufferedReader in = new BufferedReader(new FileReader(fileName));
@@ -263,8 +264,6 @@ public class Generate1HtmlFile {
 									line = line.substring(0, start) + ref + line.substring(end, line.length());
 							}
 						}
-						
-						
 						
 						outputWriter.write(line + "\r\n");
 					}
