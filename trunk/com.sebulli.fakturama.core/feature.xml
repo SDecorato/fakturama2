@@ -2,7 +2,7 @@
 <feature
       id="com.sebulli.fakturama.core"
       label="Fakturama Core Feature"
-      version="0.3.1.qualifier"
+      version="1.0.0.qualifier"
       provider-name="sebulli.com">
 
    <description url="http://fakturama.sebulli.com">
@@ -129,28 +129,28 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="com.sebulli.fakturama"
          download-size="0"
          install-size="0"
-         version="0.3.1.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="ag.ion.noa"
          download-size="0"
          install-size="0"
-         version="2.2.3"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="org.hsqldb"
          download-size="0"
          install-size="0"
-         version="2.0.0"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin
          id="com.sebulli.fakturama.help"
          download-size="0"
          install-size="0"
-         version="0.2.0.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin

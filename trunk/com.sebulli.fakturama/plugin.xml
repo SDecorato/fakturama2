@@ -421,7 +421,7 @@
             
          <property
                name="aboutText"
-               value="V1.0.0">
+               value="Fakturama V1.0.0 - (C) 2010 Gerd Bartelt">
          </property>
          <property
                name="aboutImage"
