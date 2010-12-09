@@ -143,6 +143,22 @@ public enum Data {
 		setProperty("standardvat", "0");
 		setProperty("standardshipping", "0");
 		setProperty("standardpayment", "0");
+		
+		// String with default country codes.
+		//T: Some country codes separated by a semicolon. For French language use FRANCE=F and some neighbor countries. 		
+		String countryCodes = _("GERMANY=D;AUSTRIA=AT;SWITZERLAND=CH");
+		
+		// Split the string
+		String[] countryCodesPairs = countryCodes.split(";");
+		String[] countryCodesPairParts;
+
+		// Add all codes to the list of country codes
+		for (String countryCodesPair : countryCodesPairs) {
+			countryCodesPairParts = countryCodesPair.split("=");
+			list.addNewDataSet(new DataSetList("countrycodes", countryCodesPairParts[0], countryCodesPairParts[1]));
+		}
+
+		
 	}
 
 	/**
