@@ -27,6 +27,8 @@ import java.io.Writer;
 
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -71,12 +73,16 @@ public class LogListener implements ILogListener {
 		try {
 
 			// Find the error view
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(ErrorView.ID);
-			ErrorView view = (ErrorView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ErrorView.ID);
+			IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+			IWorkbenchPage workbenchPage = workbenchWindow.getActivePage();
+			
+			if ( workbenchPage !=null ) {
+				workbenchPage.showView(ErrorView.ID);
+				ErrorView view = (ErrorView) workbenchPage.findView(ErrorView.ID);
 
-			// Set the error text
-			view.setErrorText(errorString);
-
+				// Set the error text
+				view.setErrorText(errorString);
+			}
 		}
 		catch (PartInitException e) {
 		}
