@@ -1747,7 +1747,7 @@ public class DocumentEditor extends Editor {
 		});
 
 		// Add a multi line text field for the message.
-		txtMessage = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		txtMessage = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		txtMessage.setText(document.getStringValueByKey("message"));
 		txtMessage.setToolTipText(messageLabel.getToolTipText());
 		superviceControl(txtMessage, 10000);
