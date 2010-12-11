@@ -390,8 +390,12 @@ public abstract class UniDataSet {
 				table = tableAndKey[0];
 				this.key = tableAndKey[1];
 
+				
 				// Get the value from the other table
-				this.uds = Data.INSTANCE.getUniDataSetByTableNameAndId(table, id);
+				if (id >= 0)
+					this.uds = Data.INSTANCE.getUniDataSetByTableNameAndId(table, id);
+				else
+					this.uds = null;
 
 				// take this ID to access to more extended keys like:
 				// "id.TABLE1:key1.TABLE2.key2"
