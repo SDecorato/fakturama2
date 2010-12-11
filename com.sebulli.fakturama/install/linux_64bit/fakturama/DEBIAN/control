@@ -1,0 +1,11 @@
+Package: fakturama
+Version: 1.0.0
+Section: misc
+Priority: extra
+Architecture: all
+Depends: bash
+Installed-Size: 8
+Maintainer: Gerd Bartelt <fakturama@sebulli.com>
+Homepage: fakturama.sebulli.com
+Description: Free and Open Source Invoicing Software
+
