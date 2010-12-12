@@ -75,7 +75,6 @@ public class OpenOfficeStarter {
 			}
 		}
 		catch (OfficeApplicationException e) {
-			Logger.logError(e, "Error retrieving the OpenOffice home location.");
 		}
 		
 		return home;
