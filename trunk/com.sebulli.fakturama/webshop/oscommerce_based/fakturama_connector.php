@@ -6,10 +6,12 @@
  * 
  * Web shop connector script
  *
- * Version 1.1.0
- * Date: 2010-11-20
+ * Version 1.0.0
+ * Date: 2010-12-12
  * 
- * 
+ * This version is compatible to the same version of Fakturama
+ *
+ *
  * 
  * Copyright (C) 2010 Gerd Bartelt
  * 
