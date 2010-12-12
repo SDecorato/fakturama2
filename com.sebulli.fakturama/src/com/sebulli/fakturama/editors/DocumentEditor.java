@@ -463,7 +463,12 @@ public class DocumentEditor extends Editor {
 			document.setStringValueByKey("addressfirstline", Data.INSTANCE.getContacts().getDatasetById(addressId).getName());
 		}
 		else {
-			String s = txtAddress.getText().split("\n")[0];
+			String s = txtAddress.getText();
+			
+			// Remove the "\r" and the "\n" if it was a "\r\n" as line break.
+			s = s.split("\n")[0];
+			s = s.split("\r")[0];
+			
 			document.setStringValueByKey("addressfirstline", s);
 		}
 
