@@ -10,17 +10,19 @@
 ;General
 
   ;Name and file
-  Name "Fakturama"
-  OutFile "Install_Fakturama.exe"
-
-  ;Default installation folder
-  InstallDir "$PROGRAMFILES\Fakturama"
+  Name "Fakturama ${VERSION}"
   
+  BRANDINGTEXT "(C) Gerd Bartelt 2010"
+
   ;Get installation folder from registry if available
   ;InstallDirRegKey HKCU "Software\Fakturama" ""
 
   ;Request application privileges for Windows Vista
   RequestExecutionLevel admin
+
+  !define MUI_ICON "Fakturama.ico"
+  !define MUI_UNICON "Fakturama.ico"
+
 
 ;--------------------------------
 ;Interface Configuration
@@ -47,6 +49,7 @@
   
   !insertmacro MUI_UNPAGE_CONFIRM
   !insertmacro MUI_UNPAGE_INSTFILES
+  !define MUI_FINISHPAGE_RUN "$INSTDIR\Fakturama.exe"
   
 ;--------------------------------
 ;Languages
@@ -79,6 +82,25 @@ Section "Fakturama" SecFakturama
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
+  ; create a shortcut named "new shortcut" in the start menu programs directory
+  createShortCut "$SMPROGRAMS\Fakturama.lnk" "$INSTDIR\Fakturama.exe"
+
+  ;create desktop shortcut
+  CreateShortCut "$DESKTOP\Fakturama.lnk" "$INSTDIR\Fakturama.exe" ""
+
+;write uninstall information to the registry
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Fakturama" "DisplayName" "Fakturama"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Fakturama" "UninstallString" "$INSTDIR\Uninstall.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Fakturama" "Publisher" "sebulli.com"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Fakturama" "DisplayVersion" "${VERSION}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Fakturama" "DisplayIcon" "$INSTDIR\Uninstall.exe,0"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Fakturama" "HelpLink" "http://fakturama.sebulli.com"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Fakturama" "URLInfoAbout" "http://fakturama.sebulli.com"
+
+# Make the directory "$INSTDIR\database" read write accessible by all users
+  AccessControl::GrantOnFile \
+    "$INSTDIR" "(BU)" "FullAccess"  
+
 SectionEnd
 
 ;--------------------------------
@@ -101,8 +123,18 @@ Section "Uninstall"
 
   Delete "$INSTDIR\Uninstall.exe"
 
-  RMDir "$INSTDIR"
+  RMDir /r "$INSTDIR"
 
+  ;Delete Uninstaller And Unistall Registry Entries
+  DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Fakturama"
+  DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Fakturama"
   DeleteRegKey /ifempty HKCU "Software\Fakturama"
+
+  # second, remove the link from the start menu
+  delete "$SMPROGRAMS\Fakturama.lnk"
+
+  # remove the link from the desktop
+  delete "$DESKTOP\Fakturama.lnk"
+
 
 SectionEnd
