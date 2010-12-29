@@ -55,6 +55,7 @@ import com.sebulli.fakturama.actions.OpenContactsAction;
 import com.sebulli.fakturama.actions.OpenDocumentsAction;
 import com.sebulli.fakturama.actions.OpenExpendituresAction;
 import com.sebulli.fakturama.actions.OpenListsAction;
+import com.sebulli.fakturama.actions.OpenParcelServiceAction;
 import com.sebulli.fakturama.actions.OpenPaymentsAction;
 import com.sebulli.fakturama.actions.OpenProductsAction;
 import com.sebulli.fakturama.actions.OpenShippingsAction;
@@ -105,6 +106,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	
 	private OpenBrowserEditorAction openBrowserEditorAction;
 	private OpenBrowserEditorAction openBrowserEditorActionTB;
+	private OpenParcelServiceAction openParcelServiceAction;
+	private OpenParcelServiceAction openParcelServiceActionTB;
 	private OpenCalculatorAction openCalculatorAction;
 	private OpenCalculatorAction openCalculatorActionTB;
 	private OpenContactsAction openContactsAction;
@@ -258,6 +261,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		//T: Text of the actions in the main menu
 		resetViewAction.setText(_("Reset Perspective"));
 		register(resetViewAction);
+
+		openParcelServiceAction = new OpenParcelServiceAction();
+		register(openParcelServiceAction);
+		openParcelServiceActionTB = new OpenParcelServiceAction();
+		register(openParcelServiceActionTB);
 
 		openBrowserEditorAction = new OpenBrowserEditorAction();
 		register(openBrowserEditorAction);
@@ -415,6 +423,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		//T: Title of the menus in the main menu
 		MenuManager newMenu = new MenuManager(_("New"), "com.sebulli.faktura.menu.create");
 		//T: Title of the menus in the main menu
+		MenuManager serviceMenu = new MenuManager(_("Service"), "com.sebulli.faktura.menu.service");
+		//T: Title of the menus in the main menu
 		MenuManager windowMenu = new MenuManager(_("Window"), IWorkbenchActionConstants.M_WINDOW);
 		//T: Title of the menus in the main menu
 		MenuManager helpMenu = new MenuManager(_("Help"), IWorkbenchActionConstants.M_HELP);
@@ -505,12 +515,16 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newMenu.add(newTextAction);
 		newMenu.add(newListEntryAction);
 		newMenu.add(newExpenditureAction);
+		newMenu.add(new Separator());
+		newMenu.add(openParcelServiceAction);
 		
+		// service menu
+		serviceMenu.add(openParcelServiceAction);
+
 		// window menu
 		windowMenu.add(resetViewAction);
 		windowMenu.add(new Separator());
 		windowMenu.add(openCalculatorAction);
-		
 
 		// Help menu
 		helpMenu.add(openBrowserEditorAction);
@@ -636,14 +650,17 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newDeliveryCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newDeliveryCI);
 
-		newCreditActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/credit_new_32.png"));
-		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newCreditActionTB.setText(_("Credit", "TOOLBAR"));
-		ActionContributionItem newCreditCI = new ActionContributionItem(newCreditActionTB);
-		newCreditCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newCreditCI);
 
 		if (screenWidth > 1024) {
+
+			newCreditActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/credit_new_32.png"));
+			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+			newCreditActionTB.setText(_("Credit", "TOOLBAR"));
+			ActionContributionItem newCreditCI = new ActionContributionItem(newCreditActionTB);
+			newCreditCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+			toolbar2.add(newCreditCI);
+
+			
 			newDunningActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
 			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 			newDunningActionTB.setText(_("Dunning", "TOOLBAR"));
@@ -672,6 +689,13 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		ActionContributionItem newExpenditureCI = new ActionContributionItem(newExpenditureActionTB);
 		newExpenditureCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newExpenditureCI);
+
+		openParcelServiceActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/parcel_service_32.png"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		openParcelServiceActionTB.setText(_("Parcel", "TOOLBAR"));
+		ActionContributionItem openParcelServiceCI = new ActionContributionItem(openParcelServiceActionTB);
+		openParcelServiceCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		toolbar3.add(openParcelServiceCI);
 
 		openBrowserEditorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/www_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.

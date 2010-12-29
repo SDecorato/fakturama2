@@ -78,6 +78,7 @@ public class PreferencesInDatabase {
 		WebShopImportPreferencePage.syncWithPreferencesFromDatabase(save);
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(save);
 		ExportSalesPreferencePage.syncWithPreferencesFromDatabase(save);
+		ParcelServicePreferencePage.syncWithPreferencesFromDatabase(save);
 	}
 
 	/**

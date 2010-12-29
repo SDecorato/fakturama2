@@ -48,7 +48,7 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	@Override
 	public void createFieldEditors() {
 
-		//T: Preference page "Contact" - Label checkbox "Use delivery address"
+		//T: Preference page "Web Shop Import" - Label checkbox "web shop enabled"
 		addField(new BooleanFieldEditor("WEBSHOP_ENABLED", _("Web shop enabled"), getFieldEditorParent()));
 		
 		//T: Preference page "Web Shop Import" - Label

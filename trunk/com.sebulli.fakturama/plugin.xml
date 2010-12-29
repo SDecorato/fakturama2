@@ -145,6 +145,12 @@
             id="com.sebulli.fakturama.actions.openBrowserEditor"
             name="Call Browser Editor">
       </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryCallEditor"
+            description="Open Parcel Service Browser Editor"
+            id="com.sebulli.fakturama.actions.openParcelService"
+            name="Call Parcel Service Browser Editor">
+      </command>
       <category
             id="com.sebulli.fakturama.categoryOpenObjectTable"
             name="Open Object Table">
@@ -510,6 +516,11 @@
             name="%page.openoffice">
       </page>
       <page
+            class="com.sebulli.fakturama.preferences.ParcelServicePreferencePage"
+            id="com.sebulli.fakturama.exportsales.parcelServicePreferencePage"
+            name="%page.parcelservice">
+      </page>
+      <page
             class="com.sebulli.fakturama.preferences.ExportSalesPreferencePage"
             id="com.sebulli.fakturama.exportsales.exportSalesPreferencePage"
             name="%page.exportsales">
@@ -597,6 +608,13 @@
             icon="icons/16/www_16.png"
             id="com.sebulli.fakturama.editors.browserEditor"
             name="Browser Editor">
+      </editor>
+      <editor
+            class="com.sebulli.fakturama.editors.ParcelServiceBrowserEditor"
+            default="false"
+            icon="icons/16/parcel_16.png"
+            id="com.sebulli.fakturama.editors.parcelServiceBrowserEditor"
+            name="ParcelService Browser Editor">
       </editor>
    </extension>
    <extension

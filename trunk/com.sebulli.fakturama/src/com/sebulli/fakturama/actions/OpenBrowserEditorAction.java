@@ -77,7 +77,7 @@ public class OpenBrowserEditorAction extends Action {
 		url += "&lang=" + Locale.getDefault().getCountry();
 
 		// Sets the URL as input for the editor.
-		BrowserEditorInput input = new BrowserEditorInput(url);
+		BrowserEditorInput input = new BrowserEditorInput(url, "fakturama.sebulli.com");
 
 		// Open the editor
 		try {
