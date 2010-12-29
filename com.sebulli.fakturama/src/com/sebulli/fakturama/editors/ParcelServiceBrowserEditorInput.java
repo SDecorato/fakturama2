@@ -18,15 +18,18 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
+import com.sebulli.fakturama.data.DataSetDocument;
+
 /**
  * Browser editor input
  * 
  * @author Gerd Bartelt
  */
-public class BrowserEditorInput implements IEditorInput {
+public class ParcelServiceBrowserEditorInput implements IEditorInput {
 
 	String url;
 	String name = "";
+	DataSetDocument document;
 
 	/**
 	 * Constructor
@@ -34,9 +37,8 @@ public class BrowserEditorInput implements IEditorInput {
 	 * @param url
 	 *            URL of the web browser
 	 */
-	public BrowserEditorInput(String url, String name) {
-		this.url = url;
-		this.name = name;
+	public ParcelServiceBrowserEditorInput(DataSetDocument document) {
+		this.document = document;
 	}
 
 	/**
@@ -136,5 +138,14 @@ public class BrowserEditorInput implements IEditorInput {
 	 */
 	public String getUrl() {
 		return this.url;
+	}
+
+	/**
+	 * Returns the document
+	 * 
+	 * @return The document
+	 */
+	public DataSetDocument getDocument() {
+		return this.document;
 	}
 }

@@ -32,6 +32,7 @@ import com.sebulli.fakturama.actions.OpenContactsAction;
 import com.sebulli.fakturama.actions.OpenDocumentsAction;
 import com.sebulli.fakturama.actions.OpenExpendituresAction;
 import com.sebulli.fakturama.actions.OpenListsAction;
+import com.sebulli.fakturama.actions.OpenParcelServiceAction;
 import com.sebulli.fakturama.actions.OpenPaymentsAction;
 import com.sebulli.fakturama.actions.OpenProductsAction;
 import com.sebulli.fakturama.actions.OpenShippingsAction;
@@ -96,6 +97,7 @@ public class NavigationView extends ViewPart implements ICommandIds {
 
 		bar3.addAction(new NewProductAction());
 		bar3.addAction(new NewContactAction(null));
+		bar3.addAction(new OpenParcelServiceAction());
 
 		// Create the 4th expand bar "export"
 		//T: Title of an expand bar in the navigations view
