@@ -50,7 +50,7 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 
 		
 		//T: Preference page "Parcel service" - Label "Service provider"
-		addField(new ComboFieldEditor("PARCEL_SERVICE_PROVIDER", _("Parcel Service:"), new String[][] { 
+		addField(new ComboFieldEditor("PARCEL_SERVICE_PROVIDER", _("Parcel Service") + ":", new String[][] { 
 				{ "DHL (efiliale.de)", "DHL" }, 
 				{ "Hermes (hermespaketshop.de)", "HERMES" },
 				{ _("Use settings below"), "SETTINGS" },
@@ -165,24 +165,24 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 	public static void setInitValues(IEclipsePreferences node) {
 		node.put("PARCEL_SERVICE_URL", "http://www.yourparcelservice.com");
 		node.put("PARCEL_SERVICE_PROVIDER", "DHL");
-		node.put("PARCEL_SERVICE_SENDER_NAME", "senderCompanyName");
-		node.put("PARCEL_SERVICE_SENDER_FIRST_NAME", "senderFirstName");
-		node.put("PARCEL_SERVICE_SENDER_LAST_NAME", "senderLastName");
-		node.put("PARCEL_SERVICE_SENDER_ADDITIONAL_ADDRESS", "senderAddressLine1");
-		node.put("PARCEL_SERVICE_SENDER_STREET", "senderAddressStreet");
-		node.put("PARCEL_SERVICE_SENDER_NO", "senderAddressNo");
-		node.put("PARCEL_SERVICE_SENDER_ZIP", "senderZIP");
-		node.put("PARCEL_SERVICE_SENDER_CITY", "senderCity");
-		node.put("PARCEL_SERVICE_SENDER_COUNTRY", "senderCountry");
-		node.put("PARCEL_SERVICE_CONSIGNEE_NAME", "consigneeCompanyName");
-		node.put("PARCEL_SERVICE_CONSIGNEE_FIRST_NAME", "consigneeFirstName");
-		node.put("PARCEL_SERVICE_CONSIGNEE_LAST_NAME", "consigneeLastName");
-		node.put("PARCEL_SERVICE_CONSIGNEE_ADDITIONAL_ADDRESS", "consigneeAddressLine1");
-		node.put("PARCEL_SERVICE_CONSIGNEE_STREET", "consigneeAddressStreet");
-		node.put("PARCEL_SERVICE_CONSIGNEE_NO", "consigneeAddressNo");
-		node.put("PARCEL_SERVICE_CONSIGNEE_ZIP", "consigneeZIP");
-		node.put("PARCEL_SERVICE_CONSIGNEE_CITY", "consigneeCity");
-		node.put("PARCEL_SERVICE_CONSIGNEE_COUNTRY", "consigneeCountry");
+		node.put("PARCEL_SERVICE_SENDER_NAME", "");
+		node.put("PARCEL_SERVICE_SENDER_FIRST_NAME", "");
+		node.put("PARCEL_SERVICE_SENDER_LAST_NAME", "");
+		node.put("PARCEL_SERVICE_SENDER_ADDITIONAL_ADDRESS", "");
+		node.put("PARCEL_SERVICE_SENDER_STREET", "");
+		node.put("PARCEL_SERVICE_SENDER_NO", "");
+		node.put("PARCEL_SERVICE_SENDER_ZIP", "");
+		node.put("PARCEL_SERVICE_SENDER_CITY", "");
+		node.put("PARCEL_SERVICE_SENDER_COUNTRY", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_NAME", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_FIRST_NAME", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_LAST_NAME", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_ADDITIONAL_ADDRESS", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_STREET", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_NO", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_ZIP", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_CITY", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_COUNTRY", "");
 	}
 	
 }

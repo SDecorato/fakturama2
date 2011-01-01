@@ -423,8 +423,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		//T: Title of the menus in the main menu
 		MenuManager newMenu = new MenuManager(_("New"), "com.sebulli.faktura.menu.create");
 		//T: Title of the menus in the main menu
-		MenuManager serviceMenu = new MenuManager(_("Service"), "com.sebulli.faktura.menu.service");
-		//T: Title of the menus in the main menu
 		MenuManager windowMenu = new MenuManager(_("Window"), IWorkbenchActionConstants.M_WINDOW);
 		//T: Title of the menus in the main menu
 		MenuManager helpMenu = new MenuManager(_("Help"), IWorkbenchActionConstants.M_HELP);
@@ -518,9 +516,6 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newMenu.add(new Separator());
 		newMenu.add(openParcelServiceAction);
 		
-		// service menu
-		serviceMenu.add(openParcelServiceAction);
-
 		// window menu
 		windowMenu.add(resetViewAction);
 		windowMenu.add(new Separator());
@@ -695,7 +690,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		openParcelServiceActionTB.setText(_("Parcel", "TOOLBAR"));
 		ActionContributionItem openParcelServiceCI = new ActionContributionItem(openParcelServiceActionTB);
 		openParcelServiceCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar3.add(openParcelServiceCI);
+		toolbar2.add(openParcelServiceCI);
 
 		openBrowserEditorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/www_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
