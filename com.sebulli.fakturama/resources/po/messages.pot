@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2011-01-01 19:56+0100\n"
+"POT-Creation-Date: 2011-01-02 20:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -355,7 +355,7 @@ msgstr ""
 #. T: Preference page "Parcel service" - Label "Service provider"
 #. T: Preference page "Parcel Service Import" - Title
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:53
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:127
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:134
 #: ../src/com/sebulli/fakturama/actions/OpenParcelServiceAction.java:51
 msgid "Parcel Service"
 msgstr ""
@@ -371,7 +371,7 @@ msgstr ""
 
 #. T: Preference page "Parcel service" - Label
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:63
-msgid "Sender name"
+msgid "Sender company"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
@@ -386,7 +386,7 @@ msgstr ""
 
 #. T: Preference page "Parcel service" - Label
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:72
-msgid "Sender additional address"
+msgid "Sender name"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
@@ -415,48 +415,58 @@ msgid "Sender country"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:91
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:90
+msgid "Sender email"
+msgstr ""
+
+#. T: Preference page "Parcel service" - Label
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:95
 msgid "Consignee name"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:94
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:98
 msgid "Consignee first name"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:97
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:101
 msgid "Consignee last name"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:100
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:104
 msgid "Consignee additional address"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:103
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:107
 msgid "Consignee street"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:106
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:110
 msgid "Consignee street No"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:109
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:113
 msgid "Consignee ZIP code"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:112
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:116
 msgid "Consignee city"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:115
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:119
 msgid "Consignee country"
+msgstr ""
+
+#. T: Preference page "Parcel service" - Label
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:122
+msgid "Consignee email"
 msgstr ""
 
 #. T: Error message if the selected file is not a valid OpenOffice app

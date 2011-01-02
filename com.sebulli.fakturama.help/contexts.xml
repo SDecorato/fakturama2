@@ -39,6 +39,10 @@
       <description>Editor zum Erstellen und Bearbeiten von Steuersätzen.</description>
       <topic label="Editor Steuersatz"  href="html/editor/editor_vat.html" />
    </context>
+   <context id="parcelServiceEditor" title="Webseite Paketdienst">
+      <description>Webseite des Paketdienstes. Formularfelder der Empfängeradresse werden automatisch ausgefüllt.</description>
+      <topic label="Webseite Paketdienst"  href="html/editor/editor_parcelservice.html" />
+   </context>
 
    <context id="contactTableView" title="Übersicht aller Kontakte">
       <description>Tabelle mit einer Übersicht aller Kontaktadressen.</description>
