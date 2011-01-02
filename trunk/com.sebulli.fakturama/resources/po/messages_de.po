@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2011-01-01 19:56+0100\n"
-"PO-Revision-Date: 2011-01-01 19:56+0100\n"
+"POT-Creation-Date: 2011-01-02 20:07+0100\n"
+"PO-Revision-Date: 2011-01-02 20:08+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -366,7 +366,7 @@ msgstr "Allgemeine Einstellungen"
 #. T: Preference page "Parcel service" - Label "Service provider"
 #. T: Preference page "Parcel Service Import" - Title
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:53
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:127
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:134
 #: ../src/com/sebulli/fakturama/actions/OpenParcelServiceAction.java:51
 msgid "Parcel Service"
 msgstr "Paketdienst"
@@ -382,8 +382,8 @@ msgstr "URL des Paketdienstes"
 
 #. T: Preference page "Parcel service" - Label
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:63
-msgid "Sender name"
-msgstr "Absender Name"
+msgid "Sender company"
+msgstr "Absender Firma"
 
 #. T: Preference page "Parcel service" - Label
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:66
@@ -397,8 +397,8 @@ msgstr "Absender Nachname"
 
 #. T: Preference page "Parcel service" - Label
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:72
-msgid "Sender additional address"
-msgstr "Absender Zusatzadresse"
+msgid "Sender name"
+msgstr "Absender Name"
 
 #. T: Preference page "Parcel service" - Label
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:75
@@ -426,49 +426,59 @@ msgid "Sender country"
 msgstr "Absender Land"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:91
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:90
+msgid "Sender email"
+msgstr "Absender Email"
+
+#. T: Preference page "Parcel service" - Label
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:95
 msgid "Consignee name"
 msgstr "Empfänger Name"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:94
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:98
 msgid "Consignee first name"
 msgstr "Empfänger Vorname"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:97
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:101
 msgid "Consignee last name"
 msgstr "Empfänger Nachname"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:100
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:104
 msgid "Consignee additional address"
 msgstr "Empfänger Adresszusatz"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:103
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:107
 msgid "Consignee street"
 msgstr "Empfänger Straße"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:106
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:110
 msgid "Consignee street No"
 msgstr "Empfänger Hausnummer"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:109
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:113
 msgid "Consignee ZIP code"
 msgstr "Empfänger PLZ"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:112
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:116
 msgid "Consignee city"
 msgstr "Empfänger Stadt"
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:115
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:119
 msgid "Consignee country"
 msgstr "Empfänger Land"
+
+#. T: Preference page "Parcel service" - Label
+#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:122
+msgid "Consignee email"
+msgstr "Empfänger Email"
 
 #. T: Error message if the selected file is not a valid OpenOffice app
 #: ../src/com/sebulli/fakturama/preferences/AppFieldEditor.java:117
@@ -2914,6 +2924,8 @@ msgstr ""
 "Zum Wechsel des Arbeitsverzeichnisses\n"
 "wird Fakturama neu gestartet!"
 
+#~ msgid "Sender additional address"
+#~ msgstr "Absender Zusatzadresse"
 #~ msgid "Service"
 #~ msgstr "Dienst"
 #~ msgid "Parcel Service:"

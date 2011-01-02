@@ -35,7 +35,8 @@ public class ContextHelpConstants {
 	public static final String SHIPPING_EDITOR = HELP_PLUGIN + "shippingEditor";
 	public static final String TEXT_EDITOR = HELP_PLUGIN + "textEditor";
 	public static final String VAT_EDITOR = HELP_PLUGIN + "vatEditor";
-	
+	public static final String PARCELSERVICE_EDITOR = HELP_PLUGIN + "parcelServiceEditor";
+
 	// IDs for UniDataSetTable views
 	public static final String CONTACT_TABLE_VIEW = HELP_PLUGIN + "contactTableView";
 	public static final String DOCUMENT_TABLE_VIEW = HELP_PLUGIN + "documentTableView";

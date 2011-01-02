@@ -60,16 +60,16 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 		addField(new StringFieldEditor("PARCEL_SERVICE_URL", _("Parcel service URL"), getFieldEditorParent()));
 
 		//T: Preference page "Parcel service" - Label 
-		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_NAME", _("Sender name"), getFieldEditorParent()));
+		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_COMPANY", _("Sender company"), getFieldEditorParent()));
 
 		//T: Preference page "Parcel service" - Label 
-		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_FIRST_NAME", _("Sender first name"), getFieldEditorParent()));
+		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_OWNER_FIRST_NAME", _("Sender first name"), getFieldEditorParent()));
 
 		//T: Preference page "Parcel service" - Label 
-		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_LAST_NAME", _("Sender last name"), getFieldEditorParent()));
+		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_OWNER_LAST_NAME", _("Sender last name"), getFieldEditorParent()));
 
 		//T: Preference page "Parcel service" - Label 
-		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_ADDITIONAL_ADDRESS", _("Sender additional address"), getFieldEditorParent()));
+		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_OWNER", _("Sender name"), getFieldEditorParent()));
 
 		//T: Preference page "Parcel service" - Label 
 		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_STREET", _("Sender street"), getFieldEditorParent()));
@@ -84,8 +84,12 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_CITY", _("Sender city"), getFieldEditorParent()));
 
 		//T: Preference page "Parcel service" - Label 
-		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_COUNTRY", _("Sender country"), getFieldEditorParent()));
+//		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_COUNTRY", _("Sender country"), getFieldEditorParent()));
 
+		//T: Preference page "Parcel service" - Label 
+		addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_EMAIL", _("Sender email"), getFieldEditorParent()));
+
+		
 		
 		//T: Preference page "Parcel service" - Label 
 		addField(new StringFieldEditor("PARCEL_SERVICE_CONSIGNEE_NAME", _("Consignee name"), getFieldEditorParent()));
@@ -113,6 +117,9 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 
 		//T: Preference page "Parcel service" - Label 
 		addField(new StringFieldEditor("PARCEL_SERVICE_CONSIGNEE_COUNTRY", _("Consignee country"), getFieldEditorParent()));
+
+		//T: Preference page "Parcel service" - Label 
+		addField(new StringFieldEditor("PARCEL_SERVICE_CONSIGNEE_EMAIL", _("Consignee email"), getFieldEditorParent()));
 	}
 
 	/**
@@ -136,15 +143,16 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_PROVIDER", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_URL", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_NAME", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_FIRST_NAME", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_LAST_NAME", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_ADDITIONAL_ADDRESS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_COMPANY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_OWNER_FIRST_NAME", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_OWNER_LAST_NAME", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_OWNER", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_STREET", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_NO", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_ZIP", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_CITY", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_COUNTRY", write);
+//		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_COUNTRY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_SENDER_EMAIL", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_CONSIGNEE_NAME", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_CONSIGNEE_FIRST_NAME", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_CONSIGNEE_LAST_NAME", write);
@@ -154,6 +162,7 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_CONSIGNEE_ZIP", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_CONSIGNEE_CITY", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_CONSIGNEE_COUNTRY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PARCEL_SERVICE_CONSIGNEE_EMAIL", write);
 	}
 
 	/**
@@ -173,7 +182,8 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 		node.put("PARCEL_SERVICE_SENDER_NO", "");
 		node.put("PARCEL_SERVICE_SENDER_ZIP", "");
 		node.put("PARCEL_SERVICE_SENDER_CITY", "");
-		node.put("PARCEL_SERVICE_SENDER_COUNTRY", "");
+//		node.put("PARCEL_SERVICE_SENDER_COUNTRY", "");
+		node.put("PARCEL_SERVICE_SENDER_EMAIL", "");
 		node.put("PARCEL_SERVICE_CONSIGNEE_NAME", "");
 		node.put("PARCEL_SERVICE_CONSIGNEE_FIRST_NAME", "");
 		node.put("PARCEL_SERVICE_CONSIGNEE_LAST_NAME", "");
@@ -183,6 +193,8 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 		node.put("PARCEL_SERVICE_CONSIGNEE_ZIP", "");
 		node.put("PARCEL_SERVICE_CONSIGNEE_CITY", "");
 		node.put("PARCEL_SERVICE_CONSIGNEE_COUNTRY", "");
+		node.put("PARCEL_SERVICE_CONSIGNEE_EMAIL", "");
+		
 	}
 	
 }

@@ -36,9 +36,9 @@ public class ParcelServiceFormFiller {
 	private String provider = "";
 	
 	private String senderCompany = "";
-	private String senderFirstName = "";
-	private String senderLastName = "";
-	private String senderAddressLine = "";
+	private String senderOwnerFirstName = "";
+	private String senderOwnerLastName = "";
+	private String senderOwner = "";
 	private String senderAddressStreet = "";
 	private String senderAddressNo = "";
 	private String senderZIP = "";
@@ -54,6 +54,7 @@ public class ParcelServiceFormFiller {
 	private String consigneeZIP = "";
 	private String consigneeCity = "";
 	private String consigneeCountry = "";
+	private String consigneeEmail ="";
 	
 	private String consigneeNameValue = "";
 	private String consigneeFirstNameValue = "";
@@ -64,6 +65,7 @@ public class ParcelServiceFormFiller {
 	private String consigneeZIPValue = "";
 	private String consigneeCityValue = "";
 	private String consigneeCountryValue = "";
+	private String consigneeEmailValue = "";
 	
 	
 	private boolean filled;
@@ -271,15 +273,16 @@ public class ParcelServiceFormFiller {
 		this.browser = browser;
 
 		provider			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_PROVIDER");
-		senderCompany 			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_NAME");
-		senderFirstName 	= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_FIRST_NAME");
-		senderLastName 		= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_LAST_NAME");
-		senderAddressLine 	= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_ADDITIONAL_ADDRESS");
+		senderCompany 		= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_COMPANY");
+		senderOwnerFirstName= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_OWNER_FIRST_NAME");
+		senderOwnerLastName = Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_OWNER_LAST_NAME");
+		senderOwner 		= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_OWNER");
 		senderAddressStreet = Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_STREET");
 		senderAddressNo 	= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_NO");
 		senderZIP 			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_ZIP");
 		senderCity 			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_CITY");
 		//senderCountry 		= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_COUNTRY");
+		senderEmail			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_SENDER_EMAIL");
 
 		consigneeName 			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_CONSIGNEE_NAME");
 		consigneeFirstName 		= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_CONSIGNEE_FIRST_NAME");
@@ -290,12 +293,13 @@ public class ParcelServiceFormFiller {
 		consigneeZIP 			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_CONSIGNEE_ZIP");
 		consigneeCity 			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_CONSIGNEE_CITY");
 		consigneeCountry 		= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_CONSIGNEE_COUNTRY");
+		consigneeEmail			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_CONSIGNEE_EMAIL");
 
 		if (provider.equals("DHL")) {
 			senderCompany = "senderCompanyName";
-			senderFirstName = "senderFirstName";
-			senderLastName = "senderLastName";
-			senderAddressLine = "senderAddressLine1";
+			senderOwnerFirstName = "senderFirstName";
+			senderOwnerLastName = "senderLastName";
+			senderOwner = "senderAddressLine1";
 			senderAddressStreet = "senderAddressStreet";
 			senderAddressNo = "senderAddressHouseNo";
 			senderZIP = "senderPLZ";
@@ -312,19 +316,21 @@ public class ParcelServiceFormFiller {
 			consigneeZIP = "consigneePLZ";
 			consigneeCity = "consigneeOrt";
 			consigneeCountry = "receiverCountry";
+			consigneeEmail = "";
 		}
 
 		if (provider.equals("HERMES")) {
 			senderCompany = "absender(NACHNAME)";
-			senderFirstName = "";
-			senderLastName = "";
-			senderAddressLine = "absender(ADRESSZUSATZ)";
+			senderOwnerFirstName = "";
+			senderOwnerLastName = "";
+			senderOwner = "absender(ADRESSZUSATZ)";
 			senderAddressStreet = "absender(STRASSE)";
 			senderAddressNo = "absender(HAUSNUMMER)";
 			senderZIP = "absender(PLZ)";
 			senderCity = "absender(ORT)";
 			senderEmail = "absender(EMAIL)";
 			//senderCountry = "senderCountry";
+			
 			consigneeName = "";
 			consigneeFirstName = "empfaenger(VORNAME)";
 			consigneeLastName = "empfaenger(NACHNAME)";
@@ -334,6 +340,8 @@ public class ParcelServiceFormFiller {
 			consigneeZIP = "empfaenger(PLZ)";
 			consigneeCity = "empfaenger(ORT)";
 			consigneeCountry = "empfaenger(LAND)";
+			consigneeEmail = "";
+
 		}
 		
 		
@@ -345,9 +353,9 @@ public class ParcelServiceFormFiller {
 			fillFormField(senderCompany, Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_NAME"));
 
 			String owner = Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_OWNER");
-			fillFormField(senderFirstName, getFirstName(owner));
-			fillFormField(senderLastName, getLastName(owner));
-			fillFormField(senderAddressLine, owner);
+			fillFormField(senderOwnerFirstName, getFirstName(owner));
+			fillFormField(senderOwnerLastName, getLastName(owner));
+			fillFormField(senderOwner, owner);
 			
 			String streetWithNo = Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_STREET");
 			fillFormField(senderAddressStreet, getStreetName(streetWithNo));
@@ -431,6 +439,11 @@ public class ParcelServiceFormFiller {
 					
 				}
 			}
+			
+			// Get the email address
+			consigneeEmailValue = ((ParcelServiceBrowserEditorInput)editorInput).getDocument().
+					getStringValueByKeyFromOtherTable("addressid.CONTACTS:email");
+			
 			fillFormField(consigneeName, consigneeNameValue);
 			fillFormField(consigneeFirstName, consigneeFirstNameValue);
 			fillFormField(consigneeLastName, consigneeLastNameValue);
@@ -440,6 +453,8 @@ public class ParcelServiceFormFiller {
 			fillFormField(consigneeZIP, consigneeZIPValue);
 			fillFormField(consigneeCity, consigneeCityValue);
 			fillFormField(consigneeCountry, consigneeCountryValue);
+			fillFormField(consigneeEmail, consigneeEmailValue);
+			
 			
 		}
 	}
