@@ -110,7 +110,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <includes
          id="org.eclipse.rcp"
-         version="0.0.0"/>
+         version="3.6.1.r361_v20100827-9OArFLdFjY-ThSQXmKvKz0_T"/>
 
    <includes
          id="org.eclipse.help"
@@ -118,7 +118,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <includes
          id="org.eclipselabs.p2.rcpupdate"
-         version="0.0.0"/>
+         version="1.0.0.201012121839"/>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
