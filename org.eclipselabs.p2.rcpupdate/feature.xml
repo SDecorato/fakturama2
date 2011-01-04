@@ -2,7 +2,7 @@
 <feature
       id="org.eclipselabs.p2.rcpupdate"
       label="RCP Update"
-      version="1.0.0.qualifier"
+      version="1.0.0.201012121839"
       provider-name="sebulli.com">
 
    <description url="http://www.example.com/description">
