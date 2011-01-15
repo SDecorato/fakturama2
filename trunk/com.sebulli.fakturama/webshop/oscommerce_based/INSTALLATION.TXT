@@ -1,5 +1,5 @@
-(C) 2010 - Fakturama
-2010-11-25
+(C) 2011 - Fakturama
+2011-01-15
 http://fakturama.sebulli.com
 
 ################ INSTALLATION ##############
