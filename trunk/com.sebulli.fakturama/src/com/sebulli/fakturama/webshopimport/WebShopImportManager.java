@@ -1,7 +1,7 @@
 /* 
  * Fakturama - Free Invoicing Software - http://fakturama.sebulli.com
  * 
- * Copyright (C) 2010 Gerd Bartelt
+ * Copyright (C) 2011 Gerd Bartelt
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -45,9 +45,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.PlatformUI;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -98,6 +95,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	    
 	    // true, if the reading was successfull
 	    private boolean isFinished = false;
+
+	    // true, if there was an error
+	    private boolean isError = false;
 	    
 	    /**
 	     * Constructor. Creates a new connection to use it in an extra thread
@@ -120,6 +120,17 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	    }
 
 	    /**
+	     * Return whether the was an error
+	     * 
+	     * @return
+	     * 		True, if there was an error
+	     */
+	    public boolean isError() {
+	    	return isError;
+	    }
+	    
+	    	    
+	    /**
 	     * Returns a reference to the input stream
 	     * 
 	     * @return
@@ -137,6 +148,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	        	inputStream = conn.getInputStream();
 	        	isFinished = true;
 	        } catch (IOException e) {
+	        	isError = true;
 			}
 	    }
 	}
@@ -209,7 +221,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String password = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PASSWORD");
 
 		// Add "http://"
-		if (!address.toLowerCase().startsWith("http://"))
+		if (!address.toLowerCase().startsWith("http://") && !address.toLowerCase().startsWith("file://"))
 			address = "http://" + address;
 
 		// Get the open order IDs that are out of sync with the webshop
@@ -238,30 +250,33 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			URL url = new URL(address);
 			conn = url.openConnection();
 			conn.setDoInput(true);
-			conn.setDoOutput(true);
 			conn.setConnectTimeout(4000);
+			if (!address.toLowerCase().startsWith("file://")) {
+				conn.setDoOutput(true);
+				// Send user name , password and a list of unsynchronized orders to
+				// the shop
+				OutputStream outputStream = null;
+				outputStream = conn.getOutputStream();
+				OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+				setProgress(20);
+				String postString = "username=" + user + "&password=" + password;
 
-			// Send user name , password and a list of unsynchronized orders to
-			// the shop
-			OutputStream outputStream = null;
-			outputStream = conn.getOutputStream();
-			OutputStreamWriter writer = new OutputStreamWriter(outputStream);
-			setProgress(20);
-			String postString = "username=" + user + "&password=" + password;
+				String actionString = "";
+				if (getProducts)
+					actionString += "_products";
+				if (getOrders)
+					actionString += "_orders";
+				if (!actionString.isEmpty())
+					actionString = "&action=get" + actionString;
 
-			String actionString = "";
-			if (getProducts)
-				actionString += "_products";
-			if (getOrders)
-				actionString += "_orders";
-			if (!actionString.isEmpty())
-				actionString = "&action=get" + actionString;
+				postString += actionString;
 
-			postString += actionString;
+				postString += "&setstate=" + orderstosynchronize.toString();
+				writer.write(postString);
+				writer.flush();
+				writer.close();
 
-			postString += "&setstate=" + orderstosynchronize.toString();
-			writer.write(postString);
-			writer.flush();
+			}
 			String line;
 			setProgress(30);
 
@@ -271,13 +286,22 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Start a connection in an extra thread
 			InterruptConnection interruptConnection = new InterruptConnection(conn);
 			new Thread(interruptConnection).start();
-			while (!monitor.isCanceled() && !interruptConnection.isFinished());
+			while (!monitor.isCanceled() && !interruptConnection.isFinished() && !interruptConnection.isError());
 
 			// If the connection was interruped and not finished: return
-			if (!interruptConnection.isFinished) {
+			if (!interruptConnection.isFinished()) {
 		        ((HttpURLConnection)conn).disconnect();
 				return;
 			}
+
+			// If there was an error, return with error message
+			if (interruptConnection.isError()) {
+		        ((HttpURLConnection)conn).disconnect();
+				//T: Status message importing data from web shop
+				runResult = _("Error reading web shop data.");
+				return;
+			}
+			
 			
 			// Read the input stream
 			BufferedReader reader = new BufferedReader(new InputStreamReader(interruptConnection.getInputStream()));
@@ -360,7 +384,6 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			else {
 			}
 
-			writer.close();
 			reader.close();
 
 			// Interpret the imported data (and load the product images)
@@ -382,6 +405,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				runResult = _("Error opening:") + "\n" + address;
 				if (!importXMLContent.isEmpty())
 					runResult += "\n\n" + importXMLContent;
+				Logger.logError(e, ("Error opening:") + "\n" + address);
 			}
 		}
 	}
@@ -718,7 +742,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Start a connection in an extra thread
 			InterruptConnection interruptConnection = new InterruptConnection(conn);
 			new Thread(interruptConnection).start();
-			while (!monitor.isCanceled() && !interruptConnection.isFinished());
+			while (!monitor.isCanceled() && 
+					!interruptConnection.isFinished() &&
+					!interruptConnection.isError());
 
 			// If the connection was interruped and not finished: return
 			if (!interruptConnection.isFinished){
@@ -1161,11 +1187,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			//T: Error message importing data from web shop
 			//T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
 			error += _("Please check this!");
-			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
-			//T: Error message importing data from web shop
-			messageBox.setText(_("Error importing data from web shop"));
-			messageBox.setMessage(error);
-			messageBox.open();
+			runResult = error;
 		}
 
 	}

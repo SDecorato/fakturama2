@@ -6,14 +6,14 @@
  * 
  * Web shop connector script
  *
- * Version 1.0.0
- * Date: 2010-12-12
+ * Version 1.1.0
+ * Date: 2011-01-15
  * 
  * This version is compatible to the same version of Fakturama
  *
  *
  * 
- * Copyright (C) 2010 Gerd Bartelt
+ * Copyright (C) 2011 Gerd Bartelt
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -29,7 +29,7 @@
 // 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
-define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
+define ('FAKTURAMA_WEBSHOP','XTCOMMERCE');	
 
 
 
@@ -367,6 +367,7 @@ function my_encode_with_quotes($s) {
 	// Convert entities like &uuml; to ü
 	if((version_compare( phpversion(), '5.0' ) < 0)) {
 		$s = html_entity_decode($s);
+		$s = utf8_encode($s);
 	} else {
 		$s = html_entity_decode($s, ENT_COMPAT, 'UTF-8');
 	}
@@ -1048,10 +1049,14 @@ if ($admin_valid != 1)
 		// generate list of all products
 		if ($action_getproducts) {
 			
-			if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
+			if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE){
 				$imagepath = DIR_WS_CATALOG_IMAGES;
-			else
+				$fs_imagepath = DIR_FS_CATALOG_IMAGES;
+			}
+			else {
 				$imagepath = DIR_WS_CATALOG_INFO_IMAGES;
+				$fs_imagepath = DIR_FS_CATALOG_INFO_IMAGES;
+			}
 			
 			
 
@@ -1101,7 +1106,10 @@ if ($admin_valid != 1)
 				echo ("   <category>" . my_encode($products['categories_name'])."</category>\n");
 				echo ("   <vatname>".my_encode($products['tax_description'])."</vatname>\n");
 				echo ("   <short_description>" . my_encode_with_quotes(my_strip_tags ( $products['products_short_description'])) . "</short_description>\n");
-				echo ("   <image>".$products['products_image']."</image>\n");
+
+				// Use the image only, if it exists	
+				if (file_exists($fs_imagepath . $products['products_image'])) 
+					echo ("   <image>".$products['products_image']."</image>\n");
 				echo ("  </product>\n\n");
 
 			}
@@ -1307,6 +1315,7 @@ if ($admin_valid != 1)
 					echo ("   </item>\n");
 				}
 
+				// Get the shipping				
 				$totals_query = sbf_db_query("SELECT
 												title, text, class
 											  FROM
@@ -1357,6 +1366,28 @@ if ($admin_valid != 1)
 				if (preg_match("/[0-9]+\.[0-9]+/",str_replace(",",".",$shipping_text),$matches))
 					$shipping_value = $matches[0];
 
+				// Get the COD fee			
+				$totals_query = sbf_db_query("SELECT
+												title, text, class
+											  FROM
+											  	orders_total
+											  WHERE
+											  	orders_id = '" . (int)$oID . "'
+											  	AND class = 'ot_cod_fee'
+											  ORDER BY
+											  	sort_order
+											  ");
+											  
+				$cod_fee_text = "";											  
+				if ($totals = sbf_db_fetch_array($totals_query)) {
+					$cod_fee_text = $totals['text'];
+				}
+				$cod_fee_value = 0.0;
+				if (preg_match("/[0-9]+\.[0-9]+/",str_replace(",",".",$cod_fee_text),$matches))
+					$cod_fee_value = $matches[0];
+
+				// Workaround: add the COD fee to the shipping value
+				$shipping_value += $cod_fee_value;
 
 				echo ("   <shipping ");
 				echo ("gross=\"".number_format( $shipping_value , 2)."\" ");
