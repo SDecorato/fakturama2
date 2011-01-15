@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2011-01-02 20:07+0100\n"
+"POT-Creation-Date: 2011-01-13 21:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -410,10 +410,7 @@ msgid "Sender city"
 msgstr ""
 
 #. T: Preference page "Parcel service" - Label
-#: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:87
-msgid "Sender country"
-msgstr ""
-
+#. addField(new StringFieldEditor("PARCEL_SERVICE_SENDER_COUNTRY", _("Sender country"), getFieldEditorParent()));
 #. T: Preference page "Parcel service" - Label
 #: ../src/com/sebulli/fakturama/preferences/ParcelServicePreferencePage.java:90
 msgid "Sender email"
@@ -1032,7 +1029,7 @@ msgstr ""
 #. T: Error message importing data from web shop
 #. T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
 #: ../src/com/sebulli/fakturama/data/DocumentType.java:148
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1151
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1179
 msgid "Order"
 msgstr ""
 
@@ -2580,7 +2577,7 @@ msgstr ""
 
 #. T: Error message importing data from web shop
 #: ../src/com/sebulli/fakturama/actions/WebShopImportAction.java:101
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1166
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1194
 msgid "Error importing data from web shop"
 msgstr ""
 
@@ -2825,86 +2822,91 @@ msgid "is invalid"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:234
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:249
 msgid "Connection to web shop"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:236
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:251
 msgid "Connected to:"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:286
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:304
+msgid "Error reading web shop data."
+msgstr ""
+
+#. T: Status message importing data from web shop
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:313
 msgid "Loading Data"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:379
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:405
 msgid "Web shop URL is not set."
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:382
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:408
 msgid "Error opening:"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:550
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:576
 msgid "Cash_on_Delivery"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:552
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:578
 msgid "Prepayment"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:554
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:580
 msgid "Credit_Card"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:556
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:582
 msgid "Check"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:756
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:784
 msgid "Malformated URL:"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:760
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:788
 msgid "Error downloading picture from:"
 msgstr ""
 
 #. T: Text of the web shop reference
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1096
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1124
 msgid "Web shop No."
 msgstr ""
 
 #. T: Error message importing data from web shop
 #. T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1155
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1183
 msgid "Total sum from web shop:"
 msgstr ""
 
 #. T: Error message importing data from web shop
 #. T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1159
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1187
 msgid "is not equal to the calculated one:"
 msgstr ""
 
 #. T: Error message importing data from web shop
 #. T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1163
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1191
 msgid "Please check this!"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1210
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1238
 msgid "Loading product image"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1218
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1246
 msgid "Importing orders"
 msgstr ""
 
