@@ -6,8 +6,8 @@
  * 
  * Web shop connector script
  *
- * Version 1.1.0
- * Date: 2011-01-15
+ * Version 1.1.1
+ * Date: 2011-01-18
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -1092,8 +1092,14 @@ if ($admin_valid != 1)
   												(langu.code = '". DEFAULT_LANGUAGE ."')
 										   ");
 
-			while ($products = sbf_db_fetch_array($products_query)) {
 
+			$last_products_model_name = "";
+			while ($products = sbf_db_fetch_array($products_query)) {
+				
+				$products_model_name = $products['products_model'] . $products['products_name'];
+				
+				if ($last_products_model_name != $products_model_name) 
+				{
 				if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
 					$products['products_short_description'] = $products['products_description'];
 
@@ -1111,7 +1117,9 @@ if ($admin_valid != 1)
 				if (file_exists($fs_imagepath . $products['products_image'])) 
 					echo ("   <image>".$products['products_image']."</image>\n");
 				echo ("  </product>\n\n");
+									}
 
+				$last_products_model_name = $products_model_name;
 			}
 			echo (" </products>\n\n\n\n");
 		
