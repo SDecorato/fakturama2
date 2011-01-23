@@ -6,8 +6,8 @@
  * 
  * Web shop connector script
  *
- * Version 1.1.1
- * Date: 2011-01-18
+ * Version 1.1.3
+ * Date: 2011-01-23
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -125,10 +125,15 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
   require_once(DIR_FS_INC . 'xtc_db_prepare_input.inc.php');
   require_once(DIR_FS_INC . 'xtc_not_null.inc.php');
 
-  if (FAKTURAMA_WEBSHOP == XTCOMMERCE) 
-  	require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.14/Smarty.class.php');
-  else if (FAKTURAMA_WEBSHOP == XTCMODIFIED)
-  	require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.26/Smarty.class.php');
+
+  if (file_exists(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.26/Smarty.class.php')) {
+    require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.26/Smarty.class.php');
+  }
+  else if (file_exists(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.14/Smarty.class.php')) {
+      require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.14/Smarty.class.php');
+  }
+  else
+  	exit_with_error("No valid Smarty.class.php found.");
 
   require_once (DIR_FS_CATALOG.DIR_WS_CLASSES.'class.phpmailer.php');
   require_once (DIR_FS_INC.'xtc_php_mail.inc.php');
@@ -180,7 +185,7 @@ function sbf_db_num_rows($p) {
 
 
 // include the mail classes
-function sbf_php_mail($from_email_address, $from_email_name, $to_email_address, $to_name, $forwarding_to, $reply_address, $reply_address_name, $path_to_attachement, $path_to_more_attachements, $email_subject, $message_body_html, $message_body_plain) {
+function sbf_php_mail($from_email_address, $from_email_name, $to_email_address, $to_name, $forwarding_to, $reply_address, $reply_address_name, $path_to_attachement, $path_to_more_attachements, $email_subject, $message_body_html, $message_body_plain, $order_language) {
 	global $mail_error;
 
 $mailsmarty= new Smarty;
@@ -190,21 +195,21 @@ $mailsmarty->compile_dir = DIR_FS_DOCUMENT_ROOT.'templates_c';
 // load the signatures only, if the appropriate file(s) exists
 	$html_signatur = '';
 	$txt_signatur = '';
-  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/signatur.html')) {
-        $html_signatur = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/signatur.html');
+  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$order_language.'/signatur.html')) {
+        $html_signatur = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$order_language.'/signatur.html');
   }
-  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/signatur.txt')) {
-        $txt_signatur = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/signatur.txt');
+  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$order_language.'/signatur.txt')) {
+        $txt_signatur = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$order_language.'/signatur.txt');
   }
 
   //Widerruf in Email
   $html_widerruf = '';
   $txt_widerruf = '';
-  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/widerruf.html')) {
-        $html_widerruf = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/widerruf.html');
+  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$order_language.'/widerruf.html')) {
+        $html_widerruf = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$order_language.'/widerruf.html');
   }
-  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/widerruf.txt')) {
-        $txt_widerruf = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$_SESSION['language'].'/widerruf.txt');
+  if (file_exists(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$order_language.'/widerruf.txt')) {
+        $txt_widerruf = $mailsmarty->fetch(DIR_FS_CATALOG.'templates/'.CURRENT_TEMPLATE.'/mail/'.$order_language.'/widerruf.txt');
   }
   
   //Platzhalter [WIDERRUF] durch Widerruf Text ersetzen
@@ -243,6 +248,9 @@ $mailsmarty->compile_dir = DIR_FS_DOCUMENT_ROOT.'templates_c';
 		$lang_code = $_SESSION['language_code'];
 	} else $lang_code = DEFAULT_LANGUAGE;	
 	
+
+	
+	
 	$mail->SetLanguage($lang_code, DIR_WS_CLASSES);	
 	
 	if (EMAIL_TRANSPORT == 'smtp') {
@@ -277,6 +285,7 @@ $mailsmarty->compile_dir = DIR_FS_DOCUMENT_ROOT.'templates_c';
 		$message_body_plain = strip_tags($message_body_plain);
 		$mail->Body = $message_body_plain;
 	}
+
 
 	$mail->From = $from_email_address;
 	$mail->Sender = $from_email_address;
@@ -925,10 +934,9 @@ if ($admin_valid != 1)
 	exit_with_error('Invalid username or password');
 
 
-
-
 	// update the shop values
 	foreach ($orderstosync as $ordertosync) {
+
 
  	    list($orders_id_tosync, $orders_status_tosync) = explode("=", trim($ordertosync));
 
@@ -959,6 +967,7 @@ if ($admin_valid != 1)
 	    else
 		$notify_comments_mail = $notify_comments;
 
+
 	    
 	    $order = new order($orders_id_tosync);
 
@@ -975,29 +984,32 @@ if ($admin_valid != 1)
 	      $orders_status_array[$orders_status['orders_status_id']] = $orders_status['orders_status_name'];
 	    }
 
-		echo ("l1".$order->info['language'] );
-		echo ("l2".$lang );
+		
+		$email_valid = 1;
+		if (empty ($order->customer['email_address']))
+			$email_valid = 0;
+
 
 	    if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 
-		if (!empty($notify_comments_mail))
-			$notify_comments_mail .= "\n\n";
+			if (!empty($notify_comments_mail))
+				$notify_comments_mail .= "\n\n";
 
-            	$email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $orders_id_tosync . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . $orders_id_tosync, 'SSL') . "\n" . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($order->info['date_purchased']) . "\n\n" . $notify_comments_mail . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$orders_status_tosync]);
+            		$email = STORE_NAME . "\n" . EMAIL_SEPARATOR . "\n" . EMAIL_TEXT_ORDER_NUMBER . ' ' . $orders_id_tosync . "\n" . EMAIL_TEXT_INVOICE_URL . ' ' . tep_catalog_href_link(FILENAME_CATALOG_ACCOUNT_HISTORY_INFO, 'order_id=' . $orders_id_tosync, 'SSL') . "\n" . EMAIL_TEXT_DATE_ORDERED . ' ' . tep_date_long($order->info['date_purchased']) . "\n\n" . $notify_comments_mail . sprintf(EMAIL_TEXT_STATUS_UPDATE, $orders_status_array[$orders_status_tosync]);
 
-	    	if (!empty ($order->customer['email_address'])) {
-	            	tep_mail($order->customer['name'], $order->customer['email_address'] , EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
-			$customer_notified = 1;
-		}
+	    		if ($email_valid) {
+	            		tep_mail($order->customer['name'], $order->customer['email_address'] , EMAIL_TEXT_SUBJECT, $email, STORE_OWNER, STORE_OWNER_EMAIL_ADDRESS);
+				$customer_notified = 1;
+			}
 	    	else {
-			echo (" <error>" . 'No valid email' . "</error>\n");
+				echo (" <error>" . 'No valid email' . "</error>\n");
 	    	}
 
 	    }
 	    else {
 	    	$smarty = new Smarty;
 	    	// assign language to template for caching
-	    	$smarty->assign('language', $_SESSION['language']);
+	    	$smarty->assign('language', $order->info['language']);
 	    	$smarty->caching = false;
 
 	    	// set dirs manual
@@ -1018,11 +1030,16 @@ if ($admin_valid != 1)
 	    	$html_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.html');
 	    	$txt_mail = $smarty->fetch(CURRENT_TEMPLATE.'/admin/mail/'.$order->info['language'].'/change_order_mail.txt');
 
-	    	$email_send_status = sbf_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail); 
-	    	if (empty ($email_send_status))
-			$customer_notified = 1;
-	    	else
-			echo (" <error>" . $email_send_status . "</error>\n");
+	    	
+	    	if ($email_valid) {
+		    	$email_send_status = sbf_php_mail(EMAIL_BILLING_ADDRESS, EMAIL_BILLING_NAME, $order->customer['email_address'], $order->customer['name'], '', EMAIL_BILLING_REPLY_ADDRESS, EMAIL_BILLING_REPLY_ADDRESS_NAME, '', '', EMAIL_BILLING_SUBJECT, $html_mail, $txt_mail, $order->info['language']); 
+	    		if (empty ($email_send_status))
+					$customer_notified = 1;
+	   		 	else
+					echo (" <error>" . $email_send_status . "</error>\n");
+	    		}
+	    	
+	    	
 	    	}
 
 
