@@ -1780,9 +1780,9 @@ public class DocumentEditor extends Editor {
 		else {
 
 			if (documentType.hasPaid())
-				GridDataFactory.fillDefaults().span(2, 1).hint(SWT.DEFAULT, 70).grab(true, false).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().span(2, 1).hint(100, 70).grab(true, false).applyTo(txtMessage);
 			else
-				GridDataFactory.fillDefaults().span(2, 1).grab(true, true).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().span(2, 1).hint(100, 70).grab(true, true).applyTo(txtMessage);
 
 			// Create a column for the documents subtotal, shipping and total
 			Composite totalComposite = new Composite(top, SWT.NONE);
