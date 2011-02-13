@@ -886,15 +886,6 @@ if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 
 $admin_valid = 0;
 
-// Exit, if username or password are invalid
-
-/*
-if (defined('FAKTURAMA_USERNAME') && (TEST != '')) {
-	if ( ( FAKTURAMA_USERNAME == $username) && ( FAKTURAMA_PASSWORD == $password) ) 
-		$admin_valid = 1;
-}
-*/
-
 // Get the admins from the database
 if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 
