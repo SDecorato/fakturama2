@@ -64,6 +64,10 @@ if (function_exists('ini_get') && (ini_get('register_globals') == false) && (PHP
 	exit('Server Requirement Error: register_globals is disabled in your PHP configuration. This can be enabled in your php.ini configuration file or in the .htaccess file in your catalog directory. Please use PHP 4.3+ if register_globals cannot be enabled on the server.');
 }
 
+// Use $HTTP_POST_VARS instead of $_POST in older environments
+if (PHP_VERSION < 4.1) {
+	$_POST   = $HTTP_POST_VARS;
+}
 
 // Include application configuration parameters
 require('includes/configure.php');
