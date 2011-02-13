@@ -6,8 +6,8 @@
  * 
  * Web shop connector script
  *
- * Version 1.1.3
- * Date: 2011-01-23
+ * Version 1.1.4
+ * Date: 2011-02-13
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -789,9 +789,9 @@ while ($languages = sbf_db_fetch_array($languages_query)) {
 
 
 // parse POST parameters
-$getshipped = (isset($HTTP_POST_VARS['getshipped']) ? $HTTP_POST_VARS['getshipped'] : '');
-$action = (isset($HTTP_POST_VARS['action']) ? $HTTP_POST_VARS['action'] : '');
-$orderstosync = (isset($HTTP_POST_VARS['setstate']) ? $HTTP_POST_VARS['setstate'] : '{}');
+$getshipped = (isset($_POST['getshipped']) ? $_POST['getshipped'] : '');
+$action = (isset($_POST['action']) ? $_POST['action'] : '');
+$orderstosync = (isset($_POST['setstate']) ? $_POST['setstate'] : '{}');
 
 
 // does action start with "get" ?
@@ -807,8 +807,8 @@ $orderstosync = substr($orderstosync, 0, -1);
 $orderstosync = substr($orderstosync, 1);
 $orderstosync = explode(",", $orderstosync);
 
-$username = sbf_db_prepare_input($HTTP_POST_VARS['username']);
-$password = sbf_db_prepare_input($HTTP_POST_VARS['password']);
+$username = sbf_db_prepare_input($_POST['username']);
+$password = sbf_db_prepare_input($_POST['password']);
 
 
 // generate header of response
