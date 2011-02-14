@@ -35,7 +35,7 @@ public class DataSetProduct extends UniDataSet {
 	 *            Category of the new product
 	 */
 	public DataSetProduct(String category) {
-		this("", "", category, "", 0.0, -1, "", "");
+		this("", "", category, "", 0.0, -1, "", "",1.0);
 	}
 
 	/**
@@ -49,10 +49,12 @@ public class DataSetProduct extends UniDataSet {
 	 * @param vatId
 	 * @param options
 	 * @param picturename
+	 * @param quantity
 	 */
-	public DataSetProduct(String name, String itemnr, String category, String description, Double price, int vatId, String options, String picturename) {
+	public DataSetProduct(String name, String itemnr, String category, String description, Double price, int vatId, String options, String picturename,
+					Double quantity) {
 		this(-1, name, itemnr, false, category, description, price, price, price, price, price, 1, 10, 100, 1000, 10000, vatId, options, 0.0, -1, "",
-				picturename);
+				picturename, quantity);
 	}
 
 	/**
@@ -80,10 +82,11 @@ public class DataSetProduct extends UniDataSet {
 	 * @param unit
 	 * @param date_added
 	 * @param picturename
+	 * @param quantity
 	 */
 	public DataSetProduct(int id, String name, String itemnr, boolean deleted, String category, String description, Double price1, Double price2,
 			Double price3, Double price4, Double price5, int block1, int block2, int block3, int block4, int block5, int vatId, String options, Double weight,
-			int unit, String date_added, String picturename) {
+			int unit, String date_added, String picturename, Double quantity) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("itemnr", new UniData(UniDataType.STRING, itemnr));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
@@ -106,6 +109,7 @@ public class DataSetProduct extends UniDataSet {
 		this.hashMap.put("unit", new UniData(UniDataType.INT, unit));
 		this.hashMap.put("date_added", new UniData(UniDataType.STRING, date_added));
 		this.hashMap.put("picturename", new UniData(UniDataType.STRING, picturename));
+		this.hashMap.put("quantity", new UniData(UniDataType.QUANTITY, quantity));
 
 		// Name of the table in the data base
 		sqlTabeName = "Products";

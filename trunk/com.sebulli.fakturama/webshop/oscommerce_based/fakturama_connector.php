@@ -29,7 +29,7 @@
 // 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
-define ('FAKTURAMA_WEBSHOP','XTCOMMERCE');	
+define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
 
 
 
@@ -1082,7 +1082,7 @@ if ($admin_valid != 1)
 
 			$products_query = sbf_db_query("SELECT 
  												prod.products_model, prod_desc.products_name, prod_desc.products_description, " . $products_short_description_query . 
-												"prod.products_image,	 												
+												"prod.products_image, products_quantity, 	 												
 												cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
 											FROM 
 												tax_rates tax
@@ -1118,6 +1118,7 @@ if ($admin_valid != 1)
 				echo ("  <product ");
 				echo ("gross=\"". number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2) ."\" " );
 				echo ("vatpercent=\"". number_format( $products['tax_rate'], 2) ."\" " );
+				echo ("quantity=\"". $products['products_quantity'] ."\" " );
 				echo (">\n");
 				echo ("   <model>" . my_encode($products['products_model'])."</model>\n");
 				echo ("   <name>" . my_encode($products['products_name'])."</name>\n");
