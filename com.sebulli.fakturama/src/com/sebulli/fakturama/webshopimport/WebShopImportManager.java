@@ -602,12 +602,14 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String productDescription;
 		String productImage;
 		String pictureName;
+		String productQuantity;
 
 		// Get the attributes ID and date of this order
 		NamedNodeMap attributes = productNode.getAttributes();
 		productNet = getAttributeAsString(attributes, "net");
 		productGross = getAttributeAsString(attributes, "gross");
 		productVatPercent = getAttributeAsString(attributes, "vatpercent");
+		productQuantity = getAttributeAsString(attributes, "quantity");
 		productModel = getChildTextAsString(productNode, "model");
 		productName = getChildTextAsString(productNode, "name");
 		productCategory = getChildTextAsString(productNode, "category");
@@ -679,8 +681,16 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			downloadImageFromUrl(monitor, shopURL + productImagePath + productImage, Workspace.INSTANCE.getWorkspace() + Workspace.productPictureFolderName, pictureName);
 		}
 
+		// Convert the quantity string to a double value
+		Double quantity = 1.0;
+		try {
+			quantity = Double.valueOf(productQuantity).doubleValue();
+		}
+		catch (Exception e) {
+		}
+
 		// Create a new product object
-		product = new DataSetProduct(productName, productModel, shopCategory + productCategory, productDescription, priceNet, vatId, "", pictureName);
+		product = new DataSetProduct(productName, productModel, shopCategory + productCategory, productDescription, priceNet, vatId, "", pictureName, quantity);
 
 		// Add a new product to the data base, if it's not existing yet
 		if (Data.INSTANCE.getProducts().isNew(product)) {
@@ -694,6 +704,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			existingProduct.setDoubleValueByKey("price1", product.getDoubleValueByKey("price1"));
 			existingProduct.setIntValueByKey("vatid", product.getIntValueByKey("vatid"));
 			existingProduct.setStringValueByKey("picturename", product.getStringValueByKey("picturename"));
+			existingProduct.setDoubleValueByKey("quantity", product.getDoubleValueByKey("quantity"));
 
 			// Update the modified product data
 			Data.INSTANCE.getProducts().updateDataSet(existingProduct);
@@ -1043,7 +1054,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				}
 
 				// Create a new product
-				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "");
+				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "", 1.0);
 
 				// Add the new product to the data base, if it's not existing yet
 				Data.INSTANCE.getProducts().addNewDataSetIfNew(product);
