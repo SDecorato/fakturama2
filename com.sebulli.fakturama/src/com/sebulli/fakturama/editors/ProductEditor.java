@@ -53,6 +53,7 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.Workspace;
+import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.UniData;
@@ -81,6 +82,7 @@ public class ProductEditor extends Editor {
 	private Text textDescription;
 	private Combo comboVat;
 	private Text textWeight;
+	private Text textQuantity;
 	private ComboViewer comboViewer;
 	private Text txtCategory;
 	private Label labelProductPicture;
@@ -98,6 +100,7 @@ public class ProductEditor extends Editor {
 	// These flags are set by the preference settings.
 	// They define, if elements of the editor are displayed, or not.
 	private boolean useWeight;
+	private boolean useQuantity;
 	private boolean useItemNr;
 	private boolean useNet;
 	private boolean useGross;
@@ -184,6 +187,7 @@ public class ProductEditor extends Editor {
 		// Set the product data
 		product.setIntValueByKey("vatid", vatId);
 		product.setStringValueByKey("weight", textWeight.getText());
+		product.setStringValueByKey("quantity", textQuantity.getText());
 		product.setStringValueByKey("picturename", pictureName);
 
 		// If it is a new product, add it to the product list and
@@ -287,7 +291,8 @@ public class ProductEditor extends Editor {
 		}
 
 		if (product.getIntValueByKey("vatid") != vatId) { return true; }
-		if (!product.getStringValueByKey("weight").equals(textWeight.getText())) { return true; }
+		if (!DataUtils.DoublesAreEqual(product.getStringValueByKey("weight"),textWeight.getText())) { return true; }
+		if (!DataUtils.DoublesAreEqual(product.getStringValueByKey("quantity"),textQuantity.getText())) { return true; }
 		if (!product.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
 		if (!product.getStringValueByKey("picturename").equals(pictureName)) { return true; }
 
@@ -447,7 +452,8 @@ public class ProductEditor extends Editor {
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("PRODUCT_USE_NET_GROSS") != 1);
 		useVat = Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_VAT");
 		usePicture = Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_PICTURE");
-
+		useQuantity = Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_QUANTITY");
+		
 		// Get the product VAT
 		vatId = product.getIntValueByKey("vatid");
 		try {
@@ -680,6 +686,17 @@ public class ProductEditor extends Editor {
 		textWeight.setText(product.getStringValueByKey("weight"));
 		superviceControl(textWeight, 16);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textWeight);
+
+		// Product quantity
+		Label labelQuantity = new Label(useQuantity ? productDescGroup : invisible, SWT.NONE);
+		//T: Product Editor - Label Product quantity
+		labelQuantity.setText(_("Quantity"));
+
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelQuantity);
+		textQuantity = new Text(useQuantity ? productDescGroup : invisible, SWT.BORDER);
+		textQuantity.setText(product.getFormatedStringValueByKey("quantity"));
+		superviceControl(textQuantity, 16);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(textQuantity);
 
 		// Group: Product picture
 		Group productPictureGroup = new Group(usePicture ? top : invisible, SWT.NONE);
