@@ -72,6 +72,9 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 		//T: Preference page "Product" - Label "Use weight"
 		addField(new BooleanFieldEditor("PRODUCT_USE_WEIGHT", _("Use weight"), getFieldEditorParent()));
 
+		//T: Preference page "Product" - Label "Use quantity"
+		addField(new BooleanFieldEditor("PRODUCT_USE_QUANTITY", _("Use quantity"), getFieldEditorParent()));
+
 		//T: Preference page "Product" - Label "Use product picture"
 		addField(new BooleanFieldEditor("PRODUCT_USE_PICTURE", _("Use product picture"), getFieldEditorParent()));
 	}
@@ -101,6 +104,7 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_SCALED_PRICES", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_VAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_WEIGHT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_QUANTITY", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_PICTURE", write);
 	}
 
@@ -117,6 +121,7 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 		node.put("PRODUCT_SCALED_PRICES", "1");
 		node.putBoolean("PRODUCT_USE_VAT", true);
 		node.putBoolean("PRODUCT_USE_WEIGHT", false);
+		node.putBoolean("PRODUCT_USE_QUANTITY", true);
 		node.putBoolean("PRODUCT_USE_PICTURE", true);
 	}
 

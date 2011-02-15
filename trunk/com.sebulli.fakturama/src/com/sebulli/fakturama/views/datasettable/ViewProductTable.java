@@ -73,8 +73,10 @@ public class ViewProductTable extends ViewDataSetTable {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
-		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Quantity"), 80, 0, true, "quantity");
+		
+		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_QUANTITY"))
+			//T: Used as heading of a table. Keep the word short.
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Quantity"), 80, 0, true, "quantity");
 
 		// Fill the price column with the net or the gross price ( for quantity = 1)
 		String priceKey = "";
