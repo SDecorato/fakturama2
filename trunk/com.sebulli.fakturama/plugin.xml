@@ -396,7 +396,7 @@
       <key
             commandId="org.eclipse.ui.file.exit"
             schemeId="com.sebulli.fakturama.scheme"
-            sequence="M1+X">
+            sequence="M1+Q">
       </key>
       <key
             commandId="com.sebulli.fakturama.actions.deleteDataSet"
