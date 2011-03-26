@@ -6,8 +6,8 @@
  * 
  * Web shop connector script
  *
- * Version 1.1.4
- * Date: 2011-02-13
+ * Version 1.1.5
+ * Date: 2011-03-26
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -29,15 +29,10 @@
 // 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
-define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
+define ('FAKTURAMA_WEBSHOP','XTCOMMERCE');	
 
-
-
-
-
-
-
-
+// Only for debugging. All the data is encrypted.
+//define ('ENCRYPT_DATA',true);	
 
 
 
@@ -360,6 +355,32 @@ function startsWith($str, $sub){
     return substr($str, 0, strlen($sub)) == $sub;
 }
 
+// Encrypt the data
+function my_encrypt($s) {
+	if (!defined('ENCRYPT_DATA') )
+		return $s;
+
+	// Replace all characters
+	$s = preg_replace("/[a-z]/", "x", $s);
+	$s = preg_replace("/[A-Z]/", "X", $s);
+	$s = preg_replace("/[0-9]/", "0", $s);
+	return $s;
+
+	
+}
+
+// Convert a string to proper UTF-8
+function convertToUTF8($s) { 
+ 
+    if(!mb_check_encoding($s, 'UTF-8') 
+        OR !($s === mb_convert_encoding(mb_convert_encoding($s, 'UTF-32', 'UTF-8' ), 'UTF-8', 'UTF-32'))) { 
+
+        $s = mb_convert_encoding($s, 'UTF-8'); 
+    } 
+    return $s; 
+} 
+
+
 // Convert a string to UTF-8 and replace the qotes
 function my_encode($s) {
 
@@ -375,8 +396,11 @@ function my_encode($s) {
 function my_encode_with_quotes($s) {
 
 	// Convert to UTF-8
-	$s = utf8_encode($s);
+	$s = convertToUTF8($s);
 	
+	// Encrypt the data
+	$s = my_encrypt($s);
+
 	// Convert entities like &uuml; to ü
 	if((version_compare( phpversion(), '5.0' ) < 0)) {
 		$s = html_entity_decode($s);
@@ -828,7 +852,7 @@ else if (FAKTURAMA_WEBSHOP == XTCMODIFIED)
 	echo ("shop=\"xtcModified\" ");
 else
 	echo ("shop=\"???\" ");
-echo ("url=\"" . HTTP_CATALOG_SERVER . "\"");	
+echo ("url=\"" . my_encrypt(HTTP_CATALOG_SERVER) . "\"");	
 echo ("></webshop>\n");
 
 
@@ -1072,7 +1096,7 @@ if ($admin_valid != 1)
 			
 			
 
-			echo (" <products imagepath=\"" . $imagepath . "\">\n");
+			echo (" <products imagepath=\"" . my_encrypt($imagepath) . "\">\n");
 
 			
 			if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
@@ -1116,9 +1140,9 @@ if ($admin_valid != 1)
 					$products['products_short_description'] = $products['products_description'];
 
 				echo ("  <product ");
-				echo ("gross=\"". number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2) ."\" " );
-				echo ("vatpercent=\"". number_format( $products['tax_rate'], 2) ."\" " );
-				echo ("quantity=\"". $products['products_quantity'] ."\" " );
+				echo ("gross=\"". my_encrypt(number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2) )."\" " );
+				echo ("vatpercent=\"". my_encrypt(number_format( $products['tax_rate'], 2) ) ."\" " );
+				echo ("quantity=\"". my_encrypt($products['products_quantity']) ."\" " );
 				echo (">\n");
 				echo ("   <model>" . my_encode($products['products_model'])."</model>\n");
 				echo ("   <name>" . my_encode($products['products_name'])."</name>\n");
@@ -1128,7 +1152,7 @@ if ($admin_valid != 1)
 
 				// Use the image only, if it exists	
 				if (file_exists($fs_imagepath . $products['products_image'])) 
-					echo ("   <image>".$products['products_image']."</image>\n");
+					echo ("   <image>".my_encrypt($products['products_image'])."</image>\n");
 				echo ("  </product>\n\n");
 									}
 
@@ -1221,7 +1245,7 @@ if ($admin_valid != 1)
 					
 
 
-				echo ("  <order id=\"".$oID."\" date=\"".$order->info['date_purchased']."\" ");
+				echo ("  <order id=\"".my_encrypt($oID)."\" date=\"".my_encrypt($order->info['date_purchased'])."\" ");
 
 
 				if ($order->info['orders_status'] == 1) $order_status_text = "pending";
@@ -1296,14 +1320,14 @@ if ($admin_valid != 1)
 					
 					echo ("   <item ");
 					echo ("id=\"".my_encode($product['id'])."\" ");
-					echo ("quantity=\"".$product['qty']."\" ");
+					echo ("quantity=\"".my_encrypt($product['qty'])."\" ");
 					
 					if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
-						echo ("gross=\"".number_format( $product['price'] * (1+ $product['tax']/100), 2) ."\" ");
+						echo ("gross=\"".my_encrypt(number_format( $product['price'] * (1+ $product['tax']/100), 2)) ."\" ");
 					if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE)
-						echo ("gross=\"".number_format( $product['price'], 2) ."\" ");
+						echo ("gross=\"".my_encrypt(number_format( $product['price'], 2)) ."\" ");
 
-					echo ("vatpercent=\"". number_format($product['tax'],2) . "\">\n");
+					echo ("vatpercent=\"". my_encrypt(number_format($product['tax'],2)) . "\">\n");
 
 					echo ("    <model>");
 					if (!empty($product['model']))
@@ -1411,9 +1435,9 @@ if ($admin_valid != 1)
 				$shipping_value += $cod_fee_value;
 
 				echo ("   <shipping ");
-				echo ("gross=\"".number_format( $shipping_value , 2)."\" ");
+				echo ("gross=\"".my_encrypt(number_format( $shipping_value , 2))."\" ");
 //				echo ("net=\"" .number_format( $shipping_value / ( 1 + $shipping_tax/100), 2)."\" ");
-				echo ("vatpercent=\"". number_format($shipping_tax,2) . "\">\n");
+				echo ("vatpercent=\"". my_encrypt(number_format($shipping_tax,2)) . "\">\n");
 				echo ("    <name>".my_encode($shipping_title)."</name>\n");
 				echo ("    <vatname>". my_encode($shipping_tax_name) . "</vatname>\n");
 				echo ("   </shipping>\n");
@@ -1422,7 +1446,7 @@ if ($admin_valid != 1)
 				
 				echo ("   <payment ");
 				echo ("type=\"". my_encode($payment_text) ."\" ");
-				echo ("total=\"".number_format($total,2)."\">\n");
+				echo ("total=\"".my_encrypt(number_format($total,2))."\">\n");
 				echo ("    <name>".my_encode($order->info['payment_method'])."</name>\n");
 				echo ("   </payment>\n");
 				
