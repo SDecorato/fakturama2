@@ -340,22 +340,29 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				bos = new BufferedWriter(new FileWriter(logFile, true));
 
 			}
-
+			
+			// Use string buffer for large content
+			StringBuffer sb = new StringBuffer();
+			
 			// read line by line and set the progress bar
 			while (((line = reader.readLine()) != null) && (!monitor.isCanceled())) {
-
+				
 				// Write the imported data to the log file
-				if (bos != null)
-					bos.write(line + "\n");
-
-				importXMLContent += line;
+				sb.append(line);
+				sb.append("\n");
 
 				// exponential function to 50%
 				progress += (50 - progress) * 0.01;
 				setProgress((int) progress);
-
 			}
+			
+			// Convert the string buffer to a string
+			importXMLContent = sb.toString();
 
+			// Write the webshop log file
+			if (bos != null)
+				bos.write(importXMLContent);
+			
 			if (bos != null)
 				bos.close();
 
@@ -1244,6 +1251,10 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			setProgress(50 + 40 * (productIndex + 1) / ndList.getLength());
 			Node product = ndList.item(productIndex);
 			createProductFromXMLOrderNode(product);
+			
+			// Cancel the product picture import process
+			if ( monitor.isCanceled() )
+				return;
 		}
 
 		// Get order by order and import it
