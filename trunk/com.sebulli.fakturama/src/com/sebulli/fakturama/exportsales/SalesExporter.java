@@ -184,7 +184,7 @@ public class SalesExporter {
 	public boolean export() {
 
 		// Get the OpenOffice application
-		final IOfficeApplication officeAplication = OpenOfficeStarter.openOfficeAplication();
+		final IOfficeApplication officeAplication = OpenOfficeStarter.openOfficeApplication();
 		if (officeAplication == null)
 			return false;
 

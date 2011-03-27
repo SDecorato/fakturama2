@@ -106,31 +106,24 @@ public class OODocument extends Object {
 		// Set a reference to the UniDatSet document
 		this.document = document;
 
-		Logger.logInfo("OOdebug:0");
 		// Try to generate the OpenOffice document
 		try {
 
 			// Get the OpenOffice application
-			Logger.logInfo("OOdebug:1");
-			officeApplication = OpenOfficeStarter.openOfficeAplication();
-			Logger.logInfo("OOdebug:2");
+			officeApplication = OpenOfficeStarter.openOfficeApplication();
 			if (officeApplication == null)
 				return;
-			Logger.logInfo("OOdebug:3");
 			
 			// Check, whether there is already a document then do not 
 			// generate one by the data, but open the existing one.
 			File oODocumentFile = new File(getDocumentPath(true, true, false));
-			Logger.logInfo("OOdebug:4");
 			
 			if (oODocumentFile.exists() && document.getBooleanValueByKey("printed") &&
 					document.getStringValueByKey("printedtemplate").equals(template)) {
-				Logger.logInfo("OOdebug:5");
 				openExisting = true;
 				template = getDocumentPath(true, true, false);
 			}
 
-			Logger.logInfo("OOdebug:6");
 			// Get the template file (*ott)
 			try {
 				url = URLAdapter.adaptURL(template);
@@ -139,52 +132,35 @@ public class OODocument extends Object {
 				Logger.logError(e, "Error in template filename:" + template);
 			}
 
-			Logger.logInfo("OOdebug:7");
 			// Load the template
 			oOdocument = officeApplication.getDocumentService().loadDocument(url);
-			Logger.logInfo("OOdebug:8");
 			textDocument = (ITextDocument) oOdocument;
-			Logger.logInfo("OOdebug:9");
 
 			// Bring the open office window on top.
 			officeFrame = textDocument.getFrame();
-			Logger.logInfo("OOdebug:10");
 			XFrame xFrame = officeFrame.getXFrame();
-			Logger.logInfo("OOdebug:11");
 			XTopWindow topWindow = (XTopWindow) UnoRuntime.queryInterface(XTopWindow.class, xFrame.getContainerWindow());
-			Logger.logInfo("OOdebug:12");
 			topWindow.toFront();
-			Logger.logInfo("OOdebug:13");
 			xFrame.activate();
-			Logger.logInfo("OOdebug:14");
 
 			// Override the "SAVE" command of the OpenOffice application
 			officeFrame.addDispatchDelegate(GlobalCommands.SAVE, new IDispatchDelegate() {
 
 				@Override
 				public void dispatch(Object[] objects) {
-					Logger.logInfo("OOdebug:15");
 
 					// Save the document as *.odt and *.pdf
 					saveOODocument(textDocument);
-					Logger.logInfo("OOdebug:16");
 
 				}
 
 			});
-			Logger.logInfo("OOdebug:17");
 			officeFrame.updateDispatches();
-			Logger.logInfo("OOdebug:18");
 
 			// Stop here and do not fill the document's placeholders, if it's an existing document
-			if (openExisting) {
-				Logger.logInfo("OOdebug:19");
+			if (openExisting)
 				return;
-			}
 
-			Logger.logInfo("OOdebug:20");
-			
-			
 			// Get the contact of the UniDataSet document
 			int addressId = document.getIntValueByKey("addressid");
 
@@ -197,8 +173,6 @@ public class OODocument extends Object {
 				}
 			}
 
-			Logger.logInfo("OOdebug:21");
-
 			// Recalculate the sum of the document before exporting
 			this.document.calculate();
 
@@ -209,7 +183,6 @@ public class OODocument extends Object {
 			// Fill the property list with the placeholder values
 			properties = new Properties();
 			setCommonProperties();
-			Logger.logInfo("OOdebug:22");
 
 			// A reference to the item and vat table
 			ITextTable itemsTable = null;
@@ -217,7 +190,6 @@ public class OODocument extends Object {
 			ITextTableCell itemCell = null;
 			ITextTableCell vatListCell = null;
 			ArrayList<ITextTableCell> discountCellList = new ArrayList<ITextTableCell>();
-			Logger.logInfo("OOdebug:23");
 
 			// Scan all placeholders to find the item and the vat table
 			for (int i = 0; i < placeholders.length; i++) {
@@ -244,7 +216,6 @@ public class OODocument extends Object {
 				}
 
 			}
-			Logger.logInfo("OOdebug:24");
 
 			// Get the items of the UniDataSet document
 			ArrayList<DataSetItem> itemDataSets = document.getItems().getActiveDatasets();
@@ -281,7 +252,6 @@ public class OODocument extends Object {
 					}
 				}
 			}
-			Logger.logInfo("OOdebug:25");
 
 			// Get the VAT summary of the UniDataSet document
 			VatSummarySetManager vatSummarySetManager = new VatSummarySetManager();
@@ -319,7 +289,6 @@ public class OODocument extends Object {
 					}
 				}
 			}
-			Logger.logInfo("OOdebug:26");
 
 			// Replace all other placeholders
 			for (int i = 0; i < placeholders.length; i++) {
@@ -351,11 +320,9 @@ public class OODocument extends Object {
 					}
 				}
 			}
-			Logger.logInfo("OOdebug:27");
 
 			// Save the document
 			saveOODocument(textDocument);
-			Logger.logInfo("OOdebug:28");
 
 			// Print and close the OpenOffice document
 			/*
@@ -375,8 +342,6 @@ public class OODocument extends Object {
 		catch (Exception e) {
 			Logger.logError(e, "Error starting OpenOffice from " + url);
 		}
-		Logger.logInfo("OOdebug:29");
-
 	}
 
 	/**
@@ -384,28 +349,18 @@ public class OODocument extends Object {
 	 */
 	public void close() {
 
-		Logger.logInfo("OOdebug:30");
-
 		// Remove the SAVE dispatcher
 		if (officeFrame != null)
 			officeFrame.removeDispatchDelegate(GlobalCommands.SAVE);
 
-		Logger.logInfo("OOdebug:31");
-
 		// Close the OpenOffice document
 		try {
-			Logger.logInfo("OOdebug:32");
-
 			if (officeApplication != null)
 				officeApplication.deactivate();
-			Logger.logInfo("OOdebug:33");
-
 		}
 		catch (OfficeApplicationException e) {
 			Logger.logError(e, "Error closing OpenOffice");
 		}
-		Logger.logInfo("OOdebug:33");
-
 	}
 
 	/**
@@ -421,8 +376,6 @@ public class OODocument extends Object {
 	 */
 	public String getDocumentPath(boolean inclFilename, boolean inclExtension, boolean PDF) {
 		String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-
-		Logger.logInfo("OOdebug:34");
 
 		//T: Subdirectory of the OpenOffice documents
 		savePath += _("/Documents");
@@ -445,7 +398,6 @@ public class OODocument extends Object {
 			else
 				savePath += ".odt";
 		}
-		Logger.logInfo("OOdebug:35");
 
 		return savePath;
 
@@ -460,7 +412,6 @@ public class OODocument extends Object {
 	public void saveOODocument(ITextDocument textDocument) {
 
 		boolean wasSaved = false;
-		Logger.logInfo("OOdebug:36");
 
 		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("PDF")) {
 
@@ -494,7 +445,6 @@ public class OODocument extends Object {
 			}
 
 		}
-		Logger.logInfo("OOdebug:37");
 
 		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("ODT")) {
 
@@ -530,7 +480,6 @@ public class OODocument extends Object {
 
 		}
 
-		Logger.logInfo("OOdebug:38");
 
 		// Mark the document as printed, if it was saved as ODT or PDF
 		if (wasSaved) {
@@ -539,7 +488,6 @@ public class OODocument extends Object {
 			document.setStringValueByKey("printedtemplate", template);
 			Data.INSTANCE.getDocuments().updateDataSet(document);
 		}
-		Logger.logInfo("OOdebug:39");
 
 	}
 
