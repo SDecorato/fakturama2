@@ -50,7 +50,10 @@ public class OpenOfficeStarter {
 	 * @return TRUE, if it exists.
 	 */
 	static public boolean isValidPath(String preferencePath) {
+		Logger.logInfo("OOdebug:200");
+
 		File file = new File(OSDependent.getOOBinary(preferencePath));
+		Logger.logInfo("OOdebug:201");
 		return file.isFile();
 	}
 
@@ -60,23 +63,34 @@ public class OpenOfficeStarter {
 	 * @return
 	 */
 	static public String getHome () {
+		Logger.logInfo("OOdebug:202");
+
 		IApplicationAssistant applicationAssistant;
 		
 		// Return an empty string, if no OpenOffice was found
 		String home = "";
 		
 		try {
+			Logger.logInfo("OOdebug:203");
+
 			applicationAssistant = new ApplicationAssistant();
 			ILazyApplicationInfo appInfo = applicationAssistant.getLatestLocalApplication();
-			
+			Logger.logInfo("OOdebug:204");
+
 			// An OpenOffice installation was found
 			if (appInfo!=null) { 
+				Logger.logInfo("OOdebug:205");
 				home = appInfo.getHome();
 			}
+			Logger.logInfo("OOdebug:206");
+
 		}
 		catch (OfficeApplicationException e) {
+			Logger.logInfo("OOdebug:207");
+			Logger.logError(e, "207");
 		}
-		
+		Logger.logInfo("OOdebug:208");
+
 		return home;
 	}
 
@@ -90,9 +104,12 @@ public class OpenOfficeStarter {
 
 		// Get the path to the application set in the preference store
 		String preferencePath = Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_PATH");
+		Logger.logInfo("OOdebug:209");
 
 		// Show a message (and exit), if there is no OpenOffice found
 		if (!isValidPath(preferencePath)) {
+			Logger.logInfo("OOdebug:210");
+
 			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
 			
 			//T: Title of the Message Box that appears if the OpenOffice path is invalid.
@@ -105,8 +122,11 @@ public class OpenOfficeStarter {
 					//T: Format: OpenOffice path ... is invalid.
 					_("is invalid"));
 			messageBox.open();
+			Logger.logInfo("OOdebug:211");
+
 			return null;
 		}
+		Logger.logInfo("OOdebug:212");
 
 		// Activate the OpenOffice Application
 		Map<String, String> configuration = new HashMap<String, String>();
@@ -114,13 +134,17 @@ public class OpenOfficeStarter {
 		configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY, "local");
 		IOfficeApplication officeAplication = null;
 		try {
+			Logger.logInfo("OOdebug:213");
 
 			// Get the application
 			officeAplication = OfficeApplicationRuntime.getApplication(configuration);
+			Logger.logInfo("OOdebug:214");
 
 			// Configure it
 			try {
 				officeAplication.setConfiguration(configuration);
+				Logger.logInfo("OOdebug:215");
+
 			}
 			catch (OfficeApplicationException e) {
 				Logger.logError(e, "Error configuring OpenOffice");
@@ -128,7 +152,11 @@ public class OpenOfficeStarter {
 
 			// And activate it
 			try {
+				Logger.logInfo("OOdebug:216");
+
 				officeAplication.activate();
+				Logger.logInfo("OOdebug:217");
+
 			}
 			catch (OfficeApplicationException e) {
 				Logger.logError(e, "Error activating OpenOffice");
@@ -137,6 +165,7 @@ public class OpenOfficeStarter {
 		catch (OfficeApplicationException e) {
 			Logger.logError(e, "Error starting OpenOffice");
 		}
+		Logger.logInfo("OOdebug:218");
 
 		//Return the Application
 		return officeAplication;
