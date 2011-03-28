@@ -17,7 +17,6 @@ package com.sebulli.fakturama.openoffice;
 import java.util.ArrayList;
 
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.logger.Logger;
 
 /**
  * Manages the OpenOffice documents. Stores a list of all open documents and
@@ -42,26 +41,18 @@ public enum OOManager {
 	 */
 	public void openOODocument(DataSetDocument document, String template) {
 		oODocuments.add(new OODocument(document, template));
-		Logger.logInfo("OOdebug:103");
-
 	}
 
 	/**
 	 * Closes all open OpenOffice documents
 	 */
 	public void closeAll() {
-		Logger.logInfo("OOdebug:100");
-
 		// Close all documents
 		for (int i = 0; i < oODocuments.size(); i++) {
 			oODocuments.get(i).close();
-			Logger.logInfo("OOdebug:101");
-
 		}
 
 		// Clear the list
 		oODocuments.clear();
-		Logger.logInfo("OOdebug:102");
-
 	}
 }
