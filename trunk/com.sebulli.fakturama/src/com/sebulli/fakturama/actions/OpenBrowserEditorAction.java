@@ -36,12 +36,20 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class OpenBrowserEditorAction extends Action {
 
+	// URL of the Fakturama project site
+	public final static String FAKTURAMA_PROJECT_URL = "http://fakturama.sebulli.com/app.php";
+	
+	// Open the Fakturama forum
+	private boolean useFakturamaProjectURL;
+	
 	/**
 	 * Constructor
 	 */
-	public OpenBrowserEditorAction() {
+	public OpenBrowserEditorAction(boolean useFakturamaProjectURL) {
 		super("fakturama.sebulli.com");
 
+		this.useFakturamaProjectURL = useFakturamaProjectURL;
+		
 		//T: Tool Tip Text
 		setToolTipText(_("Open the project web site fakturama.sebulli.com") );
 
@@ -68,16 +76,42 @@ public class OpenBrowserEditorAction extends Action {
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
 		// Sets the URL
-		String url = "http://fakturama.sebulli.com/app.php";
+		String url;
+		if (this.useFakturamaProjectURL)
+			url = FAKTURAMA_PROJECT_URL;
+		else
+			url = Activator.getDefault().getPreferenceStore().getString("GENERAL_WEBBROWSER_URL");
 
+		// In case of an URL with only "-" do not show an editor
+		if (url.equals("-"))
+			return;
+
+		// In case of an empty URL: use the project ULR
+		if (url.isEmpty())
+			url = FAKTURAMA_PROJECT_URL;
+		
+		// Add the "http://" or "file://"
+		if ((!url.toLowerCase().startsWith("http://")) && 
+			(!url.toLowerCase().startsWith("file://")) )
+			url = "http://" + url;
+		
+		// Check, if the URL is the Fakturama project
+		boolean isFakturamaProjectUrl = url.equalsIgnoreCase(FAKTURAMA_PROJECT_URL);
+			
 		// Add version and language a a GET parameter
 		// The language is uses, if the project website can generate
 		// localized content.
-		url += "?version=" + Activator.getDefault().getBundle().getVersion();
-		url += "&lang=" + Locale.getDefault().getCountry();
+		if (isFakturamaProjectUrl) {
+			url += "?version=" + Activator.getDefault().getBundle().getVersion();
+			url += "&lang=" + Locale.getDefault().getCountry();
+		}
 
 		// Sets the URL as input for the editor.
-		BrowserEditorInput input = new BrowserEditorInput(url, "fakturama.sebulli.com");
+		BrowserEditorInput input;
+		if (isFakturamaProjectUrl)
+			input = new BrowserEditorInput(url, "Fakturama Project", true);
+		else
+			input = new BrowserEditorInput(url, "Start", false);
 
 		// Open the editor
 		try {

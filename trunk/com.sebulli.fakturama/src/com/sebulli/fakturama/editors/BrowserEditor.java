@@ -55,6 +55,9 @@ public class BrowserEditor extends Editor {
 	// URL of the last site on fakturama.sebulli.com
 	private String lastFakturamaURL = "";
 
+	// the URL is the Fakturama project
+	private boolean isFakturamaProjectUrl;
+	
 	/**
 	 * Constructor
 	 */
@@ -89,6 +92,7 @@ public class BrowserEditor extends Editor {
 		setInput(input);
 		url = ((BrowserEditorInput) input).getUrl();
 		setPartName(input.getName());
+		isFakturamaProjectUrl = ((BrowserEditorInput) input).getIsFakturamaProjectUrl();
 	}
 
 	/**
@@ -158,7 +162,7 @@ public class BrowserEditor extends Editor {
 					boolean isValidURL = browserURL.startsWith("http://");
 
 					// We are back at home - remove the button (if it exists)
-					if (browserURL.startsWith("http://fakturama.sebulli.com") || !isValidURL) {
+					if (browserURL.startsWith("http://fakturama.sebulli.com") || !isValidURL || !isFakturamaProjectUrl) {
 
 						// Store this URL as last URL
 						lastFakturamaURL = browserURL;

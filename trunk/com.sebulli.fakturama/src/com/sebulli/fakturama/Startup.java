@@ -44,7 +44,7 @@ public class Startup implements IStartup {
 
 				// Opens the web browser editor.
 				if (window != null) {
-					OpenBrowserEditorAction action = new OpenBrowserEditorAction();
+					OpenBrowserEditorAction action = new OpenBrowserEditorAction(false);
 					action.run();
 				}
 				else

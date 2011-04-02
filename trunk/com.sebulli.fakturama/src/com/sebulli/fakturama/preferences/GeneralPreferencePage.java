@@ -27,6 +27,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.actions.OpenBrowserEditorAction;
 import com.sebulli.fakturama.calculate.DataUtils;
 
 /**
@@ -58,6 +59,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		//T: Preference page "General" - Label Currency
 		addField(new StringFieldEditor("GENERAL_CURRENCY", _("Currency"), getFieldEditorParent()));
 
+		//T: Preference page "General" - URL of the start page
+		addField(new StringFieldEditor("GENERAL_WEBBROWSER_URL", _("URL web browser"), getFieldEditorParent()));
 	}
 
 	/**
@@ -81,6 +84,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_COLLAPSE_EXPANDBAR", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_CURRENCY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_WEBBROWSER_URL", write);
+		
 	}
 
 	/**
@@ -101,6 +106,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		catch (Exception e) {
 		}
 		node.put("GENERAL_CURRENCY", currency);
+		node.put("GENERAL_WEBBROWSER_URL", OpenBrowserEditorAction.FAKTURAMA_PROJECT_URL);
 		
 	}
 
