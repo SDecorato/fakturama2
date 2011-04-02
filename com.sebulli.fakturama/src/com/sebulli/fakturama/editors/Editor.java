@@ -305,9 +305,17 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 		// with the format "{Xnr}", "X" is the number of digits.
 		Pattern p = Pattern.compile("\\{\\d*nr\\}");
 		Matcher m = p.matcher(format);
-
+		
 		// Get the next number
 		if (m.find()) {
+			
+			// Exit, if the value is to short
+			if (value.length() < m.start())
+				return ERROR_NOT_NEXT_ID;
+
+			// Exit, if the value is to short
+			if ((value.length() - format.length() + m.end()) <= m.start() )
+				return ERROR_NOT_NEXT_ID;
 
 			// Extract the number string
 			s = value.substring(m.start(), value.length() - format.length() + m.end());
