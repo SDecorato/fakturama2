@@ -111,7 +111,7 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Miscellaneous"), "/icons/16/misc_16.png" ,
 				_("Miscellaneous"));
 
-		bar5.addAction(new OpenBrowserEditorAction());
+		bar5.addAction(new OpenBrowserEditorAction(true));
 		bar5.addAction(new OpenCalculatorAction());
 	}
 

@@ -27,6 +27,7 @@ public class BrowserEditorInput implements IEditorInput {
 
 	String url;
 	String name = "";
+	boolean isFakturamaProjectUrl;
 
 	/**
 	 * Constructor
@@ -34,9 +35,10 @@ public class BrowserEditorInput implements IEditorInput {
 	 * @param url
 	 *            URL of the web browser
 	 */
-	public BrowserEditorInput(String url, String name) {
+	public BrowserEditorInput(String url, String name, boolean isFakturamaProjectUrl) {
 		this.url = url;
 		this.name = name;
+		this.isFakturamaProjectUrl = isFakturamaProjectUrl;
 	}
 
 	/**
@@ -129,6 +131,7 @@ public class BrowserEditorInput implements IEditorInput {
 		return url.hashCode();
 	}
 
+	
 	/**
 	 * Returns the URL
 	 * 
@@ -136,5 +139,14 @@ public class BrowserEditorInput implements IEditorInput {
 	 */
 	public String getUrl() {
 		return this.url;
+	}
+
+	/**
+	 * Returns whether it is the project URL
+	 * 
+	 * @return TRUE, if it is the Fakturama project URL
+	 */
+	public boolean getIsFakturamaProjectUrl() {
+		return this.isFakturamaProjectUrl;
 	}
 }

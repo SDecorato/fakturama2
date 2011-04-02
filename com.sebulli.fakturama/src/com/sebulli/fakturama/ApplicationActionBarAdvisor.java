@@ -267,9 +267,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		openParcelServiceActionTB = new OpenParcelServiceAction();
 		register(openParcelServiceActionTB);
 
-		openBrowserEditorAction = new OpenBrowserEditorAction();
+		openBrowserEditorAction = new OpenBrowserEditorAction(true);
 		register(openBrowserEditorAction);
-		openBrowserEditorActionTB = new OpenBrowserEditorAction();
+		openBrowserEditorActionTB = new OpenBrowserEditorAction(true);
 		register(openBrowserEditorActionTB);
 
 		openCalculatorAction = new OpenCalculatorAction();
