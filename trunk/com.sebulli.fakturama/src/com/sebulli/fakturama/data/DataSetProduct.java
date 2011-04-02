@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.data;
 
+import com.sebulli.fakturama.Activator;
+
 /**
  * UniDataSet for all products
  * 
@@ -129,9 +131,12 @@ public class DataSetProduct extends UniDataSet {
 		Double price = this.getDoubleValueByKey("price1");
 		int blockQuantity = 0;
 		int newQuantity;
+		int scaledPrices;
+		
+		scaledPrices = Activator.getDefault().getPreferenceStore().getInt("PRODUCT_SCALED_PRICES");
 
-		// search all 5 blocks
-		for (int i = 1; i <= 5; i++) {
+		// search all used blocks
+		for (int i = 1; i <= scaledPrices; i++) {
 			newQuantity = this.getIntValueByKey("block" + Integer.toString(i));
 			if ((newQuantity > blockQuantity) && (quantity >= (newQuantity - 0.0001))) {
 				blockQuantity = newQuantity;

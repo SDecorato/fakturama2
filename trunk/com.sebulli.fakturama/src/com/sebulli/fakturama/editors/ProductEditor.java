@@ -177,11 +177,19 @@ public class ProductEditor extends Editor {
 		product.setStringValueByKey("category", txtCategory.getText());
 		product.setStringValueByKey("description", textDescription.getText());
 
+		int i;
+		Double lastScaledPrice = 0.0;
+
 		// Set all of the scaled prices
-		for (int i = 0; i < scaledPrices; i++) {
+		for (i = 0; i < scaledPrices; i++) {
 			String indexNr = Integer.toString(i + 1);
-			product.setDoubleValueByKey("price" + indexNr, net[i].getValueAsDouble());
+			product.setDoubleValueByKey("price" + indexNr, lastScaledPrice = net[i].getValueAsDouble());
 			product.setStringValueByKey("block" + indexNr, textBlock[i].getText());
+		}
+		
+		for (; i < 5; i++) {
+			String indexNr = Integer.toString(i + 1);
+			product.setDoubleValueByKey("price" + indexNr, lastScaledPrice);
 		}
 
 		// Set the product data
