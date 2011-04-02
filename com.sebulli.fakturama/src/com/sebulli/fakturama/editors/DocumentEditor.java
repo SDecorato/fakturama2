@@ -606,7 +606,7 @@ public class DocumentEditor extends Editor {
 				// Default payment
 				paymentId = Data.INSTANCE.getPropertyAsInt("standardpayment");
 				document.setStringValueByKey("paymentdescription", Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("description"));
-
+				document.setIntValueByKey("duedays", Data.INSTANCE.getPayments().getDatasetById(paymentId).getIntValueByKey("netdays"));
 			}
 			else {
 				paymentId = document.getIntValueByKey("paymentid");
@@ -1100,17 +1100,25 @@ public class DocumentEditor extends Editor {
 				}
 			});
 
-			// Add date and due days and set the issue date to the sum.
-			GregorianCalendar calendar = new GregorianCalendar(dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
-			calendar.add(Calendar.DAY_OF_MONTH, spDueDays.getSelection());
-			dtIssueDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			updateIssueDate();
 		}
 
 		// Resize the container
 		paidContainer.layout(changed);
 		paidContainer.pack(changed);
 	}
+	
+	/**
+	 * Update the Issue Date widget with the date that corresponds to the due date
+	 */
+	void updateIssueDate() {
+		// Add date and due days and set the issue date to the sum.
+		GregorianCalendar calendar = new GregorianCalendar(dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
+		calendar.add(Calendar.DAY_OF_MONTH, spDueDays.getSelection());
+		dtIssueDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
+	}
+	
 	/**
 	 * Show or hide the warning icon
 	 */
@@ -2002,6 +2010,8 @@ public class DocumentEditor extends Editor {
 							Object firstElement = structuredSelection.getFirstElement();
 							DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
 							paymentId = dataSetPayment.getIntValueByKey("id");
+							spDueDays.setSelection(dataSetPayment.getIntValueByKey("netdays"));
+							updateIssueDate();
 							checkDirty();
 						}
 					}
