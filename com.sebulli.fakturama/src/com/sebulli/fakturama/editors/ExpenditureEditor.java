@@ -138,7 +138,9 @@ public class ExpenditureEditor extends Editor {
 		expenditure.setStringValueByKey("category", comboCategory.getText());
 		expenditure.setStringValueByKey("nr", textNr.getText());
 		expenditure.setStringValueByKey("documentnr", textDocumentNr.getText());
+		expenditure.setStringValueByKey("date", DataUtils.getDateTimeAsString(dtDate));
 
+		
 		// Set all the items
 		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems.getActiveDatasets();
 		String itemsString = "";
@@ -394,6 +396,7 @@ public class ExpenditureEditor extends Editor {
 		if (!expenditure.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!expenditure.getStringValueByKey("nr").equals(textNr.getText())) { return true; }
 		if (!expenditure.getStringValueByKey("documentnr").equals(textDocumentNr.getText())) { return true; }
+		if (!expenditure.getStringValueByKey("date").equals(DataUtils.getDateTimeAsString(dtDate))) { return true; }
 
 		// Test all the expenditure items
 		String itemsString = "";
@@ -423,9 +426,20 @@ public class ExpenditureEditor extends Editor {
 		if (!expenditure.getStringValueByKey("items").equals(itemsString)) { return true; }
 
 		// Compare paid value
-		if (!DataUtils.DoublesAreEqual(expenditure.getDoubleValueByKey("paid"), paidValue.getValueAsDouble() )) { return true; }
+		// The the expenditure was paid with a discount, use the paid value
+		if (bPaidWithDiscount.getSelection()) {
+			if (!DataUtils.DoublesAreEqual(expenditure.getDoubleValueByKey("paid"), paidValue.getValueAsDouble() )) { return true; }
+		}
+		// else use the total value
+		else {
+			if (!DataUtils.DoublesAreEqual(expenditure.getDoubleValueByKey("paid"), totalValue.getValueAsDouble() )) { return true; }
+		}
+		
 		if (expenditure.getBooleanValueByKey("discounted") != bPaidWithDiscount.getSelection()) { return true; }
 
+
+		
+		
 		return false;
 	}
 
@@ -557,6 +571,9 @@ public class ExpenditureEditor extends Editor {
 		dtDate = new DateTime(top, SWT.DATE);
 		dtDate.setToolTipText(labelDate.getToolTipText());
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(dtDate);
+		superviceControl(dtDate);
+
+		
 
 		// Set the dtDate widget to the expenditures date
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -599,7 +616,7 @@ public class ExpenditureEditor extends Editor {
 		textName = new Text(top, SWT.BORDER);
 		textName.setText(expenditure.getStringValueByKey("name"));
 		textName.setToolTipText(labelName.getToolTipText());
-		superviceControl(textName, 32);
+		superviceControl(textName, 100);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
 		// Add the suggestion listener
