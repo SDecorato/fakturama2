@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -243,10 +245,61 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 		String nextNr;
 		int nr;
 
+		// Store the date of now to a property
+		GregorianCalendar calendar = new GregorianCalendar();
+		int yyyy = calendar.get(Calendar.YEAR);
+		int mm = calendar.get(Calendar.MONTH) + 1;
+		int dd = calendar.get(Calendar.DAY_OF_MONTH);
+		String lastSetNextNrDate = Data.INSTANCE.getProperty("last_setnextnr_date_" + editorID.toLowerCase(), "2000-01-01");
+
+		int last_yyyy = 0; 
+		int last_mm = 0; 
+		int last_dd = 0; 
+
+		// Get the year, month and date of a string like "2011-12-24"
+		if (lastSetNextNrDate.length() == 10) {
+			try {
+				last_yyyy = Integer.parseInt(lastSetNextNrDate.substring(0, 4));
+				last_mm = Integer.parseInt(lastSetNextNrDate.substring(5, 7));
+				last_dd = Integer.parseInt(lastSetNextNrDate.substring(8, 10));
+			}
+			catch (Exception e){};
+		}
+		
 		// Get the last (it's the next free) document number from the preferences
 		format = Activator.getDefault().getPreferenceStore().getString(prefStrFormat);
 		nr = Activator.getDefault().getPreferenceStore().getInt(prefStrNr);
 
+		// Check, whether the date string is a new one
+		boolean startNewCounting = false;
+		if (format.contains("{yyyy}") || format.contains("{yy}"))
+			if (yyyy != last_yyyy)
+				startNewCounting = true;
+		if (format.contains("{mm}"))
+			if (mm != last_mm)
+				startNewCounting = true;
+		if (format.contains("{dd}"))
+			if (dd != last_dd)
+				startNewCounting = true;
+		
+		// Reset the counter
+		if (startNewCounting) {
+			nr = 1;
+			setNextNumber(prefStrNr, nr); 
+		}
+			
+		
+		// Replace the date information
+		format = format.replace("{yyyy}", String.format("%04d", yyyy));
+		format = format.replace("{yy}", String.format("%04d", yyyy).substring(3, 4));
+		format = format.replace("{mm}", String.format("%02d", mm));
+		format = format.replace("{dd}", String.format("%02d", dd));
+		format = format.replace("{YYYY}", String.format("%04d", yyyy));
+		format = format.replace("{YY}", String.format("%04d", yyyy).substring(3, 4));
+		format = format.replace("{MM}", String.format("%02d", mm));
+		format = format.replace("{DD}", String.format("%02d", dd));
+		
+		
 		// Find the placeholder for a decimal number with n digits
 		// with the format "{Xnr}", "X" is the number of digits.
 		Pattern p = Pattern.compile("\\{\\d*nr\\}");
@@ -269,10 +322,23 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 		// Replace the "%0Xd" with the decimal number
 		nextNr = String.format(format, nr);
 
-		// Return the strin with the next free document number
+		// Return the string with the next free document number
 		return nextNr;
 	}
 
+	protected void setNextNumber(String prefStrNr, int nr) {
+		Activator.getDefault().getPreferenceStore().setValue(prefStrNr, nr);
+
+		// Store the date of now to a property
+		GregorianCalendar calendar = new GregorianCalendar();
+		int yyyy = calendar.get(Calendar.YEAR);
+		int mm = calendar.get(Calendar.MONTH) + 1;
+		int dd = calendar.get(Calendar.DAY_OF_MONTH);
+		Data.INSTANCE.setProperty("last_setnextnr_date_" + editorID.toLowerCase(), String.format("%04d-%02d-%02d", yyyy, mm, dd));
+
+	}
+	
+	
 	/**
 	 * Set the next free document number in the preference store. But check, if
 	 * the documents number is the next free one.
@@ -301,6 +367,17 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 		if (format.trim().isEmpty())
 			return NO_ERROR;
 
+		// Fill the replacements with dummy values
+		format = format.replace("{yyyy}", "0000");
+		format = format.replace("{yy}", "00");
+		format = format.replace("{mm}", "00");
+		format = format.replace("{dd}", "00");
+		format = format.replace("{YYYY}", "0000");
+		format = format.replace("{YY}", "00");
+		format = format.replace("{MM}", "00");
+		format = format.replace("{DD}", "00");
+
+		
 		// Find the placeholder for a decimal number with n digits
 		// with the format "{Xnr}", "X" is the number of digits.
 		Pattern p = Pattern.compile("\\{\\d*nr\\}");
@@ -327,7 +404,9 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 				// Update the value of the last document number, but only,
 				// If the number of this document is the next free number
 				if (nr == nextnr) {
-					Activator.getDefault().getPreferenceStore().setValue(prefStrNr, nr);
+					
+					// Store the number to the preference store
+					setNextNumber(prefStrNr, nr);
 					result = NO_ERROR;
 				}
 			}
