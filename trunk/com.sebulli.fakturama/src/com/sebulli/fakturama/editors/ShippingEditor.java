@@ -126,6 +126,7 @@ public class ShippingEditor extends Editor {
 		if (newShipping) {
 			shipping = Data.INSTANCE.getShippings().addNewDataSet(shipping);
 			newShipping = false;
+			stdComposite.stdButton.setEnabled(true);
 		}
 		// If it's not new, update at least the data base
 		else {
@@ -552,8 +553,13 @@ public class ShippingEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStdShipping);
 		//T: Shipping Editor: Button description to make this as standard shipping.
 		stdComposite = new StdComposite(top, shipping, Data.INSTANCE.getShippings(), "standardshipping", _("This Shipping"), 1);
+		
 		//T: Tool Tip Text
 		stdComposite.setToolTipText(_("Make this shipping to the standard shipping"));
+
+		// Disable the Standard Button, if this is a new shipping
+		if (!newShipping)
+			stdComposite.stdButton.setEnabled(true);
 
 	}
 	

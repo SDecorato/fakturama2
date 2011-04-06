@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2011-01-13 21:01+0100\n"
-"PO-Revision-Date: 2011-04-06 18:56+0100\n"
+"PO-Revision-Date: 2011-04-06 20:35+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -1304,18 +1304,18 @@ msgstr "Es gibt bereits einen Artikel mit der Nummer:"
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:156
 #: ../src/com/sebulli/fakturama/actions/NewPaymentAction.java:39
 msgid "New Payment"
-msgstr "Neue Zahlungsmethode"
+msgstr "Neue Zahlungsart"
 
 #. T: Payment Editor: Title
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:230
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:872
 msgid "Payment"
-msgstr "Zahlungsmethode"
+msgstr "Zahlungsart"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:238
 msgid "Name of the payment. This is also the identifier used by the shop system."
-msgstr "Name der Zahlungsmethode. Dies ist auch die Bezeichnung aus dem Shop System."
+msgstr "Name der Zahlungsart. Dies ist auch die Bezeichnung aus dem Shop System."
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:251
@@ -1395,17 +1395,17 @@ msgstr "Standard"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:364
 msgid "Name of the payment method that is the standard"
-msgstr "Name der Standard Zahlungsmethode"
+msgstr "Name der Standard Zahlungsart"
 
 #. T: Payment Editor: Button description to make this as standard payment.
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:368
 msgid "This Payment"
-msgstr "Diese Zahlmethode"
+msgstr "Diese Zahlungsart"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:370
 msgid "Make this payment to the standard payment"
-msgstr "Diese Zahlungsmethode zum Standard machen"
+msgstr "Diese Zahlungsart zum Standard machen"
 
 #. T: Button to go back to the Fakturama home page
 #: ../src/com/sebulli/fakturama/editors/BrowserEditor.java:178
@@ -1677,7 +1677,7 @@ msgstr "Mobilnummer"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:874
 msgid "This payment method is used when creating a new document"
-msgstr "Diese Zahlart wird verwendet beim Erzeugen eines neuen Dokumentes"
+msgstr "Diese Zahlungsart wird verwendet beim Erzeugen eines neuen Dokumentes"
 
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:899
 msgid "Reliability"
@@ -2351,7 +2351,7 @@ msgstr "Taschenrechner"
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewPaymentTable.java:62
 #: ../src/com/sebulli/fakturama/actions/OpenPaymentsAction.java:37
 msgid "Payments"
-msgstr "Zahlmethoden"
+msgstr "Zahlungsarten"
 
 #. T: Discount Days
 #. T: Used as heading of a table. Keep the word short.
@@ -2507,7 +2507,7 @@ msgstr "Nach Updates suchen"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/actions/OpenPaymentsAction.java:40
 msgid "Open a list with all payments"
-msgstr "Die Liste aller Zahlungsmethoden öffnen"
+msgstr "Die Liste aller Zahlungsarten öffnen"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/actions/NewDocumentAction.java:95
@@ -2657,7 +2657,7 @@ msgstr "Eine Liste mit allen Ausgabenbelegen öffnen"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/actions/NewPaymentAction.java:42
 msgid "Create a new payment"
-msgstr "Eine neue Zahlart anlegen"
+msgstr "Eine neue Zahlungsart anlegen"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/actions/OpenListsAction.java:40

@@ -46,7 +46,7 @@ public class DataSetText extends UniDataSet {
 	 * @param text
 	 */
 	public DataSetText(String name, String category, String text) {
-		this(0, name, false, category, text);
+		this(-1, name, false, category, text);
 	}
 
 	/**

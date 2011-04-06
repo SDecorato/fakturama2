@@ -96,6 +96,7 @@ public class VatEditor extends Editor {
 		if (newVat) {
 			vat = Data.INSTANCE.getVATs().addNewDataSet(vat);
 			newVat = false;
+			stdComposite.stdButton.setEnabled(true);
 		}
 		// If it's not new, update at least the data base
 		else {
@@ -279,6 +280,11 @@ public class VatEditor extends Editor {
 		stdComposite = new StdComposite(top, vat, Data.INSTANCE.getVATs(), "standardvat",  _("This TAX Rate"), 1);
 		//T: Tool Tip Text
 		stdComposite.setToolTipText(_("Make this tax rate to the standard"));
+
+		// Disable the Standard Button, if this is a new VAT
+		if (!newVat)
+			stdComposite.stdButton.setEnabled(true);
+
 
 	}
 	

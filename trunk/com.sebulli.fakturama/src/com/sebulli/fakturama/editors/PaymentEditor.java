@@ -103,6 +103,7 @@ public class PaymentEditor extends Editor {
 		if (newPayment) {
 			payment = Data.INSTANCE.getPayments().addNewDataSet(payment);
 			newPayment = false;
+			stdComposite.stdButton.setEnabled(true);
 		}
 		// If it's not new, update at least the data base
 		else {
@@ -366,8 +367,13 @@ public class PaymentEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelStd);
 		//T: Payment Editor: Button description to make this as standard payment.
 		stdComposite = new StdComposite(top, payment, Data.INSTANCE.getPayments(), "standardpayment", _("This Payment"), 3);
+		
 		//T: Tool Tip Text
 		stdComposite.setToolTipText(_("Make this payment to the standard payment"));
+		
+		// disable the Standard Button, if this is a new payment
+		if (!newPayment)
+			stdComposite.stdButton.setEnabled(true);
 
 	}
 	

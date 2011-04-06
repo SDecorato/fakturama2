@@ -53,7 +53,7 @@ public class DataSetPayment extends UniDataSet {
 	 */
 	public DataSetPayment(String name, String category, String description, double discountvalue, int discountdays, int netdays, String paidtext,
 			String unpaidtext, boolean defaultPaid) {
-		this(0, name, false, category, description, discountvalue, discountdays, netdays, paidtext, unpaidtext, defaultPaid);
+		this(-1, name, false, category, description, discountvalue, discountdays, netdays, paidtext, unpaidtext, defaultPaid);
 	}
 
 	/**
