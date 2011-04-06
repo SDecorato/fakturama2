@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2011-01-13 21:01+0100\n"
-"PO-Revision-Date: 2011-01-15 09:49+0100\n"
+"PO-Revision-Date: 2011-04-06 18:56+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr ""
 "Format der Nummernkreise\n"
 "\n"
 "Beispiel: RE{6nr}\n"
-"Nummer wird 6-stellig mit führendem \"INV\" dargestellt: RE000001\n"
+"Nummer wird 6-stellig mit führendem \"RE\" dargestellt: RE000001\n"
 
 #. T: Preference page "Number Range Format" - Default value: Abbreviation for "Customer" with {6nr} for a 6 digits number
 #: ../src/com/sebulli/fakturama/preferences/NumberRangeFormatPreferencePage.java:109

@@ -211,6 +211,23 @@ public enum Data {
 	}
 
 	/**
+	 * Get a property value with a default value
+	 * 
+	 * @param key
+	 *            Property key
+	 * @param def
+	 *            default value, if the key is not existing
+	 * @return Value as String
+	 */
+	public String getProperty(String key, String def) {
+		for (DataSetProperty property : properties.getDatasets()) {
+			if (property.getStringValueByKey("name").equalsIgnoreCase(key))
+				return property.getStringValueByKey("value");
+		}
+		return def;
+	}
+	
+	/**
 	 * Get a property value as integer
 	 * 
 	 * @param key
