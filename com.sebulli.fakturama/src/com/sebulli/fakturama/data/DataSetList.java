@@ -46,7 +46,7 @@ public class DataSetList extends UniDataSet {
 	 * @param value
 	 */
 	public DataSetList(String category, String name, String value) {
-		this(0, name, false, category, value);
+		this(-1, name, false, category, value);
 	}
 
 	/**

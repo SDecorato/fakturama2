@@ -106,7 +106,7 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 		// Text widgets that displays the standard widget
 		private Text txtStd;
 		// The button
-		private Button stdButton;
+		public Button stdButton;
 
 		// The property key that defines the standard
 		private String propertyKey = null;
@@ -153,15 +153,16 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 			txtStd = new Text(stdComposite, SWT.BORDER);
 			txtStd.setEditable(false);
 
-			GridDataFactory.swtDefaults().hint(150, -1).align(SWT.BEGINNING, SWT.CENTER).applyTo(txtStd);
+			GridDataFactory.swtDefaults().hint(200, -1).align(SWT.BEGINNING, SWT.CENTER).applyTo(txtStd);
 			setStdText();
 
 			// Create the button to make this entry to the standard
 			stdButton = new Button(stdComposite, SWT.BORDER);
 			stdButton.setText("zum Standard machen");
 			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(stdButton);
+			stdButton.setEnabled(false);
 			stdButton.addSelectionListener(new SelectionAdapter() {
-
+				
 				/**
 				 * Make this entry to the standard
 				 * 
@@ -169,9 +170,11 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 				 */
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					Data.INSTANCE.setProperty(propertyKey, uds.getStringValueByKey("id"));
-					txtStd.setText(thisDataset);
-					refreshView();
+					if (uds.getIntValueByKey("id") >= 0) {
+						Data.INSTANCE.setProperty(propertyKey, uds.getStringValueByKey("id"));
+						txtStd.setText(thisDataset);
+						refreshView();
+					}
 				}
 			});
 
@@ -194,9 +197,10 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 				}
 
 				// If the editor's unidataset is the standard entry
-				if (uds.getIntValueByKey("id") == stdID)
+				if (uds.getIntValueByKey("id") == stdID) {
 					// Mark it as "standard" ..
 					txtStd.setText(thisDataset);
+				}
 				else
 					// .. or display the one that is the standard entry.
 					txtStd.setText(((UniDataSet) dataSetArray.getDatasetById(stdID)).getStringValueByKey("name"));
