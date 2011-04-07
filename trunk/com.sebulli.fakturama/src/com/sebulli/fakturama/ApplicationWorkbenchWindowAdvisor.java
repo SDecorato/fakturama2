@@ -22,7 +22,6 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.sebulli.fakturama.backup.BackupManager;
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.openoffice.OOManager;
 import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
@@ -72,7 +71,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	 */
 	@Override
 	public void postWindowOpen() {
-		Logger.logInfo("Fakturama Workbench opened");
+		Workspace.INSTANCE.showWorkingDirInTitleBar();
 	}
 
 	/**

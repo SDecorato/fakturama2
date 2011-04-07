@@ -42,6 +42,7 @@ import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetShipping;
+import com.sebulli.fakturama.data.DataSetVAT;
 import com.sebulli.fakturama.data.UniData;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.data.UniDataType;
@@ -480,7 +481,7 @@ public class ShippingEditor extends Editor {
 		});
 
 		// Create a JFace combo viewer for the VAT list
-		comboViewer.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory("Umsatzsteuer"));
+		comboViewer.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory(DataSetVAT.TAX_CATEGORY_OUTPUT_TAX));
 		try {
 			comboViewer.setSelection(new StructuredSelection(Data.INSTANCE.getVATs().getDatasetById(vatId)), true);
 		}
