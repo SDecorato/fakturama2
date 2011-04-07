@@ -33,6 +33,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.views.ErrorView;
 
 /**
@@ -233,7 +234,12 @@ public class LogListener implements ILogListener {
 			}
 
 			// Create a new string buffer and add the error message
-			StringBuffer str = new StringBuffer(plugin);
+			
+			
+			StringBuffer str = new StringBuffer();
+			str.append(DataUtils.DateAndTimeOfNowAsLocalString());
+			str.append(" ");
+			str.append(plugin);
 			str.append(": ");
 			str.append(status.getMessage());
 

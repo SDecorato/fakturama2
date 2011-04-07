@@ -41,8 +41,6 @@ import com.sebulli.fakturama.data.DataSetVAT;
  */
 public class ExpenditureItemEditingSupport extends EditingSupport {
 
-	private static String TAX_CATEGORY = "Vorsteuer";
-
 	// The cell editor
 	private CellEditor editor;
 	private String[] categoryListEntries;
@@ -124,11 +122,11 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 							String vatName = billing_account.getStringValueByKey("value");
 
 							// Get the VAT entry with the same name
-							DataSetVAT vat = Data.INSTANCE.getVATs().getDataSetByStringValue("name", vatName, TAX_CATEGORY);
+							DataSetVAT vat = Data.INSTANCE.getVATs().getDataSetByStringValue("name", vatName, DataSetVAT.TAX_CATEGORY_INPUT_TAX);
 
 							// Search also for the description
 							if (vat == null)
-								vat = Data.INSTANCE.getVATs().getDataSetByStringValue("description", vatName, TAX_CATEGORY);
+								vat = Data.INSTANCE.getVATs().getDataSetByStringValue("description", vatName, DataSetVAT.TAX_CATEGORY_INPUT_TAX);
 
 							// Update the VAT cell in the table
 							if (vat != null) {
@@ -145,7 +143,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			combo.addVerifyListener(new Suggestion(combo, Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts")));
 			break;
 		case 3:
-			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", TAX_CATEGORY));
+			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", DataSetVAT.TAX_CATEGORY_INPUT_TAX));
 			break;
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
@@ -277,12 +275,12 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 			// Get the VAT by the selected name
 			if (i >= 0) {
 				s = ((ComboBoxCellEditor) this.editor).getItems()[i];
-				i = Data.INSTANCE.getVATs().getDataSetIDByStringValue("name", s, TAX_CATEGORY);
+				i = Data.INSTANCE.getVATs().getDataSetIDByStringValue("name", s, DataSetVAT.TAX_CATEGORY_INPUT_TAX);
 			}
 			// Get the VAT by the Value in percent
 			else {
 				s = ((CCombo) ((ComboBoxCellEditor) this.editor).getControl()).getText();
-				i = Data.INSTANCE.getVATs().getDataSetByDoubleValue("value", DataUtils.StringToDouble(s + "%"), TAX_CATEGORY);
+				i = Data.INSTANCE.getVATs().getDataSetByDoubleValue("value", DataUtils.StringToDouble(s + "%"), DataSetVAT.TAX_CATEGORY_INPUT_TAX);
 			}
 
 			// If no VAT is found, use the standard VAT
