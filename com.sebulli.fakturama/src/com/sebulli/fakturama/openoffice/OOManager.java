@@ -16,6 +16,7 @@ package com.sebulli.fakturama.openoffice;
 
 import java.util.ArrayList;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.DataSetDocument;
 
 /**
@@ -39,8 +40,27 @@ public enum OOManager {
 	 * @param template
 	 *            The Filename of the OpenOffice Template
 	 */
-	public void openOODocument(DataSetDocument document, String template) {
-		oODocuments.add(new OODocument(document, template));
+	public void openOODocument(final DataSetDocument document, final String template) {
+		
+		
+		// Start OpenOffice in a new thread, depending in the settings
+		if (Activator.getDefault().getPreferenceStore().getBoolean("OPENOFFICE_START_IN_NEW_THREAD")) {
+
+			// Start OpenOffice in a new thread
+			new Thread(new Runnable() {
+				public void run() {
+					oODocuments.add(new OODocument(document, template));
+				}
+			}).start();
+			
+		}
+		else {
+			
+			// Start OpenOffice in this thread
+			oODocuments.add(new OODocument(document, template));
+		}
+
+		
 	}
 
 	/**

@@ -25,11 +25,6 @@ import com.sebulli.fakturama.calculate.DataUtils;
  */
 public class DataSetVAT extends UniDataSet {
 
-	//T: Identifier of the input tax category
-	public final static String TAX_CATEGORY_INPUT_TAX = _("Input Tax");
-	//T: Identifier of the output tax category
-	public final static String TAX_CATEGORY_OUTPUT_TAX = _("VAT");
-	
 	
 	/**
 	 * Constructor Creates a new vat

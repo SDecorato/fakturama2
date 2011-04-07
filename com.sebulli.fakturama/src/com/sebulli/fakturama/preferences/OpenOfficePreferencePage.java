@@ -17,6 +17,7 @@ package com.sebulli.fakturama.preferences;
 import static com.sebulli.fakturama.Translate._;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
@@ -71,6 +72,10 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 				{ _("ODT and PDF"), "ODT+PDF" } },
 				getFieldEditorParent()));
 
+		//T: Preference page "OpenOffice" - Label checkbox "Start OpenOffice in a new thread"
+		addField(new BooleanFieldEditor("OPENOFFICE_START_IN_NEW_THREAD", _("Start OpenOffice in a new thread"), getFieldEditorParent()));
+
+
 	}
 
 	/**
@@ -94,6 +99,7 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_PATH", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_ODT_PDF", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_START_IN_NEW_THREAD", write);
 	}
 
 	/**
@@ -108,6 +114,8 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 			oOHome = OSDependent.getOODefaultPath();	
 		node.put("OPENOFFICE_PATH", oOHome);
 		node.put("OPENOFFICE_ODT_PDF", "ODT+PDF");
+		node.putBoolean("OPENOFFICE_START_IN_NEW_THREAD", true);
+
 	}
 
 }

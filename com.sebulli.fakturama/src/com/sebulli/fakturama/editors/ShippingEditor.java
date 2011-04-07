@@ -481,7 +481,7 @@ public class ShippingEditor extends Editor {
 		});
 
 		// Create a JFace combo viewer for the VAT list
-		comboViewer.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory(DataSetVAT.TAX_CATEGORY_OUTPUT_TAX));
+		comboViewer.setInput(Data.INSTANCE.getVATs().getActiveDatasetsPrefereCategory(DataSetVAT.getSalesTaxString()));
 		try {
 			comboViewer.setSelection(new StructuredSelection(Data.INSTANCE.getVATs().getDatasetById(vatId)), true);
 		}
