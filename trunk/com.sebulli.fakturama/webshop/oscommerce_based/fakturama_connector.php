@@ -6,8 +6,8 @@
  * 
  * Web shop connector script
  *
- * Version 1.1.5
- * Date: 2011-03-26
+ * Version 1.1.6
+ * Date: 2011-03-28
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -357,6 +357,7 @@ function startsWith($str, $sub){
 
 // Encrypt the data
 function my_encrypt($s) {
+
 	if (!defined('ENCRYPT_DATA') )
 		return $s;
 
@@ -397,6 +398,9 @@ function my_encode_with_quotes($s) {
 
 	// Convert to UTF-8
 	$s = convertToUTF8($s);
+
+	// Strip all HTML Tags
+	$s = strip_tags($s);
 	
 	// Encrypt the data
 	$s = my_encrypt($s);
@@ -404,7 +408,7 @@ function my_encode_with_quotes($s) {
 	// Convert entities like &uuml; to ü
 	if((version_compare( phpversion(), '5.0' ) < 0)) {
 		$s = html_entity_decode($s);
-		$s = utf8_encode($s);
+//		$s = utf8_encode($s);
 	} else {
 		$s = html_entity_decode($s, ENT_COMPAT, 'UTF-8');
 	}
@@ -423,18 +427,14 @@ function exit_with_error($err) {
 }
 
 
-// Remove the HTML tags but keep the BR-tags
-function my_strip_tags($s) {
+// Keep the BR-tags
+function my_keep_br_tags($s) {
 	
-	// Remove all HTML tags	
-	$s = strip_tags($s);
-
-	// But keep the BR-tags
+	// Keep the BR-tags
 	$s = str_replace("\n", "<br />", $s);
 	$s = str_replace("\r", "", $s);
 	return $s;
 }
-
 
 class order {
     var $info, $totals, $products, $customer, $delivery;
@@ -842,6 +842,11 @@ $password = sbf_db_prepare_input($_POST['password']);
 // generate header of response
 echo ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 echo ("<webshopexport version=\"1.0\" >\n");
+
+echo ("<phpversion>");
+echo (phpversion());
+echo ("</phpversion>\n");
+
 echo ("<webshop ");
 
 if (FAKTURAMA_WEBSHOP == OSCOMMERCE)
@@ -1148,7 +1153,7 @@ if ($admin_valid != 1)
 				echo ("   <name>" . my_encode($products['products_name'])."</name>\n");
 				echo ("   <category>" . my_encode($products['categories_name'])."</category>\n");
 				echo ("   <vatname>".my_encode($products['tax_description'])."</vatname>\n");
-				echo ("   <short_description>" . my_encode_with_quotes(my_strip_tags ( $products['products_short_description'])) . "</short_description>\n");
+				echo ("   <short_description>" . my_keep_br_tags(my_encode_with_quotes( $products['products_short_description'])) . "</short_description>\n");
 
 				// Use the image only, if it exists	
 				if (file_exists($fs_imagepath . $products['products_image'])) 
