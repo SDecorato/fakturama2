@@ -51,7 +51,8 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 		
 		//T: Preference page "Parcel service" - Label "Service provider"
 		addField(new ComboFieldEditor("PARCEL_SERVICE_PROVIDER", _("Parcel Service") + ":", new String[][] { 
-				{ "DHL (efiliale.de)", "DHL" }, 
+				{ "eFiliale (efiliale.de)", "EFILIALE.DE" }, 
+				{ "DHL (dhl.de)", "DHL.DE" }, 
 				{ "Hermes (hermespaketshop.de)", "HERMES" },
 				{ _("Use settings below"), "SETTINGS" },
 				}, getFieldEditorParent()));
@@ -173,7 +174,7 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.put("PARCEL_SERVICE_URL", "http://www.yourparcelservice.com");
-		node.put("PARCEL_SERVICE_PROVIDER", "DHL");
+		node.put("PARCEL_SERVICE_PROVIDER", "DHL.DE");
 		node.put("PARCEL_SERVICE_SENDER_NAME", "");
 		node.put("PARCEL_SERVICE_SENDER_FIRST_NAME", "");
 		node.put("PARCEL_SERVICE_SENDER_LAST_NAME", "");
