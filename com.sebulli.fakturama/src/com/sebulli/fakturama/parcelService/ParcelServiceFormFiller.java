@@ -295,7 +295,7 @@ public class ParcelServiceFormFiller {
 		consigneeCountry 		= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_CONSIGNEE_COUNTRY");
 		consigneeEmail			= Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_CONSIGNEE_EMAIL");
 
-		if (provider.equals("DHL")) {
+		if (provider.equals("EFILIALE.DE") || provider.equals("DHL")) {
 			senderCompany = "senderCompanyName";
 			senderOwnerFirstName = "senderFirstName";
 			senderOwnerLastName = "senderLastName";
@@ -319,6 +319,31 @@ public class ParcelServiceFormFiller {
 			consigneeEmail = "";
 		}
 
+		if (provider.equals("DHL.DE")) {
+			senderCompany = "formModel.sender.name";
+			senderOwnerFirstName = "";
+			senderOwnerLastName = "";
+			senderOwner = "formModel.sender.addressExt";
+			senderAddressStreet = "formModel.sender.street";
+			senderAddressNo = "formModel.sender.houseNumber";
+			senderZIP = "formModel.sender.zip";
+			senderCity = "formModel.sender.city";
+			senderEmail = "";
+
+			//senderCountry = "";
+			consigneeName = "formModel.receiver.name";
+			consigneeFirstName = "";
+			consigneeLastName = "";
+			consigneeAddressLine = "formModel.receiver.addressExt";
+			consigneeAddressStreet = "formModel.receiver.street";
+			consigneeAddressNo = "formModel.receiver.houseNumber";
+			consigneeZIP = "formModel.receiver.zip";
+			consigneeCity = "formModel.receiver.city";
+			consigneeCountry = "";
+			consigneeEmail = "";
+		}
+		
+		
 		if (provider.equals("HERMES")) {
 			senderCompany = "absender(NACHNAME)";
 			senderOwnerFirstName = "";

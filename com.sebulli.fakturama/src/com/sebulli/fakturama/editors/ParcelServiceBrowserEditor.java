@@ -92,11 +92,16 @@ public class ParcelServiceBrowserEditor extends Editor {
 		// Get the parcel service provider
 		String provider = Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_PROVIDER");
 
-		if (provider.equalsIgnoreCase("DHL")) {
-			name = "DHL";
+		if (provider.equals("EFILIALE.DE") || provider.equals("DHL")) {
+			name = "eFILIALE";
 			url = "https://www.efiliale.de/efiliale/pop/produktauswahl.jsp";
 		}
 		
+		if (provider.equals("DHL.DE")) {
+			name = "DHL.de";
+			url = "https://www.dhl.de/popweb/ProductOrder.do";
+		}
+
 		if (provider.equalsIgnoreCase("HERMES")) {
 			name = "Hermes";
 			url = "https://www.myhermes.de/wps/portal/PRIPS_DEU/PAKETVERSAND";
