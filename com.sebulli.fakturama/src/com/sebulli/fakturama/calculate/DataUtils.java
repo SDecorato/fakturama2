@@ -211,6 +211,22 @@ public class DataUtils {
 	}
 
 	/**
+	 * Convert a double to a formated string value. 
+	 * 
+	 * @param d
+	 *            Double value to convert
+	 * @param format
+	 *            the format of the string
+	 * @return Converted value as String
+	 */
+	public static String DoubleToDecimalFormatedValue(Double d, String format) {
+
+		// Format as ...
+		DecimalFormat decimalFormat = new DecimalFormat(format);
+		return decimalFormat.format(d);
+	}
+
+	/**
 	 * Convert a double to a formated price value. Same as conversion to a
 	 * formated value. But use always 2 decimals and add the currency sign.
 	 * 
