@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.regex.Matcher;
 
 import ag.ion.bion.officelayer.application.IOfficeApplication;
 import ag.ion.bion.officelayer.application.OfficeApplicationException;
@@ -685,6 +686,16 @@ public class OODocument extends Object {
 			value = DataUtils.DoubleToFormatedQuantity(item.getDoubleValueByKey("quantity"));
 		}
 
+		if (placeholderDisplayText.startsWith("<ITEM.QUANTITY$") && placeholderDisplayText.endsWith(">")) {
+			String format = placeholderDisplayText.substring(15, placeholderDisplayText.length()-1);
+			try {
+				value = DataUtils.DoubleToDecimalFormatedValue(item.getDoubleValueByKey("quantity"), format);
+			}
+			catch (Exception e) {
+				value = DataUtils.DoubleToFormatedQuantity(item.getDoubleValueByKey("quantity"));
+			}
+		}
+		
 		// Get the item name
 		else if (placeholderDisplayText.equals("<ITEM.NAME>")) {
 			value = item.getStringValueByKey("name");
@@ -772,7 +783,7 @@ public class OODocument extends Object {
 		}
 		
 		// Set the text of the cell
-		iText.setText(cellText.replaceAll(placeholderDisplayText, value));
+		iText.setText(cellText.replaceAll(Matcher.quoteReplacement(placeholderDisplayText), value));
 
 		// And also add it to the user defined text fields in the OpenOffice
 		// Writer document.
