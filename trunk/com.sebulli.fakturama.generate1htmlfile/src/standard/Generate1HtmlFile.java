@@ -208,7 +208,7 @@ public class Generate1HtmlFile {
 			    System.out.println("  Adding: " + fileName); 
 
 				String line = "";
-			    line = "	<a name=\"" + idFileName +  "\">";
+			    line = "	<a name=\"" + idFileName +  "\"></a>";
 				if ( !idFileName.equals("templates_header") &&
 						!idFileName.equals("templates_footer") )					
 		    		    outputWriter.write(line + "\r\n");

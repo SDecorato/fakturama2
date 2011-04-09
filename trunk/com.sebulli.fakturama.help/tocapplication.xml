@@ -28,7 +28,7 @@
 		<topic label="Produkteditor"  href="html/editor/editor_product.html"></topic>
 		<topic label="Kontakteditor"  href="html/editor/editor_contact.html"></topic>
 		<topic label="Webseite Paketdienst"  href="html/editor/editor_parcelservice.html"></topic>
-		<topic label="Editor Zahlungsmethode"  href="html/editor/editor_payment.html"></topic>
+		<topic label="Editor Zahlungsart"  href="html/editor/editor_payment.html"></topic>
 		<topic label="Editor Versandart"  href="html/editor/editor_shipping.html"></topic>
 		<topic label="Editor Steuersatz"  href="html/editor/editor_vat.html"></topic>
 		<topic label="Editor Text"  href="html/editor/editor_text.html"></topic>

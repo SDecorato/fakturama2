@@ -2,7 +2,7 @@
 <feature
       id="com.sebulli.fakturama.core"
       label="Fakturama Core Feature"
-      version="1.1.0.qualifier"
+      version="1.2.0.qualifier"
       provider-name="sebulli.com">
 
    <description url="http://fakturama.sebulli.com">
@@ -10,7 +10,7 @@
    </description>
 
    <copyright url="http://fakturama.sebulli.com/">
-      Copyright (C) 2010 Gerd Bartelt
+      Copyright (C) 2011 Gerd Bartelt
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">

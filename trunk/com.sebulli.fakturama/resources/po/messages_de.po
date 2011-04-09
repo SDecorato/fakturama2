@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2011-04-07 21:16+0200\n"
-"PO-Revision-Date: 2011-04-07 21:16+0100\n"
+"PO-Revision-Date: 2011-04-09 15:57+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -248,7 +248,7 @@ msgstr "ODT und PDF"
 #. T: Preference page "OpenOffice" - Label checkbox "Start OpenOffice in a new thread"
 #: ../src/com/sebulli/fakturama/preferences/OpenOfficePreferencePage.java:76
 msgid "Start OpenOffice in a new thread"
-msgstr "OpenOffice in eigenen Thread starten"
+msgstr "OpenOffice in eigenem Thread starten"
 
 #. T: Preference page "OpenOffice" - Title"
 #: ../src/com/sebulli/fakturama/preferences/OpenOfficePreferencePage.java:90
