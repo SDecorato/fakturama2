@@ -14,6 +14,7 @@
 	<img class="screenshot" src="numberrange_documentnr.png" alt="" />
 
 
+	<h2>Fortlaufende Nummerierung</h2>
 	<p>Als Platzhalter für die Nummer dient die Zeichensequenz: <span class="usertext">{<span class="black">X</span>nr}</span><br />
 	Das <span class="usertext"><span class="black">X</span></span> ist durch die Anzahl der Stellen zu ersetzen.
 	Die Zahl wird mit Nullen aufgefüllt, bis die Anzahl der Stellen erreicht ist.</p>
@@ -23,6 +24,36 @@
 	<p>erzeugt bei einer Rechnungsnummer <b>'200'</b> eine formatierte Rechnungsnummer von:</p>
 	<p class="documenttext">RE00200</p>
 
+	<h2>Nummerierung mit Datum und fortlaufender Nummerierung</h2>
+	<p>Für das Datum sind folgende Platzhalter vorgesehen:
+		<ul>
+		<li><span class="usertext">{YYYY}</span> Jahr 4 stellig (2011)</li>
+		<li><span class="usertext">{YY}</span> Jahr 2 stellig (11)</li>
+		<li><span class="usertext">{MM}</span> Monat</li>
+		<li><span class="usertext">{DD}</span> Tag</li>
+	</ul>
+
+	<p>Beispiel:</p>
+	<p class="code">RE{YYYY}-{MM}-{DD}-{5nr}</p>
+	<p>erzeugt bei einer Rechnungsnummer <b>'200'</b> eine formatierte Rechnungsnummer von:</p>
+	<p class="documenttext">RE2011-04-09-00200</p>
+	
+	<h2>Nummerierung mit Datum und neu beginnender Nummerierung</h2>
+	<p>Soll die Dokumentennummer täglich / monatlich / jährlich bei 1 beginnen, so sind die Platzhalter für das Datum in Kleinbuchstaben zu setzen:
+		<ul>
+		<li><span class="usertext">{yyyy}</span> Jahr 4 stellig (2011), Nummerierung beginnt jährlich bei 1.</li>
+		<li><span class="usertext">{yy}</span> Jahr 2 stellig (11), Nummerierung beginnt jährlich bei 1.</li>
+		<li><span class="usertext">{mm}</span> Monat, Nummerierung beginnt monatlich bei 1.</li>
+		<li><span class="usertext">{dd}</span> Tag, Nummerierung beginnt täglich bei 1.</li>
+	</ul>
+
+	<p>Beispiel:</p>
+	<p class="code">RE{yyyy}-{mm}-{5nr}</p>
+	<p>erzeugt trotz einer Rechnungsnummer <b>'200'</b> am 31.03.2011 eine formatierte Rechnungsnummer am Beginn des 01.04.2011 von:</p>
+	<p class="documenttext">RE2011-04-00001</p>
+
+
+	<h2>Verwendung</h2>
 	<p>Für folgende Daten kann das Format vorgegeben werden:</p>
 	<ul>
 		<li>Kundennummer</li>
