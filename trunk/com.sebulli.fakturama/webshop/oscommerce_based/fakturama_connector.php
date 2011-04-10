@@ -6,8 +6,8 @@
  * 
  * Web shop connector script
  *
- * Version 1.1.6
- * Date: 2011-03-28
+ * Version 1.2.0
+ * Date: 2011-04-10
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -29,7 +29,7 @@
 // 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
-define ('FAKTURAMA_WEBSHOP','XTCOMMERCE');	
+define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
 
 // Only for debugging. All the data is encrypted.
 //define ('ENCRYPT_DATA',true);	
