@@ -20,6 +20,7 @@
    <windowImages i16="/com.sebulli.fakturama/icons/app/app_16.png" i32="/com.sebulli.fakturama/icons/app/app_32.png" i48="/com.sebulli.fakturama/icons/app/app_48.png" i64="/com.sebulli.fakturama/icons/app/app_64.png" i128="/com.sebulli.fakturama/icons/app/app_128.png"/>
 
    <splash
+      location="com.sebulli.fakturama"
       startupProgressRect="5,359,515,15"
       startupMessageRect="5,5,500,300"
       startupForegroundColor="ffffff" />
