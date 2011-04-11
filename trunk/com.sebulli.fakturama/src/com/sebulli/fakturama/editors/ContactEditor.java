@@ -660,7 +660,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Delivery gender and titel's label
 		Label labelDeliveryTitle = new Label((useGender || useTitle) ? deliveryGroup : invisible, SWT.NONE);
 		if (useGender)
-			labelDeliveryTitle.setText(("Gender"));
+			labelDeliveryTitle.setText(_("Gender"));
 		if (useGender && useTitle)
 			labelDeliveryTitle.setText(labelDeliveryTitle.getText() + ", ");
 		if (useTitle)

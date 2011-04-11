@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="1.2.0" useFeatures="true" includeLaunchers="true">
+<product name="Fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="1.2.1" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="icons/app/about.png"/>
       <text>
-         Fakturama V1.2.0 - (C) 2011 Gerd Bartelt
+         Fakturama V1.2.1 - (C) 2011 Gerd Bartelt
       </text>
    </aboutInfo>
 
