@@ -686,7 +686,7 @@ public class OODocument extends Object {
 			value = DataUtils.DoubleToFormatedQuantity(item.getDoubleValueByKey("quantity"));
 		}
 
-		if (placeholderDisplayText.startsWith("<ITEM.QUANTITY$") && placeholderDisplayText.endsWith(">")) {
+		else if (placeholderDisplayText.startsWith("<ITEM.QUANTITY$") && placeholderDisplayText.endsWith(">")) {
 			String format = placeholderDisplayText.substring(15, placeholderDisplayText.length()-1);
 			try {
 				value = DataUtils.DoubleToDecimalFormatedValue(item.getDoubleValueByKey("quantity"), format);

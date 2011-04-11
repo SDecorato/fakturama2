@@ -154,6 +154,7 @@ public class DocumentEditor extends Editor {
 	private int shippingAutoVat = DataSetShipping.SHIPPINGVATGROSS;
 	private Double total = 0.0;
 	private int dunningLevel = 0;
+	private int duedays;
 	private String billingAddress = "";
 	private String deliveryAddress = "";
 
@@ -330,7 +331,6 @@ public class DocumentEditor extends Editor {
 			}
 			else {
 				document.setBooleanValueByKey("paid", false);
-				document.setIntValueByKey("duedays", spDueDays.getSelection());
 				document.setDoubleValueByKey("payvalue", 0.0);
 
 				// Use the text for "unpaid" from the current payment
@@ -339,6 +339,7 @@ public class DocumentEditor extends Editor {
 				}
 
 			}
+			document.setIntValueByKey("duedays", duedays);
 			document.setStringValueByKey("paymenttext", paymentText);
 
 		}
@@ -634,6 +635,7 @@ public class DocumentEditor extends Editor {
 
 		// These variables contain settings, that are not in
 		// visible SWT widgets.
+		duedays = document.getIntValueByKey("duedays");
 		addressId = document.getIntValueByKey("addressid");
 		noVat = document.getBooleanValueByKey("novat");
 		noVatName = document.getStringValueByKey("novatname");
@@ -1053,7 +1055,7 @@ public class DocumentEditor extends Editor {
 			spDueDays = new Spinner(paidDataContainer, SWT.BORDER | SWT.RIGHT);
 			spDueDays.setMinimum(0);
 			spDueDays.setMaximum(365);
-			spDueDays.setSelection(document.getIntValueByKey("duedays"));
+			spDueDays.setSelection(duedays /* document.getIntValueByKey("duedays") */);
 			spDueDays.setIncrement(1);
 			spDueDays.setPageIncrement(10);
 			spDueDays.setToolTipText(dueDaysLabel.getToolTipText());
@@ -1064,7 +1066,8 @@ public class DocumentEditor extends Editor {
 			spDueDays.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					GregorianCalendar calendar = new GregorianCalendar(dtDate.getYear(), dtDate.getMonth(), dtDate.getDay());
-					calendar.add(Calendar.DAY_OF_MONTH, spDueDays.getSelection());
+					duedays = spDueDays.getSelection();
+					calendar.add(Calendar.DAY_OF_MONTH, duedays );
 					dtIssueDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 					checkDirty();
 				}
@@ -1095,6 +1098,7 @@ public class DocumentEditor extends Editor {
 					long difference = calendarIssue.getTimeInMillis() - calendarDocument.getTimeInMillis();
 					// Calculate from milliseconds to days
 					int days = (int) (difference / (1000 * 60 * 60 * 24));
+					duedays = days;
 					spDueDays.setSelection(days);
 					checkDirty();
 				}
@@ -2010,8 +2014,11 @@ public class DocumentEditor extends Editor {
 							Object firstElement = structuredSelection.getFirstElement();
 							DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
 							paymentId = dataSetPayment.getIntValueByKey("id");
-							spDueDays.setSelection(dataSetPayment.getIntValueByKey("netdays"));
-							updateIssueDate();
+							duedays = dataSetPayment.getIntValueByKey("netdays");
+							if (!spDueDays.isDisposed()) {
+								spDueDays.setSelection(duedays);
+								updateIssueDate();
+							}
 							checkDirty();
 						}
 					}
