@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exportsales;
+package com.sebulli.fakturama.export.productstatistics;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -21,12 +21,14 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
+import com.sebulli.fakturama.exportsales.ExportWizandPageStartEndDate;
+
 /**
  * Export wizard to export sales
  * 
  * @author Gerd Bartelt
  */
-public class ExportSalesWizard extends Wizard implements IExportWizard {
+public class ExportWizard extends Wizard implements IExportWizard {
 
 	// The first (and only) page of this wizard
 	ExportWizandPageStartEndDate page1;
@@ -34,13 +36,14 @@ public class ExportSalesWizard extends Wizard implements IExportWizard {
 	/**
 	 * Constructor Adds the first page to the wizard
 	 */
-	public ExportSalesWizard() {
+	public ExportWizard() {
 		//T: Title of the sales export wizard
 		setWindowTitle(_("Export"));
-		page1 = new ExportWizandPageStartEndDate(_("List of Sales as Table"),
+		page1 = new ExportWizandPageStartEndDate(_("Products Statistics"),
 				_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
 		addPage(page1);
 	}
+
 
 	/**
 	 * Performs any actions appropriate in response to the user having pressed
@@ -50,8 +53,8 @@ public class ExportSalesWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		SalesExporter salesExporter = new SalesExporter(page1.getStartDate(), page1.getEndDate());
-		return salesExporter.export();
+		StatisticGenerator statisticGenerator = new StatisticGenerator(page1.getStartDate(), page1.getEndDate());
+		return statisticGenerator.export();
 	}
 
 	/**

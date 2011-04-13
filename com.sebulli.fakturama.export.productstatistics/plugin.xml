@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            class="com.sebulli.fakturama.export.productstatistics.ExportWizard"
+            icon="icons/16/product_statistics_16.png"
+            id="com.sebulli.fakturama.export.productstatistic.exportWizard"
+            name="export wizard">
+      </wizard>
+   </extension>
+
+</plugin>
