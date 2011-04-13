@@ -317,9 +317,25 @@ public class DataSetContact extends UniDataSet {
 	public String getName() {
 		String line = "";
 
-		line = this.getStringValueByKey("firstname");
-		if (!this.getStringValueByKey("name").isEmpty())
-			line += " " + this.getStringValueByKey("name");
+		if (!this.getStringValueByKey("company").isEmpty()) {
+			line = this.getStringValueByKey("company");
+			if ((!this.getStringValueByKey("firstname").isEmpty()) || 
+				(!this.getStringValueByKey("name").isEmpty()) )
+				line +=", ";
+		}
+
+		if (!this.getStringValueByKey("firstname").isEmpty()) {
+			if (!line.isEmpty())
+				line += " ";
+				line += this.getStringValueByKey("firstname");
+		}
+
+		
+		if (!this.getStringValueByKey("name").isEmpty()) {
+			if (!line.isEmpty())
+				line += " ";
+				line += this.getStringValueByKey("name");
+		}
 
 		return line;
 	}
