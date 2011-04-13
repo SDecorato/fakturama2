@@ -33,21 +33,24 @@ import org.eclipse.swt.widgets.Label;
  * 
  * @author Gerd Bartelt
  */
-public class ExportSalesWizandPage1 extends WizardPage {
+public class ExportWizandPageStartEndDate extends WizardPage {
 
 	// start and end date
 	private DateTime dtStartDate;
 	private DateTime dtEndDate;
 
+	private String label;
+	
 	/**
 	 * Constructor Create the page and set title and message.
 	 */
-	protected ExportSalesWizandPage1() {
-		super("ExportVatSummaryWizardPage1");
+	public ExportWizandPageStartEndDate(String title, String label) {
+		super("ExportWizandPageStartEndDate");
 		//T: Title of the Sales Export Wizard Page 1
-		setTitle(_("List of Sales as Table"));
+		setTitle(title);
 		//T: Text of the Sales Export Wizard Page 1
-		setMessage(_("Select a Periode"));
+		setMessage(_("Select a Periode") );
+		this.label = label;
 	}
 
 	/**
@@ -69,7 +72,7 @@ public class ExportSalesWizandPage1 extends WizardPage {
 		Label labelDescription = new Label(top, SWT.NONE);
 		
 		//T: Export Sales Wizard Page 1 - Long description.
-		labelDescription.setText(_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
+		labelDescription.setText(label);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelDescription);
 
 		// Create a spacer

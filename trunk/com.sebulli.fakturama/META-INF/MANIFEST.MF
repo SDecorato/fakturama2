@@ -15,3 +15,6 @@ Bundle-Vendor: sebulli.com
 Bundle-ClassPath: .,
  resources/
 Import-Package: org.eclipselabs.p2.rcpupdate.utils
+Export-Package: com.sebulli.fakturama,
+ com.sebulli.fakturama.data,
+ com.sebulli.fakturama.exportsales
