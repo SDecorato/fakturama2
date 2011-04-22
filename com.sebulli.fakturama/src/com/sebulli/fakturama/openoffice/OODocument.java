@@ -16,13 +16,18 @@ package com.sebulli.fakturama.openoffice;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.regex.Matcher;
+
+import javax.imageio.ImageIO;
 
 import ag.ion.bion.officelayer.application.IOfficeApplication;
 import ag.ion.bion.officelayer.application.OfficeApplicationException;
@@ -31,7 +36,9 @@ import ag.ion.bion.officelayer.desktop.IFrame;
 import ag.ion.bion.officelayer.document.IDocument;
 import ag.ion.bion.officelayer.filter.PDFFilter;
 import ag.ion.bion.officelayer.text.IText;
+import ag.ion.bion.officelayer.text.ITextContentService;
 import ag.ion.bion.officelayer.text.ITextDocument;
+import ag.ion.bion.officelayer.text.ITextDocumentImage;
 import ag.ion.bion.officelayer.text.ITextField;
 import ag.ion.bion.officelayer.text.ITextFieldService;
 import ag.ion.bion.officelayer.text.ITextTable;
@@ -40,8 +47,10 @@ import ag.ion.bion.officelayer.text.TextException;
 import ag.ion.noa.NOAException;
 import ag.ion.noa.document.URLAdapter;
 import ag.ion.noa.frame.IDispatchDelegate;
+import ag.ion.noa.graphic.GraphicInfo;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
@@ -55,6 +64,9 @@ import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
 import com.sun.star.awt.XTopWindow;
 import com.sun.star.frame.XFrame;
+import com.sun.star.text.HoriOrientation;
+import com.sun.star.text.TextContentAnchorType;
+import com.sun.star.text.VertOrientation;
 import com.sun.star.uno.UnoRuntime;
 
 /**
@@ -674,7 +686,8 @@ public class OODocument extends Object {
 	 */
 	private void fillItemTableWithData(String placeholderDisplayText, DataSetItem item, IText iText, int index, String cellText) {
 
-		String value;
+		String value = "";
+		String format = "";
 
 		// Get the column's header
 		String key = placeholderDisplayText.substring(1, placeholderDisplayText.length() - 1);
@@ -687,7 +700,7 @@ public class OODocument extends Object {
 		}
 
 		else if (placeholderDisplayText.startsWith("<ITEM.QUANTITY$") && placeholderDisplayText.endsWith(">")) {
-			String format = placeholderDisplayText.substring(15, placeholderDisplayText.length()-1);
+			format = placeholderDisplayText.substring(15, placeholderDisplayText.length()-1);
 			try {
 				value = DataUtils.DoubleToDecimalFormatedValue(item.getDoubleValueByKey("quantity"), format);
 			}
@@ -770,6 +783,94 @@ public class OODocument extends Object {
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.GROSS>")) {
 			value = price.getTotalGrossRounded().asFormatedString();
 		}
+		
+		// Get product picture
+		else if (placeholderDisplayText.startsWith("<ITEM.PICTURE") && placeholderDisplayText.endsWith(">") ){
+			
+			// Is the image width and height set ?
+			if (placeholderDisplayText.startsWith("<ITEM.PICTURE$") && placeholderDisplayText.endsWith(">")) 
+				format = placeholderDisplayText.substring(14, placeholderDisplayText.length()-1);
+
+			if (!item.getStringValueByKey("picturename").isEmpty()) {
+				// Default height and with
+				int pixelWidth = 150;
+				int pixelHeight = 100;
+
+				// Get the width and height from the format string
+				String formatParts[] = format.split(",");
+				if (formatParts.length >=2) {
+					try {
+						pixelWidth = Integer.parseInt(formatParts[0]);
+						pixelHeight = Integer.parseInt(formatParts[1]);
+					}
+					catch (NumberFormatException e) {
+					}
+				}
+
+				String imagePath = Workspace.INSTANCE.getWorkspace() + 
+				 					Workspace.productPictureFolderName + 
+				 					item.getStringValueByKey("picturename");
+				int pictureHeight = 100;
+				int pictureWidth = 100;
+				double pictureRatio = 1.0;
+				double pixelRatio = 1.0;
+			      
+				// Read the image a first time to get width and height
+				try {
+					File f = new File(imagePath);
+					BufferedImage image = ImageIO.read(f);
+					pictureHeight = image.getHeight();
+					pictureWidth = image.getWidth();
+
+					// Calculate the ratio of the original image
+					if (pictureHeight > 0) {
+						pictureRatio = (double)pictureWidth/(double)pictureHeight;
+					}
+					
+					// Calculate the ratio of the placeholder
+					if (pixelHeight > 0) {
+						pixelRatio = (double)pixelWidth/(double)pixelHeight;
+					}
+					
+					// Correct the height and width of the placeholder 
+					// to match the original image
+					if ((pictureRatio > pixelRatio) &&  (pictureRatio != 0.0)) {
+						pixelHeight = (int) Math.round(((double)pixelWidth / pictureRatio));
+					}
+					if ((pictureRatio < pixelRatio) &&  (pictureRatio != 0.0)) {
+						pixelWidth = (int) Math.round(((double)pixelHeight * pictureRatio));
+					}
+					
+					// Generate the image
+					GraphicInfo graphicInfo = null;
+					graphicInfo = new GraphicInfo(new FileInputStream(imagePath),
+						    pixelWidth,
+						    true,
+						    pixelHeight,
+						    true,
+						    VertOrientation.TOP,
+						    HoriOrientation.LEFT,
+						    TextContentAnchorType.AT_PARAGRAPH);
+
+					ITextContentService textContentService = textDocument.getTextService().getTextContentService();
+					ITextDocumentImage textDocumentImage = textContentService.constructNewImage(graphicInfo);
+					textContentService.insertTextContent(iText.getTextCursorService().getTextCursor().getEnd(), textDocumentImage);
+
+					return;
+				}
+				catch (IOException e) {
+				}
+				catch (NOAException e) {
+				}
+				catch (TextException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			value = "";
+		}
+		
 		else
 			return;
 

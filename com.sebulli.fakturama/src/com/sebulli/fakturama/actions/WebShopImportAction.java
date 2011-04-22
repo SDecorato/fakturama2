@@ -24,10 +24,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
+import com.sebulli.fakturama.ApplicationWorkbenchWindowAdvisor;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
@@ -90,14 +90,14 @@ public class WebShopImportAction extends Action {
 		// progress Monitor Dialog
 		WebShopImportManager webShopImportManager = new WebShopImportManager();
 		webShopImportManager.prepareGetProductsAndOrders();
-		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchWindow workbenchWindow = ApplicationWorkbenchWindowAdvisor.getActiveWorkbenchWindow();
 		try {
 			new ProgressMonitorDialog(workbenchWindow.getShell()).run(true, true, webShopImportManager);
 
 			// If there is no error - interpret the data.
 			if (!webShopImportManager.getRunResult().isEmpty()) {
 				// If there is an error - display it in a message box
-				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
+				MessageBox messageBox = new MessageBox(ApplicationWorkbenchWindowAdvisor.getActiveWorkbenchWindow().getShell(), SWT.ICON_ERROR);
 				messageBox.setText(_("Error importing data from web shop"));
 				String errorMessage = webShopImportManager.getRunResult();
 				if (errorMessage.length() > 400)
@@ -123,7 +123,7 @@ public class WebShopImportAction extends Action {
 		// After the web shop import, open the document view
 		// and set the focus to the new imported orders.
 		ViewManager.showView(ViewDocumentTable.ID);
-		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewDocumentTable.ID);
+		IViewPart view = ApplicationWorkbenchWindowAdvisor.getActiveWorkbenchWindow().getActivePage().findView(ViewDocumentTable.ID);
 		ViewDocumentTable viewDocumentTable = (ViewDocumentTable) view;
 		viewDocumentTable.getTopicTreeViewer().selectItemByName(DocumentType.ORDER.getPluralString() + "/" + DataSetDocument.getStringNOTSHIPPED());
 	}
