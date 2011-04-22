@@ -24,12 +24,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
-import ag.ion.bion.officelayer.application.IApplicationAssistant;
-import ag.ion.bion.officelayer.application.ILazyApplicationInfo;
 import ag.ion.bion.officelayer.application.IOfficeApplication;
 import ag.ion.bion.officelayer.application.OfficeApplicationException;
 import ag.ion.bion.officelayer.application.OfficeApplicationRuntime;
-import ag.ion.bion.officelayer.internal.application.ApplicationAssistant;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
@@ -41,7 +38,7 @@ import com.sebulli.fakturama.logger.Logger;
  * @author Gerd Bartelt
  */
 public class OpenOfficeStarter {
-
+	
 	/**
 	 * Returns, if the Application exists
 	 * 
@@ -60,22 +57,32 @@ public class OpenOfficeStarter {
 	 * @return
 	 */
 	static public String getHome () {
-		IApplicationAssistant applicationAssistant;
 		
 		// Return an empty string, if no OpenOffice was found
 		String home = "";
 		
-		try {
-			applicationAssistant = new ApplicationAssistant();
-			ILazyApplicationInfo appInfo = applicationAssistant.getLatestLocalApplication();
-			
-			// An OpenOffice installation was found
-			if (appInfo!=null) { 
-				home = appInfo.getHome();
+		OOHomeApplication r = new OOHomeApplication();
+		
+		// Start the search in a new thread
+		Thread thread = new Thread(r);
+		thread.start();
+
+		synchronized( OpenOfficeStarter.class )
+		{
+			try {
+				// Search maximum 10 seconds
+				for (int i = 0; i < 100 && (r.getHome() == null); i++ ) {
+					OpenOfficeStarter.class.wait(100);
+				}
+			}
+			catch (InterruptedException e) {
 			}
 		}
-		catch (OfficeApplicationException e) {
-		}
+		
+		// Get the home folder, and at least an empty string
+		home = r.getHome();
+		if (home == null)
+			home ="";
 		
 		return home;
 	}

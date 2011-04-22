@@ -220,6 +220,14 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String user = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_USER");
 		String password = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PASSWORD");
 
+		// Check empty URL
+		if (address.isEmpty()) {
+			//T: Status message importing data from web shop
+			runResult = _("Web shop URL is not set.");
+			return;
+
+		}
+		
 		// Add "http://"
 		if (!address.toLowerCase().startsWith("http://") && !address.toLowerCase().startsWith("file://"))
 			address = "http://" + address;
@@ -366,10 +374,23 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			if (bos != null)
 				bos.close();
 
+			
 			// parse the XML stream
 			if (!monitor.isCanceled()) {
+
+				if (!importXMLContent.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")) {
+					//T: Status message importing data from web shop
+					runResult = _("No webshop data:") + "\n" + address +
+								importXMLContent;
+					return;
+				}
+
+				
 				ByteArrayInputStream importInputStream = new ByteArrayInputStream(importXMLContent.getBytes());
+				//XMLErrorHandler errorHandler = new XMLErrorHandler();
+				//builder.setErrorHandler(errorHandler);
 				document = builder.parse(importInputStream);
+				
 
 				NodeList ndList = document.getElementsByTagName("webshopexport");
 
@@ -401,19 +422,20 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 		}
 		catch (SAXException e) {
-			runResult = importXMLContent;
+			runResult = "Error parsing XML content:\n" +
+					e.getLocalizedMessage()+"\n"+
+					importXMLContent;
 		}
 		catch (Exception e) {
-			if (address.isEmpty())
-				//T: Status message importing data from web shop
-				runResult = _("Web shop URL is not set.");
-			else {
-				//T: Status message importing data from web shop
-				runResult = _("Error opening:") + "\n" + address;
-				if (!importXMLContent.isEmpty())
-					runResult += "\n\n" + importXMLContent;
-				Logger.logError(e, ("Error opening:") + "\n" + address);
-			}
+			//T: Status message importing data from web shop
+			runResult = _("Error opening:") + "\n" + address + "\n";
+			runResult += "Message:" + e.getLocalizedMessage()+ "\n";
+			if (e.getStackTrace().length > 0)
+				runResult += "Trace:" + e.getStackTrace()[0].toString()+ "\n";
+			
+			//runResult += e.getCause().getLocalizedMessage();
+			if (!importXMLContent.isEmpty())
+				runResult += "\n\n" + importXMLContent;
 		}
 	}
 
@@ -1064,8 +1086,11 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "", 1.0);
 
 				// Add the new product to the data base, if it's not existing yet
-				Data.INSTANCE.getProducts().addNewDataSetIfNew(product);
+				DataSetProduct newOrExistingProduct = Data.INSTANCE.getProducts().addNewDataSetIfNew(product);
 
+				// Get the picture from the existing product
+				product.setStringValueByKey("picturename", newOrExistingProduct.getStringValueByKey("picturename"));
+				
 				// Add this product to the list of items
 				DataSetItem item = Data.INSTANCE.getItems().addNewDataSet(new DataSetItem(Double.valueOf(itemQuantity), product));
 				item.setIntValueByKey("owner", documentId);

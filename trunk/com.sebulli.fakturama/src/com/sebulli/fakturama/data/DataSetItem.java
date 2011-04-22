@@ -26,7 +26,7 @@ public class DataSetItem extends UniDataSet {
 	 * 
 	 */
 	public DataSetItem() {
-		this("", "", "", 1.0, "", 0.0, 0);
+		this("", "", "", 1.0, "", 0.0, 0, "");
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class DataSetItem extends UniDataSet {
 						.getBooleanValueByKey("shared"), sign * parent.getDoubleValueByKey("quantity"), parent.getStringValueByKey("description"), parent
 						.getDoubleValueByKey("price"), parent.getIntValueByKey("vatid"), parent.getDoubleValueByKey("discount"), parent
 						.getDoubleValueByKey("vatvalue"), parent.getStringValueByKey("vatname"), parent.getStringValueByKey("vatdescription"), parent
-						.getBooleanValueByKey("novat"));
+						.getBooleanValueByKey("novat"), parent.getStringValueByKey("picturename"));
 
 	}
 
@@ -68,8 +68,8 @@ public class DataSetItem extends UniDataSet {
 	 * @param price
 	 * @param vatId
 	 */
-	public DataSetItem(String name, String itemnr, String category, Double quantity, String description, Double price, int vatId) {
-		this(-1, name, -1, itemnr, false, category, -1, false, quantity, description, price, vatId, 0.0, 0.0, "", "", false);
+	public DataSetItem(String name, String itemnr, String category, Double quantity, String description, Double price, int vatId ,String picturename) {
+		this(-1, name, -1, itemnr, false, category, -1, false, quantity, description, price, vatId, 0.0, 0.0, "", "", false , picturename);
 	}
 
 	/**
@@ -82,7 +82,8 @@ public class DataSetItem extends UniDataSet {
 	 */
 	public DataSetItem(Double quantity, DataSetProduct product) {
 		this(-1, product.getStringValueByKey("name"), product.getIntValueByKey("id"), product.getStringValueByKey("itemnr"), false, "", -1, false, quantity,
-				product.getStringValueByKey("description"), product.getPriceByQuantity(quantity), product.getIntValueByKey("vatid"), 0.0, 0.0, "", "", false);
+				product.getStringValueByKey("description"), product.getPriceByQuantity(quantity), product.getIntValueByKey("vatid"), 0.0, 0.0, "", "", false,
+				product.getStringValueByKey("picturename"));
 		this.setVat(product.getIntValueByKey("vatid"));
 	}
 
@@ -106,9 +107,11 @@ public class DataSetItem extends UniDataSet {
 	 * @param vatname
 	 * @param vatdescription
 	 * @param noVat
+	 * @param picturename
 	 */
 	public DataSetItem(int id, String name, int productid, String itemnr, boolean deleted, String category, int owner, boolean shared, Double quantity,
-			String description, Double price, int vatId, double discount, double vatvalue, String vatname, String vatdescription, boolean noVat) {
+			String description, Double price, int vatId, double discount, double vatvalue, String vatname, String vatdescription, boolean noVat ,
+			String picturename) {
 
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
@@ -128,6 +131,7 @@ public class DataSetItem extends UniDataSet {
 		this.hashMap.put("vatdescription", new UniData(UniDataType.STRING, vatdescription));
 		this.hashMap.put("novat", new UniData(UniDataType.BOOLEAN, noVat));
 		this.hashMap.put("discount", new UniData(UniDataType.PERCENT, discount));
+		this.hashMap.put("picturename", new UniData(UniDataType.STRING, picturename));
 
 		// Name of the table in the data base
 		sqlTabeName = "Items";

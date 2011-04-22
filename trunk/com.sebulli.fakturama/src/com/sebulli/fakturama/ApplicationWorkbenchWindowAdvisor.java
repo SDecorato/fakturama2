@@ -15,6 +15,8 @@
 package com.sebulli.fakturama;
 
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -37,6 +39,25 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		super(configurer);
 	}
 
+	/**
+	 * Returns the active workbench window, 
+	 * or, if no window is active, use at least the first existing one
+	 * 
+	 * @return the active Workbench window
+	 */
+	public static IWorkbenchWindow getActiveWorkbenchWindow () {
+		
+		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (workbenchWindow == null) {
+			if (PlatformUI.getWorkbench().getWorkbenchWindowCount()>0)
+				workbenchWindow = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
+			 
+		}
+
+		return workbenchWindow;
+	}
+	
+	
 	/**
 	 * Creates a new action bar advisor.
 	 * 

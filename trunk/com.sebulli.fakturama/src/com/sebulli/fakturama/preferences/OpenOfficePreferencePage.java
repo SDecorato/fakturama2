@@ -16,6 +16,7 @@ package com.sebulli.fakturama.preferences;
 
 import static com.sebulli.fakturama.Translate._;
 
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
@@ -97,9 +98,30 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
+		IEclipsePreferences node = new DefaultScope().getNode(Activator.PLUGIN_ID);
+
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_PATH", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_ODT_PDF", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_START_IN_NEW_THREAD", write);
+		
+		// Set the default value
+		// Search for the OpenOffice installation only, if there is no
+		// path set.
+		String oOHome = Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_PATH");
+		String defaultOOHome;
+
+		if (!write) {
+			if (oOHome.isEmpty()){
+				defaultOOHome = OpenOfficeStarter.getHome();
+				if (defaultOOHome.isEmpty())
+					defaultOOHome = OSDependent.getOODefaultPath();
+			}
+			else {
+				defaultOOHome = OSDependent.getOODefaultPath();
+			}
+			node.put("OPENOFFICE_PATH", defaultOOHome);
+		}
+		
 	}
 
 	/**
@@ -109,10 +131,6 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		String 	oOHome = OpenOfficeStarter.getHome();
-		if (oOHome.isEmpty())
-			oOHome = OSDependent.getOODefaultPath();	
-		node.put("OPENOFFICE_PATH", oOHome);
 		node.put("OPENOFFICE_ODT_PDF", "ODT+PDF");
 		node.putBoolean("OPENOFFICE_START_IN_NEW_THREAD", true);
 

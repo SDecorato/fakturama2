@@ -18,9 +18,9 @@ import static com.sebulli.fakturama.Translate._;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 
+import com.sebulli.fakturama.ApplicationWorkbenchWindowAdvisor;
 import com.sebulli.fakturama.backup.BackupManager;
 
 /**
@@ -63,7 +63,7 @@ public class InstallAction extends Action {
 		// Create a backup
 		BackupManager.createBackup();
 
-		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchWindow workbenchWindow = ApplicationWorkbenchWindowAdvisor.getActiveWorkbenchWindow();;
 		IHandlerService handlerService = (IHandlerService) workbenchWindow.getService(IHandlerService.class);
 		try {
 			handlerService.executeCommand("org.eclipselabs.p2.rcpupdate.install", null);

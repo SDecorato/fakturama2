@@ -1598,7 +1598,7 @@ public class DocumentEditor extends Editor {
 					if (itemEditingSupport != null)
 						itemEditingSupport.cancelAndSave();
 					
-					DataSetItem newItem = new DataSetItem(_("Name"), _("Item No."), "", documentType.sign() * 1.0, "", 0.0, 0);
+					DataSetItem newItem = new DataSetItem(_("Name"), _("Item No."), "", documentType.sign() * 1.0, "", 0.0, 0, "");
 
 					// Use the standard VAT value
 					newItem.setVat(Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
