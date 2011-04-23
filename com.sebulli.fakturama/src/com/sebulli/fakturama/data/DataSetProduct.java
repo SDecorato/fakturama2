@@ -37,7 +37,7 @@ public class DataSetProduct extends UniDataSet {
 	 *            Category of the new product
 	 */
 	public DataSetProduct(String category) {
-		this("", "", category, "", 0.0, -1, "", "",1.0);
+		this("", "", category, "", 0.0, -1, "", "",1.0, -1);
 	}
 
 	/**
@@ -54,9 +54,9 @@ public class DataSetProduct extends UniDataSet {
 	 * @param quantity
 	 */
 	public DataSetProduct(String name, String itemnr, String category, String description, Double price, int vatId, String options, String picturename,
-					Double quantity) {
+					Double quantity, int webshopid) {
 		this(-1, name, itemnr, false, category, description, price, price, price, price, price, 1, 10, 100, 1000, 10000, vatId, options, 0.0, -1, "",
-				picturename, quantity);
+				picturename, quantity , webshopid);
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class DataSetProduct extends UniDataSet {
 	 */
 	public DataSetProduct(int id, String name, String itemnr, boolean deleted, String category, String description, Double price1, Double price2,
 			Double price3, Double price4, Double price5, int block1, int block2, int block3, int block4, int block5, int vatId, String options, Double weight,
-			int unit, String date_added, String picturename, Double quantity) {
+			int unit, String date_added, String picturename, Double quantity, int webshopid) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("itemnr", new UniData(UniDataType.STRING, itemnr));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
@@ -112,6 +112,7 @@ public class DataSetProduct extends UniDataSet {
 		this.hashMap.put("date_added", new UniData(UniDataType.STRING, date_added));
 		this.hashMap.put("picturename", new UniData(UniDataType.STRING, picturename));
 		this.hashMap.put("quantity", new UniData(UniDataType.QUANTITY, quantity));
+		this.hashMap.put("webshopid", new UniData(UniDataType.ID, webshopid));
 
 		// Name of the table in the data base
 		sqlTabeName = "Products";
@@ -156,6 +157,11 @@ public class DataSetProduct extends UniDataSet {
 	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
+		int webshopid = uds.getIntValueByKey("webshopid");
+		if (webshopid > 0 ) {
+			if (webshopid == this.getIntValueByKey("webshopid"))
+				return true;
+		}
 		if (!uds.getStringValueByKey("itemnr").equals(this.getStringValueByKey("itemnr")))
 			return false;
 		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))

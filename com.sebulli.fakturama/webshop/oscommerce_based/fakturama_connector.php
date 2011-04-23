@@ -5,9 +5,9 @@
  * 
  * 
  * Web shop connector script
- *
- * Version 1.2.0
- * Date: 2011-04-10
+ */
+define ('FAKTURAMA_CONNECTOR_VERSION','1.3.0'); 
+/* Date: 2011-04-23
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -36,7 +36,8 @@ define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');
 
 
 
-
+// Set header to UTF-8
+header("Content-Type: text/html; charset=utf-8" );
 
 // Some shop systems are based on osCommerce, some on xtCommerce
 if (FAKTURAMA_WEBSHOP == OSCOMMERCE) {
@@ -358,16 +359,43 @@ function startsWith($str, $sub){
 // Encrypt the data
 function my_encrypt($s) {
 
-	if (!defined('ENCRYPT_DATA') )
-		return $s;
 
 	// Replace all characters
-	$s = preg_replace("/[a-z]/", "x", $s);
-	$s = preg_replace("/[A-Z]/", "X", $s);
-	$s = preg_replace("/[0-9]/", "0", $s);
+	if (defined('ENCRYPT_DATA') ) {
+		$s = preg_replace("/[a-z]/", "x", $s);
+		$s = preg_replace("/[A-Z]/", "X", $s);
+		$s = preg_replace("/[0-9]/", "0", $s);
+	}
 	return $s;
+}
 
-	
+// Remove invalid XML Characters
+function stripInvalidXml($value)
+{
+    $ret = "";
+    $current;
+    if (empty($value)) 
+        return $ret;
+ 
+    $length = strlen($value);
+    for ($i=0; $i < $length; $i++)
+    {
+        $current = ord($value{$i});
+        if (($current == 0x9) ||
+            ($current == 0xA) ||
+            ($current == 0xD) ||
+            (($current >= 0x20) && ($current <= 0xD7FF)) ||
+            (($current >= 0xE000) && ($current <= 0xFFFD)) ||
+            (($current >= 0x10000) && ($current <= 0x10FFFF)))
+        {
+            $ret .= chr($current);
+        }
+        else
+        {
+            $ret .= " ";
+        }
+    }
+    return $ret;
 }
 
 // Convert a string to proper UTF-8
@@ -382,19 +410,8 @@ function convertToUTF8($s) {
 } 
 
 
-// Convert a string to UTF-8 and replace the qotes
+// Convert a string to UTF-8 and encode the special characters
 function my_encode($s) {
-
-	// Convert a string to UTF-8 and do not replace the qotes
-	$s = my_encode_with_quotes($s);
-
-	// Replace quotes
-	$s = str_replace("\"", "&quot;", $s);
-	return $s;
-}
-
-// Convert a string to UTF-8 and do not replace the qotes
-function my_encode_with_quotes($s) {
 
 	// Convert to UTF-8
 	$s = convertToUTF8($s);
@@ -408,14 +425,15 @@ function my_encode_with_quotes($s) {
 	// Convert entities like &uuml; to ü
 	if((version_compare( phpversion(), '5.0' ) < 0)) {
 		$s = html_entity_decode($s);
-//		$s = utf8_encode($s);
 	} else {
 		$s = html_entity_decode($s, ENT_COMPAT, 'UTF-8');
 	}
 
-	// Replace ampersand
-	$s = str_replace("&", "&amp;", $s);
+	// Replace special characters
+	$s = htmlspecialchars($s,ENT_COMPAT, 'UTF-8');
 
+	// Remove invalid characters
+	$s = stripInvalidXml($s);
 	return $s;
 }
 
@@ -820,16 +838,8 @@ while ($languages = sbf_db_fetch_array($languages_query)) {
 $getshipped = (isset($_POST['getshipped']) ? $_POST['getshipped'] : '');
 $action = (isset($_POST['action']) ? $_POST['action'] : '');
 $orderstosync = (isset($_POST['setstate']) ? $_POST['setstate'] : '{}');
-
-
-// does action start with "get" ?
-if (strncmp($action, "get", 3)) {
-  // does the action contains one of the following keys:
-  $action_getproducts = strpos($action,"products");
-  $action_getorders = strpos($action,"orders");
-  $action_getcontacts = strpos($action,"contacts");
-}
-
+$maxproducts = (isset($_POST['maxproducts']) ? $_POST['maxproducts'] : '');
+$lasttime = (isset($_POST['lasttime']) ? $_POST['lasttime'] : '');
 
 $orderstosync = substr($orderstosync, 0, -1);
 $orderstosync = substr($orderstosync, 1);
@@ -841,12 +851,11 @@ $password = sbf_db_prepare_input($_POST['password']);
 
 // generate header of response
 echo ("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-echo ("<webshopexport version=\"1.0\" >\n");
+echo ("<webshopexport version=\"". FAKTURAMA_CONNECTOR_VERSION . "\" >\n");
 
 echo ("<phpversion>");
 echo (phpversion());
 echo ("</phpversion>\n");
-
 echo ("<webshop ");
 
 if (FAKTURAMA_WEBSHOP == OSCOMMERCE)
@@ -861,6 +870,7 @@ echo ("url=\"" . my_encrypt(HTTP_CATALOG_SERVER) . "\"");
 echo ("></webshop>\n");
 
 
+// does action start with "get" ?
 if (strncmp($action, "get", 3) == 0) {
   // does the action contains one of the following keys:
   $action_getproducts = strpos($action,"products");
@@ -1109,9 +1119,25 @@ if ($admin_valid != 1)
 			else
 				$products_short_description_query = 'prod_desc.products_short_description,';
 
+			// Limit the query to maxproducts
+			$productslimit_query = "";
+			if ($maxproducts > 0) {
+				$productslimit_query = " LIMIT " . $maxproducts;
+			}
+
+			// Limit the query to maxproducts
+			$lasttime_query = "";
+			if ($lasttime > 0) {
+				$lasttime_query = " AND ( prod.products_last_modified > '" . $lasttime . "') ";
+			}
+
+
+
+
+
 			$products_query = sbf_db_query("SELECT 
  												prod.products_model, prod_desc.products_name, prod_desc.products_description, " . $products_short_description_query . 
-												"prod.products_image, products_quantity, 	 												
+												"prod.products_image, products_quantity, prod.products_id,	 												
 												cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
 											FROM 
 												tax_rates tax
@@ -1130,8 +1156,11 @@ if ($admin_valid != 1)
 											LEFT JOIN
 												languages langu ON (langu.languages_id = cat_desc.language_id) AND (langu.languages_id = prod_desc.language_id)
   											WHERE 
-  												(langu.code = '". DEFAULT_LANGUAGE ."')
-										   ");
+  												(langu.code = '". DEFAULT_LANGUAGE . "')
+											" . $lasttime_query . "
+											" . $productslimit_query . "										   
+											");
+
 
 
 			$last_products_model_name = "";
@@ -1148,12 +1177,13 @@ if ($admin_valid != 1)
 				echo ("gross=\"". my_encrypt(number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2) )."\" " );
 				echo ("vatpercent=\"". my_encrypt(number_format( $products['tax_rate'], 2) ) ."\" " );
 				echo ("quantity=\"". my_encrypt($products['products_quantity']) ."\" " );
+				echo ("id=\"". my_encrypt($products['products_id']) ."\" " );
 				echo (">\n");
 				echo ("   <model>" . my_encode($products['products_model'])."</model>\n");
 				echo ("   <name>" . my_encode($products['products_name'])."</name>\n");
 				echo ("   <category>" . my_encode($products['categories_name'])."</category>\n");
 				echo ("   <vatname>".my_encode($products['tax_description'])."</vatname>\n");
-				echo ("   <short_description>" . my_keep_br_tags(my_encode_with_quotes( $products['products_short_description'])) . "</short_description>\n");
+				echo ("   <short_description>" . my_keep_br_tags(my_encode( $products['products_short_description'])) . "</short_description>\n");
 
 				// Use the image only, if it exists	
 				if (file_exists($fs_imagepath . $products['products_image'])) 
@@ -1324,7 +1354,7 @@ if ($admin_valid != 1)
 					
 					
 					echo ("   <item ");
-					echo ("id=\"".my_encode($product['id'])."\" ");
+					echo ("productid=\"".my_encode($product['products_id'])."\" ");
 					echo ("quantity=\"".my_encrypt($product['qty'])."\" ");
 					
 					if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)

@@ -77,6 +77,8 @@ public class ViewProductTable extends ViewDataSetTable {
 		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_QUANTITY"))
 			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Quantity"), 80, 0, true, "quantity");
+		
+		//new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("webshopid"), 80, 0, true, "webshopid");
 
 		// Fill the price column with the net or the gross price ( for quantity = 1)
 		String priceKey = "";

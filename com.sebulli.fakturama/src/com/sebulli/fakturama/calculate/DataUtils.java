@@ -429,6 +429,23 @@ public class DataUtils {
 	}
 
 	/**
+	 * Get the date and time from a Calendar object in the format: YYYY-MM-DD
+	 * 
+	 * @param calendar
+	 *            Gregorian Calendar object
+	 * @return Date and Time as formated String
+	 */
+	public static String getDateAndTimeAsString(GregorianCalendar calendar) {
+		int y = calendar.get(Calendar.YEAR);
+		int m = calendar.get(Calendar.MONTH);
+		int d = calendar.get(Calendar.DAY_OF_MONTH);
+		int h = calendar.get(Calendar.HOUR_OF_DAY);
+		int min = calendar.get(Calendar.MINUTE);
+		int sec = calendar.get(Calendar.SECOND);
+		return String.format("%04d-%02d-%02d %2d:%2d:%2d", y, m + 1, d,h ,min ,sec );
+	}
+
+	/**
 	 * Get the date from a Calendar object in the localized format.
 	 * 
 	 * @param calendar
@@ -496,6 +513,30 @@ public class DataUtils {
 		return getDateTimeAsString(calendar);
 	}
 
+	/**
+	 * Returns the date now in the format ISO 8601 YYYY-MM-DD
+	 * 
+	 * @return Date as formated String
+	 */
+	public static String DateAsISO8601String() {
+
+		GregorianCalendar calendar = new GregorianCalendar();
+		return getDateAndTimeAsString(calendar);
+	}
+
+	/**
+	 * Returns the date and time of now in a localized format.
+	 * 
+	 * @return Date and time as formated String
+	 */
+	public static String DateAndTimeOfNowAsISO8601String() {
+
+		GregorianCalendar calendar = new GregorianCalendar();
+		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+		return df.format(calendar.getTime());
+	}
+	
+	
 	/**
 	 * Convert date strings from the following format to a calendar
 	 * 
