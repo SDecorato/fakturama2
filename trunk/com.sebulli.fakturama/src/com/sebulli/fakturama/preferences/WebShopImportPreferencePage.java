@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -75,6 +76,12 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		addField(new BooleanFieldEditor("WEBSHOP_NOTIFY_PROCESSING", _("Notify customer on 'In Work'"), getFieldEditorParent()));
 		//T: Preference page "Web Shop Import" - Label
 		addField(new BooleanFieldEditor("WEBSHOP_NOTIFY_SHIPPED", _("Notify customer on 'Shipped'"), getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new IntegerFieldEditor("WEBSHOP_MAX_PRODUCTS", _("Maximum products:"), getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new BooleanFieldEditor("WEBSHOP_ONLY_MODIFIED_PRODUCTS", _("Import only modified products"), getFieldEditorParent()));
+
+	
 	}
 
 	/**
@@ -105,6 +112,8 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_SHIPPING_CATEGORY", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_NOTIFY_PROCESSING", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_NOTIFY_SHIPPED", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_MAX_PRODUCTS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_ONLY_MODIFIED_PRODUCTS", write);
 	}
 
 	/**
@@ -126,7 +135,8 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		node.put("WEBSHOP_SHIPPING_CATEGORY", _("Shop"));
 		node.putBoolean("WEBSHOP_NOTIFY_PROCESSING", false);
 		node.putBoolean("WEBSHOP_NOTIFY_SHIPPED", true);
-
+		node.put("WEBSHOP_MAX_PRODUCTS", "1000");
+		node.putBoolean("WEBSHOP_ONLY_MODIFIED_PRODUCTS", true);
 	}
 	
 }

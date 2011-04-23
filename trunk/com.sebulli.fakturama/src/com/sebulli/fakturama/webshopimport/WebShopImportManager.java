@@ -219,7 +219,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String address = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_URL");
 		String user = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_USER");
 		String password = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PASSWORD");
-
+		Integer maxProducts  = Activator.getDefault().getPreferenceStore().getInt("WEBSHOP_MAX_PRODUCTS");
+		Boolean onlyModifiedProducts  = Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_ONLY_MODIFIED_PRODUCTS");
 		// Check empty URL
 		if (address.isEmpty()) {
 			//T: Status message importing data from web shop
@@ -280,6 +281,17 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				postString += actionString;
 
 				postString += "&setstate=" + orderstosynchronize.toString();
+				
+				if (maxProducts > 0) {
+					postString += "&maxproducts=" + maxProducts.toString();
+				}
+
+				if (onlyModifiedProducts) {
+					String lasttime = Data.INSTANCE.getProperty("lastwebshopimport");
+					if (! lasttime.isEmpty())
+						postString += "&lasttime=" + lasttime.toString();
+				}
+				
 				writer.write(postString);
 				writer.flush();
 				writer.close();
@@ -418,6 +430,10 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			if (runResult.isEmpty())
 				interpretWebShopData(monitor);
 
+			// Store the time of now
+			String now = DataUtils.DateAsISO8601String();
+			Data.INSTANCE.setProperty("lastwebshopimport", now);
+			
 			monitor.done();
 
 		}
@@ -545,7 +561,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	}
 
 	/**
-	 * Get an attribute's value and return an empty string, of the attribute is
+	 * Get an attribute's value and return an empty string, if the attribute is
 	 * not specified
 	 * 
 	 * @param attributes
@@ -563,7 +579,31 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		}
 		return value;
 	}
+	/**
+	 * Get an attribute's value and return -1 if the attribute is
+	 * not specified
+	 * 
+	 * @param attributes
+	 *            Attributes node
+	 * @param name
+	 *            Name of the attribute
+	 * @return Attributes value
+	 */
+	private static int getAttributeAsID(NamedNodeMap attributes, String name) {
+		int id = -1;
+		String s = getAttributeAsString(attributes, name);
+		try {
+			if (!s.isEmpty()) {
+				id = Integer.valueOf(s);
+			}
+		}
+		catch (Exception e) {
+		}
 
+		return id;
+	}
+
+	
 	/**
 	 * Returns the text of a specified child node.
 	 * 
@@ -632,18 +672,22 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String productImage;
 		String pictureName;
 		String productQuantity;
-
+		int productID;
+		
 		// Get the attributes ID and date of this order
 		NamedNodeMap attributes = productNode.getAttributes();
 		productNet = getAttributeAsString(attributes, "net");
 		productGross = getAttributeAsString(attributes, "gross");
 		productVatPercent = getAttributeAsString(attributes, "vatpercent");
 		productQuantity = getAttributeAsString(attributes, "quantity");
+		productID = getAttributeAsID(attributes, "id");
 		productModel = getChildTextAsString(productNode, "model");
 		productName = getChildTextAsString(productNode, "name");
 		productCategory = getChildTextAsString(productNode, "category");
 		productVatName = getChildTextAsString(productNode, "vatname");
 		productImage = getChildTextAsString(productNode, "image");
+
+		
 
 		// Get the product description as plain text.
 		productDescription = "";
@@ -719,7 +763,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		}
 
 		// Create a new product object
-		product = new DataSetProduct(productName, productModel, shopCategory + productCategory, productDescription, priceNet, vatId, "", pictureName, quantity);
+		product = new DataSetProduct(productName, productModel, shopCategory + productCategory, productDescription, priceNet, vatId, "", pictureName, quantity, productID);
 
 		// Add a new product to the data base, if it's not existing yet
 		if (Data.INSTANCE.getProducts().isNew(product)) {
@@ -729,11 +773,14 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// Update data
 			DataSetProduct existingProduct = Data.INSTANCE.getProducts().getExistingDataSet(product);
 			existingProduct.setStringValueByKey("category", product.getStringValueByKey("category"));
+			existingProduct.setStringValueByKey("name", product.getStringValueByKey("name"));
+			existingProduct.setStringValueByKey("itemnr", product.getStringValueByKey("itemnr"));
 			existingProduct.setStringValueByKey("description", product.getStringValueByKey("description"));
 			existingProduct.setDoubleValueByKey("price1", product.getDoubleValueByKey("price1"));
 			existingProduct.setIntValueByKey("vatid", product.getIntValueByKey("vatid"));
 			existingProduct.setStringValueByKey("picturename", product.getStringValueByKey("picturename"));
 			existingProduct.setDoubleValueByKey("quantity", product.getDoubleValueByKey("quantity"));
+			existingProduct.setIntValueByKey("webshopid", product.getIntValueByKey("webshopid"));
 
 			// Update the modified product data
 			Data.INSTANCE.getProducts().updateDataSet(existingProduct);
@@ -760,8 +807,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		URLConnection conn = null;
 		URL url;
 
+		
+		
 		try {
-
 			// First of all check, if the output file already exists.
 			File outputFile = new File(filePath + fileName);
 			if (outputFile.exists())
@@ -869,6 +917,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String itemCategory;
 		String itemVatpercent;
 		String itemVatname;
+		int productID;
 
 		// Order data
 		String order_id;
@@ -1023,6 +1072,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				itemQuantity = getAttributeAsString(attributes, "quantity");
 				itemGross = getAttributeAsString(attributes, "gross");
 				itemVatpercent = getAttributeAsString(attributes, "vatpercent");
+				productID = getAttributeAsID(attributes, "productid");
 				itemModel = getChildTextAsString(childnode, "model");
 				itemName = getChildTextAsString(childnode, "name");
 				itemCategory = getChildTextAsString(childnode, "category");
@@ -1083,7 +1133,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				}
 
 				// Create a new product
-				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "", 1.0);
+				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "", 1.0, productID);
 
 				// Add the new product to the data base, if it's not existing yet
 				DataSetProduct newOrExistingProduct = Data.INSTANCE.getProducts().addNewDataSetIfNew(product);
