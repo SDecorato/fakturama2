@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.export.productstatistics;
+package com.sebulli.fakturama.exporters;
 
 import java.util.GregorianCalendar;
 

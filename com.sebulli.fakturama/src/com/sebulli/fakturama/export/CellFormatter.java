@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exportsales;
+package com.sebulli.fakturama.export;
 
 import com.sebulli.fakturama.logger.Logger;
 import com.sun.star.beans.PropertyVetoException;

@@ -17,4 +17,4 @@ Bundle-ClassPath: .,
 Import-Package: org.eclipselabs.p2.rcpupdate.utils
 Export-Package: com.sebulli.fakturama,
  com.sebulli.fakturama.data,
- com.sebulli.fakturama.exportsales
+ com.sebulli.fakturama.export

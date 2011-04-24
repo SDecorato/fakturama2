@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Product Statistics
-Bundle-SymbolicName: com.sebulli.fakturama.export.productstatistics;singleton:=true
+Bundle-SymbolicName: com.sebulli.fakturama.exporters;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: com.sebulli.fakturama.export.productstatistics.Activator
+Bundle-Activator: com.sebulli.fakturama.exporters.Activator
 Bundle-Vendor: sebulli.com
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

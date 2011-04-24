@@ -1,4 +1,4 @@
-package com.sebulli.fakturama.export.productstatistics;
+package com.sebulli.fakturama.exporters;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
