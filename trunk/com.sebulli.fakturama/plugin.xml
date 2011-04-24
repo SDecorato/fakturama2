@@ -620,7 +620,7 @@
    <extension
          point="org.eclipse.ui.exportWizards">
       <wizard
-            class="com.sebulli.fakturama.exportsales.ExportSalesWizard"
+            class="com.sebulli.fakturama.export.ExportSalesWizard"
             icon="icons/16/export_sales_16.png"
             id="com.sebulli.fakturama.exportsales.exportSalesWizard"
             name="%wizard.export.sales">

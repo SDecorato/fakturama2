@@ -39,7 +39,7 @@ import com.sebulli.fakturama.actions.OpenShippingsAction;
 import com.sebulli.fakturama.actions.OpenTextsAction;
 import com.sebulli.fakturama.actions.OpenVatsAction;
 import com.sebulli.fakturama.actions.WebShopImportAction;
-import com.sebulli.fakturama.exportsales.ExportSalesAction;
+import com.sebulli.fakturama.export.ExportSalesAction;
 
 /**
  * This class represents the navigation view of the workbench

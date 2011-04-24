@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.export.productstatistics;
+package com.sebulli.fakturama.exporters;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -21,7 +21,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
-import com.sebulli.fakturama.exportsales.ExportWizandPageStartEndDate;
+import com.sebulli.fakturama.export.ExportWizandPageStartEndDate;
 
 /**
  * Export wizard to export sales
