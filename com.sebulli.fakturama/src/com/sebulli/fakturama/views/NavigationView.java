@@ -23,7 +23,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.actions.ExportSalesAction;
 import com.sebulli.fakturama.actions.ICommandIds;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.actions.NewProductAction;
@@ -99,13 +98,14 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		bar3.addAction(new NewContactAction(null));
 		bar3.addAction(new OpenParcelServiceAction());
 
+		/*
 		// Create the 4th expand bar "export"
 		//T: Title of an expand bar in the navigations view
 		final ExpandBar bar4 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Export"), "/icons/16/export_16.png" ,
 				_("Export documents, contacts .. to tables and files"));
 
 		bar4.addAction(new ExportSalesAction());
-
+*/
 		// Create the 5th expand bar "Miscellaneous"
 		//T: Title of an expand bar in the navigations view
 		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Miscellaneous"), "/icons/16/misc_16.png" ,
