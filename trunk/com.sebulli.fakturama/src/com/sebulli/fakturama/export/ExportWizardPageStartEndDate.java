@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Label;
  * 
  * @author Gerd Bartelt
  */
-public class ExportWizandPageStartEndDate extends WizardPage {
+public class ExportWizardPageStartEndDate extends WizardPage {
 
 	// start and end date
 	private DateTime dtStartDate;
@@ -44,7 +44,7 @@ public class ExportWizandPageStartEndDate extends WizardPage {
 	/**
 	 * Constructor Create the page and set title and message.
 	 */
-	public ExportWizandPageStartEndDate(String title, String label) {
+	public ExportWizardPageStartEndDate(String title, String label) {
 		super("ExportWizandPageStartEndDate");
 		//T: Title of the Sales Export Wizard Page 1
 		setTitle(title);

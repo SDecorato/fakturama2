@@ -586,7 +586,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		if (useLastNameFirst) {
 			//T: Format of the name in an address
-			labelName.setText(_("Last name, First Name"));
+			labelName.setText(_("Last Name, First Name"));
 			txtName = new Text(addressGroup, SWT.BORDER);
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
 			txtFirstname = new Text(addressGroup, SWT.BORDER);
@@ -594,7 +594,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		}
 		else {
 			//T: Format of the name in an address
-			labelName.setText(_("First Name Last name"));
+			labelName.setText(_("First Name Last Name"));
 			txtFirstname = new Text(addressGroup, SWT.BORDER);
 			GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtFirstname);
 			txtName = new Text(addressGroup, SWT.BORDER);
@@ -899,20 +899,19 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		labelReliability.setText(_("Reliability"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelReliability);
 		comboReliability = new Combo(tabMisc, SWT.BORDER);
-		comboReliability.add("---", 0);
-		//T: Reliability ranking of a customer
-		comboReliability.add(_("poor", "RELIABILITY"), 1);
-		//T: Reliability ranking of a customer
-		comboReliability.add(_("medium", "RELIABILITY"), 2);
-		//T: Reliability ranking of a customer
-		comboReliability.add(_("good", "RELIABILITY"), 3);
+
+		comboReliability.add(DataSetContact.getReliabilityString(0), 0);
+		comboReliability.add(DataSetContact.getReliabilityString(1), 1);
+		comboReliability.add(DataSetContact.getReliabilityString(2), 2);
+		comboReliability.add(DataSetContact.getReliabilityString(3), 3);
+
 		comboReliability.select(contact.getIntValueByKey("reliability"));
 		superviceControl(comboReliability);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboReliability);
 
 		// VAT number
 		Label labelVatNr = new Label(tabMisc, SWT.NONE);
-		labelVatNr.setText(_("VAT Number."));
+		labelVatNr.setText(_("VAT Number"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelVatNr);
 		txtVatNr = new Text(tabMisc, SWT.BORDER);
 		txtVatNr.setText(contact.getStringValueByKey("vatnr"));

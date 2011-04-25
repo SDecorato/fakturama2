@@ -380,6 +380,31 @@ public class DataSetContact extends UniDataSet {
 	}
 
 	/**
+	 * Get the reliability String by the number
+	 * 
+	 * @param i
+	 *            Gender number
+	 * @return Gender as string
+	 */
+	public static String getReliabilityString(int i) {
+		switch (i) {
+		case 0:
+			return "---";
+		case 1:
+			//T: Reliability
+			return _("poor", "RELIABILITY");
+		case 2:
+			//T: Reliability
+			return _("medium", "RELIABILITY");
+		case 3:
+			//T: Reliability
+			return _("good", "RELIABILITY");
+		}
+		return "";
+	}
+
+
+	/**
 	 * Test, if this is equal to an other UniDataSet Customer number, first
 	 * name, name and ZIP are compared. Customer number is only compared, if it
 	 * is set.

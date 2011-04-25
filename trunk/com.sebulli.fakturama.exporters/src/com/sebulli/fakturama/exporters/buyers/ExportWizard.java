@@ -21,7 +21,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
-import com.sebulli.fakturama.export.ExportWizandPageStartEndDate;
+import com.sebulli.fakturama.export.ExportWizardPageStartEndDate;
 
 /**
  * Export wizard to export sales
@@ -31,15 +31,15 @@ import com.sebulli.fakturama.export.ExportWizandPageStartEndDate;
 public class ExportWizard extends Wizard implements IExportWizard {
 
 	// The first (and only) page of this wizard
-	ExportWizandPageStartEndDate page1;
+	ExportWizardPageStartEndDate page1;
 
 	/**
 	 * Constructor Adds the first page to the wizard
 	 */
 	public ExportWizard() {
-		//T: Title of the sales export wizard
+		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
-		page1 = new ExportWizandPageStartEndDate(_("Buyers and volume"),
+		page1 = new ExportWizardPageStartEndDate(_("Buyers and volume"),
 				_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
 		addPage(page1);
 	}
@@ -53,8 +53,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		Exporter statisticGenerator = new Exporter(page1.getStartDate(), page1.getEndDate());
-		return statisticGenerator.export();
+		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate());
+		return exporter.export();
 	}
 
 	/**
