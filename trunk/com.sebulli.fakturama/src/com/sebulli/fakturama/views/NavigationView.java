@@ -23,6 +23,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import com.sebulli.fakturama.ContextHelpConstants;
+import com.sebulli.fakturama.actions.ExportSalesAction;
 import com.sebulli.fakturama.actions.ICommandIds;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.actions.NewProductAction;
@@ -39,7 +40,6 @@ import com.sebulli.fakturama.actions.OpenShippingsAction;
 import com.sebulli.fakturama.actions.OpenTextsAction;
 import com.sebulli.fakturama.actions.OpenVatsAction;
 import com.sebulli.fakturama.actions.WebShopImportAction;
-import com.sebulli.fakturama.export.ExportSalesAction;
 
 /**
  * This class represents the navigation view of the workbench

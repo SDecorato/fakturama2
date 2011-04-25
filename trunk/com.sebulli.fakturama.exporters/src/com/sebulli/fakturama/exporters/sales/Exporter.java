@@ -12,24 +12,14 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.export;
+package com.sebulli.fakturama.exporters.sales;
 
 import static com.sebulli.fakturama.Translate._;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
-
-import ag.ion.bion.officelayer.application.IOfficeApplication;
-import ag.ion.bion.officelayer.application.OfficeApplicationException;
-import ag.ion.bion.officelayer.document.DocumentDescriptor;
-import ag.ion.bion.officelayer.document.IDocument;
-import ag.ion.bion.officelayer.spreadsheet.ISpreadsheetDocument;
-import ag.ion.noa.NOAException;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.calculate.DataUtils;
@@ -42,46 +32,23 @@ import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetExpenditure;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetVAT;
-import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.data.UniDataSetSorter;
-import com.sebulli.fakturama.logger.Logger;
-import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
-import com.sun.star.container.NoSuchElementException;
-import com.sun.star.lang.IndexOutOfBoundsException;
-import com.sun.star.lang.WrappedTargetException;
-import com.sun.star.sheet.XSpreadsheet;
-import com.sun.star.sheet.XSpreadsheetDocument;
-import com.sun.star.sheet.XSpreadsheets;
-import com.sun.star.text.XText;
-import com.sun.star.uno.UnoRuntime;
+import com.sebulli.fakturama.export.CellFormatter;
+import com.sebulli.fakturama.export.OOCalcExporter;
+
 
 /**
- * The sales exporter. This class collects all the sales and fills a Calc table
- * with the data
+ * The statistic generator. 
+ * This class collects all the sold products 
  * 
  * @author Gerd Bartelt
  */
-public class SalesExporter {
-
-	// The begin and end date to specify the export periode
-	private GregorianCalendar startDate;
-	private GregorianCalendar endDate;
-
-	// the date key to sort the documents
-	private String documentDateKey;
+public class Exporter extends OOCalcExporter{
 
 	// Settings from the preference page
-	boolean showExpenditureSumColumn;
-	boolean showZeroVatColumn;
-	boolean usePaidDate;
+	private boolean showExpenditureSumColumn;
+	private boolean showZeroVatColumn;
 
-	/**
-	 * Default constructor
-	 */
-	public SalesExporter() {
-		this.startDate = null;
-		this.endDate = null;
-	}
 
 	/**
 	 * Constructor Sets the begin and end date
@@ -91,147 +58,17 @@ public class SalesExporter {
 	 * @param endDate
 	 *            Begin date
 	 */
-	public SalesExporter(GregorianCalendar startDate, GregorianCalendar endDate) {
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-
-	/**
-	 * Returns, if a given document should be used to export. Only invoice and
-	 * credit documents that are paid in the specified time interval are
-	 * exported.
-	 * 
-	 * @param document
-	 *            The document that is tested
-	 * @return True, if the document should be exported
-	 */
-	private boolean documentShouldBeExported(DataSetDocument document) {
-
-		// By default, the document will be exported.
-		boolean isInIntervall = true;
-
-		// Get the date of the document and convert it to a
-		// GregorianCalendar object.
-		GregorianCalendar documentDate = new GregorianCalendar();
-		try {
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-			String documentDateString = document.getStringValueByKey(documentDateKey);
-
-			documentDate.setTime(formatter.parse(documentDateString));
-		}
-		catch (ParseException e) {
-			Logger.logError(e, "Error parsing Date");
-		}
-
-		// Test, if the document's date is in the interval
-		if ((startDate != null) && (endDate != null)) {
-			if (startDate.after(documentDate))
-				isInIntervall = false;
-			if (endDate.before(documentDate))
-				isInIntervall = false;
-		}
-
-		// Only paid invoiced and credits in the interval
-		// will be exported.
-		return ((document.getIntValueByKey("category") == DocumentType.INVOICE.getInt()) || (document.getIntValueByKey("category") == DocumentType.CREDIT
-				.getInt())) && document.getBooleanValueByKey("paid") && isInIntervall;
-	}
-
-	/**
-	 * Returns, if a given expenditure should be used to export. Only
-	 * expenditures in the specified time interval are exported.
-	 * 
-	 * @param expenditure
-	 *            The expenditure that is tested
-	 * @return True, if the expenditure should be exported
-	 */
-	private boolean expenditureShouldBeExported(DataSetExpenditure expenditure) {
-
-		// By default, the document will be exported.
-		boolean isInIntervall = true;
-
-		// Get the date of the document and convert it to a
-		// GregorianCalendar object.
-		GregorianCalendar documentDate = new GregorianCalendar();
-		try {
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-			String expenditureDateString = "";
-
-			// Use date 
-			expenditureDateString = expenditure.getStringValueByKey("date");
-
-			documentDate.setTime(formatter.parse(expenditureDateString));
-		}
-		catch (ParseException e) {
-			Logger.logError(e, "Error parsing Date");
-		}
-
-		// Test, if the document's date is in the interval
-		if ((startDate != null) && (endDate != null)) {
-			if (startDate.after(documentDate))
-				isInIntervall = false;
-			if (endDate.before(documentDate))
-				isInIntervall = false;
-		}
-
-		// Return, if expenditure is in the interval
-		return isInIntervall;
+	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate) {
+		super(startDate, endDate);
 	}
 
 	// Do the export job.
 	public boolean export() {
 
-		// Get the OpenOffice application
-		final IOfficeApplication officeAplication = OpenOfficeStarter.openOfficeApplication();
-		if (officeAplication == null)
+		// Try to generate a spreadsheet
+		if (!createSpreadSheet())
 			return false;
-
-		// Create a new OpenOffice Calc document
-		IDocument oOdocument = null;
-		try {
-			oOdocument = officeAplication.getDocumentService().constructNewDocument(IDocument.CALC, DocumentDescriptor.DEFAULT);
-		}
-		catch (NOAException e) {
-			Logger.logError(e, "NOA Error opening CALC");
-			return false;
-		}
-		catch (OfficeApplicationException e) {
-			Logger.logError(e, "OO Error opening CALC");
-			return false;
-		}
-
-		// Get the spreadsheets
-		ISpreadsheetDocument spreadDocument = (ISpreadsheetDocument) oOdocument;
-		XSpreadsheetDocument xSpreadsheetDocument = spreadDocument.getSpreadsheetDocument();
-		XSpreadsheets spreadsheets = xSpreadsheetDocument.getSheets();
-
-		// Insert an "Export" spreadsheet
-		XSpreadsheet spreadsheet1 = null;
-		try {
-			//T: Name of the Table
-			String tableName = _("Export");
-			spreadsheets.insertNewByName(tableName, (short) 0);
-
-			// Remove all other spreadsheets
-			String names[] = spreadsheets.getElementNames();
-			for (String name : names) {
-				if (!name.equals(tableName))
-					spreadsheets.removeByName(name);
-			}
-
-			// Get a reference to the Export sheet
-			spreadsheet1 = (XSpreadsheet) UnoRuntime.queryInterface(XSpreadsheet.class, spreadsheets.getByName(tableName));
-
-		}
-		catch (NoSuchElementException e) {
-			Logger.logError(e, "Error getting spreadsheet");
-		}
-		catch (WrappedTargetException e) {
-			Logger.logError(e, "Error getting spreadsheet");
-		}
-
+		
 		usePaidDate = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAIDDATE");
 		showExpenditureSumColumn = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN");
 		showZeroVatColumn = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_SHOW_ZERO_VAT_COLUMN");
@@ -253,9 +90,6 @@ public class SalesExporter {
 		// Sort the expenditures by category and date
 		Collections.sort(expenditures, new UniDataSetSorter("category", "date"));
 
-		// Counter for the current row and columns in the Calc document
-		int row = 0;
-		int col = 0;
 
 		// Count the columns that contain a VAT and net value 
 		int columnsWithVatHeading = 0;
@@ -264,58 +98,47 @@ public class SalesExporter {
 		// Count the columns that contain a VAT value of 0% 
 		int zeroVatColumns = 0;
 
-		// Fill the first cells with company data
-		setCellTextInItalic(spreadsheet1, row++, 0, Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_NAME"));
-		setCellTextInItalic(spreadsheet1, row++, 0, Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_OWNER"));
-		setCellTextInItalic(spreadsheet1, row++, 0, Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_STREET"));
-		setCellTextInItalic(spreadsheet1, row++, 0, Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_ZIP") + " "
-				+ Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_CITY"));
-		row++;
+		// Fill the first 4 rows with the company information
+		fillCompanyInformation(0);
+		fillTimeIntervall(5);
+		
+		// Counter for the current row and columns in the Calc document
+		int row = 9;
+		int col = 0;
 
-		// Display the time interval
-		//T: Sales Exporter - Text in the Calc document for the period
-		setCellTextInBold(spreadsheet1, row++, 0, _("Period"));
-		//T: Sales Exporter - Text in the Calc document for the period
-		setCellText(spreadsheet1, row, 0, _("from:"));
-		setCellText(spreadsheet1, row++, 1, DataUtils.getDateTimeAsLocalString(startDate));
-		//T: Sales Exporter - Text in the Calc document for the period
-		setCellText(spreadsheet1, row, 0, _("till:"));
-		setCellText(spreadsheet1, row++, 1, DataUtils.getDateTimeAsLocalString(endDate));
+		// Table heading
+		//T: Sales Exporter - Text in the Calc document for the Earnings
+		setCellTextInBold(row++, 0, _("Earnings"));
 		row++;
 
 		// Create a VAT summary set manager that collects all VAT
 		// values of all documents
 		VatSummarySetManager vatSummarySetAllDocuments = new VatSummarySetManager();
 
-		// Table heading
-		//T: Sales Exporter - Text in the Calc document for the Earnings
-		setCellTextInBold(spreadsheet1, row++, 0, _("Earnings"));
-		row++;
-
 		// Table column headings
 		int headLine = row;
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Pay Date"));
+		setCellTextInBold(row, col++, _("Pay Date"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Nr."));
+		setCellTextInBold(row, col++, _("Invoice Nr."));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Date"));
+		setCellTextInBold(row, col++, _("Invoice Date"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("First Name"));
+		setCellTextInBold(row, col++, _("First Name"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Last Name"));
+		setCellTextInBold(row, col++, _("Last Name"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Company"));
+		setCellTextInBold(row, col++, _("Company"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("VAT ID."));
+		setCellTextInBold(row, col++, _("VAT ID."));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Country"));
+		setCellTextInBold(row, col++, _("Country"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Invoice Value"));
+		setCellTextInBold(row, col++, _("Invoice Value"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Pay Value"));
+		setCellTextInBold(row, col++, _("Pay Value"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Net Value"));
+		setCellTextInBold(row, col++, _("Net Value"));
 		row++;
 
 		// The documents are exported in 2 runs.
@@ -355,7 +178,7 @@ public class SalesExporter {
 
 				// Create a column heading in bold
 				int column = vatSummarySetAllDocuments.getIndex(item) - zeroVatColumns;
-				setCellTextInBold(spreadsheet1, headLine, column + col, item.getVatName());
+				setCellTextInBold(headLine, column + col, item.getVatName());
 
 			}
 			else
@@ -373,7 +196,7 @@ public class SalesExporter {
 
 			// Create a column heading in bold
 			int column = vatSummarySetAllDocuments.getIndex(item);
-			setCellTextInBold(spreadsheet1, headLine, columnsWithVatHeading + column + col, "Netto \n" + item.getVatName());
+			setCellTextInBold(headLine, columnsWithVatHeading + column + col, "Netto \n" + item.getVatName());
 		}
 
 		// Second run.
@@ -404,27 +227,27 @@ public class SalesExporter {
 
 				// Fill the row with the document data
 				col = 0;
-				setCellText(spreadsheet1, row, col++, DataUtils.DateAsLocalString(document.getStringValueByKey("paydate")));
-				setCellText(spreadsheet1, row, col++, document.getStringValueByKey("name"));
-				setCellText(spreadsheet1, row, col++, DataUtils.DateAsLocalString(document.getStringValueByKey("date")));
+				setCellText(row, col++, DataUtils.DateAsLocalString(document.getStringValueByKey("paydate")));
+				setCellText(row, col++, document.getStringValueByKey("name"));
+				setCellText(row, col++, DataUtils.DateAsLocalString(document.getStringValueByKey("date")));
 				int addressid = document.getIntValueByKey("addressid");
 
 				// Fill the address columns with the contact that corresponds to the addressid
 				if (addressid >= 0) {
-					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:firstname"));
-					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:name"));
-					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:company"));
-					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:vatnr"));
-					setCellText(spreadsheet1, row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:country"));
+					setCellText(row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:firstname"));
+					setCellText(row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:name"));
+					setCellText(row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:company"));
+					setCellText(row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:vatnr"));
+					setCellText(row, col++, document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:country"));
 				}
 				// ... or use the documents first line
 				else {
-					setCellText(spreadsheet1, row, col++, document.getStringValueByKey("addressfirstline"));
+					setCellText(row, col++, document.getStringValueByKey("addressfirstline"));
 					col += 4;
 				}
 
-				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, document.getDoubleValueByKey("total"));
-				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, document.getDoubleValueByKey("payvalue"));
+				setCellValueAsLocalCurrency(row, col++, document.getDoubleValueByKey("total"));
+				setCellValueAsLocalCurrency(row, col++, document.getDoubleValueByKey("payvalue"));
 
 				// Calculate the total VAT of the document
 				PriceValue totalVat = new PriceValue(0.0);
@@ -443,7 +266,7 @@ public class SalesExporter {
 						// Round the VAT and add fill the table cell
 						PriceValue vat = new PriceValue(item.getVat());
 						totalVat.add(vat.asRoundedDouble());
-						setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, column + (col + 1), vat.asRoundedDouble());
+						setCellValueAsLocalCurrency(row, column + (col + 1), vat.asRoundedDouble());
 					}
 				}
 
@@ -461,14 +284,14 @@ public class SalesExporter {
 						// Round the net and add fill the table cell
 						PriceValue net = new PriceValue(item.getNet());
 						//totalVat.add(net.asRoundedDouble());
-						setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, columnsWithVatHeading + column + (col + 1), net.asRoundedDouble());
+						setCellValueAsLocalCurrency(row, columnsWithVatHeading + column + (col + 1), net.asRoundedDouble());
 					}
 				}
 
 				// Calculate the documents net total (incl. shipping) 
 				// by the documents total value and the sum of all VAT values.
 				Double net = document.getDoubleValueByKey("payvalue") - totalVat.asRoundedDouble();
-				setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, net);
+				setCellValueAsLocalCurrency(row, col++, net);
 
 				// Calculate the documents net total (incl. shipping)
 				// a second time, but now use the documents net value,
@@ -482,12 +305,12 @@ public class SalesExporter {
 				// If the difference is grater than 1 Cent, display a warning.
 				// It could be a rounding error.
 				if (Math.abs(roundingError) > 0.01)
-					setCellTextInRedBold(spreadsheet1, row, col + columnsWithVatHeading + columnsWithNetHeading, "Runden prüfen");
+					setCellTextInRedBold(row, col + columnsWithVatHeading + columnsWithNetHeading, "Runden prüfen");
 
 				// Set the background of the table rows. Use an light and
 				// alternating blue color.
 				if ((row % 2) == 0)
-					CellFormatter.setBackgroundColor(spreadsheet1, 0, row, col + columnsWithVatHeading + columnsWithNetHeading - 1, row, 0x00e8ebed);
+					setBackgroundColor( 0, row, col + columnsWithVatHeading + columnsWithNetHeading - 1, row, 0x00e8ebed);
 
 				row++;
 			}
@@ -505,8 +328,8 @@ public class SalesExporter {
 					// Create formula for the sum. 
 					String cellNameBegin = CellFormatter.getCellName(headLine + 1, col);
 					String cellNameEnd = CellFormatter.getCellName(row - 1, col);
-					spreadsheet1.getCellByPosition(col, sumrow).setFormula("=SUM(" + cellNameBegin + ":" + cellNameEnd + ")");
-					CellFormatter.setBold(spreadsheet1, sumrow, col);
+					setFormula(col, sumrow, "=SUM(" + cellNameBegin + ":" + cellNameEnd + ")");
+					setBold(sumrow, col);
 				}
 				catch (IndexOutOfBoundsException e) {
 				}
@@ -516,8 +339,8 @@ public class SalesExporter {
 		// Draw a horizontal line (set the border of the top and the bottom
 		// of the table).
 		for (col = 0; col < (columnsWithVatHeading + columnsWithNetHeading) + 11; col++) {
-			CellFormatter.setBorder(spreadsheet1, headLine, col, 0x000000, false, false, true, false);
-			CellFormatter.setBorder(spreadsheet1, sumrow, col, 0x000000, true, false, false, false);
+			setBorder(headLine, col, 0x000000, false, false, true, false);
+			setBorder(sumrow, col, 0x000000, true, false, false, false);
 		}
 
 		// Create a expenditure summary set manager that collects all expenditure VAT
@@ -529,29 +352,29 @@ public class SalesExporter {
 		col = 0;
 
 		//T: Sales Exporter - Text in the Calc document for the Expenditures
-		setCellTextInBold(spreadsheet1, row++, 0, _("Expenditures"));
+		setCellTextInBold(row++, 0, _("Expenditures"));
 		row++;
 
 		// Table column headings
 		headLine = row;
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Category"));
+		setCellTextInBold(row, col++, _("Category"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Date"));
+		setCellTextInBold(row, col++, _("Date"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Voucher."));
+		setCellTextInBold(row, col++, _("Voucher."));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Doc.Nr."));
+		setCellTextInBold(row, col++, _("Doc.Nr."));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Supplier"));
+		setCellTextInBold(row, col++, _("Supplier"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Text"));
+		setCellTextInBold(row, col++, _("Text"));
 
 		if (showExpenditureSumColumn) {
 			//T: Used as heading of a table. Keep the word short.
-			setCellTextInBold(spreadsheet1, row, col++, _("Net"));
+			setCellTextInBold(row, col++, _("Net"));
 			//T: Used as heading of a table. Keep the word short.
-			setCellTextInBold(spreadsheet1, row, col++, _("Gross"));
+			setCellTextInBold(row, col++, _("Gross"));
 		}
 
 		row++;
@@ -601,7 +424,7 @@ public class SalesExporter {
 				if (!description.isEmpty())
 					text += "\n" + description;
 
-				setCellTextInBold(spreadsheet1, headLine, column + columnOffset, text);
+				setCellTextInBold(headLine, column + columnOffset, text);
 
 			}
 			else
@@ -628,7 +451,7 @@ public class SalesExporter {
 			if (!description.isEmpty())
 				text += "\n" + description;
 
-			setCellTextInBold(spreadsheet1, headLine, columnsWithVatHeading + column + columnOffset, text);
+			setCellTextInBold(headLine, columnsWithVatHeading + column + columnOffset, text);
 		}
 
 		int expenditureIndex = 0;
@@ -654,17 +477,17 @@ public class SalesExporter {
 					col = 0;
 
 					if (expenditureItemIndex == 0) {
-						setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("category"));
-						setCellText(spreadsheet1, row, col++, DataUtils.DateAsLocalString(expenditure.getStringValueByKey("date")));
-						setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("nr"));
-						setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("documentnr"));
-						setCellText(spreadsheet1, row, col++, expenditure.getStringValueByKey("name"));
+						setCellText(row, col++, expenditure.getStringValueByKey("category"));
+						setCellText(row, col++, DataUtils.DateAsLocalString(expenditure.getStringValueByKey("date")));
+						setCellText(row, col++, expenditure.getStringValueByKey("nr"));
+						setCellText(row, col++, expenditure.getStringValueByKey("documentnr"));
+						setCellText(row, col++, expenditure.getStringValueByKey("name"));
 					}
 
 					col = 5;
-					setCellText(spreadsheet1, row, col++, expenditureItem.getStringValueByKey("name"));
+					setCellText(row, col++, expenditureItem.getStringValueByKey("name"));
 
-					//setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, document.getDoubleValueByKey("total"));
+					//setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet, row, col++, document.getDoubleValueByKey("total"));
 
 					// Calculate the total VAT of the expenditure
 					PriceValue totalVat = new PriceValue(0.0);
@@ -683,7 +506,7 @@ public class SalesExporter {
 							// Round the VAT and add fill the table cell
 							PriceValue vat = new PriceValue(item.getVat());
 							totalVat.add(vat.asRoundedDouble());
-							setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, column + columnOffset, vat.asRoundedDouble());
+							setCellValueAsLocalCurrency(row, column + columnOffset, vat.asRoundedDouble());
 						}
 					}
 
@@ -701,7 +524,7 @@ public class SalesExporter {
 							// Round the net and add fill the table cell
 							PriceValue net = new PriceValue(item.getNet());
 							//totalVat.add(net.asRoundedDouble());
-							setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, columnsWithVatHeading + column + columnOffset,
+							setCellValueAsLocalCurrency(row, columnsWithVatHeading + column + columnOffset,
 									net.asRoundedDouble());
 						}
 					}
@@ -712,15 +535,15 @@ public class SalesExporter {
 						if (expenditureItemIndex == 0) {
 							col = columnOffset - 2;
 							// Calculate the expenditures net and gross total 
-							setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, expenditure.getSummary().getTotalNet().asDouble());
-							setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, expenditure.getSummary().getTotalGross().asDouble());
+							setCellValueAsLocalCurrency(row, col++, expenditure.getSummary().getTotalNet().asDouble());
+							setCellValueAsLocalCurrency(row, col++, expenditure.getSummary().getTotalGross().asDouble());
 						}
 					}
 
 					// Set the background of the table rows. Use an light and
 					// alternating blue color.
 					if ((expenditureIndex % 2) == 0)
-						CellFormatter.setBackgroundColor(spreadsheet1, 0, row, columnsWithVatHeading + columnsWithNetHeading + columnOffset - 1, row,
+						setBackgroundColor(0, row, columnsWithVatHeading + columnsWithNetHeading + columnOffset - 1, row,
 								0x00e8ebed);
 
 					row++;
@@ -742,8 +565,8 @@ public class SalesExporter {
 					// Create formula for the sum. 
 					String cellNameBegin = CellFormatter.getCellName(headLine + 1, col);
 					String cellNameEnd = CellFormatter.getCellName(row - 1, col);
-					spreadsheet1.getCellByPosition(col, sumrow).setFormula("=SUM(" + cellNameBegin + ":" + cellNameEnd + ")");
-					CellFormatter.setBold(spreadsheet1, sumrow, col);
+					setFormula(col, sumrow, "=SUM(" + cellNameBegin + ":" + cellNameEnd + ")");
+					setBold(sumrow, col);
 				}
 				catch (IndexOutOfBoundsException e) {
 				}
@@ -753,8 +576,8 @@ public class SalesExporter {
 		// Draw a horizontal line (set the border of the top and the bottom
 		// of the table).
 		for (col = 0; col < (columnsWithVatHeading + columnsWithNetHeading) + columnOffset; col++) {
-			CellFormatter.setBorder(spreadsheet1, headLine, col, 0x000000, false, false, true, false);
-			CellFormatter.setBorder(spreadsheet1, sumrow, col, 0x000000, true, false, false, false);
+			setBorder(headLine, col, 0x000000, false, false, true, false);
+			setBorder(sumrow, col, 0x000000, true, false, false, false);
 		}
 
 		// Create a expenditure summary set manager that collects all 
@@ -773,21 +596,21 @@ public class SalesExporter {
 		// Table heading
 		
 		//T: Sales Exporter - Text in the Calc document
-		setCellTextInBold(spreadsheet1, row++, 0, _("Expenditures Summary:"));
+		setCellTextInBold(row++, 0, _("Expenditures Summary:"));
 		row++;
 
 		col = 0;
 
 		//Heading for the categories
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(spreadsheet1, row, col++, _("Account Type"));
-		setCellTextInBold(spreadsheet1, row, col++, DataSetVAT.getPurchaseTaxString());
-		setCellTextInBold(spreadsheet1, row, col++, DataSetVAT.getPurchaseTaxString());
-		setCellTextInBold(spreadsheet1, row, col++, _("Net"));
+		setCellTextInBold(row, col++, _("Account Type"));
+		setCellTextInBold(row, col++, DataSetVAT.getPurchaseTaxString());
+		setCellTextInBold(row, col++, DataSetVAT.getPurchaseTaxString());
+		setCellTextInBold(row, col++, _("Net"));
 
 		// Draw a horizontal line
 		for (col = 0; col < 4; col++) {
-			CellFormatter.setBorder(spreadsheet1, row, col, 0x000000, false, false, true, false);
+			setBorder(row, col, 0x000000, false, false, true, false);
 		}
 
 		row++;
@@ -804,15 +627,15 @@ public class SalesExporter {
 			PriceValue vat = new PriceValue(item.getVat());
 			PriceValue net = new PriceValue(item.getNet());
 
-			setCellText(spreadsheet1, row, col++, item.getDescription());
-			setCellText(spreadsheet1, row, col++, item.getVatName());
-			setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, vat.asRoundedDouble());
-			setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet1, row, col++, net.asRoundedDouble());
+			setCellText(row, col++, item.getDescription());
+			setCellText(row, col++, item.getVatName());
+			setCellValueAsLocalCurrency(row, col++, vat.asRoundedDouble());
+			setCellValueAsLocalCurrency(row, col++, net.asRoundedDouble());
 
 			// Set the background of the table rows. Use an light and
 			// alternating blue color.
 			if ((row % 2) == 0)
-				CellFormatter.setBackgroundColor(spreadsheet1, 0, row, 3, row, 0x00e8ebed);
+				setBackgroundColor(0, row, 3, row, 0x00e8ebed);
 
 			row++;
 
@@ -820,99 +643,12 @@ public class SalesExporter {
 
 		// Draw a horizontal line
 		for (col = 0; col < 4; col++) {
-			CellFormatter.setBorder(spreadsheet1, row - 1, col, 0x000000, false, false, true, false);
+			setBorder(row - 1, col, 0x000000, false, false, true, false);
 		}
 
 		// True = Export was successful
 		return true;
 	}
 
-	/**
-	 * Fill a cell with a text
-	 * 
-	 * @param spreadsheet
-	 *            The spreadsheet that contains the cell
-	 * @param row
-	 *            The cell row
-	 * @param column
-	 *            The cell column
-	 * @param text
-	 *            The text that will be insert
-	 */
-	private void setCellText(XSpreadsheet spreadsheet, int row, int column, String text) {
-		XText cellText = (XText) UnoRuntime.queryInterface(XText.class, CellFormatter.getCell(spreadsheet, row, column));
-		cellText.setString(text);
-	}
-
-	/**
-	 * Fill a cell with a text. Use a bold font.
-	 * 
-	 * @param spreadsheet
-	 *            The spreadsheet that contains the cell
-	 * @param row
-	 *            The cell row
-	 * @param column
-	 *            The cell column
-	 * @param text
-	 *            The text that will be insert
-	 */
-	private void setCellTextInBold(XSpreadsheet spreadsheet, int row, int column, String text) {
-		setCellText(spreadsheet, row, column, text);
-		CellFormatter.setBold(spreadsheet, row, column);
-	}
-
-	/**
-	 * Fill a cell with a text. Use an italic font style.
-	 * 
-	 * @param spreadsheet
-	 *            The spreadsheet that contains the cell
-	 * @param row
-	 *            The cell row
-	 * @param column
-	 *            The cell column
-	 * @param text
-	 *            The text that will be insert
-	 */
-	private void setCellTextInItalic(XSpreadsheet spreadsheet, int row, int column, String text) {
-		setCellText(spreadsheet, row, column, text);
-		CellFormatter.setItalic(spreadsheet, row, column);
-	}
-
-	/**
-	 * Fill a cell with a text. Use a red and bold font
-	 * 
-	 * @param spreadsheet
-	 *            The spreadsheet that contains the cell
-	 * @param row
-	 *            The cell row
-	 * @param column
-	 *            The cell column
-	 * @param text
-	 *            The text that will be insert
-	 */
-	private void setCellTextInRedBold(XSpreadsheet spreadsheet, int row, int column, String text) {
-		setCellText(spreadsheet, row, column, text);
-		CellFormatter.setBold(spreadsheet, row, column);
-		CellFormatter.setColor(spreadsheet, row, column, 0x00FF0000);
-	}
-
-	/**
-	 * Set a cell to a double value and format it with the local currency.
-	 * 
-	 * @param xSpreadsheetDocument
-	 *            The spreadsheet document
-	 * @param spreadsheet
-	 *            The spreadsheet that contains the cell
-	 * @param row
-	 *            The cell row
-	 * @param column
-	 *            The cell column
-	 * @param d
-	 *            The value that will be inserted.
-	 */
-	private void setCellValueAsLocalCurrency(XSpreadsheetDocument xSpreadsheetDocument, XSpreadsheet spreadsheet, int row, int column, Double d) {
-		CellFormatter.getCell(spreadsheet, row, column).setValue(d);
-		CellFormatter.setLocalCurrency(xSpreadsheetDocument, spreadsheet, row, column);
-	}
 
 }
