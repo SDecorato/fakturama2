@@ -11,7 +11,7 @@
  * Contributors:
  *     Gerd Bartelt - initial API and implementation
  */
-package com.sebulli.fakturama.exporters.productbuyers;
+package com.sebulli.fakturama.exporters;
 
 /**
  * This class contains the total sum of volume and quantity

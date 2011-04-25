@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exporters.productbuyers;
+package com.sebulli.fakturama.exporters;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +37,13 @@ public class BuyersAndTotal extends Object{
 	/** 
 	 * Constructor
 	 * 
+	 * Create a new instance 
+	 */
+	public BuyersAndTotal () {
+	}
+	/** 
+	 * Constructor
+	 * 
 	 * Create a new instance and add the item and the buyer
 
 	 * @param buyer 
@@ -47,6 +54,7 @@ public class BuyersAndTotal extends Object{
 	public BuyersAndTotal (String buyer, DataSetItem item) {
 		add(buyer, item);
 	}
+
 
 	/**
 	 *  Add a new item with it's buyer
