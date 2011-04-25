@@ -32,6 +32,20 @@
             id="com.sebulli.fakturama.export.expenditures.exportWizard"
             name="export expenditures">
       </wizard>
+      <wizard
+            category="com.sebulli.fakturama.exporters.lists"
+            class="com.sebulli.fakturama.exporters.products.ExportWizard"
+            icon="icons/16/product_16.png"
+            id="com.sebulli.fakturama.export.products.exportWizard"
+            name="export products">
+      </wizard>
+      <wizard
+            category="com.sebulli.fakturama.exporters.lists"
+            class="com.sebulli.fakturama.exporters.contacts.ExportWizard"
+            icon="icons/16/contact_16.png"
+            id="com.sebulli.fakturama.export.contacts.exportWizard"
+            name="export contacts">
+      </wizard>
       <category
             id="com.sebulli.fakturama.exporters.productandbuyers"
             name="product and buyers">
@@ -39,6 +53,10 @@
       <category
             id="com.sebulli.fakturama.exporters.salesandexpenditures"
             name="sales and expenditures">
+      </category>
+      <category
+            id="com.sebulli.fakturama.exporters.lists"
+            name="lists">
       </category>
    </extension>
 
