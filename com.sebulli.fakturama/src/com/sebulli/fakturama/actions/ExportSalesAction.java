@@ -12,16 +12,14 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.export;
+package com.sebulli.fakturama.actions;
 
 import static com.sebulli.fakturama.Translate._;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.actions.ICommandIds;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 
 /**
@@ -68,7 +66,7 @@ public class ExportSalesAction extends Action {
 
 		// Create a new export wizard
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		WizardDialog exportSalesWizard = new WizardDialog(workbenchWindow.getShell(), new ExportSalesWizard());
-		exportSalesWizard.open();
+		//WizardDialog exportSalesWizard = new WizardDialog(workbenchWindow.getShell(), new ExportSalesWizard());
+		//exportSalesWizard.open();
 	}
 }

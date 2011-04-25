@@ -5,10 +5,16 @@
    <extension
          point="org.eclipse.ui.exportWizards">
       <wizard
-            class="com.sebulli.fakturama.exporters.ExportWizard"
-            icon="icons/16/product_statistics_16.png"
+            class="com.sebulli.fakturama.exporters.productbuyers.ExportWizard"
+            icon="icons/16/product_buyers_16.png"
             id="com.sebulli.fakturama.export.productstatistic.exportWizard"
             name="export wizard">
+      </wizard>
+      <wizard
+            class="com.sebulli.fakturama.exporters.sales.ExportWizard"
+            icon="icons/16/sales_16.png"
+            id="com.sebulli.fakturama.export.sales.exportWizard"
+            name="sales wizard">
       </wizard>
    </extension>
 
