@@ -12,6 +12,13 @@
             name="export product and buyers">
       </wizard>
       <wizard
+            category="com.sebulli.fakturama.exporters.productandbuyers"
+            class="com.sebulli.fakturama.exporters.buyers.ExportWizard"
+            icon="icons/16/buyers_16.png"
+            id="com.sebulli.fakturama.export.buyers.exportWizard"
+            name="export buyers">
+      </wizard>
+      <wizard
             category="com.sebulli.fakturama.exporters.salesandexpenditures"
             class="com.sebulli.fakturama.exporters.sales.ExportWizard"
             icon="icons/16/sales_16.png"

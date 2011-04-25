@@ -33,6 +33,8 @@ import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.UniDataSetSorter;
 import com.sebulli.fakturama.export.OOCalcExporter;
+import com.sebulli.fakturama.exporters.BuyersAndTotal;
+import com.sebulli.fakturama.exporters.TotalSoldAndQuantity;
 import com.sebulli.fakturama.logger.Logger;
 
 
