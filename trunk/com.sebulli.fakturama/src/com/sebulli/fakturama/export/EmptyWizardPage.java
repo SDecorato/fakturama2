@@ -14,9 +14,17 @@
 
 package com.sebulli.fakturama.export;
 
+import static com.sebulli.fakturama.Translate._;
+
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+
+import com.sebulli.fakturama.logger.Logger;
 
 /**
  * Create the first (and only) page of the sales export wizard. This page is
@@ -26,6 +34,7 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class EmptyWizardPage extends WizardPage {
 
+	private ImageDescriptor previewImagePath = null;
 	
 	/**
 	 * Constructor Create the page and set title and message.
@@ -36,6 +45,17 @@ public class EmptyWizardPage extends WizardPage {
 		setTitle(title);
 		//T: Text of the Sales Export Wizard Page 1
 		setMessage( message );
+	}
+	/**
+	 * Constructor Create the page and set title, message and preview image
+	 */
+	public EmptyWizardPage(String title, String message, ImageDescriptor previewImagePath) {
+		super("Wizard Page");
+		//T: Title of the Sales Export Wizard Page 1
+		setTitle(title);
+		//T: Text of the Sales Export Wizard Page 1
+		setMessage( message );
+		this.previewImagePath = previewImagePath;
 	}
 
 	/**
@@ -48,6 +68,23 @@ public class EmptyWizardPage extends WizardPage {
 	public void createControl(Composite parent) {
 		// Create the top composite
 		Composite top = new Composite(parent, SWT.NONE);
+		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
+		
+		// Display a preview image, if it is not empty
+		if (previewImagePath != null) {
+			// Preview image
+			Label preview = new Label(top, SWT.NONE);
+			preview.setText(_("preview"));
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(preview);
+			try {
+				preview.setImage(previewImagePath.createImage());
+			}
+			catch (Exception e) {
+				Logger.logError(e, "Icon not found");
+			}
+			
+		}
+
 		setControl(top);
 
 	}

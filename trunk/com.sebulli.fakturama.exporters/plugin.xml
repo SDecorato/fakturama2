@@ -46,6 +46,13 @@
             id="com.sebulli.fakturama.export.contacts.exportWizard"
             name="export contacts">
       </wizard>
+      <wizard
+            category="com.sebulli.fakturama.exporters.lists/com.sebulli.fakturama.exporters.csvlists"
+            class="com.sebulli.fakturama.exporters.csv.products.ExportWizard"
+            icon="icons/16/product_16.png"
+            id="com.sebulli.fakturama.export.csv.products.exportWizard"
+            name="export products as *.csv">
+      </wizard>
       <category
             id="com.sebulli.fakturama.exporters.productandbuyers"
             name="product and buyers">
@@ -57,6 +64,11 @@
       <category
             id="com.sebulli.fakturama.exporters.lists"
             name="lists">
+      </category>
+      <category
+            id="com.sebulli.fakturama.exporters.csvlists"
+            name="lists as csv"
+            parentCategory="com.sebulli.fakturama.exporters.lists">
       </category>
    </extension>
 

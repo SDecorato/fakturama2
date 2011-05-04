@@ -531,7 +531,7 @@ public class ProductEditor extends Editor {
 		Label labelDescription = new Label(useDescription ? productDescGroup : invisible, SWT.NONE);
 		labelDescription.setText(_("Description"));
 		//T: Tool Tip Text
-		labelDescription.setToolTipText(_("Additional description. Can, but must not be used for the item. This can be selected in preferences/documents."));
+		labelDescription.setToolTipText(_("Additional description. Can be used for the item. This can be selected in preferences/documents."));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(useDescription ? productDescGroup : invisible, SWT.BORDER | SWT.MULTI);
