@@ -42,7 +42,7 @@ import com.sebulli.fakturama.views.datasettable.ViewListTable;
 public class CSVImporter {
 
 	// Defines all columns that are used and imported
-	private String[] requiredHeaders = { "category", "date", "nr", "documentnr", "name", "item name", "item category", "item price", "item vat" };
+	private String[] requiredHeaders = { "category", "date", "nr", "documentnr", "name", "item name", "item category", "item price", "item vat", "vat" };
 	// The result string
 	String result = "";
 
@@ -242,7 +242,7 @@ public class CSVImporter {
 
 							String vatName = prop.getProperty("item vat");
 
-							Double vatValue = DataUtils.StringToDouble(vatName);
+							Double vatValue = DataUtils.StringToDouble(prop.getProperty("vat"));
 							DataSetVAT vat = new DataSetVAT(vatName, DataSetVAT.getPurchaseTaxString(), vatName, vatValue);
 							vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(vat);
 							expenditureItem.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
@@ -261,6 +261,17 @@ public class CSVImporter {
 								importedExpenditures++;
 							}
 							expenditure.setStringValueByKey("items", oldItems + newItem);
+
+							// Recalculate the total sum of all items and set the total value
+							expenditure.calculate();
+							// Get the total result
+							Double total = expenditure.getSummary().getTotalGross().asDouble();
+
+							System.out.println(total);
+							// Update the text widget
+							expenditure.setDoubleValueByKey("total", total);
+							expenditure.setDoubleValueByKey("paid", total);
+						
 
 							Data.INSTANCE.getExpenditures().updateDataSet(expenditure);
 
