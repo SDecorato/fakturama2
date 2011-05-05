@@ -72,6 +72,8 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Document"), 150, 0, true, "documentnr");
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Supplier"), 200, 50, false, "name");
+		//T: Used as heading of a table. Keep the word short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Total"), 80, 0, true, "paid");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getExpenditures());

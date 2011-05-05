@@ -128,6 +128,8 @@ public class Exporter extends OOCalcExporter{
 		setCellTextInBold(row, col++, _("Supplier"));
 		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(row, col++, _("Text"));
+		//T: Used as heading of a table. Keep the word short.
+		setCellTextInBold(row, col++, _("Account Type"));
 
 		if (showExpenditureSumColumn) {
 			//T: Used as heading of a table. Keep the word short.
@@ -247,6 +249,7 @@ public class Exporter extends OOCalcExporter{
 
 					col = 5;
 					setCellText(row, col++, expenditureItem.getStringValueByKey("name"));
+					setCellText(row, col++, expenditureItem.getStringValueByKey("category"));
 
 					//setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet, row, col++, document.getDoubleValueByKey("total"));
 
