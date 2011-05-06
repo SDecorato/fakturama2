@@ -22,6 +22,7 @@ import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.sebulli.fakturama.export.EmptyWizardPage;
+import com.sebulli.fakturama.exporters.Activator;
 
 /**
  * Export wizard to export sales
@@ -40,7 +41,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
 		page1 = new EmptyWizardPage(_("Export all products"),
-						_("Export the products in an OpenOffice.org Calc table."));
+						_("Export the products in an OpenOffice.org Calc table."),
+						  Activator.getImageDescriptor("/icons/preview/products.png")
+						);
 		addPage(page1);
 	}
 

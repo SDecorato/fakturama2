@@ -44,8 +44,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		setWindowTitle(_("Export"));
 		page1 = new EmptyWizardPage(_("Export all products"),
 						_("Export the products in an comma separated value (*.csv) table."),
-						  Activator.getImageDescriptor("/icons/preview/products.png")
-);
+						  Activator.getImageDescriptor("/icons/preview/products_csv.png")
+						);
 		addPage(page1);
 	}
 
@@ -59,6 +59,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	@Override
 	public boolean performFinish() {
 		
+
 		FileDialog fileDialog = new FileDialog(page1.getShell(), SWT.SAVE);
 		
 		fileDialog.setFilterExtensions(new String[] { "*.csv" });
@@ -67,7 +68,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		String selectedFile = fileDialog.open();
 		if (selectedFile != null) {
 			Exporter exporter = new Exporter();
-			return exporter.export();
+			return exporter.export(selectedFile);
 		}
 		else 
 			return false;

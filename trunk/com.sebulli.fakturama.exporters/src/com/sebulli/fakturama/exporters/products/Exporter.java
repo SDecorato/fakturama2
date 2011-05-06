@@ -38,6 +38,7 @@ public class Exporter extends OOCalcExporter{
 		super();
 	}
 
+
 	// Do the export job.
 	public boolean export() {
 
@@ -45,7 +46,7 @@ public class Exporter extends OOCalcExporter{
 		if (!createSpreadSheet())
 			return false;
 
-		// Get all undeleted documents
+		// Get all undeleted products
 		ArrayList<DataSetProduct> products = Data.INSTANCE.getProducts().getActiveDatasets();
 
 		// Counter for the current row and columns in the Calc document
@@ -106,7 +107,7 @@ public class Exporter extends OOCalcExporter{
 		}
 		row++;
 		
-		// Export the document data
+		// Export the product data
 		for (DataSetProduct product : products) {
 			
 			col = 0;

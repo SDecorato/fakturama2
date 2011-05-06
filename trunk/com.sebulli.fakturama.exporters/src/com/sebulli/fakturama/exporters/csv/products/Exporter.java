@@ -16,8 +16,14 @@ package com.sebulli.fakturama.exporters.csv.products;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import com.sebulli.fakturama.OSDependent;
+import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.export.OOCalcExporter;
@@ -39,108 +45,106 @@ public class Exporter extends OOCalcExporter{
 	}
 
 	// Do the export job.
-	public boolean export() {
+	public boolean export(String filename) {
 
-		// Try to generate a spreadsheet
-		if (!createSpreadSheet())
-			return false;
+		String NEW_LINE = OSDependent.getNewLine();
+		
+		// Create a File object
+		File csvFile = new File(filename);
+		BufferedWriter bos;
+		// Create a new file
+		try {
+			csvFile.createNewFile();
+			bos = new BufferedWriter(new FileWriter(csvFile, false));
+			bos.write(
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "ID" + "\";"+ 
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Item Number") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Name") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Category") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Description") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Price")+ "(1)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Price")+ "(2)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Price")+ "(3)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Price")+ "(4)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Price")+ "(5)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Quantity")+ "(1)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Quantity")+ "(2)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Quantity")+ "(3)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Quantity")+ "(4)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Quantity")+ "(5)" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("VAT") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Options") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Weight (kg)") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Unit") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Date") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Product Picture") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Quantity") + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ _("Web Shop") + "\""+
+					NEW_LINE);
 
-		// Get all undeleted documents
-		ArrayList<DataSetProduct> products = Data.INSTANCE.getProducts().getActiveDatasets();
-
-		// Counter for the current row and columns in the Calc document
-		int row = 0;
-		int col = 0;
-
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, "ID");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Item Number"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Name"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Category"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Description"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Price")+ "(1)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Price")+ "(2)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Price")+ "(3)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Price")+ "(4)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Price")+ "(5)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Quantity")+ "(1)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Quantity")+ "(2)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Quantity")+ "(3)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Quantity")+ "(4)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Quantity")+ "(5)");
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("VAT"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Options"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Weight (kg)"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Unit"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Date"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Product Picture"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Quantity"));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Web Shop"));
 		
 		
-		// Draw a horizontal line
-		for (col = 0; col < 23; col++) {
-			setBorder(row, col, 0x000000, false, false, true, false);
+			// Get all undeleted products
+			ArrayList<DataSetProduct> products = Data.INSTANCE.getProducts().getActiveDatasets();
+			
+			// Export the product data
+			for (DataSetProduct product : products) {
+				
+				
+				// Place the products information into the table
+				bos.write(
+						product.getStringValueByKey("id")+ ";" +
+						"\"" + product.getStringValueByKey("itemnr")+ "\";" +
+						"\"" + product.getStringValueByKey("name")+ "\";" +
+						"\"" + product.getStringValueByKey("category")+ "\";" +
+						"\"" + product.getStringValueByKey("description")+ "\";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price1"),"0.00")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price2"),"0.00")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price3"),"0.00")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price4"),"0.00")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price5"),"0.00")+ ";" +
+						product.getStringValueByKey("block1")+ ";" +
+						product.getStringValueByKey("block2")+ ";" +
+						product.getStringValueByKey("block3")+ ";" +
+						product.getStringValueByKey("block4")+ ";" +
+						product.getStringValueByKey("block5")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),"0.00")+ ";" +
+						"\"" + product.getStringValueByKey("options")+ "\";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("weight"),"0.00")+ ";" +
+						product.getStringValueByKey("unit")+ ";" +
+						"\"" + product.getStringValueByKey("date_added")+ "\";" +
+						"\"" + product.getStringValueByKey("picturename")+ "\";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("quantity"),"0.00")+ ";" +
+						product.getStringValueByKey("webshopid")+ "" +
+						NEW_LINE);
+			}
+		
 		}
-		row++;
-		
-		// Export the document data
-		for (DataSetProduct product : products) {
-			
-			col = 0;
-			
-			// Place the products information into the table
-			setCellText(row, col++, product.getFormatedStringValueByKey("id"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("itemnr"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("name"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("category"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("description"));
-			setCellValueAsLocalCurrency(row, col++, product.getDoubleValueByKey("price1"));
-			setCellValueAsLocalCurrency(row, col++, product.getDoubleValueByKey("price2"));
-			setCellValueAsLocalCurrency(row, col++, product.getDoubleValueByKey("price3"));
-			setCellValueAsLocalCurrency(row, col++, product.getDoubleValueByKey("price4"));
-			setCellValueAsLocalCurrency(row, col++, product.getDoubleValueByKey("price5"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("block1"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("block2"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("block3"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("block4"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("block5"));
-			setCellText(row, col++, product.getFormatedStringValueByKeyFromOtherTable("vatid.VATS:value"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("options"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("weight"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("unit"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("date_added"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("picturename"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("quantity"));
-			setCellText(row, col++, product.getFormatedStringValueByKey("webshopid"));
-			
-			// Alternate the background color
-			//if ((row % 2) == 0)
-			//	setBackgroundColor( 0, row, col-1, row, 0x00e8ebed);
-
-			row++;
+		catch (IOException e) {
+			return false;
 		}
 
 		// True = Export was successful
