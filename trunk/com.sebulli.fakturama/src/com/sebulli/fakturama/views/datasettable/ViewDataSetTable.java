@@ -382,7 +382,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 	public void setContactFilter(int filter) {
 
 		// Set the label with the filter string
-		filterLabel.setText(Data.INSTANCE.getContacts().getDatasetById(filter).getName());
+		filterLabel.setText(Data.INSTANCE.getContacts().getDatasetById(filter).getName(false));
 		filterLabel.pack(true);
 
 		// Reset transaction and category filter, set contact filter

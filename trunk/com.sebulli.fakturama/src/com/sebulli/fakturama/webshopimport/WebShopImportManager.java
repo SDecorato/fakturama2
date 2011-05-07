@@ -1037,7 +1037,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				dataSetDocument.setIntValueByKey("addressid", contact.getIntValueByKey("id"));
 				dataSetDocument.setStringValueByKey("address", contact.getAddress(false));
 				dataSetDocument.setStringValueByKey("deliveryaddress", contact.getAddress(true));
-				dataSetDocument.setStringValueByKey("addressfirstline", contact.getName());
+				dataSetDocument.setStringValueByKey("addressfirstline", contact.getName(false));
 
 			}
 		}
