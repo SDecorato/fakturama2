@@ -43,7 +43,14 @@ public class Exporter {
 		super();
 	}
 
-	// Do the export job.
+	/**
+	 * 	Do the export job.
+	 * 
+	 * @param filename
+	 * 			The name of the export file
+	 * @return
+	 * 			True, if the export was successful
+	 */
 	public boolean export(String filename) {
 
 		String NEW_LINE = OSDependent.getNewLine();

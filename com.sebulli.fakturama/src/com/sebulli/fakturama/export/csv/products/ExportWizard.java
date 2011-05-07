@@ -60,6 +60,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	public boolean performFinish() {
 		
 
+		// Create a "SAVE AS" file dialog
 		FileDialog fileDialog = new FileDialog(page1.getShell(), SWT.SAVE);
 		
 		fileDialog.setFilterExtensions(new String[] { "*.csv" });

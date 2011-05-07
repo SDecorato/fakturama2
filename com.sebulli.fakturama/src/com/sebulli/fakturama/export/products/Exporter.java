@@ -39,7 +39,12 @@ public class Exporter extends OOCalcExporter{
 	}
 
 
-	// Do the export job.
+	/**
+	 * 	Do the export job.
+	 * 
+	 * @return
+	 * 			True, if the export was successful
+	 */
 	public boolean export() {
 
 		// Try to generate a spreadsheet
