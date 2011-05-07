@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exporters.csv.products;
+package com.sebulli.fakturama.export.csv.products;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -23,8 +23,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.export.EmptyWizardPage;
-import com.sebulli.fakturama.exporters.Activator;
 
 /**
  * Export wizard to export sales

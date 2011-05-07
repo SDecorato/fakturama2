@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exporters.productbuyers;
+package com.sebulli.fakturama.export.productbuyers;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -32,9 +32,9 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.UniDataSetSorter;
+import com.sebulli.fakturama.export.BuyersAndTotal;
 import com.sebulli.fakturama.export.OOCalcExporter;
-import com.sebulli.fakturama.exporters.BuyersAndTotal;
-import com.sebulli.fakturama.exporters.TotalSoldAndQuantity;
+import com.sebulli.fakturama.export.TotalSoldAndQuantity;
 import com.sebulli.fakturama.logger.Logger;
 
 

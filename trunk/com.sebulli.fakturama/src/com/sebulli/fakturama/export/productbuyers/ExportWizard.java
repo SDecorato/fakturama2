@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exporters.contacts;
+package com.sebulli.fakturama.export.productbuyers;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -21,7 +21,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
-import com.sebulli.fakturama.export.EmptyWizardPage;
+import com.sebulli.fakturama.export.ExportWizardPageStartEndDate;
 
 /**
  * Export wizard to export sales
@@ -31,7 +31,7 @@ import com.sebulli.fakturama.export.EmptyWizardPage;
 public class ExportWizard extends Wizard implements IExportWizard {
 
 	// The first (and only) page of this wizard
-	EmptyWizardPage page1;
+	ExportWizardPageStartEndDate page1;
 
 	/**
 	 * Constructor Adds the first page to the wizard
@@ -39,8 +39,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	public ExportWizard() {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
-		page1 = new EmptyWizardPage(_("Export all contacts"),
-						_("Export the contacts in an OpenOffice.org Calc table."));
+		page1 = new ExportWizardPageStartEndDate(_("Sold products and buyers"),
+				_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
 		addPage(page1);
 	}
 
@@ -53,7 +53,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		Exporter exporter = new Exporter();
+		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate());
 		return exporter.export();
 	}
 

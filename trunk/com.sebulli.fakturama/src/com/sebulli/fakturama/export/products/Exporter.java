@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exporters.products;
+package com.sebulli.fakturama.export.products;
 
 import static com.sebulli.fakturama.Translate._;
 
