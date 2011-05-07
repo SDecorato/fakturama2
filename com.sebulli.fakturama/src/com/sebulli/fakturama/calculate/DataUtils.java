@@ -125,6 +125,24 @@ public class DataUtils {
 		// replace the localizes decimal separators
 		s = s.replaceAll(",", ".");
 
+		// Use only one point
+		int firstPoint;
+		int lastPoint;
+		boolean twoPointsFound;
+		
+		do {
+			firstPoint = s.indexOf('.');
+			lastPoint = s.lastIndexOf('.');
+			
+			// If there is more than 1 point
+			twoPointsFound = (firstPoint >= 0) && (lastPoint >= 0) && (firstPoint != lastPoint);
+			if ( twoPointsFound ) {
+				// Remove the first
+				s = s.replaceFirst("\\.", "");
+			}
+			
+		} while (twoPointsFound);
+
 		// use only numbers
 		Pattern p = Pattern.compile("[^\\d]*(\\d*\\.?\\d*E?\\d*).*");
 		Matcher m = p.matcher(s);
