@@ -723,6 +723,13 @@
             id="com.sebulli.fakturama.export.csv.products.exportWizard"
             name="export products as *.csv">
       </wizard>
+      <wizard
+            category="com.sebulli.fakturama.export.lists/com.sebulli.fakturama.export.csvlists"
+            class="com.sebulli.fakturama.export.csv.contacts.ExportWizard"
+            icon="icons/16/contact_16.png"
+            id="com.sebulli.fakturama.export.csv.contacts.exportWizard"
+            name="export contacts as *.csv">
+      </wizard>
       <category
             id="com.sebulli.fakturama.export.productandbuyers"
             name="product and buyers">
