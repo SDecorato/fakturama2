@@ -32,8 +32,12 @@ import com.sebulli.fakturama.data.DataSetContact;
  */
 public class Exporter {
 	
+	// Buffered writer for the output stream
 	private BufferedWriter bos  = null;
+	
+	// Constant for a OS dependent new line
 	private String NEW_LINE;
+	
 	/**
 	 * Constructor
 	 * 
@@ -43,6 +47,15 @@ public class Exporter {
 		NEW_LINE = OSDependent.getNewLine();
 	}
 
+	/**
+	 * Convert the special characters in a vcard string
+	 * and add a backslash \
+	 * 
+	 * @param 
+	 * 			s The String to convert
+	 * @return
+	 * 			The converted string
+	 */
 	private String encodeVCardString(String s) {
 		s = s.replace("\n", "\\n");
 		s = s.replace(":", "\\:");
@@ -51,19 +64,50 @@ public class Exporter {
 		return s;
 	}
 	
+	/**
+	 * Write a property and one attribute
+	 * 
+	 * @param property
+	 * 			The property to write
+	 * @param s
+	 * 			The 1st attribute
+	 */
 	private void writeVCard(String property, String s) {
 		writeVCard(property, s, null);
 	}
 
+	/**
+	 * Write a property and two attributes
+	 * 
+	 * @param property
+	 * 			The property to write
+	 * @param s1
+	 * 			The 1st attribute
+	 * @param s2
+	 * 			The 2nd attribute
+	 */
 	private void writeVCard(String property, String s1, String s2) {
 		writeVCard(property, s1, s2, null, null, null, null, null);
 	}
 	
+	/**
+	 * Write an attribute, if it is not empty and add 
+	 * a semicolon between two attributes.
+	 * 
+	 * @param s
+	 * 			The attribute to write
+	 * @param first
+	 * 			True, if it is the first attribute
+	 * 
+	 */
 	private void writeAttribute(String s, boolean first) {
 
-		if (s== null)
+		// Exit, if the attribute is null
+		if (s == null)
 			return;
 		
+		// Write the attribute and add a semicolon before all
+		// attributes, except the first one.
 		try {
 			if (!first)
 				bos.write(";");
@@ -72,12 +116,34 @@ public class Exporter {
 		catch (IOException e) {}
 
 	}
-	
+
+	/**
+	 * Write a property and 7 attributes
+	 * 
+	 * @param property
+	 * 			The property to write
+	 * @param s1
+	 * 			The 1st attribute
+	 * @param s2
+	 * 			The 2nd attribute
+	 * @param s3
+	 * 			The 3rd attribute
+	 * @param s4
+	 * 			The 4th attribute
+	 * @param s5
+	 * 			The 5th attribute
+	 * @param s6
+	 * 			The 6th attribute
+	 * @param s7
+	 * 			The 7th attribute
+	 */
 	private void writeVCard(String property, String s1, String s2, 
 			String s3, String s4, String s5, String s6, String s7) {
 		
+		// Set this flag, if at least one attribute is not empty
 		boolean hasInformation = false;
 		
+		// Test all attributes and set the flag, if one is not empty
 		if (s1 != null) 
 			if (!s1.isEmpty())
 				hasInformation = true;
@@ -99,10 +165,12 @@ public class Exporter {
 		if (s7 != null) 
 			if (!s7.isEmpty())
 				hasInformation = true;
-			
+
+		// Exit, if all attributes are empty 
 		if (!hasInformation)
 			return;
 		
+		// Write the property and all attributes
 		try {
 			bos.write(property);
 			writeAttribute(s1, true);
@@ -118,7 +186,14 @@ public class Exporter {
 		}
 	}
 	
-	// Do the export job.
+	/**
+	 * 	Do the export job.
+	 * 
+	 * @param filename
+	 * 			The name of the export file
+	 * @return
+	 * 			True, if the export was successful
+	 */
 	public boolean export(String filename) {
 
 		
@@ -135,8 +210,7 @@ public class Exporter {
 			// Export the product data
 			for (DataSetContact contact : contacts) {
 				
-				System.out.println(contact.getStringValueByKey("company"));
-				
+				// Export one VCARD
 				writeVCard("BEGIN:","VCARD");
 				writeVCard("VERSION:","3.0");
 				writeVCard("N:", contact.getStringValueByKey("name"),
