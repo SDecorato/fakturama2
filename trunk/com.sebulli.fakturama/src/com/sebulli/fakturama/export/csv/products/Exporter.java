@@ -26,7 +26,6 @@ import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetProduct;
-import com.sebulli.fakturama.export.OOCalcExporter;
 
 
 /**
@@ -34,7 +33,7 @@ import com.sebulli.fakturama.export.OOCalcExporter;
  * 
  * @author Gerd Bartelt
  */
-public class Exporter extends OOCalcExporter{
+public class Exporter {
 	
 	/**
 	 * Constructor
@@ -51,7 +50,7 @@ public class Exporter extends OOCalcExporter{
 		
 		// Create a File object
 		File csvFile = new File(filename);
-		BufferedWriter bos;
+		BufferedWriter bos = null;
 		// Create a new file
 		try {
 			csvFile.createNewFile();
@@ -146,6 +145,12 @@ public class Exporter extends OOCalcExporter{
 		catch (IOException e) {
 			return false;
 		}
+
+		try {
+			if (bos!= null)
+				bos.close();
+		}
+		catch (Exception e) {}
 
 		// True = Export was successful
 		return true;

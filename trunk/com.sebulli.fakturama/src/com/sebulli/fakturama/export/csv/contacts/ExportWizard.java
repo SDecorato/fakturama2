@@ -12,12 +12,14 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.export.contacts;
+package com.sebulli.fakturama.export.csv.contacts;
 
 import static com.sebulli.fakturama.Translate._;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
@@ -41,9 +43,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
 		page1 = new EmptyWizardPage(_("Export all contacts"),
-						_("Export the contacts in an OpenOffice.org Calc table."),
-						  Activator.getImageDescriptor("/icons/preview/contacts.png")
-		);
+						_("Export the contacts in an comma separated value (*.csv) table."),
+						  Activator.getImageDescriptor("/icons/preview/contacts_csv.png")
+						);
 		addPage(page1);
 	}
 
@@ -56,8 +58,20 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		Exporter exporter = new Exporter();
-		return exporter.export();
+		
+
+		FileDialog fileDialog = new FileDialog(page1.getShell(), SWT.SAVE);
+		
+		fileDialog.setFilterExtensions(new String[] { "*.csv" });
+		fileDialog.setFilterNames(new String[] { _("Comma separated value file")+" (*.csv)" });
+		fileDialog.setText(_("Enter file name to save"));
+		String selectedFile = fileDialog.open();
+		if (selectedFile != null) {
+			Exporter exporter = new Exporter();
+			return exporter.export(selectedFile);
+		}
+		else 
+			return false;
 	}
 
 	/**
