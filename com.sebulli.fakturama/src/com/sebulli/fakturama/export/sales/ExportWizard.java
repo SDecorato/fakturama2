@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exporters.productbuyers;
+package com.sebulli.fakturama.export.sales;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -39,11 +39,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	public ExportWizard() {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
-		page1 = new ExportWizardPageStartEndDate(_("Sold products and buyers"),
+		page1 = new ExportWizardPageStartEndDate(_("List of Sales as Table"),
 				_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
 		addPage(page1);
 	}
-
 
 	/**
 	 * Performs any actions appropriate in response to the user having pressed

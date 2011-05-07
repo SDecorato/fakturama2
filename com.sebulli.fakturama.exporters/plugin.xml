@@ -5,71 +5,17 @@
    <extension
          point="org.eclipse.ui.exportWizards">
       <wizard
-            category="com.sebulli.fakturama.exporters.productandbuyers"
-            class="com.sebulli.fakturama.exporters.productbuyers.ExportWizard"
-            icon="icons/16/product_buyers_16.png"
-            id="com.sebulli.fakturama.export.productbuyers.exportWizard"
-            name="export product and buyers">
+            category="com.sebulli.fakturama.myexporter.lists"
+            class="com.sebulli.fakturama.myexporter.ExportWizard"
+            icon="icons/16/export_16.png"
+            id="com.sebulli.fakturama.myexporter.exportWizard"
+            name="My Exporter">
       </wizard>
-      <wizard
-            category="com.sebulli.fakturama.exporters.productandbuyers"
-            class="com.sebulli.fakturama.exporters.buyers.ExportWizard"
-            icon="icons/16/buyers_16.png"
-            id="com.sebulli.fakturama.export.buyers.exportWizard"
-            name="export buyers">
-      </wizard>
-      <wizard
-            category="com.sebulli.fakturama.exporters.salesandexpenditures"
-            class="com.sebulli.fakturama.exporters.sales.ExportWizard"
-            icon="icons/16/sales_16.png"
-            id="com.sebulli.fakturama.export.sales.exportWizard"
-            name="export sales">
-      </wizard>
-      <wizard
-            category="com.sebulli.fakturama.exporters.salesandexpenditures"
-            class="com.sebulli.fakturama.exporters.expenditures.ExportWizard"
-            icon="icons/16/expenditure_16.png"
-            id="com.sebulli.fakturama.export.expenditures.exportWizard"
-            name="export expenditures">
-      </wizard>
-      <wizard
-            category="com.sebulli.fakturama.exporters.lists"
-            class="com.sebulli.fakturama.exporters.products.ExportWizard"
-            icon="icons/16/product_16.png"
-            id="com.sebulli.fakturama.export.products.exportWizard"
-            name="export products">
-      </wizard>
-      <wizard
-            category="com.sebulli.fakturama.exporters.lists"
-            class="com.sebulli.fakturama.exporters.contacts.ExportWizard"
-            icon="icons/16/contact_16.png"
-            id="com.sebulli.fakturama.export.contacts.exportWizard"
-            name="export contacts">
-      </wizard>
-      <wizard
-            category="com.sebulli.fakturama.exporters.lists/com.sebulli.fakturama.exporters.csvlists"
-            class="com.sebulli.fakturama.exporters.csv.products.ExportWizard"
-            icon="icons/16/product_16.png"
-            id="com.sebulli.fakturama.export.csv.products.exportWizard"
-            name="export products as *.csv">
-      </wizard>
-      <category
-            id="com.sebulli.fakturama.exporters.productandbuyers"
-            name="product and buyers">
+            <category
+            id="com.sebulli.fakturama.myexporter.lists"
+            name="My Exporters">
       </category>
-      <category
-            id="com.sebulli.fakturama.exporters.salesandexpenditures"
-            name="sales and expenditures">
-      </category>
-      <category
-            id="com.sebulli.fakturama.exporters.lists"
-            name="lists">
-      </category>
-      <category
-            id="com.sebulli.fakturama.exporters.csvlists"
-            name="lists as csv"
-            parentCategory="com.sebulli.fakturama.exporters.lists">
-      </category>
+      
    </extension>
 
 </plugin>

@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.exporters;
+package com.sebulli.fakturama.export;
 
 import java.util.HashMap;
 import java.util.Map;
