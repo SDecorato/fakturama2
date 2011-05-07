@@ -300,7 +300,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		else {
 
 			// Set the Editor's name to the first name and last name of the contact.
-			setPartName(contact.getName());
+			setPartName(contact.getName(false));
 		}
 	}
 

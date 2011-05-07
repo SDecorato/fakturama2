@@ -461,7 +461,7 @@ public class DocumentEditor extends Editor {
 		// Set the "addressfirstline" value to the first line of the
 		// contact address
 		if (addressId > 0) {
-			document.setStringValueByKey("addressfirstline", Data.INSTANCE.getContacts().getDatasetById(addressId).getName());
+			document.setStringValueByKey("addressfirstline", Data.INSTANCE.getContacts().getDatasetById(addressId).getName(false));
 		}
 		else {
 			String s = txtAddress.getText();

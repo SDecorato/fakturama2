@@ -273,7 +273,7 @@ public class DataSetContact extends UniDataSet {
 	public String getAddress(boolean useDelivery) {
 		String addressFormat = "";
 		String address = "";
-		// Us the delivery keys, if necessary.
+		// Use the delivery keys, if necessary.
 
 		String deliveryString = "";
 		if (useDelivery)
@@ -314,27 +314,31 @@ public class DataSetContact extends UniDataSet {
 	 * 
 	 * @return First and last name
 	 */
-	public String getName() {
+	public String getName(boolean useDelivery) {
 		String line = "";
 
-		if (!this.getStringValueByKey("company").isEmpty()) {
-			line = this.getStringValueByKey("company");
-			if ((!this.getStringValueByKey("firstname").isEmpty()) || 
-				(!this.getStringValueByKey("name").isEmpty()) )
-				line +=", ";
+		String deliveryString = "";
+		if (useDelivery)
+			deliveryString = "delivery_";
+
+		if (!this.getStringValueByKey(deliveryString + "company").isEmpty()) {
+			line = this.getStringValueByKey(deliveryString + "company");
+			if ((!this.getStringValueByKey(deliveryString + "firstname").isEmpty()) || 
+				(!this.getStringValueByKey(deliveryString + "name").isEmpty()) )
+				line +=",";
 		}
 
-		if (!this.getStringValueByKey("firstname").isEmpty()) {
+		if (!this.getStringValueByKey(deliveryString + "firstname").isEmpty()) {
 			if (!line.isEmpty())
 				line += " ";
-				line += this.getStringValueByKey("firstname");
+				line += this.getStringValueByKey(deliveryString + "firstname");
 		}
 
 		
-		if (!this.getStringValueByKey("name").isEmpty()) {
+		if (!this.getStringValueByKey(deliveryString + "name").isEmpty()) {
 			if (!line.isEmpty())
 				line += " ";
-				line += this.getStringValueByKey("name");
+				line += this.getStringValueByKey(deliveryString + "name");
 		}
 
 		return line;
@@ -356,6 +360,24 @@ public class DataSetContact extends UniDataSet {
 		return DataSetContact.getGenderString(this.getIntValueByKey(deliveryString + "gender"));
 	}
 
+	/**
+	 * Get the name with gender String
+	 * 
+	 * @param useDelivery
+	 *            TRUE, if the delivery address should be used
+	 * @return Gender and name as String
+	 */
+	public String getNameWithGenderString(boolean useDelivery) {
+		String genderString = "";
+
+		genderString = getGenderString(useDelivery);
+		if (!genderString.isEmpty())
+			genderString+=" ";
+
+		return genderString +  getName(useDelivery);
+	}
+	
+	
 	/**
 	 * Get the gender String by the gender number
 	 * 
