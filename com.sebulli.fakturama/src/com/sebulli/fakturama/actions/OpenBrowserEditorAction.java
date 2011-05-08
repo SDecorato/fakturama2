@@ -83,7 +83,7 @@ public class OpenBrowserEditorAction extends Action {
 		else {
 			url = Activator.getDefault().getPreferenceStore().getString("GENERAL_WEBBROWSER_URL");
 
-			// In case of an empty URL: use the project URL
+			// In case of an empty URL: use the start page
 			if (url.isEmpty() || url.equals("http://fakturama.sebulli.com/app.php"))
 				url = "file://" +
 					Workspace.INSTANCE.getWorkspace() + "/" +
