@@ -126,6 +126,14 @@ public enum Workspace {
 			}
 		}
 
+		// Create the start page, if it does not exist.
+		File startPage = new File(workspace + "/" + templateFolderName + "/Start" + "/" + "start.html");
+		if (!startPage.exists()) {
+			resourceCopy("Templates/Start/start.html", templateFolderName + "/Start" , "start.html");
+			resourceCopy("Templates/Start/fakturama.png", templateFolderName + "/Start" , "fakturama.png");
+			resourceCopy("Templates/Start/logo.png", templateFolderName + "/Start" , "logo.png");
+		}
+		
 		isInitialized = true;
 
 	}

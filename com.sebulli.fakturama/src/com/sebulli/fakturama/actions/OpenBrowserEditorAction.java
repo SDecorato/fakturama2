@@ -25,6 +25,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.editors.BrowserEditor;
 import com.sebulli.fakturama.editors.BrowserEditorInput;
 import com.sebulli.fakturama.logger.Logger;
@@ -79,16 +80,22 @@ public class OpenBrowserEditorAction extends Action {
 		String url;
 		if (this.useFakturamaProjectURL)
 			url = FAKTURAMA_PROJECT_URL;
-		else
+		else {
 			url = Activator.getDefault().getPreferenceStore().getString("GENERAL_WEBBROWSER_URL");
+
+			// In case of an empty URL: use the project URL
+			if (url.isEmpty() || url.equals("http://fakturama.sebulli.com/app.php"));
+				url = "file://" +
+					Workspace.INSTANCE.getWorkspace() + "/" +
+					Workspace.INSTANCE.getTemplateFolderName() +  
+					"/Start/start.html";
+			
+		}
 
 		// In case of an URL with only "-" do not show an editor
 		if (url.equals("-"))
 			return;
 
-		// In case of an empty URL: use the project ULR
-		if (url.isEmpty())
-			url = FAKTURAMA_PROJECT_URL;
 		
 		// Add the "http://" or "file://"
 		if ((!url.toLowerCase().startsWith("http://")) && 
