@@ -27,7 +27,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.actions.OpenBrowserEditorAction;
 import com.sebulli.fakturama.calculate.DataUtils;
 
 /**
@@ -106,7 +105,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		catch (Exception e) {
 		}
 		node.put("GENERAL_CURRENCY", currency);
-		node.put("GENERAL_WEBBROWSER_URL", OpenBrowserEditorAction.FAKTURAMA_PROJECT_URL);
+//		node.put("GENERAL_WEBBROWSER_URL", OpenBrowserEditorAction.FAKTURAMA_PROJECT_URL);
+		node.put("GENERAL_WEBBROWSER_URL", "");
 		
 	}
 
