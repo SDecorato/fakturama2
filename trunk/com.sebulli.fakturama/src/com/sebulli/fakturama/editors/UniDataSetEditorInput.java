@@ -37,6 +37,9 @@ public class UniDataSetEditorInput implements IEditorInput {
 	// True, if this unidataset is duplicated
 	private boolean duplicate = false;
 
+	//
+	private DocumentEditor documentEditor;
+	
 	/**
 	 * Default Constructor Sets the unidataset
 	 * 
@@ -49,6 +52,7 @@ public class UniDataSetEditorInput implements IEditorInput {
 		this.uds = uds;
 		this.duplicate = false;
 	}
+
 
 	/**
 	 * Constructor Creates an editor's input, if an unidataset is duplicated The
@@ -72,6 +76,23 @@ public class UniDataSetEditorInput implements IEditorInput {
 			this.duplicate = true;
 	}
 
+	/**
+	 * Constructor Creates an editor's input. This will open an editor with a
+	 * new content and a reference to a document editor.
+	 * 
+	 * @param category
+	 *            The new category
+	 */
+	public UniDataSetEditorInput(DocumentEditor documentEditor) {
+
+		// Set the local variables
+		this.uds = null;
+		this.category = "";
+		this.duplicate = false;
+		this.documentEditor = documentEditor;
+	}
+
+	
 	/**
 	 * Constructor Creates an editor's input. This will open an editor with a
 	 * new content of the specified category.
@@ -113,6 +134,16 @@ public class UniDataSetEditorInput implements IEditorInput {
 	 */
 	public boolean getDuplicate() {
 		return duplicate;
+	}
+
+	/**
+	 * Returns the document editor.
+	 * 
+	 * @return
+	 * 		The document editor or null
+	 */
+	public DocumentEditor getDocumentEditor() {
+		return documentEditor;
 	}
 
 	/**

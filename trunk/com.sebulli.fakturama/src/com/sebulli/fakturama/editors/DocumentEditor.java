@@ -157,7 +157,8 @@ public class DocumentEditor extends Editor {
 	private int duedays;
 	private String billingAddress = "";
 	private String deliveryAddress = "";
-
+	private DocumentEditor thisDocumentEditor;
+	
 	// Flag, if item editing is active
 	ItemEditingSupport itemEditingSupport = null;
 
@@ -176,6 +177,7 @@ public class DocumentEditor extends Editor {
 	public DocumentEditor() {
 		tableViewID = ViewDocumentTable.ID;
 		editorID = "document";
+		thisDocumentEditor = this;
 	}
 
 	/**
@@ -1152,6 +1154,34 @@ public class DocumentEditor extends Editor {
 	}
 	
 	/**
+	 * Fill the address label with a contact 
+	 * 
+	 * @param contact
+	 * 		The contact
+	 */
+	public void setAddress(DataSetContact contact) {
+		// Use delivery address, if it's a delivery note
+		if (documentType == DocumentType.DELIVERY)
+			txtAddress.setText(contact.getAddress(true));
+		else
+			txtAddress.setText(contact.getAddress(false));
+		
+		billingAddress = contact.getAddress(false);
+		deliveryAddress = contact.getAddress(true);
+
+		addressId = contact.getIntValueByKey("id");
+
+		// Use the customers discount
+		if (itemsDiscount != null)
+			itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
+
+		showHideWarningIcon();
+		addressAndIconComposite.layout(true);
+
+		
+	}
+	
+	/**
 	 * Creates the SWT controls for this workbench part
 	 * 
 	 * @param the
@@ -1452,7 +1482,7 @@ public class DocumentEditor extends Editor {
 		selectAddressButton.setToolTipText(_("Pick an address from the list of all contacts"));
 
 		try {
-			selectAddressButton.setImage((Activator.getImageDescriptor("/icons/16/contact_16.png").createImage()));
+			selectAddressButton.setImage((Activator.getImageDescriptor("/icons/20/contact_list_20.png").createImage()));
 		}
 		catch (Exception e) {
 			Logger.logError(e, "Icon not found");
@@ -1471,31 +1501,48 @@ public class DocumentEditor extends Editor {
 					contact = (DataSetContact) dialog.getSelection();
 					if (contact != null) {
 
-						// Use delivery address, if it's a delivery note
-						if (documentType == DocumentType.DELIVERY)
-							txtAddress.setText(contact.getAddress(true));
-						else
-							txtAddress.setText(contact.getAddress(false));
+						setAddress(contact);
 						
-						billingAddress = contact.getAddress(false);
-						deliveryAddress = contact.getAddress(true);
-
-						addressId = contact.getIntValueByKey("id");
-
-						// Use the customers discount
-						if (itemsDiscount != null)
-							itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
 					}
 				}
+			}
+		});
+
+		// Address icon
+		Label newAddressButton = new Label(addressComposite, SWT.NONE | SWT.RIGHT);
+		//T: Tool Tip Text
+		newAddressButton.setToolTipText(_("Open the contact editor to enter a new address"));
+
+		try {
+			newAddressButton.setImage((Activator.getImageDescriptor("/icons/20/contact_plus_20.png").createImage()));
+		}
+		catch (Exception e) {
+			Logger.logError(e, "Icon not found");
+		}
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(newAddressButton);
+		newAddressButton.addMouseListener(new MouseAdapter() {
+
+			// Open the address dialog, if the icon is clicked.
+			public void mouseDown(MouseEvent e) {
+
 				
-				showHideWarningIcon();
-				addressAndIconComposite.layout(true);
+				// Sets the editors input
+				UniDataSetEditorInput input = new UniDataSetEditorInput(thisDocumentEditor);
+
+				// Open a new Contact Editor 
+				try {
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, ContactEditor.ID);
+				}
+				catch (PartInitException e1) {
+					Logger.logError(e1, "Error opening Editor: " + ContactEditor.ID);
+				}
+
+				
 
 			}
 		});
 
-
-		// Composite that contains the address label and the address icon
+		// Composite that contains the address and the warning icon
 		addressAndIconComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
 		GridLayoutFactory.fillDefaults().numColumns(2).applyTo(addressAndIconComposite);
 		GridDataFactory.fillDefaults().minSize(180, 80).align(SWT.FILL, SWT.FILL).grab(true, false).applyTo(addressAndIconComposite);
@@ -1544,7 +1591,7 @@ public class DocumentEditor extends Editor {
 			addFromListButton.setToolTipText(_("Pick an item from the list of all products"));
 
 			try {
-				addFromListButton.setImage((Activator.getImageDescriptor("/icons/20/plus_list_20.png").createImage()));
+				addFromListButton.setImage((Activator.getImageDescriptor("/icons/20/product_list_20.png").createImage()));
 			}
 			catch (Exception e) {
 				Logger.logError(e, "Icon not found");
@@ -1726,7 +1773,7 @@ public class DocumentEditor extends Editor {
 		addMessageButton.setToolTipText(_("Select one of the text templates in of the list of texts"));
 
 		try {
-			addMessageButton.setImage((Activator.getImageDescriptor("/icons/20/plus_list_20.png").createImage()));
+			addMessageButton.setImage((Activator.getImageDescriptor("/icons/20/list_20.png").createImage()));
 		}
 		catch (Exception e) {
 			Logger.logError(e, "Icon not found");

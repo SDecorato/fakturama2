@@ -123,6 +123,9 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 	// defines, if the contact is new created
 	private boolean newContact;
+	
+	// a reference to a document editor that requests a new address
+	private DocumentEditor documentEditor = null;
 
 	/**
 	 * Constructor
@@ -244,6 +247,11 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 			Data.INSTANCE.getContacts().updateDataSet(contact);
 		}
 
+		// Sets the address
+		if (documentEditor != null) {
+			documentEditor.setAddress(contact);
+		}
+		
 		// Refresh the table view of all contacts
 		refreshView();
 		checkDirty();
@@ -278,6 +286,9 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Set the editor's data set to the editor's input
 		contact = (DataSetContact) ((UniDataSetEditorInput) input).getUniDataSet();
 
+		// Get the document that requests a new address
+		documentEditor = ((UniDataSetEditorInput) input).getDocumentEditor();
+		
 		// Test, if the editor is opened to create a new data set. This is,
 		// if there is no input set.
 		newContact = (contact == null);
