@@ -7,7 +7,8 @@
  * Web shop connector script
  */
 define ('FAKTURAMA_CONNECTOR_VERSION','1.3.0'); 
-/* Date: 2011-04-23
+/* 
+ * Date: 2011-05-12
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -446,11 +447,16 @@ function exit_with_error($err) {
 
 
 // Keep the BR-tags
-function my_keep_br_tags($s) {
+function my_clean_nl($s) {
 	
 	// Keep the BR-tags
-	$s = str_replace("\n", "<br />", $s);
+	//$s = str_replace("\n", "<br />", $s);
+	
+	// remove the carriage return	
 	$s = str_replace("\r", "", $s);
+	// remove non breakable spaces return	
+	$s = str_replace("\xC2\xA0", " ", $s);
+	$s = trim ($s);
 	return $s;
 }
 
@@ -643,7 +649,7 @@ class order {
      $orders_products_query = sbf_db_query("SELECT
      											tax.tax_description, ordprod.orders_products_id, ordprod.products_name,ordprod.products_id,
      											ordprod.products_model, ordprod.products_price, ordprod.products_tax,
-     											ordprod.products_quantity, ordprod.final_price 
+     											ordprod.products_quantity, ordprod.final_price, prod.products_ean 
      										FROM
      											tax_rates tax 
      											RIGHT JOIN
@@ -670,7 +676,8 @@ class order {
 								        'qty' => $orders_products['products_quantity'],
                                         'name' => $orders_products['products_name'],
                                         'products_id' => $orders_products['products_id'],
-                                        'model' => $orders_products['products_model'],
+                                        'ean' => $orders_products['products_ean'],
+        								'model' => $orders_products['products_model'],
                                         'tax' => $orders_products['products_tax'],
                                         'tax_description' => $orders_products['tax_description'],
                                         'price' => $orders_products['products_price'],
@@ -1137,7 +1144,7 @@ if ($admin_valid != 1)
 
 			$products_query = sbf_db_query("SELECT 
  												prod.products_model, prod_desc.products_name, prod_desc.products_description, " . $products_short_description_query . 
-												"prod.products_image, products_quantity, prod.products_id,	 												
+												"prod.products_image, products_quantity, prod.products_id, prod.products_ean,	 												
 												cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
 											FROM 
 												tax_rates tax
@@ -1180,10 +1187,11 @@ if ($admin_valid != 1)
 				echo ("id=\"". my_encrypt($products['products_id']) ."\" " );
 				echo (">\n");
 				echo ("   <model>" . my_encode($products['products_model'])."</model>\n");
+				echo ("   <ean>" . my_encode($products['products_ean'])."</ean>\n");
 				echo ("   <name>" . my_encode($products['products_name'])."</name>\n");
 				echo ("   <category>" . my_encode($products['categories_name'])."</category>\n");
 				echo ("   <vatname>".my_encode($products['tax_description'])."</vatname>\n");
-				echo ("   <short_description>" . my_keep_br_tags(my_encode( $products['products_short_description'])) . "</short_description>\n");
+				echo ("   <short_description>" . my_clean_nl(my_encode( $products['products_short_description'])) . "</short_description>\n");
 
 				// Use the image only, if it exists	
 				if (file_exists($fs_imagepath . $products['products_image'])) 
@@ -1371,6 +1379,7 @@ if ($admin_valid != 1)
 						echo (my_encode($product['name']));
 					echo ("</model>\n");
 
+					echo ("    <ean>" . my_encode($product['products_ean'])."</ean>\n");
 					echo ("    <name>".my_encode($product['name'])) . "</name>\n";
 					echo ("    <category>".my_encode( $product['category']) ."</category>\n");
 					echo ("    <vatname>".my_encode($product['tax_description'])."</vatname>\n");
