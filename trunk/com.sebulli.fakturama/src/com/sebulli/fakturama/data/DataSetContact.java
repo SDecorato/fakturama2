@@ -17,7 +17,6 @@ package com.sebulli.fakturama.data;
 import static com.sebulli.fakturama.Translate._;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.OSDependent;
 
 /**
  * UniDataSet for all contacts
@@ -299,7 +298,7 @@ public class DataSetContact extends UniDataSet {
 
 			if (formatedAddressLine.equals(addressFormatLine) || (!trimmedAddressLine.isEmpty())) {
 				if (!address.isEmpty())
-					address += OSDependent.getNewLine();
+					address += "\n";
 			}
 
 			address += trimmedAddressLine;

@@ -95,8 +95,8 @@ public class PaymentEditor extends Editor {
 		payment.setDoubleValueByKey("discountvalue", DataUtils.StringToDouble(textDiscountValue.getText()));
 		payment.setStringValueByKey("discountdays", textDiscountDays.getText());
 		payment.setStringValueByKey("netdays", textNetDays.getText());
-		payment.setStringValueByKey("paidtext", textPaid.getText());
-		payment.setStringValueByKey("unpaidtext", textUnpaid.getText());
+		payment.setStringValueByKey("paidtext", DataUtils.removeCR(textPaid.getText()));
+		payment.setStringValueByKey("unpaidtext", DataUtils.removeCR(textUnpaid.getText()));
 
 		// If it is a new payment, add it to the payment list and
 		// to the data base
@@ -186,8 +186,8 @@ public class PaymentEditor extends Editor {
 		if (!payment.getStringValueByKey("discountdays").equals(textDiscountDays.getText())) { return true; }
 		if (!payment.getStringValueByKey("netdays").equals(textNetDays.getText())) { return true; }
 		if (!payment.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
-		if (!payment.getStringValueByKey("paidtext").equals(textPaid.getText())) { return true; }
-		if (!payment.getStringValueByKey("unpaidtext").equals(textUnpaid.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("paidtext"), textPaid.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("unpaidtext"), textUnpaid.getText())) { return true; }
 
 		return false;
 	}
@@ -320,7 +320,7 @@ public class PaymentEditor extends Editor {
 
 		// Create text field for the "paid" text message
 		textPaid = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		textPaid.setText(payment.getStringValueByKey("paidtext"));
+		textPaid.setText(DataUtils.makeOSLineFeeds(payment.getStringValueByKey("paidtext")));
 		textPaid.setToolTipText(labelPaid.getToolTipText());
 		superviceControl(textPaid, 500);
 		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textPaid);
@@ -335,7 +335,7 @@ public class PaymentEditor extends Editor {
 
 		// Create text field for "unpaid" text message
 		textUnpaid = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-		textUnpaid.setText(payment.getStringValueByKey("unpaidtext"));
+		textUnpaid.setText(DataUtils.makeOSLineFeeds(payment.getStringValueByKey("unpaidtext")));
 		textUnpaid.setToolTipText(labelUnpaid.getToolTipText());
 		superviceControl(textUnpaid, 500);
 		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textUnpaid);

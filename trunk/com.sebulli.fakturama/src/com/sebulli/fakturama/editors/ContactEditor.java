@@ -188,7 +188,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		contact.setStringValueByKey("title", txtTitle.getText());
 		contact.setStringValueByKey("firstname", txtFirstname.getText());
 		contact.setStringValueByKey("name", txtName.getText());
-		contact.setStringValueByKey("company", txtCompany.getText());
+		contact.setStringValueByKey("company", DataUtils.removeCR(txtCompany.getText()));
 		contact.setStringValueByKey("street", txtStreet.getText());
 		contact.setStringValueByKey("zip", txtZip.getText());
 		contact.setStringValueByKey("city", txtCity.getText());
@@ -199,7 +199,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		contact.setStringValueByKey("delivery_title", txtDeliveryTitle.getText());
 		contact.setStringValueByKey("delivery_firstname", txtDeliveryFirstname.getText());
 		contact.setStringValueByKey("delivery_name", txtDeliveryName.getText());
-		contact.setStringValueByKey("delivery_company", txtDeliveryCompany.getText());
+		contact.setStringValueByKey("delivery_company", DataUtils.removeCR(txtDeliveryCompany.getText()));
 		contact.setStringValueByKey("delivery_street", txtDeliveryStreet.getText());
 		contact.setStringValueByKey("delivery_zip", txtDeliveryZip.getText());
 		contact.setStringValueByKey("delivery_city", txtDeliveryCity.getText());
@@ -234,7 +234,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		contact.setStringValueByKey("category", txtCategory.getText());
 
 		// Set the note
-		contact.setStringValueByKey("note", textNote.getText());
+		contact.setStringValueByKey("note", DataUtils.removeCR(textNote.getText()));
 
 		// If it is a new contact, add it to the contact list and
 		// to the data base
@@ -338,7 +338,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("title").equals(txtTitle.getText())) { return true; }
 		if (!contact.getStringValueByKey("firstname").equals(txtFirstname.getText())) { return true; }
 		if (!contact.getStringValueByKey("name").equals(txtName.getText())) { return true; }
-		if (!contact.getStringValueByKey("company").equals(txtCompany.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(contact.getStringValueByKey("company"), txtCompany.getText())) { return true; }
 		if (!contact.getStringValueByKey("street").equals(txtStreet.getText())) { return true; }
 		if (!contact.getStringValueByKey("zip").equals(txtZip.getText())) { return true; }
 		if (!contact.getStringValueByKey("city").equals(txtCity.getText())) { return true; }
@@ -348,7 +348,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("delivery_title").equals(txtDeliveryTitle.getText())) { return true; }
 		if (!contact.getStringValueByKey("delivery_firstname").equals(txtDeliveryFirstname.getText())) { return true; }
 		if (!contact.getStringValueByKey("delivery_name").equals(txtDeliveryName.getText())) { return true; }
-		if (!contact.getStringValueByKey("delivery_company").equals(txtDeliveryCompany.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(contact.getStringValueByKey("delivery_company"), txtDeliveryCompany.getText())) { return true; }
 		if (!contact.getStringValueByKey("delivery_street").equals(txtDeliveryStreet.getText())) { return true; }
 		if (!contact.getStringValueByKey("delivery_zip").equals(txtDeliveryZip.getText())) { return true; }
 		if (!contact.getStringValueByKey("delivery_city").equals(txtDeliveryCity.getText())) { return true; }
@@ -378,7 +378,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
 		if (!DataUtils.DoublesAreEqual(contact.getDoubleValueByKey("discount"), DataUtils.StringToDoubleDiscount(txtDiscount.getText()))) { return true; }
 
-		if (!contact.getStringValueByKey("note").equals(textNote.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(contact.getStringValueByKey("note"), textNote.getText())) { return true; }
 
 		return false;
 	}
@@ -621,7 +621,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		labelCompany.setText(_("Company"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCompany);
 		txtCompany = new Text(useCompany ? addressGroup : invisible, SWT.BORDER | SWT.MULTI);
-		txtCompany.setText(contact.getStringValueByKey("company"));
+		txtCompany.setText(DataUtils.makeOSLineFeeds(contact.getStringValueByKey("company")));
 		superviceControl(txtCompany, 64);
 		GridDataFactory.fillDefaults().hint(210, 40).grab(true, false).span(2, 1).applyTo(txtCompany);
 
@@ -723,7 +723,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		labelDeliveryCompany.setText(_("Company"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDeliveryCompany);
 		txtDeliveryCompany = new Text(useCompany ? deliveryGroup : invisible, SWT.BORDER | SWT.MULTI);
-		txtDeliveryCompany.setText(contact.getStringValueByKey("delivery_company"));
+		txtDeliveryCompany.setText(DataUtils.makeOSLineFeeds(contact.getStringValueByKey("delivery_company")));
 		superviceControl(txtDeliveryCompany, 64);
 		GridDataFactory.fillDefaults().hint(210, 40).grab(true, false).span(2, 1).applyTo(txtDeliveryCompany);
 
@@ -959,7 +959,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		// Controls in tab "Note"
 
 		// The note
-		String note = contact.getStringValueByKey("note");
+		String note = DataUtils.makeOSLineFeeds(contact.getStringValueByKey("note"));
 		textNote = new Text(tabNote, SWT.BORDER | SWT.MULTI);
 		textNote.setText(note);
 		superviceControl(textNote, 10000);
