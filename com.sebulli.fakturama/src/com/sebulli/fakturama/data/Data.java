@@ -264,7 +264,7 @@ public enum Data {
 
 		// Add a new one, if it is not yet existing
 		properties.addNewDataSet(new DataSetProperty(key, value));
-		Logger.logInfo("New property " + key + " added");
+		//Logger.logInfo("New property " + key + " added");
 	}
 
 	/**
