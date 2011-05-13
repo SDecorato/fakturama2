@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Text;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.data.UniData;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -717,6 +718,44 @@ public class DataUtils {
 			d = 0.0;
 
 		return d;
+	}
+	
+	/**
+	 * Remove all carriage returns from a string
+	 * 
+	 * @param s
+	 * 		The string with the carriage returns
+	 * @return
+	 * 		The new string without them
+	 */
+	public static String removeCR(String s) {
+		return s.replaceAll("\r", "");
+	}
+
+	/**
+	 * convert all LineFeeds to OS dependent LineFeeds
+	 * 
+	 * @param s
+	 * 		The string with the carriage returns
+	 * @return
+	 * 		The new string without them
+	 */
+	public static String makeOSLineFeeds(String s) {
+		return s.replaceAll("\n", OSDependent.getNewLine());
+	}
+	
+	/**
+	 * Compare two strings but ignore carriage returns
+	 * 
+	 * @param s1
+	 * 			First String to compare
+	 * @param s2
+	 * 			Second String to compare
+	 * @return
+	 * 			True, if bothe are equal
+	 */
+	public static boolean MultiLineStringsAreEqual (String s1, String s2) {
+		return removeCR(s1).equals(removeCR(s2));
 	}
 
 }

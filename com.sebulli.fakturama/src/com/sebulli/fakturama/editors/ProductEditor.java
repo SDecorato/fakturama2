@@ -176,7 +176,7 @@ public class ProductEditor extends Editor {
 		product.setStringValueByKey("itemnr", textItemNr.getText());
 		product.setStringValueByKey("name", textName.getText());
 		product.setStringValueByKey("category", txtCategory.getText());
-		product.setStringValueByKey("description", textDescription.getText());
+		product.setStringValueByKey("description", DataUtils.removeCR(textDescription.getText()));
 
 		int i;
 		Double lastScaledPrice = 0.0;
@@ -290,7 +290,7 @@ public class ProductEditor extends Editor {
 
 		if (!product.getStringValueByKey("itemnr").equals(textItemNr.getText())) { return true; }
 		if (!product.getStringValueByKey("name").equals(textName.getText())) { return true; }
-		if (!product.getStringValueByKey("description").equals(textDescription.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(product.getStringValueByKey("description"),textDescription.getText())) { return true; }
 
 		// Test all scaled prices
 		for (int i = 0; i < scaledPrices; i++) {
@@ -535,7 +535,7 @@ public class ProductEditor extends Editor {
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDescription);
 		textDescription = new Text(useDescription ? productDescGroup : invisible, SWT.BORDER | SWT.MULTI);
-		textDescription.setText(product.getStringValueByKey("description"));
+		textDescription.setText(DataUtils.makeOSLineFeeds(product.getStringValueByKey("description")));
 		textDescription.setToolTipText(labelDescription.getToolTipText());
 		superviceControl(textDescription, 250);
 		GridDataFactory.fillDefaults().hint(10, 80).grab(true, false).applyTo(textDescription);

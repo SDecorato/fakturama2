@@ -263,13 +263,13 @@ public class DocumentEditor extends Editor {
 		boolean addressModified = false;
 		// if it's a delivery note, compare the delivery address
 		if (documentType == DocumentType.DELIVERY) {
-			if (!document.getStringValueByKey("deliveryaddress").equals(txtAddress.getText()))
+			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("deliveryaddress"), txtAddress.getText()))
 				addressModified = true;
-			document.setStringValueByKey("deliveryaddress", txtAddress.getText());
+			document.setStringValueByKey("deliveryaddress", DataUtils.removeCR(txtAddress.getText()));
 
 			// Use the delivery address, if the billing address is empty
 			if (billingAddress.isEmpty())
-				billingAddress = txtAddress.getText();
+				billingAddress = DataUtils.removeCR(txtAddress.getText());
 			document.setStringValueByKey("address", billingAddress);
 
 			if (addressId > 0)
@@ -278,11 +278,11 @@ public class DocumentEditor extends Editor {
 		else {
 			if (!document.getStringValueByKey("address").equals(txtAddress.getText()))
 				addressModified = true;
-			document.setStringValueByKey("address", txtAddress.getText());
+			document.setStringValueByKey("address", DataUtils.removeCR(txtAddress.getText()));
 
 			// Use the billing address, if the delivery address is empty
 			if (deliveryAddress.isEmpty())
-				deliveryAddress = txtAddress.getText();
+				deliveryAddress = DataUtils.removeCR(txtAddress.getText());
 			
 			document.setStringValueByKey("deliveryaddress", deliveryAddress);
 
@@ -293,7 +293,7 @@ public class DocumentEditor extends Editor {
 		// Show a warning, if the entered address is not similar to the address
 		// of the document, set by the address ID.
 		if ((addressId > 0) && (addressModified)) {
-			if (DataUtils.similarity(addressById, txtAddress.getText()) < 0.75) {
+			if (DataUtils.similarity(addressById, DataUtils.removeCR(txtAddress.getText())) < 0.75) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
 
 				//T: Title of the dialog that appears if the document is assigned to  an other address.
@@ -466,11 +466,10 @@ public class DocumentEditor extends Editor {
 			document.setStringValueByKey("addressfirstline", Data.INSTANCE.getContacts().getDatasetById(addressId).getName(false));
 		}
 		else {
-			String s = txtAddress.getText();
+			String s = DataUtils.removeCR(txtAddress.getText());
 			
-			// Remove the "\r" and the "\n" if it was a "\r\n" as line break.
+			// Remove the "\n" if it was a "\n" as line break.
 			s = s.split("\n")[0];
-			s = s.split("\r")[0];
 			
 			document.setStringValueByKey("addressfirstline", s);
 		}
@@ -736,12 +735,12 @@ public class DocumentEditor extends Editor {
 
 		if (document.getIntValueByKey("addressid") != addressId) { return true; }
 		if (documentType == DocumentType.DELIVERY) {
-			if (!document.getStringValueByKey("deliveryaddress").equals(txtAddress.getText())) { return true; }
-			if (!document.getStringValueByKey("address").equals(billingAddress)) { return true; }
+			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("deliveryaddress"), txtAddress.getText())) { return true; }
+			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("address"), billingAddress)) { return true; }
 		}
 		else {
-			if (!document.getStringValueByKey("address").equals(txtAddress.getText())) { return true; }
-			if (!document.getStringValueByKey("deliveryaddress").equals(deliveryAddress)) { return true; }
+			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("address"), txtAddress.getText())) { return true; }
+			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("deliveryaddress"), deliveryAddress)) { return true; }
 		}
 
 		if (!document.getStringValueByKey("customerref").equals(txtCustomerRef.getText())) { return true; }
@@ -1134,12 +1133,12 @@ public class DocumentEditor extends Editor {
 		boolean differentDeliveryAddress;
 		
 		if (documentType == DocumentType.DELIVERY) {
-			differentDeliveryAddress = !billingAddress.equalsIgnoreCase(txtAddress.getText());
+			differentDeliveryAddress = !billingAddress.equalsIgnoreCase(DataUtils.removeCR(txtAddress.getText()));
 			//T: Tool Tip Text
 			differentDeliveryAddressIcon.setToolTipText(_("Different billing address !") +  OSDependent.getNewLine() + billingAddress);
 		}
 		else {
-			differentDeliveryAddress = !deliveryAddress.equalsIgnoreCase(txtAddress.getText());
+			differentDeliveryAddress = !deliveryAddress.equalsIgnoreCase(DataUtils.removeCR(txtAddress.getText()));
 			//T: Tool Tip Text
 			differentDeliveryAddressIcon.setToolTipText(_("Different delivery address !") + OSDependent.getNewLine() + deliveryAddress);
 		}
@@ -1162,9 +1161,9 @@ public class DocumentEditor extends Editor {
 	public void setAddress(DataSetContact contact) {
 		// Use delivery address, if it's a delivery note
 		if (documentType == DocumentType.DELIVERY)
-			txtAddress.setText(contact.getAddress(true));
+			txtAddress.setText(DataUtils.makeOSLineFeeds(contact.getAddress(true)));
 		else
-			txtAddress.setText(contact.getAddress(false));
+			txtAddress.setText(DataUtils.makeOSLineFeeds(contact.getAddress(false)));
 		
 		billingAddress = contact.getAddress(false);
 		deliveryAddress = contact.getAddress(true);
@@ -1550,9 +1549,9 @@ public class DocumentEditor extends Editor {
 		// The address field
 		txtAddress = new Text(addressAndIconComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		if (documentType == DocumentType.DELIVERY)
-			txtAddress.setText(document.getStringValueByKey("deliveryaddress"));
+			txtAddress.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("deliveryaddress")));
 		else
-			txtAddress.setText(document.getStringValueByKey("address"));
+			txtAddress.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("address")));
 		superviceControl(txtAddress, 250);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(txtAddress);
 
@@ -1812,7 +1811,7 @@ public class DocumentEditor extends Editor {
 
 		// Add a multi line text field for the message.
 		txtMessage = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
-		txtMessage.setText(document.getStringValueByKey("message"));
+		txtMessage.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("message")));
 		txtMessage.setToolTipText(messageLabel.getToolTipText());
 		superviceControl(txtMessage, 10000);
 
