@@ -647,7 +647,7 @@ public class OODocument extends Object {
 				DataSetItem item = itemDataSets.get(row);
 
 				// Set the cell content
-				fillItemTableWithData(placeholderDisplayText, item, iText, row, cellText);
+				fillItemTableWithData(row, placeholderDisplayText, item, iText, row, cellText);
 
 			}
 			catch (TextException e) {
@@ -684,7 +684,7 @@ public class OODocument extends Object {
 	 * @param cellText
 	 *            The cell's text.
 	 */
-	private void fillItemTableWithData(String placeholderDisplayText, DataSetItem item, IText iText, int index, String cellText) {
+	private void fillItemTableWithData(int row, String placeholderDisplayText, DataSetItem item, IText iText, int index, String cellText) {
 
 		String value = "";
 		String format = "";
@@ -709,6 +709,11 @@ public class OODocument extends Object {
 			}
 		}
 		
+		// The position
+		else if (placeholderDisplayText.equals("<ITEM.POS>")) {
+			value = Integer.toString(row + 1);
+		}
+
 		// Get the item name
 		else if (placeholderDisplayText.equals("<ITEM.NAME>")) {
 			value = item.getStringValueByKey("name");
