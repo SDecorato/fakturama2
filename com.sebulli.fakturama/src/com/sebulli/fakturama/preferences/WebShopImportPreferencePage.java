@@ -80,6 +80,8 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		addField(new IntegerFieldEditor("WEBSHOP_MAX_PRODUCTS", _("Maximum products:"), getFieldEditorParent()));
 		//T: Preference page "Web Shop Import" - Label
 		addField(new BooleanFieldEditor("WEBSHOP_ONLY_MODIFIED_PRODUCTS", _("Import only modified products"), getFieldEditorParent()));
+		//T: Preference page "Web Shop Import" - Label
+		addField(new BooleanFieldEditor("WEBSHOP_USE_EAN_AS_ITEMNR", _("Import EAN as item number"), getFieldEditorParent()));
 
 	
 	}
@@ -114,6 +116,8 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_NOTIFY_SHIPPED", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_MAX_PRODUCTS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_ONLY_MODIFIED_PRODUCTS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("WEBSHOP_USE_EAN_AS_ITEMNR", write);
+		
 	}
 
 	/**
@@ -137,6 +141,8 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		node.putBoolean("WEBSHOP_NOTIFY_SHIPPED", true);
 		node.put("WEBSHOP_MAX_PRODUCTS", "1000");
 		node.putBoolean("WEBSHOP_ONLY_MODIFIED_PRODUCTS", true);
+		node.putBoolean("WEBSHOP_USE_EAN_AS_ITEMNR", false);
+		
 	}
 	
 }
