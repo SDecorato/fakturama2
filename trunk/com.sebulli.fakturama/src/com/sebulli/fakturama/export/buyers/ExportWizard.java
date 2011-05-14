@@ -39,7 +39,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	public ExportWizard() {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
+		//T: Title of the export wizard
 		page1 = new ExportWizardPageStartEndDate(_("Buyers and volume"),
+				//T: Text of the export wizard
 				_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
 		addPage(page1);
 	}

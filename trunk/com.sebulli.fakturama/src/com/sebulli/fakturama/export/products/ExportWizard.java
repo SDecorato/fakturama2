@@ -40,10 +40,12 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	public ExportWizard() {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
+		//T: Title of the export wizard
 		page1 = new EmptyWizardPage(_("Export all products"),
-						_("Export the products in an OpenOffice.org Calc table."),
-						  Activator.getImageDescriptor("/icons/preview/products.png")
-						);
+				//T: Text of the export wizard
+				_("Export the products in an OpenOffice.org Calc table."),
+				  Activator.getImageDescriptor("/icons/preview/products.png")
+				);
 		addPage(page1);
 	}
 

@@ -62,6 +62,10 @@ public class Exporter {
 		try {
 			csvFile.createNewFile();
 			bos = new BufferedWriter(new FileWriter(csvFile, false));
+
+			//T: Table heading of CSV file
+			String deliveryAddress = " ("+_("Delivery Address")+")";
+			
 			bos.write(
 					//T: Used as heading of a table. Keep the word short.
 					"\""+ "ID" + "\";"+ 
@@ -87,24 +91,25 @@ public class Exporter {
 					//T: Used as heading of a table. Keep the word short.
 					"\""+ _("Country") + "\";"+
 					
+					
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Gender") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("Gender") + deliveryAddress + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Title","ADDRESS") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("Title","ADDRESS") + deliveryAddress + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("First Name") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("First Name") + deliveryAddress + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Last Name") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("Last Name") + deliveryAddress + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Company") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("Company") + deliveryAddress + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Street") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("Street") + deliveryAddress + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("ZIP") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("ZIP") + deliveryAddress + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("City") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("City") + deliveryAddress + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Country") + " ("+_("Delivery Address")+")" + "\";"+
+					"\""+ _("Country") + deliveryAddress + "\";"+
 					
 					//T: Used as heading of a table. Keep the word short.
 					"\""+ _("Account Holder") + "\";"+

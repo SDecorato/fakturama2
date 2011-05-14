@@ -545,10 +545,13 @@ public class ProductEditor extends Editor {
 
 		// Use net or gross price
 		if (useNet && useGross)
+			//T: Label in the product editor
 			labelPrice.setText(_("Price"));
 		else if (useNet)
+			//T: Label in the product editor
 			labelPrice.setText(_("Price (net)"));
 		else if (useGross)
+			//T: Label in the product editor
 			labelPrice.setText(_("Price (gross)"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPrice);

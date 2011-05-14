@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2011-05-08 20:13+0200\n"
-"PO-Revision-Date: 2011-05-08 20:15+0100\n"
+"PO-Revision-Date: 2011-05-14 19:23+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -540,12 +540,12 @@ msgstr "Kunde bei 'versendet' benachrichtigen"
 #. T: Preference page "Web Shop Import" - Label
 #: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:80
 msgid "Maximum products:"
-msgstr ""
+msgstr "Maximale Anzahl importierter Produkte:"
 
 #. T: Preference page "Web Shop Import" - Label
 #: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:82
 msgid "Import only modified products"
-msgstr ""
+msgstr "Nur geänderte Produkte importieren"
 
 #. T: Preference page "Web Shop Import" - Title
 #: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:96
@@ -1046,14 +1046,12 @@ msgstr "Exportieren"
 
 #: ../src/com/sebulli/fakturama/export/products/ExportWizard.java:43
 #: ../src/com/sebulli/fakturama/export/csv/products/ExportWizard.java:45
-#, fuzzy
 msgid "Export all products"
-msgstr "Artikel auswählen"
+msgstr "Alle Produkte exportieren"
 
 #: ../src/com/sebulli/fakturama/export/products/ExportWizard.java:44
-#, fuzzy
 msgid "Export the products in an OpenOffice.org Calc table."
-msgstr "Umsätze in einer OpenOffice Tabelle exportieren"
+msgstr "Alle Produkte in einer OpenOffice.org Calc Tabelle exportieren."
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/export/products/Exporter.java:64
@@ -1180,7 +1178,7 @@ msgstr "MwSt."
 #: ../src/com/sebulli/fakturama/export/products/Exporter.java:94
 #: ../src/com/sebulli/fakturama/export/csv/products/Exporter.java:99
 msgid "Options"
-msgstr ""
+msgstr "Optionen"
 
 #. T: Used as heading of a table. Keep the word short.
 #. T: Product Editor - Label Product Weight with unit (kg)
@@ -1194,7 +1192,7 @@ msgstr "Gewicht (kg)"
 #: ../src/com/sebulli/fakturama/export/products/Exporter.java:98
 #: ../src/com/sebulli/fakturama/export/csv/products/Exporter.java:103
 msgid "Unit"
-msgstr ""
+msgstr "Einheit"
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/export/products/Exporter.java:100
@@ -1241,7 +1239,7 @@ msgstr "Enddatum:"
 
 #: ../src/com/sebulli/fakturama/export/productbuyers/ExportWizard.java:42
 msgid "Sold products and buyers"
-msgstr ""
+msgstr "Verkaufte Produkte und deren Käufer"
 
 #: ../src/com/sebulli/fakturama/export/productbuyers/ExportWizard.java:43
 #: ../src/com/sebulli/fakturama/export/expenditures/ExportWizard.java:43
@@ -1258,11 +1256,10 @@ msgstr ""
 
 #: ../src/com/sebulli/fakturama/export/productbuyers/Exporter.java:206
 msgid "List of products and buyers"
-msgstr ""
+msgstr "Liste mit Produkten und Käufer"
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/export/productbuyers/Exporter.java:217
-#, fuzzy
 msgid "Product"
 msgstr "Produkt"
 
@@ -1270,26 +1267,23 @@ msgstr "Produkt"
 #: ../src/com/sebulli/fakturama/export/productbuyers/Exporter.java:221
 #: ../src/com/sebulli/fakturama/export/productbuyers/Exporter.java:227
 #: ../src/com/sebulli/fakturama/export/buyers/Exporter.java:150
-#, fuzzy
 msgid "Volume"
-msgstr "Wert"
+msgstr "Umsatz"
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/export/productbuyers/Exporter.java:223
 #: ../src/com/sebulli/fakturama/export/buyers/Exporter.java:148
 msgid "Buyers"
-msgstr ""
+msgstr "Käufer"
 
 #: ../src/com/sebulli/fakturama/export/contacts/ExportWizard.java:43
 #: ../src/com/sebulli/fakturama/export/csv/contacts/ExportWizard.java:45
-#, fuzzy
 msgid "Export all contacts"
-msgstr "Einstellungen Export Umsätze"
+msgstr "Alle Kontakte exportieren"
 
 #: ../src/com/sebulli/fakturama/export/contacts/ExportWizard.java:44
-#, fuzzy
 msgid "Export the contacts in an OpenOffice.org Calc table."
-msgstr "Umsätze in einer OpenOffice Tabelle exportieren"
+msgstr "Kontakte in einer OpenOffice Tabelle exportieren."
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/export/contacts/Exporter.java:65
@@ -1465,16 +1459,14 @@ msgstr "Mobilnummer"
 #: ../src/com/sebulli/fakturama/export/contacts/Exporter.java:133
 #: ../src/com/sebulli/fakturama/export/csv/contacts/Exporter.java:143
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:914
-#, fuzzy
 msgid "VAT Number"
 msgstr "USt.IdNr."
 
 #. T: Used as heading of a table. Keep the word short.
 #: ../src/com/sebulli/fakturama/export/contacts/Exporter.java:135
 #: ../src/com/sebulli/fakturama/export/csv/contacts/Exporter.java:145
-#, fuzzy
 msgid "VAT Number valid"
-msgstr "USt.IdNr."
+msgstr "USt.IdNr. gültig"
 
 #. T: Used as heading of a table. Keep the word short.
 #. T: Customer's discount
@@ -1486,9 +1478,8 @@ msgid "Discount"
 msgstr "Rabatt"
 
 #: ../src/com/sebulli/fakturama/export/expenditures/ExportWizard.java:42
-#, fuzzy
 msgid "List of Expenditures as Table"
-msgstr "Liste der Umsätze als Tabelle"
+msgstr "Liste der Ausgaben als Tabelle"
 
 #. T: Sales Exporter - Text in the Calc document for the Expenditures
 #. T: Text of the action to open the expenditures
@@ -1541,22 +1532,22 @@ msgstr "Zusammenfassung Ausgaben:"
 
 #: ../src/com/sebulli/fakturama/export/csv/products/ExportWizard.java:46
 msgid "Export the products in an comma separated value (*.csv) table."
-msgstr ""
+msgstr "Produkte in einer *.CSV Tabelle exportieren."
 
 #: ../src/com/sebulli/fakturama/export/csv/products/ExportWizard.java:67
 #: ../src/com/sebulli/fakturama/export/csv/contacts/ExportWizard.java:66
 msgid "Comma separated value file"
-msgstr ""
+msgstr "CSV Datei"
 
 #: ../src/com/sebulli/fakturama/export/csv/products/ExportWizard.java:68
 #: ../src/com/sebulli/fakturama/export/csv/contacts/ExportWizard.java:67
 #: ../src/com/sebulli/fakturama/export/vcf/contacts/ExportWizard.java:65
 msgid "Enter file name to save"
-msgstr ""
+msgstr "Dateiname zum Speichern eingeben"
 
 #: ../src/com/sebulli/fakturama/export/csv/contacts/ExportWizard.java:46
 msgid "Export the contacts in an comma separated value (*.csv) table."
-msgstr ""
+msgstr "Kontakte als einer CSV Datei exportieren."
 
 #: ../src/com/sebulli/fakturama/export/sales/ExportWizard.java:42
 msgid "List of Sales as Table"
@@ -1604,28 +1595,27 @@ msgstr "Nettowert"
 
 #: ../src/com/sebulli/fakturama/export/EmptyWizardPage.java:77
 msgid "preview"
-msgstr ""
+msgstr "Vorschau"
 
 #: ../src/com/sebulli/fakturama/export/buyers/ExportWizard.java:42
 msgid "Buyers and volume"
-msgstr ""
+msgstr "Käufer und Umsatz"
 
 #: ../src/com/sebulli/fakturama/export/buyers/Exporter.java:137
-#, fuzzy
 msgid "List of all buyers"
-msgstr "Liste der Umsätze als Tabelle"
+msgstr "Liste aller Käufer"
 
 #: ../src/com/sebulli/fakturama/export/vcf/contacts/ExportWizard.java:44
 msgid "Export all contacts as vcard"
-msgstr ""
+msgstr "Alle Kontakte als Visitenkarte VCard exportieren."
 
 #: ../src/com/sebulli/fakturama/export/vcf/contacts/ExportWizard.java:45
 msgid "Export the contacts in an address book vcard *.vcf file."
-msgstr ""
+msgstr "Kontakte in einem VCard Adressbuchformat exportieren."
 
 #: ../src/com/sebulli/fakturama/export/vcf/contacts/ExportWizard.java:64
 msgid "Vcard file"
-msgstr ""
+msgstr "VCard Datei"
 
 #. T: Sales Exporter - Text in the Calc document for the period
 #: ../src/com/sebulli/fakturama/export/OOCalcExporter.java:104
@@ -1672,7 +1662,6 @@ msgstr "Es kann eine Kategorie gesetzt werden, um die Produkte zu gruppieren. Di
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:534
-#, fuzzy
 msgid "Additional description. Can be used for the item. This can be selected in preferences/documents."
 msgstr "Zusätzliche Beschreibung. In Einstellungen/Dokumente kann festgelegt werden, ob diese als Artikelbeschreibung übernommen wird."
 
@@ -1990,13 +1979,11 @@ msgstr "Lieferadresse entspricht Rechnungsadresse"
 
 #. T: Format of the name in an address
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:589
-#, fuzzy
 msgid "Last Name, First Name"
 msgstr "Nachname, Vorname"
 
 #. T: Format of the name in an address
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:597
-#, fuzzy
 msgid "First Name Last Name"
 msgstr "Vorname Nachname"
 
@@ -3140,9 +3127,8 @@ msgstr "Lade Daten"
 
 #. T: Status message importing data from web shop
 #: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:395
-#, fuzzy
 msgid "No webshop data:"
-msgstr "Fehler beim Lesen der Shop Daten."
+msgstr "Fehler beim Lesen der Shop Daten:"
 
 #. T: Status message importing data from web shop
 #: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:447

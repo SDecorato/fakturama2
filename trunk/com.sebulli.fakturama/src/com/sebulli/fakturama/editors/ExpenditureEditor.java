@@ -541,6 +541,7 @@ public class ExpenditureEditor extends Editor {
 		// Expenditure category
 		Label labelCategory = new Label(top, SWT.NONE);
 
+		//T: Label in the expenditure editor
 		labelCategory.setText(_("Category"));
 		//T: Tool Tip Text
 		labelCategory.setToolTipText(_("Category of this expense voucher. E.g. 'Bank', 'Cash', 'Credit Card'"));
@@ -561,6 +562,7 @@ public class ExpenditureEditor extends Editor {
 
 		// Document date
 		Label labelDate = new Label(top, SWT.NONE);
+		//T: Label in the expenditure editor
 		labelDate.setText(_("Date"));
 		//T: Tool Tip Text
 		labelDate.setToolTipText(_("Date of the voucher"));
@@ -582,6 +584,7 @@ public class ExpenditureEditor extends Editor {
 
 		// Number
 		Label labelNr = new Label(top, SWT.NONE);
+		//T: Label in the expenditure editor
 		labelNr.setText(_("Voucher No."));
 		//T: Tool Tip Text
 		labelNr.setToolTipText(_("Consecutive number of all vouchers"));
@@ -595,6 +598,7 @@ public class ExpenditureEditor extends Editor {
 
 		// Document number
 		Label labelDocumentNr = new Label(top, SWT.NONE);
+		//T: Label in the expenditure editor
 		labelDocumentNr.setText(_("Document No."));
 		//T: Tool Tip Text
 		labelDocumentNr.setToolTipText(_("Number found on the voucher. (Document No of the supplier)"));
@@ -608,6 +612,7 @@ public class ExpenditureEditor extends Editor {
 
 		// Supplier name
 		Label labelName = new Label(top, SWT.NONE);
+		//T: Label in the expenditure editor
 		labelName.setText(_("Supplier"));
 		//T: Tool Tip Text
 		labelName.setToolTipText(_("Name of the supplier"));
@@ -758,6 +763,7 @@ public class ExpenditureEditor extends Editor {
 		
 		// Paid value
 		Label labelPaidValue = new Label(bottom, SWT.NONE);
+		//T: Label in the expenditure editor
 		labelPaidValue.setText(_("Paid Value") + ":");
 		//T: Tool Tip Text
 		labelPaidValue.setToolTipText(_("The paid value (e.g. 97$, if the total value was 100$ with 3% discount)."));
@@ -773,6 +779,7 @@ public class ExpenditureEditor extends Editor {
 
 		// Total value
 		Label labelTotalValue = new Label(bottom, SWT.NONE);
+		//T: Label in the expenditure editor
 		labelTotalValue.setText(_("Total Value") + ":");
 		//T: Tool Tip Text
 		labelTotalValue.setToolTipText(_("The total value of the voucher (without discount)."));

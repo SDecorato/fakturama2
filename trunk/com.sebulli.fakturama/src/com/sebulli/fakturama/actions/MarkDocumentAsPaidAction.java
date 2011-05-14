@@ -56,10 +56,12 @@ public class MarkDocumentAsPaidAction extends Action {
 		// Correlation between progress value and state.
 		// Depending on the state, the icon and the command ID is selected.
 		if (paid) {
+			//T: Text of the action
 			this.setText(_("mark as \"paid\""));
 			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAID, "/icons/16/checked_16.png");
 		}
 		else {
+			//T: Text of the action
 			this.setText(_("mark as \"unpaid\""));
 			setSettings(ICommandIds.CMD_MARK_DOCUMENT_AS_PAID, "/icons/16/error_16.png");
 		}
