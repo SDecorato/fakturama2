@@ -180,6 +180,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	private boolean getProducts;
 	private boolean getOrders;
 
+    // true, if the product's EAN number is imported as item number
+    private Boolean useEANasItemNr = false;
+
 	/**
 	 * Sets the progress of the job in percent
 	 * 
@@ -221,6 +224,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String password = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_PASSWORD");
 		Integer maxProducts  = Activator.getDefault().getPreferenceStore().getInt("WEBSHOP_MAX_PRODUCTS");
 		Boolean onlyModifiedProducts  = Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_ONLY_MODIFIED_PRODUCTS");
+		useEANasItemNr  = Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_USE_EAN_AS_ITEMNR");
+		
+		
 		// Check empty URL
 		if (address.isEmpty()) {
 			//T: Status message importing data from web shop
@@ -672,6 +678,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String productImage;
 		String pictureName;
 		String productQuantity;
+		String productEAN;
 		int productID;
 		
 		// Get the attributes ID and date of this order
@@ -686,7 +693,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		productCategory = getChildTextAsString(productNode, "category");
 		productVatName = getChildTextAsString(productNode, "vatname");
 		productImage = getChildTextAsString(productNode, "image");
-
+		productEAN = getChildTextAsString(productNode, "ean");
 		
 
 		// Get the product description as plain text.
@@ -738,6 +745,12 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			if (!shopCategory.endsWith("/"))
 				shopCategory += "/";
 
+		// Use the EAN number
+		if (useEANasItemNr) {
+			if (!productEAN.isEmpty())
+				productModel = productEAN;
+		}
+		
 		// Use product name as product model, if model is empty
 		if (productModel.isEmpty() && !productName.isEmpty())
 			productModel = productName;
