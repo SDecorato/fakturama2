@@ -796,7 +796,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelBankName);
 		txtBankName = new Text(tabBank, SWT.BORDER);
 		txtBankName.setText(contact.getStringValueByKey("bank_name"));
-		superviceControl(txtBankName, 32);
+		superviceControl(txtBankName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtBankName);
 
 		// IBAN Bank code
@@ -839,7 +839,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelEmail);
 		txtEmail = new Text(tabMisc, SWT.BORDER);
 		txtEmail.setText(contact.getStringValueByKey("email"));
-		superviceControl(txtEmail, 32);
+		superviceControl(txtEmail, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtEmail);
 
 		// Telephone

@@ -497,7 +497,7 @@ public class ProductEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelItemNr);
 		textItemNr = new Text(useItemNr ? productDescGroup : invisible, SWT.BORDER);
 		textItemNr.setText(product.getStringValueByKey("itemnr"));
-		superviceControl(textItemNr, 32);
+		superviceControl(textItemNr, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textItemNr);
 
 		// Product name
