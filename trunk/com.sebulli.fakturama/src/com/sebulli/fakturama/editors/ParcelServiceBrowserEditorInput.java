@@ -27,19 +27,20 @@ import com.sebulli.fakturama.data.DataSetDocument;
  */
 public class ParcelServiceBrowserEditorInput implements IEditorInput {
 
-	String url;
+	String url = "";
 	String name = "";
 	DataSetDocument document;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param url
-	 *            URL of the web browser
+	 * @param document
+	 *            The document with the address data
 	 */
 	public ParcelServiceBrowserEditorInput(DataSetDocument document) {
 		this.document = document;
 	}
+
 
 	/**
 	 * Returns whether the editor input exists

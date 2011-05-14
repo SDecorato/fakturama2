@@ -25,6 +25,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
@@ -105,6 +107,9 @@ public class CreateOODocumentAction extends Action {
 		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
+		// Get the active workbench window
+		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+
 		Editor editor = (Editor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (editor != null)
 			if (editor instanceof DocumentEditor) {
@@ -157,6 +162,16 @@ public class CreateOODocumentAction extends Action {
 					// Save the document and open the exporter
 					documentEditor.doSave(null);
 					OOManager.INSTANCE.openOODocument(documentEditor.getDocument(), templates.get(0).getPathAndFilename());
+				}
+				else {
+					// Show an information dialog, if no template was found
+					MessageBox messageBox = new MessageBox(workbenchWindow.getShell(), SWT.ICON_WARNING | SWT.OK );
+					//T: Title of the dialog 
+					messageBox.setText(_("Information"));
+					//T: Text of the dialog
+					messageBox.setMessage(_("No OpenOffice.org *.ott template found in:\n") + templatePath1);
+					messageBox.open();
+
 				}
 			}
 	}

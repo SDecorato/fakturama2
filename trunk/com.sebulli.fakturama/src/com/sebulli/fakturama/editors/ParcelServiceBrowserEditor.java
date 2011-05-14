@@ -14,17 +14,23 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.OpenWindowListener;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
+import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
@@ -56,6 +62,10 @@ public class ParcelServiceBrowserEditor extends Editor {
 	public ParcelServiceBrowserEditor() {
 	}
 
+	public Browser getBrowser() {
+		return browser;
+	}
+	
 	/**
 	 * In the web browser editor there is nothing to save
 	 */
@@ -84,10 +94,13 @@ public class ParcelServiceBrowserEditor extends Editor {
 		setInput(input);
 		
 		parcelServiceFormFiller = new ParcelServiceFormFiller();
+		
+		String name;
 
 		// Get the default URL
 		url = Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_URL");
-		String name = url;
+		//T: Title of the editor window
+		name = _("Parcel Service");
 		
 		// Get the parcel service provider
 		String provider = Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_PROVIDER");
@@ -173,6 +186,41 @@ public class ParcelServiceBrowserEditor extends Editor {
 
 			// Open the web site: URL
 			browser.setUrl(url);
+			
+			browser.addOpenWindowListener(new OpenWindowListener() {
+				public void open(WindowEvent event) {
+					Browser newBrowser = null;
+					if (!event.required) return;	/* only do it if necessary */
+					
+					// Sets the document with the address data as input for the editor.
+					ParcelServiceBrowserEditorInput input = new ParcelServiceBrowserEditorInput(((ParcelServiceBrowserEditorInput)editor.getEditorInput()).getDocument());
+
+					// Open the editor
+					try {
+						// Get the active workbench window
+						IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+						IWorkbenchPage page = workbenchWindow.getActivePage();
+
+						if (page != null) {
+
+							// If the browser editor is already open, reset the URL
+							ParcelServiceBrowserEditor parcelServiceBrowserEditor = (ParcelServiceBrowserEditor) page.findEditor(input);
+							if (parcelServiceBrowserEditor != null)
+								parcelServiceBrowserEditor.resetUrl();
+
+							page.openEditor(input, ParcelServiceBrowserEditor.ID);
+							newBrowser = ((ParcelServiceBrowserEditor)page.getActiveEditor()).getBrowser();
+						}
+					}
+					catch (PartInitException e) {
+						Logger.logError(e, "Error opening Editor: " + ParcelServiceBrowserEditor.ID);
+					}
+
+					// Return the new browser
+					event.browser = newBrowser;
+				}
+			});
+
 
 		}
 		catch (Exception e) {

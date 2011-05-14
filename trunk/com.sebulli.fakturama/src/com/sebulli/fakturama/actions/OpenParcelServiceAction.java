@@ -19,6 +19,8 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -135,7 +137,8 @@ public class OpenParcelServiceAction extends Action {
 		// Set the editor's input and open a new editor 
 		if (dataSetDocument != null) {
 			if (dataSetDocument instanceof DataSetDocument) {
-				// Sets the URL as input for the editor.
+
+				// Sets the document with the address data as input for the editor.
 				ParcelServiceBrowserEditorInput input = new ParcelServiceBrowserEditorInput(dataSetDocument);
 
 				// Open the editor
@@ -154,6 +157,15 @@ public class OpenParcelServiceAction extends Action {
 					Logger.logError(e, "Error opening Editor: " + ParcelServiceBrowserEditor.ID);
 				}
 			}
+		}
+		else {
+			// Show an information dialog, if no document is selected
+			MessageBox messageBox = new MessageBox(workbenchWindow.getShell(), SWT.ICON_WARNING | SWT.OK );
+			//T: Title of the dialog 
+			messageBox.setText(_("Information"));
+			//T: Text of the dialog
+			messageBox.setMessage(_("You have to open or select a document."));
+			messageBox.open();
 		}
 	}
 }
