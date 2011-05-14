@@ -1,4 +1,0 @@
-# Merge the new .pot file to the existing .po files
-
-msgmerge -U ../resources/po/messages.po ../resources/po/messages.pot
-echo "done !"
