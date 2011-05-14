@@ -74,18 +74,22 @@ public class MarkOrderAsAction extends Action {
 		switch (progress) {
 		case 0:
 		case PENDING:
+			//T: Text of the action
 			this.setText(_("mark as \"pending\""));
 			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/16/order_pending_16.png");
 			break;
 		case PROCESSING:
+			//T: Text of the action
 			this.setText(_("mark as \"processing\""));
 			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/16/order_processing_16.png");
 			break;
 		case SHIPPED:
+			//T: Text of the action
 			this.setText(_("mark as \"shipped\""));
 			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/16/order_shipped_16.png");
 			break;
 		case COMPLETED:
+			//T: Text of the action
 			this.setText(_("mark as \"completed\""));
 			setSettings(ICommandIds.CMD_MARK_ORDER_AS, "/icons/16/checked_16.png");
 			break;

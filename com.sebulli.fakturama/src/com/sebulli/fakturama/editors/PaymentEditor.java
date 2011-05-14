@@ -286,6 +286,7 @@ public class PaymentEditor extends Editor {
 
 		// Payment days to pay the discount
 		Label labelDiscountDays = new Label(top, SWT.NONE);
+		//T: Label in the payment editor
 		labelDiscountDays.setText(_("Discount Days"));
 		//T: Tool Tip Text
 		labelDiscountDays.setToolTipText(_("Within these days the reduced price can be paid"));
@@ -299,6 +300,7 @@ public class PaymentEditor extends Editor {
 
 		// Payment days to pay the net value
 		Label labelNetDays = new Label(top, SWT.NONE);
+		//T: Label in the payment editor
 		labelNetDays.setText(_("Net Days"));
 		//T: Tool Tip Text
 		labelNetDays.setToolTipText(_("Within these days the unreduced price has to be paid"));
@@ -345,6 +347,7 @@ public class PaymentEditor extends Editor {
 
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo1 = new Label(top, SWT.WRAP);
+		//T: Label in the payment editor
 		labelPlaceholderInfo1.setText(_("Placeholder") + ": <PAID.VALUE>, <PAID.DATE>");
 		makeSmallLabel(labelPlaceholderInfo1);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo1);
@@ -354,12 +357,14 @@ public class PaymentEditor extends Editor {
 
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo2 = new Label(top, SWT.WRAP);
+		//T: Label in the payment editor
 		labelPlaceholderInfo2.setText(_("Placeholder") + ": <DUE.DAYS>, <DUE.DATE>");
 		makeSmallLabel(labelPlaceholderInfo2);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo2);
 
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStd = new Label(top, SWT.NONE);
+		//T: Label in the payment editor
 		labelStd.setText(_("Standard"));
 		//T: Tool Tip Text
 		labelStd.setToolTipText(_("Name of the payment method that is the standard"));

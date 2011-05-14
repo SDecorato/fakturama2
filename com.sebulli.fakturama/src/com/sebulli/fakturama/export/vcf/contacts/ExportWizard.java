@@ -41,9 +41,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	public ExportWizard() {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
+		//T: Title of the export wizard
 		page1 = new EmptyWizardPage(_("Export all contacts as vcard"),
-						_("Export the contacts in an address book vcard *.vcf file.")
-						);
+				//T: Text of the export wizard
+				_("Export the contacts in an address book vcard *.vcf file.")
+				);
 		addPage(page1);
 	}
 
@@ -61,7 +63,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		FileDialog fileDialog = new FileDialog(page1.getShell(), SWT.SAVE);
 		
 		fileDialog.setFilterExtensions(new String[] { "*.vcf" });
-		fileDialog.setFilterNames(new String[] { _("Vcard file")+" (*.vcf)" });
+		//T: Text in a file name dialog
+		fileDialog.setFilterNames(new String[] { _("VCard file")+" (*.vcf)" });
+		//T: Text in a file name dialog
 		fileDialog.setText(_("Enter file name to save"));
 		String selectedFile = fileDialog.open();
 		if (selectedFile != null) {

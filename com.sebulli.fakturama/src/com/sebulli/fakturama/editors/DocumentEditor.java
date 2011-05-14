@@ -1016,6 +1016,7 @@ public class DocumentEditor extends Editor {
 			// Create the widget for the value
 			Label paidValueLabel = new Label(paidDataContainer, SWT.NONE);
 			
+			//T: Label in the document editor
 			paidValueLabel.setText(_("Value"));
 			//T: Tool Tip Text
 			paidValueLabel.setToolTipText(_("The paid value"));
@@ -1318,6 +1319,7 @@ public class DocumentEditor extends Editor {
 
 		// Order date
 		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
+		//T: Label in the document editor
 		labelOrderDate.setText(_("Order Date"));
 		//T: Tool Tip Text
 		labelOrderDate.setToolTipText(_("Date when the order was placed"));
@@ -1344,6 +1346,7 @@ public class DocumentEditor extends Editor {
 
 		// A reference to the invoice
 		Label labelInvoiceRef = new Label(documentType.hasInvoiceReference() ? xtraSettingsComposite : invisible, SWT.NONE);
+		//T: Label in the document editor
 		labelInvoiceRef.setText(_("Invoice"));
 		//T: Tool Tip Text
 		labelInvoiceRef.setToolTipText(_("Number of the Invoice that belongs to this document."));
@@ -1361,6 +1364,7 @@ public class DocumentEditor extends Editor {
 
 		// This document should use a VAT of 0%
 		Label labelNoVat = new Label(documentType.hasPrice() ? xtraSettingsComposite : invisible, SWT.NONE);
+		//T: Label in the document editor
 		labelNoVat.setText(_("VAT") );
 		//T: Tool Tip Text
 		labelNoVat.setToolTipText(_("If this document is set to a tax rate with 0%, all the items of the document are calculated with 0% tax."));
@@ -1472,6 +1476,7 @@ public class DocumentEditor extends Editor {
 
 		// Address label
 		Label labelAddress = new Label(addressComposite, SWT.NONE | SWT.RIGHT);
+		//T: Label in the document editor
 		labelAddress.setText(_("Address"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelAddress);
 
@@ -1644,7 +1649,10 @@ public class DocumentEditor extends Editor {
 					if (itemEditingSupport != null)
 						itemEditingSupport.cancelAndSave();
 					
-					DataSetItem newItem = new DataSetItem(_("Name"), _("Item No."), "", documentType.sign() * 1.0, "", 0.0, 0, "");
+					//T: Text of a new item
+					DataSetItem newItem = new DataSetItem(_("Name"), 
+							//T: Text of a new item
+							_("Item No."), "", documentType.sign() * 1.0, "", 0.0, 0, "");
 
 					// Use the standard VAT value
 					newItem.setVat(Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));

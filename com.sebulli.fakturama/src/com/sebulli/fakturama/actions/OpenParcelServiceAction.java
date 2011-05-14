@@ -48,6 +48,7 @@ public class OpenParcelServiceAction extends Action {
 	 * Constructor
 	 */
 	public OpenParcelServiceAction() {
+		//T: Text of the action
 		super(_("Parcel Service"));
 
 		//T: Tool Tip Text

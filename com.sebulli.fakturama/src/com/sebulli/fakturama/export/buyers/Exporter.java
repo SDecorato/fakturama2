@@ -134,6 +134,7 @@ public class Exporter extends OOCalcExporter{
 		// Sort the documents by the pay date
 		Collections.sort(documents, new UniDataSetSorter(documentDateKey));
 
+		//T: Title of the exported table
 		setCellTextInBold(0, 0, _("List of all buyers"));
 
 		// Fill the first 4 rows with the company information

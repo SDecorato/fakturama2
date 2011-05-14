@@ -42,9 +42,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	public ExportWizard() {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
+		//T: Title of the export wizard
 		page1 = new EmptyWizardPage(_("Export all contacts"),
-						_("Export the contacts in an comma separated value (*.csv) table."),
-						  Activator.getImageDescriptor("/icons/preview/contacts_csv.png")
+				//T: Text of the export wizard
+				_("Export the contacts in an comma separated value (*.csv) table."),
+				  Activator.getImageDescriptor("/icons/preview/contacts_csv.png")
 						);
 		addPage(page1);
 	}
@@ -63,7 +65,10 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		FileDialog fileDialog = new FileDialog(page1.getShell(), SWT.SAVE);
 		
 		fileDialog.setFilterExtensions(new String[] { "*.csv" });
+
+		//T: Text in a file name dialog
 		fileDialog.setFilterNames(new String[] { _("Comma separated value file")+" (*.csv)" });
+		//T: Text in a file name dialog
 		fileDialog.setText(_("Enter file name to save"));
 		String selectedFile = fileDialog.open();
 		if (selectedFile != null) {

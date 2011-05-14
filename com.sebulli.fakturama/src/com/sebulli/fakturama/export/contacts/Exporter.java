@@ -57,6 +57,9 @@ public class Exporter extends OOCalcExporter{
 		int row = 0;
 		int col = 0;
 
+		//T: Table heading 
+		String deliveryAddress = " ("+_("Delivery Address")+")";
+
 		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(row, col++, "ID");
 		//T: Used as heading of a table. Keep the word short.
@@ -80,23 +83,23 @@ public class Exporter extends OOCalcExporter{
 		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(row, col++, _("Country"));
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Gender")+ " ("+_("Delivery Address")+")");
+		setCellTextInBold(row, col++, _("Gender")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Title","ADDRESS")+ " ("+_("Delivery Address")+")");
+		setCellTextInBold(row, col++, _("Title","ADDRESS")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("First Name")+ " ("+_("Delivery Address")+")");
+		setCellTextInBold(row, col++, _("First Name")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++,_("Last Name")+ " ("+_("Delivery Address")+")");
+		setCellTextInBold(row, col++,_("Last Name")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Company")+ " "+_("Delivery Address")+")");
+		setCellTextInBold(row, col++, _("Company")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Street")+ " ("+_("Delivery Address")+")");
+		setCellTextInBold(row, col++, _("Street")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("ZIP")+ " ("+_("Delivery Address")+")");
+		setCellTextInBold(row, col++, _("ZIP")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("City")+ " ("+_("Delivery Address")+")");
+		setCellTextInBold(row, col++, _("City")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Country")+ " ("+_("Delivery Address")+")");
+		setCellTextInBold(row, col++, _("Country")+ deliveryAddress);
 		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(row, col++, _("Account Holder"));
 		//T: Used as heading of a table. Keep the word short.

@@ -51,7 +51,10 @@ public class CreateOODocumentAction extends Action {
 	 * default constructor
 	 */
 	public CreateOODocumentAction() {
-		this(_("Print as OO document"), _("Print/Export this document as an OpenOffice Writer document"));
+		//T: Text of the action
+		this(_("Print as OO document"), 
+				//T: Text of the action
+			_("Print/Export this document as an OpenOffice Writer document"));
 	}
 
 	/**
