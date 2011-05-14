@@ -328,7 +328,7 @@ public class UniDataSetTableColumn {
 		// Fill the cell direct with a UniData value, if the dataKey
 		// does not start with a "$"
 		if (!dataKey.startsWith("$")) {
-			return uds.getFormatedStringValueByKey(dataKey);
+			return uds.getFormatedStringValueByKey(dataKey).split("\n")[0];
 		}
 
 		// Fill the cell with the status
@@ -405,7 +405,6 @@ public class UniDataSetTableColumn {
 		// does not start with a "$"
 		if (!dataKey.startsWith("$")) {
 			return uds.getDoubleValueByKey(dataKey);
-
 		}
 
 		// Get the value of the status
