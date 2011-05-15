@@ -329,15 +329,14 @@ public class UniData {
 	 * @return value as formated String
 	 */
 	public String getValueAsFormatedString() {
-		Double d = this.getValueAsDouble();
-
+		
 		switch (this.dataType) {
 		case PRICE:
-			return DataUtils.DoubleToFormatedPrice(d);
+			return DataUtils.DoubleToFormatedPrice(this.getValueAsDouble());
 		case PERCENT:
-			return DataUtils.DoubleToFormatedPercent(d);
+			return DataUtils.DoubleToFormatedPercent(this.getValueAsDouble());
 		case QUANTITY:
-			return DataUtils.DoubleToFormatedQuantity(d);
+			return DataUtils.DoubleToFormatedQuantity(this.getValueAsDouble());
 		case DATE:
 			return DataUtils.DateAsLocalString(getValueAsString());
 		default:
