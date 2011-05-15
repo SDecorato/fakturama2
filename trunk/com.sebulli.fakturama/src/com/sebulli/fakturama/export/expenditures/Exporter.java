@@ -57,8 +57,13 @@ public class Exporter extends OOCalcExporter{
 	 * @param endDate
 	 *            Begin date
 	 */
-	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate) {
+	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate,
+			boolean showExpenditureSumColumn,
+			boolean showZeroVatColumn) {
 		super(startDate, endDate);
+		this.showExpenditureSumColumn = showExpenditureSumColumn;
+		this.showZeroVatColumn = showZeroVatColumn;
+		
 	}
 
 	/**
@@ -74,8 +79,6 @@ public class Exporter extends OOCalcExporter{
 			return false;
 		
 		usePaidDate = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAIDDATE");
-		showExpenditureSumColumn = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN");
-		showZeroVatColumn = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_SHOW_ZERO_VAT_COLUMN");
 
 		// Use pay date or document date
 		if (usePaidDate)

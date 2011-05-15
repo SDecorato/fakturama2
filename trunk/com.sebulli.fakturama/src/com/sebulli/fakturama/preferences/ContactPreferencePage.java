@@ -115,7 +115,7 @@ public class ContactPreferencePage extends FieldEditorPreferencePage implements 
 	public static void setInitValues(IEclipsePreferences node) {
 		node.putBoolean("CONTACT_USE_DELIVERY", true);
 		node.putBoolean("CONTACT_USE_BANK", false);
-		node.putBoolean("CONTACT_USE_MISC", false);
+		node.putBoolean("CONTACT_USE_MISC", true);
 		node.putBoolean("CONTACT_USE_NOTE", true);
 		node.putBoolean("CONTACT_USE_GENDER", true);
 		node.putBoolean("CONTACT_USE_TITLE", false);
