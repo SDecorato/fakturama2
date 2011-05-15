@@ -29,12 +29,12 @@ import com.sebulli.fakturama.Activator;
  * 
  * @author Gerd Bartelt
  */
-public class ExportSalesPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class ExportPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Constructor
 	 */
-	public ExportSalesPreferencePage() {
+	public ExportPreferencePage() {
 		super(GRID);
 
 	}
@@ -49,12 +49,6 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 
 		//T: Preference page "Export Sales" - Label "Use Pay Date instead of Invoice Date"
 		addField(new BooleanFieldEditor("EXPORTSALES_PAIDDATE", _("Use pay date instead of invoice date"), getFieldEditorParent()));
-
-		//T: Preference page "Export Sales" - Label "Display column sum of expenditures"
-		addField(new BooleanFieldEditor("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", _("Display column sum of expenditures"), getFieldEditorParent()));
-
-		//T: Preference page "Export Sales" - Label "Display columns with 0% tax"
-		addField(new BooleanFieldEditor("EXPORTSALES_SHOW_ZERO_VAT_COLUMN", _("Display columns with 0% tax"), getFieldEditorParent()));
 	}
 
 	/**
@@ -65,8 +59,8 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	@Override
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		//T: Preference page "Export Sales" - Title"
-		setDescription(_("Export Sales settings"));
+		//T: Preference page "Export" - Title"
+		setDescription(_("Export settings"));
 	}
 
 	/**
@@ -77,8 +71,6 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_PAIDDATE", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("EXPORTSALES_SHOW_ZERO_VAT_COLUMN", write);
 	}
 
 	/**
@@ -89,8 +81,6 @@ public class ExportSalesPreferencePage extends FieldEditorPreferencePage impleme
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.putBoolean("EXPORTSALES_PAIDDATE", true);
-		node.putBoolean("EXPORTSALES_SHOW_EXPENDITURE_SUM_COLUMN", false);
-		node.putBoolean("EXPORTSALES_SHOW_ZERO_VAT_COLUMN", false);
 
 	}
 

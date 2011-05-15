@@ -46,6 +46,8 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class Exporter extends OOCalcExporter{
 
+	// export Options
+	private boolean sortByQuantity = false;
 	
 	/**
 	 * Comparator to sort the List of items by volume or by quantity
@@ -172,8 +174,10 @@ public class Exporter extends OOCalcExporter{
 	 * @param endDate
 	 *            Begin date
 	 */
-	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate) {
+	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate,
+			boolean sortByQuantity) {
 		super(startDate, endDate);
+		this.sortByQuantity = sortByQuantity;
 	}
 
 	/**
@@ -187,9 +191,8 @@ public class Exporter extends OOCalcExporter{
 		// Try to generate a spreadsheet
 		if (!createSpreadSheet())
 			return false;
-		usePaidDate = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAIDDATE");
-		boolean sortByQuantity = true; 
 		
+		usePaidDate = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAIDDATE");
 		
 		// Use pay date or document date
 		if (usePaidDate)

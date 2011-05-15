@@ -77,7 +77,7 @@ public class PreferencesInDatabase {
 		ProductPreferencePage.syncWithPreferencesFromDatabase(save);
 		WebShopImportPreferencePage.syncWithPreferencesFromDatabase(save);
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(save);
-		ExportSalesPreferencePage.syncWithPreferencesFromDatabase(save);
+		ExportPreferencePage.syncWithPreferencesFromDatabase(save);
 		ParcelServicePreferencePage.syncWithPreferencesFromDatabase(save);
 	}
 

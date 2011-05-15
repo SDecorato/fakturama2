@@ -51,7 +51,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		ProductPreferencePage.setInitValues(node);
 		WebShopImportPreferencePage.setInitValues(node);
 		YourCompanyPreferencePage.setInitValues(node);
-		ExportSalesPreferencePage.setInitValues(node);
+		ExportPreferencePage.setInitValues(node);
 		ParcelServicePreferencePage.setInitValues(node);
 
 	}

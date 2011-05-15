@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.export.EmptyWizardPage;
 
 /**
@@ -44,8 +45,9 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		//T: Title of the export wizard
 		page1 = new EmptyWizardPage(_("Export all contacts as vcard"),
 				//T: Text of the export wizard
-				_("Export the contacts in an address book vcard *.vcf file.")
-				);
+				_("Export the contacts in an address book vcard *.vcf file."),
+				  Activator.getImageDescriptor("/icons/preview/export_vcf_contacts.png")
+		);
 		addPage(page1);
 	}
 

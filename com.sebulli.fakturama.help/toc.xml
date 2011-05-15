@@ -20,6 +20,9 @@
    <topic label="Arbeitsverzeichnis" href="html/workspace/workspace.html">
       <anchor id="workspace"/>
    </topic>
+   <topic label="Import / Export" href="html/importexport/main.html">
+      <anchor id="importexport"/>
+   </topic>
    <topic label="Einstellungen" href="html/preferences/main.html">
       <anchor id="preferences"/>
    </topic>

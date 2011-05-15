@@ -521,9 +521,9 @@
             name="%page.parcelservice">
       </page>
       <page
-            class="com.sebulli.fakturama.preferences.ExportSalesPreferencePage"
-            id="com.sebulli.fakturama.exportsales.exportSalesPreferencePage"
-            name="%page.exportsales">
+            class="com.sebulli.fakturama.preferences.ExportPreferencePage"
+            id="com.sebulli.fakturama.exportsales.exportPreferencePage"
+            name="%page.export">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.GeneralPreferencePage"

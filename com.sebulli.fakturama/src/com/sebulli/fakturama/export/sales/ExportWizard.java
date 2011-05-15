@@ -32,6 +32,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 
 	// The first (and only) page of this wizard
 	ExportWizardPageStartEndDate page1;
+	ExportOptionPage page2;
 
 	/**
 	 * Constructor Adds the first page to the wizard
@@ -43,7 +44,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		page1 = new ExportWizardPageStartEndDate(_("List of Sales as Table"),
 				//T: Text of the export wizard
 				_("Select a periode\nOnly the invoices with a date in this periode will be exported\nUnpaid invoices won't be exported"));
+		//T: Title of the export wizard
+		page2 = new ExportOptionPage(_("List of Sales as Table"),
+				//T: Text of the export wizard
+				_("Set some export options"+"."));
+
 		addPage(page1);
+		addPage(page2);
 	}
 
 	/**
@@ -54,7 +61,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate());
+		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate(),
+										page2.getShowZeroVatColumn());
 		return exporter.export();
 	}
 
