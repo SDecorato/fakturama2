@@ -364,7 +364,7 @@ public class DocumentEditor extends Editor {
 		document.setDoubleValueByKey("total", total);
 
 		// Set the message
-		document.setStringValueByKey("message", txtMessage.getText());
+		document.setStringValueByKey("message", DataUtils.removeCR(txtMessage.getText()));
 
 		// Set the whole vat of the document to zero
 		document.setBooleanValueByKey("novat", noVat);
@@ -768,7 +768,7 @@ public class DocumentEditor extends Editor {
 		if (!DataUtils.DoublesAreEqual(shippingVat, document.getDoubleValueByKey("shippingvat"))) { return true; }
 		if (comboShipping != null)
 			if (!document.getStringValueByKey("shippingdescription").equals(comboShipping.getText())) { return true; }
-		if (!document.getStringValueByKey("message").equals(txtMessage.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("message"), txtMessage.getText())) { return true; }
 		if (!document.getStringValueByKey("shippingvatdescription").equals(shippingVatDescription)) { return true; }
 		if (document.getIntValueByKey("shippingautovat") != shippingAutoVat) { return true; }
 		if (document.getBooleanValueByKey("novat") != noVat) { return true; }
