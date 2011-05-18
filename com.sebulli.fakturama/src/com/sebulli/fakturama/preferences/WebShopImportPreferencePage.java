@@ -23,8 +23,10 @@ import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * Preference page for the webshop settings
@@ -48,6 +50,9 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 	 */
 	@Override
 	public void createFieldEditors() {
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.WEBSHOP_IMPORT_PREFERENCE_PAGE);
 
 		//T: Preference page "Web Shop Import" - Label checkbox "web shop enabled"
 		addField(new BooleanFieldEditor("WEBSHOP_ENABLED", _("Web shop enabled"), getFieldEditorParent()));

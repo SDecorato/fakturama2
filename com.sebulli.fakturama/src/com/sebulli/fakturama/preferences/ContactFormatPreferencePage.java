@@ -21,8 +21,10 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * Preference page for the greetings
@@ -45,6 +47,9 @@ public class ContactFormatPreferencePage extends FieldEditorPreferencePage imple
 	 */
 	@Override
 	public void createFieldEditors() {
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.CONTACT_FORMAT_PREFERENCE_PAGE);
 
 		//T: Preference page "Contact Format" - label "Common Salutation"
 		addField(new StringFieldEditor("CONTACT_FORMAT_GREETING_COMMON", _("Common Salutation"), getFieldEditorParent()));

@@ -21,8 +21,10 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * Preference page for the sales export functionality
@@ -46,6 +48,9 @@ public class ExportPreferencePage extends FieldEditorPreferencePage implements I
 	 */
 	@Override
 	public void createFieldEditors() {
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.EXPORT_PREFERENCE_PAGE);
 
 		//T: Preference page "Export Sales" - Label "Use Pay Date instead of Invoice Date"
 		addField(new BooleanFieldEditor("EXPORTSALES_PAIDDATE", _("Use pay date instead of invoice date"), getFieldEditorParent()));

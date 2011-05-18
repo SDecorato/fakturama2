@@ -24,8 +24,10 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
 
@@ -50,6 +52,10 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	 */
 	@Override
 	public void createFieldEditors() {
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.OPENOFFICE_PREFERENCE_PAGE);
+
 		String defaultValue = Activator.getDefault().getPreferenceStore().getDefaultString("OPENOFFICE_PATH");
 		if (!defaultValue.isEmpty())
 			//T: Preference page "OpenOffice" - Label: Example of the default path. Format: (e.g. PATH).

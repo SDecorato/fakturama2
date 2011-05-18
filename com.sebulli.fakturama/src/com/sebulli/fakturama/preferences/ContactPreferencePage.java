@@ -22,8 +22,10 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * Preference page for the contact settings
@@ -46,6 +48,10 @@ public class ContactPreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	@Override
 	public void createFieldEditors() {
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.CONTACT_PREFERENCE_PAGE);
+
 		//T: Preference page "Contact" - Label checkbox "Use delivery address"
 		addField(new BooleanFieldEditor("CONTACT_USE_DELIVERY", _("Use delivery address"), getFieldEditorParent()));
 
