@@ -22,8 +22,10 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * Preference page for the parcel service settings
@@ -49,6 +51,9 @@ public class ParcelServicePreferencePage extends FieldEditorPreferencePage imple
 	public void createFieldEditors() {
 
 		
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.PARCELSERVICE_PREFERENCE_PAGE);
+
 		//T: Preference page "Parcel service" - Label "Service provider"
 		addField(new ComboFieldEditor("PARCEL_SERVICE_PROVIDER", _("Parcel Service") + ":", new String[][] { 
 				{ "eFiliale (efiliale.de)", "EFILIALE.DE" }, 

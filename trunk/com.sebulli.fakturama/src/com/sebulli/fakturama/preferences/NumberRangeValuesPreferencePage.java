@@ -21,8 +21,10 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * Preference page for the number settings
@@ -47,6 +49,9 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 	@Override
 	public void createFieldEditors() {
 		
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.NUMBERRANGE_PREFERENCE_PAGE);
+
 		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_CONTACT_NR", _("Next customer No.:"), getFieldEditorParent()));
 		//T: Preference page "Number Range Values" - Label "next free number"

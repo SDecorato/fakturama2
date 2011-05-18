@@ -22,8 +22,10 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * Preference page for the document settings
@@ -55,6 +57,9 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 	 */
 	@Override
 	public void createFieldEditors() {
+
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.DOCUMENT_PREFERENCE_PAGE);
 
 		//T: Preference page "Document" - Label "Format (net or gross) of the price in the item list"
 		addField(new RadioGroupFieldEditor("DOCUMENT_USE_NET_GROSS", _("Price in the item list:"), 2, new String[][] { 

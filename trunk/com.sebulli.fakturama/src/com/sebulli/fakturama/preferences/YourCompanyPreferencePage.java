@@ -21,8 +21,10 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
  * Preference page for the company settings
@@ -46,6 +48,9 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 	@Override
 	public void createFieldEditors() {
 		
+		// Add context help reference 
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.YOUR_COMPANY_PREFERENCE_PAGE);
+
 		//T: Preference page "Your company" - Label "Company name"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_NAME", _("Company Name"), getFieldEditorParent()));
 

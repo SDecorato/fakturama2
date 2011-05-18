@@ -36,6 +36,7 @@ public class ContextHelpConstants {
 	public static final String TEXT_EDITOR = HELP_PLUGIN + "textEditor";
 	public static final String VAT_EDITOR = HELP_PLUGIN + "vatEditor";
 	public static final String PARCELSERVICE_EDITOR = HELP_PLUGIN + "parcelServiceEditor";
+	public static final String START_BROWSER_EDITOR = HELP_PLUGIN + "startBrowserEditor";
 
 	// IDs for UniDataSetTable views
 	public static final String CONTACT_TABLE_VIEW = HELP_PLUGIN + "contactTableView";
@@ -52,5 +53,19 @@ public class ContextHelpConstants {
 	public static final String CALCULATOR_VIEW = HELP_PLUGIN + "calculatorView";
 	public static final String NAVIGATION_VIEW = HELP_PLUGIN + "navigationView";
 	public static final String ERROR_VIEW = HELP_PLUGIN + "errorView";
+
+	// IDs for preference pages
+	public static final String GENERAL_PREFERENCE_PAGE = HELP_PLUGIN + "generalPreferencePage";
+	public static final String CONTACT_PREFERENCE_PAGE = HELP_PLUGIN + "contactPreferencePage";
+	public static final String CONTACT_FORMAT_PREFERENCE_PAGE = HELP_PLUGIN + "contactFormatPreferencePage";
+	public static final String DOCUMENT_PREFERENCE_PAGE = HELP_PLUGIN + "documentPreferencePage";
+	public static final String EXPORT_PREFERENCE_PAGE = HELP_PLUGIN + "exportPreferencePage";
+	public static final String NUMBERRANGE_PREFERENCE_PAGE = HELP_PLUGIN + "numberRangePreferencePage";
+	public static final String NUMBERRANGE_FORMAT_PREFERENCE_PAGE = HELP_PLUGIN + "numberRangeFormatPreferencePage";
+	public static final String OPENOFFICE_PREFERENCE_PAGE = HELP_PLUGIN + "openOfficePreferencePage";
+	public static final String PARCELSERVICE_PREFERENCE_PAGE = HELP_PLUGIN + "parcelServicePreferencePage";
+	public static final String PRODUCT_PREFERENCE_PAGE = HELP_PLUGIN + "productPreferencePage";
+	public static final String WEBSHOP_IMPORT_PREFERENCE_PAGE = HELP_PLUGIN + "webShopImportreferencePage";
+	public static final String YOUR_COMPANY_PREFERENCE_PAGE = HELP_PLUGIN + "yourCompanyPreferencePage";
 
 }

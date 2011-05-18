@@ -162,7 +162,7 @@ public class ParcelServiceBrowserEditor extends Editor {
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(top);
 
 		// Add context help reference 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.BROWSER_EDITOR);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.PARCELSERVICE_EDITOR);
 
 		// Create a new web browser control
 		try {
