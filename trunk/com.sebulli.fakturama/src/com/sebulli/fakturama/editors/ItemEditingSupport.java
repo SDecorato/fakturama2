@@ -48,7 +48,7 @@ public class ItemEditingSupport extends EditingSupport {
 	private DocumentEditor documentEditor;
 
 	/**
-	 * Contructor Create support to edit the table entries.
+	 * Constructor Create support to edit the table entries.
 	 * 
 	 * @param documentEditor
 	 *            The parent document editor that contains the item table
@@ -65,10 +65,14 @@ public class ItemEditingSupport extends EditingSupport {
 		this.column = column;
 
 		// Create the correct editor based on the column index
-		// Column nr.5 uses a combo box cell editor.
+		// Column nr.6 uses a combo box cell editor.
 		// The other columns a text cell editor.
 		switch (column) {
-		case 5:
+		case 3:
+			// Editor for the preview picture
+			editor = new PictureViewEditor(((TableViewer) viewer).getTable());
+			break;
+		case 6:
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", DataSetVAT.getSalesTaxString()));
 			break;
 		default:
@@ -92,6 +96,7 @@ public class ItemEditingSupport extends EditingSupport {
 		case 5:
 		case 6:
 		case 7:
+		case 8:
 			return true;
 		}
 		return false;
@@ -125,17 +130,21 @@ public class ItemEditingSupport extends EditingSupport {
 		case 2:
 			return item.getStringValueByKey("itemnr");
 		case 3:
-			return item.getStringValueByKey("name");
+			// Open a preview dialog
+			((PictureViewEditor)editor).openPreview(item.getStringValueByKey("picturename"));
+			return "";
 		case 4:
-			return item.getStringValueByKey("description");
+			return item.getStringValueByKey("name");
 		case 5:
-			return item.getIntValueByKey("vatid");
+			return item.getStringValueByKey("description");
 		case 6:
+			return item.getIntValueByKey("vatid");
+		case 7:
 			if (documentEditor.getUseGross())
 				return new Price(item).getUnitGross().asFormatedString();
 			else
 				return new Price(item).getUnitNet().asFormatedString();
-		case 7:
+		case 8:
 			return item.getFormatedStringValueByKey("discount");
 		}
 		return "";
@@ -170,15 +179,15 @@ public class ItemEditingSupport extends EditingSupport {
 			// Set the item number
 			item.setStringValueByKey("itemnr", String.valueOf(value));
 			break;
-		case 3:
+		case 4:
 			// Set the name
 			item.setStringValueByKey("name", String.valueOf(value));
 			break;
-		case 4:
+		case 5:
 			// Set the description
 			item.setStringValueByKey("description", String.valueOf(value));
 			break;
-		case 5:
+		case 6:
 			// Set the VAT
 
 			// Get the selected item from the combo box
@@ -210,7 +219,7 @@ public class ItemEditingSupport extends EditingSupport {
 				item.setDoubleValueByKey("price", oldVat / newVat * item.getDoubleValueByKey("price"));
 
 			break;
-		case 6:
+		case 7:
 			// Set the price as gross or net value.
 			// If the editor displays gross values, calculate the net value,
 			// because only net values are stored.
@@ -221,7 +230,7 @@ public class ItemEditingSupport extends EditingSupport {
 			else
 				item.setStringValueByKey("price", String.valueOf(value));
 			break;
-		case 7:
+		case 8:
 			// Set the discount value
 			Double d = DataUtils.StringToDoubleDiscount(String.valueOf(value));
 			item.setDoubleValueByKey("discount", d);

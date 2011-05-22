@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.layout.TableColumnLayout;
@@ -63,6 +64,7 @@ import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.actions.CreateOODocumentAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
+import com.sebulli.fakturama.calculate.CustomerStatistics;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
@@ -1197,6 +1199,29 @@ public class DocumentEditor extends Editor {
 		printAction = new CreateOODocumentAction();
 		getEditorSite().getActionBars().setGlobalActionHandler(ActionFactory.PRINT.getId(), printAction);
 
+		// Show an info dialog, if this is a regular customer
+		if ((documentType == DocumentType.ORDER) &&			
+			Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG")) {
+			CustomerStatistics customerStaticstics = new CustomerStatistics(document.getIntValueByKey("addressid"));
+			if (customerStaticstics.isRegularCustomer()) {
+
+				//T: Message Dialog
+				MessageDialog.openInformation(parent.getShell(), 
+						//T: Title of the customer statistics dialog
+						_("Information"),
+						document.getStringValueByKey("addressfirstline") + " " +
+						//T: Part of the customer statistics dialog
+						_("has already ordered") + " "+ customerStaticstics.getOrdersCount().toString() + " " + 
+						//T: Part of the customer statistics dialog
+						_("times in the past.") + "\n" + 
+						//T: Part of the customer statistics dialog
+						_("Last time:") + " " + customerStaticstics.getLastOrderDate()  + "\n" +  
+						//T: Part of the customer statistics dialog
+						_("Total volume:") +" " + DataUtils.DoubleToFormatedPrice(customerStaticstics.getTotal()));
+			
+			}
+		}
+		
 		// Get the some settings from the preference store
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
 
@@ -1707,7 +1732,6 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.getTable().setHeaderVisible(true);
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
-
 			// Create the table columns
 			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Qty."), 60, 0, true, "quantity", new ItemEditingSupport(this,
@@ -1716,16 +1740,22 @@ public class DocumentEditor extends Editor {
 				//T: Used as heading of a table. Keep the word short.
 				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Item No."), 80, 0, true, "itemnr", new ItemEditingSupport(this,
 						tableViewerItems, 2));
+			
+			if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_PREVIEW_PICTURE"))
+				//T: Used as heading of a table. Keep the word short.
+				new UniDataSetTableColumn(parent.getDisplay() , tableColumnLayout, tableViewerItems, SWT.LEFT, _("Picture"), 150, 0, true, "$ProductPictureSmall", new ItemEditingSupport(this,
+					tableViewerItems, 3) );
+
 			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Name"), 100, 0, true, "name", new ItemEditingSupport(this,
-					tableViewerItems, 3));
+					tableViewerItems, 4));
 			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Description"), 100, 30, false, "description", new ItemEditingSupport(
-					this, tableViewerItems, 4));
+					this, tableViewerItems, 5));
 			if (documentType.hasPrice()) {
 				//T: Used as heading of a table. Keep the word short.
 				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ItemVatPercent", new ItemEditingSupport(this,
-						tableViewerItems, 5));
+						tableViewerItems, 6));
 				if (useGross)
 					//T: Unit Price.
 					//T: Used as heading of a table. Keep the word short.
@@ -1734,18 +1764,18 @@ public class DocumentEditor extends Editor {
 				else
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), 85, 0, true, "price", new ItemEditingSupport(this,
-							tableViewerItems, 6));
+							tableViewerItems, 7));
 				//T: Used as heading of a table. Keep the word short.
 				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Discount"), 60, 0, true, "discount", new ItemEditingSupport(this,
-						tableViewerItems, 7));
+						tableViewerItems, 8));
 				if (useGross)
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), 85, 0, true, "$ItemGrossTotal", new ItemEditingSupport(
-							this, tableViewerItems, 8));
+							this, tableViewerItems, 9));
 				else
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), 85, 0, true, "$ItemNetTotal", new ItemEditingSupport(
-							this, tableViewerItems, 8));
+							this, tableViewerItems, 9));
 			}
 			// Fill the table with the items
 			tableViewerItems.setInput(items);
