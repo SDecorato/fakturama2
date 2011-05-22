@@ -23,17 +23,35 @@ import java.util.GregorianCalendar;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DocumentType;
-import com.sebulli.fakturama.logger.Logger;
 
+/**
+ * This class can generate a customer statistic
+ *  
+ * @author Gerd Bartelt
+ */
 public class CustomerStatistics {
 
+	// The customer has already ordered something
 	private boolean isRegularCustomer = false;
+	
+	// How many orders
 	private Integer ordersCount = 0;
+	
+	// The last date
 	private GregorianCalendar lastOrderDate = null;
+
+	// The total volume
 	private Double total = 0.0;
 	
+	/**
+	 * Constructor
+	 * 		Generates a statistic
+	 * @param 
+	 * 		contactID of the customer
+	 */
 	public CustomerStatistics (int contactID) {
 		
+		// Exit, if no customer is set
 		if (contactID < 0)
 			return;
 
@@ -68,38 +86,69 @@ public class CustomerStatistics {
 					// Use date 
 					expenditureDateString = document.getStringValueByKey("orderdate");
 
-					documentDate.setTime(formatter.parse(expenditureDateString));
+					// Do only parse non empty strings
+					if (!expenditureDateString.isEmpty()) {
+						documentDate.setTime(formatter.parse(expenditureDateString));
+
+						// Set the last order date
+						if (lastOrderDate == null) {
+							lastOrderDate = documentDate;
+						} else {
+							documentDate.after(lastOrderDate);
+							lastOrderDate = documentDate;
+						}
+					}
+
 				}
 				catch (ParseException e) {
-					Logger.logError(e, "Error parsing Date");
 				}
 
-				// Set the last order date
-				if (lastOrderDate == null) {
-					lastOrderDate = documentDate;
-				} else {
-					documentDate.after(lastOrderDate);
-					lastOrderDate = documentDate;
-				}
 				
 			}
 		}
 
 	}
 	
+	/**
+	 * Returns whether the customer has already ordered something
+	 * 
+	 * @return
+	 * 		True, if there are some paid invoices
+	 */
 	public boolean isRegularCustomer() {
 		return isRegularCustomer;
 	}
 	
+	/**
+	 * Returns how often the customer has paid an invoice
+	 * 
+	 * @return
+	 * 		The number of the paid invoices
+	 */
 	public Integer getOrdersCount () {
 		return ordersCount;
 	}
 	
+	/**
+	 * Returns the total value
+	 * 
+	 * @return
+	 * 		The total value
+	 */
 	public Double getTotal () {
 		return total;
 	}
 	
+	/**
+	 * Returns the last date
+	 * 
+	 * @return
+	 * 		The date of the last order
+	 */
 	public String getLastOrderDate() {
-		return  DataUtils.getDateTimeAsLocalString(lastOrderDate);
+		if (lastOrderDate != null)
+			return  DataUtils.getDateTimeAsLocalString(lastOrderDate);
+		else
+			return "-";
 	}
 }
