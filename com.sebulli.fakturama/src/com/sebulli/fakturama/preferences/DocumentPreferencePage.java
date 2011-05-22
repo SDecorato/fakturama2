@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -71,7 +72,13 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		addField(new BooleanFieldEditor("DOCUMENT_COPY_MESSAGE_FROM_PARENT", _("Copy message field when creating a duplicate"), getFieldEditorParent()));
 		//T: Preference page "Document" - Label "Copy the description in product selection dialog."
 		addField(new BooleanFieldEditor("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", _("Copy description from product."), getFieldEditorParent()));
-
+		//T: Preference page "Document" 
+		addField(new BooleanFieldEditor("DOCUMENT_USE_PREVIEW_PICTURE", _("Display a preview picture"), getFieldEditorParent()));
+		//T: Preference page "Document" 
+		addField(new IntegerFieldEditor("DOCUMENT_PREVIEW_PICTURE_WIDTH", _("Width of the preview picture:"), getFieldEditorParent()));
+		//T: Preference page "Document" 
+		addField(new BooleanFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", _("Show a customer statistics dialog"), getFieldEditorParent()));
+		
 	}
 
 	/**
@@ -97,7 +104,10 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_NET_GROSS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_COPY_MESSAGE_FROM_PARENT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", write);
-	}
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_PREVIEW_PICTURE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_PREVIEW_PICTURE_WIDTH", write);
+		}
 
 	/**
 	 * Set the default values for this preference page
@@ -109,7 +119,10 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		node.put("DOCUMENT_USE_NET_GROSS", "1");
 		node.putBoolean("DOCUMENT_COPY_MESSAGE_FROM_PARENT", false);
 		node.putBoolean("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", false);
-
+		node.putBoolean("DOCUMENT_USE_PREVIEW_PICTURE", true);
+		node.putBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", true);
+		node.put("DOCUMENT_PREVIEW_PICTURE_WIDTH", "50");
+		
 	}
 
 }

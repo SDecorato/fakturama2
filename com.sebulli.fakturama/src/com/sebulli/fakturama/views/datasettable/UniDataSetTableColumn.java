@@ -28,9 +28,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
@@ -64,6 +66,8 @@ public class UniDataSetTableColumn {
 	private static final Image ORDER_PROCESSING = Activator.getImageDescriptor("icons/16/order_processing_16.png").createImage();
 	private static final Image ORDER_SHIPPED = Activator.getImageDescriptor("icons/16/order_shipped_16.png").createImage();
 	private int stdId = 0;
+	
+	private Display display = null;
 
 	/**
 	 * Constructor Creates a UniDatSet table column with no editing support
@@ -88,6 +92,31 @@ public class UniDataSetTableColumn {
 	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight, int minimumWidth,
 			boolean fixsize, final String dataKey) {
 		this(tableColumnLayout, tableViewer, style, header, weight, minimumWidth, fixsize, dataKey, null);
+	}
+	/**
+	 * Constructor Creates a UniDatSet table column with no editing support
+	 * 
+	 * @param tableColumnLayout
+	 *            The layout of the table column
+	 * @param tableViewer
+	 *            The table viewer
+	 * @param style
+	 *            SWT style of the column
+	 * @param header
+	 *            The header of the column
+	 * @param weight
+	 *            Width of the column
+	 * @param minimumWidth
+	 *            The minimum width
+	 * @param fixsize
+	 *            Set the width to a fix value
+	 * @param dataKey
+	 *            Key that represents the column's data
+	 */
+	public UniDataSetTableColumn(Display display, TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight, int minimumWidth,
+			boolean fixsize, final String dataKey, EditingSupport editingSupport) {
+		this(tableColumnLayout, tableViewer, style, header, weight, minimumWidth, fixsize, dataKey, editingSupport);
+		this.display = display;
 	}
 
 	/**
@@ -129,6 +158,9 @@ public class UniDataSetTableColumn {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
+				if (tableViewer.getSorter() == null)
+					return;
+				
 				// Get the data key of the column
 				DataSetArray<?> datasets = (DataSetArray<?>) tableViewer.getInput();
 				((TableSorter) tableViewer.getSorter()).setDataKey(datasets.getTemplate(), dataKey);
@@ -258,6 +290,42 @@ public class UniDataSetTableColumn {
 					case DUNNING:
 						cell.setImage(DUNNING);
 						break;
+					}
+				}
+
+				// Fill the cell a small preview picture
+				else if (dataKey.equals("$ProductPictureSmall")) {
+					String pictureName = ((UniDataSet) cell.getElement()).getStringValueByKey("picturename");
+					
+					try {
+						// Display the picture, if a product picture is set.
+						if (!pictureName.isEmpty()) {
+
+
+							// Load the image, based on the picture name
+							Image image = new Image(display,  Workspace.INSTANCE.getWorkspace() + Workspace.productPictureFolderName + pictureName);
+
+							// Get the pictures size
+							int width = image.getBounds().width;
+							int height = image.getBounds().height;
+
+							int maxWidth = Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_PREVIEW_PICTURE_WIDTH");
+							
+							if (maxWidth == 0)
+								maxWidth = 50;
+							
+							// Maximum picture width 
+							if ((width > maxWidth) && (width>0)) {
+								height = maxWidth * height / width;
+								width = maxWidth;
+							}
+
+							// Rescale the picture to the maximum width
+							Image scaledImage = new Image(display, image.getImageData().scaledTo(width, height));
+							cell.setImage(scaledImage);
+						}
+					}
+					catch (Exception e) {
 					}
 				}
 

@@ -63,7 +63,7 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 	private ExpenditureEditor expenditureEditor;
 
 	/**
-	 * Contructor Create support to edit the table entries.
+	 * Constructor Create support to edit the table entries.
 	 * 
 	 * @param documentEditor
 	 *            The parent document editor that contains the item table
