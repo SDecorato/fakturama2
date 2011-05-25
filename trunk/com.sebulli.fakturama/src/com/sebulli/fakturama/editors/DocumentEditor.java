@@ -1727,7 +1727,7 @@ public class DocumentEditor extends Editor {
 			tableComposite.setLayout(tableColumnLayout);
 
 			// The table viewer
-			tableViewerItems = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION);
+			tableViewerItems = new TableViewer(tableComposite, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
 			tableViewerItems.getTable().setLinesVisible(true);
 			tableViewerItems.getTable().setHeaderVisible(true);
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
@@ -1735,47 +1735,47 @@ public class DocumentEditor extends Editor {
 			// Create the table columns
 			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Qty."), 60, 0, true, "quantity", new ItemEditingSupport(this,
-					tableViewerItems, 1));
+					tableViewerItems, ItemEditingSupport.Column.QUANTITY));
 			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
 				//T: Used as heading of a table. Keep the word short.
 				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Item No."), 80, 0, true, "itemnr", new ItemEditingSupport(this,
-						tableViewerItems, 2));
+						tableViewerItems, ItemEditingSupport.Column.ITEMNR));
 			
 			if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_PREVIEW_PICTURE"))
 				//T: Used as heading of a table. Keep the word short.
 				new UniDataSetTableColumn(parent.getDisplay() , tableColumnLayout, tableViewerItems, SWT.LEFT, _("Picture"), 150, 0, true, "$ProductPictureSmall", new ItemEditingSupport(this,
-					tableViewerItems, 3) );
+					tableViewerItems, ItemEditingSupport.Column.PICTURE) );
 
 			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Name"), 100, 0, true, "name", new ItemEditingSupport(this,
-					tableViewerItems, 4));
+					tableViewerItems, ItemEditingSupport.Column.NAME));
 			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Description"), 100, 30, false, "description", new ItemEditingSupport(
-					this, tableViewerItems, 5));
+					this, tableViewerItems, ItemEditingSupport.Column.DESCRIPTION));
 			if (documentType.hasPrice()) {
 				//T: Used as heading of a table. Keep the word short.
 				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ItemVatPercent", new ItemEditingSupport(this,
-						tableViewerItems, 6));
+						tableViewerItems, ItemEditingSupport.Column.VAT));
 				if (useGross)
 					//T: Unit Price.
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), 85, 0, true, "$ItemGrossPrice",
-							new ItemEditingSupport(this, tableViewerItems, 7));
+							new ItemEditingSupport(this, tableViewerItems, ItemEditingSupport.Column.PRICE));
 				else
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), 85, 0, true, "price", new ItemEditingSupport(this,
-							tableViewerItems, 7));
+							tableViewerItems, ItemEditingSupport.Column.PRICE));
 				//T: Used as heading of a table. Keep the word short.
 				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Discount"), 60, 0, true, "discount", new ItemEditingSupport(this,
-						tableViewerItems, 8));
+						tableViewerItems, ItemEditingSupport.Column.DISCOUNT));
 				if (useGross)
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), 85, 0, true, "$ItemGrossTotal", new ItemEditingSupport(
-							this, tableViewerItems, 9));
+							this, tableViewerItems, ItemEditingSupport.Column.TOTAL));
 				else
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), 85, 0, true, "$ItemNetTotal", new ItemEditingSupport(
-							this, tableViewerItems, 9));
+							this, tableViewerItems, ItemEditingSupport.Column.TOTAL));
 			}
 			// Fill the table with the items
 			tableViewerItems.setInput(items);

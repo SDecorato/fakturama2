@@ -20,6 +20,7 @@ import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 
 import com.sebulli.fakturama.calculate.DataUtils;
@@ -36,11 +37,17 @@ import com.sebulli.fakturama.data.DataSetVAT;
  */
 public class ItemEditingSupport extends EditingSupport {
 
+	// Public column enum
+	public static enum Column {
+		QUANTITY, ITEMNR, PICTURE, NAME, DESCRIPTION,
+		VAT, PRICE, DISCOUNT, TOTAL
+	}
+	
 	// The cell editor
 	private CellEditor editor;
 
 	// The current columns
-	private int column;
+	private Column column;
 
 	private Object activeObject;
 
@@ -57,7 +64,7 @@ public class ItemEditingSupport extends EditingSupport {
 	 * @param column
 	 *            The column
 	 */
-	public ItemEditingSupport(DocumentEditor documentEditor, ColumnViewer viewer, int column) {
+	public ItemEditingSupport(DocumentEditor documentEditor, ColumnViewer viewer, Column column) {
 		super(viewer);
 
 		// Set the local variables
@@ -68,12 +75,17 @@ public class ItemEditingSupport extends EditingSupport {
 		// Column nr.6 uses a combo box cell editor.
 		// The other columns a text cell editor.
 		switch (column) {
-		case 3:
+		
+		case PICTURE:
 			// Editor for the preview picture
 			editor = new PictureViewEditor(((TableViewer) viewer).getTable());
 			break;
-		case 6:
+		case VAT:
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", DataSetVAT.getSalesTaxString()));
+			break;
+		case DESCRIPTION:
+			// Multi line editor
+			editor = new TextCellEditor(((TableViewer) viewer).getTable(),SWT.MULTI);
 			break;
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
@@ -89,14 +101,14 @@ public class ItemEditingSupport extends EditingSupport {
 	protected boolean canEdit(Object element) {
 
 		switch (this.column) {
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-		case 8:
+		case QUANTITY:
+		case ITEMNR:
+		case PICTURE:
+		case NAME:
+		case DESCRIPTION:
+		case VAT:
+		case PRICE:
+		case DISCOUNT:
 			return true;
 		}
 		return false;
@@ -125,26 +137,26 @@ public class ItemEditingSupport extends EditingSupport {
 
 		DataSetItem item = (DataSetItem) element;
 		switch (this.column) {
-		case 1:
+		case QUANTITY:
 			return item.getFormatedStringValueByKey("quantity");
-		case 2:
+		case ITEMNR:
 			return item.getStringValueByKey("itemnr");
-		case 3:
+		case PICTURE:
 			// Open a preview dialog
 			((PictureViewEditor)editor).openPreview(item.getStringValueByKey("picturename"));
 			return "";
-		case 4:
+		case NAME:
 			return item.getStringValueByKey("name");
-		case 5:
-			return item.getStringValueByKey("description");
-		case 6:
+		case DESCRIPTION:
+			return DataUtils.makeOSLineFeeds(item.getStringValueByKey("description"));
+		case VAT:
 			return item.getIntValueByKey("vatid");
-		case 7:
+		case PRICE:
 			if (documentEditor.getUseGross())
 				return new Price(item).getUnitGross().asFormatedString();
 			else
 				return new Price(item).getUnitNet().asFormatedString();
-		case 8:
+		case DISCOUNT:
 			return item.getFormatedStringValueByKey("discount");
 		}
 		return "";
@@ -163,7 +175,7 @@ public class ItemEditingSupport extends EditingSupport {
 		documentEditor.setItemEditing(null);
 
 		switch (this.column) {
-		case 1:
+		case QUANTITY:
 			// Set the quantity
 			item.setStringValueByKey("quantity", String.valueOf(value));
 			int productId = item.getIntValueByKey("productid");
@@ -175,19 +187,19 @@ public class ItemEditingSupport extends EditingSupport {
 				item.setDoubleValueByKey("price", price);
 			}
 			break;
-		case 2:
+		case ITEMNR:
 			// Set the item number
 			item.setStringValueByKey("itemnr", String.valueOf(value));
 			break;
-		case 4:
+		case NAME:
 			// Set the name
 			item.setStringValueByKey("name", String.valueOf(value));
 			break;
-		case 5:
+		case DESCRIPTION:
 			// Set the description
-			item.setStringValueByKey("description", String.valueOf(value));
+			item.setStringValueByKey("description", DataUtils.removeCR(String.valueOf(value)));
 			break;
-		case 6:
+		case VAT:
 			// Set the VAT
 
 			// Get the selected item from the combo box
@@ -219,7 +231,7 @@ public class ItemEditingSupport extends EditingSupport {
 				item.setDoubleValueByKey("price", oldVat / newVat * item.getDoubleValueByKey("price"));
 
 			break;
-		case 7:
+		case PRICE:
 			// Set the price as gross or net value.
 			// If the editor displays gross values, calculate the net value,
 			// because only net values are stored.
@@ -230,7 +242,7 @@ public class ItemEditingSupport extends EditingSupport {
 			else
 				item.setStringValueByKey("price", String.valueOf(value));
 			break;
-		case 8:
+		case DISCOUNT:
 			// Set the discount value
 			Double d = DataUtils.StringToDoubleDiscount(String.valueOf(value));
 			item.setDoubleValueByKey("discount", d);
