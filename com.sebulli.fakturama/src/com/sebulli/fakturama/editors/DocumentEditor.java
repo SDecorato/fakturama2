@@ -1760,7 +1760,7 @@ public class DocumentEditor extends Editor {
 					//T: Unit Price.
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), 85, 0, true, "$ItemGrossPrice",
-							new ItemEditingSupport(this, tableViewerItems, 6));
+							new ItemEditingSupport(this, tableViewerItems, 7));
 				else
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), 85, 0, true, "price", new ItemEditingSupport(this,
