@@ -385,21 +385,54 @@ public class DataSetContact extends UniDataSet {
 	 * @return Gender as string
 	 */
 	public static String getGenderString(int i) {
+		return getGenderString(i, true);
+	}
+
+	/**
+	 * Get the gender String by the gender number
+	 * 
+	 * @param i
+	 *            Gender number
+	 * @param translate
+	 *            TRUE, if the string should be translated
+	 * @return Gender as string
+	 */
+	public static String getGenderString(int i, boolean translate) {
 		switch (i) {
 		case 0:
 			return "---";
 		case 1:
 			//T: Gender
-			return _("Mr");
+			return _("Mr", translate);
 		case 2:
 			//T: Gender
-			return _("Ms");
+			return _("Ms", translate);
 		case 3:
-			return _("Company");
+			return _("Company", translate);
 		}
 		return "";
 	}
 
+	/**
+	 * Get the gender number by the string
+	 * 
+	 * @param s
+	 *          Gender string
+	 * @return
+	 * 			The number
+	 */
+	public static int getGenderID(String s) {
+		// Test all strings
+		for (int i = 0;i < 4 ; i++) {
+			if (getGenderString(i,false).equalsIgnoreCase(s)) return i;
+			if (getGenderString(i,true).equalsIgnoreCase(s)) return i;
+		}
+		// Default = "---"
+		return 0;
+	}
+
+	
+	
 	/**
 	 * Get the reliability String by the number
 	 * 
@@ -408,22 +441,53 @@ public class DataSetContact extends UniDataSet {
 	 * @return Gender as string
 	 */
 	public static String getReliabilityString(int i) {
+		return getReliabilityString(i, true);
+	}
+	
+	/**
+	 * Get the reliability String by the number
+	 * 
+	 * @param i
+	 *            Gender number
+	 * @param translate
+	 *            TRUE, if the string should be translated
+	 * @return Gender as string
+	 */
+	public static String getReliabilityString(int i, boolean translate) {
 		switch (i) {
 		case 0:
 			return "---";
 		case 1:
 			//T: Reliability
-			return _("poor", "RELIABILITY");
+			return _("poor", "RELIABILITY", translate);
 		case 2:
 			//T: Reliability
-			return _("medium", "RELIABILITY");
+			return _("medium", "RELIABILITY", translate);
 		case 3:
 			//T: Reliability
-			return _("good", "RELIABILITY");
+			return _("good", "RELIABILITY", translate);
 		}
 		return "";
 	}
 
+	/**
+	 * Get the reliability number by the string
+	 * 
+	 * @param s
+	 *          Reliability string
+	 * @return
+	 * 			The number
+	 */
+	public static int getReliabilityID(String s) {
+		// Test all strings
+		for (int i = 0;i < 4 ; i++) {
+			if (getReliabilityString(i,false).equalsIgnoreCase(s)) return i;
+			if (getReliabilityString(i,true).equalsIgnoreCase(s)) return i;
+		}
+		// Default = "---"
+		return 0;
+	}
+	
 
 	/**
 	 * Test, if this is equal to an other UniDataSet Customer number, first
