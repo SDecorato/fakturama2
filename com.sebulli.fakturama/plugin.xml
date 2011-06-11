@@ -638,10 +638,20 @@
             category="com.sebulli.fakturama.importWizards.csv"
             class="com.sebulli.fakturama.importer.csv.expenditures.ImportWizard"
             icon="icons/16/expenditure_16.png"
-            id="com.sebulli.fakturama.importWizards.CSVImportWizard"
+            id="com.sebulli.fakturama.importer.csv.expenditures.importWizard"
             name="%wizard.import.csv.expenditures.name">
          <description>
             %wizard.import.csv.expenditures.description
+         </description>
+      </wizard>
+      <wizard
+            category="com.sebulli.fakturama.importWizards.csv"
+            class="com.sebulli.fakturama.importer.csv.products.ImportWizard"
+            icon="icons/16/product_16.png"
+            id="com.sebulli.fakturama.importer.csv.products.importWizard"
+            name="%wizard.import.csv.products.name">
+         <description>
+            %wizard.import.csv.products.description
          </description>
       </wizard>
    </extension>
