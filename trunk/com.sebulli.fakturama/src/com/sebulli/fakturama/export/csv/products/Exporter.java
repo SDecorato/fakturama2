@@ -14,8 +14,7 @@
 
 package com.sebulli.fakturama.export.csv.products;
 
-import static com.sebulli.fakturama.Translate._;
-
+import static com.sebulli.fakturama.export.Exporter.inQuotes;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -64,51 +63,51 @@ public class Exporter {
 			bos = new BufferedWriter(new FileWriter(csvFile, false));
 			bos.write(
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ "ID" + "\";"+ 
+					"\""+ "id" + "\";"+ 
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Item Number") + "\";"+
+					"\""+ "itemnr" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Name") + "\";"+
+					"\""+ "name" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Category") + "\";"+
+					"\""+ "category" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Description") + "\";"+
+					"\""+ "description" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Price")+ "(1)" + "\";"+
+					"\""+ "price1" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Price")+ "(2)" + "\";"+
+					"\""+ "price2" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Price")+ "(3)" + "\";"+
+					"\""+ "price3" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Price")+ "(4)" + "\";"+
+					"\""+ "price4" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Price")+ "(5)" + "\";"+
+					"\""+ "price5" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Quantity")+ "(1)" + "\";"+
+					"\""+ "block1" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Quantity")+ "(2)" + "\";"+
+					"\""+ "block2" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Quantity")+ "(3)" + "\";"+
+					"\""+ "block3" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Quantity")+ "(4)" + "\";"+
+					"\""+ "block4" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Quantity")+ "(5)" + "\";"+
+					"\""+ "block5" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("VAT") + "\";"+
+					"\""+ "vat" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Options") + "\";"+
+					"\""+ "options" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Weight (kg)") + "\";"+
+					"\""+ "weight" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Unit") + "\";"+
+					"\""+ "unit" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Date") + "\";"+
+					"\""+ "date_added" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Product Picture") + "\";"+
+					"\""+ "picturename" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Quantity") + "\";"+
+					"\""+ "quantity" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Web Shop") + "\""+
+					"\""+ "webshopid" + "\""+
 					NEW_LINE);
 
 		
@@ -122,27 +121,27 @@ public class Exporter {
 				
 				// Place the products information into the table
 				bos.write(
-						product.getStringValueByKey("id")+ ";" +
-						"\"" + product.getStringValueByKey("itemnr")+ "\";" +
-						"\"" + product.getStringValueByKey("name")+ "\";" +
-						"\"" + product.getStringValueByKey("category")+ "\";" +
-						"\"" + product.getStringValueByKey("description")+ "\";" +
-						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price1"),"0.00")+ ";" +
-						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price2"),"0.00")+ ";" +
-						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price3"),"0.00")+ ";" +
-						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price4"),"0.00")+ ";" +
-						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price5"),"0.00")+ ";" +
-						product.getStringValueByKey("block1")+ ";" +
-						product.getStringValueByKey("block2")+ ";" +
-						product.getStringValueByKey("block3")+ ";" +
-						product.getStringValueByKey("block4")+ ";" +
-						product.getStringValueByKey("block5")+ ";" +
+						product.getStringValueByKey("id") + ";" +
+						inQuotes(product.getStringValueByKey("itemnr")) + ";" +
+						inQuotes(product.getStringValueByKey("name")) + ";" +
+						inQuotes(product.getStringValueByKey("category")) + ";" +
+						inQuotes(product.getStringValueByKey("description")) + ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price1"),"0.000000")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price2"),"0.000000")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price3"),"0.000000")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price4"),"0.000000")+ ";" +
+						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("price5"),"0.000000")+ ";" +
+						inQuotes(product.getStringValueByKey("block1"))+ ";" +
+						inQuotes(product.getStringValueByKey("block2"))+ ";" +
+						inQuotes(product.getStringValueByKey("block3"))+ ";" +
+						inQuotes(product.getStringValueByKey("block4"))+ ";" +
+						inQuotes(product.getStringValueByKey("block5"))+ ";" +
 						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"),"0.00")+ ";" +
-						"\"" + product.getStringValueByKey("options")+ "\";" +
+						inQuotes(product.getStringValueByKey("options"))+ ";" +
 						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("weight"),"0.00")+ ";" +
 						product.getStringValueByKey("unit")+ ";" +
-						"\"" + product.getStringValueByKey("date_added")+ "\";" +
-						"\"" + product.getStringValueByKey("picturename")+ "\";" +
+						inQuotes(product.getStringValueByKey("date_added"))+ ";" +
+						inQuotes(product.getStringValueByKey("picturename"))+ ";" +
 						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("quantity"),"0.00")+ ";" +
 						product.getStringValueByKey("webshopid")+ "" +
 						NEW_LINE);

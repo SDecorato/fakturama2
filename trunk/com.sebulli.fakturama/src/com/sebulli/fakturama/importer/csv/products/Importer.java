@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.importer.csv.expenditures;
+package com.sebulli.fakturama.importer.csv.products;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -28,13 +28,10 @@ import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetExpenditure;
-import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.DataSetVAT;
-import com.sebulli.fakturama.editors.ExpenditureEditor;
 import com.sebulli.fakturama.logger.Logger;
-import com.sebulli.fakturama.views.datasettable.ViewExpenditureTable;
-import com.sebulli.fakturama.views.datasettable.ViewListTable;
+import com.sebulli.fakturama.views.datasettable.ViewProductTable;
 import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 
 /**
@@ -45,7 +42,11 @@ import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 public class Importer {
 
 	// Defines all columns that are used and imported
-	private String[] requiredHeaders = { "category", "date", "nr", "documentnr", "name", "item name", "item category", "item price", "item vat", "vat" };
+	private String[] requiredHeaders = { "itemnr", "name", "category", "description", "price1", "price2", "price3", "price4", "price5",
+			 "block1", "block2", "block3", "block4", "block5", "vat", "options", "weight", "unit", 
+			 "date_added", "picturename", "quantity", "webshopid" };
+
+	
 	// The result string
 	String result = "";
 
@@ -116,8 +117,8 @@ public class Importer {
 		//T: Importing + .. FILENAME
 		result = _("Importing") + " " + fileName;
 
-		// Count the imported expenditures
-		int importedExpenditures = 0;
+		// Count the imported products
+		int importedProducts = 0;
 
 		// Count the line of the import file
 		int lineNr = 0;
@@ -173,16 +174,11 @@ public class Importer {
 		// with a fix size. Only the newest lines are kept.
 		try {
 
-			// Store the last expenditure. This is used to import
-			// 2 lines with 2 expenditure items but only one expenditure.
-			DataSetExpenditure lastExpenditure = null;
-
 			// Read line by line
 			while ((line = in.readLine()) != null) {
 				lineNr++;
 
-				DataSetExpenditure expenditure = new DataSetExpenditure();
-				DataSetExpenditureItem expenditureItem = new DataSetExpenditureItem();
+				DataSetProduct product = new DataSetProduct();
 				Properties prop = new Properties();
 
 				// Get the cells
@@ -212,92 +208,57 @@ public class Importer {
 				}
 				else {
 
-					// Date is a must.
-					if (!prop.getProperty("date").isEmpty()) {
+					product.setStringValueByKey("itemnr", prop.getProperty("itemnr"));
+					product.setStringValueByKey("name", prop.getProperty("name"));
+					product.setStringValueByKey("category", prop.getProperty("category"));
+					product.setStringValueByKey("description", prop.getProperty("description"));
+					product.setStringValueByKey("price1", prop.getProperty("price1"));
+					product.setStringValueByKey("price2", prop.getProperty("price2"));
+					product.setStringValueByKey("price3", prop.getProperty("price3"));
+					product.setStringValueByKey("price4", prop.getProperty("price4"));
+					product.setStringValueByKey("price5", prop.getProperty("price5"));
+					product.setStringValueByKey("block1", prop.getProperty("block1"));
+					product.setStringValueByKey("block2", prop.getProperty("block2"));
+					product.setStringValueByKey("block3", prop.getProperty("block3"));
+					product.setStringValueByKey("block4", prop.getProperty("block4"));
+					product.setStringValueByKey("block5", prop.getProperty("block5"));
 
-						// Fill the expenditure data set
-						expenditure.setStringValueByKey("name", prop.getProperty("name"));
-						expenditure.setStringValueByKey("category", prop.getProperty("category"));
-						expenditure.setStringValueByKey("date", DataUtils.DateAsISO8601String(prop.getProperty("date")));
-						expenditure.setStringValueByKey("nr", prop.getProperty("nr"));
-						expenditure.setStringValueByKey("documentnr", prop.getProperty("documentnr"));
+					product.setStringValueByKey("options", prop.getProperty("options"));
+					product.setStringValueByKey("weight", prop.getProperty("weight"));
+					product.setStringValueByKey("unit", prop.getProperty("unit"));
 
-						// Test, if the last line was the same expenditure
-						boolean repeatedExpenditure = false;
-
-						if (lastExpenditure != null)
-							if (lastExpenditure.isTheSameAs(expenditure))
-								repeatedExpenditure = true;
-
-						// If the data set is already existing, stop the CSV import
-						if (!repeatedExpenditure)
-							if (!Data.INSTANCE.getExpenditures().isNew(expenditure)) {
-								//T: Error message Dataset is already imported
-								result += NL + _("Dataset is already imported");
-								//T: Error message: DATASET xx FROM date
-								result += NL + _("Dataset")+ " " + prop.getProperty("name") + " " +
-									//T: DATASET xx FROM date
-									_("from", "DATE") + " " + prop.getProperty("date");
-								//T: Error message Import stopped
-								result += NL + _("Import stopped");
-								break;
-							}
-
-						// Fill the expenditure item with data
-						expenditureItem.setStringValueByKey("name", prop.getProperty("item name"));
-						expenditureItem.setStringValueByKey("category", prop.getProperty("item category"));
-						expenditureItem.setStringValueByKey("price", prop.getProperty("item price"));
-
-						String vatName = prop.getProperty("item vat");
-
-						Double vatValue = DataUtils.StringToDouble(prop.getProperty("vat"));
-						DataSetVAT vat = new DataSetVAT(vatName, DataSetVAT.getPurchaseTaxString(), vatName, vatValue);
-						vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(vat);
-						expenditureItem.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
-
-						// Add the expenditure and expenditure item to the data base
-						expenditureItem = Data.INSTANCE.getExpenditureItems().addNewDataSet(expenditureItem);
-						ExpenditureEditor.updateBillingAccount (expenditureItem);
-						expenditure = Data.INSTANCE.getExpenditures().addNewDataSetIfNew(expenditure);
-
-						// Add the item to the item string
-						String oldItems = expenditure.getStringValueByKey("items");
-						String newItem = expenditureItem.getStringValueByKey("id");
-						if (!oldItems.isEmpty())
-							oldItems += ",";
-						else {
-							importedExpenditures++;
-						}
-						expenditure.setStringValueByKey("items", oldItems + newItem);
-
-						// Recalculate the total sum of all items and set the total value
-						expenditure.calculate();
-						// Get the total result
-						Double total = expenditure.getSummary().getTotalGross().asDouble();
-
-						// Update the text widget
-						expenditure.setDoubleValueByKey("total", total);
-						expenditure.setDoubleValueByKey("paid", total);
+					if (prop.getProperty("date_added").isEmpty())
+						product.setStringValueByKey("date_added", DataUtils.DateAsISO8601String());
+					else
+						product.setStringValueByKey("date_added", DataUtils.DateAsISO8601String(prop.getProperty("date_added")));
 					
+					product.setStringValueByKey("picturename", prop.getProperty("picturename"));
+					product.setStringValueByKey("quantity", prop.getProperty("quantity"));
+					product.setStringValueByKey("webshopid", prop.getProperty("webshopid"));
 
-						Data.INSTANCE.getExpenditures().updateDataSet(expenditure);
+					String vatName = prop.getProperty("item vat");
 
-						// Set the reference of the last expenditure to this one
-						lastExpenditure = expenditure;
+					Double vatValue = DataUtils.StringToDouble(prop.getProperty("vat"));
+					DataSetVAT vat = new DataSetVAT(vatName, DataSetVAT.getPurchaseTaxString(), vatName, vatValue);
+					vat = Data.INSTANCE.getVATs().addNewDataSetIfNew(vat);
+					product.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
+
+					// Add the product to the data base
+					if (Data.INSTANCE.getProducts().isNew(product)) {
+						importedProducts++;
+						Data.INSTANCE.getProducts().addNewDataSet(product);
 					}
-
 				}
 
 			}
 			
 			// Refresh the views
-			ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
 			ApplicationWorkbenchAdvisor.refreshView(ViewVatTable.ID);
-			ApplicationWorkbenchAdvisor.refreshView(ViewExpenditureTable.ID);
+			ApplicationWorkbenchAdvisor.refreshView(ViewProductTable.ID);
 			
 			// The result string
-			//T: Message: xx VOUCHERS HAVE BEEN IMPORTED 
-			result += NL + Integer.toString(importedExpenditures) + " " + _("Vouchers have been imported.");
+			//T: Message: xx Products HAVE BEEN IMPORTED 
+			result += NL + Integer.toString(importedProducts) + " " + _("Products have been imported.");
 
 		}
 		catch (IOException e) {

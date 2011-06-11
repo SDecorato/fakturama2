@@ -67,6 +67,25 @@ public class Translate {
 	}
 
 	/**
+	 * Replace a string by the translated string.
+	 * If no translation is available, return the original one.
+	 * 
+	 * @param s
+	 * 			String to translate
+	 * @param translate
+	 * 			TRUE, if the string should be translated
+	 * @return
+	 * 			The translated String
+	 */
+	public static String _(String s, boolean translate) {
+		
+		if (translate)
+			return _(s);
+		else
+			return s;
+	}
+
+	/**
 	 * Replace a string in a context by the translated string.
 	 * If no translation is available, return the original one.
 	 * 
