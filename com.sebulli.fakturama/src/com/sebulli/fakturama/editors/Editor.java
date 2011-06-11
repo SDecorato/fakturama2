@@ -295,11 +295,11 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 		
 		// Replace the date information
 		format = format.replace("{yyyy}", String.format("%04d", yyyy));
-		format = format.replace("{yy}", String.format("%04d", yyyy).substring(3, 4));
+		format = format.replace("{yy}", String.format("%04d", yyyy).substring(2, 4));
 		format = format.replace("{mm}", String.format("%02d", mm));
 		format = format.replace("{dd}", String.format("%02d", dd));
 		format = format.replace("{YYYY}", String.format("%04d", yyyy));
-		format = format.replace("{YY}", String.format("%04d", yyyy).substring(3, 4));
+		format = format.replace("{YY}", String.format("%04d", yyyy).substring(2, 4));
 		format = format.replace("{MM}", String.format("%02d", mm));
 		format = format.replace("{DD}", String.format("%02d", dd));
 		
