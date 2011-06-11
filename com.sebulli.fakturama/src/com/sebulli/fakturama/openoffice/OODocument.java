@@ -729,6 +729,11 @@ public class OODocument extends Object {
 			value = item.getStringValueByKey("description");
 		}
 
+		// Get the item discount
+		else if (placeholderDisplayText.equals("<ITEM.DISCOUNT.PERCENT>")) {
+			value = DataUtils.DoubleToFormatedPercent(item.getDoubleValueByKey("discount"));
+		}
+
 		// Get the item's VAT
 		else if (placeholderDisplayText.equals("<ITEM.VAT.PERCENT>")) {
 			value = DataUtils.DoubleToFormatedPercent(item.getDoubleValueByKey("vatvalue"));
