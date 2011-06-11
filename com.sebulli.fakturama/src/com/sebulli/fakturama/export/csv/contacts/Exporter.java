@@ -14,7 +14,7 @@
 
 package com.sebulli.fakturama.export.csv.contacts;
 
-import static com.sebulli.fakturama.Translate._;
+import static com.sebulli.fakturama.export.Exporter.inQuotes;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -63,93 +63,90 @@ public class Exporter {
 			csvFile.createNewFile();
 			bos = new BufferedWriter(new FileWriter(csvFile, false));
 
-			//T: Table heading of CSV file
-			String deliveryAddress = " ("+_("Delivery Address")+")";
-			
 			bos.write(
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ "ID" + "\";"+ 
+					"\""+ "id" + "\";"+ 
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Category") + "\";"+
+					"\""+ "category" + "\";"+
 
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Gender") + "\";"+
+					"\""+ "gender" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Title","ADDRESS") + "\";"+
+					"\""+ "title" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("First Name") + "\";"+
+					"\""+ "firstname" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Last Name") + "\";"+
+					"\""+ "name" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Company") + "\";"+
+					"\""+ "company" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Street") + "\";"+
+					"\""+ "street" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("ZIP") + "\";"+
+					"\""+ "zip" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("City") + "\";"+
+					"\""+ "city" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Country") + "\";"+
-					
-					
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Gender") + deliveryAddress + "\";"+
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Title","ADDRESS") + deliveryAddress + "\";"+
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("First Name") + deliveryAddress + "\";"+
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Last Name") + deliveryAddress + "\";"+
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Company") + deliveryAddress + "\";"+
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Street") + deliveryAddress + "\";"+
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("ZIP") + deliveryAddress + "\";"+
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("City") + deliveryAddress + "\";"+
-					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Country") + deliveryAddress + "\";"+
+					"\""+ "country" + "\";"+
 					
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Account Holder") + "\";"+
+					"\""+ "delivery_gender"  + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Account Number") + "\";"+
+					"\""+ "delivery_title"  + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Bank Code") + "\";"+
+					"\""+ "delivery_firstname"  + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Name of the Bank") + "\";"+
+					"\""+ "delivery_name"  + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("IBAN") + "\";"+
+					"\""+ "delivery_company" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("BIC") + "\";"+
+					"\""+ "delivery_street" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Customer ID") + "\";"+
+					"\""+ "delivery_zip" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "delivery_city" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "delivery_country" + "\";"+
+					
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "account_holder" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "account" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "bank_code" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "bank_name" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "iban" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "bic" + "\";"+
+					
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "nr" + "\";"+
 
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Notice") + "\";"+
+					"\""+ "note" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Date") + "\";"+
+					"\""+ "date_added" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Payment") + "\";"+
+					"\""+ "payment" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Reliability") + "\";"+
+					"\""+ "reliability" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Telephone") + "\";"+
+					"\""+ "phone" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Telefax") + "\";"+
+					"\""+ "fax" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Mobile") + "\";"+
+					"\""+ "mobile" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("E-Mail") + "\";"+
+					"\""+ "email" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Web Site") + "\";"+
+					"\""+ "website" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("VAT Number") + "\";"+
+					"\""+ "vatnr" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("VAT Number valid") + "\";"+
+					"\""+ "vatnrvalid" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ _("Discount","CUSTOMER") + "\""+
+					"\""+ "discount" + "\""+
 					NEW_LINE);
 		
 			// Get all undeleted contacts
@@ -162,48 +159,48 @@ public class Exporter {
 				// Place the products information into the table
 				bos.write(
 						contact.getStringValueByKey("id")+ ";" +
-						"\"" + contact.getStringValueByKey("category")+ "\";" +
+						inQuotes(contact.getStringValueByKey("category")) + ";" +
 						
-						"\"" + DataSetContact.getGenderString(contact.getIntValueByKey("gender"))+ "\";" +
-						"\"" + contact.getStringValueByKey("title")+ "\";" +
-						"\"" + contact.getStringValueByKey("firstname")+ "\";" +
-						"\"" + contact.getStringValueByKey("name")+ "\";" +
-						"\"" + contact.getStringValueByKey("company")+ "\";" +
-						"\"" + contact.getStringValueByKey("street")+ "\";" +
-						"\"" + contact.getStringValueByKey("zip")+ "\";" +
-						"\"" + contact.getStringValueByKey("city")+ "\";" +
-						"\"" + contact.getStringValueByKey("country")+ "\";" +
+						inQuotes(DataSetContact.getGenderString(contact.getIntValueByKey("gender")))+ ";" +
+						inQuotes(contact.getStringValueByKey("title"))+ ";" +
+						inQuotes(contact.getStringValueByKey("firstname"))+ ";" +
+						inQuotes(contact.getStringValueByKey("name"))+ ";" +
+						inQuotes(contact.getStringValueByKey("company"))+ ";" +
+						inQuotes(contact.getStringValueByKey("street"))+ ";" +
+						inQuotes(contact.getStringValueByKey("zip"))+ ";" +
+						inQuotes(contact.getStringValueByKey("city"))+ ";" +
+						inQuotes(contact.getStringValueByKey("country"))+ ";" +
 
-						"\"" + DataSetContact.getGenderString(contact.getIntValueByKey("delivery_gender"))+ "\";" +
-						"\"" + contact.getStringValueByKey("delivery_title")+ "\";" +
-						"\"" + contact.getStringValueByKey("delivery_firstname")+ "\";" +
-						"\"" + contact.getStringValueByKey("delivery_name")+ "\";" +
-						"\"" + contact.getStringValueByKey("delivery_company")+ "\";" +
-						"\"" + contact.getStringValueByKey("delivery_street")+ "\";" +
-						"\"" + contact.getStringValueByKey("delivery_zip")+ "\";" +
-						"\"" + contact.getStringValueByKey("delivery_city")+ "\";" +
-						"\"" + contact.getStringValueByKey("delivery_country")+ "\";" +
+						inQuotes(DataSetContact.getGenderString(contact.getIntValueByKey("delivery_gender")))+ ";" +
+						inQuotes(contact.getStringValueByKey("delivery_title"))+ ";" +
+						inQuotes(contact.getStringValueByKey("delivery_firstname"))+ ";" +
+						inQuotes(contact.getStringValueByKey("delivery_name"))+ ";" +
+						inQuotes(contact.getStringValueByKey("delivery_company"))+ ";" +
+						inQuotes(contact.getStringValueByKey("delivery_street"))+ ";" +
+						inQuotes(contact.getStringValueByKey("delivery_zip"))+ ";" +
+						inQuotes(contact.getStringValueByKey("delivery_city"))+ ";" +
+						inQuotes(contact.getStringValueByKey("delivery_country"))+ ";" +
 
 						
-						"\"" + contact.getStringValueByKey("account_holder")+ "\";" +
-						"\"" + contact.getStringValueByKey("account")+ "\";" +
-						"\"" + contact.getStringValueByKey("bank_code")+ "\";" +
-						"\"" + contact.getStringValueByKey("bank_name")+ "\";" +
-						"\"" + contact.getStringValueByKey("iban")+ "\";" +
-						"\"" + contact.getStringValueByKey("bic")+ "\";" +
-						"\"" + contact.getStringValueByKey("nr")+ "\";" +
-						"\"" + contact.getStringValueByKey("note")+ "\";" +
-						"\"" + contact.getStringValueByKey("date_added")+ "\";" +
-						"\"" + contact.getFormatedStringValueByKeyFromOtherTable("payment.PAYMENTS:description")+ "\";" +
-						"\"" + DataSetContact.getReliabilityString(contact.getIntValueByKey("reliability"))+ "\";" +
-						"\"" + contact.getStringValueByKey("phone")+ "\";" +
-						"\"" + contact.getStringValueByKey("fax")+ "\";" +
-						"\"" + contact.getStringValueByKey("mobile")+ "\";" +
-						"\"" + contact.getStringValueByKey("email")+ "\";" +
-						"\"" + contact.getStringValueByKey("website")+ "\";" +
-						"\"" + contact.getStringValueByKey("vatnr")+ "\";" +
+						inQuotes(contact.getStringValueByKey("account_holder"))+ ";" +
+						inQuotes(contact.getStringValueByKey("account"))+ ";" +
+						inQuotes(contact.getStringValueByKey("bank_code"))+ ";" +
+						inQuotes(contact.getStringValueByKey("bank_name"))+ ";" +
+						inQuotes( contact.getStringValueByKey("iban"))+ ";" +
+						inQuotes(contact.getStringValueByKey("bic"))+ ";" +
+						inQuotes(contact.getStringValueByKey("nr"))+ ";" +
+						inQuotes(contact.getStringValueByKey("note"))+ ";" +
+						inQuotes(contact.getStringValueByKey("date_added"))+ ";" +
+						inQuotes(contact.getFormatedStringValueByKeyFromOtherTable("payment.PAYMENTS:description"))+ ";" +
+						inQuotes(DataSetContact.getReliabilityString(contact.getIntValueByKey("reliability")))+ ";" +
+						inQuotes(contact.getStringValueByKey("phone"))+ ";" +
+						inQuotes(contact.getStringValueByKey("fax"))+ ";" +
+						inQuotes(contact.getStringValueByKey("mobile"))+ ";" +
+						inQuotes(contact.getStringValueByKey("email"))+ ";" +
+						inQuotes(contact.getStringValueByKey("website"))+ ";" +
+						inQuotes(contact.getStringValueByKey("vatnr"))+ ";" +
 						contact.getStringValueByKey("vatnrvalid")+ ";" +
-						"\"" + DataUtils.DoubleToDecimalFormatedValue(contact.getDoubleValueByKey("discount"),"0.00")+ "\"" +
+						inQuotes(DataUtils.DoubleToDecimalFormatedValue(contact.getDoubleValueByKey("discount"),"0.00")) +
 						NEW_LINE);
 			}
 		

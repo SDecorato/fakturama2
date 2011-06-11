@@ -654,6 +654,16 @@
             %wizard.import.csv.products.description
          </description>
       </wizard>
+      <wizard
+            category="com.sebulli.fakturama.importWizards.csv"
+            class="com.sebulli.fakturama.importer.csv.contacts.ImportWizard"
+            icon="icons/16/contact_16.png"
+            id="com.sebulli.fakturama.importer.csv.contacts.importWizard"
+            name="%wizard.import.csv.contacts.name">
+         <description>
+            %wizard.import.csv.contacts.description
+         </description>
+      </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.intro">

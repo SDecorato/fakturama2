@@ -119,6 +119,28 @@ public class Translate {
 	}
 	
 	/**
+	 * Replace a string by the translated string.
+	 * If no translation is available, return the original one.
+	 * 
+	 * @param s
+	 * 			String to translate
+	 * @param context
+	 * 			Context of the string
+	 * @param translate
+	 * 			TRUE, if the string should be translated
+	 * @return
+	 * 			The translated String
+	 */
+	public static String _(String s, String context, boolean translate) {
+		
+		if (translate)
+			return _(s, context);
+		else
+			return s;
+	}
+
+	
+	/**
 	 * Load a PO file from the resource and fill the properties
 	 */
 	public static void loadPoFile () {
