@@ -110,7 +110,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <includes
          id="org.eclipse.rcp"
-         version="3.6.1.r361_v20100827-9OArFLdFjY-ThSQXmKvKz0_T"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.help"
