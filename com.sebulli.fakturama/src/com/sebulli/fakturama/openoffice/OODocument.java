@@ -688,7 +688,7 @@ public class OODocument extends Object {
 
 		String value = "";
 		String format = "";
-
+		
 		// Get the column's header
 		String key = placeholderDisplayText.substring(1, placeholderDisplayText.length() - 1);
 
@@ -726,6 +726,11 @@ public class OODocument extends Object {
 
 		// Get the item description
 		else if (placeholderDisplayText.equals("<ITEM.DESCRIPTION>")) {
+			// 2011-06-24 sbauer@eumedio.de
+			// Remove pre linebreak if description if description is empty to avoid empty lines
+			if( item.getStringValueByKey("description").isEmpty() )
+				cellText = cellText.replaceFirst("\n<ITEM.DESCRIPTION>", "");
+			
 			value = item.getStringValueByKey("description");
 		}
 
