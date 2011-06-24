@@ -964,6 +964,36 @@ public class OODocument extends Object {
 			pamenttext = pamenttext.replace("<DUE.DAYS>", Integer.toString(document.getIntValueByKey("duedays")));
 			pamenttext = pamenttext.replace("<DUE.DATE>", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
 			
+			// 2011-06-24 sbauer@eumedio.de
+			// New placeholder for bank
+			pamenttext = pamenttext.replace("<BANK.ACCOUNT.HOLDER>", contact.getStringValueByKey("account_holder"));
+			pamenttext = pamenttext.replace("<BANK.ACCOUNT>", contact.getStringValueByKey("account"));
+			pamenttext = pamenttext.replace("<BANK.CODE>", contact.getStringValueByKey("bank_code"));
+			pamenttext = pamenttext.replace("<BANK.NAME>", contact.getStringValueByKey("bank_name"));
+			
+			// 2011-06-24 sbauer@eumedio.de
+			// Additional placeholer for censored bank account
+			Integer bankAccountLength = contact.getStringValueByKey("account").length();
+			
+			// Only set placeholder if bank account exists
+			if( bankAccountLength > 0 ) {
+				
+				// Show only the last 3 digits
+				Integer bankAccountCensoredLength = bankAccountLength - 3;
+				String censoredDigits = "";
+				
+				for( int i = 1; i <= bankAccountCensoredLength; i++ ) {
+					censoredDigits += "*";
+				}
+				
+				pamenttext = pamenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredDigits + contact.getStringValueByKey("account").substring( bankAccountCensoredLength ));
+				
+			}
+			
+			// 2011-06-24 sbauer@eumedio.de
+			// New placeholder for total sum
+			pamenttext = pamenttext.replace("<DOCUMENT.TOTAL>", document.getSummary().getTotalGross().asFormatedString());
+			
 			setProperty("PAYMENT.TEXT", pamenttext);
 			setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
 			setProperty("PAYMENT.DESCRIPTION", document.getStringValueByKey("paymentdescription"));

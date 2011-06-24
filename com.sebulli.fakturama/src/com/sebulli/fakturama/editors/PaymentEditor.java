@@ -358,7 +358,7 @@ public class PaymentEditor extends Editor {
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo2 = new Label(top, SWT.WRAP);
 		//T: Label in the payment editor
-		labelPlaceholderInfo2.setText(_("Placeholder") + ": <DUE.DAYS>, <DUE.DATE>");
+		labelPlaceholderInfo2.setText(_("Placeholder") + ": <DUE.DAYS>, <DUE.DATE>, <BANK.ACCOUNT.HOLDER>, <BANK.ACCOUNT>,\n<BANK.ACCOUNT.CENSORED>, <BANK.CODE>, <BANK.NAME>, <DOCUMENT.TOTAL>");
 		makeSmallLabel(labelPlaceholderInfo2);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo2);
 
