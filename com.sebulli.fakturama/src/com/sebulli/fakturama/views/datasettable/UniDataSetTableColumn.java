@@ -334,6 +334,11 @@ public class UniDataSetTableColumn {
 					cell.setText(((UniDataSet) cell.getElement()).getFormatedStringValueByKeyFromOtherTable("vatid.VATS:value"));
 				}
 
+				// Fill the cell with the VAT value
+				else if (dataKey.equals("$vatnamebyid")) {
+					cell.setText(((UniDataSet) cell.getElement()).getStringValueByKeyFromOtherTable("vatid.VATS:name"));
+				}
+
 				// Fill the cell with the total net value of the item
 				else if (dataKey.equals("$ItemNetTotal")) {
 					cell.setText(new Price(((DataSetItem) cell.getElement())).getTotalNetRounded().asFormatedString());
