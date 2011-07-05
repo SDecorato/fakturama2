@@ -713,8 +713,10 @@ public class ExpenditureEditor extends Editor {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Account Type"), 200, 0, true, "category", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 2));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ExpenditureItemVatPercent",
-				new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 100, 0, true, "$vatnamebyid",
+						new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
+//		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ExpenditureItemVatPercent",
+//				vatnamebyid				new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Net"), 85, 0, true, "price", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 4));
