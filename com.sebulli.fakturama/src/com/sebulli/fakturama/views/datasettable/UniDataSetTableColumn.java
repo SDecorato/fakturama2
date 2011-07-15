@@ -401,7 +401,15 @@ public class UniDataSetTableColumn {
 		// Fill the cell direct with a UniData value, if the dataKey
 		// does not start with a "$"
 		if (!dataKey.startsWith("$")) {
-			return uds.getFormatedStringValueByKey(dataKey).split("\n")[0];
+			String firstline;
+			try {
+				firstline = uds.getFormatedStringValueByKey(dataKey).split("\n")[0];
+			} catch (Exception e) {
+				
+				// Return an empty string, if there is only one line feed
+				return "";
+			}
+			return firstline;
 		}
 
 		// Fill the cell with the status
