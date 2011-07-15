@@ -42,19 +42,19 @@ public class Startup implements IStartup {
 			public void run() {
 				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 
-				// Opens the web browser editor.
-				if (window != null) {
-					OpenBrowserEditorAction action = new OpenBrowserEditorAction(false);
-					action.run();
-				}
-				else
-					window = null;
-
 				// If the data base is connected and if it is not new, then some preferences are loaded
 				// from the data base.
 				if (!Data.INSTANCE.getNewDBCreated())
 					if (DataBaseConnectionState.INSTANCE.isConnected())
 						PreferencesInDatabase.loadPreferencesFromDatabase();
+				
+				// Opens the web browser editor.
+				if (window != null) {
+					OpenBrowserEditorAction action = new OpenBrowserEditorAction(false);
+					action.run();
+				}
+				
+				
 			}
 		});
 	}
