@@ -40,6 +40,8 @@ import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.InstallAction;
 import com.sebulli.fakturama.actions.MarkDocumentAsPaidAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
+import com.sebulli.fakturama.actions.MoveEntryDownAction;
+import com.sebulli.fakturama.actions.MoveEntryUpAction;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.actions.NewExpenditureAction;
@@ -157,6 +159,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private DeleteDataSetAction deleteDataSetAction;
 	private UpdateAction updateAction;
 	private InstallAction installAction;
+	private MoveEntryUpAction moveEntryUpAction;
+	private MoveEntryDownAction moveEntryDownAction;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -280,6 +284,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		deleteDataSetAction = new DeleteDataSetAction();
 		register(deleteDataSetAction);
 
+		moveEntryUpAction = new MoveEntryUpAction();
+		register(moveEntryUpAction);
+		moveEntryDownAction = new MoveEntryDownAction();
+		register(moveEntryDownAction);
+		
 		webShopImportAction = new WebShopImportAction();
 		register(webShopImportAction);
 		webShopImportActionTB = new WebShopImportAction();

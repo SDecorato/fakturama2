@@ -68,5 +68,8 @@ public interface ICommandIds {
 	public static final String CMD_P2_INSTALL = "com.sebulli.fakturama.actions.install";
 	
 	public static final String CMD_OPEN_PARCEL_SERVICE = "com.sebulli.fakturama.actions.openParcelService";
+
+	public static final String CMD_MOVE_UP = "com.sebulli.fakturama.actions.moveEntryUp";
+	public static final String CMD_MOVE_DOWN = "com.sebulli.fakturama.actions.moveEntryDown";
 	
 }
