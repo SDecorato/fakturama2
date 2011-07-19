@@ -626,4 +626,18 @@ public class DataSetArray<T> {
 		return filteredDatasets;
 	}
 
+	/**
+	 * Swap the position of 2 elements
+	 * 
+	 * @param 
+	 * 		element1
+	 * @param 
+	 * 		element2
+	 */
+	public void swapPosition(int element1, int element2) {
+		T uds1 =  datasets.get(element1);
+		datasets.set(element1, datasets.get(element2));
+		datasets.set(element2, (T) uds1);
+	}
+	
 }

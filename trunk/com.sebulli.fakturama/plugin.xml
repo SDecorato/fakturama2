@@ -356,6 +356,21 @@
             name="Delete DataSet">
       </command>
       <command
+            description="Move an entry up"
+            id="com.sebulli.fakturama.actions.moveEntryUp"
+            name="Move Up Entry">
+      </command>
+      <command
+            description="Move an entry down"
+            id="com.sebulli.fakturama.actions.moveEntryDown"
+            name="Move Down Entry">
+      </command>
+      <command
+            description="Move an entry down"
+            id="com.sebulli.fakturama.actions.moveEntryDown"
+            name="Move Down Entry">
+      </command>
+      <command
             description="Select Workspace"
             id="com.sebulli.fakturama.actions.selectWorkspace"
             name="Select Workspace">

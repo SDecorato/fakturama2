@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -54,6 +56,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
@@ -63,6 +66,8 @@ import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.actions.CreateOODocumentAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
+import com.sebulli.fakturama.actions.MoveEntryDownAction;
+import com.sebulli.fakturama.actions.MoveEntryUpAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.calculate.CustomerStatistics;
 import com.sebulli.fakturama.calculate.DataUtils;
@@ -171,6 +176,10 @@ public class DocumentEditor extends Editor {
 	// defines, if the contact is new created
 	private boolean newDocument;
 
+	// Menu manager of the context menu
+	private MenuManager menuManager;
+
+	
 	/**
 	 * Constructor
 	 * 
@@ -1781,6 +1790,12 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.setInput(items);
 		}
 
+		
+		
+		createContextMenu(tableViewerItems);
+		
+		
+		
 		// Container for the message label and the add button
 		Composite addMessageButtonComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addMessageButtonComposite);
@@ -2180,4 +2195,47 @@ public class DocumentEditor extends Editor {
 		return !thereIsOneWithSameNumber();
 	}
 
+
+	/**
+	 * Create the default context menu 
+	 */
+	private void createContextMenu(TableViewer tableViewerItems) {
+		menuManager = new MenuManager();
+		menuManager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		tableViewerItems.getTable().setMenu(menuManager.createContextMenu(tableViewerItems.getTable()));
+
+		getSite().registerContextMenu("com.sebulli.fakturama.editors.DocumentEditor.tableViewerItems.contextmenu", menuManager, tableViewerItems);
+		getSite().setSelectionProvider(tableViewerItems);
+		menuManager.add(new MoveEntryUpAction());
+		menuManager.add(new MoveEntryDownAction());
+	}
+
+	/**
+	 * Move an item up or down
+	 */
+	public void moveItem(UniDataSet uds, boolean up) {
+
+		if (!(uds instanceof DataSetItem))
+			return;
+		
+		if (items.getActiveDatasets().contains(uds)) {
+
+			// Get the position of the selected element
+			int pos = items.getActiveDatasets().indexOf(uds);
+			int size = items.getActiveDatasets().size();
+
+			// Move up
+			if (up && (pos >=1 )){
+				items.swapPosition(pos-1, pos);
+			}
+
+			// Move down
+			if (!up && (pos < (size-1))){
+				items.swapPosition(pos-1, pos);
+			}
+		}
+		// Refresh the table
+		tableViewerItems.refresh();
+		checkDirty();
+	}
 }
