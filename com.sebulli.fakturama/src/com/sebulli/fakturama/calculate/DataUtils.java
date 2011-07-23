@@ -117,20 +117,61 @@ public class DataUtils {
 		// Remove leading and trailing spaces
 		s = s.trim();
 		
-		// Test, if it is a negative value
-		boolean isNegative = s.startsWith("-");
-		
 		// Test, if it is a percent value
 		boolean isPercent = s.contains("%");
 
 		// replace the localizes decimal separators
 		s = s.replaceAll(",", ".");
 
+		// Use this flag to search for the digits
+		boolean digitFound = false;
+
+		// Remove trailing characters that are not part of the number
+		// e.g. a "sFr." with the decimal point
+		while (!digitFound && (s.length()>0) ) {
+			
+			// Get the first character
+			char firstChar = s.charAt(0);
+			
+			if (((firstChar >= '0') && (firstChar <= '9')) ||
+					(firstChar == '-')  || (firstChar == '+') )
+				digitFound = true;
+			else
+				//remove the first character
+				s = s.substring(1);
+			
+		} ;
+		
+
+		
+		digitFound = false;
+		// Remove trailing characters that are not part of the number
+		// e.g. a "sFr." with the decimal point
+		while (!digitFound && (s.length()>0) ) {
+			
+			// Get the length
+			int l = s.length();
+			
+			// Get the last character
+			char lastChar = s.charAt(l-1);
+			
+			if ((lastChar >= '0') && (lastChar <= '9'))
+				digitFound = true;
+			else
+				//remove the last character
+				s = s.substring(0, l-1);
+			
+		} ;
+		
+	
+		// Test, if it is a negative value
+		boolean isNegative = s.startsWith("-");
+		
 		// Use only one point
 		int firstPoint;
 		int lastPoint;
 		boolean twoPointsFound;
-		
+
 		do {
 			firstPoint = s.indexOf('.');
 			lastPoint = s.lastIndexOf('.');
