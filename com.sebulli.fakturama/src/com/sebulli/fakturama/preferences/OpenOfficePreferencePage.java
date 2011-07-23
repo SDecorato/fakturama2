@@ -104,7 +104,7 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
-		IEclipsePreferences node = new DefaultScope().getNode(Activator.PLUGIN_ID);
+		IEclipsePreferences node = DefaultScope.INSTANCE.getNode(Activator.PLUGIN_ID);
 
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_PATH", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_ODT_PDF", write);

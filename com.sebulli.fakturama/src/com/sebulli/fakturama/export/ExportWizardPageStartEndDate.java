@@ -93,11 +93,11 @@ public class ExportWizardPageStartEndDate extends WizardPage {
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(20, 0).applyTo(labelEnd);
 
 		// Start date
-		dtStartDate = new DateTime(top, SWT.CALENDAR | SWT.BORDER);
+		dtStartDate = new DateTime(top, SWT.DROP_DOWN);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(dtStartDate);
 
 		// End date
-		dtEndDate = new DateTime(top, SWT.CALENDAR | SWT.BORDER);
+		dtEndDate = new DateTime(top, SWT.DROP_DOWN);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(20, 0).applyTo(dtEndDate);
 
 		// Set the start and end date to the 1st and last day of the

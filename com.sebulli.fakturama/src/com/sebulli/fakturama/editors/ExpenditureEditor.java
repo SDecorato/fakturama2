@@ -570,7 +570,7 @@ public class ExpenditureEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
 		// Document date
-		dtDate = new DateTime(top, SWT.DATE);
+		dtDate = new DateTime(top, SWT.DROP_DOWN);
 		dtDate.setToolTipText(labelDate.getToolTipText());
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(dtDate);
 		superviceControl(dtDate);
