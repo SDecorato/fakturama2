@@ -1013,7 +1013,7 @@ public class DocumentEditor extends Editor {
 
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidDateLabel);
 
-			dtPaidDate = new DateTime(paidDataContainer, SWT.DATE);
+			dtPaidDate = new DateTime(paidDataContainer, SWT.DROP_DOWN);
 			dtPaidDate.setToolTipText(paidDateLabel.getToolTipText());
 			GridDataFactory.swtDefaults().applyTo(dtPaidDate);
 
@@ -1098,7 +1098,7 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(issueDateLabel);
 
 			// Create the issue date widget
-			dtIssueDate = new DateTime(paidDataContainer, SWT.DATE);
+			dtIssueDate = new DateTime(paidDataContainer, SWT.DROP_DOWN);
 			dtIssueDate.setToolTipText(issueDateLabel.getToolTipText());
 			GridDataFactory.swtDefaults().applyTo(dtIssueDate);
 			dtIssueDate.addSelectionListener(new SelectionAdapter() {
@@ -1280,7 +1280,7 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 
 		// Document date
-		dtDate = new DateTime(nrDateComposite, SWT.DATE);
+		dtDate = new DateTime(nrDateComposite, SWT.DROP_DOWN);
 		dtDate.setToolTipText(labelDate.getToolTipText());
 		dtDate.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -1361,7 +1361,7 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelOrderDate);
 
 		// Order date
-		dtOrderDate = new DateTime(useOrderDate ? xtraSettingsComposite : invisible, SWT.DATE);
+		dtOrderDate = new DateTime(useOrderDate ? xtraSettingsComposite : invisible, SWT.DROP_DOWN);
 		dtOrderDate.setToolTipText(labelOrderDate.getToolTipText());
 		GridDataFactory.swtDefaults().applyTo(dtOrderDate);
 		superviceControl(dtOrderDate);
