@@ -6,9 +6,9 @@
  * 
  * Web shop connector script
  */
-define ('FAKTURAMA_CONNECTOR_VERSION','1.3.0'); 
+define ('FAKTURAMA_CONNECTOR_VERSION','1.4.0'); 
 /* 
- * Date: 2011-05-12
+ * Date: 2011-07-26
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -31,6 +31,9 @@ define ('FAKTURAMA_CONNECTOR_VERSION','1.3.0');
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
 define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
+
+// Character Set of the web shop. This is used to send notification comments.
+define ('FAKTURAMA_WEBSHOP_CHARSET','ISO-8859-1'); 
 
 // Only for debugging. All the data is encrypted.
 //define ('ENCRYPT_DATA',true);	
@@ -987,6 +990,7 @@ if ($admin_valid != 1)
 
 	    $customer_notified = 0;
 
+
 	    // Notify the customer
 	    $notify_comments = '';
 	    // Is there a comment ?
@@ -1002,14 +1006,16 @@ if ($admin_valid != 1)
             // Remove the "*"
 	    $notify_comments = substr($notify_comments,1);
 
+
 	    // Convert it into the correct character encoding
 	    if (function_exists('iconv'))
-	    	$notify_comments_mail = iconv("UTF-8", CHARSET, $notify_comments);
-	    else
-		$notify_comments_mail = $notify_comments;
+	    	$notify_comments = iconv("UTF-8", FAKTURAMA_WEBSHOP_CHARSET . "//TRANSLIT", $notify_comments);
+		
 
-
+	    $notify_comments_mail = $notify_comments;
 	    
+	//exit_with_error($notify_comments_mail);
+
 	    $order = new order($orders_id_tosync);
 
 	    $lang_query = sbf_db_query("select languages_id from languages where directory = '" . $order->info['language'] . "'");
@@ -1048,6 +1054,7 @@ if ($admin_valid != 1)
 
 	    }
 	    else {
+
 	    	$smarty = new Smarty;
 	    	// assign language to template for caching
 	    	$smarty->assign('language', $order->info['language']);
