@@ -39,7 +39,7 @@ public class ItemEditingSupport extends EditingSupport {
 
 	// Public column enum
 	public static enum Column {
-		QUANTITY, ITEMNR, PICTURE, NAME, DESCRIPTION,
+		OPTIONAL, QUANTITY, ITEMNR, PICTURE, NAME, DESCRIPTION,
 		VAT, PRICE, DISCOUNT, TOTAL
 	}
 	
@@ -76,6 +76,10 @@ public class ItemEditingSupport extends EditingSupport {
 		// The other columns a text cell editor.
 		switch (column) {
 		
+		case OPTIONAL:
+			// Editor for the preview picture
+			editor = new EmptyCellEditor(((TableViewer) viewer).getTable());
+			break;
 		case PICTURE:
 			// Editor for the preview picture
 			editor = new PictureViewEditor(((TableViewer) viewer).getTable());
@@ -101,6 +105,7 @@ public class ItemEditingSupport extends EditingSupport {
 	protected boolean canEdit(Object element) {
 
 		switch (this.column) {
+		case OPTIONAL:
 		case QUANTITY:
 		case ITEMNR:
 		case PICTURE:
@@ -137,6 +142,11 @@ public class ItemEditingSupport extends EditingSupport {
 
 		DataSetItem item = (DataSetItem) element;
 		switch (this.column) {
+		case OPTIONAL:
+			//Toggle the value
+			boolean optional = !item.getBooleanValueByKey("optional");
+			this.setValue(activeObject, optional);
+			return optional;
 		case QUANTITY:
 			return item.getFormatedStringValueByKey("quantity");
 		case ITEMNR:
@@ -175,6 +185,10 @@ public class ItemEditingSupport extends EditingSupport {
 		documentEditor.setItemEditing(null);
 
 		switch (this.column) {
+		case OPTIONAL:
+			// Set the optional flag
+			item.setBooleanValueByKey("optional", (Boolean)value);
+			break;
 		case QUANTITY:
 			// Set the quantity
 			item.setStringValueByKey("quantity", String.valueOf(value));
