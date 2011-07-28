@@ -30,6 +30,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.UniDataSet;
+import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
 /**
@@ -120,8 +121,37 @@ public class DeleteDataSetAction extends Action {
 					}
 				}
 			}
-
 		}
 
+		
+		
+		// Cast the part to DocumentEditor
+		if (part instanceof DocumentEditor) {
+			DocumentEditor documentEditor = (DocumentEditor) part;
+
+			// Does the editor exist ?
+			if (documentEditor != null) {
+
+				// Get the selection
+				selection = documentEditor.getSite().getSelectionProvider().getSelection();
+				if (selection != null && selection instanceof IStructuredSelection) {
+					Object obj = ((IStructuredSelection) selection).getFirstElement();
+
+					// If we had a selection, delete it
+					if (obj != null) {
+						UniDataSet uds = (UniDataSet) obj;
+						documentEditor.deleteItem(uds);
+					}
+				}
+				
+				
+			}
+
+		}
+		
+		
+		
+		
+		
 	}
 }

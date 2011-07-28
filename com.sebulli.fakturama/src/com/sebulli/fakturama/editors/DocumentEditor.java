@@ -65,6 +65,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.actions.CreateOODocumentAction;
+import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.MoveEntryDownAction;
 import com.sebulli.fakturama.actions.MoveEntryUpAction;
@@ -1720,11 +1721,9 @@ public class DocumentEditor extends Editor {
 						// get first element ...
 						Object firstElement = structuredSelection.getFirstElement();
 						UniDataSet uds = (UniDataSet) firstElement;
-						// Delete it (mark it as deleted)
-						uds.setBooleanValueByKey("deleted", true);
-						tableViewerItems.refresh();
-						calculate();
-						checkDirty();
+
+						// delete the item
+						deleteItem(uds);
 					}
 				}
 			});
@@ -2208,6 +2207,7 @@ public class DocumentEditor extends Editor {
 		getSite().setSelectionProvider(tableViewerItems);
 		menuManager.add(new MoveEntryUpAction());
 		menuManager.add(new MoveEntryDownAction());
+		menuManager.add(new DeleteDataSetAction());
 	}
 
 	/**
@@ -2238,4 +2238,21 @@ public class DocumentEditor extends Editor {
 		tableViewerItems.refresh();
 		checkDirty();
 	}
+	
+	/**
+	 * delete an item
+	 */
+	public void deleteItem(UniDataSet uds) {
+
+		if (!(uds instanceof DataSetItem))
+			return;
+		
+		// Delete it (mark it as deleted)
+		uds.setBooleanValueByKey("deleted", true);
+		tableViewerItems.refresh();
+		calculate();
+		checkDirty();
+	}
+
+
 }
