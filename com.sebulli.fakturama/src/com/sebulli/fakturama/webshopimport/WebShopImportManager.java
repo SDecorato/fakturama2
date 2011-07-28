@@ -37,6 +37,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -274,7 +275,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				outputStream = conn.getOutputStream();
 				OutputStreamWriter writer = new OutputStreamWriter(outputStream);
 				setProgress(20);
-				String postString = "username=" + user + "&password=" + password;
+				String postString = "username=" + URLEncoder.encode(user, "UTF-8") + "&password=" +URLEncoder.encode(password, "UTF-8") ;
 
 				String actionString = "";
 				if (getProducts)
