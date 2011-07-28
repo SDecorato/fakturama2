@@ -960,7 +960,8 @@ public class OODocument extends Object {
 			setProperty("SHIPPING.NAME", document.getStringValueByKey("shippingname"));
 			setProperty("SHIPPING.DESCRIPTION", document.getStringValueByKey("shippingdescription"));
 			setProperty("SHIPPING.VAT.DESCRIPTION", document.getStringValueByKey("shippingvatdescription"));
-
+			setProperty("DOCUMENT.DUNNING.LEVEL", document.getStringValueByKey("dunninglevel"));
+			
 			
 			// Replace the placeholders in the payment text
 			String pamenttext = document.getStringValueByKey("paymenttext");
