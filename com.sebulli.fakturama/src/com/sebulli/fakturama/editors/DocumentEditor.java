@@ -1742,6 +1742,9 @@ public class DocumentEditor extends Editor {
 
 			// Create the table columns
 			//T: Used as heading of a table. Keep the word short.
+			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Opt."), 40, 0, true, "$Optional", new ItemEditingSupport(this,
+					tableViewerItems, ItemEditingSupport.Column.OPTIONAL));
+			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Qty."), 60, 0, true, "quantity", new ItemEditingSupport(this,
 					tableViewerItems, ItemEditingSupport.Column.QUANTITY));
 			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))

@@ -209,12 +209,31 @@ public class UniDataSetTableColumn {
 					cell.setText(getText(uds, dataKey));
 				}
 
+				// Fill the cell with an mark, if optional is set
+				else if (dataKey.equals("$Optional")) {
+					if (uds.getBooleanValueByKey("optional"))
+						cell.setImage(CHECKED);
+					else
+						cell.setImage(null);
+				}
+
+				
+				
 				// Fill the cell with the icon for standard ID
 				else if (dataKey.equals("$stdId")) {
 					if (stdId == uds.getIntValueByKey("id"))
 						cell.setImage(CHECKED);
 					else
 						cell.setImage(null);
+					/*
+					if (stdId == uds.getIntValueByKey("id")) {
+						Color color = new Color(null, 0xff, 0xb8, 0x00);
+						int columns = cell.getViewerRow().getColumnCount();
+						for (int i=0; i<columns; i++)
+							 cell.getViewerRow().setBackground(i, color);
+						color.dispose();
+
+					}*/
 
 				}
 

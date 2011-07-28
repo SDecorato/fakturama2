@@ -53,7 +53,7 @@ public class DataSetItem extends UniDataSet {
 						.getBooleanValueByKey("shared"), sign * parent.getDoubleValueByKey("quantity"), parent.getStringValueByKey("description"), parent
 						.getDoubleValueByKey("price"), parent.getIntValueByKey("vatid"), parent.getDoubleValueByKey("discount"), parent
 						.getDoubleValueByKey("vatvalue"), parent.getStringValueByKey("vatname"), parent.getStringValueByKey("vatdescription"), parent
-						.getBooleanValueByKey("novat"), parent.getStringValueByKey("picturename"));
+						.getBooleanValueByKey("novat"), parent.getStringValueByKey("picturename"), parent.getBooleanValueByKey("optional"));
 
 	}
 
@@ -69,7 +69,7 @@ public class DataSetItem extends UniDataSet {
 	 * @param vatId
 	 */
 	public DataSetItem(String name, String itemnr, String category, Double quantity, String description, Double price, int vatId ,String picturename) {
-		this(-1, name, -1, itemnr, false, category, -1, false, quantity, description, price, vatId, 0.0, 0.0, "", "", false , picturename);
+		this(-1, name, -1, itemnr, false, category, -1, false, quantity, description, price, vatId, 0.0, 0.0, "", "", false , picturename, false);
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class DataSetItem extends UniDataSet {
 	public DataSetItem(Double quantity, DataSetProduct product) {
 		this(-1, product.getStringValueByKey("name"), product.getIntValueByKey("id"), product.getStringValueByKey("itemnr"), false, "", -1, false, quantity,
 				product.getStringValueByKey("description"), product.getPriceByQuantity(quantity), product.getIntValueByKey("vatid"), 0.0, 0.0, "", "", false,
-				product.getStringValueByKey("picturename"));
+				product.getStringValueByKey("picturename"), false);
 		this.setVat(product.getIntValueByKey("vatid"));
 	}
 
@@ -111,7 +111,7 @@ public class DataSetItem extends UniDataSet {
 	 */
 	public DataSetItem(int id, String name, int productid, String itemnr, boolean deleted, String category, int owner, boolean shared, Double quantity,
 			String description, Double price, int vatId, double discount, double vatvalue, String vatname, String vatdescription, boolean noVat ,
-			String picturename) {
+			String picturename, boolean optional) {
 
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
@@ -132,6 +132,7 @@ public class DataSetItem extends UniDataSet {
 		this.hashMap.put("novat", new UniData(UniDataType.BOOLEAN, noVat));
 		this.hashMap.put("discount", new UniData(UniDataType.PERCENT, discount));
 		this.hashMap.put("picturename", new UniData(UniDataType.STRING, picturename));
+		this.hashMap.put("optional", new UniData(UniDataType.BOOLEAN, optional));
 
 		// Name of the table in the data base
 		sqlTabeName = "Items";
