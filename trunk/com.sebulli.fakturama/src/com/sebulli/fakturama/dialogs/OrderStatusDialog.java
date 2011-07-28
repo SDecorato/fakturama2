@@ -29,6 +29,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import com.sebulli.fakturama.calculate.DataUtils;
+
 /**
  * Dialog to enter a comment send to the user via the web shop
  * 
@@ -144,7 +146,8 @@ public class OrderStatusDialog extends Dialog {
 	 */
 	@Override
 	public boolean close() {
-		comment = txtComment.getText();
+		
+		comment = DataUtils.removeCR(txtComment.getText());
 		notify = bNotification.getSelection();
 		return super.close();
 
