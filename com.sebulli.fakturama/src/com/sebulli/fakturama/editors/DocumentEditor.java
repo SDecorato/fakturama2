@@ -1787,11 +1787,11 @@ public class DocumentEditor extends Editor {
 			}
 			// Fill the table with the items
 			tableViewerItems.setInput(items);
+			
+			//Create the context menu
+			createContextMenu(tableViewerItems);
 		}
 
-		
-		
-		createContextMenu(tableViewerItems);
 		
 		
 		
@@ -2199,12 +2199,19 @@ public class DocumentEditor extends Editor {
 	 * Create the default context menu 
 	 */
 	private void createContextMenu(TableViewer tableViewerItems) {
+		
+		//Cancel, if there are no items
+		if (tableViewerItems == null)
+			return;
+		
 		menuManager = new MenuManager();
 		menuManager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		tableViewerItems.getTable().setMenu(menuManager.createContextMenu(tableViewerItems.getTable()));
 
 		getSite().registerContextMenu("com.sebulli.fakturama.editors.DocumentEditor.tableViewerItems.contextmenu", menuManager, tableViewerItems);
 		getSite().setSelectionProvider(tableViewerItems);
+		
+		// Add up/down and delete actions
 		menuManager.add(new MoveEntryUpAction());
 		menuManager.add(new MoveEntryDownAction());
 		menuManager.add(new DeleteDataSetAction());
