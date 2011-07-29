@@ -1754,7 +1754,7 @@ public class DocumentEditor extends Editor {
 			
 			if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_PREVIEW_PICTURE"))
 				//T: Used as heading of a table. Keep the word short.
-				new UniDataSetTableColumn(parent.getDisplay() , tableColumnLayout, tableViewerItems, SWT.LEFT, _("Picture"), 150, 0, true, "$ProductPictureSmall", new ItemEditingSupport(this,
+				new UniDataSetTableColumn(parent.getDisplay() , tableColumnLayout, tableViewerItems, SWT.LEFT, _("Picture"), 64, 0, true, "$ProductPictureSmall", new ItemEditingSupport(this,
 					tableViewerItems, ItemEditingSupport.Column.PICTURE) );
 
 			//T: Used as heading of a table. Keep the word short.
