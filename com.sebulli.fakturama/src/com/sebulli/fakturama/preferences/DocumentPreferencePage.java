@@ -19,7 +19,6 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
-import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -75,8 +74,6 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_USE_PREVIEW_PICTURE", _("Display a preview picture"), getFieldEditorParent()));
 		//T: Preference page "Document" 
-		addField(new IntegerFieldEditor("DOCUMENT_PREVIEW_PICTURE_WIDTH", _("Width of the preview picture:"), getFieldEditorParent()));
-		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", _("Show a customer statistics dialog"), getFieldEditorParent()));
 		
 	}
@@ -106,7 +103,6 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_PREVIEW_PICTURE", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_PREVIEW_PICTURE_WIDTH", write);
 		}
 
 	/**
@@ -121,8 +117,6 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		node.putBoolean("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", false);
 		node.putBoolean("DOCUMENT_USE_PREVIEW_PICTURE", true);
 		node.putBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", true);
-		node.put("DOCUMENT_PREVIEW_PICTURE_WIDTH", "50");
-		
 	}
 
 }

@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableColumn;
@@ -53,6 +54,7 @@ public class UniDataSetTableColumn {
 	// All used images are loaded by default and when the table row is
 	// displayed. This makes the loading of the table faster.
 	private static final Image CHECKED = Activator.getImageDescriptor("icons/16/checked_16.png").createImage();
+	private static final Image CHECKED48 = Activator.getImageDescriptor("icons/48/checked_48x64.png").createImage();
 	private static final Image OFFER = Activator.getImageDescriptor("icons/16/offer_16.png").createImage();
 	private static final Image CONFIRMATION = Activator.getImageDescriptor("icons/16/confirmation_16.png").createImage();
 	private static final Image ORDER = Activator.getImageDescriptor("icons/16/order_16.png").createImage();
@@ -211,8 +213,17 @@ public class UniDataSetTableColumn {
 
 				// Fill the cell with an mark, if optional is set
 				else if (dataKey.equals("$Optional")) {
-					if (uds.getBooleanValueByKey("optional"))
-						cell.setImage(CHECKED);
+					if (uds.getBooleanValueByKey("optional")){
+
+						// Set the 48pixel icon, if product pictures are used
+						if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_PREVIEW_PICTURE")) {
+							cell.setImage(CHECKED48);
+						} 
+						else {
+							cell.setImage(CHECKED);
+						}
+						
+					}
 					else
 						cell.setImage(null);
 				}
@@ -328,20 +339,29 @@ public class UniDataSetTableColumn {
 							int width = image.getBounds().width;
 							int height = image.getBounds().height;
 
-							int maxWidth = Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_PREVIEW_PICTURE_WIDTH");
-							
-							if (maxWidth == 0)
-								maxWidth = 50;
-							
-							// Maximum picture width 
-							if ((width > maxWidth) && (width>0)) {
-								height = maxWidth * height / width;
-								width = maxWidth;
-							}
+							// Scale the image to 64x48 Pixel
+							if ((width != 0) && (height != 0)) {
 
-							// Rescale the picture to the maximum width
-							Image scaledImage = new Image(display, image.getImageData().scaledTo(width, height));
-							cell.setImage(scaledImage);
+								// Picture is more width than height.
+								if (width >= ((64*height)/48)) {
+									height = (height * 64) / width;
+									width = 64;
+								}
+								else { //if (height > ((48*width)/64)) {
+									width = (width * 48) / height;
+									height = 48;
+								}
+
+							}
+							
+							// Scale the product picture and place it into the 64x48 pixel image
+							Image baseImage = new Image(display, 64, 48);
+							GC gc = new GC(baseImage);
+							gc.drawImage(new Image(display, image.getImageData().scaledTo(width, height)), (64-width)/2, (48-height)/2);
+						    gc.dispose();
+
+							cell.setImage(baseImage);
+
 						}
 					}
 					catch (Exception e) {
