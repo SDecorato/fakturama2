@@ -373,10 +373,25 @@ public class OODocument extends Object {
 		if (officeFrame != null)
 			officeFrame.removeDispatchDelegate(GlobalCommands.SAVE);
 
+		oOdocument.close();
+		
+		// Get the remaining documents
+		int remainingDocuments = 0;
+		
+		try {
+			remainingDocuments = officeApplication.getDocumentService().getCurrentDocuments().length;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		// Close the OpenOffice document
 		try {
 			if (officeApplication != null)
-				officeApplication.deactivate();
+				if (remainingDocuments == 0 ) {
+					officeApplication.deactivate();
+					System.out.println("OpenOffice closed");
+				}
 		}
 		catch (OfficeApplicationException e) {
 			Logger.logError(e, "Error closing OpenOffice");
