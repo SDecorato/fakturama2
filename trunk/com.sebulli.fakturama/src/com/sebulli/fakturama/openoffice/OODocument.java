@@ -714,6 +714,14 @@ public class OODocument extends Object {
 			value = Integer.toString(row + 1);
 		}
 
+		// The text for optional items
+		else if (placeholderDisplayText.equals("<ITEM.OPTIONAL.TEXT>")) {
+			if (item.getBooleanValueByKey("optional")) {
+				value = Activator.getDefault().getPreferenceStore().getString("OPTIONALITEMS_OPTIONALITEM_TEXT");
+				value = value.replaceAll("<br>", "\n");
+			}
+		}
+		
 		// Get the item name
 		else if (placeholderDisplayText.equals("<ITEM.NAME>")) {
 			value = item.getStringValueByKey("name");
@@ -787,16 +795,29 @@ public class OODocument extends Object {
 		// Get the total net value
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.NET>")) {
 			value = price.getTotalNetRounded().asFormatedString();
+			if (item.getBooleanValueByKey("optional")) {
+				if (Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_REPLACE_PRICE"))
+					value = Activator.getDefault().getPreferenceStore().getString("OPTIONALITEMS_PRICE_REPLACEMENT");
+			}
+
 		}
 
 		// Get the total VAT
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.VAT>")) {
 			value = price.getTotalVatRounded().asFormatedString();
+			if (item.getBooleanValueByKey("optional")) {
+				if (Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_REPLACE_PRICE"))
+					value = Activator.getDefault().getPreferenceStore().getString("OPTIONALITEMS_PRICE_REPLACEMENT");
+			}
 		}
 
 		// Get the total gross value
 		else if (placeholderDisplayText.equals("<ITEM.TOTAL.GROSS>")) {
 			value = price.getTotalGrossRounded().asFormatedString();
+			if (item.getBooleanValueByKey("optional")) {
+				if (Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_REPLACE_PRICE"))
+					value = Activator.getDefault().getPreferenceStore().getString("OPTIONALITEMS_PRICE_REPLACEMENT");
+			}
 		}
 		
 		// Get product picture

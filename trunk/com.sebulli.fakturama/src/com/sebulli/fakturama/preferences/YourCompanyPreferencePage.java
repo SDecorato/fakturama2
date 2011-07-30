@@ -51,27 +51,34 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		// Add context help reference 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.YOUR_COMPANY_PREFERENCE_PAGE);
 
-		//T: Preference page "Your company" - Label "Company name"
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_NAME", _("Company Name"), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_OWNER", _("Owner"), getFieldEditorParent()));
 
-		//T: Preference page "Your company" - Label "Company name"
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_STREET", _("Street No."), getFieldEditorParent()));
 
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_ZIP", _("ZIP"), getFieldEditorParent()));
 
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_CITY", _("City"), getFieldEditorParent()));
 
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_TEL", _("Telephone"), getFieldEditorParent()));
 
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_FAX", _("Telefax"), getFieldEditorParent()));
 
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_EMAIL", _("E-Mail"), getFieldEditorParent()));
 
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_WEBSITE", _("Web Site"), getFieldEditorParent()));
 
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_VATNR", _("VAT No."), getFieldEditorParent()));
 
 	}

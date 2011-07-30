@@ -168,7 +168,10 @@ public class DocumentEditor extends Editor {
 	private DocumentEditor thisDocumentEditor;
 	
 	// Flag, if item editing is active
-	ItemEditingSupport itemEditingSupport = null;
+	private ItemEditingSupport itemEditingSupport = null;
+
+	// Flag if there are items with property "optional" set
+	private boolean containsOptionalItems = false;
 
 	// Action to print this document's content.
 	// Print means: Export the document in an OpenOffice document
@@ -422,8 +425,9 @@ public class DocumentEditor extends Editor {
 						|| (item.getIntValueByKey("vatid") != itemDataset.getIntValueByKey("vatid"))
 						|| (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("vatvalue"), itemDataset.getDoubleValueByKey("vatvalue")))
 						|| (item.getBooleanValueByKey("novat") != itemDataset.getBooleanValueByKey("novat"))
-						|| (!item.getStringValueByKey("vatname").equals(itemDataset.getStringValueByKey("vatname"))) || (!item.getStringValueByKey(
-						"vatdescription").equals(itemDataset.getStringValueByKey("vatdescription"))));
+						|| (!item.getStringValueByKey("vatname").equals(itemDataset.getStringValueByKey("vatname")))
+						|| (!item.getStringValueByKey("vatdescription").equals(itemDataset.getStringValueByKey("vatdescription")))
+						|| (item.getBooleanValueByKey("optional") != itemDataset.getBooleanValueByKey("optional")));
 
 				// If the item was modified and was shared with other documents,
 				// than we should make a copy and save it new.
@@ -461,6 +465,8 @@ public class DocumentEditor extends Editor {
 				item.setDoubleValueByKey("vatvalue", itemDataset.getDoubleValueByKey("vatvalue"));
 				item.setStringValueByKey("vatname", itemDataset.getStringValueByKey("vatname"));
 				item.setStringValueByKey("vatdescription", itemDataset.getStringValueByKey("vatdescription"));
+				item.setBooleanValueByKey("optional", itemDataset.getBooleanValueByKey("optional"));
+
 				Data.INSTANCE.getItems().updateDataSet(item);
 			}
 
@@ -552,6 +558,8 @@ public class DocumentEditor extends Editor {
 		// If the document is a duplicate of an other document,
 		// the input is the parent document.
 		DataSetDocument parent = document;
+		// the parents document type
+		DocumentType documentTypeParent = DocumentType.NONE;
 		boolean duplicated = ((UniDataSetEditorInput) input).getDuplicate();
 
 		// The document is new, if there is no document, or if the
@@ -581,7 +589,6 @@ public class DocumentEditor extends Editor {
 			editorID = documentType.getTypeAsString();
 
 			// get the parents document type
-			DocumentType documentTypeParent = DocumentType.NONE;
 			if (parent != null)
 				documentTypeParent = DocumentType.getType(parent.getIntValueByKey("category"));
 
@@ -688,10 +695,30 @@ public class DocumentEditor extends Editor {
 
 				// And copy the item to a new one
 				DataSetItem item = Data.INSTANCE.getItems().getDatasetById(id);
+
+				
+				// the new item
+				DataSetItem newItem;
+				
+				// Set the sign
 				if (parentSign != documentType.sign())
-					items.getDatasets().add(new DataSetItem(item, -1));
+					newItem = new DataSetItem(item, -1);
 				else
-					items.getDatasets().add(new DataSetItem(item));
+					newItem = new DataSetItem(item);
+
+				// Reset the property "optional" from all items,
+				// if the parent document was an offer
+				if (documentTypeParent == DocumentType.OFFER) {
+					newItem.setBooleanValueByKey("optional", false);
+				}
+
+				// Show the columns "optional" if at least one item
+				// with this property set was found
+				if (newItem.getBooleanValueByKey("optional"))
+					containsOptionalItems = true;
+
+				// Add the new item
+				items.getDatasets().add(newItem);
 			}
 		}
 	}
@@ -814,6 +841,7 @@ public class DocumentEditor extends Editor {
 				if (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("vatvalue"), itemDataset.getDoubleValueByKey("vatvalue"))) { return true; }
 				if (!item.getStringValueByKey("vatname").equals(itemDataset.getStringValueByKey("vatname"))) { return true; }
 				if (!item.getStringValueByKey("vatdescription").equals(itemDataset.getStringValueByKey("vatdescription"))) { return true; }
+				if (item.getBooleanValueByKey("optional") != itemDataset.getBooleanValueByKey("optional")) { return true; }
 			}
 			if (itemsString.length() > 0)
 				itemsString += ",";
@@ -1474,6 +1502,7 @@ public class DocumentEditor extends Editor {
 		switch (documentType) {
 		case OFFER:
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.ORDER, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.INVOICE, this, 32)));
 			break;
 		case ORDER:
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.CONFIRMATION, this, 32)));
@@ -1740,10 +1769,11 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.getTable().setHeaderVisible(true);
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
-			// Create the table columns
-			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Opt."), 40, 0, true, "$Optional", new ItemEditingSupport(this,
-					tableViewerItems, ItemEditingSupport.Column.OPTIONAL));
+			// Create the table columns 
+			if (containsOptionalItems || Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_USE") && (documentType == DocumentType.OFFER))
+				//T: Used as heading of a table. Keep the word short.
+				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Opt."), 40, 0, true, "$Optional", new ItemEditingSupport(this,
+						tableViewerItems, ItemEditingSupport.Column.OPTIONAL));
 			//T: Used as heading of a table. Keep the word short.
 			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Qty."), 60, 0, true, "quantity", new ItemEditingSupport(this,
 					tableViewerItems, ItemEditingSupport.Column.QUANTITY));

@@ -69,7 +69,7 @@ public class Price {
 	 *            Item as UniDataSet
 	 */
 	public Price(DataSetItem item) {
-		this(item.getDoubleValueByKey("quantity"), item.getDoubleValueByKey("price"), item.getDoubleValueByKey("vatvalue"), item
+		this(item.getBooleanValueByKey("optional") ? 0.0 : item.getDoubleValueByKey("quantity"), item.getDoubleValueByKey("price"), item.getDoubleValueByKey("vatvalue"), item
 				.getDoubleValueByKey("discount"), item.getBooleanValueByKey("novat"), false);
 	}
 
@@ -83,7 +83,8 @@ public class Price {
 	 * 				Scale factor of this item
 	 */
 	public Price(DataSetItem item, Double scaleFactor) {
-		this(item.getDoubleValueByKey("quantity"), item.getDoubleValueByKey("price") * scaleFactor, item.getDoubleValueByKey("vatvalue"), item
+		this(item.getBooleanValueByKey("optional") ? 0.0 : item.getDoubleValueByKey("quantity"),
+				item.getDoubleValueByKey("price") * scaleFactor, item.getDoubleValueByKey("vatvalue"), item
 				.getDoubleValueByKey("discount"), item.getBooleanValueByKey("novat"), false);
 	}
 
