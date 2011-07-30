@@ -77,6 +77,16 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class OODocument extends Object {
 
+	
+	static boolean WITH_FILENAME = true;
+	static boolean NO_FILENAME = false;
+	static boolean WITH_EXTENSION = true;
+	static boolean NO_EXTENSION = false;
+	static boolean PDF = true;
+	static boolean NO_PDF = false;
+	
+	
+	
 	// The UniDataSet document, that is used to fill the OpenOffice document 
 	private DataSetDocument document;
 
@@ -108,9 +118,9 @@ public class OODocument extends Object {
 	 * @param template
 	 *            OpenOffice template file name
 	 */
-	public OODocument(DataSetDocument document, String template) {
+	public OODocument(DataSetDocument document, String template, boolean forceRecreation) {
 
-		// Url of the template file
+		// URL of the template file
 		String url = null;
 		this.template = template;
 		//Open an existing document instead of creating a new one
@@ -129,14 +139,11 @@ public class OODocument extends Object {
 			
 			// Check, whether there is already a document then do not 
 			// generate one by the data, but open the existing one.
-			File oODocumentFile = new File(getDocumentPath(true, true, false));
-			
-			if (oODocumentFile.exists() && document.getBooleanValueByKey("printed") &&
-					document.getStringValueByKey("printedtemplate").equals(template)) {
+			if (testOpenAsExisting(document, template) && !forceRecreation) {
 				openExisting = true;
-				template = getDocumentPath(true, true, false);
+				template = getDocumentPath(WITH_FILENAME, WITH_EXTENSION, NO_PDF, document);
 			}
-
+			
 			// Get the template file (*ott)
 			try {
 				url = URLAdapter.adaptURL(template);
@@ -387,26 +394,26 @@ public class OODocument extends Object {
 	 *            True, if it's the PDF filename
 	 * @return The filename
 	 */
-	public String getDocumentPath(boolean inclFilename, boolean inclExtension, boolean PDF) {
+	public static String getDocumentPath(boolean inclFilename, boolean inclExtension, boolean isPDF, DataSetDocument document) {
 		String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
 
 		//T: Subdirectory of the OpenOffice documents
 		savePath += _("/Documents");
 
-		if (PDF)
+		if (isPDF)
 			savePath += "/PDF/";
 		else
 			savePath += "/OpenOffice/";
 
-		savePath += DocumentType.getPluralString(this.document.getIntValueByKey("category")) + "/";
+		savePath += DocumentType.getPluralString(document.getIntValueByKey("category")) + "/";
 
 		// Use the document name as filename
 		if (inclFilename)
-			savePath += this.document.getStringValueByKey("name");
+			savePath += document.getStringValueByKey("name");
 
 		// Use the document name as filename
 		if (inclExtension) {
-			if (PDF)
+			if (isPDF)
 				savePath += ".pdf";
 			else
 				savePath += ".odt";
@@ -429,7 +436,7 @@ public class OODocument extends Object {
 		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("PDF")) {
 
 			// Create the directories, if they don't exist.
-			File directory = new File(getDocumentPath(false, false, true));
+			File directory = new File(getDocumentPath(NO_FILENAME, NO_EXTENSION, PDF, document));
 			if (!directory.exists())
 				directory.mkdirs();
 
@@ -444,7 +451,7 @@ public class OODocument extends Object {
 
 			// Save the document
 			try {
-				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(true, true, true)));
+				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(WITH_FILENAME, WITH_EXTENSION, PDF, document)));
 				textDocument.getPersistenceService().export(fs, new PDFFilter());
 
 				wasSaved = true;
@@ -462,7 +469,7 @@ public class OODocument extends Object {
 		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("ODT")) {
 
 			// Create the directories, if they don't exist.
-			File directory = new File(getDocumentPath(false, false, false));
+			File directory = new File(getDocumentPath(NO_FILENAME, NO_EXTENSION, NO_PDF, document));
 			if (!directory.exists())
 				directory.mkdirs();
 
@@ -477,7 +484,7 @@ public class OODocument extends Object {
 
 			// Save the document
 			try {
-				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(true, true, false)));
+				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(WITH_FILENAME, WITH_EXTENSION, NO_PDF, document)));
 				textDocument.getPersistenceService().storeAs(fs);
 				
 
@@ -1132,6 +1139,20 @@ public class OODocument extends Object {
 
 		// Replace it with the value of the property list.
 		placeholder.getTextRange().setText(properties.getProperty(placeholderDisplayText));
+	}
+	
+	static public boolean testOpenAsExisting(DataSetDocument document,String template) {
+		// Check, whether there is already a document then do not 
+		// generate one by the data, but open the existing one.
+		File oODocumentFile = new File(getDocumentPath(WITH_FILENAME, WITH_EXTENSION, NO_PDF, document));
+		
+		if (oODocumentFile.exists() && document.getBooleanValueByKey("printed") &&
+				document.getStringValueByKey("printedtemplate").equals(template)) {
+			return true;
+		}
+		
+		return false;
+	
 	}
 
 }

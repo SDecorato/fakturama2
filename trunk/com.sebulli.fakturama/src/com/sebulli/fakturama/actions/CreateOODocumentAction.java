@@ -26,14 +26,17 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
+import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
+import com.sebulli.fakturama.openoffice.OODocument;
 import com.sebulli.fakturama.openoffice.OOManager;
 import com.sebulli.fakturama.openoffice.OOTemplateFilename;
 
@@ -108,7 +111,7 @@ public class CreateOODocumentAction extends Action {
 			return;
 
 		// Get the active workbench window
-		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		final IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
 		Editor editor = (Editor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (editor != null)
@@ -145,7 +148,7 @@ public class CreateOODocumentAction extends Action {
 							public void handleEvent(Event e) {
 								// save the document and open the exporter
 								documentEditor.doSave(null);
-								OOManager.INSTANCE.openOODocument(documentEditor.getDocument(), (String) e.widget.getData());
+								openOODocument(documentEditor.getDocument(), (String) e.widget.getData(),workbenchWindow.getShell());
 							}
 						});
 					}
@@ -161,7 +164,7 @@ public class CreateOODocumentAction extends Action {
 				else if (templates.size() == 1) {
 					// Save the document and open the exporter
 					documentEditor.doSave(null);
-					OOManager.INSTANCE.openOODocument(documentEditor.getDocument(), templates.get(0).getPathAndFilename());
+					openOODocument(documentEditor.getDocument(), templates.get(0).getPathAndFilename(), workbenchWindow.getShell());
 				}
 				else {
 					// Show an information dialog, if no template was found
@@ -174,5 +177,29 @@ public class CreateOODocumentAction extends Action {
 
 				}
 			}
+	}
+	
+	
+	private void openOODocument(final DataSetDocument document, final String template, Shell shell) {
+
+		
+		if (OODocument.testOpenAsExisting(document, template)) {
+			// Show an information dialog, if no template was found
+			MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.CANCEL | SWT.YES | SWT.NO );
+			//T: Title of the dialog 
+			messageBox.setText(_("Information"));
+			//T: Text of the dialog
+			messageBox.setMessage(_("Document was already printed. Should it be reopened ?\nYES: Reopen it.\nNO: Create a new one."));
+
+			int answer = messageBox.open();
+			
+			if (answer == SWT.YES)
+				OOManager.INSTANCE.openOODocument(document, template, false);
+			if (answer == SWT.NO)
+				OOManager.INSTANCE.openOODocument(document, template, true);
+		}
+		else
+			OOManager.INSTANCE.openOODocument(document, template, false);
+	
 	}
 }
