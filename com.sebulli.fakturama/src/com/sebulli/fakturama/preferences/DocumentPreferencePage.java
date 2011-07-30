@@ -74,6 +74,10 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_USE_PREVIEW_PICTURE", _("Display a preview picture"), getFieldEditorParent()));
 		//T: Preference page "Document" 
+		addField(new BooleanFieldEditor("DOCUMENT_USE_DISCOUNT_EACH_ITEM", _("Use discount for each item"), getFieldEditorParent()));
+		//T: Preference page "Document" 
+		addField(new BooleanFieldEditor("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", _("Use discount for all items"), getFieldEditorParent()));
+		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", _("Show a customer statistics dialog"), getFieldEditorParent()));
 	}
 
@@ -101,7 +105,10 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_COPY_MESSAGE_FROM_PARENT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_PREVIEW_PICTURE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_DISCOUNT_EACH_ITEM", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", write);
+		
 		}
 
 	/**
@@ -115,6 +122,8 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		node.putBoolean("DOCUMENT_COPY_MESSAGE_FROM_PARENT", false);
 		node.putBoolean("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG", false);
 		node.putBoolean("DOCUMENT_USE_PREVIEW_PICTURE", true);
+		node.putBoolean("DOCUMENT_USE_DISCOUNT_EACH_ITEM", true);
+		node.putBoolean("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", true);
 		node.putBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", true);
 	}
 

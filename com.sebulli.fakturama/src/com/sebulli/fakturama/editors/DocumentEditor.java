@@ -173,6 +173,9 @@ public class DocumentEditor extends Editor {
 	// Flag if there are items with property "optional" set
 	private boolean containsOptionalItems = false;
 
+	// Flag if there are items with an discount set
+	private boolean containsDiscountedItems = false;
+
 	// Action to print this document's content.
 	// Print means: Export the document in an OpenOffice document
 	CreateOODocumentAction printAction;
@@ -716,7 +719,13 @@ public class DocumentEditor extends Editor {
 				// with this property set was found
 				if (newItem.getBooleanValueByKey("optional"))
 					containsOptionalItems = true;
+				
+				// Show the columns discount if at least one item
+				// with a discounted price was found
+				if (!DataUtils.DoublesAreEqual(newItem.getDoubleValueByKey("discount"),0.0))
+					containsDiscountedItems = true;
 
+				
 				// Add the new item
 				items.getDatasets().add(newItem);
 			}
@@ -941,9 +950,15 @@ public class DocumentEditor extends Editor {
 
 		// Get the sign of this document ( + or -)
 		int sign = DocumentType.getType(document.getIntValueByKey("category")).sign();
+		
+		// Get the discount value from the control element
+		Double discount = 0.0;
+		if (itemsDiscount != null)
+			DataUtils.StringToDoubleDiscount(itemsDiscount.getText());
+		
 		// Do the calculation
 		document.calculate(items, shipping * sign, shippingVat, shippingVatDescription, shippingAutoVat,
-				DataUtils.StringToDoubleDiscount(itemsDiscount.getText()), noVat, noVatDescription, 1.0);
+				discount, noVat, noVatDescription, 1.0);
 
 		// Get the total result
 		total = document.getSummary().getTotalGross().asDouble();
@@ -1212,8 +1227,9 @@ public class DocumentEditor extends Editor {
 		addressId = contact.getIntValueByKey("id");
 
 		// Use the customers discount
-		if (itemsDiscount != null)
-			itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
+		if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_DISCOUNT_ALL_ITEMS"))
+			if (itemsDiscount != null)
+				itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
 
 		showHideWarningIcon();
 		addressAndIconComposite.layout(true);
@@ -1260,7 +1276,7 @@ public class DocumentEditor extends Editor {
 			}
 		}
 		
-		// Get the some settings from the preference store
+		// Get some settings from the preference store
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
 
 		// Create the top composite of the editor
@@ -1806,9 +1822,12 @@ public class DocumentEditor extends Editor {
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), 85, 0, true, "price", new ItemEditingSupport(this,
 							tableViewerItems, ItemEditingSupport.Column.PRICE));
-				//T: Used as heading of a table. Keep the word short.
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Discount"), 60, 0, true, "discount", new ItemEditingSupport(this,
-						tableViewerItems, ItemEditingSupport.Column.DISCOUNT));
+
+				if (containsDiscountedItems || Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_DISCOUNT_EACH_ITEM"))
+					//T: Used as heading of a table. Keep the word short.
+					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Discount"), 60, 0, true, "discount", new ItemEditingSupport(this,
+							tableViewerItems, ItemEditingSupport.Column.DISCOUNT));
+
 				if (useGross)
 					//T: Used as heading of a table. Keep the word short.
 					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), 85, 0, true, "$ItemGrossTotal", new ItemEditingSupport(
@@ -1947,44 +1966,56 @@ public class DocumentEditor extends Editor {
 			itemsSum.setText("---");
 			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsSum);
 
-			// Label discount
-			Label discountLabel = new Label(totalComposite, SWT.NONE);
-			//T: Document Editor - Label discount 
-			discountLabel.setText(_("Discount"));
-			//T: Tool Tip Text
-			discountLabel.setToolTipText(_("Enter a discount value in % for all items."));
 
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(discountLabel);
+			if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_DISCOUNT_ALL_ITEMS") ||
+					!DataUtils.DoublesAreEqual(document.getDoubleValueByKey("itemsdiscount"), 0.0)) {
 
-			// Discount field
-			itemsDiscount = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
-			itemsDiscount.setText(document.getFormatedStringValueByKey("itemsdiscount"));
-			itemsDiscount.setToolTipText(discountLabel.getToolTipText());
-			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
+				
+				// Label discount
+				Label discountLabel = new Label(totalComposite, SWT.NONE);
+				//T: Document Editor - Label discount 
+				discountLabel.setText(_("Discount"));
+				//T: Tool Tip Text
+				discountLabel.setToolTipText(_("Enter a discount value in % for all items."));
+				GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(discountLabel);
 
-			// Set the tab order
-			setTabOrder(txtMessage, itemsDiscount);
+				
+				// Discount field
+				itemsDiscount = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
+				itemsDiscount.setText(document.getFormatedStringValueByKey("itemsdiscount"));
+				itemsDiscount.setToolTipText(discountLabel.getToolTipText());
+				GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
 
-			// Recalculate, if the discount field looses the focus.
-			itemsDiscount.addFocusListener(new FocusAdapter() {
-				public void focusLost(FocusEvent e) {
-					calculate();
-					checkDirty();
-					itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
+				itemsDiscount.setVisible(false);
+				
+				// Set the tab order
+				setTabOrder(txtMessage, itemsDiscount);
 
-				}
-			});
-
-			// Recalculate, if the discount is modified.
-			itemsDiscount.addKeyListener(new KeyAdapter() {
-				public void keyPressed(KeyEvent e) {
-					if (e.keyCode == 13) {
-						itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
+				// Recalculate, if the discount field looses the focus.
+				itemsDiscount.addFocusListener(new FocusAdapter() {
+					public void focusLost(FocusEvent e) {
 						calculate();
 						checkDirty();
+						itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
+
 					}
-				}
-			});
+				});
+
+				// Recalculate, if the discount is modified.
+				itemsDiscount.addKeyListener(new KeyAdapter() {
+					public void keyPressed(KeyEvent e) {
+						if (e.keyCode == 13) {
+							itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(DataUtils.StringToDoubleDiscount(itemsDiscount.getText())));
+							calculate();
+							checkDirty();
+						}
+					}
+				});
+
+			}
+					
+
+			
 
 			// Shipping composite contains label and combo.
 			Composite shippingComposite = new Composite(totalComposite, SWT.NONE);
