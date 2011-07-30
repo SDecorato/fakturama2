@@ -40,7 +40,7 @@ public enum OOManager {
 	 * @param template
 	 *            The Filename of the OpenOffice Template
 	 */
-	public void openOODocument(final DataSetDocument document, final String template) {
+	public void openOODocument(final DataSetDocument document, final String template,final boolean forceRecreation) {
 		
 		
 		// Start OpenOffice in a new thread, depending in the settings
@@ -49,7 +49,7 @@ public enum OOManager {
 			// Start OpenOffice in a new thread
 			new Thread(new Runnable() {
 				public void run() {
-					oODocuments.add(new OODocument(document, template));
+					oODocuments.add(new OODocument(document, template, forceRecreation));
 				}
 			}).start();
 			
@@ -57,7 +57,7 @@ public enum OOManager {
 		else {
 			
 			// Start OpenOffice in this thread
-			oODocuments.add(new OODocument(document, template));
+			oODocuments.add(new OODocument(document, template, forceRecreation));
 		}
 
 		
