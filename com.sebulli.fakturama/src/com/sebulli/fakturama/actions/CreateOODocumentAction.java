@@ -189,7 +189,7 @@ public class CreateOODocumentAction extends Action {
 			//T: Title of the dialog 
 			messageBox.setText(_("Information"));
 			//T: Text of the dialog
-			messageBox.setMessage(_("Document was already printed. Should it be reopened ?\nYES: Reopen it.\nNO: Create a new one."));
+			messageBox.setMessage(_("Document has been already printed. Should it be reopened ?\nYES: Reopen it.\nNO: Create a new one."));
 
 			int answer = messageBox.open();
 			
