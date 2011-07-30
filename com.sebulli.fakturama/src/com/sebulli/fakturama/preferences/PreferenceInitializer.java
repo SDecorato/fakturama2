@@ -53,6 +53,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		YourCompanyPreferencePage.setInitValues(node);
 		ExportPreferencePage.setInitValues(node);
 		ParcelServicePreferencePage.setInitValues(node);
+		OptionalItemsPreferencePage.setInitValues(node);
 
 	}
 }

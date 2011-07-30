@@ -79,6 +79,7 @@ public class PreferencesInDatabase {
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(save);
 		ExportPreferencePage.syncWithPreferencesFromDatabase(save);
 		ParcelServicePreferencePage.syncWithPreferencesFromDatabase(save);
+		OptionalItemsPreferencePage.syncWithPreferencesFromDatabase(save);
 	}
 
 	/**

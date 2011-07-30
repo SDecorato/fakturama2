@@ -526,6 +526,12 @@
             name="%page.documents">
       </page>
       <page
+            category="com.sebulli.fakturama.preferences.documentPreferencePage"
+            class="com.sebulli.fakturama.preferences.OptionalItemsPreferencePage"
+            id="com.sebulli.fakturama.preferences.optionalItemsPreferencePage"
+            name="%page.optionalitems">
+      </page>
+      <page
             class="com.sebulli.fakturama.preferences.OpenOfficePreferencePage"
             id="com.sebulli.fakturama.preferences.openOfficePreferencePage"
             name="%page.openoffice">
