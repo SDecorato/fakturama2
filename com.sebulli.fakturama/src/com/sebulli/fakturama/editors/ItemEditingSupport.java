@@ -49,6 +49,7 @@ public class ItemEditingSupport extends EditingSupport {
 	// The current columns
 	private Column column;
 
+	// The active Object
 	private Object activeObject;
 
 	// The parent document editor that contains the item table
@@ -190,16 +191,32 @@ public class ItemEditingSupport extends EditingSupport {
 			item.setBooleanValueByKey("optional", (Boolean)value);
 			break;
 		case QUANTITY:
+			
+			Double oldQuanity = item.getDoubleValueByKey("quantity");
+			
 			// Set the quantity
 			item.setStringValueByKey("quantity", String.valueOf(value));
 			int productId = item.getIntValueByKey("productid");
 
 			// If the item is coupled with a product, get the graduated price
 			if (productId >= 0) {
+
 				DataSetProduct product = Data.INSTANCE.getProducts().getDatasetById(productId);
-				double price = product.getPriceByQuantity(DataUtils.StringToDouble(String.valueOf(value)));
-				item.setDoubleValueByKey("price", price);
+				
+				// Compare the price. Is it equal to the price of the product,
+				// then use the product price.
+				// If the price is not equal, it was modified. In this case, do not
+				// modify the price value.
+				Double oldPrice = item.getDoubleValueByKey("price");
+				Double oldPriceByQuantity = product.getPriceByQuantity(oldQuanity);
+				Double newPrice = product.getPriceByQuantity(DataUtils.StringToDouble(String.valueOf(value)));
+
+				if (DataUtils.DoublesAreEqual(oldPrice, oldPriceByQuantity))
+					// Do not use 0.00€
+					//if (!DataUtils.DoublesAreEqual(newPrice, 0.0))
+					item.setDoubleValueByKey("price", newPrice);
 			}
+			
 			break;
 		case ITEMNR:
 			// Set the item number
