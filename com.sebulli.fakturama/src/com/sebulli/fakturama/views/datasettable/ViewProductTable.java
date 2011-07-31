@@ -64,19 +64,27 @@ public class ViewProductTable extends ViewDataSetTable {
 		// Name of the editor
 		editor = "Product";
 
+		// Get the column width from the preferences
+		int cw_itemno = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_PRODUCTS_ITEMNO");
+		int cw_name = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_PRODUCTS_NAME");
+		int cw_description = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_PRODUCTS_DESCRIPTION");
+		int cw_quantity = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_PRODUCTS_QUANTITY");
+		int cw_price = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_PRODUCTS_PRICE");
+		int cw_vat = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_PRODUCTS_VAT");
+
 		// Create the table columns
 		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
 			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Item No."), 50, 0, true, "itemnr");
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Item No."), cw_itemno, true, "itemnr");
 
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), cw_name, false, "name");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), cw_description, false, "description");
 		
 		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_QUANTITY"))
 			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Quantity"), 80, 0, true, "quantity");
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Quantity"), cw_quantity, true, "quantity");
 		
 		//new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("webshopid"), 80, 0, true, "webshopid");
 
@@ -88,9 +96,9 @@ public class ViewProductTable extends ViewDataSetTable {
 			priceKey = "price1";
 
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), 70, 0, true, priceKey);
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), cw_price, true, priceKey);
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("VAT"), 40, 0, true, "$vatbyid");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("VAT"), cw_vat, true, "$vatbyid");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getProducts());

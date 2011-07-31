@@ -55,5 +55,22 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		ParcelServicePreferencePage.setInitValues(node);
 		OptionalItemsPreferencePage.setInitValues(node);
 
+		ColumnWidthDialogContactsPreferencePage.setInitValues(node);
+		ColumnWidthDialogProductsPreferencePage.setInitValues(node);
+		ColumnWidthDialogTextsPreferencePage.setInitValues(node);
+
+		ColumnWidthContactsPreferencePage.setInitValues(node);
+		ColumnWidthDocumentsPreferencePage.setInitValues(node);
+		ColumnWidthExpendituresPreferencePage.setInitValues(node);
+		ColumnWidthExpenditureItemsPreferencePage.setInitValues(node);
+		ColumnWidthItemsPreferencePage.setInitValues(node);
+		ColumnWidthListPreferencePage.setInitValues(node);
+		ColumnWidthPaymentsPreferencePage.setInitValues(node);
+		ColumnWidthProductsPreferencePage.setInitValues(node);
+		ColumnWidthShippingsPreferencePage.setInitValues(node);
+		ColumnWidthTextsPreferencePage.setInitValues(node);
+		ColumnWidthVatPreferencePage.setInitValues(node);
+
+		
 	}
 }

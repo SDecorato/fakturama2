@@ -28,7 +28,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 
 /**
- * Preference page for the document settings
+ * Preference page for the optional items settings
  * 
  * @author Gerd Bartelt
  */

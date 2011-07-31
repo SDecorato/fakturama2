@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewListEntryAction;
 import com.sebulli.fakturama.data.Data;
@@ -61,11 +62,15 @@ public class ViewListTable extends ViewDataSetTable {
 		// Name of the editor
 		editor = "List";
 
+		// Get the column width from the preferences
+		int cw_name = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_LIST_NAME");
+		int cw_value = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_LIST_VALUE");
+
 		// Create the table columns
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 200, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), cw_name, true, "name");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Value"), 200, 200, false, "value");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Value"), cw_value, false, "value");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getListEntries());

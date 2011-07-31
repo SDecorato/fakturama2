@@ -268,6 +268,30 @@ public enum Data {
 	}
 
 	/**
+	 * Set a property value
+	 * 
+	 * @param key
+	 *            Property key
+	 * @param value
+	 *            Property value as integer
+	 */
+	public void setProperty(String key, Integer value) {
+
+		// Set an existing property entry
+		for (DataSetProperty property : properties.getDatasets()) {
+			if (property.getStringValueByKey("name").equalsIgnoreCase(key)) {
+				property.setIntValueByKey("value", value);
+				properties.updateDataSet(property);
+				return;
+			}
+		}
+
+		// Add a new one, if it is not yet existing
+		properties.addNewDataSet(new DataSetProperty(key, value.toString()));
+		//Logger.logInfo("New property " + key + " added");
+	}
+
+	/**
 	 * Getter for the DataSetArray products
 	 * 
 	 * @return All products

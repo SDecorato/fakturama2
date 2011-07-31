@@ -24,6 +24,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.MarkDocumentAsPaidAction;
@@ -76,19 +77,27 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		// Name of the editor
 		editor = "Document";
 
+		// Get the column width from the preferences
+		int cw_icon = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_ICON");
+		int cw_document = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_DOCUMENT");
+		int cw_date = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_DATE");
+		int cw_name = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_NAME");
+		int cw_state = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_STATE");
+		int cw_total = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_TOTAL");
+		
 		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "", 20, 0, true, "$documenttype");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "", cw_icon,  true, "$documenttype");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Document"), 80, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Document"), cw_document, true, "name");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), 80, 0, true, "date");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), cw_date, true, "date");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 200, 50, false, "addressfirstline");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), cw_name, false, "addressfirstline");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("State"), 100, 0, true, "$status");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("State"), cw_state, true, "$status");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Total"), 70, 0, true, "total");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Total"), cw_total, true, "total");
 
 		// Add a selection listener
 		hookSelect();
