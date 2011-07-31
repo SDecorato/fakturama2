@@ -18,6 +18,7 @@ import static com.sebulli.fakturama.Translate._;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
 import org.eclipse.ui.IWorkbench;
@@ -79,6 +80,9 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		addField(new BooleanFieldEditor("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", _("Use discount for all items"), getFieldEditorParent()));
 		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", _("Show a customer statistics dialog"), getFieldEditorParent()));
+		//T: Preference page "Document" 
+		addField(new ComboFieldEditor("DOCUMENT_MESSAGES", _("No of message fields:"), new String[][] { { "1", "1" }, { "2", "2" }, { "3", "3" }
+			 }, getFieldEditorParent()));
 	}
 
 	/**
@@ -108,7 +112,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_DISCOUNT_EACH_ITEM", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", write);
-		
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_MESSAGES", write);
 		}
 
 	/**
@@ -125,6 +129,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		node.putBoolean("DOCUMENT_USE_DISCOUNT_EACH_ITEM", true);
 		node.putBoolean("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", true);
 		node.putBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", true);
+		node.put("DOCUMENT_MESSAGES", "1");
 	}
 
 }
