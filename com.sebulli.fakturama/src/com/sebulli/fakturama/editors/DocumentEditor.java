@@ -1408,10 +1408,19 @@ public class DocumentEditor extends Editor {
 
 		// Order date
 		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
-		//T: Label in the document editor
-		labelOrderDate.setText(_("Order Date"));
-		//T: Tool Tip Text
-		labelOrderDate.setToolTipText(_("Date when the order was placed"));
+		
+		
+		if (documentType == DocumentType.OFFER) {
+			//T: Label in the document editor
+			labelOrderDate.setText(_("Date of request"));
+			//T: Tool Tip Text
+			labelOrderDate.setToolTipText(_("Date when the offer was requested"));
+		} else {
+			//T: Label in the document editor
+			labelOrderDate.setText(_("Order Date"));
+			//T: Tool Tip Text
+			labelOrderDate.setToolTipText(_("Date when the order was placed"));
+		}
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelOrderDate);
 
