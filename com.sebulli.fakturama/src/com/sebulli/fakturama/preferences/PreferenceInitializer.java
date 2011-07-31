@@ -54,6 +54,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		ExportPreferencePage.setInitValues(node);
 		ParcelServicePreferencePage.setInitValues(node);
 		OptionalItemsPreferencePage.setInitValues(node);
+		WebShopAuthorizationPreferencePage.setInitValues(node);
 
 		ColumnWidthDialogContactsPreferencePage.setInitValues(node);
 		ColumnWidthDialogProductsPreferencePage.setInitValues(node);

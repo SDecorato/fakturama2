@@ -226,7 +226,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		Integer maxProducts  = Activator.getDefault().getPreferenceStore().getInt("WEBSHOP_MAX_PRODUCTS");
 		Boolean onlyModifiedProducts  = Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_ONLY_MODIFIED_PRODUCTS");
 		useEANasItemNr  = Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_USE_EAN_AS_ITEMNR");
-		
+		Boolean useAuthorization = Activator.getDefault().getPreferenceStore().getBoolean("WEBSHOP_AUTHORIZATION_ENABLED"); 
+		String authorizationUser = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_AUTHORIZATION_USER");
+		String authorizationPassword = Activator.getDefault().getPreferenceStore().getString("WEBSHOP_AUTHORIZATION_PASSWORD");
 		
 		// Check empty URL
 		if (address.isEmpty()) {
@@ -268,7 +270,15 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			conn.setDoInput(true);
 			conn.setConnectTimeout(4000);
 			if (!address.toLowerCase().startsWith("file://")) {
+				
 				conn.setDoOutput(true);
+
+				// Use password for password protected web shops
+				if (useAuthorization) {
+					String encodedPassword = Base64Coder.encodeString(authorizationUser + ":" + authorizationPassword );
+					conn.setRequestProperty( "Authorization", "Basic " + encodedPassword );
+				}
+
 				// Send user name , password and a list of unsynchronized orders to
 				// the shop
 				OutputStream outputStream = null;
@@ -318,6 +328,10 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			// If the connection was interruped and not finished: return
 			if (!interruptConnection.isFinished()) {
 		        ((HttpURLConnection)conn).disconnect();
+		        if (interruptConnection.isError()) {
+					//T: Status error message importing data from web shop
+					runResult = _("Error while connecting to webserver.");
+		        }
 				return;
 			}
 

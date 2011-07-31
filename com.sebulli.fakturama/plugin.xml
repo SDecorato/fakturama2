@@ -516,6 +516,12 @@
             name="%page.webshop">
       </page>
       <page
+            category="com.sebulli.fakturama.webshopimport.webShopImportPreferencePage"
+            class="com.sebulli.fakturama.preferences.WebShopAuthorizationPreferencePage"
+            id="com.sebulli.fakturama.webshopimport.webShopAuthorizationPreferencePage"
+            name="%page.webshopauthorization">
+      </page>
+      <page
             class="com.sebulli.fakturama.preferences.YourCompanyPreferencePage"
             id="com.sebulli.fakturama.preferences.yourCompanyPreferencePage"
             name="%page.company">
