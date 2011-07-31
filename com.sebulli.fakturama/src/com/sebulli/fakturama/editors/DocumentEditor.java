@@ -666,6 +666,7 @@ public class DocumentEditor extends Editor {
 		// visible SWT widgets.
 		duedays = document.getIntValueByKey("duedays");
 		addressId = document.getIntValueByKey("addressid");
+		
 		noVat = document.getBooleanValueByKey("novat");
 		noVatName = document.getStringValueByKey("novatname");
 		noVatDescription = document.getStringValueByKey("novatdescription");
@@ -1266,7 +1267,14 @@ public class DocumentEditor extends Editor {
 		// Show an info dialog, if this is a regular customer
 		if ((documentType == DocumentType.ORDER) &&			
 			Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG")) {
-			CustomerStatistics customerStaticstics = new CustomerStatistics(document.getIntValueByKey("addressid"));
+			CustomerStatistics customerStaticstics;
+			
+			
+			if (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD")==1)
+				customerStaticstics = new CustomerStatistics(document.getIntValueByKey("addressid"), document.getStringValueByKey("address"));
+			else	
+				customerStaticstics = new CustomerStatistics(document.getIntValueByKey("addressid"));
+			
 			if (customerStaticstics.isRegularCustomer()) {
 
 				//T: Message Dialog

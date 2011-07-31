@@ -80,6 +80,11 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		addField(new BooleanFieldEditor("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", _("Use discount for all items"), getFieldEditorParent()));
 		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", _("Show a customer statistics dialog"), getFieldEditorParent()));
+		//T: Preference page "Document" - Label "Format (net or gross) of the price in the item list"
+		addField(new RadioGroupFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", _("Compare:"), 2, new String[][] { 
+					{ _("Only contact id"), "0" },
+					{ _("Also address field"), "1" } },
+				getFieldEditorParent()));
 		//T: Preference page "Document" 
 		addField(new ComboFieldEditor("DOCUMENT_MESSAGES", _("No of message fields:"), new String[][] { { "1", "1" }, { "2", "2" }, { "3", "3" }
 			 }, getFieldEditorParent()));
@@ -112,6 +117,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_DISCOUNT_EACH_ITEM", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_MESSAGES", write);
 		}
 
@@ -129,6 +135,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		node.putBoolean("DOCUMENT_USE_DISCOUNT_EACH_ITEM", true);
 		node.putBoolean("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", true);
 		node.putBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", true);
+		node.put("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", "1");
 		node.put("DOCUMENT_MESSAGES", "1");
 	}
 
