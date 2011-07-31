@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewShippingAction;
 import com.sebulli.fakturama.data.Data;
@@ -65,16 +66,22 @@ public class ViewShippingTable extends ViewDataSetTable {
 		// Name of the editor
 		editor = "Shipping";
 
+		// Get the column width from the preferences
+		int cw_standard = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_SHIPPINGS_STANDARD");
+		int cw_name = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_SHIPPINGS_NAME");
+		int cw_description = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_SHIPPINGS_DESCRIPTION");
+		int cw_value = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_SHIPPINGS_VALUE");
+
 		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
-		stdIconColumn = new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Standard", 55, 0, true, "$stdId");
+		stdIconColumn = new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "Standard", cw_standard, true, "$stdId");
 		refreshStdId();
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), cw_name, false, "name");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), cw_description, false, "description");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Value"), 70, 0, true, "value");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Value"), cw_value, true, "value");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getShippings());

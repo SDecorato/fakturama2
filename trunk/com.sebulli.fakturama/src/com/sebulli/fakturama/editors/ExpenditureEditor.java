@@ -705,23 +705,30 @@ public class ExpenditureEditor extends Editor {
 		tableViewerItems.getTable().setHeaderVisible(true);
 		tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
+		// Get the column width from the preferences
+		int cw_text = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_TEXT");
+		int cw_accounttype = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_ACCOUNTTYPE");
+		int cw_vat = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_VAT");
+		int cw_net = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_NET");
+		int cw_gross = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_GROSS");
+
 		// Create the table columns
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Text"), 200, 100, false, "name", new ExpenditureItemEditingSupport(this,
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Text"), cw_text, false, "name", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 1));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Account Type"), 200, 0, true, "category", new ExpenditureItemEditingSupport(this,
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Account Type"), cw_accounttype, true, "category", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 2));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 100, 0, true, "$vatnamebyid",
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), cw_vat, true, "$vatnamebyid",
 						new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
 //		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ExpenditureItemVatPercent",
 //				vatnamebyid				new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Net"), 85, 0, true, "price", new ExpenditureItemEditingSupport(this,
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Net"), cw_net, true, "price", new ExpenditureItemEditingSupport(this,
 				tableViewerItems, 4));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Gross"), 85, 0, true, "$ExpenditureItemGrossPrice",
+		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Gross"), cw_gross, true, "$ExpenditureItemGrossPrice",
 				new ExpenditureItemEditingSupport(this, tableViewerItems, 5));
 
 		// Create the top Composite

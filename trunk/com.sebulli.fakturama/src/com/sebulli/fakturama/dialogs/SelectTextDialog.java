@@ -20,6 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
@@ -62,11 +63,15 @@ public class SelectTextDialog extends SelectDataSetDialog {
 		// Set the content provider
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
+		// Get the column width from the preferences
+		int cw_name = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DIALOG_TEXTS_NAME");
+		int cw_text = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DIALOG_TEXTS_TEXT");
+
 		// Create the table columns
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 120, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), cw_name, true, "name");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Text"), 200, 50, false, "text");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Text"), cw_text, false, "text");
 
 		// Set the input
 		tableViewer.setInput(Data.INSTANCE.getTexts());

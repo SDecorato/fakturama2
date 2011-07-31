@@ -80,6 +80,20 @@ public class PreferencesInDatabase {
 		ExportPreferencePage.syncWithPreferencesFromDatabase(save);
 		ParcelServicePreferencePage.syncWithPreferencesFromDatabase(save);
 		OptionalItemsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthDialogContactsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthDialogProductsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthDialogTextsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthContactsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthDocumentsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthExpendituresPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthExpenditureItemsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthItemsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthListPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthPaymentsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthProductsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthShippingsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthTextsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthVatPreferencePage.syncWithPreferencesFromDatabase(save);
 	}
 
 	/**

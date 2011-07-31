@@ -64,22 +64,29 @@ public class SelectProductDialog extends SelectDataSetDialog {
 		// Set the content provider
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
 
+		// Get the column width from the preferences
+		int cw_itemno = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DIALOG_PRODUCTS_ITEMNO");
+		int cw_name = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DIALOG_PRODUCTS_NAME");
+		int cw_description = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DIALOG_PRODUCTS_DESCRIPTION");
+		int cw_price = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DIALOG_PRODUCTS_PRICE");
+		int cw_vat = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DIALOG_PRODUCTS_VAT");
+		
 		// Create the table columns
 		if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
 			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Item No."), 80, 0, true, "itemnr");
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Item No."), cw_itemno, true, "itemnr");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), 150, 0, true, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Name"), cw_name, false, "name");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), 200, 50, false, "description");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Description"), cw_description, false, "description");
 		if (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1)
 			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), 70, 0, true, "$Price1Gross");
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), cw_price, true, "$Price1Gross");
 		else
 			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), 70, 0, true, "$Price1Net");
+			new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Price"), cw_price, true, "$Price1Net");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("VAT"), 40, 0, true, "$vatbyid");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("VAT"), cw_vat, true, "$vatbyid");
 
 		// Set the input
 		tableViewer.setInput(Data.INSTANCE.getProducts());

@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewExpenditureAction;
 import com.sebulli.fakturama.data.Data;
@@ -63,17 +64,25 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		// Name of the editor
 		editor = "Expenditure";
 
+		
+		// Get the column width from the preferences
+		int cw_date = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_DATE");
+		int cw_voucher = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_VOUCHER");
+		int cw_document = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_DOCUMENT");
+		int cw_supplier = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_SUPPLIER");
+		int cw_total = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_TOTAL");
+		
 		// Create the table columns
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), 80, 0, true, "date");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), cw_date, true, "date");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Voucher"), 100, 0, true, "nr");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Voucher"), cw_voucher, true, "nr");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Document"), 150, 0, true, "documentnr");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Document"), cw_document, true, "documentnr");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Supplier"), 200, 50, false, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Supplier"), cw_supplier, false, "name");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Total"), 80, 0, true, "paid");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Total"), cw_total, true, "paid");
 
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getExpenditures());

@@ -91,9 +91,9 @@ public class UniDataSetTableColumn {
 	 * @param dataKey
 	 *            Key that represents the column's data
 	 */
-	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight, int minimumWidth,
+	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight,
 			boolean fixsize, final String dataKey) {
-		this(tableColumnLayout, tableViewer, style, header, weight, minimumWidth, fixsize, dataKey, null);
+		this(tableColumnLayout, tableViewer, style, header, weight, fixsize, dataKey, null);
 	}
 	/**
 	 * Constructor Creates a UniDatSet table column with no editing support
@@ -115,9 +115,9 @@ public class UniDataSetTableColumn {
 	 * @param dataKey
 	 *            Key that represents the column's data
 	 */
-	public UniDataSetTableColumn(Display display, TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight, int minimumWidth,
+	public UniDataSetTableColumn(Display display, TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight,
 			boolean fixsize, final String dataKey, EditingSupport editingSupport) {
-		this(tableColumnLayout, tableViewer, style, header, weight, minimumWidth, fixsize, dataKey, editingSupport);
+		this(tableColumnLayout, tableViewer, style, header, weight, fixsize, dataKey, editingSupport);
 		this.display = display;
 	}
 
@@ -143,7 +143,7 @@ public class UniDataSetTableColumn {
 	 * @param editingSupport
 	 *            The editing support of the cell
 	 */
-	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, final TableViewer tableViewer, int style, String header, int weight, int minimumWidth,
+	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, final TableViewer tableViewer, int style, String header, int weight,
 			boolean fixsize, final String dataKey, EditingSupport editingSupport) {
 
 		// Create a TableViewerColum for the column
@@ -192,7 +192,7 @@ public class UniDataSetTableColumn {
 		if (fixsize)
 			tableColumnLayout.setColumnData(viewerNameColumn.getColumn(), new ColumnPixelData(weight));
 		else
-			tableColumnLayout.setColumnData(viewerNameColumn.getColumn(), new ColumnWeightData(weight, minimumWidth, true));
+			tableColumnLayout.setColumnData(viewerNameColumn.getColumn(), new ColumnWeightData(weight, weight / 4, true));
 
 		// Add the editing support
 		if (editingSupport != null)
