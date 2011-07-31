@@ -985,6 +985,9 @@ public class OODocument extends Object {
 			setProperty("DOCUMENT.CUSTOMERREF", document.getStringValueByKey("customerref"));
 			setProperty("DOCUMENT.SERVICEDATE", document.getFormatedStringValueByKey("servicedate"));
 			setProperty("DOCUMENT.MESSAGE", document.getStringValueByKey("message"));
+			setProperty("DOCUMENT.MESSAGE1", document.getStringValueByKey("message"));
+			setProperty("DOCUMENT.MESSAGE2", document.getStringValueByKey("message2"));
+			setProperty("DOCUMENT.MESSAGE3", document.getStringValueByKey("message3"));
 			setProperty("DOCUMENT.TRANSACTION", document.getStringValueByKey("transaction"));
 			setProperty("DOCUMENT.INVOICE", document.getStringValueByKeyFromOtherTable("invoiceid.DOCUMENTS:name"));
 			setProperty("DOCUMENT.WEBSHOP.ID", document.getStringValueByKey("webshopid"));

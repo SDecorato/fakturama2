@@ -120,6 +120,8 @@ public class DocumentEditor extends Editor {
 	private Text txtInvoiceRef;
 	private TableViewer tableViewerItems;
 	private Text txtMessage;
+	private Text txtMessage2;
+	private Text txtMessage3;
 	private Button bPaid;
 	private Composite paidContainer;
 	private Composite paidDataContainer = null;
@@ -383,6 +385,10 @@ public class DocumentEditor extends Editor {
 
 		// Set the message
 		document.setStringValueByKey("message", DataUtils.removeCR(txtMessage.getText()));
+		if (txtMessage2 != null)
+		document.setStringValueByKey("message2", DataUtils.removeCR(txtMessage2.getText()));
+		if (txtMessage3 != null)
+		document.setStringValueByKey("message3", DataUtils.removeCR(txtMessage3.getText()));
 
 		// Set the whole vat of the document to zero
 		document.setBooleanValueByKey("novat", noVat);
@@ -817,6 +823,10 @@ public class DocumentEditor extends Editor {
 		if (comboShipping != null)
 			if (!document.getStringValueByKey("shippingdescription").equals(comboShipping.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("message"), txtMessage.getText())) { return true; }
+		if (txtMessage2 != null)
+			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("message2"), txtMessage2.getText())) { return true; }
+		if (txtMessage3 != null)
+			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("message3"), txtMessage3.getText())) { return true; }
 		if (!document.getStringValueByKey("shippingvatdescription").equals(shippingVatDescription)) { return true; }
 		if (document.getIntValueByKey("shippingautovat") != shippingAutoVat) { return true; }
 		if (document.getBooleanValueByKey("novat") != noVat) { return true; }
@@ -1906,19 +1916,30 @@ public class DocumentEditor extends Editor {
 				DataSetText text;
 				if (dialog.open() == Dialog.OK) {
 					text = (DataSetText) dialog.getSelection();
+					
+					// Get the message field with the focus
+					Text selecteMessageField = txtMessage;
 
+					// Get the message field with the focus
+					if (txtMessage2 != null)
+						if (txtMessage2.isFocusControl())
+							selecteMessageField = txtMessage2;
+					if (txtMessage3 != null)
+						if (txtMessage3.isFocusControl())
+							selecteMessageField = txtMessage3;
+					
 					// Insert the selected text in the message text
-					if ((text != null) && (txtMessage != null)) {
-						int begin = txtMessage.getSelection().x;
-						int end = txtMessage.getSelection().y;
-						String s = txtMessage.getText();
+					if ((text != null) && (selecteMessageField != null)) {
+						int begin = selecteMessageField.getSelection().x;
+						int end = selecteMessageField.getSelection().y;
+						String s = selecteMessageField.getText();
 						String s1 = s.substring(0, begin);
 						String s2 = text.getStringValueByKey("text");
 						String s3 = s.substring(end, s.length());
 
-						txtMessage.setText(s1 + s2 + s3);
+						selecteMessageField.setText(s1 + s2 + s3);
 
-						txtMessage.setSelection(s1.length() + s2.length());
+						selecteMessageField.setSelection(s1.length() + s2.length());
 						checkDirty();
 					}
 				}
@@ -1926,12 +1947,40 @@ public class DocumentEditor extends Editor {
 			}
 		});
 
+		int noOfMessageFields = Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_MESSAGES");
+		if (noOfMessageFields < 1)
+			noOfMessageFields = 1;
+		if (noOfMessageFields > 3)
+			noOfMessageFields = 3;
+		
+		// Container for 1..3 message fields
+		Composite messageFieldsComposite = new Composite(top,SWT.NONE );
+		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(messageFieldsComposite);
+		
 		// Add a multi line text field for the message.
-		txtMessage = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		txtMessage = new Text(messageFieldsComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		txtMessage.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("message")));
 		txtMessage.setToolTipText(messageLabel.getToolTipText());
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage);
 		superviceControl(txtMessage, 10000);
 
+		if (noOfMessageFields >= 2) {
+			// Add a multi line text field for the message.
+			txtMessage2 = new Text(messageFieldsComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+			txtMessage2.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("message2")));
+			txtMessage2.setToolTipText(messageLabel.getToolTipText());
+			GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage2);
+			superviceControl(txtMessage2, 10000);
+		}
+		if (noOfMessageFields >= 3) {
+			// Add a multi line text field for the message.
+			txtMessage3 = new Text(messageFieldsComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+			txtMessage3.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("message3")));
+			txtMessage3.setToolTipText(messageLabel.getToolTipText());
+			GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage3);
+			superviceControl(txtMessage3, 10000);
+		}
+		
 		// Set the tab order
 		if (documentType.hasInvoiceReference())
 			setTabOrder(txtAddress, txtInvoiceRef);
@@ -1947,17 +1996,17 @@ public class DocumentEditor extends Editor {
 
 			// If not, fill the columns for the price with the message field.
 			if (documentType.hasItems())
-				GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 65).span(3, 1).grab(true, false).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().hint(SWT.DEFAULT, noOfMessageFields*65).span(3, 1).grab(true, false).applyTo(messageFieldsComposite);
 			else
-				GridDataFactory.fillDefaults().span(3, 1).grab(true, true).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().span(3, 1).grab(true, true).applyTo(messageFieldsComposite);
 		}
 
 		else {
 
 			if (documentType.hasPaid())
-				GridDataFactory.fillDefaults().span(2, 1).hint(100, 70).grab(true, false).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().span(2, 1).hint(100, noOfMessageFields*65).grab(true, false).applyTo(messageFieldsComposite);
 			else
-				GridDataFactory.fillDefaults().span(2, 1).hint(100, 70).grab(true, true).applyTo(txtMessage);
+				GridDataFactory.fillDefaults().span(2, 1).hint(100, noOfMessageFields*65).grab(true, true).applyTo(messageFieldsComposite);
 
 			// Create a column for the documents subtotal, shipping and total
 			Composite totalComposite = new Composite(top, SWT.NONE);
