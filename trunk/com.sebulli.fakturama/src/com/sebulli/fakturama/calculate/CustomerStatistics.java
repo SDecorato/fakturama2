@@ -43,6 +43,10 @@ public class CustomerStatistics {
 	// The total volume
 	private Double total = 0.0;
 	
+	// Customer to test
+	private int contactID = -1;
+	private String address = "";
+	
 	/**
 	 * Constructor
 	 * 		Generates a statistic
@@ -54,7 +58,37 @@ public class CustomerStatistics {
 		// Exit, if no customer is set
 		if (contactID < 0)
 			return;
+		
+		this.contactID = contactID;
+		makeStatistics(true);
 
+	}
+	
+	/**
+	 * Constructor
+	 * 		Generates a statistic
+	 * @param 
+	 * 		contactID of the customer
+	 * @param 
+	 * 		firstAddressLine of the customer
+	 */
+	public CustomerStatistics (int contactID, String address) {
+		
+		this.contactID = contactID;
+		this.address = address;
+		makeStatistics(false);
+
+	}
+	
+
+	/**
+	 * Make the Statistics. Search for other documents from this customer
+	 * 
+	 * @param 
+	 * 		byID TRUE:  Compare contact ID
+	 * 		     FLASE: Compare also first line of address
+	 */
+	private void makeStatistics(boolean byID) {
 		// Get all undeleted documents
 		ArrayList<DataSetDocument> documents = Data.INSTANCE.getDocuments().getActiveDatasets();
 
@@ -63,50 +97,64 @@ public class CustomerStatistics {
 
 			// Only paid invoiced from this customer will be used for the statistics
 			if ( (document.getIntValueByKey("category") == DocumentType.INVOICE.getInt())
-					 && document.getBooleanValueByKey("paid") && 
-					 document.getIntValueByKey("addressid") == contactID ) {
+					 && document.getBooleanValueByKey("paid")  ) {
+
+				boolean customerFound = false;
+
+				// Compare the customer ID
+				if ((document.getIntValueByKey("addressid") == contactID) && ( contactID >= 0 ))
+					customerFound = true;
+
+				// Compare the the address
+				if (!byID && (address.length() > 10) && 
+					DataUtils.similarity(document.getStringValueByKey("address"), address) > 0.7)
+					customerFound = true;
 				
-				// It's a regular customer
-				isRegularCustomer = true;
+				if (customerFound) {
+					// It's a regular customer
+					isRegularCustomer = true;
 
-				// Increment the count of orders
-				ordersCount ++;
-				
-				// Increase the total
-				total += document.getDoubleValueByKey("payvalue");
-				
-				// Get the date of the document and convert it to a
-				// GregorianCalendar object.
-				GregorianCalendar documentDate = new GregorianCalendar();
-				try {
-					DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+					// Increment the count of orders
+					ordersCount ++;
+					
+					// Increase the total
+					total += document.getDoubleValueByKey("payvalue");
+					
+					// Get the date of the document and convert it to a
+					// GregorianCalendar object.
+					GregorianCalendar documentDate = new GregorianCalendar();
+					try {
+						DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-					String expenditureDateString = "";
+						String expenditureDateString = "";
 
-					// Use date 
-					expenditureDateString = document.getStringValueByKey("orderdate");
+						// Use date 
+						expenditureDateString = document.getStringValueByKey("orderdate");
 
-					// Do only parse non empty strings
-					if (!expenditureDateString.isEmpty()) {
-						documentDate.setTime(formatter.parse(expenditureDateString));
+						// Do only parse non empty strings
+						if (!expenditureDateString.isEmpty()) {
+							documentDate.setTime(formatter.parse(expenditureDateString));
 
-						// Set the last order date
-						if (lastOrderDate == null) {
-							lastOrderDate = documentDate;
-						} else {
-							documentDate.after(lastOrderDate);
-							lastOrderDate = documentDate;
+							// Set the last order date
+							if (lastOrderDate == null) {
+								lastOrderDate = documentDate;
+							} else {
+								documentDate.after(lastOrderDate);
+								lastOrderDate = documentDate;
+							}
 						}
-					}
 
-				}
-				catch (ParseException e) {
+					}
+					catch (ParseException e) {
+					}
+					
 				}
 
 				
 			}
 		}
 
+		
 	}
 	
 	/**
