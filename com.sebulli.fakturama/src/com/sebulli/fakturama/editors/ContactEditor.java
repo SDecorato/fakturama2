@@ -108,6 +108,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	private Text txtCategory;
 	private Group deliveryGroup;
 	private Button bDelAddrEquAddr;
+	private Combo comboUseNetGross;
 
 	// These flags are set by the preference settings.
 	// They define, if elements of the editor are displayed, or not.
@@ -232,6 +233,8 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		contact.setStringValueByKey("vatnr", txtVatNr.getText());
 		contact.setDoubleValueByKey("discount", DataUtils.StringToDoubleDiscount(txtDiscount.getText()));
 		contact.setStringValueByKey("category", txtCategory.getText());
+		contact.setIntValueByKey("use_net_gross", comboUseNetGross.getSelectionIndex());
+
 
 		// Set the note
 		contact.setStringValueByKey("note", DataUtils.removeCR(textNote.getText()));
@@ -377,6 +380,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("vatnr").equals(txtVatNr.getText())) { return true; }
 		if (!contact.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
 		if (!DataUtils.DoublesAreEqual(contact.getDoubleValueByKey("discount"), DataUtils.StringToDoubleDiscount(txtDiscount.getText()))) { return true; }
+		if (contact.getIntValueByKey("use_net_gross") != comboUseNetGross.getSelectionIndex()) { return true; }
 
 		if (!DataUtils.MultiLineStringsAreEqual(contact.getStringValueByKey("note"), textNote.getText())) { return true; }
 
@@ -948,6 +952,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		superviceControl(comboReliability);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboReliability);
 
+		
 		// VAT number
 		Label labelVatNr = new Label(tabMisc, SWT.NONE);
 		//T: Label in the contact editor
@@ -985,6 +990,30 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 			}
 		});
 
+		// Use net or gross
+		Label labelNetGross = new Label(tabMisc, SWT.NONE);
+		//T: Label in the contact editor
+		labelNetGross.setText(_("Net or Gross"));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNetGross);
+		comboUseNetGross = new Combo(tabMisc, SWT.BORDER);
+
+		comboUseNetGross.add("---");
+		//T: Entry in a combo box of the the contact editor. Use Net or Gross 
+		comboUseNetGross.add(_("Net"));
+		//T: Entry in a combo box of the the contact editor. Use Net or Gross 
+		comboUseNetGross.add(_("Gross"));
+
+		// If the value is -1, use 0 instead
+		if (contact.getIntValueByKey("use_net_gross")<0)
+			contact.setIntValueByKey("use_net_gross",0); 
+		comboUseNetGross.select(contact.getIntValueByKey("use_net_gross"));
+		
+		superviceControl(comboUseNetGross);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboUseNetGross);
+		
+
+		
+		
 		// Controls in tab "Note"
 
 		// The note
