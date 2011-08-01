@@ -14,6 +14,7 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -263,15 +264,27 @@ public class ItemEditingSupport extends EditingSupport {
 
 			break;
 		case PRICE:
+			boolean useGross = documentEditor.getUseGross();
+			String priceString = (String) value;
+			
+			// If the price is taged with an "Net" or "Gross", force this
+			// value to a net or gross value
+			//T: Tag to mark a price as net or gross
+			if (priceString.toLowerCase().contains((_("Net")).toLowerCase()))
+				useGross = false;
+			//T: Tag to mark a price as net or gross
+			if (priceString.toLowerCase().contains((_("Gross")).toLowerCase()))
+				useGross = true;
+			
 			// Set the price as gross or net value.
 			// If the editor displays gross values, calculate the net value,
 			// because only net values are stored.
-			if (documentEditor.getUseGross())
+			if (useGross)
 				item.setDoubleValueByKey("price",
-						new Price(DataUtils.StringToDouble((String) value), item.getDoubleValueByKey("vatvalue"), item.getBooleanValueByKey("novat"), true)
+						new Price(DataUtils.StringToDouble(priceString), item.getDoubleValueByKey("vatvalue"), item.getBooleanValueByKey("novat"), true)
 								.getUnitNet().asDouble());
 			else
-				item.setStringValueByKey("price", String.valueOf(value));
+				item.setStringValueByKey("price", String.valueOf(priceString));
 			break;
 		case DISCOUNT:
 			// Set the discount value
