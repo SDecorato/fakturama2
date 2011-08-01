@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.DirectoryDialog;
@@ -62,6 +63,30 @@ public enum Workspace {
 		// Get the workspace from the preferences
 		preferences = Activator.getDefault().getPreferenceStore();
 		workspace = preferences.getString("GENERAL_WORKSPACE");
+		
+		// Get the program parameters
+		String[] args = Platform.getCommandLineArgs();
+
+		// Read the parameter "-workspace"
+		String workspaceFromParameters = "";
+		
+		int i = 0;
+		while (i < args.length) {
+			if (args[i].equals("-workspace"))
+			{
+				i++;
+				workspaceFromParameters = args[i];
+				
+				// Checks, whether the workspace from the parameters exists
+				File workspacePath = new File(workspaceFromParameters);
+				if (workspacePath.exists()) {
+					// Use it, if it is an existing folder.
+					workspace = workspaceFromParameters;
+				}
+			}
+			i++;
+		}
+		
 
 		// Checks, whether the workspace request is set.
 		// If yes, the workspace is set to this value and the request value is cleared.
