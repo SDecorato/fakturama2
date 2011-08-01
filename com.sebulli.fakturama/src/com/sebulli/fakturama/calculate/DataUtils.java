@@ -683,6 +683,13 @@ public class DataUtils {
 		int min;
 		int codesA = sA.length() - 1;
 		int codesB = sB.length() - 1;
+
+		//Empty Strings
+		if (codesA < 0)
+			return 0.0;
+		if (codesB < 0)
+			return 0.0;
+		
 		int codeA[] = new int[codesA];
 		int codeB[] = new int[codesB];
 
