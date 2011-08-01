@@ -1296,7 +1296,36 @@ public class DocumentEditor extends Editor {
 		
 		// Get some settings from the preference store
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
+		boolean oldUseGross = useGross;
+		
+		// Use the customers settings instead, if they are set
+		if (addressId >= 0) {
+			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 1)
+				useGross = false;
+			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 2)
+				useGross = true;
 
+			// Show a warning, if the customer uses a different setting for net or gross
+			if (useGross != oldUseGross) {
+				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
+
+				//T: Title of the dialog that appears if customer uses a different setting for net or gross.
+				messageBox.setText(_("Warning"));
+				
+				
+				if (useGross) {
+					//T: Text of the dialog that appears if customer uses a different setting for net or gross.
+					messageBox.setMessage(_("Gross values are used!"));
+				}
+				{
+					//T: Text of the dialog that appears if customer uses a different setting for net or gross.
+					messageBox.setMessage(_("Net values are used!"));
+				}
+				messageBox.open();
+
+			}
+		}
+		
 		// Create the top composite of the editor
 		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(4).applyTo(top);
