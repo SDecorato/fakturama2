@@ -151,7 +151,7 @@ public class DocumentEditor extends Editor {
 	private DocumentType documentType;
 
 	// These are (non visible) values of the document
-	private int addressId;
+	private int addressId = -1;
 	private boolean noVat;
 	private String noVatName;
 	private String noVatDescription;
@@ -292,7 +292,7 @@ public class DocumentEditor extends Editor {
 				billingAddress = DataUtils.removeCR(txtAddress.getText());
 			document.setStringValueByKey("address", billingAddress);
 
-			if (addressId > 0)
+			if (addressId >= 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(true);
 		}
 		else {
@@ -306,13 +306,13 @@ public class DocumentEditor extends Editor {
 			
 			document.setStringValueByKey("deliveryaddress", deliveryAddress);
 
-			if (addressId > 0)
+			if (addressId >= 0)
 				addressById = Data.INSTANCE.getContacts().getDatasetById(addressId).getAddress(false);
 		}
 
 		// Show a warning, if the entered address is not similar to the address
 		// of the document, set by the address ID.
-		if ((addressId > 0) && (addressModified)) {
+		if ((addressId >= 0) && (addressModified)) {
 			if (DataUtils.similarity(addressById, DataUtils.removeCR(txtAddress.getText())) < 0.75) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
 
@@ -489,7 +489,7 @@ public class DocumentEditor extends Editor {
 
 		// Set the "addressfirstline" value to the first line of the
 		// contact address
-		if (addressId > 0) {
+		if (addressId >= 0) {
 			document.setStringValueByKey("addressfirstline", Data.INSTANCE.getContacts().getDatasetById(addressId).getName(false));
 		}
 		else {
