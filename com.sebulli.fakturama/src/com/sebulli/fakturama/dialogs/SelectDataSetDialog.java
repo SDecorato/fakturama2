@@ -16,6 +16,9 @@ package com.sebulli.fakturama.dialogs;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -50,7 +53,15 @@ public abstract class SelectDataSetDialog extends Dialog {
 	protected TableViewer tableViewer;
 	protected TableColumnLayout tableColumnLayout;
 	protected String editor = "";
+	
+	// The first selected item
 	protected UniDataSet selectedDataSet = null;
+	
+	// All selected items
+	protected List<UniDataSet> selectedDataSets = new ArrayList<UniDataSet>()  ;
+
+	// Is it possible to select multiple items 
+	protected boolean multiple;
 	protected String title = "";
 
 	// Filter the table 
@@ -75,9 +86,10 @@ public abstract class SelectDataSetDialog extends Dialog {
 	 * @param title
 	 *            Title of the new dialog
 	 */
-	public SelectDataSetDialog(String title) {
+	public SelectDataSetDialog(String title, boolean multiple) {
 		this(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		this.title = title;
+		this.multiple = multiple;
 	}
 
 	/**
@@ -128,7 +140,11 @@ public abstract class SelectDataSetDialog extends Dialog {
 		tableComposite.setLayout(tableColumnLayout);
 
 		// Create the jface table viewer
-		tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION);
+		int multipleStyle = 0;
+		if (multiple)
+			multipleStyle = SWT.MULTI;
+		
+		tableViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.FULL_SELECTION | multipleStyle);
 		tableViewer.getTable().setLinesVisible(true);
 		tableViewer.getTable().setHeaderVisible(true);
 
@@ -140,12 +156,14 @@ public abstract class SelectDataSetDialog extends Dialog {
 			 * 
 			 * @param event
 			 */
+			@SuppressWarnings("unchecked")
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection selection = tableViewer.getSelection();
 				if (selection != null && selection instanceof IStructuredSelection) {
 					Object obj = ((IStructuredSelection) selection).getFirstElement();
 					selectedDataSet = (UniDataSet) obj;
+					selectedDataSets = ((IStructuredSelection) selection).toList();
 				}
 			}
 
@@ -198,7 +216,18 @@ public abstract class SelectDataSetDialog extends Dialog {
 	 * 
 	 * @return The selected element or null, if none is selected
 	 */
-	public UniDataSet getSelection() {
+	public UniDataSet getSelectedDataSet() {
 		return selectedDataSet;
 	}
+
+	/**
+	 * Get the selected elements
+	 * 
+	 * @return The selected element or null, if none is selected
+	 */
+	public List<UniDataSet> getSelectedDataSets() {
+		return selectedDataSets;
+	}
+	
+	
 }

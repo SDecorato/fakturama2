@@ -104,10 +104,14 @@ public class NewDocumentAction extends NewEditorAction {
 	private void setDocumentType(DocumentType documentType) {
 
 		category = documentType.getString();
-		setText(documentType.getNewText());
 		String iconSizeString = "_" + Integer.toString(iconSize);
-		if (iconSize == 32)
+		if (iconSize == 32) {
 			iconSizeString = "_new" + iconSizeString;
+			setText(documentType.getString());
+		}
+		else
+			setText(documentType.getNewText());
+
 		setSettings(ICommandIds.CMD_NEW_ + documentType.getTypeAsString(), "/icons/" + Integer.toString(iconSize) + "/"
 				+ documentType.getTypeAsString().toLowerCase() + iconSizeString + ".png", documentType);
 	}

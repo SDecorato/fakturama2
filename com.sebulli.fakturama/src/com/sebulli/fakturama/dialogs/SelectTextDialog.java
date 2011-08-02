@@ -39,7 +39,7 @@ public class SelectTextDialog extends SelectDataSetDialog {
 	 *            Dialog title
 	 */
 	public SelectTextDialog(String string) {
-		super(string);
+		super(string, false);
 	}
 
 	/**
