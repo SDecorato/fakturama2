@@ -63,6 +63,7 @@ public class UniDataSetTableColumn {
 	private static final Image CREDIT = Activator.getImageDescriptor("icons/16/credit_16.png").createImage();
 	private static final Image DUNNING = Activator.getImageDescriptor("icons/16/dunning_16.png").createImage();
 	private static final Image LETTER = Activator.getImageDescriptor("icons/16/letter_16.png").createImage();
+	private static final Image PROFORMA = Activator.getImageDescriptor("icons/16/proforma_16.png").createImage();
 	private static final Image UNPAID = Activator.getImageDescriptor("icons/16/error_16.png").createImage();
 	private static final Image ORDER_PENDING = Activator.getImageDescriptor("icons/16/order_pending_16.png").createImage();
 	private static final Image ORDER_PROCESSING = Activator.getImageDescriptor("icons/16/order_processing_16.png").createImage();
@@ -319,6 +320,8 @@ public class UniDataSetTableColumn {
 						break;
 					case DUNNING:
 						cell.setImage(DUNNING);
+					case PROFORMA:
+						cell.setImage(PROFORMA);
 						break;
 					}
 				}

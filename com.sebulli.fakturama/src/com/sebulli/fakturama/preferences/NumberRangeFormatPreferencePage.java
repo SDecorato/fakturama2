@@ -70,6 +70,8 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 		addField(new StringFieldEditor("NUMBERRANGE_CREDIT_FORMAT", _("Format credit No.:"), getFieldEditorParent()));
 		//T: Preference page "Number Range Format" - Label "Format of the dunning No."
 		addField(new StringFieldEditor("NUMBERRANGE_DUNNING_FORMAT", _("Format dunning No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Format" - Label "Format of the dunning No."
+		addField(new StringFieldEditor("NUMBERRANGE_PROFORMA_FORMAT", _("Format proforma invoice No.:"), getFieldEditorParent()));
 	}
 
 	/**
@@ -101,7 +103,9 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CREDIT_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CONFIRMATION_FORMAT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_DUNNING_FORMAT", write);
-	}
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_PROFORMA_FORMAT", write);
+		
+		}
 
 	/**
 	 * Set the default values for this preference page
@@ -128,6 +132,9 @@ public class NumberRangeFormatPreferencePage extends FieldEditorPreferencePage i
 		node.put("NUMBERRANGE_CONFIRMATION_FORMAT", _("CONF{6nr}"));
 		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Dunning" with {6nr} for a 6 digits number
 		node.put("NUMBERRANGE_DUNNING_FORMAT", _("DUNNING{6nr}"));
+		//T: Preference page "Number Range Format" - Default value: Abbreviation for "Dunning" with {6nr} for a 6 digits number
+		node.put("NUMBERRANGE_PROFORMA_FORMAT", _("PROFORMA{6nr}"));
+		
 	}
 
 }

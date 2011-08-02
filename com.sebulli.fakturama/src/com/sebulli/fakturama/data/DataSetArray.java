@@ -330,7 +330,7 @@ public class DataSetArray<T> {
 		ArrayList<T> undeletedDatasets = getActiveDatasets();
 
 		// Remember, which document types are used
-		boolean usedDocuments[] = { false, false, false, false, false, false, false, false, false };
+		boolean usedDocuments[] = { false, false, false, false, false, false, false, false, false, false};
 
 		// It's an ArraySet of documents
 		if (udsTemplate instanceof DataSetDocument) {
@@ -339,7 +339,7 @@ public class DataSetArray<T> {
 			for (T dataset : undeletedDatasets) {
 				DataSetDocument document = (DataSetDocument) dataset;
 				int docType = document.getIntValueByKey("category");
-				if (docType >= 0 && docType <= 8) {
+				if (docType >= 0 && docType <= (usedDocuments.length-1)) {
 					usedDocuments[docType] = true;
 					categoryStringsCode |= 1 << docType;
 				}

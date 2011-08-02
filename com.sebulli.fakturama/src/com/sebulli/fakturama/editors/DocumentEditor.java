@@ -1575,15 +1575,18 @@ public class DocumentEditor extends Editor {
 		case OFFER:
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.ORDER, this, 32)));
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.INVOICE, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.PROFORMA, this, 32)));
 			break;
 		case ORDER:
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.CONFIRMATION, this, 32)));
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.INVOICE, this, 32)));
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.PROFORMA, this, 32)));
 			break;
 		case CONFIRMATION:
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.INVOICE, this, 32)));
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.PROFORMA, this, 32)));
 			break;
 		case INVOICE:
 			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.DELIVERY, this, 32)));
@@ -1597,6 +1600,9 @@ public class DocumentEditor extends Editor {
 			NewDocumentAction action = new NewDocumentAction(DocumentType.DUNNING, this, 32);
 			action.setText(Integer.toString(dunningLevel + 1) + "." + action.getText());
 			tbmDuplicate.add(new NewDocumentActionContributionItem(action));
+			break;
+		case PROFORMA:
+			tbmDuplicate.add(new NewDocumentActionContributionItem(new NewDocumentAction(DocumentType.INVOICE, this, 32)));
 			break;
 		default:
 			copyGroup.setVisible(false);

@@ -141,7 +141,7 @@ public enum Workspace {
 		if (!directory.exists()) {
 
 			// Copy the templates from the resources to the file system
-			for (int i = 1; i <= 8; i++) {
+			for (int i = 1; i <= DocumentType.MAXID; i++) {
 				if (DocumentType.getType(i) == DocumentType.DELIVERY) {
 					resourceCopy("Templates/Delivery/Document.ott", templateFolderName + "/" + DocumentType.getString(i), "Document.ott");
 				}

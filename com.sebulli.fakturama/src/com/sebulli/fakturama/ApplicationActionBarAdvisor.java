@@ -144,6 +144,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private NewDocumentAction newCreditActionTB;
 	private NewDocumentAction newDunningAction;
 	private NewDocumentAction newDunningActionTB;
+	private NewDocumentAction newProformaAction;
+	private NewDocumentAction newProformaActionTB;
 	private NewTextAction newTextAction;
 	private NewListEntryAction newListEntryAction;
 	private NewExpenditureAction newExpenditureAction;
@@ -384,6 +386,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newDunningActionTB = new NewDocumentAction(DocumentType.DUNNING);
 		register(newDunningActionTB);
 
+		newProformaAction = new NewDocumentAction(DocumentType.PROFORMA);
+		register(newProformaAction);
+		newProformaActionTB = new NewDocumentAction(DocumentType.PROFORMA);
+		register(newProformaActionTB);
+
 		selectWorkspaceAction = new SelectWorkspaceAction();
 		register(selectWorkspaceAction);
 
@@ -513,6 +520,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newMenu.add(newDeliveryAction);
 		newMenu.add(newCreditAction);
 		newMenu.add(newDunningAction);
+		newMenu.add(newProformaAction);
 		newMenu.add(new Separator());
 		newMenu.add(newProductAction);
 		newMenu.add(newContactAction);
@@ -671,6 +679,15 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 			ActionContributionItem newDunningCI = new ActionContributionItem(newDunningActionTB);
 			newDunningCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 			toolbar2.add(newDunningCI);
+			
+			newProformaActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/proforma_new_32.png"));
+			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+			newProformaActionTB.setText(_("Proforma", "TOOLBAR"));
+			ActionContributionItem newProformaCI = new ActionContributionItem(newProformaActionTB);
+			newProformaCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+			toolbar2.add(newProformaCI);
+
+			
 		}
 
 		newProductActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/product_new_32.png"));

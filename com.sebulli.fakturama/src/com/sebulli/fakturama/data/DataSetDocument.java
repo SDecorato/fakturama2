@@ -353,6 +353,10 @@ public class DataSetDocument extends UniDataSet {
 			list.add(DocumentType.DUNNING.getPluralString() + "/" + getStringPAID());
 		}
 
+		if (usedDocuments[DocumentType.PROFORMA.getInt()]) {
+			list.add(DocumentType.PROFORMA.getPluralString());
+		}
+
 		return list.toArray();
 	}
 
