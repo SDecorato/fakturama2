@@ -70,6 +70,8 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 		addField(new IntegerFieldEditor("NUMBERRANGE_CREDIT_NR", _("Next credit No.:"), getFieldEditorParent()));
 		//T: Preference page "Number Range Values" - Label "next free number"
 		addField(new IntegerFieldEditor("NUMBERRANGE_DUNNING_NR", _("Next dunning No.:"), getFieldEditorParent()));
+		//T: Preference page "Number Range Values" - Label "next free number"
+		addField(new IntegerFieldEditor("NUMBERRANGE_PROFORMA_NR", _("Next proforma invoice No.:"), getFieldEditorParent()));
 	}
 
 	/**
@@ -101,7 +103,9 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CREDIT_NR", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_CONFIRMATION_NR", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_DUNNING_NR", write);
-	}
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("NUMBERRANGE_PROFORMA_NR", write);
+		
+		}
 
 	/**
 	 * Set the default values for this preference page
@@ -119,6 +123,8 @@ public class NumberRangeValuesPreferencePage extends FieldEditorPreferencePage i
 		node.put("NUMBERRANGE_CREDIT_NR", "1");
 		node.put("NUMBERRANGE_CONFIRMATION_NR", "1");
 		node.put("NUMBERRANGE_DUNNING_NR", "1");
+		node.put("NUMBERRANGE_PROFORMA_NR", "1");
+		
 	}
 
 }

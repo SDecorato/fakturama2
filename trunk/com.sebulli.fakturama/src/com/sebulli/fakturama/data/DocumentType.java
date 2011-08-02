@@ -28,10 +28,10 @@ import org.eclipse.jface.viewers.Viewer;
  */
 public enum DocumentType {
 	// all 8 data types
-	NONE, LETTER, OFFER, ORDER, CONFIRMATION, INVOICE, DELIVERY, CREDIT, DUNNING;
+	NONE, LETTER, OFFER, ORDER, CONFIRMATION, INVOICE, DELIVERY, CREDIT, DUNNING, PROFORMA;
 
-	// 8 types.
-	public final static int MAXID = 8;
+	// 9 types.
+	public final static int MAXID = 9;
 
 	/**
 	 * Convert from a DocumentType to the corresponding integer
@@ -58,6 +58,8 @@ public enum DocumentType {
 			return 7;
 		case DUNNING:
 			return 8;
+		case PROFORMA:
+			return 9;
 		}
 		return 0;
 	}
@@ -86,6 +88,8 @@ public enum DocumentType {
 			return getInt(CREDIT);
 		if (getString(DUNNING).equals(documentType))
 			return getInt(DUNNING);
+		if (getString(PROFORMA).equals(documentType))
+			return getInt(PROFORMA);
 
 		return getInt(NONE);
 	}
@@ -123,6 +127,8 @@ public enum DocumentType {
 			return CREDIT;
 		if (isDocumentTypeString(DUNNING, documentType))
 			return DUNNING;
+		if (isDocumentTypeString(PROFORMA, documentType))
+			return PROFORMA;
 
 		return NONE;
 	}
@@ -161,6 +167,9 @@ public enum DocumentType {
 		case 8:
 			//T: Type of the document (singular)
 			return _("Dunning");
+		case 9:
+			//T: Type of the document (singular)
+			return _("Proforma");
 		}
 		return "";
 	}
@@ -208,6 +217,9 @@ public enum DocumentType {
 		case 8:
 			//T: Type of 2 or more documents (plural)
 			return _("Dunning Letters");
+		case 9:
+			//T: Type of 2 or more documents (plural)
+			return _("Proformat Invoices");
 		}
 		return "";
 	}
@@ -237,6 +249,8 @@ public enum DocumentType {
 			return CREDIT;
 		case 8:
 			return DUNNING;
+		case 9:
+			return PROFORMA;
 		}
 		return NONE;
 	}
@@ -268,6 +282,8 @@ public enum DocumentType {
 			return "Credit";
 		case 8:
 			return "Dunning";
+		case 9:
+			return "Proforma";
 		}
 		return "NONE";
 	}
@@ -405,6 +421,8 @@ public enum DocumentType {
 			return true;
 		case DUNNING:
 			return false;
+		case PROFORMA:
+			return true;
 		}
 		return false;
 	}
@@ -432,6 +450,8 @@ public enum DocumentType {
 			return true;
 		case DUNNING:
 			return false;
+		case PROFORMA:
+			return true;
 		}
 		return false;
 	}
@@ -458,6 +478,8 @@ public enum DocumentType {
 		case CREDIT:
 			return true;
 		case DUNNING:
+			return false;
+		case PROFORMA:
 			return false;
 		}
 		return false;
@@ -487,6 +509,9 @@ public enum DocumentType {
 			return true;
 		case DUNNING:
 			return true;
+		case PROFORMA:
+			return false;
+
 		}
 		return false;
 	}
@@ -514,6 +539,8 @@ public enum DocumentType {
 		case CREDIT:
 			return -1;
 		case DUNNING:
+			return 1;
+		case PROFORMA:
 			return 1;
 		}
 		return 1;
@@ -550,6 +577,9 @@ public enum DocumentType {
 		case DUNNING:
 			//T: Text of the action to create a new document
 			return _("New Dunning");
+		case PROFORMA:
+			//T: Text of the action to create a new document
+			return _("New Proforma Invoice");
 		}
 		//T: Text of the action to create a new document
 		return _("New Document");
