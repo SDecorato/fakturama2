@@ -1638,7 +1638,7 @@ public class DocumentEditor extends Editor {
 				SelectContactDialog dialog = new SelectContactDialog(_("Select the address"));
 				DataSetContact contact;
 				if (dialog.open() == Dialog.OK) {
-					contact = (DataSetContact) dialog.getSelection();
+					contact = (DataSetContact) dialog.getSelectedDataSet();
 					if (contact != null) {
 
 						setAddress(contact);
@@ -1746,21 +1746,29 @@ public class DocumentEditor extends Editor {
 					//T: Document Editor
 					//T: Title of the dialog to select a product
 					SelectProductDialog dialog = new SelectProductDialog(_("Select a product"));
-					DataSetProduct product;
 					if (dialog.open() == Dialog.OK) {
-						product = (DataSetProduct) dialog.getSelection();
-						if (product != null) {
-							DataSetItem newItem = new DataSetItem(documentType.sign() * 1.0, product);
+						
+						// Get the array list of all selected elements
+						for (UniDataSet uds : dialog.getSelectedDataSets()) {
 							
-							// Use the products description, or clear it
-							if (!Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG"))
-								newItem.setStringValueByKey("description", "");
+							// Get one product
+							DataSetProduct product = (DataSetProduct)uds;
 							
-							addNewItem(newItem);
+							if (product != null) {
+								DataSetItem newItem = new DataSetItem(documentType.sign() * 1.0, product);
+								
+								// Use the products description, or clear it
+								if (!Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG"))
+									newItem.setStringValueByKey("description", "");
+								
+								addNewItem(newItem);
+							}
+
 							tableViewerItems.refresh();
 							calculate();
 							checkDirty();
 						}
+						
 					}
 				}
 			});
@@ -1961,7 +1969,7 @@ public class DocumentEditor extends Editor {
 				SelectTextDialog dialog = new SelectTextDialog(_("Select a text"));
 				DataSetText text;
 				if (dialog.open() == Dialog.OK) {
-					text = (DataSetText) dialog.getSelection();
+					text = (DataSetText) dialog.getSelectedDataSet();
 					
 					// Get the message field with the focus
 					Text selecteMessageField = txtMessage;
