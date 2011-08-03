@@ -219,7 +219,7 @@ public enum DocumentType {
 			return _("Dunning Letters");
 		case 9:
 			//T: Type of 2 or more documents (plural)
-			return _("Proformat Invoices");
+			return _("Proforma Invoices");
 		}
 		return "";
 	}

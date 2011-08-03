@@ -80,9 +80,11 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		addField(new BooleanFieldEditor("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", _("Use discount for all items"), getFieldEditorParent()));
 		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", _("Show a customer statistics dialog"), getFieldEditorParent()));
-		//T: Preference page "Document" - Label "Format (net or gross) of the price in the item list"
+		//T: Preference page "Document" - How to compare the address to generate the customer statistics
 		addField(new RadioGroupFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", _("Compare:"), 2, new String[][] { 
+					//T: Preference page "Document" - How to compare the address to generate the customer statistics
 					{ _("Only contact id"), "0" },
+					//T: Preference page "Document" - How to compare the address to generate the customer statistics
 					{ _("Also address field"), "1" } },
 				getFieldEditorParent()));
 		//T: Preference page "Document" 
