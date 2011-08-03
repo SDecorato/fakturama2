@@ -30,8 +30,9 @@ msgstr ""
 msgid "USA,U.S.A."
 msgstr "Schweiz,Switzerland"
 
-#. T: Preference page "General"
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:68
-msgid "Language Code e.g. en_US"
-msgstr "Sprachcode z.B: de_CH"
+#. T: Preference page "Web Shop Import" - Country specific URL of demo shop
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:138
+msgid "fakturama.sebulli.com/shop/admin/fakturama_connector.php"
+msgstr "fakturama.sebulli.com/shop/admin/fakturama_connector_8.php"
+
 
