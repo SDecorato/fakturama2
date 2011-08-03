@@ -254,12 +254,8 @@ public class Translate {
 		boolean loadedLocalFile = false;
 		
 
-		// Get the language from the preferences
-		String localCode = Activator.getDefault().getPreferenceStore().getString("GENERAL_LANGUAGECODE");
-
-		// Use the system language, if no code is set in the preferences
-		if (localCode.isEmpty())
-			localCode = System.getProperty("osgi.nl");
+		// Use the system language and country
+		String localCode = System.getProperty("osgi.nl");
 		
 		// Try to open the messages with language code
 		url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode.split("_")[0] + ".po");

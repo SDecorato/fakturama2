@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2011-08-03 19:59+0200\n"
+"POT-Creation-Date: 2011-08-03 20:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -773,18 +773,13 @@ msgstr ""
 msgid "Currency"
 msgstr ""
 
-#. T: Preference page "General"
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:68
-msgid "Language Code e.g. en_US"
-msgstr ""
-
 #. T: Preference page "General" - URL of the start page
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:71
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:68
 msgid "URL web browser"
 msgstr ""
 
 #. T: Preference page "General" - Title"
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:83
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:80
 msgid "General Settings"
 msgstr ""
 
@@ -1087,15 +1082,20 @@ msgstr ""
 msgid "Import from web shop"
 msgstr ""
 
+#. T: Preference page "Web Shop Import" - Country specific URL of demo shop
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:138
+msgid "fakturama.sebulli.com/shop/admin/fakturama_connector.php"
+msgstr ""
+
 #. T: Preference page "Web Shop Import" - Default value "Product Category"
 #. T: Preference page "Web Shop Import" - Default value "Shipping Category"
-#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:140
-#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:144
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:142
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:146
 msgid "Shop"
 msgstr ""
 
 #. T: Preference page "Web Shop Import" - Default value "Contact Category"
-#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:142
+#: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:144
 msgid "Shop Customer"
 msgstr ""
 
