@@ -1,14 +1,14 @@
-# Fakturama translatable messages.Nächste
-# Copyright (C) 2010 Gerd Bartelt
+# Fakturama translatable messages.
+# Copyright (C) 2011 Gerd Bartelt
 # This file is distributed under the same license as the Fakturama package.
-# Gerd Bartelt <fakturamaATsebulli.com>, 2010.
+# Gerd Bartelt <fakturamaATsebulli.com>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: com.sebulli.fakturama 0.3.1\n"
+"Project-Id-Version: com.sebulli.fakturama 1.4\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2011-08-03 18:12+0200\n"
-"PO-Revision-Date: 2011-08-03 18:28+0100\n"
+"POT-Creation-Date: 2011-08-03 19:59+0200\n"
+"PO-Revision-Date: 2011-08-03 20:01+0100\n"
 "Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
@@ -779,18 +779,23 @@ msgstr "Deutschland,Germany"
 msgid "Navigation view: Collapse expand bar."
 msgstr "Navigationsfenster: Expandbar einklappen."
 
-#. T: Preference page "General" - Label Currency
+#. T: Preference page "General"
 #: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:65
 msgid "Currency"
 msgstr "Währungssymbol"
 
-#. T: Preference page "General" - URL of the start page
+#. T: Preference page "General"
 #: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:68
+msgid "Language Code e.g. en_US"
+msgstr "Sprachcode z.B: de_DE"
+
+#. T: Preference page "General" - URL of the start page
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:71
 msgid "URL web browser"
 msgstr "URL der Startseite"
 
 #. T: Preference page "General" - Title"
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:80
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:83
 msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
 
