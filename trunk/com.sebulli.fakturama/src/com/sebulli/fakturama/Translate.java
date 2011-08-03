@@ -139,12 +139,13 @@ public class Translate {
 			return s;
 	}
 
-	
 	/**
 	 * Load a PO file from the resource and fill the properties
+	 *
+	 * @return
+	 * 			url of the resource to load
 	 */
-	public static void loadPoFile () {
-
+	public static void loadPoFile (URL url) {
 		states state = states.IDLE;
 		String msgCtxt = "";
 		String msgId = "";
@@ -152,24 +153,6 @@ public class Translate {
 		
 		try {
 			// Open the resource message po file.
-			URL url;
-			
-			String localCode = System.getProperty("osgi.nl");
-			
-			// Try to open the messages with language and country code
-			url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode + ".po");
-
-			if (url == null) {
-				// Try to open the messages with language code
-				localCode = localCode.split("_")[0];
-				url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode + ".po");
-			}
-			
-			if (url == null) {
-				// Try to open the messages with no language code
-				url = Activator.getDefault().getBundle().getResource("po/messages.po");
-			}
-			
 			if (url == null)
 				return;
 			
@@ -259,7 +242,46 @@ public class Translate {
 		catch (IOException e) {
 			Logger.logError(e, "Error loading message.po.");
 		}
+	}
 
+	
+	/**
+	 * Load a PO file from the resource and fill the properties
+	 */
+	public static void loadPoFile () {
+		// Open the resource message po file.
+		URL url;
+		boolean loadedLocalFile = false;
+		
+
+		// Get the language from the preferences
+		String localCode = Activator.getDefault().getPreferenceStore().getString("GENERAL_LANGUAGECODE");
+
+		// Use the system language, if no code is set in the preferences
+		if (localCode.isEmpty())
+			localCode = System.getProperty("osgi.nl");
+		
+		// Try to open the messages with language code
+		url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode.split("_")[0] + ".po");
+		if (url != null) {
+			loadPoFile(url);
+			loadedLocalFile = true;
+		}
+		
+		// Try to open the messages with language and country code
+		url = Activator.getDefault().getBundle().getResource("po/messages_" + localCode + ".po");
+		if (url != null) {
+			loadPoFile(url);
+			loadedLocalFile = true;
+		}
+		
+		
+		if (!loadedLocalFile) {
+			// Try to open the messages with no language code
+			url = Activator.getDefault().getBundle().getResource("po/messages.po");
+			loadPoFile(url);
+		}
+		
 	}
 	
 	/**

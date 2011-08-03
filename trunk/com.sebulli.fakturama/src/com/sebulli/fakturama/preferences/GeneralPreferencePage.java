@@ -61,8 +61,11 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		//T: Preference page "General" - Label "Collapse expand bar of the navigation view"
 		addField(new BooleanFieldEditor("GENERAL_COLLAPSE_EXPANDBAR",_("Navigation view: Collapse expand bar."), getFieldEditorParent()));
 
-		//T: Preference page "General" - Label Currency
+		//T: Preference page "General"
 		addField(new StringFieldEditor("GENERAL_CURRENCY", _("Currency"), getFieldEditorParent()));
+
+		//T: Preference page "General" 
+		addField(new StringFieldEditor("GENERAL_LANGUAGECODE", _("Language Code e.g. en_US"), getFieldEditorParent()));
 
 		//T: Preference page "General" - URL of the start page
 		addField(new StringFieldEditor("GENERAL_WEBBROWSER_URL", _("URL web browser"), getFieldEditorParent()));
@@ -90,7 +93,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_COLLAPSE_EXPANDBAR", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_CURRENCY", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_WEBBROWSER_URL", write);
-		
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_LANGUAGECODE", write);
 	}
 
 	/**
@@ -113,7 +116,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		node.put("GENERAL_CURRENCY", currency);
 //		node.put("GENERAL_WEBBROWSER_URL", OpenBrowserEditorAction.FAKTURAMA_PROJECT_URL);
 		node.put("GENERAL_WEBBROWSER_URL", "");
-		
+		node.put("GENERAL_LANGUAGECODE", "");
 	}
 
 	/**
