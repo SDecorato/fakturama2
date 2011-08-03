@@ -54,7 +54,7 @@ public class WebShopAuthorizationPreferencePage extends FieldEditorPreferencePag
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.WEBSHOP_IMPORT_PREFERENCE_PAGE);
 
 		//T: Preference page "Web Shop Import" - Label checkbox "web shop enabled"
-		addField(new BooleanFieldEditor("WEBSHOP_AUTHORIZATION_ENABLED", _("Webshop is password protected"), getFieldEditorParent()));
+		addField(new BooleanFieldEditor("WEBSHOP_AUTHORIZATION_ENABLED", _("Web shop is password protected"), getFieldEditorParent()));
 		
 		//T: Preference page "Web Shop Import" - Label
 		addField(new StringFieldEditor("WEBSHOP_AUTHORIZATION_USER", _("Username"), getFieldEditorParent()));
@@ -75,7 +75,7 @@ public class WebShopAuthorizationPreferencePage extends FieldEditorPreferencePag
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		//T: Preference page "Web Shop Authorization" - Title
-		setDescription(_("Authorization for password protected webshops"));
+		setDescription(_("Authorization for password protected web shops"));
 	}
 
 	/**

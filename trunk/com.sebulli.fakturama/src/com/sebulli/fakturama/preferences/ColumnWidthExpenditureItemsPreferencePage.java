@@ -53,7 +53,7 @@ public class ColumnWidthExpenditureItemsPreferencePage extends FieldEditorPrefer
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.NUMBERRANGE_PREFERENCE_PAGE);
 
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITUREITEMS_TEXT", _("Text."), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITUREITEMS_TEXT", _("Text"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITUREITEMS_ACCOUNTTYPE", _("Account Type"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
