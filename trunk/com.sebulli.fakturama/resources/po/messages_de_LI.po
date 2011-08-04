@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: German\n"
-"X-Poedit-Country: SWITZERLAND\n"
+"X-Poedit-Country: LIECHTENSTEIN\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,389,-1,-1\n"
 
@@ -33,7 +33,7 @@ msgstr "Liechtenstein"
 #. T: Preference page "Web Shop Import" - Country specific URL of demo shop
 #: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:138
 msgid "fakturama.sebulli.com/shop/admin/fakturama_connector.php"
-msgstr "fakturama.sebulli.com/shop/admin/fakturama_connector_8.php"
+msgstr "fakturama.sebulli.com/shop/admin/fakturama_connector_CH_LI.php"
 
 
 
