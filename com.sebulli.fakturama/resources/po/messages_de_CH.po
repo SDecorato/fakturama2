@@ -33,6 +33,6 @@ msgstr "Schweiz,Switzerland"
 #. T: Preference page "Web Shop Import" - Country specific URL of demo shop
 #: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:138
 msgid "fakturama.sebulli.com/shop/admin/fakturama_connector.php"
-msgstr "fakturama.sebulli.com/shop/admin/fakturama_connector_8.php"
+msgstr "fakturama.sebulli.com/shop/admin/fakturama_connector_CH_LI.php"
 
 

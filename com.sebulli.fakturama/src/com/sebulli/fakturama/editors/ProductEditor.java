@@ -405,13 +405,13 @@ public class ProductEditor extends Editor {
 				int width = image.getBounds().width;
 				int height = image.getBounds().height;
 
-				// Maximum picture width is 200px
-				if (width > 200) {
-					height = 200 * height / width;
-					width = 200;
+				// Maximum picture width is 250px
+				if (width > 250) {
+					height = 250 * height / width;
+					width = 250;
 				}
 
-				// Rescale the picture to maximum 200px width
+				// Rescale the picture to maximum 250px width
 				Image scaledImage = new Image(display, image.getImageData().scaledTo(width, height));
 				labelProductPicture.setImage(scaledImage);
 			}

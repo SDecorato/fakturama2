@@ -1096,7 +1096,7 @@ msgstr "Import aus Webshop"
 #. T: Preference page "Web Shop Import" - Country specific URL of demo shop
 #: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:138
 msgid "fakturama.sebulli.com/shop/admin/fakturama_connector.php"
-msgstr "fakturama.sebulli.com/shop/admin/fakturama_connector.php"
+msgstr "fakturama.sebulli.com/shop/admin/fakturama_connector_DE.php"
 
 #. T: Preference page "Web Shop Import" - Default value "Product Category"
 #. T: Preference page "Web Shop Import" - Default value "Shipping Category"
