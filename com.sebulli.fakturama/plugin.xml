@@ -287,6 +287,12 @@
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Proforma"
+            id="com.sebulli.fakturama.actions.newProforma"
+            name="Create New Proforma">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
             description="Create New Contact"
             id="com.sebulli.fakturama.actions.newContact"
             name="Create New Contact">
