@@ -2108,8 +2108,6 @@ public class DocumentEditor extends Editor {
 				itemsDiscount.setToolTipText(discountLabel.getToolTipText());
 				GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(itemsDiscount);
 
-				itemsDiscount.setVisible(false);
-				
 				// Set the tab order
 				setTabOrder(txtMessage, itemsDiscount);
 

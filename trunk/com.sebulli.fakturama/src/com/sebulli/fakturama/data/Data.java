@@ -206,7 +206,7 @@ public enum Data {
 			if (property.getStringValueByKey("name").equalsIgnoreCase(key))
 				return property.getStringValueByKey("value");
 		}
-		Logger.logError("Key " + key + " not in property list");
+		Logger.logInfo("Key " + key + " not in property list");
 		return "";
 	}
 
