@@ -50,7 +50,7 @@ public class ColumnWidthDialogTextsPreferencePage extends FieldEditorPreferenceP
 	public void createFieldEditors() {
 		
 		// Add context help reference 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.NUMBERRANGE_PREFERENCE_PAGE);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.COLUMN_WIDTH_PREFERENCE_PAGE);
 
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_DIALOG_TEXTS_NAME", _("Name"), getFieldEditorParent()));

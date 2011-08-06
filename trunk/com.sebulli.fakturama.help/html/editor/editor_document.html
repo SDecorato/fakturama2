@@ -13,6 +13,12 @@
 	Je nach Art des Dokumentes (Brief, Rechnung ..) sind einige Elemente ausgeblendet.</p>
 	<img class="screenshot" src="editor_document.png" alt="" /> <br />
 
+	<h2>Bestellstatistik</h2>
+	<p>Wird ein Dokument vom Typ <b>Bestellung</b> geöffnet, kann bei Stammkunden ein Dialog eingeblendet werden,
+	der die bisher bezahlten Rechnungen und den Umsatz anzeigt.</p>
+	<p class="see">Siehe auch <a href="../preferences/document.html#preferences_document_customer_statistics">Einstellungen Dokument</a></p>
+
+
 	<h2>Nr.</h2>
 	<p>Dokumentennummer. Diese wird automatisch hochgezählt. Sie kann nachträglich geändert werden.
 	Es erscheint beim Abspeichern eine Warnung, wenn Sie nicht der nächsten freien Nummer entspricht.</p>
@@ -67,14 +73,37 @@
 	<p>Tabelle mit allen Artikeln dieses Dokumentes. Alle Spalten, bis auf den (Gesamt-)Preis lassen sich ändern.
 	Ein neuer Artikel kann hinzugefügt werden:</p>
 	<img class="icon" src="product_list_20.png" alt="" /> <br />
-	<p>Auswahl des Artikels aus der Liste mit allen Produkten.</p>
+	<p>Auswahl des Artikels aus der Liste mit allen Produkten. Es können mehrere Artikel gleichzeitig ausgewählt werden.</p>
 	<img class="icon" src="../application/plus_16.png" alt="" /> <br />
 	<p>Fügt eine neue Zeile mit einem Artikel ein.</p>
 	<img class="icon" src="../application/delete_16.png" alt="" /> <br />
 	<p>Löscht den ausgewählten Artikel.</p>
-	
+
+	<a name="editor_document_previewpicture" ></a>
+	<p>In der Artikelliste kann zusätzlich ein Vorschaubild angezeigt werden.
+	Ein Klick auf dieses öffnet eine vergrößerte Ansicht des Produktbildes.</p>
+	<p class="see">Siehe auch <a href="../preferences/document.html#preferences_document_previewpicture">Einstellungen Dokument Vorschaubild</a></p>
+
+	<p>Ein Artikel kann als optionaler Artikel (Bedarfspostion) markiert werden.
+	Er wird auf der Rechnung als solche markiert und wird nicht bei der Berechnung der
+	Gesamtsumme verwendet.</p>
+
+	<p>Artikel können nach oben und unten verschoben werden. 
+	Über das Kontextmenü (rechte Maustaste auf Artikelliste).</p>
+
+	<p><b>Tipp:</b>Sind alle Preise in Brutto, kann ein Preis dennoch als Nettowert eingegeben werden.
+	Dazu bei der Eingabe des Preises ein <b>netto</b> anfügen. Bei Bruttopreisen ein <b>brutto</b> anfügen.</p>
+	<p>Beispiel:<b>7,00€ netto</b></p>
+
+	<p class="see">Siehe auch <a href="../preferences/document.html">Einstellungen Dokument</a></p>
+
 	<h2>Bemerkung</h2>
-	<p>Feld für eine zusätzliche Bemerkung, die auf Rechnung oder Lieferschein gedruckt wird.</p>
+	<p>Feld für eine zusätzliche Bemerkung, die auf Rechnung oder Lieferschein gedruckt wird.<br />
+	Es können bis zu 3 Felder für Bemerkungen eingeblendet werden
+	</p>
+	<p class="see">Siehe auch <a href="../preferences/document.html#preferences_document_messagefields">Einstellungen Dokument Felder "Bemerkung"</a></p>
+	<p class="see">Siehe auch <a href="../openoffice/placeholders_common.html#openoffice_placeholders_message">Platzhalter Feld "Bemerkung"</a></p>
+
 	<img class="icon" src="list_20.png" alt="" /> <br />
 	<p>Öffnet eine Liste mit vordefinierten Texten.</p>
 	<p class="see">Siehe <a href="editor_text.html">Editor Text</a></p>

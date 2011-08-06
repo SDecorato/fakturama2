@@ -33,8 +33,18 @@
 	<h2>DOCUMENT.SERVICEDATE</h2>
 	<p>Leistungsdatum (wird zur Zeit nicht benutzt).</p>
 
-	<h2>DOCUMENT.MESSAGE</h2>
+	<a name="openoffice_placeholders_message" ></a>
+	<h2>DOCUMENT.MESSAGE<br />
+	DOCUMENT.MESSAGE1</h2>
 	<p>Text der Nachricht</p>
+
+	<h2>DOCUMENT.MESSAGE2</h2>
+	<p>Text einer weiteren Nachricht</p>
+
+	<h2>DOCUMENT.MESSAGE3</h2>
+	<p>Text einer weiteren Nachricht</p>
+	<p class="see">Siehe auch <a href="../preferences/document.html#preferences_document_messagefields">Einstellungen Dokument Felder "Bemerkung"</a></p>
+
 
 	<h2>DOCUMENT.TRANSACTION</h2>
 	<p>Eindeutiger Transaktionscode des Vorganges. Ist für Bestellung, Rechnung, Lieferschein identisch.</p>
@@ -73,7 +83,8 @@
 	<p>Versandkosten (brutto)</p>
 
 	<h2>SHIPPING.NAME</h2>
-	<p>Name Versandkosten/Versandart. Auf den Dokumenten sollte SHIPPING.DESCRIPTION, da der Name die Identifikation
+	<p>Name Versandkosten/Versandart.
+	Auf den Dokumenten sollte SHIPPING.DESCRIPTION verwendet werden, da der Name die Identifikation
 	mit der Bezeichnung aus dem Webshop darstellt und nicht geändert werden sollte.</p>
 
 	<h2>SHIPPING.DESCRIPTION</h2>
@@ -107,6 +118,9 @@
 
 	<h2>PAYMENT.PAID</h2>
 	<p><b>true</b> oder <b>false</b> - abhängig davon, ob bezahlt wurde oder nicht</p>
+
+	<h2>DOCUMENT.DUNNING.LEVEL</h2>
+	<p>Mahnstufe</p>
 
 
 	<h2>ADDRESS</h2>

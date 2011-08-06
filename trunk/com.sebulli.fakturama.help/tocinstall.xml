@@ -8,5 +8,6 @@
 	<topic label="Installation Linux"  href="html/install/install_linux.html"></topic>
 	<topic label="Installation Mac OS X"  href="html/install/install_mac_os_x.html"></topic>
 	<topic label="Start von Fakturama"  href="html/install/start.html"></topic>
+	<topic label="Zusätzliche Programmparameter"  href="html/install/startparameter.html"></topic>
 
 </toc>

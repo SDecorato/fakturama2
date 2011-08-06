@@ -59,7 +59,7 @@ public class OptionalItemsPreferencePage extends FieldEditorPreferencePage imple
 	public void createFieldEditors() {
 
 		// Add context help reference 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.DOCUMENT_PREFERENCE_PAGE);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.OPTIONAL_ITEMS_PREFERENCE_PAGE);
 
 		//T: Preference page "Optional items" 
 		addField(new BooleanFieldEditor("OPTIONALITEMS_USE", _("Use optional items"), getFieldEditorParent()));

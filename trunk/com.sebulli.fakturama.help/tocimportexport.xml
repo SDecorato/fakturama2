@@ -4,6 +4,8 @@
 <toc label="Import / Export" link_to="toc.xml#importexport"> 
 	
 	<topic label="Import Ausgaben aus CSV Datei"  href="html/importexport/import_csv_expenditures.html"></topic>
+	<topic label="Import Kontakte aus CSV Datei"  href="html/importexport/import_csv_contacts.html"></topic>
+	<topic label="Import Produkte aus CSV Datei"  href="html/importexport/import_csv_products.html"></topic>
 	<topic label="Export Liste Ausgaben"  href="html/importexport/export_expenditures.html"></topic>
 	<topic label="Export Liste Umsätze"  href="html/importexport/export_sales.html"></topic>
 	<topic label="Export Adressliste"  href="html/importexport/export_contacts.html"></topic>

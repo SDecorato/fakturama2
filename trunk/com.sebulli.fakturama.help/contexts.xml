@@ -114,6 +114,10 @@
       <description>Einstellungen der Dokumenteneditoren.</description>
       <topic label="Dokumenten Einstellungen"  href="html/preferences/document.html" />
    </context>
+   <context id="optionalItemsPreferencePage" title="Einstellungen Bedarfsposition">
+      <description>Einstellungen zu optionalen Artikeln / Bedarfspositionen.</description>
+      <topic label="Einstellungen Bedarfsposition"  href="html/preferences/optional_items.html" />
+   </context>
    <context id="exportPreferencePage" title="Einstellungen Export">
       <description>Einstellungen des Datenexportes.</description>
       <topic label="Einstellungen Export"  href="html/preferences/export.html" />
@@ -142,9 +146,21 @@
       <description>Einstellungen zum Import aus einem Webshop.</description>
       <topic label="Import aus Webshop"  href="html/preferences/webshopimport.html" />
    </context>
+   <context id="webShopAuthorizationPreferencePage" title="Webshop Autorisierung">
+      <description>Einstellungen eines zusätzlich passwortgeschützen Webshops.</description>
+      <topic label="Webshop Autorisierung"  href="html/preferences/webshopauthorization.html" />
+   </context>
    <context id="yourCompanyPreferencePage" title="Firmendaten">
       <description>Firmendaten.</description>
       <topic label="Firmendaten"  href="html/preferences/yourcompany.html" />
+   </context>
+   <context id="columnWidthPreferencePage" title="Einstellungen Spaltenbreite Tabellen">
+      <description>Einstellungen Spaltenbreite Tabellen.</description>
+      <topic label="Einstellungen Spaltenbreite Tabellen"  href="html/preferences/columnwidth.html" />
+   </context>
+   <context id="browserPreferencePage" title="Webbrowser / Startseite">
+      <description>Einstellungen des Webbrowsers und der Startseite.</description>
+      <topic label="Webbrowser / Startseite"  href="html/preferences/browser.html" />
    </context>
    
 </contexts>

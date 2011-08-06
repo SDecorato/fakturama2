@@ -51,7 +51,7 @@ public class WebShopAuthorizationPreferencePage extends FieldEditorPreferencePag
 	public void createFieldEditors() {
 
 		// Add context help reference 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.WEBSHOP_IMPORT_PREFERENCE_PAGE);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.WEBSHOP_AUTHORIZATION_PREFERENCE_PAGE);
 
 		//T: Preference page "Web Shop Import" - Label checkbox "web shop enabled"
 		addField(new BooleanFieldEditor("WEBSHOP_AUTHORIZATION_ENABLED", _("Web shop is password protected"), getFieldEditorParent()));

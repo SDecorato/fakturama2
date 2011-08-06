@@ -52,7 +52,7 @@ public class BrowserPreferencePage extends FieldEditorPreferencePage implements 
 
 		
 		// Add context help reference 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.GENERAL_PREFERENCE_PAGE);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.BROWSER_PREFERENCE_PAGE);
 
 		//T: Preference page "General" - URL of the start page
 		addField(new StringFieldEditor("GENERAL_WEBBROWSER_URL", _("URL web browser"), getFieldEditorParent()));

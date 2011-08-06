@@ -7,6 +7,7 @@
 	</topic>
 
 	<topic label="Dokumente"  href="html/preferences/document.html">
+		<topic label="Bedarfspositionen" href="html/preferences/optional_items.html" /> 
 	</topic>
 
 	<topic label="Export"  href="html/preferences/export.html">
@@ -36,11 +37,18 @@
 	<topic label="Produkte"  href="html/preferences/product.html">
 	</topic>
 
-	<topic label="Security"  href="html/common/nohelp.html"> 
-		<topic label="Secure Storage" href="html/common/nohelp.html" />
+	<topic label="Sicherheit"  href="html/common/nohelp.html"> 
+		<topic label="Sicherer Speicher" href="html/common/nohelp.html" />
+	</topic>
+
+	<topic label="Spaltenbreite Tabelle"  href="html/preferences/columnwidth.html"> 
+	</topic>
+
+	<topic label="Webbrowser / Startseite"  href="html/preferences/browser.html"> 
 	</topic>
 
 	<topic label="Webshop"  href="html/preferences/webshopimport.html">
+		<topic label="Webshop Autorisierung" href="html/preferences/webshopauthorization.html" /> 
 		<abchor id="preferences_webshopimport" />
 	</topic>
 </toc>
