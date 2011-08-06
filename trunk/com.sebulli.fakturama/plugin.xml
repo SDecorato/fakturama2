@@ -558,6 +558,11 @@
             name="%page.general">
       </page>
       <page
+            class="com.sebulli.fakturama.preferences.BrowserPreferencePage"
+            id="com.sebulli.fakturama.preferences.browserPreferencePage"
+            name="%page.browser">
+      </page>
+      <page
             class="com.sebulli.fakturama.preferences.ColumnWidthPreferencePage"
             id="com.sebulli.fakturama.preferences.columnWidthPreferencePage"
             name="%page.columnwidth">

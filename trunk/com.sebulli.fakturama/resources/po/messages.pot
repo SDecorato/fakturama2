@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2011-08-03 20:37+0200\n"
+"POT-Creation-Date: 2011-08-06 09:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -690,6 +690,22 @@ msgstr ""
 msgid "OpenOffice Settings"
 msgstr ""
 
+#. T: Preference page "General" - URL of the start page
+#: ../src/com/sebulli/fakturama/preferences/BrowserPreferencePage.java:58
+msgid "URL web browser"
+msgstr ""
+
+#. T: Preference page "Document"
+#: ../src/com/sebulli/fakturama/preferences/BrowserPreferencePage.java:61
+msgid "Type of web browser:"
+msgstr ""
+
+#. T: Preference page "General" - Title"
+#: ../src/com/sebulli/fakturama/preferences/BrowserPreferencePage.java:75
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:78
+msgid "General Settings"
+msgstr ""
+
 #. T: Preference page - Title
 #: ../src/com/sebulli/fakturama/preferences/ColumnWidthDialogProductsPreferencePage.java:77
 msgid "Column width of the dialog to select a product"
@@ -771,16 +787,6 @@ msgstr ""
 #. T: Preference page "General"
 #: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:65
 msgid "Currency"
-msgstr ""
-
-#. T: Preference page "General" - URL of the start page
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:68
-msgid "URL web browser"
-msgstr ""
-
-#. T: Preference page "General" - Title"
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:80
-msgid "General Settings"
 msgstr ""
 
 #. T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
@@ -2220,7 +2226,7 @@ msgid "Make this payment to the standard payment"
 msgstr ""
 
 #. T: Button to go back to the Fakturama home page
-#: ../src/com/sebulli/fakturama/editors/BrowserEditor.java:182
+#: ../src/com/sebulli/fakturama/editors/BrowserEditor.java:194
 msgid "<< Back to fakturama.sebulli.com"
 msgstr ""
 
