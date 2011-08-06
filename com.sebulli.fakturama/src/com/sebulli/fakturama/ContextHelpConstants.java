@@ -59,6 +59,7 @@ public class ContextHelpConstants {
 	public static final String CONTACT_PREFERENCE_PAGE = HELP_PLUGIN + "contactPreferencePage";
 	public static final String CONTACT_FORMAT_PREFERENCE_PAGE = HELP_PLUGIN + "contactFormatPreferencePage";
 	public static final String DOCUMENT_PREFERENCE_PAGE = HELP_PLUGIN + "documentPreferencePage";
+	public static final String OPTIONAL_ITEMS_PREFERENCE_PAGE = HELP_PLUGIN + "optionalItemsPreferencePage";
 	public static final String EXPORT_PREFERENCE_PAGE = HELP_PLUGIN + "exportPreferencePage";
 	public static final String NUMBERRANGE_PREFERENCE_PAGE = HELP_PLUGIN + "numberRangePreferencePage";
 	public static final String NUMBERRANGE_FORMAT_PREFERENCE_PAGE = HELP_PLUGIN + "numberRangeFormatPreferencePage";
@@ -67,5 +68,8 @@ public class ContextHelpConstants {
 	public static final String PRODUCT_PREFERENCE_PAGE = HELP_PLUGIN + "productPreferencePage";
 	public static final String WEBSHOP_IMPORT_PREFERENCE_PAGE = HELP_PLUGIN + "webShopImportreferencePage";
 	public static final String YOUR_COMPANY_PREFERENCE_PAGE = HELP_PLUGIN + "yourCompanyPreferencePage";
-
+	public static final String COLUMN_WIDTH_PREFERENCE_PAGE = HELP_PLUGIN + "columnWidthPreferencePage";
+	public static final String WEBSHOP_AUTHORIZATION_PREFERENCE_PAGE = HELP_PLUGIN + "webShopAuthorizationPreferencePage";
+	public static final String BROWSER_PREFERENCE_PAGE = HELP_PLUGIN + "browserPreferencePage";
+	
 }

@@ -48,7 +48,7 @@ public class ColumnWidthPreferencePage extends FieldEditorPreferencePage impleme
 	public void createFieldEditors() {
 		
 		// Add context help reference 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.NUMBERRANGE_PREFERENCE_PAGE);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.COLUMN_WIDTH_PREFERENCE_PAGE);
 	}
 
 	/**
