@@ -16,11 +16,8 @@ package com.sebulli.fakturama.preferences;
 
 import static com.sebulli.fakturama.Translate._;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
@@ -29,19 +26,18 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.calculate.DataUtils;
 
 /**
  * Preference page for the document settings
  * 
  * @author Gerd Bartelt
  */
-public class GeneralPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class BrowserPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Constructor
 	 */
-	public GeneralPreferencePage() {
+	public BrowserPreferencePage() {
 		super(GRID);
 
 	}
@@ -58,11 +54,12 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		// Add context help reference 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.GENERAL_PREFERENCE_PAGE);
 
-		//T: Preference page "General" - Label "Collapse expand bar of the navigation view"
-		addField(new BooleanFieldEditor("GENERAL_COLLAPSE_EXPANDBAR",_("Navigation view: Collapse expand bar."), getFieldEditorParent()));
-
-		//T: Preference page "General"
-		addField(new StringFieldEditor("GENERAL_CURRENCY", _("Currency"), getFieldEditorParent()));
+		//T: Preference page "General" - URL of the start page
+		addField(new StringFieldEditor("GENERAL_WEBBROWSER_URL", _("URL web browser"), getFieldEditorParent()));
+		
+		//T: Preference page "Document" 
+		addField(new ComboFieldEditor("BROWSER_TYPE", _("Type of web browser:"), new String[][] { { "---", "0" }, { "WebKit", "1" }, { "Mozilla", "2" }
+			 }, getFieldEditorParent()));
 
 	}
 
@@ -85,8 +82,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_COLLAPSE_EXPANDBAR", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_CURRENCY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_WEBBROWSER_URL", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("BROWSER_TYPE", write);
 	}
 
 	/**
@@ -96,50 +93,10 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.putBoolean("GENERAL_COLLAPSE_EXPANDBAR", false);
-
-		//Set the currency symbol of the default local
-		String currency = "$";
-		try {
-			NumberFormat numberFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
-			currency = numberFormatter.getCurrency().getSymbol();
-		}
-		catch (Exception e) {
-		}
-		node.put("GENERAL_CURRENCY", currency);
+//		node.put("GENERAL_WEBBROWSER_URL", OpenBrowserEditorAction.FAKTURAMA_PROJECT_URL);
+		node.put("GENERAL_WEBBROWSER_URL", "");
+		node.put("BROWSER_TYPE", "0");
 	}
 
-	/**
-	 * Update the currency Symbol for the whole application
-	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performOk()
-	 */
-	@Override
-	public boolean performOk() {
-		DataUtils.updateCurrencySymbol();
-		return super.performOk();
-	}
-
-	/**
-	 * Update the currency Symbol for the whole application
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#performApply()
-	 */
-	@Override
-	protected void performApply() {
-		DataUtils.updateCurrencySymbol();
-		super.performApply();
-	}
-
-	/**
-	 * Update the currency Symbol for the whole application
-	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#performDefaults()
-	 */
-	@Override
-	protected void performDefaults() {
-		DataUtils.updateCurrencySymbol();
-		super.performDefaults();
-	}
 
 }

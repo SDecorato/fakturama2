@@ -33,6 +33,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -145,7 +146,18 @@ public class BrowserEditor extends Editor {
 
 		// Create a new web browser control
 		try {
-			browser = new Browser(top, SWT.NONE);
+			int browserStyle = SWT.NONE;
+			
+			// Use the browser style from the preferences
+			int browserType = Activator.getDefault().getPreferenceStore().getInt("BROWSER_TYPE");
+			
+			if (browserType == 1)
+				browserStyle = SWT.WEBKIT;
+
+			if (browserType == 2)
+				browserStyle = SWT.MOZILLA;
+			
+			browser = new Browser(top, browserStyle);
 			color = new Color(null, 0xff, 0xff, 0xff);
 			browser.setBackground(color);
 			color.dispose();

@@ -81,6 +81,7 @@ public class PreferencesInDatabase {
 		ParcelServicePreferencePage.syncWithPreferencesFromDatabase(save);
 		OptionalItemsPreferencePage.syncWithPreferencesFromDatabase(save);
 		WebShopAuthorizationPreferencePage.syncWithPreferencesFromDatabase(save);
+		BrowserPreferencePage.syncWithPreferencesFromDatabase(save);
 		ColumnWidthDialogContactsPreferencePage.syncWithPreferencesFromDatabase(save);
 		ColumnWidthDialogProductsPreferencePage.syncWithPreferencesFromDatabase(save);
 		ColumnWidthDialogTextsPreferencePage.syncWithPreferencesFromDatabase(save);
