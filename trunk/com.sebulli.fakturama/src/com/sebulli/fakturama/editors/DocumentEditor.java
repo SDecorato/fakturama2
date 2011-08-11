@@ -965,8 +965,8 @@ public class DocumentEditor extends Editor {
 		// Get the discount value from the control element
 		Double discount = 0.0;
 		if (itemsDiscount != null)
-			DataUtils.StringToDoubleDiscount(itemsDiscount.getText());
-		
+			discount = DataUtils.StringToDoubleDiscount(itemsDiscount.getText());
+
 		// Do the calculation
 		document.calculate(items, shipping * sign, shippingVat, shippingVatDescription, shippingAutoVat,
 				discount, noVat, noVatDescription, 1.0);
