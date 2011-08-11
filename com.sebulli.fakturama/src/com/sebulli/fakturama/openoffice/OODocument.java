@@ -373,7 +373,9 @@ public class OODocument extends Object {
 		if (officeFrame != null)
 			officeFrame.removeDispatchDelegate(GlobalCommands.SAVE);
 
-		oOdocument.close();
+		// Close only open document
+		if (oOdocument.isOpen())
+			oOdocument.close();
 		
 		// Get the remaining documents
 		int remainingDocuments = 0;
