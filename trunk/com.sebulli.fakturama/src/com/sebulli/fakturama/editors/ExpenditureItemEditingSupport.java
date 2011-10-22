@@ -19,12 +19,15 @@ import java.util.ArrayList;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
-import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
 import com.sebulli.fakturama.calculate.DataUtils;
@@ -39,7 +42,10 @@ import com.sebulli.fakturama.data.DataSetVAT;
  * 
  * @author Gerd Bartelt
  */
-public class ExpenditureItemEditingSupport extends EditingSupport {
+public class ExpenditureItemEditingSupport extends ItemEditingSupport {
+
+	// Reference to this class
+	private ExpenditureItemEditingSupport me;
 
 	// The cell editor
 	private CellEditor editor;
@@ -78,6 +84,8 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		// Set the local variables
 		this.expenditureEditor = expenditureEditor;
 		this.column = column;
+		me = this;
+
 
 		// Create the correct editor based on the column index
 		// Column nr 2 and nr.3 use a combo box cell editor.
@@ -148,6 +156,22 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
 		}
+		
+		// Add a Traverse Listener to the editor to navigate with
+		// the tab and cursor keys
+		Control c = editor.getControl();
+		if (c != null) {
+			c.addTraverseListener(new TraverseListener(){
+	            public void keyTraversed(TraverseEvent e) {
+	            	//e.doit = false;
+	            	cancelAndSave();
+	        		//select the next cell
+	            	if (!(editor instanceof ComboBoxCellEditor) || e.keyCode == SWT.TAB)
+	            		expenditureEditor.selectNextCell(e.keyCode, activeObject, me);
+	            };
+			});
+		}
+
 
 	}
 
@@ -170,6 +194,26 @@ public class ExpenditureItemEditingSupport extends EditingSupport {
 		return false;
 	}
 
+	/**
+	 * Specifies the columns with cells that can be jumped by tab key.
+	 * 
+	 */
+	@Override
+	public boolean canJumpWithTabs() {
+
+		switch (this.column) {
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+			return true;
+		}
+		return false;
+	}
+
+
+	
 	/**
 	 * The editor to be shown
 	 * 

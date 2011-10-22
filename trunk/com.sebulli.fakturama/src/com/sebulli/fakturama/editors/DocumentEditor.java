@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.action.MenuManager;
@@ -44,6 +45,8 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -140,6 +143,11 @@ public class DocumentEditor extends Editor {
 	private Composite addressAndIconComposite;
 	private Label differentDeliveryAddressIcon;
 	
+	
+	private List<UniDataSetTableColumn> itemTableColumns = new ArrayList<UniDataSetTableColumn>();
+	private CellNavigation cellNavigation;
+
+	
 	// These flags are set by the preference settings.
 	// They define, if elements of the editor are displayed, or not.
 	private boolean useGross;
@@ -170,7 +178,7 @@ public class DocumentEditor extends Editor {
 	private DocumentEditor thisDocumentEditor;
 	
 	// Flag, if item editing is active
-	private ItemEditingSupport itemEditingSupport = null;
+	private DocumentItemEditingSupport itemEditingSupport = null;
 
 	// Flag if there are items with property "optional" set
 	private boolean containsOptionalItems = false;
@@ -195,11 +203,17 @@ public class DocumentEditor extends Editor {
 	 * Associate the table view with the editor
 	 */
 	public DocumentEditor() {
+		cellNavigation = new CellNavigation(itemTableColumns);
 		tableViewID = ViewDocumentTable.ID;
 		editorID = "document";
 		thisDocumentEditor = this;
 	}
 
+	public void selectNextCell(int keyCode, Object element, DocumentItemEditingSupport itemEditingSupport) {
+		cellNavigation.selectNextCell(keyCode, element, itemEditingSupport, items,tableViewerItems);
+	}
+	
+	
 	/**
 	 * Saves the contents of this part
 	 * 
@@ -896,7 +910,7 @@ public class DocumentEditor extends Editor {
 	 * @param active
 	 *            , TRUE, if editing is active
 	 */
-	public void setItemEditing(ItemEditingSupport itemEditingSupport) {
+	public void setItemEditing(DocumentItemEditingSupport itemEditingSupport) {
 		this.itemEditingSupport = itemEditingSupport;
 	}
 
@@ -1863,6 +1877,12 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.getTable().setHeaderVisible(true);
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
+			tableViewerItems.getTable().addTraverseListener(new TraverseListener(){
+	            public void keyTraversed(TraverseEvent e) {
+					System.out.println(e.keyCode + DataUtils.DateAsISO8601String());
+	            };
+			});
+
 			
 			// Get the column width from the preferences
 			int cw_opt = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_OPT");
@@ -1880,54 +1900,54 @@ public class DocumentEditor extends Editor {
 			// Create the table columns 
 			if (containsOptionalItems || Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_USE") && (documentType == DocumentType.OFFER))
 				//T: Used as heading of a table. Keep the word short.
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Opt."), cw_opt, true, "$Optional", new ItemEditingSupport(this,
-						tableViewerItems, ItemEditingSupport.Column.OPTIONAL));
+				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Opt."), cw_opt, true, "$Optional", new DocumentItemEditingSupport(this,
+						tableViewerItems, DocumentItemEditingSupport.Column.OPTIONAL)));
 			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Qty."), cw_qty, true, "quantity", new ItemEditingSupport(this,
-					tableViewerItems, ItemEditingSupport.Column.QUANTITY));
+			itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Qty."), cw_qty, true, "quantity", new DocumentItemEditingSupport(this,
+					tableViewerItems, DocumentItemEditingSupport.Column.QUANTITY)));
 			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
 				//T: Used as heading of a table. Keep the word short.
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Item No."), cw_itemno, true, "itemnr", new ItemEditingSupport(this,
-						tableViewerItems, ItemEditingSupport.Column.ITEMNR));
+				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Item No."), cw_itemno, true, "itemnr", new DocumentItemEditingSupport(this,
+						tableViewerItems, DocumentItemEditingSupport.Column.ITEMNR)));
 			
 			if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_PREVIEW_PICTURE"))
 				//T: Used as heading of a table. Keep the word short.
-				new UniDataSetTableColumn(parent.getDisplay() , tableColumnLayout, tableViewerItems, SWT.LEFT, _("Picture"), cw_picture, true, "$ProductPictureSmall", new ItemEditingSupport(this,
-					tableViewerItems, ItemEditingSupport.Column.PICTURE) );
+				itemTableColumns.add( new UniDataSetTableColumn(parent.getDisplay() , tableColumnLayout, tableViewerItems, SWT.LEFT, _("Picture"), cw_picture, true, "$ProductPictureSmall", new DocumentItemEditingSupport(this,
+					tableViewerItems, DocumentItemEditingSupport.Column.PICTURE)));
 
 			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Name"), cw_name, false, "name", new ItemEditingSupport(this,
-					tableViewerItems, ItemEditingSupport.Column.NAME));
+			itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Name"), cw_name, false, "name", new DocumentItemEditingSupport(this,
+					tableViewerItems, DocumentItemEditingSupport.Column.NAME)));
 			//T: Used as heading of a table. Keep the word short.
-			new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Description"), cw_description, false, "description", new ItemEditingSupport(
-					this, tableViewerItems, ItemEditingSupport.Column.DESCRIPTION));
+			itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Description"), cw_description, false, "description", new DocumentItemEditingSupport(
+					this, tableViewerItems, DocumentItemEditingSupport.Column.DESCRIPTION)));
 			if (documentType.hasPrice()) {
 				//T: Used as heading of a table. Keep the word short.
-				new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), cw_vat, true, "$ItemVatPercent", new ItemEditingSupport(this,
-						tableViewerItems, ItemEditingSupport.Column.VAT));
+				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), cw_vat, true, "$ItemVatPercent", new DocumentItemEditingSupport(this,
+						tableViewerItems, DocumentItemEditingSupport.Column.VAT)));
 				if (useGross)
 					//T: Unit Price.
 					//T: Used as heading of a table. Keep the word short.
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), cw_uprice, true, "$ItemGrossPrice",
-							new ItemEditingSupport(this, tableViewerItems, ItemEditingSupport.Column.PRICE));
+					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), cw_uprice, true, "$ItemGrossPrice",
+							new DocumentItemEditingSupport(this, tableViewerItems, DocumentItemEditingSupport.Column.PRICE)));
 				else
 					//T: Used as heading of a table. Keep the word short.
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), cw_uprice, true, "price", new ItemEditingSupport(this,
-							tableViewerItems, ItemEditingSupport.Column.PRICE));
+					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), cw_uprice, true, "price", new DocumentItemEditingSupport(this,
+							tableViewerItems, DocumentItemEditingSupport.Column.PRICE)));
 
 				if (containsDiscountedItems || Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_DISCOUNT_EACH_ITEM"))
 					//T: Used as heading of a table. Keep the word short.
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Discount"), cw_discount, true, "discount", new ItemEditingSupport(this,
-							tableViewerItems, ItemEditingSupport.Column.DISCOUNT));
+					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Discount"), cw_discount, true, "discount", new DocumentItemEditingSupport(this,
+							tableViewerItems, DocumentItemEditingSupport.Column.DISCOUNT)));
 
 				if (useGross)
 					//T: Used as heading of a table. Keep the word short.
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), cw_price, true, "$ItemGrossTotal", new ItemEditingSupport(
-							this, tableViewerItems, ItemEditingSupport.Column.TOTAL));
+					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), cw_price, true, "$ItemGrossTotal", new DocumentItemEditingSupport(
+							this, tableViewerItems, DocumentItemEditingSupport.Column.TOTAL)));
 				else
 					//T: Used as heading of a table. Keep the word short.
-					new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), cw_price, true, "$ItemNetTotal", new ItemEditingSupport(
-							this, tableViewerItems, ItemEditingSupport.Column.TOTAL));
+					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), cw_price, true, "$ItemNetTotal", new DocumentItemEditingSupport(
+							this, tableViewerItems, DocumentItemEditingSupport.Column.TOTAL)));
 			}
 			// Fill the table with the items
 			tableViewerItems.setInput(items);

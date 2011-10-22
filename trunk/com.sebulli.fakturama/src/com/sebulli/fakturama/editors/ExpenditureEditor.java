@@ -19,6 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -89,6 +90,8 @@ public class ExpenditureEditor extends Editor {
 	private UniData totalValue = new UniData(UniDataType.DOUBLE, 0.0);
 	private Button bPaidWithDiscount;
 
+	private List<UniDataSetTableColumn> itemTableColumns = new ArrayList<UniDataSetTableColumn>();
+	private CellNavigation cellNavigation;
 
 	// The items of this document
 	private DataSetArray<DataSetExpenditureItem> expenditureItems;
@@ -109,8 +112,14 @@ public class ExpenditureEditor extends Editor {
 	 * Associate the table view with the editor
 	 */
 	public ExpenditureEditor() {
+		cellNavigation = new CellNavigation(itemTableColumns);
 		tableViewID = ViewExpenditureTable.ID;
 		editorID = "expenditure";
+	}
+
+	
+	public void selectNextCell(int keyCode, Object element, ExpenditureItemEditingSupport itemEditingSupport) {
+		cellNavigation.selectNextCell(keyCode, element, itemEditingSupport, expenditureItems,tableViewerItems);
 	}
 
 	/**
@@ -719,22 +728,22 @@ public class ExpenditureEditor extends Editor {
 
 		// Create the table columns
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Text"), cw_text, false, "name", new ExpenditureItemEditingSupport(this,
-				tableViewerItems, 1));
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Text"), cw_text, false, "name", new ExpenditureItemEditingSupport(this,
+				tableViewerItems, 1)));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Account Type"), cw_accounttype, true, "category", new ExpenditureItemEditingSupport(this,
-				tableViewerItems, 2));
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Account Type"), cw_accounttype, true, "category", new ExpenditureItemEditingSupport(this,
+				tableViewerItems, 2)));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), cw_vat, true, "$vatnamebyid",
-						new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), cw_vat, true, "$vatnamebyid",
+						new ExpenditureItemEditingSupport(this, tableViewerItems, 3)));
 //		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ExpenditureItemVatPercent",
 //				vatnamebyid				new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Net"), cw_net, true, "price", new ExpenditureItemEditingSupport(this,
-				tableViewerItems, 4));
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Net"), cw_net, true, "price", new ExpenditureItemEditingSupport(this,
+				tableViewerItems, 4)));
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Gross"), cw_gross, true, "$ExpenditureItemGrossPrice",
-				new ExpenditureItemEditingSupport(this, tableViewerItems, 5));
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Gross"), cw_gross, true, "$ExpenditureItemGrossPrice",
+				new ExpenditureItemEditingSupport(this, tableViewerItems, 5)));
 
 		// Create the top Composite
 		Composite bottom = new Composite(top, SWT.NONE);

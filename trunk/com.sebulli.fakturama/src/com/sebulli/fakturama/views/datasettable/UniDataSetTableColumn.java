@@ -72,6 +72,9 @@ public class UniDataSetTableColumn {
 	
 	private Display display = null;
 
+	// Editing support of this column
+	EditingSupport editingSupport;
+
 	/**
 	 * Constructor Creates a UniDatSet table column with no editing support
 	 * 
@@ -143,6 +146,8 @@ public class UniDataSetTableColumn {
 	 *            Key that represents the column's data
 	 * @param editingSupport
 	 *            The editing support of the cell
+	 * @param columnNr
+	 *            column of the table
 	 */
 	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, final TableViewer tableViewer, int style, String header, int weight,
 			boolean fixsize, final String dataKey, EditingSupport editingSupport) {
@@ -150,6 +155,9 @@ public class UniDataSetTableColumn {
 		// Create a TableViewerColum for the column
 		TableViewerColumn viewerNameColumn = new TableViewerColumn(tableViewer, style);
 
+		// Set the editing support
+		this.editingSupport = editingSupport;
+		
 		// Create a column and set the header text
 		final TableColumn column = viewerNameColumn.getColumn();
 		column.setText(header);
@@ -628,4 +636,13 @@ public class UniDataSetTableColumn {
 		this.stdId = stdId;
 	}
 
+	/**
+	 * Getter for the editing support object
+	 * 
+	 * @return editingSupport
+	 * 			The editing support object.
+	 */
+	public EditingSupport getEditingSupport() {
+		return editingSupport;
+	}
 }
