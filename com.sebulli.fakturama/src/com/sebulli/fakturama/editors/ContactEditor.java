@@ -255,6 +255,9 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 			documentEditor.setAddress(contact);
 		}
 		
+		// Set the Editor's name to the first name and last name of the contact.
+		setPartName(contact.getName(false));
+
 		// Refresh the table view of all contacts
 		refreshView();
 		checkDirty();

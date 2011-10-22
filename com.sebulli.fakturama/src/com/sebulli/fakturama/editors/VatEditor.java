@@ -103,6 +103,9 @@ public class VatEditor extends Editor {
 			Data.INSTANCE.getVATs().updateDataSet(vat);
 		}
 
+		// Set the Editor's name to the payment name.
+		setPartName(vat.getStringValueByKey("name"));
+
 		// Refresh the table view of all payments
 		refreshView();
 		checkDirty();

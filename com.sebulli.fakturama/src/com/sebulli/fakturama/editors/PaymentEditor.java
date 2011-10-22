@@ -110,6 +110,9 @@ public class PaymentEditor extends Editor {
 			Data.INSTANCE.getPayments().updateDataSet(payment);
 		}
 
+		// Set the Editor's name to the payment name.
+		setPartName(payment.getStringValueByKey("name"));
+
 		// Refresh the table view of all payments
 		refreshView();
 		checkDirty();

@@ -98,6 +98,9 @@ public class TextEditor extends Editor {
 			Data.INSTANCE.getTexts().updateDataSet(text);
 		}
 
+		// Set the Editor's name to the shipping name.
+		setPartName(text.getStringValueByKey("name"));
+
 		// Refresh the table view of all texts
 		refreshView();
 		checkDirty();
