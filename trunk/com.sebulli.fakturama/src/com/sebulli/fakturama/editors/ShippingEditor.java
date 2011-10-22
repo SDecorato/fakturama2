@@ -134,6 +134,9 @@ public class ShippingEditor extends Editor {
 			Data.INSTANCE.getShippings().updateDataSet(shipping);
 		}
 
+		// Set the Editor's name to the shipping name.
+		setPartName(shipping.getStringValueByKey("name"));
+
 		// Refresh the table view of all contacts
 		refreshView();
 		checkDirty();

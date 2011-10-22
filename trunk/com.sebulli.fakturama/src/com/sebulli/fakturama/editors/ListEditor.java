@@ -118,6 +118,9 @@ public class ListEditor extends Editor {
 			Data.INSTANCE.getListEntries().updateDataSet(listEntry);
 		}
 
+		// Set the Editor's name to the list name.
+		setPartName(listEntry.getStringValueByKey("name"));
+
 		// Refresh the table view of all list entries
 		refreshView();
 		checkDirty();
@@ -166,7 +169,7 @@ public class ListEditor extends Editor {
 		}
 		else {
 
-			// Set the Editor's name to the shipping name.
+			// Set the Editor's name to the list name.
 			setPartName(listEntry.getStringValueByKey("name"));
 		}
 	}

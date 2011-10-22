@@ -211,6 +211,9 @@ public class ProductEditor extends Editor {
 			Data.INSTANCE.getProducts().updateDataSet(product);
 		}
 
+		// Set the Editor's name to the product name.
+		setPartName(product.getStringValueByKey("name"));
+
 		// Refresh the table view of all contacts
 		refreshView();
 		checkDirty();

@@ -214,6 +214,9 @@ public class ExpenditureEditor extends Editor {
 			Data.INSTANCE.getExpenditures().updateDataSet(expenditure);
 		}
 
+		// Set the Editor's name to the expenditure name.
+		setPartName(expenditure.getStringValueByKey("name"));
+
 		// Refresh the table view of all expenditures
 		ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
 		refreshView();
@@ -326,7 +329,7 @@ public class ExpenditureEditor extends Editor {
 		}
 		else {
 
-			// Set the Editor's name to the payment name.
+			// Set the Editor's name to the expenditure name.
 			setPartName(expenditure.getStringValueByKey("name"));
 		}
 

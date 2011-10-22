@@ -531,6 +531,9 @@ public class DocumentEditor extends Editor {
 			Data.INSTANCE.getDocuments().updateDataSet(document);
 		}
 
+		//Set the editor's name
+		setPartName(document.getStringValueByKey("name"));
+		
 		// Refresh the table view
 		refreshView();
 		checkDirty();
