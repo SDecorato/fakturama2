@@ -497,7 +497,7 @@ public class ExpenditureEditor extends Editor {
 	/**
 	 * Adds an empty expenditure item
 	 */
-	private void addNewItem() {
+	private DataSetExpenditureItem addNewItem() {
 
 		DataSetExpenditureItem newItem = new DataSetExpenditureItem("Name", "", 0.0, 0);
 
@@ -505,6 +505,7 @@ public class ExpenditureEditor extends Editor {
 		newItem.setIntValueByKey("id", -(expenditureItems.getDatasets().size() + 1));
 		newItem.setIntValueByKey("vatid", Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
 		expenditureItems.getDatasets().add(newItem);
+		return newItem;
 
 	}
 
@@ -660,9 +661,10 @@ public class ExpenditureEditor extends Editor {
 			public void mouseDown(MouseEvent e) {
 				tableViewerItems.cancelEditing();
 
-				addNewItem();
+				DataSetExpenditureItem newItem = addNewItem();
 
 				tableViewerItems.refresh();
+				tableViewerItems.reveal(newItem);
 				checkDirty();
 			}
 		});
