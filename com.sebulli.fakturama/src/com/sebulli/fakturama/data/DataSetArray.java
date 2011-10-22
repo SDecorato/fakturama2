@@ -627,6 +627,48 @@ public class DataSetArray<T> {
 	}
 
 	/**
+	 * Returns the next dataset
+	 * 
+	 * @param thisDataSet
+	 * 		
+	 * @return
+	 * 		The next dataset in the list
+	 */
+	public T getNextDataSet(T thisDataSet ) {
+		ArrayList<T> activeDatasets = getActiveDatasets();
+		
+		boolean found = false;
+		
+		for (T dataset : activeDatasets) {
+			if (found)
+				return dataset;
+			if (dataset.equals(thisDataSet))
+				found = true;
+		}
+		return null;
+	}
+	/**
+	 * Returns the previous dataset
+	 * 
+	 * @param thisDataSet
+	 * 		
+	 * @return
+	 * 		The previous dataset in the list
+	 */
+	public T getPreviousDataSet(T thisDataSet ) {
+		ArrayList<T> activeDatasets = getActiveDatasets();
+		
+		T previousDataset = null;
+		
+		for (T dataset : activeDatasets) {
+			if (dataset.equals(thisDataSet))
+				return previousDataset;
+			previousDataset = dataset;
+		}
+		return null;
+	}
+	
+	/**
 	 * Swap the position of 2 elements
 	 * 
 	 * @param 
