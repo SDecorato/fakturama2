@@ -1752,6 +1752,8 @@ public class DocumentEditor extends Editor {
 				// selected product as new item.
 				public void mouseDown(MouseEvent e) {
 
+					DataSetItem newItem = null;
+					
 					//T: Document Editor
 					//T: Title of the dialog to select a product
 					SelectProductDialog dialog = new SelectProductDialog(_("Select a product"));
@@ -1764,7 +1766,7 @@ public class DocumentEditor extends Editor {
 							DataSetProduct product = (DataSetProduct)uds;
 							
 							if (product != null) {
-								DataSetItem newItem = new DataSetItem(documentType.sign() * 1.0, product);
+								newItem = new DataSetItem(documentType.sign() * 1.0, product);
 								
 								// Use the products description, or clear it
 								if (!Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_COPY_PRODUCT_DESCRIPTION_FROM_PRODUCTS_DIALOG"))
@@ -1774,6 +1776,8 @@ public class DocumentEditor extends Editor {
 							}
 
 							tableViewerItems.refresh();
+							if (newItem!= null)
+								tableViewerItems.reveal(newItem);
 							calculate();
 							checkDirty();
 						}
@@ -1812,6 +1816,7 @@ public class DocumentEditor extends Editor {
 					addNewItem(newItem);
 
 					tableViewerItems.refresh();
+					tableViewerItems.reveal(newItem);
 					calculate();
 					checkDirty();
 				}
@@ -1858,6 +1863,7 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.getTable().setHeaderVisible(true);
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
+			
 			// Get the column width from the preferences
 			int cw_opt = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_OPT");
 			int cw_qty = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_QTY");
