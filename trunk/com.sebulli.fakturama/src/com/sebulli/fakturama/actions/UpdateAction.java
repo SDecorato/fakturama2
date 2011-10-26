@@ -17,7 +17,6 @@ package com.sebulli.fakturama.actions;
 import static com.sebulli.fakturama.Translate._;
 
 import org.eclipse.jface.action.Action;
-import org.eclipselabs.p2.rcpupdate.utils.P2Util;
 
 import com.sebulli.fakturama.backup.BackupManager;
 
@@ -62,6 +61,6 @@ public class UpdateAction extends Action {
 		BackupManager.createBackup();
 
 		// Check for updates
-        P2Util.checkForUpdates();
+        //P2Util.checkForUpdates();
 	}
 }

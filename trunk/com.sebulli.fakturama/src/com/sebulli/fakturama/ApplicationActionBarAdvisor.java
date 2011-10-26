@@ -549,8 +549,11 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		helpMenu.add(introAction);
 
 		helpMenu.add(new Separator());
-		helpMenu.add(updateAction);
-		helpMenu.add(installAction);
+//		helpMenu.add(updateAction);
+//		helpMenu.add(installAction);
+		
+		helpMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+
 
 		if (OSDependent.canAddAboutMenuItem()) {
 			helpMenu.add(new Separator());
