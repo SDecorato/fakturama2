@@ -61,6 +61,6 @@ public class UpdateAction extends Action {
 		BackupManager.createBackup();
 
 		// Check for updates
-        //P2Util.checkForUpdates();
+       // P2Util.checkForUpdates();
 	}
 }
