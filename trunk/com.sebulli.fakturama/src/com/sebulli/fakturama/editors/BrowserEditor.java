@@ -23,11 +23,17 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -58,6 +64,13 @@ public class BrowserEditor extends Editor {
 
 	// the URL is the Fakturama project
 	private boolean isFakturamaProjectUrl;
+	
+	// Show or hide the URL bar
+	private boolean showURLbar;
+	
+	// Button, to go home to fakturama.com
+	private Composite homeButtonComposite;
+
 	
 	/**
 	 * Constructor
@@ -124,7 +137,10 @@ public class BrowserEditor extends Editor {
 	 */
 	@Override
 	public void createPartControl(final Composite parent) {
+		
+		showURLbar = Activator.getDefault().getPreferenceStore().getBoolean("BROWSER_SHOW_URL_BAR");
 
+		
 		GridLayoutFactory.fillDefaults().numColumns(1).spacing(0, 0).applyTo(parent);
 		GridDataFactory.fillDefaults().grab(true, true).applyTo(parent);
 
@@ -136,13 +152,159 @@ public class BrowserEditor extends Editor {
 		// Add context help reference 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.BROWSER_EDITOR);
 
-		// Create a composite that will contain the home button
-		final Composite homeButtonComposite = new Composite(top, SWT.NONE);
-		Color color = new Color(null, 0xc8, 0xda, 0xe4);
-		homeButtonComposite.setBackground(color);
-		GridDataFactory.fillDefaults().grab(true, false).hint(0, 0).applyTo(homeButtonComposite);
-		GridLayoutFactory.fillDefaults().applyTo(homeButtonComposite);
-		color.dispose();
+		//Show or hide the url bar
+		if (showURLbar) {
+			// Create a composite that will contain the home button
+			Composite urlComposite = new Composite(top, SWT.NONE);
+			GridDataFactory.fillDefaults().grab(true, false).applyTo(urlComposite);
+			GridLayoutFactory.fillDefaults().numColumns(6).applyTo(urlComposite);
+			
+			// The add back button
+			Label backButton = new Label(urlComposite, SWT.NONE);
+			//T: Browser Editor
+			//T: Tool Tip Text
+			backButton.setToolTipText(_("Browse back"));
+
+			try {
+				backButton.setImage((Activator.getImageDescriptor("/icons/20/browser_back_20.png").createImage()));
+			}
+			catch (Exception e) {
+				Logger.logError(e, "Icon not found");
+			}
+			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(backButton);
+			backButton.addMouseListener(new MouseAdapter() {
+
+				// Click on this icon
+				public void mouseDown(MouseEvent e) {
+					if (browser != null)
+					browser.back();
+				}
+			});
+
+			// The add forward button
+			Label forwardButton = new Label(urlComposite, SWT.NONE);
+			//T: Browser Editor
+			//T: Tool Tip Text
+			forwardButton.setToolTipText(_("Browse forward"));
+
+			try {
+				forwardButton.setImage((Activator.getImageDescriptor("/icons/20/browser_forward_20.png").createImage()));
+			}
+			catch (Exception e) {
+				Logger.logError(e, "Icon not found");
+			}
+			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(forwardButton);
+			forwardButton.addMouseListener(new MouseAdapter() {
+
+				// Click on this icon
+				public void mouseDown(MouseEvent e) {
+					if (browser != null)
+					browser.forward();
+				}
+			});
+
+
+			// The add reload button
+			Label reloadButton = new Label(urlComposite, SWT.NONE);
+			//T: Browser Editor
+			//T: Tool Tip Text
+			reloadButton.setToolTipText(_("Reload the website"));
+
+			try {
+				reloadButton.setImage((Activator.getImageDescriptor("/icons/20/browser_reload_20.png").createImage()));
+			}
+			catch (Exception e) {
+				Logger.logError(e, "Icon not found");
+			}
+			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(reloadButton);
+			reloadButton.addMouseListener(new MouseAdapter() {
+
+				// Click on this icon
+				public void mouseDown(MouseEvent e) {
+					if (browser != null)
+					browser.refresh();
+				}
+			});
+
+			// The add stop button
+			Label stopButton = new Label(urlComposite, SWT.NONE);
+			//T: Browser Editor
+			//T: Tool Tip Text
+			stopButton.setToolTipText(_("Stop loading the website"));
+
+			try {
+				stopButton.setImage((Activator.getImageDescriptor("/icons/20/browser_stop_20.png").createImage()));
+			}
+			catch (Exception e) {
+				Logger.logError(e, "Icon not found");
+			}
+			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(stopButton);
+			stopButton.addMouseListener(new MouseAdapter() {
+
+				// Click on this icon
+				public void mouseDown(MouseEvent e) {
+					if (browser != null)
+					browser.stop();
+				}
+			});
+
+
+			// The add home button
+			Label hButton = new Label(urlComposite, SWT.NONE);
+			//T: Browser Editor
+			//T: Tool Tip Text
+			hButton.setToolTipText(_("Load the home site"));
+
+			try {
+				hButton.setImage((Activator.getImageDescriptor("/icons/20/browser_home_20.png").createImage()));
+			}
+			catch (Exception e) {
+				Logger.logError(e, "Icon not found");
+			}
+			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(hButton);
+			hButton.addMouseListener(new MouseAdapter() {
+
+				// Click on this icon
+				public void mouseDown(MouseEvent e) {
+					if (browser != null)
+					browser.setUrl(url);
+				}
+			});
+			
+
+			// URL field
+			final Text urlText = new Text(urlComposite, SWT.BORDER);
+			urlText.setText("http://");
+			GridDataFactory.fillDefaults().grab(true, false).applyTo(urlText);
+			urlText.addKeyListener(new KeyListener() {
+
+				/**
+				 * Enter
+				 */
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if ( (e.keyCode == 13) && (browser != null) ) {
+						browser.setUrl(urlText.getText());
+					}
+				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+				}
+			});
+		}
+		else {
+			// Create a composite that will contain the home button
+			homeButtonComposite = new Composite(top, SWT.NONE);
+			Color color = new Color(null, 0xc8, 0xda, 0xe4);
+			homeButtonComposite.setBackground(color);
+			GridDataFactory.fillDefaults().grab(true, false).hint(0, 0).applyTo(homeButtonComposite);
+			GridLayoutFactory.fillDefaults().applyTo(homeButtonComposite);
+			color.dispose();
+		}
+		
+		
+		
 
 		// Create a new web browser control
 		try {
@@ -158,9 +320,9 @@ public class BrowserEditor extends Editor {
 				browserStyle = SWT.MOZILLA;
 			
 			browser = new Browser(top, browserStyle);
-			color = new Color(null, 0xff, 0xff, 0xff);
-			browser.setBackground(color);
-			color.dispose();
+			Color browserColor = new Color(null, 0xff, 0xff, 0xff);
+			browser.setBackground(browserColor);
+			browserColor.dispose();
 
 			browser.addProgressListener(new ProgressListener() {
 				@Override
@@ -170,11 +332,17 @@ public class BrowserEditor extends Editor {
 				// If the website has changes, add a "go back" button
 				@Override
 				public void changed(ProgressEvent event) {
+					
+					// 
+					if (showURLbar)
+						return;
+					
 					String browserURL = browser.getUrl();
 					boolean isValidURL = browserURL.startsWith("http://");
 
+					
 					// We are back at home - remove the button (if it exists)
-					if (browserURL.startsWith("http://fakturama.sebulli.com") || !isValidURL || !isFakturamaProjectUrl) {
+					if ((browserURL.startsWith("http://fakturama.sebulli.com") && !browserURL.startsWith("http://fakturama.sebulli.com/mantis")) || !isValidURL || !isFakturamaProjectUrl) {
 
 						// Store this URL as last URL
 						lastFakturamaURL = browserURL;

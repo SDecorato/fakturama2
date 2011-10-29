@@ -17,6 +17,7 @@ package com.sebulli.fakturama.preferences;
 import static com.sebulli.fakturama.Translate._;
 
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
@@ -54,12 +55,15 @@ public class BrowserPreferencePage extends FieldEditorPreferencePage implements 
 		// Add context help reference 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.BROWSER_PREFERENCE_PAGE);
 
-		//T: Preference page "General" - URL of the start page
+		//T: Preference page "Webbrowser" - URL of the start page
 		addField(new StringFieldEditor("GENERAL_WEBBROWSER_URL", _("URL web browser"), getFieldEditorParent()));
 		
-		//T: Preference page "Document" 
+		//T: Preference page "Webbrowser" 
 		addField(new ComboFieldEditor("BROWSER_TYPE", _("Type of web browser:"), new String[][] { { "---", "0" }, { "WebKit", "1" }, { "Mozilla", "2" }
 			 }, getFieldEditorParent()));
+		
+		//T: Preference page "Webbrowser" 
+		addField(new BooleanFieldEditor("BROWSER_SHOW_URL_BAR", _("Show the URL bar"), getFieldEditorParent()));
 
 	}
 
@@ -84,6 +88,8 @@ public class BrowserPreferencePage extends FieldEditorPreferencePage implements 
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_WEBBROWSER_URL", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("BROWSER_TYPE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("BROWSER_SHOW_URL_BAR", write);
+		
 	}
 
 	/**
@@ -96,6 +102,7 @@ public class BrowserPreferencePage extends FieldEditorPreferencePage implements 
 //		node.put("GENERAL_WEBBROWSER_URL", OpenBrowserEditorAction.FAKTURAMA_PROJECT_URL);
 		node.put("GENERAL_WEBBROWSER_URL", "");
 		node.put("BROWSER_TYPE", "0");
+		node.putBoolean("BROWSER_SHOW_URL_BAR", true);
 	}
 
 
