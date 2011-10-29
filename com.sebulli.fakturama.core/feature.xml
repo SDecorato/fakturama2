@@ -117,7 +117,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.equinox.p2.user.ui"
+         id="org.eclipse.equinox.p2.rcp.feature"
          version="0.0.0"/>
 
    <requires>
