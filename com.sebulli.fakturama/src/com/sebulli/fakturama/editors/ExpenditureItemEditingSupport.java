@@ -68,6 +68,9 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 	// The parent expenditure editor that contains the item table
 	private ExpenditureEditor expenditureEditor;
 
+	// Suggestion manager
+	private Suggestion suggestion = null;
+	
 	/**
 	 * Constructor Create support to edit the table entries.
 	 * 
@@ -88,14 +91,12 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 
 
 		// Create the correct editor based on the column index
-		// Column nr 2 and nr.3 use a combo box cell editor.
+		// Column no 2 and no 3 use a combo box cell editor.
 		// The other columns a text cell editor.
 		switch (column) {
 		case 1:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
 			text = (Text) editor.getControl();
-			text.addVerifyListener(new Suggestion(text, Data.INSTANCE.getExpenditureItems().getStrings("name")));
-
 			break;
 		case 2:
 			categoryListEntries = Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts");
@@ -147,8 +148,6 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 
 				}
 			});
-
-			combo.addVerifyListener(new Suggestion(combo, Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts")));
 			break;
 		case 3:
 			editor = new ComboBoxCellEditor(((TableViewer) viewer).getTable(), Data.INSTANCE.getVATs().getStrings("name", DataSetVAT.getPurchaseTaxString()));
@@ -175,6 +174,25 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 
 	}
 
+	/**
+	 * Set suggestion handler
+	 * 
+	 */
+	private void setSuggestionHandler () {
+
+		switch (column) {
+		case 1:
+			suggestion = new Suggestion(text, Data.INSTANCE.getExpenditureItems().getStrings("name"));
+			text.addVerifyListener(suggestion);
+			break;
+		case 2:
+			suggestion = new Suggestion(combo, Data.INSTANCE.getListEntries().getStringsInCategory("name", "billing_accounts"));
+			combo.addVerifyListener(suggestion);
+			break;
+		}
+		
+	}
+	
 	/**
 	 * Specifies the columns with cells that are editable.
 	 * 
@@ -232,6 +250,8 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 	@Override
 	protected Object getValue(Object element) {
 
+		setSuggestionHandler();
+		
 		activeObject = element;
 		expenditureEditor.setItemEditing(this);
 
@@ -271,6 +291,8 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 	protected void setValue(Object element, Object value) {
 		DataSetExpenditureItem item = (DataSetExpenditureItem) element;
 
+		System.out.println("xx");
+		
 		expenditureEditor.setItemEditing(null);
 
 		switch (this.column) {
