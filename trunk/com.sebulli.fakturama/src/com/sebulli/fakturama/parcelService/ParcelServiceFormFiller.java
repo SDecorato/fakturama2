@@ -144,7 +144,6 @@ public class ParcelServiceFormFiller {
 
 			// Execute the script to fill the field.
 			browser.execute(script);
-			//System.out.println("Fill: " + fieldName + " with " + value);
 	}
 	
 	/**

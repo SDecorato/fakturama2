@@ -290,8 +290,6 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 	@Override
 	protected void setValue(Object element, Object value) {
 		DataSetExpenditureItem item = (DataSetExpenditureItem) element;
-
-		System.out.println("xx");
 		
 		expenditureEditor.setItemEditing(null);
 
