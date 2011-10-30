@@ -392,7 +392,6 @@ public class OODocument extends Object {
 			if (officeApplication != null)
 				if (remainingDocuments == 0 ) {
 					officeApplication.deactivate();
-					System.out.println("OpenOffice closed");
 				}
 		}
 		catch (OfficeApplicationException e) {

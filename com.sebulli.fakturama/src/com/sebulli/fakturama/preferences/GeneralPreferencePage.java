@@ -58,8 +58,11 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 		// Add context help reference 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.GENERAL_PREFERENCE_PAGE);
 
-		//T: Preference page "General" - Label "Collapse expand bar of the navigation view"
-		addField(new BooleanFieldEditor("GENERAL_COLLAPSE_EXPANDBAR",_("Navigation view: Collapse expand bar."), getFieldEditorParent()));
+		//T: Preference page "General"
+		addField(new BooleanFieldEditor("GENERAL_COLLAPSE_EXPANDBAR",_("Navigation view: Collapse expand bar"), getFieldEditorParent()));
+
+		//T: Preference page "General"
+		addField(new BooleanFieldEditor("GENERAL_CLOSE_OTHER_EDITORS",_("Close other editors"), getFieldEditorParent()));
 
 		//T: Preference page "General"
 		addField(new StringFieldEditor("GENERAL_CURRENCY", _("Currency"), getFieldEditorParent()));
@@ -86,6 +89,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_COLLAPSE_EXPANDBAR", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_CLOSE_OTHER_EDITORS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("GENERAL_CURRENCY", write);
 	}
 
@@ -97,6 +101,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.putBoolean("GENERAL_COLLAPSE_EXPANDBAR", false);
+		node.putBoolean("GENERAL_CLOSE_OTHER_EDITORS", false);
 
 		//Set the currency symbol of the default local
 		String currency = "$";

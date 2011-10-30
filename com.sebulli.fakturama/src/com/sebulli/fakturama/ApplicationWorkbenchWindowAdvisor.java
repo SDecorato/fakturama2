@@ -14,7 +14,15 @@
 
 package com.sebulli.fakturama;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IPartService;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.ActionBarAdvisor;
@@ -35,6 +43,9 @@ import com.sebulli.fakturama.preferences.PreferencesInDatabase;
  */
 public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
+	
+	private ArrayList<IEditorReference> openEditors = new ArrayList<IEditorReference>();
+	
 	public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
 		super(configurer);
 	}
@@ -82,6 +93,45 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		configurer.setInitialSize(new Point(1200, 800));
 		configurer.setShowCoolBar(true);
 		configurer.setShowStatusLine(true);
+		
+		IPartService service = (IPartService) configurer.getWindow().getService(IPartService.class);
+		service.addPartListener(new IPartListener() {
+		 
+		    public void partActivated(IWorkbenchPart part) {}
+		    public void partBroughtToTop(IWorkbenchPart part) {}
+		    public void partClosed(IWorkbenchPart part) {}
+		    public void partDeactivated(IWorkbenchPart part) {}
+		 
+		    /**
+		     * A new editor was opened
+		     */
+		    public void partOpened(IWorkbenchPart part) {
+		    	  {
+		    		 
+		             IWorkbenchPage page = part.getSite().getPage();
+
+		             // Get all editors
+		             for (IEditorReference editorRef : page.getEditorReferences()) {
+		            	 IEditorPart editor = editorRef.getEditor(false);
+		            	 
+		            	 // Add new editors to the list of all open editors
+		            	 boolean thisIsMe = false;
+		            	 if (!openEditors.contains(editorRef)) {
+		            		 openEditors.add(editorRef);
+		            		 thisIsMe = true;
+		            	 }
+		            	 
+		            	 // Close the other editors, if they are not dirty
+		            	 if (!editor.isDirty() && !thisIsMe) {
+		            			if (Activator.getDefault().getPreferenceStore().getBoolean("GENERAL_CLOSE_OTHER_EDITORS")) {
+		            				page.closeEditor(editor, false);
+		            				openEditors.remove(editorRef);
+		            			}
+		            	 }
+		             }
+		         }
+		    }
+		});
 
 	}
 
