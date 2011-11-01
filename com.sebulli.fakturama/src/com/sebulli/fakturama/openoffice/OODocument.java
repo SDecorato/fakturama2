@@ -154,6 +154,9 @@ public class OODocument extends Object {
 				Logger.logError(e, "Error in template filename:" + template);
 			}
 
+			//Workaround for a NOA problem
+			Thread.sleep(200);
+
 			// Load the template
 			oOdocument = officeApplication.getDocumentService().loadDocument(url);
 			textDocument = (ITextDocument) oOdocument;
@@ -198,6 +201,7 @@ public class OODocument extends Object {
 			// Recalculate the sum of the document before exporting
 			this.document.calculate();
 
+			
 			// Get the placeholders of the OpenOffice template
 			textFieldService = textDocument.getTextFieldService();
 			ITextField[] placeholders = textFieldService.getPlaceholderFields();
@@ -205,12 +209,40 @@ public class OODocument extends Object {
 			// Create a new ArrayList with all placeholders
 			allPlaceholders = new ArrayList<String>();
 
-			// Scan all placeholders to find the item and the vat table
+			// This is a workaroud for a NOA problem.
+			// Scan max. 10 times, until all placeholders are with a name
+			boolean emptyPlaceholders;
+			int i_emptyPHsearch = 0;
+			do{
+				textFieldService = textDocument.getTextFieldService();
+				placeholders = textFieldService.getPlaceholderFields();
+
+				emptyPlaceholders = false;
+				
+				// Scan all placeholders to find the item and the vat table
+				for (ITextField placeholder : placeholders) {
+					
+					// Is there an empty placeholder ?
+					if (placeholder.getDisplayText().isEmpty())
+						emptyPlaceholders = true;
+				}
+
+				//If there was an empty placeholder, wait and repeat
+				if (emptyPlaceholders)
+					Thread.sleep(500);
+				
+				i_emptyPHsearch++;
+			} while (emptyPlaceholders && (i_emptyPHsearch<10));
+
+			System.out.println("Search for empty Placeholders:" + i_emptyPHsearch);
+			
+			// JOptionPane.showMessageDialog(null,"Infozeichen","Titel", JOptionPane.INFORMATION_MESSAGE);
+			
 			for (ITextField placeholder : placeholders) {
 				// Collect all placeholders
 				allPlaceholders.add(placeholder.getDisplayText());
 			}
-
+			
 			// Fill the property list with the placeholder values
 			properties = new Properties();
 			setCommonProperties();
@@ -1005,6 +1037,24 @@ public class OODocument extends Object {
 		return s;
 	}
 	
+	/**
+	 * Decode the special characters
+	 * 
+	 * @param s
+	 * 	String to convert
+	 * @return
+	 *  Converted
+	 */
+	private String encodeEntinities(String s) {
+	
+		s = s.replaceAll("%LT", "<");
+		s = s.replaceAll("%GT", ">");
+		s = s.replaceAll("%NL", "\n");
+		s = s.replaceAll("%TAB", "\t");
+		s = s.replaceAll("%DOLLAR", Matcher.quoteReplacement("$"));
+		
+		return s;
+	}
 	
 	/**
 	 * Set a property and add it to the user defined text fields in the
@@ -1017,10 +1067,9 @@ public class OODocument extends Object {
 	 */
 	private void setProperty(String key, String value) {
 
-		
 		// Convert CRLF to LF 
 		value = convertCRLF2LF(value);
-
+		
 		// Set the user defined text field
 		addUserTextField(key, value);
 
@@ -1035,11 +1084,11 @@ public class OODocument extends Object {
 					
 					// Parameter "PRE"
 					if (!extractParam(placeholder,"PRE").isEmpty())
-							value += extractParam(placeholder,"PRE") + value;
+							value = extractParam(placeholder,"PRE") + value;
 
 					// Parameter "POST"
 					if (!extractParam(placeholder,"POST").isEmpty())
-							value += value + extractParam(placeholder,"POST");
+							value = value + extractParam(placeholder,"POST");
 					
 				}
 				else {
@@ -1049,7 +1098,7 @@ public class OODocument extends Object {
 				}
 				
 				// Set the placeholder
-				properties.setProperty(placeholder.toUpperCase(), value);
+				properties.setProperty(placeholder.toUpperCase(), encodeEntinities(value));
 			}
 		}
 		
