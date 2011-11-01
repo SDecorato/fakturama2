@@ -42,7 +42,7 @@ public class OSDependent {
 	}
 
 	/**
-	 * Test, if it is Windows System
+	 * Test, if it is a Windows System
 	 * 
 	 * @return TRUE, if it one
 	 */
