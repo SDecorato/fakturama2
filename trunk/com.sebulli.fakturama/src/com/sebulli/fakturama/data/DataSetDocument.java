@@ -463,4 +463,14 @@ public class DataSetDocument extends UniDataSet {
 		return true;
 	}
 
+
+	/**
+	 * Returns true, if billing and delivery address are equal
+	 * 
+	 * @return
+	 * 	True, if both are equal
+	 */
+	public boolean deliveryAddressEqualsBillingAddress() {
+		return this.getStringValueByKey("deliveryaddress").equalsIgnoreCase(this.getStringValueByKey("address"));
+	}
 }
