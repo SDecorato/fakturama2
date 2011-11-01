@@ -78,12 +78,12 @@ import com.sun.star.uno.UnoRuntime;
 public class OODocument extends Object {
 
 	
-	static boolean WITH_FILENAME = true;
-	static boolean NO_FILENAME = false;
-	static boolean WITH_EXTENSION = true;
-	static boolean NO_EXTENSION = false;
-	static boolean PDF = true;
-	static boolean NO_PDF = false;
+	final static boolean WITH_FILENAME = true;
+	final static boolean NO_FILENAME = false;
+	final static boolean WITH_EXTENSION = true;
+	final static boolean NO_EXTENSION = false;
+	final static boolean PDF = true;
+	final static boolean NO_PDF = false;
 	
 	
 	
@@ -108,9 +108,11 @@ public class OODocument extends Object {
 	// Template name
 	private String template;	
 	
+	private ArrayList<String> allPlaceholders;
+	
 	/**
 	 * Constructor Create a new OpenOffice document. Open it by using a template
-	 * and replace the placehlders with the UniDataSet document
+	 * and replace the placeholders with the UniDataSet document
 	 * 
 	 * @param document
 	 *            The UniDataSet document that will be converted to an
@@ -200,6 +202,15 @@ public class OODocument extends Object {
 			textFieldService = textDocument.getTextFieldService();
 			ITextField[] placeholders = textFieldService.getPlaceholderFields();
 
+			// Create a new ArrayList with all placeholders
+			allPlaceholders = new ArrayList<String>();
+
+			// Scan all placeholders to find the item and the vat table
+			for (ITextField placeholder : placeholders) {
+				// Collect all placeholders
+				allPlaceholders.add(placeholder.getDisplayText());
+			}
+
 			// Fill the property list with the placeholder values
 			properties = new Properties();
 			setCommonProperties();
@@ -211,13 +222,14 @@ public class OODocument extends Object {
 			ITextTableCell vatListCell = null;
 			ArrayList<ITextTableCell> discountCellList = new ArrayList<ITextTableCell>();
 
+			
 			// Scan all placeholders to find the item and the vat table
 			for (int i = 0; i < placeholders.length; i++) {
 
 				// Get the placeholder's text
 				ITextField placeholder = placeholders[i];
 				String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
-
+				
 				// Find the item table
 				if (placeholderDisplayText.equals("<ITEM.NAME>") || placeholderDisplayText.equals("<ITEM.DESCRIPTION>")) {
 					itemCell = placeholder.getTextRange().getCell();
@@ -689,7 +701,7 @@ public class OODocument extends Object {
 	 * @return
 	 * 		The converted string
 	 */
-	private String convertCRLR2CL(String s){
+	private String convertCRLF2LF(String s){
 		s = s.replaceAll("\\r\\n", "\n");
 		return s;
 	}
@@ -934,7 +946,7 @@ public class OODocument extends Object {
 			return;
 
 		// Convert CRLF to LF 
-		value = convertCRLR2CL(value);
+		value = convertCRLF2LF(value);
 
 		// If iText's string is not empty, use that string instead of the template
 		String iTextString = iText.getText();
@@ -951,6 +963,50 @@ public class OODocument extends Object {
 	}
 
 	/**
+	 * Extract the value of the parameter of a placeholder
+	 * 
+	 * @param placeholder
+	 * 	The placeholder name
+	 * 
+	 * @param param
+	 * 	Name of the parameter to extract
+	 * 
+	 * @return
+	 *  The extracted value
+	 */
+	private String extractParam(String placeholder, String param) {
+		String s;
+		
+		// A parameter starts with "$" and ends with ":"
+		param = "$" + param + ":";
+		
+		// Return, if parameter was not in placeholder's name
+		if (!placeholder.contains(param))
+			return "";
+
+		// Extract the string after the parameter name
+		s = placeholder.substring(placeholder.indexOf(param)+param.length());
+
+		// Extract the string until the next parameter, or the end
+		int i;
+		i = s.indexOf("$");
+		if ( i>0 )
+			s= s.substring(0, i);
+		else if (i == 0)
+			s = "";
+		
+		i = s.indexOf(">");
+		if ( i>0 )
+			s= s.substring(0, i);
+		else if (i == 0)
+			s = "";
+
+		// Return the value
+		return s;
+	}
+	
+	
+	/**
 	 * Set a property and add it to the user defined text fields in the
 	 * OpenOffice Writer document.
 	 * 
@@ -961,16 +1017,61 @@ public class OODocument extends Object {
 	 */
 	private void setProperty(String key, String value) {
 
-		// Convert CRLF to LF 
-		value = convertCRLR2CL(value);
 		
+		// Convert CRLF to LF 
+		value = convertCRLF2LF(value);
+
 		// Set the user defined text field
 		addUserTextField(key, value);
 
-		// Add the value and use a key with brackets
-		properties.setProperty("<" + key + ">", value);
+		// Extract parameters
+		for (String placeholder : allPlaceholders) {
+			if ( (placeholder.equals("<" + key+">")) || 
+					( (placeholder.startsWith("<" + key+"$")) && (placeholder.endsWith(">")) ) ) {
+
+				// The parameters "PRE" and "POST" are only used, if the
+				// placeholder value is not empty
+				if (!value.isEmpty()) {
+					
+					// Parameter "PRE"
+					if (!extractParam(placeholder,"PRE").isEmpty())
+							value += extractParam(placeholder,"PRE") + value;
+
+					// Parameter "POST"
+					if (!extractParam(placeholder,"POST").isEmpty())
+							value += value + extractParam(placeholder,"POST");
+					
+				}
+				else {
+					// Parameter "EMPTY"
+					if (!extractParam(placeholder,"EMPTY").isEmpty())
+							value = extractParam(placeholder,"EMPTY");
+				}
+				
+				// Set the placeholder
+				properties.setProperty(placeholder.toUpperCase(), value);
+			}
+		}
+		
 	}
 
+	
+	/**
+	 * Replaces all line breaks by a "-"
+	 * 
+	 * @param s
+	 * 	The string in multiple lines
+	 * @return
+	 * 	The string in one line, seperated by a "-"
+	 */
+	private String StringInOneLine(String s) {
+		// Convert CRLF to LF 
+		s = convertCRLF2LF(s).trim();
+		// Replace line feeds by a " - "
+		s = s.replaceAll("\\n", " - ");
+		return s;
+	}
+	
 	/**
 	 * Fill the property list with the placeholder values
 	 */
@@ -979,8 +1080,48 @@ public class OODocument extends Object {
 		if (document != null) {
 			document.calculate();
 			setProperty("DOCUMENT.DATE", document.getFormatedStringValueByKey("date"));
-			setProperty("DOCUMENT.ADDRESS", document.getStringValueByKey("address"));
-			setProperty("DOCUMENT.DELIVERYADDRESS", document.getStringValueByKey("deliveryaddress"));
+			setProperty("DOCUMENT.ADDRESSES.EQUAL", ((Boolean)document.deliveryAddressEqualsBillingAddress()).toString());
+			
+			// Get address and delivery address
+			// with option "INONELINE" and without
+			// with option "DIFFERENT" and without
+			String deliverystring;
+			String inonelinestring;
+			String differentstring;
+			// address and delivery address
+			for (int i = 0;i<2 ; i++) {
+				if (i==1)
+					deliverystring = "delivery";
+				else
+					deliverystring = "";
+				
+				// with option "INONELINE" and without
+				for (int i2 = 0; i2<2; i2++) {
+					if (i2==1)
+						inonelinestring = ".INONELINE";
+					else
+						inonelinestring = "";
+					String s = document.getStringValueByKey(deliverystring + "address");
+					if (i2==1)
+						s = StringInOneLine(s);
+					
+					//  with option "DIFFERENT" and without
+					for (int i3 = 0 ; i3<2; i3++) {
+						if (i3==1)
+							differentstring = ".DIFFERENT";
+						else
+							differentstring = "";
+						if (i3==1) {
+							if (document.deliveryAddressEqualsBillingAddress())
+								s="";
+						}
+						setProperty("DOCUMENT" + differentstring +"."+ deliverystring.toUpperCase()+ "ADDRESS" + inonelinestring, s);
+						
+					}
+				}
+			}
+			
+			
 			setProperty("DOCUMENT.TYPE", DocumentType.getString(document.getIntValueByKey("category")));
 			setProperty("DOCUMENT.NAME", document.getStringValueByKey("name"));
 			setProperty("DOCUMENT.CUSTOMERREF", document.getStringValueByKey("customerref"));
