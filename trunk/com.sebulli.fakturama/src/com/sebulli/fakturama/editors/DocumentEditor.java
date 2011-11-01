@@ -1334,7 +1334,7 @@ public class DocumentEditor extends Editor {
 					//T: Text of the dialog that appears if customer uses a different setting for net or gross.
 					messageBox.setMessage(_("Gross values are used!"));
 				}
-				{
+				else {
 					//T: Text of the dialog that appears if customer uses a different setting for net or gross.
 					messageBox.setMessage(_("Net values are used!"));
 				}
