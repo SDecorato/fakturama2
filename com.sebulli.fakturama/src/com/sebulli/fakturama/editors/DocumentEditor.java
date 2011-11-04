@@ -1897,6 +1897,12 @@ public class DocumentEditor extends Editor {
 			int cw_price = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_PRICE");
 
 			
+			// Workaround for of an Error in Windows JFace
+			// Add an empty column
+			// Mantis #0072
+			if (OSDependent.isWin())
+				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER,"", 0, true, "$", null));
+
 			// Create the table columns 
 			if (containsOptionalItems || Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_USE") && (documentType == DocumentType.OFFER))
 				//T: Used as heading of a table. Keep the word short.

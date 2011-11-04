@@ -28,7 +28,7 @@ public class OSDependent {
 	 * 
 	 * @return TRUE, if it one
 	 */
-	private static boolean isMacOSX() {
+	public static boolean isMacOSX() {
 		return Platform.getOS().equalsIgnoreCase("macosx");
 	}
 
@@ -37,7 +37,7 @@ public class OSDependent {
 	 * 
 	 * @return TRUE, if it one
 	 */
-	private static boolean isLinux() {
+	public static boolean isLinux() {
 		return Platform.getOS().equalsIgnoreCase("linux");
 	}
 
@@ -46,7 +46,7 @@ public class OSDependent {
 	 * 
 	 * @return TRUE, if it one
 	 */
-	private static boolean isWin() {
+	public static boolean isWin() {
 		return Platform.getOS().toLowerCase().startsWith("win");
 	}
 
