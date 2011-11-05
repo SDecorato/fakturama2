@@ -854,6 +854,16 @@
       </wizard>
       <wizard
             category="com.sebulli.fakturama.export.salesandexpenditures"
+            class="com.sebulli.fakturama.export.sales.ExportWizardUnpaid"
+            icon="icons/16/error_16.png"
+            id="com.sebulli.fakturama.export.sales.exportWizardUnpaid"
+            name="%wizard.export.sales.unpaid.name">
+         <description>
+            %wizard.export.sales.unpaid.description
+         </description>
+      </wizard>
+      <wizard
+            category="com.sebulli.fakturama.export.salesandexpenditures"
             class="com.sebulli.fakturama.export.expenditures.ExportWizard"
             icon="icons/16/expenditure_16.png"
             id="com.sebulli.fakturama.export.expenditures.exportWizard"

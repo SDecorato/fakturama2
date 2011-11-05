@@ -83,7 +83,7 @@ public class ExportOptionPage extends WizardPage {
 		Label labelDescription = new Label(top, SWT.NONE);
 		
 		//T: Export Sales Wizard Page 1 - Long description.
-		labelDescription.setText(_("Set some export options"+":"));
+		labelDescription.setText(_("Set some export options")+":");
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(0, 10).applyTo(labelDescription);
 
 		// Radio buttons for sort order
