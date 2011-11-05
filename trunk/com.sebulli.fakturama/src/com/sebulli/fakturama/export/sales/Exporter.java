@@ -330,9 +330,21 @@ public class Exporter extends OOCalcExporter{
 		// "sumrow" is the row under the table.
 		int sumrow = row;
 
+
+		int startColumn;
+
+		// If paid documents are exported,
+		if (this.exportPaid)
+			// show also sum of columns with net value
+			startColumn = -1;
+		else
+			// show also sum of columns with net value, paid value and value on invoice
+			startColumn = -3;
+		
+		
 		// Show the sum only, if there are values in the table
 		if (sumrow > (headLine + 1)) {
-			for (int i = -1; i < (columnsWithVatHeading + columnsWithNetHeading); i++) {
+			for (int i = startColumn; i < (columnsWithVatHeading + columnsWithNetHeading); i++) {
 				col = 11 + i;
 				try {
 					// Create formula for the sum. 
