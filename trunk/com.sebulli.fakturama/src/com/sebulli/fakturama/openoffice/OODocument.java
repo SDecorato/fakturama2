@@ -234,8 +234,7 @@ public class OODocument extends Object {
 				i_emptyPHsearch++;
 			} while (emptyPlaceholders && (i_emptyPHsearch<10));
 
-			System.out.println("Search for empty Placeholders:" + i_emptyPHsearch);
-			
+			//System.out.println("Search for empty Placeholders:" + i_emptyPHsearch);
 			// JOptionPane.showMessageDialog(null,"Infozeichen","Titel", JOptionPane.INFORMATION_MESSAGE);
 			
 			for (ITextField placeholder : placeholders) {
@@ -1241,7 +1240,7 @@ public class OODocument extends Object {
 			pamenttext = pamenttext.replace("<DOCUMENT.TOTAL>", document.getSummary().getTotalGross().asFormatedString());
 			
 			setProperty("PAYMENT.TEXT", pamenttext);
-			setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
+			//setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
 			setProperty("PAYMENT.DESCRIPTION", document.getStringValueByKey("paymentdescription"));
 			setProperty("PAYMENT.PAID.VALUE", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
 			setProperty("PAYMENT.PAID.DATE", document.getFormatedStringValueByKey("paydate"));
