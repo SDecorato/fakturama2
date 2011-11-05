@@ -42,10 +42,12 @@ import com.sebulli.fakturama.export.OOCalcExporter;
  */
 public class Exporter extends OOCalcExporter{
 
+
+	
 	// Settings from the preference page
 	private boolean showZeroVatColumn;
 
-
+	
 	/**
 	 * Constructor Sets the begin and end date
 	 * 
@@ -55,9 +57,10 @@ public class Exporter extends OOCalcExporter{
 	 *            Begin date
 	 */
 	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate,
-					boolean showZeroVatColumn) {
+					boolean showZeroVatColumn, boolean exportPaid) {
 		super(startDate, endDate);
 		this.showZeroVatColumn = showZeroVatColumn;
+		this.exportPaid = exportPaid;
 	}
 
 	/**
@@ -108,8 +111,14 @@ public class Exporter extends OOCalcExporter{
 		int col = 0;
 
 		// Table heading
-		//T: Sales Exporter - Text in the Calc document for the Earnings
-		setCellTextInBold(row++, 0, _("Earnings"));
+		if (this.exportPaid)
+			//T: Sales Exporter - Text in the Calc document for the Earnings
+			setCellTextInBold(row++, 0, _("Earnings"));
+		else
+			//T: Sales Exporter - Text in the Calc document for the Earnings
+			setCellTextInBold(row++, 0, _("Unpaid invoices"));
+		
+		
 		row++;
 
 		// Create a VAT summary set manager that collects all VAT

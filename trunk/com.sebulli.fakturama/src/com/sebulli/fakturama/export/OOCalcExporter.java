@@ -52,6 +52,9 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class OOCalcExporter {
 
+	public final static boolean PAID = true;
+	public final static boolean UNPAID = false;
+	
 	// The begin and end date to specify the export periode
 	protected GregorianCalendar startDate;
 	protected GregorianCalendar endDate;
@@ -65,6 +68,10 @@ public class OOCalcExporter {
 	protected XSpreadsheet spreadsheet = null;
 	protected XSpreadsheetDocument xSpreadsheetDocument = null;
 
+	// export paid or unpaid invoices
+	protected boolean exportPaid;
+
+	
 	/**
 	 * Default constructor
 	 */
@@ -147,10 +154,19 @@ public class OOCalcExporter {
 				isInIntervall = false;
 		}
 
-		// Only paid invoiced and credits in the interval
+		// Only invoiced and credits in the interval
 		// will be exported.
-		return ((document.getIntValueByKey("category") == DocumentType.INVOICE.getInt()) || (document.getIntValueByKey("category") == DocumentType.CREDIT
-				.getInt())) && document.getBooleanValueByKey("paid") && isInIntervall;
+		boolean isInvoiceOrCreditInIntervall = (document.getIntValueByKey("category") == DocumentType.INVOICE.getInt()) || (document.getIntValueByKey("category") == DocumentType.CREDIT
+				.getInt()) && isInIntervall;
+		
+		
+		// Export paid or unpaid documents
+		if (exportPaid)
+			// export paid
+			return isInvoiceOrCreditInIntervall && document.getBooleanValueByKey("paid");
+		else
+			// export unpaid
+			return isInvoiceOrCreditInIntervall && !document.getBooleanValueByKey("paid");
 	}
 
 	/**
