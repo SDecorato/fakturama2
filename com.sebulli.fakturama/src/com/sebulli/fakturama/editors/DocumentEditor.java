@@ -45,8 +45,6 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -196,6 +194,10 @@ public class DocumentEditor extends Editor {
 	// Menu manager of the context menu
 	private MenuManager menuManager;
 
+	// If the customer is changed, and this document displays no payment text,
+	// use this variable to store the payment and due days
+	private int newPaymentID = -1;
+	private String newPaymentDescription = "";
 	
 	/**
 	 * Constructor
@@ -349,6 +351,15 @@ public class DocumentEditor extends Editor {
 		if (comboPayment != null) {
 			document.setStringValueByKey("paymentdescription", comboPayment.getText());
 		}
+		// If this document contains no payment widgets, but..
+		else {
+			// the customer changed and so there is a new payment. Set it.
+			if (!newPaymentDescription.isEmpty()) {
+				document.setStringValueByKey("paymentdescription", newPaymentDescription);
+			}
+
+		}
+
 		document.setIntValueByKey("paymentid", paymentId);
 
 		if (bPaid != null) {
@@ -376,9 +387,23 @@ public class DocumentEditor extends Editor {
 
 			}
 			document.setIntValueByKey("duedays", duedays);
+			
 			document.setStringValueByKey("paymenttext", paymentText);
 
 		}
+		// If this document contains no payment widgets, but..
+		else {
+			// the customer changed and so there is a new payment. Set it.
+			if (!newPaymentDescription.isEmpty() && (newPaymentID >= 0)) {
+				document.setIntValueByKey("duedays", duedays);
+				document.setBooleanValueByKey("paid", false);
+				document.setDoubleValueByKey("payvalue", 0.0);
+
+				// Use the text for "unpaid" from the current payment
+				document.setStringValueByKey("paymenttext", Data.INSTANCE.getPayments().getDatasetById(newPaymentID).getStringValueByKey("unpaidtext"));
+			}
+		}
+
 
 		// Set the shipping values
 		if (comboShipping != null) {
@@ -538,7 +563,6 @@ public class DocumentEditor extends Editor {
 			// Create a new editor input.
 			// So it's no longer the parent data
 			this.setInput(new UniDataSetEditorInput(document));
-
 		}
 		else {
 			// Do not create a new data set - just update the old one
@@ -1259,11 +1283,46 @@ public class DocumentEditor extends Editor {
 			if (itemsDiscount != null)
 				itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
 
+		//Use the payment method of the customer
+		if (comboPayment != null) {
+			comboPayment.setText(contact.getFormatedStringValueByKeyFromOtherTable("payment.PAYMENTS:description"));
+		}
+
+		usePayment(contact.getIntValueByKey("payment"));
+
+		
 		showHideWarningIcon();
 		addressAndIconComposite.layout(true);
 
 		
 	}
+	
+	/**
+	 * Use this payment and update the duedays
+	 * 
+	 * @param id
+	 * 	ID of the payment
+	 */
+	private void usePayment(int id) {
+		paymentId = id;
+		
+		DataSetPayment payment = Data.INSTANCE.getPayments().getDatasetById(id);
+
+		// Get the due days and description of this payment
+		duedays = payment.getIntValueByKey("netdays");
+		newPaymentID = id;
+		newPaymentDescription = payment.getStringValueByKey("description");
+
+		if (spDueDays !=null ) {
+			if (!spDueDays.isDisposed()) {
+				spDueDays.setSelection(duedays);
+				updateIssueDate();
+			}
+		}
+		checkDirty();
+
+	}
+	
 	
 	/**
 	 * Creates the SWT controls for this workbench part
@@ -1876,13 +1935,6 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.getTable().setLinesVisible(true);
 			tableViewerItems.getTable().setHeaderVisible(true);
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
-
-			tableViewerItems.getTable().addTraverseListener(new TraverseListener(){
-	            public void keyTraversed(TraverseEvent e) {
-					System.out.println(e.keyCode + DataUtils.DateAsISO8601String());
-	            };
-			});
-
 			
 			// Get the column width from the preferences
 			int cw_opt = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_OPT");
@@ -2330,13 +2382,7 @@ public class DocumentEditor extends Editor {
 							// Get first selected element.
 							Object firstElement = structuredSelection.getFirstElement();
 							DataSetPayment dataSetPayment = (DataSetPayment) firstElement;
-							paymentId = dataSetPayment.getIntValueByKey("id");
-							duedays = dataSetPayment.getIntValueByKey("netdays");
-							if (!spDueDays.isDisposed()) {
-								spDueDays.setSelection(duedays);
-								updateIssueDate();
-							}
-							checkDirty();
+							usePayment(dataSetPayment.getIntValueByKey("id"));
 						}
 					}
 				});
