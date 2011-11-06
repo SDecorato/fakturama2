@@ -55,6 +55,7 @@ import com.sebulli.fakturama.actions.NewEditorAction;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetListNames;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.views.datasettable.TopicTreeViewer.TreeObject;
 
 /**
  * This is the abstract parent class for all views that show a table with
@@ -96,6 +97,9 @@ public abstract class ViewDataSetTable extends ViewPart {
 	// The standard UniDataSet
 	protected String stdPropertyKey = null;
 
+	// The selected tree object
+	private TreeObject treeObject = null;
+	
 	private ViewDataSetTable me;
 
 	/**
@@ -103,7 +107,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createPartControl(Composite parent, boolean useDocumentAndContactFilter, boolean useAll, String contextHelpId) {
+	public void createPartControl(Composite parent,Class<?> elementClass, boolean useDocumentAndContactFilter, boolean useAll, String contextHelpId) {
 
 		me = this;
 
@@ -116,7 +120,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, contextHelpId);
 		
 		// Create the tree viewer
-		topicTreeViewer = new TopicTreeViewer(top, SWT.BORDER, useDocumentAndContactFilter, useAll);
+		topicTreeViewer = new TopicTreeViewer(top, SWT.BORDER, elementClass, useDocumentAndContactFilter, useAll);
 		GridDataFactory.swtDefaults().hint(10, -1).applyTo(topicTreeViewer.getTree());
 
 		// Create the composite that contains the search field and the table
@@ -222,7 +226,6 @@ public abstract class ViewDataSetTable extends ViewPart {
 		tableViewer.setSorter(new TableSorter());
 		tableFilter = new TableFilter(searchColumns);
 		tableViewer.addFilter(tableFilter);
-
 	}
 
 	/**
@@ -317,6 +320,16 @@ public abstract class ViewDataSetTable extends ViewPart {
 	}
 
 	/**
+	 * Set a reference to the tree object
+	 * 
+	 * @param treeObject
+	 * 		The tree object
+	 */
+	public void setTreeObject(TreeObject treeObject){
+		this.treeObject = treeObject;
+	}
+	
+	/**
 	 * Set the category filter
 	 * 
 	 * @param filter
@@ -329,7 +342,8 @@ public abstract class ViewDataSetTable extends ViewPart {
 			filterLabel.setText("");
 		else
 		// Display the localizes list names.
-		if (this instanceof ViewListTable)
+		// or the document type
+		if ( (this instanceof ViewDocumentTable) || (this instanceof ViewListTable) )
 			filterLabel.setText(DataSetListNames.NAMES.getLocalizedName(filter));
 
 		filterLabel.pack(true);
@@ -338,6 +352,7 @@ public abstract class ViewDataSetTable extends ViewPart {
 		contentProvider.setTransactionFilter(-1);
 		contentProvider.setContactFilter(-1);
 		contentProvider.setCategoryFilter(filter);
+		contentProvider.setTreeObject(treeObject);
 
 		// Set category to the addNew action. So a new data set is created
 		// with the selected category

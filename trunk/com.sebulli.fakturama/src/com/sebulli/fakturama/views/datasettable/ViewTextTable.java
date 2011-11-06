@@ -23,6 +23,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewTextAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetText;
 
 /**
  * View with the table of all texts
@@ -51,7 +52,7 @@ public class ViewTextTable extends ViewDataSetTable {
 		searchColumns[0] = "name";
 		searchColumns[1] = "text";
 
-		super.createPartControl(parent, false, true, ContextHelpConstants.TEXT_TABLE_VIEW);
+		super.createPartControl(parent,DataSetText.class, false, true, ContextHelpConstants.TEXT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Texts"));

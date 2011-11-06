@@ -23,6 +23,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewPaymentAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetPayment;
 
 /**
  * View with the table of all payments
@@ -57,7 +58,7 @@ public class ViewPaymentTable extends ViewDataSetTable {
 		searchColumns[3] = "discountdays";
 		searchColumns[4] = "netdays";
 
-		super.createPartControl(parent, false, true, ContextHelpConstants.PAYMENT_TABLE_VIEW);
+		super.createPartControl(parent,DataSetPayment.class, false, true, ContextHelpConstants.PAYMENT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Payments"));

@@ -23,6 +23,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetDocument;
 
 /**
  * View with the table of all contacts
@@ -55,7 +56,7 @@ public class ViewContactTable extends ViewDataSetTable {
 		searchColumns[4] = "zip";
 		searchColumns[5] = "city";
 
-		super.createPartControl(parent, false, true, ContextHelpConstants.CONTACT_TABLE_VIEW);
+		super.createPartControl(parent,DataSetDocument.class, false, true, ContextHelpConstants.CONTACT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Contacts"));

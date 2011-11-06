@@ -23,6 +23,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewListEntryAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetList;
 
 /**
  * View with the table of all lists
@@ -51,7 +52,7 @@ public class ViewListTable extends ViewDataSetTable {
 		searchColumns[0] = "name";
 		searchColumns[1] = "value";
 
-		super.createPartControl(parent, false, true, ContextHelpConstants.LIST_TABLE_VIEW);
+		super.createPartControl(parent,DataSetList.class, false, true, ContextHelpConstants.LIST_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Lists"));

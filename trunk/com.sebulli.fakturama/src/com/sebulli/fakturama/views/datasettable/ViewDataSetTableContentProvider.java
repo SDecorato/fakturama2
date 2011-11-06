@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.DataSetArray;
+import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.UniDataSet;
+import com.sebulli.fakturama.views.datasettable.TopicTreeViewer.TreeObject;
 
 /**
  * Content provider for the UniDataSet table viewer
@@ -40,6 +43,11 @@ public class ViewDataSetTableContentProvider implements IStructuredContentProvid
 	private int transactionFilter = -1;
 	private int contactFilter = -1;
 
+	// The selected tree object
+	private TreeObject treeObject = null;
+
+	private double totalSum = 0.0;
+	
 	/**
 	 * Constructor Sets the table viewer
 	 * 
@@ -68,6 +76,8 @@ public class ViewDataSetTableContentProvider implements IStructuredContentProvid
 			@SuppressWarnings("unchecked")
 			ArrayList<UniDataSet> content = (ArrayList<UniDataSet>) ((DataSetArray<?>) inputElement).getDatasets();
 
+			totalSum = 0.0;
+			
 			// Check all entries
 			for (UniDataSet uds : content) {
 
@@ -79,9 +89,17 @@ public class ViewDataSetTableContentProvider implements IStructuredContentProvid
 							.isEmpty())
 							&& ((transactionFilter < 0) || (uds.getIntValueByKey("transaction") == transactionFilter))
 							&& ((contactFilter < 0) || (uds.getIntValueByKey("addressid") == contactFilter))) {
+						if (uds instanceof DataSetDocument) {
+							totalSum += uds.getDoubleValueByKey("total");
+						}
 						contentFiltered.add(uds);
 					}
 				}
+			}
+			
+			// Use the tooltip to display the total sum
+			if (treeObject != null) {
+				treeObject.setToolTip(DataUtils.DoubleToFormatedPriceRound(totalSum));
 			}
 		}
 
@@ -130,6 +148,8 @@ public class ViewDataSetTableContentProvider implements IStructuredContentProvid
 		this.transactionFilter = filter;
 	}
 
+	
+	
 	/**
 	 * Sets the contact filter
 	 * 
@@ -168,4 +188,15 @@ public class ViewDataSetTableContentProvider implements IStructuredContentProvid
 	public String getCategoryFilter() {
 		return this.categoryFilter;
 	}
+	
+	/**
+	 * Set a reference to the tree object
+	 * 
+	 * @param treeObject
+	 * 		The tree object
+	 */
+	public void setTreeObject(TreeObject treeObject){
+		this.treeObject = treeObject;
+	}
+
 }

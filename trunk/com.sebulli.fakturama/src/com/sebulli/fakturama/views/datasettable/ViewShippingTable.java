@@ -23,6 +23,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewShippingAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetShipping;
 
 /**
  * View with the table of all shipping
@@ -55,7 +56,7 @@ public class ViewShippingTable extends ViewDataSetTable {
 		searchColumns[1] = "description";
 		searchColumns[2] = "value";
 
-		super.createPartControl(parent, false, true, ContextHelpConstants.SHIPPING_TABLE_VIEW);
+		super.createPartControl(parent, DataSetShipping.class, false, true, ContextHelpConstants.SHIPPING_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Shippings"));
