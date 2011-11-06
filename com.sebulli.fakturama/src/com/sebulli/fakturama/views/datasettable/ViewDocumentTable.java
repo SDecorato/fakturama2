@@ -66,7 +66,7 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		searchColumns[2] = "addressfirstline";
 		searchColumns[3] = "total";
 
-		super.createPartControl(parent, true, false, ContextHelpConstants.DOCUMENT_TABLE_VIEW);
+		super.createPartControl(parent,DataSetDocument.class, true, false, ContextHelpConstants.DOCUMENT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Documents"));

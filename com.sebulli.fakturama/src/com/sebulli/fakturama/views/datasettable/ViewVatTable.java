@@ -23,6 +23,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewVatAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetVAT;
 
 /**
  * View with the table of all VATs
@@ -55,7 +56,7 @@ public class ViewVatTable extends ViewDataSetTable {
 		searchColumns[1] = "description";
 		searchColumns[2] = "value";
 
-		super.createPartControl(parent, false, true, ContextHelpConstants.VAT_TABLE_VIEW);
+		super.createPartControl(parent, DataSetVAT.class, false, true, ContextHelpConstants.VAT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("VATs"));

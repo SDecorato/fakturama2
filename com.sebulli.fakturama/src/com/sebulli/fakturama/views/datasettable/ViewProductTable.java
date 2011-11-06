@@ -23,6 +23,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewProductAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetProduct;
 
 /**
  * View with the table of all products
@@ -53,7 +54,7 @@ public class ViewProductTable extends ViewDataSetTable {
 		searchColumns[2] = "description";
 		searchColumns[3] = "price1";
 
-		super.createPartControl(parent, false, true, ContextHelpConstants.PRODUCT_TABLE_VIEW);
+		super.createPartControl(parent, DataSetProduct.class, false, true, ContextHelpConstants.PRODUCT_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Products"));

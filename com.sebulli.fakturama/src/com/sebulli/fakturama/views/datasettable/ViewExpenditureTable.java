@@ -23,6 +23,7 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewExpenditureAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetExpenditure;
 
 /**
  * View with the table of all expenditures
@@ -53,7 +54,7 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		searchColumns[2] = "documentnr";
 		searchColumns[3] = "date";
 
-		super.createPartControl(parent, false, true, ContextHelpConstants.EXPENDITURE_TABLE_VIEW);
+		super.createPartControl(parent,DataSetExpenditure.class, false, true, ContextHelpConstants.EXPENDITURE_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Expenditures"));

@@ -43,6 +43,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.DataSetArray;
+import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetListNames;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -82,6 +83,7 @@ public class TopicTreeViewer extends TreeViewer {
 	// The corresponding table
 	private ViewDataSetTable viewDataSetTable;
 
+	
 	/**
 	 * Constructor Creates a
 	 * 
@@ -90,10 +92,10 @@ public class TopicTreeViewer extends TreeViewer {
 	 * @param useDocumentAndContactFilter
 	 * @param useAll
 	 */
-	public TopicTreeViewer(Composite parent, int style, boolean useDocumentAndContactFilter, boolean useAll) {
+	public TopicTreeViewer(Composite parent, int style, final Class<?> elementClass, boolean useDocumentAndContactFilter, boolean useAll) {
 		super(parent, style);
 		this.useAll = useAll;
-
+		
 		// Create a dot Image
 		LocalResourceManager resources = new LocalResourceManager(JFaceResources.getResources());
 		dotImage = resources.createImage(Activator.getImageDescriptor("/icons/10/dot_10.png"));
@@ -129,6 +131,8 @@ public class TopicTreeViewer extends TreeViewer {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 
+				TreeObject treeObject = null;
+				
 				// Update the category, transaction and contact filter
 				String categoryFilter = "";
 				int transactionFilter = -1;
@@ -141,7 +145,7 @@ public class TopicTreeViewer extends TreeViewer {
 					if (obj != null) {
 
 						// Get the selected object
-						TreeObject treeObject = (TreeObject) obj;
+						treeObject = (TreeObject) obj;
 						selectedItem = treeObject;
 
 						// Update the category, transaction and contact filter
@@ -152,6 +156,11 @@ public class TopicTreeViewer extends TreeViewer {
 					}
 				}
 
+				// Set a reference to the tree object to use the
+				// tool tip hint for displaying the total sum.
+				if (elementClass.equals(DataSetDocument.class))
+					viewDataSetTable.setTreeObject(treeObject);
+				
 				if (contactFilter >= 0)
 
 					// Set the contact filter
