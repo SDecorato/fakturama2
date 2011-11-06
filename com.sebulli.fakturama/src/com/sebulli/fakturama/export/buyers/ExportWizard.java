@@ -42,7 +42,8 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		//T: Title of the export wizard
 		page1 = new ExportWizardPageStartEndDate(_("Buyers and volume"),
 				//T: Text of the export wizard
-				_("Select a periode.\nOnly the invoices with a date in this periode will be exported.\nUnpaid invoices won't be exported."));
+				_("Select a periode.\nOnly the invoices with a date in this periode will be exported.\nUnpaid invoices won't be exported.")
+				, false);
 		addPage(page1);
 	}
 
@@ -55,7 +56,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate());
+		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate(), page1.getUseTimePeriod());
 		return exporter.export();
 	}
 

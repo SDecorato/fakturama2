@@ -43,7 +43,8 @@ public class ExportWizardUnpaid extends Wizard implements IExportWizard {
 		//T: Title of the export wizard
 		page1 = new ExportWizardPageStartEndDate(_("List of unpaid invoices"),
 				//T: Text of the export wizard
-				_("Select a periode.\nOnly the unpaid invoices with a date in this periode will be exported."));
+				_("Select a periode.\nOnly the unpaid invoices with a date in this periode will be exported."),
+				true);
 		//T: Title of the export wizard
 		page2 = new ExportOptionPage(_("List of Sales as Table"),
 				//T: Text of the export wizard
@@ -62,7 +63,7 @@ public class ExportWizardUnpaid extends Wizard implements IExportWizard {
 	@Override
 	public boolean performFinish() {
 		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate(),
-										page2.getShowZeroVatColumn(), Exporter.UNPAID);
+										page1.getUseTimePeriod(),page2.getShowZeroVatColumn(), Exporter.UNPAID);
 		return exporter.export();
 	}
 

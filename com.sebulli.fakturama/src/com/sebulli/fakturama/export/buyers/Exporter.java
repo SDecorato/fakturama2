@@ -104,8 +104,8 @@ public class Exporter extends OOCalcExporter{
 	 * @param endDate
 	 *            Begin date
 	 */
-	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate) {
-		super(startDate, endDate);
+	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate, boolean doNotUseTimePeriod) {
+		super(startDate, endDate,  doNotUseTimePeriod);
 	}
 
 	/**
