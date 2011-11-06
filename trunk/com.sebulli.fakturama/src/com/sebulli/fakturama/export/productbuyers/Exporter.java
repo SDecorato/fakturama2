@@ -175,8 +175,9 @@ public class Exporter extends OOCalcExporter{
 	 *            Begin date
 	 */
 	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate,
-			boolean sortByQuantity) {
-		super(startDate, endDate);
+			 boolean doNotUseTimePeriod,
+			 boolean sortByQuantity) {
+		super(startDate, endDate, doNotUseTimePeriod);
 		this.sortByQuantity = sortByQuantity;
 	}
 

@@ -58,6 +58,9 @@ public class OOCalcExporter {
 	// The begin and end date to specify the export periode
 	protected GregorianCalendar startDate;
 	protected GregorianCalendar endDate;
+	
+	// Use start and end date or export all
+	protected boolean doNotUseTimePeriod;
 
 	// the date key to sort the documents
 	protected String documentDateKey;
@@ -78,6 +81,7 @@ public class OOCalcExporter {
 	public OOCalcExporter() {
 		this.startDate = null;
 		this.endDate = null;
+		this.doNotUseTimePeriod = true;
 	}
 
 	/**
@@ -88,9 +92,10 @@ public class OOCalcExporter {
 	 * @param endDate
 	 *            Begin date
 	 */
-	public OOCalcExporter(GregorianCalendar startDate, GregorianCalendar endDate) {
+	public OOCalcExporter(GregorianCalendar startDate, GregorianCalendar endDate, boolean doNotUseTimePeriod) {
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.doNotUseTimePeriod = doNotUseTimePeriod;
 	}
 
 	protected void fillCompanyInformation(int row) {
@@ -106,6 +111,11 @@ public class OOCalcExporter {
 	
 	protected void fillTimeIntervall(int row) {
 
+		// Do not display a time period
+		if (doNotUseTimePeriod) {
+			return;
+		}
+		
 		// Display the time interval
 		//T: Sales Exporter - Text in the Calc document for the period
 		setCellTextInBold(row++, 0, _("Period"));
@@ -132,32 +142,35 @@ public class OOCalcExporter {
 		// By default, the document will be exported.
 		boolean isInIntervall = true;
 
-		// Get the date of the document and convert it to a
-		// GregorianCalendar object.
-		GregorianCalendar documentDate = new GregorianCalendar();
-		try {
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		// Use the time period
+		if (!doNotUseTimePeriod) {
+			// Get the date of the document and convert it to a
+			// GregorianCalendar object.
+			GregorianCalendar documentDate = new GregorianCalendar();
+			try {
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-			String documentDateString = document.getStringValueByKey(documentDateKey);
+				String documentDateString = document.getStringValueByKey(documentDateKey);
 
-			documentDate.setTime(formatter.parse(documentDateString));
-		}
-		catch (ParseException e) {
-			Logger.logError(e, "Error parsing Date");
-		}
+				documentDate.setTime(formatter.parse(documentDateString));
+			}
+			catch (ParseException e) {
+				Logger.logError(e, "Error parsing Date");
+			}
 
-		// Test, if the document's date is in the interval
-		if ((startDate != null) && (endDate != null)) {
-			if (startDate.after(documentDate))
-				isInIntervall = false;
-			if (endDate.before(documentDate))
-				isInIntervall = false;
+			// Test, if the document's date is in the interval
+			if ((startDate != null) && (endDate != null)) {
+				if (startDate.after(documentDate))
+					isInIntervall = false;
+				if (endDate.before(documentDate))
+					isInIntervall = false;
+			}
 		}
 
 		// Only invoiced and credits in the interval
 		// will be exported.
-		boolean isInvoiceOrCreditInIntervall = (document.getIntValueByKey("category") == DocumentType.INVOICE.getInt()) || (document.getIntValueByKey("category") == DocumentType.CREDIT
-				.getInt()) && isInIntervall;
+		boolean isInvoiceOrCreditInIntervall = ((document.getIntValueByKey("category") == DocumentType.INVOICE.getInt()) || (document.getIntValueByKey("category") == DocumentType.CREDIT
+				.getInt())) && isInIntervall;
 		
 		
 		// Export paid or unpaid documents

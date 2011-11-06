@@ -23,6 +23,9 @@ import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
@@ -36,23 +39,42 @@ import org.eclipse.swt.widgets.Label;
 public class ExportWizardPageStartEndDate extends WizardPage {
 
 	// start and end date
+	private Label labelStart;
+	private Label labelEnd;
 	private DateTime dtStartDate;
 	private DateTime dtEndDate;
 
+	// Use start and end date or export all
+	private Button bDoNotUseTimePeriod;
+	private boolean doNotUseTimePeriod;
+	
 	private String label;
 	
 	/**
 	 * Constructor Create the page and set title and message.
 	 */
-	public ExportWizardPageStartEndDate(String title, String label) {
+	public ExportWizardPageStartEndDate(String title, String label, boolean doNotUseTimePeriod ) {
 		super("ExportWizandPageStartEndDate");
 		//T: Title of the Sales Export Wizard Page 1
 		setTitle(title);
 		//T: Text of the Sales Export Wizard Page 1
 		setMessage(_("Select a Periode") );
 		this.label = label;
+		this.doNotUseTimePeriod = doNotUseTimePeriod;
 	}
 
+	
+	/**
+	 * Enables or disables the date widget, depending on the
+	 * value of "doNotUseTimePeriod"
+	 */
+	private void enableDisableDateWidget() {
+		dtStartDate.setEnabled(!doNotUseTimePeriod);
+		dtEndDate.setEnabled(!doNotUseTimePeriod);
+		labelStart.setEnabled(!doNotUseTimePeriod);
+		labelEnd.setEnabled(!doNotUseTimePeriod);
+	}
+	
 	/**
 	 * Creates the top level control for this dialog page under the given parent
 	 * composite.
@@ -80,14 +102,14 @@ public class ExportWizardPageStartEndDate extends WizardPage {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).span(2, 1).indent(0, 10).applyTo(labelSpacer);
 
 		// Label for start date
-		Label labelStart = new Label(top, SWT.NONE);
+		labelStart = new Label(top, SWT.NONE);
 		
 		//T: Export Sales Wizard - Label Start Date of the period
 		labelStart.setText(_("Start Date:"));
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(labelStart);
 
 		// Label for end date
-		Label labelEnd = new Label(top, SWT.NONE);
+		labelEnd = new Label(top, SWT.NONE);
 		//T: Export Sales Wizard - Label End Date of the period
 		labelEnd.setText(_("End Date:"));
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(20, 0).applyTo(labelEnd);
@@ -100,6 +122,9 @@ public class ExportWizardPageStartEndDate extends WizardPage {
 		dtEndDate = new DateTime(top, SWT.DROP_DOWN);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(20, 0).applyTo(dtEndDate);
 
+		// Enable or disable the date widgets
+		enableDisableDateWidget();
+		
 		// Set the start and end date to the 1st and last day of the
 		// last month.
 		GregorianCalendar calendar = new GregorianCalendar(dtEndDate.getYear(), dtEndDate.getMonth(), 1);
@@ -107,6 +132,20 @@ public class ExportWizardPageStartEndDate extends WizardPage {
 		dtEndDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 		calendar = new GregorianCalendar(dtEndDate.getYear(), dtEndDate.getMonth(), 1);
 		dtStartDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+		
+		// Check button: delivery address equals address
+		bDoNotUseTimePeriod = new Button(top, SWT.CHECK);
+		bDoNotUseTimePeriod.setSelection(doNotUseTimePeriod);
+		//T: Label in the export wizard page
+		bDoNotUseTimePeriod.setText(_("Export all and do not use a time periode."));
+		GridDataFactory.swtDefaults().applyTo(bDoNotUseTimePeriod);
+		bDoNotUseTimePeriod.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				doNotUseTimePeriod = bDoNotUseTimePeriod.getSelection();
+				enableDisableDateWidget();
+			}
+		});
+
 	}
 
 	/**
@@ -126,4 +165,16 @@ public class ExportWizardPageStartEndDate extends WizardPage {
 	public GregorianCalendar getEndDate() {
 		return new GregorianCalendar(dtEndDate.getYear(), dtEndDate.getMonth(), dtEndDate.getDay());
 	}
+	
+	/**
+	 * 
+	 * Return, if the time period should be used.
+	 * 
+	 * @return
+	 * 		TRUE, if all entries should be exported
+	 */
+	public boolean getUseTimePeriod() {
+		return doNotUseTimePeriod;
+	}
+	
 }

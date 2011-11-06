@@ -58,9 +58,10 @@ public class Exporter extends OOCalcExporter{
 	 *            Begin date
 	 */
 	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate,
-			boolean showExpenditureSumColumn,
+			 boolean doNotUseTimePeriod,
+			 boolean showExpenditureSumColumn,
 			boolean showZeroVatColumn) {
-		super(startDate, endDate);
+		super(startDate, endDate, doNotUseTimePeriod);
 		this.showExpenditureSumColumn = showExpenditureSumColumn;
 		this.showZeroVatColumn = showZeroVatColumn;
 		
