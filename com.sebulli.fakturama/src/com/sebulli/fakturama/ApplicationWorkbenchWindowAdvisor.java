@@ -23,6 +23,7 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.ActionBarAdvisor;
@@ -105,13 +106,20 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		    /**
 		     * A new editor was opened
 		     */
-		    public void partOpened(IWorkbenchPart part) {
+		    @SuppressWarnings("restriction")
+			public void partOpened(IWorkbenchPart part) {
 		    	  {
+		    		 IWorkbenchPartSite site  = part.getSite();
 		    		 
-		             IWorkbenchPage page = part.getSite().getPage();
+		    		 // Close other editors only, if this part was an editor
+		    		 if (!(site instanceof org.eclipse.ui.internal.EditorSite))
+		    			 return;
 
+		    		 IWorkbenchPage page = site.getPage();
+		             IEditorReference[] editorReferences = page.getEditorReferences();
+		             
 		             // Get all editors
-		             for (IEditorReference editorRef : page.getEditorReferences()) {
+		             for (IEditorReference editorRef : editorReferences) {
 		            	 IEditorPart editor = editorRef.getEditor(false);
 		            	 
 		            	 // Add new editors to the list of all open editors
@@ -125,7 +133,8 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		            	 if (!editor.isDirty() && !thisIsMe) {
 		            			if (Activator.getDefault().getPreferenceStore().getBoolean("GENERAL_CLOSE_OTHER_EDITORS")) {
 		            				page.closeEditor(editor, false);
-		            				openEditors.remove(editorRef);
+		            				if (openEditors.size() > 1)
+		            					openEditors.remove(editorRef);
 		            			}
 		            	 }
 		             }
