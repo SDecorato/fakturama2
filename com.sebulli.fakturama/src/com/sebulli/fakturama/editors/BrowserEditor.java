@@ -292,6 +292,7 @@ public class BrowserEditor extends Editor {
 				public void keyReleased(KeyEvent e) {
 				}
 			});
+			
 		}
 		else {
 			// Create a composite that will contain the home button
@@ -388,6 +389,33 @@ public class BrowserEditor extends Editor {
 
 	}
 
+	/**
+	 * Test the parcel service form.
+	 * Fills all form elements with its names and creates a template file.
+	 * 
+	 */
+	public void testParcelServiceForm() {
+		// Script that counts the fields with this name
+		String script = "" +
+			"function fillFields() {"+
+			"  documentForms = document.getElementsByTagName('form');" +
+			"  for (var i = 0; i < documentForms.length; i++) {" +
+			"    for(var ii = 0; ii < documentForms[i].elements.length; ii++) {" +
+			"		var e = documentForms[i].elements[ii];" +
+			"       e.title = e.name; " +
+			"       if ((e.type='text') ||(e.type='textarea')) {" +
+			"       e.value = e.name;} " + 
+			"    }" +
+			"  }" +
+			"};" +
+			"fillFields();";
+		
+			// Set the value of all text elements to their names
+			if (browser != null)
+				browser.evaluate(script);
+
+	}
+	
 	/**
 	 * Go to the start page (fakturama.sebulli.com)
 	 */

@@ -56,8 +56,8 @@ import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
 import com.sebulli.fakturama.calculate.VatSummarySet;
 import com.sebulli.fakturama.calculate.VatSummarySetManager;
+import com.sebulli.fakturama.data.Placeholders;
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DocumentType;
@@ -91,7 +91,7 @@ public class OODocument extends Object {
 	private DataSetDocument document;
 
 	// The UniDataSet contact of the document
-	private DataSetContact contact;
+	//	private DataSetContact contact;
 
 	// A list of properties that represents the placeholders of the
 	// OpenOffice Writer template
@@ -185,18 +185,6 @@ public class OODocument extends Object {
 			// Stop here and do not fill the document's placeholders, if it's an existing document
 			if (openExisting)
 				return;
-
-			// Get the contact of the UniDataSet document
-			int addressId = document.getIntValueByKey("addressid");
-
-			contact = null;
-			if (addressId >= 0) {
-				try {
-					contact = Data.INSTANCE.getContacts().getDatasetById(addressId);
-				}
-				catch (Exception e) {
-				}
-			}
 
 			// Recalculate the sum of the document before exporting
 			this.document.calculate();
@@ -1066,6 +1054,12 @@ public class OODocument extends Object {
 	 */
 	private void setProperty(String key, String value) {
 
+		if (key == null)
+			return;
+
+		if (value == null)
+			return;
+		
 		// Convert CRLF to LF 
 		value = convertCRLF2LF(value);
 		
@@ -1104,232 +1098,27 @@ public class OODocument extends Object {
 	}
 
 	
-	/**
-	 * Replaces all line breaks by a "-"
-	 * 
-	 * @param s
-	 * 	The string in multiple lines
-	 * @return
-	 * 	The string in one line, seperated by a "-"
-	 */
-	private String StringInOneLine(String s) {
-		// Convert CRLF to LF 
-		s = convertCRLF2LF(s).trim();
-		// Replace line feeds by a " - "
-		s = s.replaceAll("\\n", " - ");
-		return s;
+	
+	
+	private void setCommonProperty(String key) {
+		setProperty(key,Placeholders.getDocumentInfo( document, key) );
+		
 	}
+	
 	
 	/**
 	 * Fill the property list with the placeholder values
 	 */
 	private void setCommonProperties() {
 
-		if (document != null) {
-			document.calculate();
-			setProperty("DOCUMENT.DATE", document.getFormatedStringValueByKey("date"));
-			setProperty("DOCUMENT.ADDRESSES.EQUAL", ((Boolean)document.deliveryAddressEqualsBillingAddress()).toString());
-			
-			// Get address and delivery address
-			// with option "INONELINE" and without
-			// with option "DIFFERENT" and without
-			String deliverystring;
-			String inonelinestring;
-			String differentstring;
-			// address and delivery address
-			for (int i = 0;i<2 ; i++) {
-				if (i==1)
-					deliverystring = "delivery";
-				else
-					deliverystring = "";
-				
-				// with option "INONELINE" and without
-				for (int i2 = 0; i2<2; i2++) {
-					if (i2==1)
-						inonelinestring = ".INONELINE";
-					else
-						inonelinestring = "";
-					String s = document.getStringValueByKey(deliverystring + "address");
-					if (i2==1)
-						s = StringInOneLine(s);
-					
-					//  with option "DIFFERENT" and without
-					for (int i3 = 0 ; i3<2; i3++) {
-						if (i3==1)
-							differentstring = ".DIFFERENT";
-						else
-							differentstring = "";
-						if (i3==1) {
-							if (document.deliveryAddressEqualsBillingAddress())
-								s="";
-						}
-						setProperty("DOCUMENT" + differentstring +"."+ deliverystring.toUpperCase()+ "ADDRESS" + inonelinestring, s);
-						
-					}
-				}
-			}
-			
-			
-			setProperty("DOCUMENT.TYPE", DocumentType.getString(document.getIntValueByKey("category")));
-			setProperty("DOCUMENT.NAME", document.getStringValueByKey("name"));
-			setProperty("DOCUMENT.CUSTOMERREF", document.getStringValueByKey("customerref"));
-			setProperty("DOCUMENT.SERVICEDATE", document.getFormatedStringValueByKey("servicedate"));
-			setProperty("DOCUMENT.MESSAGE", document.getStringValueByKey("message"));
-			setProperty("DOCUMENT.MESSAGE1", document.getStringValueByKey("message"));
-			setProperty("DOCUMENT.MESSAGE2", document.getStringValueByKey("message2"));
-			setProperty("DOCUMENT.MESSAGE3", document.getStringValueByKey("message3"));
-			setProperty("DOCUMENT.TRANSACTION", document.getStringValueByKey("transaction"));
-			setProperty("DOCUMENT.INVOICE", document.getStringValueByKeyFromOtherTable("invoiceid.DOCUMENTS:name"));
-			setProperty("DOCUMENT.WEBSHOP.ID", document.getStringValueByKey("webshopid"));
-			setProperty("DOCUMENT.WEBSHOP.DATE", document.getFormatedStringValueByKey("webshopdate"));
-			setProperty("DOCUMENT.ORDER.DATE", document.getFormatedStringValueByKey("orderdate"));
-			setProperty("DOCUMENT.ITEMS.GROSS", document.getSummary().getItemsGross().asFormatedRoundedString());
-			setProperty("DOCUMENT.ITEMS.NET", document.getSummary().getItemsNet().asFormatedRoundedString());
-			setProperty("DOCUMENT.TOTAL.VAT", document.getSummary().getTotalVat().asFormatedRoundedString());
-			setProperty("DOCUMENT.TOTAL.GROSS", document.getSummary().getTotalGross().asFormatedString());
-			setProperty("ITEMS.DISCOUNT.PERCENT", document.getFormatedStringValueByKey("itemsdiscount"));
-			setProperty("ITEMS.DISCOUNT.NET", document.getSummary().getDiscountNet().asFormatedRoundedString());
-			setProperty("ITEMS.DISCOUNT.GROSS", document.getSummary().getDiscountGross().asFormatedRoundedString());
-			setProperty("SHIPPING.NET", document.getSummary().getShippingNet().asFormatedString());
-			setProperty("SHIPPING.VAT", document.getSummary().getShippingVat().asFormatedString());
-			setProperty("SHIPPING.GROSS", document.getSummary().getShippingGross().asFormatedString());
-			setProperty("SHIPPING.NAME", document.getStringValueByKey("shippingname"));
-			setProperty("SHIPPING.DESCRIPTION", document.getStringValueByKey("shippingdescription"));
-			setProperty("SHIPPING.VAT.DESCRIPTION", document.getStringValueByKey("shippingvatdescription"));
-			setProperty("DOCUMENT.DUNNING.LEVEL", document.getStringValueByKey("dunninglevel"));
-			
-			
-			// Replace the placeholders in the payment text
-			String pamenttext = document.getStringValueByKey("paymenttext");
-			pamenttext = pamenttext.replace("<PAID.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
-			pamenttext = pamenttext.replace("<PAID.DATE>", document.getFormatedStringValueByKey("paydate"));
-			pamenttext = pamenttext.replace("<DUE.DAYS>", Integer.toString(document.getIntValueByKey("duedays")));
-			pamenttext = pamenttext.replace("<DUE.DATE>", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
-			
-			// 2011-06-24 sbauer@eumedio.de
-			// New placeholder for bank
-			if (contact != null) {
-				pamenttext = pamenttext.replace("<BANK.ACCOUNT.HOLDER>", contact.getStringValueByKey("account_holder"));
-				pamenttext = pamenttext.replace("<BANK.ACCOUNT>", contact.getStringValueByKey("account"));
-				pamenttext = pamenttext.replace("<BANK.CODE>", contact.getStringValueByKey("bank_code"));
-				pamenttext = pamenttext.replace("<BANK.NAME>", contact.getStringValueByKey("bank_name"));
-				
-				// 2011-06-24 sbauer@eumedio.de
-				// Additional placeholer for censored bank account
-				Integer bankAccountLength = contact.getStringValueByKey("account").length();
-				
-				// Only set placeholder if bank account exists
-				if( bankAccountLength > 0 ) {
-					
-					// Show only the last 3 digits
-					Integer bankAccountCensoredLength = bankAccountLength - 3;
-					String censoredDigits = "";
-					
-					for( int i = 1; i <= bankAccountCensoredLength; i++ ) {
-						censoredDigits += "*";
-					}
-					
-					pamenttext = pamenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredDigits + contact.getStringValueByKey("account").substring( bankAccountCensoredLength ));
-					
-				}
-			}
+		if (document == null)
+			return;
+		
+		document.calculate();
 
-			
-			// 2011-06-24 sbauer@eumedio.de
-			// New placeholder for total sum
-			pamenttext = pamenttext.replace("<DOCUMENT.TOTAL>", document.getSummary().getTotalGross().asFormatedString());
-			
-			setProperty("PAYMENT.TEXT", pamenttext);
-			//setProperty("PAYMENT.NAME", document.getStringValueByKey("paymentname"));
-			setProperty("PAYMENT.DESCRIPTION", document.getStringValueByKey("paymentdescription"));
-			setProperty("PAYMENT.PAID.VALUE", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
-			setProperty("PAYMENT.PAID.DATE", document.getFormatedStringValueByKey("paydate"));
-			setProperty("PAYMENT.DUE.DAYS", Integer.toString(document.getIntValueByKey("duedays")));
-			setProperty("PAYMENT.DUE.DATE",
-					DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
-			setProperty("PAYMENT.PAID", document.getStringValueByKey("paid"));
-		}
-
-		if (contact != null) {
-			setProperty("ADDRESS", contact.getAddress(false));
-			setProperty("ADDRESS.GENDER", contact.getGenderString(false));
-			setProperty("ADDRESS.GREETING", contact.getGreeting(false));
-			setProperty("ADDRESS.TITLE", contact.getStringValueByKey("title"));
-			setProperty("ADDRESS.FIRSTNAME", contact.getStringValueByKey("firstname"));
-			setProperty("ADDRESS.LASTNAME", contact.getStringValueByKey("name"));
-			setProperty("ADDRESS.NAME", contact.getStringValueByKey("name"));
-			setProperty("ADDRESS.COMPANY", contact.getStringValueByKey("company"));
-			setProperty("ADDRESS.STREET", contact.getStringValueByKey("street"));
-			setProperty("ADDRESS.ZIP", contact.getStringValueByKey("zip"));
-			setProperty("ADDRESS.CITY", contact.getStringValueByKey("city"));
-			setProperty("ADDRESS.COUNTRY", contact.getStringValueByKey("country"));
-			setProperty("DELIVERY.ADDRESS", contact.getAddress(true));
-			setProperty("DELIVERY.ADDRESS.GENDER", contact.getGenderString(true));
-			setProperty("DELIVERY.ADDRESS.GREETING", contact.getGreeting(true));
-			setProperty("DELIVERY.ADDRESS.TITLE", contact.getStringValueByKey("delivery_title"));
-			setProperty("DELIVERY.ADDRESS.FIRSTNAME", contact.getStringValueByKey("delivery_firstname"));
-			setProperty("DELIVERY.ADDRESS.NAME", contact.getStringValueByKey("delivery_name"));
-			setProperty("DELIVERY.ADDRESS.COMPANY", contact.getStringValueByKey("delivery_company"));
-			setProperty("DELIVERY.ADDRESS.STREET", contact.getStringValueByKey("delivery_street"));
-			setProperty("DELIVERY.ADDRESS.ZIP", contact.getStringValueByKey("delivery_zip"));
-			setProperty("DELIVERY.ADDRESS.CITY", contact.getStringValueByKey("delivery_city"));
-			setProperty("DELIVERY.ADDRESS.COUNTRY", contact.getStringValueByKey("delivery_country"));
-			setProperty("ADDRESS.BANK.ACCOUNT.HOLDER", contact.getStringValueByKey("account_holder"));
-			setProperty("ADDRESS.BANK.ACCOUNT", contact.getStringValueByKey("account"));
-			setProperty("ADDRESS.BANK.CODE", contact.getStringValueByKey("bank_code"));
-			setProperty("ADDRESS.BANK.NAME", contact.getStringValueByKey("bank_name"));
-			setProperty("ADDRESS.BANK.IBAN", contact.getStringValueByKey("iban"));
-			setProperty("ADDRESS.BANK.BIC", contact.getStringValueByKey("bic"));
-			setProperty("ADDRESS.NR", contact.getStringValueByKey("nr"));
-			setProperty("ADDRESS.PHONE", contact.getStringValueByKey("phone"));
-			setProperty("ADDRESS.FAX", contact.getStringValueByKey("fax"));
-			setProperty("ADDRESS.MOBILE", contact.getStringValueByKey("mobile"));
-			setProperty("ADDRESS.EMAIL", contact.getStringValueByKey("email"));
-			setProperty("ADDRESS.WEBSITE", contact.getStringValueByKey("website"));
-			setProperty("ADDRESS.VATNR", contact.getStringValueByKey("vatnr"));
-			setProperty("ADDRESS.NOTE", contact.getStringValueByKey("note"));
-			setProperty("ADDRESS.DISCOUNT", contact.getFormatedStringValueByKey("discount"));
-		}
-		else {
-			setProperty("ADDRESS", "");
-			setProperty("ADDRESS.GENDER", "");
-			setProperty("ADDRESS.GREETING", DataSetContact.getCommonGreeting());
-			setProperty("ADDRESS.TITLE", "");
-			setProperty("ADDRESS.FIRSTNAME", "");
-			setProperty("ADDRESS.NAME", "");
-			setProperty("ADDRESS.LASTNAME", "");
-			setProperty("ADDRESS.COMPANY", "");
-			setProperty("ADDRESS.STREET", "");
-			setProperty("ADDRESS.ZIP", "");
-			setProperty("ADDRESS.CITY", "");
-			setProperty("ADDRESS.COUNTRY", "");
-			setProperty("DELIVERY.ADDRESS", "");
-			setProperty("DELIVERY.ADDRESS.GENDER", "");
-			setProperty("DELIVERY.ADDRESS.GREETING", DataSetContact.getCommonGreeting());
-			setProperty("DELIVERY.ADDRESS.TITLE", "");
-			setProperty("DELIVERY.ADDRESS.FIRSTNAME", "");
-			setProperty("DELIVERY.ADDRESS.NAME", "");
-			setProperty("DELIVERY.ADDRESS.COMPANY", "");
-			setProperty("DELIVERY.ADDRESS.STREET", "");
-			setProperty("DELIVERY.ADDRESS.ZIP", "");
-			setProperty("DELIVERY.ADDRESS.CITY", "");
-			setProperty("DELIVERY.ADDRESS.COUNTRY", "");
-			setProperty("ADDRESS.BANK.ACCOUNT.HOLDER", "");
-			setProperty("ADDRESS.BANK.ACCOUNT", "");
-			setProperty("ADDRESS.BANK.CODE", "");
-			setProperty("ADDRESS.BANK.NAME", "");
-			setProperty("ADDRESS.BANK.IBAN", "");
-			setProperty("ADDRESS.BANK.BIC", "");
-			setProperty("ADDRESS.NR", "");
-			setProperty("ADDRESS.PHONE", "");
-			setProperty("ADDRESS.FAX", "");
-			setProperty("ADDRESS.MOBILE", "");
-			setProperty("ADDRESS.EMAIL", "");
-			setProperty("ADDRESS.WEBSITE", "");
-			setProperty("ADDRESS.VATNR", "");
-			setProperty("ADDRESS.NOTE", "");
-			setProperty("ADDRESS.DISCOUNT", "");
-
+		// Get all placeholders and set them
+		for (String placeholder: Placeholders.getPlaceholders()) {
+			setCommonProperty(placeholder);
 		}
 
 	}

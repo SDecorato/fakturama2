@@ -20,20 +20,29 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
+import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
+import com.sebulli.fakturama.editors.BrowserEditor;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
 import com.sebulli.fakturama.editors.ParcelServiceBrowserEditor;
 import com.sebulli.fakturama.editors.ParcelServiceBrowserEditorInput;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.parcelService.ParcelServiceManager;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 
@@ -46,6 +55,8 @@ public class OpenParcelServiceAction extends Action {
 
 	private DocumentEditor documentEditor;
 
+	private DataSetDocument dataSetDocument = null;
+	
 	/**
 	 * Constructor
 	 */
@@ -79,15 +90,17 @@ public class OpenParcelServiceAction extends Action {
 		if (!DataBaseConnectionState.INSTANCE.isConnected())
 			return;
 
-		DataSetDocument dataSetDocument = null;
+		
+		BrowserEditor browserEditor = null;
 		
 		// Get the active workbench window
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		IWorkbenchPage page = workbenchWindow.getActivePage();
+		final IWorkbenchPage page = workbenchWindow.getActivePage();
 		// Get the active part (view)
 		IWorkbenchPart part = null;
 		if (page != null)
 			part = page.getActivePart();
+
 		
 		// Get the active editor
 		Editor editor = (Editor) page.getActiveEditor();
@@ -105,6 +118,10 @@ public class OpenParcelServiceAction extends Action {
 
 				// Get the document of the editor
 				dataSetDocument = documentEditor.getDocument();
+			}
+			
+			if (editor instanceof BrowserEditor) {
+				browserEditor = (BrowserEditor)editor;
 			}
 		}
 		else if (part != null){
@@ -134,29 +151,56 @@ public class OpenParcelServiceAction extends Action {
 			}
 		}
 
+		
+		
 		// Set the editor's input and open a new editor 
 		if (dataSetDocument != null) {
 			if (dataSetDocument instanceof DataSetDocument) {
+				
+				String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+				
+				//T: Folder name of the parcel service. MUST BE ONE WORD 
+				String templatePath = workspace + "/" + Workspace.INSTANCE.getTemplateFolderName() + "/" + _("ParcelService") + "/";
 
-				// Sets the document with the address data as input for the editor.
-				ParcelServiceBrowserEditorInput input = new ParcelServiceBrowserEditorInput(dataSetDocument);
+				final ParcelServiceManager parcelServiceManager = new ParcelServiceManager(templatePath);
 
-				// Open the editor
-				try {
-					if (page != null) {
 
-						// If the browser editor is already open, reset the URL
-						ParcelServiceBrowserEditor parcelServiceBrowserEditor = (ParcelServiceBrowserEditor) page.findEditor(input);
-						if (parcelServiceBrowserEditor != null)
-							parcelServiceBrowserEditor.resetUrl();
-
-						page.openEditor(input, ParcelServiceBrowserEditor.ID);
+				if (parcelServiceManager.size() > 1) {
+					Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+					Menu menu = new Menu(shell, SWT.POP_UP);
+					for (int i = 0; i < parcelServiceManager.size(); i++) {
+						final MenuItem item = new MenuItem(menu, SWT.PUSH);
+						item.setText(parcelServiceManager.getName(i));
+						item.setData(i);
+						item.addListener(SWT.Selection, new Listener() {
+							public void handleEvent(Event e) {
+								// open the parcel service browser
+								parcelServiceManager.setActive((Integer) item.getData());
+								ParcelServiceBrowserEditorInput input = new ParcelServiceBrowserEditorInput(dataSetDocument, parcelServiceManager );
+								openParcelServiceBrowser(page, input);
+							}
+						});
 					}
+
+					// Set the location of the pup up menu near to the upper left corner,
+					// but with an gap, so it should be under the tool bar icon of this action.
+					int x = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay().getCursorLocation().x;
+					int y = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell().getDisplay().getCursorLocation().y;
+					
+					menu.setLocation(x + 4, y + 4);
+					menu.setVisible(true);
+				} else if (parcelServiceManager.size() == 1){
+					ParcelServiceBrowserEditorInput input = new ParcelServiceBrowserEditorInput(dataSetDocument, parcelServiceManager);
+					openParcelServiceBrowser(page, input);
 				}
-				catch (PartInitException e) {
-					Logger.logError(e, "Error opening Editor: " + ParcelServiceBrowserEditor.ID);
-				}
+					
+
+
 			}
+		}
+		else if (browserEditor != null ){
+			// Test the form fields
+			browserEditor.testParcelServiceForm();
 		}
 		else {
 			// Show an information dialog, if no document is selected
@@ -167,5 +211,25 @@ public class OpenParcelServiceAction extends Action {
 			messageBox.setMessage(_("You have to open or select a document."));
 			messageBox.open();
 		}
+	}
+	
+	private void openParcelServiceBrowser (IWorkbenchPage page, ParcelServiceBrowserEditorInput input) {
+		// Open the editor
+		try {
+			if (page != null) {
+
+				// If the browser editor is already open, reset the URL
+				ParcelServiceBrowserEditor parcelServiceBrowserEditor = (ParcelServiceBrowserEditor) page.findEditor(input);
+				if (parcelServiceBrowserEditor != null)
+					parcelServiceBrowserEditor.resetUrl();
+
+				page.openEditor(input, ParcelServiceBrowserEditor.ID);
+			}
+		}
+		catch (PartInitException e) {
+			Logger.logError(e, "Error opening Editor: " + ParcelServiceBrowserEditor.ID);
+		}
+		
+		
 	}
 }

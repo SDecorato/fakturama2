@@ -14,11 +14,14 @@
 
 package com.sebulli.fakturama.editors;
 
+import java.util.Properties;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
 import com.sebulli.fakturama.data.DataSetDocument;
+import com.sebulli.fakturama.parcelService.ParcelServiceManager;
 
 /**
  * Browser editor input
@@ -29,7 +32,18 @@ public class ParcelServiceBrowserEditorInput implements IEditorInput {
 
 	String url = "";
 	String name = "";
+	ParcelServiceManager parcelServiceManager;
 	DataSetDocument document;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param parent
+	 *            a parent ParcelServiceBrowserEditorInput
+	 */
+	public ParcelServiceBrowserEditorInput(ParcelServiceBrowserEditorInput parent) {
+		this(parent.getDocument(), parent.getParcelServiceManager());
+	}
 
 	/**
 	 * Constructor
@@ -37,8 +51,9 @@ public class ParcelServiceBrowserEditorInput implements IEditorInput {
 	 * @param document
 	 *            The document with the address data
 	 */
-	public ParcelServiceBrowserEditorInput(DataSetDocument document) {
+	public ParcelServiceBrowserEditorInput(DataSetDocument document, ParcelServiceManager parcelServiceManager) {
 		this.document = document;
+		this.parcelServiceManager = parcelServiceManager;
 	}
 
 
@@ -148,5 +163,14 @@ public class ParcelServiceBrowserEditorInput implements IEditorInput {
 	 */
 	public DataSetDocument getDocument() {
 		return this.document;
+	}
+	
+	
+	public ParcelServiceManager getParcelServiceManager () {
+		return parcelServiceManager;
+	}
+	
+	public Properties getProperties () {
+		return parcelServiceManager.getProperties();
 	}
 }
