@@ -1,0 +1,53 @@
+# Name and URL of the parcel service
+name = myHermes.de
+url = https://www.myhermes.de/wps/portal/PRIPS_DEU/PAKETVERSAND
+
+
+absender(NACHNAME)     = YOURCOMPANY.NAME
+absender(ADRESSZUSATZ) = YOURCOMPANY.OWNER
+absender(STRASSE)      = YOURCOMPANY.STREET.NAME
+absender(HAUSNUMMER)   = YOURCOMPANY.STREET.NO
+absender(PLZ)          = YOURCOMPANY.ZIP
+absender(ORT)          = YOURCOMPANY.CITY
+absender(EMAIL)        = YOURCOMPANY.EMAIL
+
+consigneeCompanyName     = RECEIVER.COMPANY
+empfaenger(VORNAME)      = RECEIVER.FIRSTNAME
+empfaenger(NACHNAME)     = RECEIVER.LASTNAME
+empfaenger(ADRESSZUSATZ) = RECEIVER.ADDRESSFIRSTLINE
+empfaenger(STRASSE)      = RECEIVER.STREET.NAME
+empfaenger(HAUSNUMMER)   = RECEIVER.STREET.NO
+empfaenger(PLZ)          = RECEIVER.ZIP
+empfaenger(ORT)          = RECEIVER.CITY
+empfaenger(LAND)         = RECEIVER.COUNTRY
+
+
+
+# Possible values for sender address:
+# 
+# YOURCOMPANY.COMPANY          (eg: Fakturama Inc. )
+# YOURCOMPANY.OWNER            (eg: Lisa Lauser    )
+# YOURCOMPANY.OWNER.FIRSTNAME  (eg: Lisa           )
+# YOURCOMPANY.OWNER.LASTNAME   (eg: Lauser         )
+# YOURCOMPANY.STREET           (eg: Bakerstreet 42 )
+# YOURCOMPANY.STREET.NAME      (eg: Bakerstreet    )
+# YOURCOMPANY.STREET.NO        (eg: 42             )
+# YOURCOMPANY.ZIP              (eg: 54321          )
+# YOURCOMPANY.CITY             (eg: Newtown        )
+# YOURCOMPANY.EMAIL            (eg: mail@mail.com  )
+# YOURCOMPANY.COUNTRY          (eg: Germany        )
+# 
+# Possible values for receiver address:
+# 
+# RECEIVER.COMPANY             (eg: Customer Lt.   )
+# RECEIVER.ADDRESSFIRSTLINE    (eg: Max Mustermann )
+# RECEIVER.FIRSTNAME           (eg: Max            )
+# RECEIVER.LASTNAME            (eg: Mustermann     )
+# RECEIVER.STREET              (eg: Mainstreet 99  )
+# RECEIVER.STREET.NAME         (eg: Mainstreet     )
+# RECEIVER.STREET.NO           (eg: 99             )
+# RECEIVER.ZIP                 (eg: 12345          )
+# RECEIVER.CITY                (eg: Oldtown        )
+# RECEIVER.EMAIL               (eg: lisa@mail.com  )
+# RECEIVER.COUNTRY             (eg: Germany        )
+ 

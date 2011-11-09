@@ -67,6 +67,9 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_CITY", _("City"), getFieldEditorParent()));
 
 		//T: Preference page "Your company"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_COUNTRY", _("Country"), getFieldEditorParent()));
+
+		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_TEL", _("Telephone"), getFieldEditorParent()));
 
 		//T: Preference page "Your company"
@@ -107,6 +110,7 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_STREET", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_ZIP", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_CITY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_COUNTRY", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_TEL", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_FAX", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_EMAIL", write);

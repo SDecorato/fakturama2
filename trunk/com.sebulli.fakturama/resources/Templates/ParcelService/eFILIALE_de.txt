@@ -1,0 +1,53 @@
+# Name and URL of the parcel service
+name = eFILIALE.de
+url = https://www.efiliale.de/efiliale/pop/produktauswahl.jsp
+
+senderCompanyName     = YOURCOMPANY.NAME
+senderFirstName       = YOURCOMPANY.OWNER.FIRSTNAME
+senderLastName        = YOURCOMPANY.OWNER.LASTNAME
+senderAddressLine1    = YOURCOMPANY.OWNER
+senderAddressStreet   = YOURCOMPANY.STREET.NAME
+senderAddressHouseNo  = YOURCOMPANY.STREET.NO
+senderPLZ             = YOURCOMPANY.ZIP
+senderOrt             = YOURCOMPANY.CITY
+
+consigneeCompanyName    = RECEIVER.COMPANY
+consigneeFirstName      = RECEIVER.FIRSTNAME
+consigneeLastName       = RECEIVER.LASTNAME
+consigneeAddressLine1   = RECEIVER.ADDRESSFIRSTLINE
+consigneeAddressStreet  = RECEIVER.STREET.NAME
+consigneeAddressHouseNo = RECEIVER.STREET.NO
+consigneePLZ            = RECEIVER.ZIP
+consigneeOrt            = RECEIVER.CITY
+receiverCountry         = RECEIVER.COUNTRY
+
+
+
+# Possible values for sender address:
+# 
+# YOURCOMPANY.COMPANY          (eg: Fakturama Inc. )
+# YOURCOMPANY.OWNER            (eg: Lisa Lauser    )
+# YOURCOMPANY.OWNER.FIRSTNAME  (eg: Lisa           )
+# YOURCOMPANY.OWNER.LASTNAME   (eg: Lauser         )
+# YOURCOMPANY.STREET           (eg: Bakerstreet 42 )
+# YOURCOMPANY.STREET.NAME      (eg: Bakerstreet    )
+# YOURCOMPANY.STREET.NO        (eg: 42             )
+# YOURCOMPANY.ZIP              (eg: 54321          )
+# YOURCOMPANY.CITY             (eg: Newtown        )
+# YOURCOMPANY.EMAIL            (eg: mail@mail.com  )
+# YOURCOMPANY.COUNTRY          (eg: Germany        )
+# 
+# Possible values for receiver address:
+# 
+# RECEIVER.COMPANY             (eg: Customer Lt.   )
+# RECEIVER.NAME                (eg: Max Mustermann )
+# RECEIVER.FIRSTNAME           (eg: Max            )
+# RECEIVER.LASTNAME            (eg: Mustermann     )
+# RECEIVER.STREET              (eg: Mainstreet 99  )
+# RECEIVER.STREET.NAME         (eg: Mainstreet     )
+# RECEIVER.STREET.NO           (eg: 99             )
+# RECEIVER.ZIP                 (eg: 12345          )
+# RECEIVER.CITY                (eg: Oldtown        )
+# RECEIVER.EMAIL               (eg: lisa@mail.com  )
+# RECEIVER.COUNTRY             (eg: Germany        )
+ 

@@ -14,8 +14,6 @@
 
 package com.sebulli.fakturama.editors;
 
-import static com.sebulli.fakturama.Translate._;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -34,10 +32,10 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.parcelService.ParcelServiceFormFiller;
+import com.sebulli.fakturama.parcelService.ParcelServiceManager;
 
 /**
  * Parcel Service Web Browser Editor
@@ -46,12 +44,12 @@ import com.sebulli.fakturama.parcelService.ParcelServiceFormFiller;
  */
 public class ParcelServiceBrowserEditor extends Editor {
 	public static final String ID = "com.sebulli.fakturama.editors.parcelServiceBrowserEditor";
-	private String url;
 
 	// SWT components of the editor
 	private Composite top;
 	private Browser browser;
 	private ParcelServiceBrowserEditor editor;
+	private ParcelServiceManager manager;
 	
 	// The form filler
 	private ParcelServiceFormFiller parcelServiceFormFiller;
@@ -94,33 +92,10 @@ public class ParcelServiceBrowserEditor extends Editor {
 		setInput(input);
 		
 		parcelServiceFormFiller = new ParcelServiceFormFiller();
-		
-		String name;
+		manager = ((ParcelServiceBrowserEditorInput)input).getParcelServiceManager();
 
-		// Get the default URL
-		url = Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_URL");
-		//T: Title of the editor window
-		name = _("Parcel Service");
-		
-		// Get the parcel service provider
-		String provider = Activator.getDefault().getPreferenceStore().getString("PARCEL_SERVICE_PROVIDER");
-
-		if (provider.equals("EFILIALE.DE") || provider.equals("DHL")) {
-			name = "eFILIALE";
-			url = "https://www.efiliale.de/efiliale/pop/produktauswahl.jsp";
-		}
-		
-		if (provider.equals("DHL.DE")) {
-			name = "DHL.de";
-			url = "https://www.dhl.de/popweb/ProductOrder.do";
-		}
-
-		if (provider.equalsIgnoreCase("HERMES")) {
-			name = "Hermes";
-			url = "https://www.myhermes.de/wps/portal/PRIPS_DEU/PAKETVERSAND";
-		}
-
-		setPartName(name);
+		// Set the name
+		setPartName(manager.getName());
 		editor = this;
 	}
 
@@ -185,7 +160,7 @@ public class ParcelServiceBrowserEditor extends Editor {
 			GridDataFactory.fillDefaults().grab(true, true).applyTo(browser);
 
 			// Open the web site: URL
-			browser.setUrl(url);
+			browser.setUrl(manager.getUrl());
 			
 			browser.addOpenWindowListener(new OpenWindowListener() {
 				public void open(WindowEvent event) {
@@ -193,7 +168,8 @@ public class ParcelServiceBrowserEditor extends Editor {
 					if (!event.required) return;	/* only do it if necessary */
 					
 					// Sets the document with the address data as input for the editor.
-					ParcelServiceBrowserEditorInput input = new ParcelServiceBrowserEditorInput(((ParcelServiceBrowserEditorInput)editor.getEditorInput()).getDocument());
+					ParcelServiceBrowserEditorInput parent = (ParcelServiceBrowserEditorInput)editor.getEditorInput();
+					ParcelServiceBrowserEditorInput input = new ParcelServiceBrowserEditorInput(parent);
 
 					// Open the editor
 					try {
@@ -237,7 +213,7 @@ public class ParcelServiceBrowserEditor extends Editor {
 
 		// set the URL
 		if (browser != null)
-			browser.setUrl(url);
+			browser.setUrl(manager.getUrl());
 	}
 
 	

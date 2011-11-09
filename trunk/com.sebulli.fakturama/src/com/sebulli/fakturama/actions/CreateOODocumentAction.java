@@ -31,6 +31,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.TemplateFilename;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
@@ -38,7 +39,6 @@ import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
 import com.sebulli.fakturama.openoffice.OODocument;
 import com.sebulli.fakturama.openoffice.OOManager;
-import com.sebulli.fakturama.openoffice.OOTemplateFilename;
 
 /**
  * This action starts the OpenOffice exporter. If there is more than one
@@ -48,8 +48,8 @@ import com.sebulli.fakturama.openoffice.OOTemplateFilename;
  */
 public class CreateOODocumentAction extends Action {
 
-	private ArrayList<OOTemplateFilename> templates = new ArrayList<OOTemplateFilename>();
-	private OOTemplateFilename template;
+	private ArrayList<TemplateFilename> templates = new ArrayList<TemplateFilename>();
+	private TemplateFilename template;
 	private DocumentEditor documentEditor;
 
 	/**
@@ -91,7 +91,7 @@ public class CreateOODocumentAction extends Action {
 		if (children != null) {
 			for (int i = 0; i < children.length; i++) {
 				// Get filename of file or directory
-				OOTemplateFilename oOTemplateFilename = new OOTemplateFilename(templatePath, children[i]);
+				TemplateFilename oOTemplateFilename = new TemplateFilename(templatePath, children[i]);
 				if (oOTemplateFilename.getExtension().equalsIgnoreCase(".ott"))
 					templates.add(oOTemplateFilename);
 			}

@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.openoffice;
+package com.sebulli.fakturama;
 
 /**
  * This class provides functionality to get the path, the filename and the
@@ -20,7 +20,7 @@ package com.sebulli.fakturama.openoffice;
  * 
  * @author Gerd Bartelt
  */
-public class OOTemplateFilename {
+public class TemplateFilename {
 
 	// Path, name and extension of the filename
 	private String path;
@@ -35,7 +35,7 @@ public class OOTemplateFilename {
 	 * @param filename
 	 *            The file name with extension
 	 */
-	public OOTemplateFilename(String path, String filename) {
+	public TemplateFilename(String path, String filename) {
 		this.path = path;
 		int pPos = filename.lastIndexOf(".");
 		if (pPos > 0) {
