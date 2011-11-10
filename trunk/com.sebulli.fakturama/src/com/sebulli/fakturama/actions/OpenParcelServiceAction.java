@@ -122,6 +122,7 @@ public class OpenParcelServiceAction extends Action {
 			
 			if (editor instanceof BrowserEditor) {
 				browserEditor = (BrowserEditor)editor;
+				dataSetDocument = null;
 			}
 		}
 		else if (part != null){
@@ -164,10 +165,15 @@ public class OpenParcelServiceAction extends Action {
 
 				final ParcelServiceManager parcelServiceManager = new ParcelServiceManager(templatePath);
 
-
+				// Are there more than one parcel services ?
+				// Display a menu with all.
 				if (parcelServiceManager.size() > 1) {
+
+					// Create a menu
 					Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 					Menu menu = new Menu(shell, SWT.POP_UP);
+					
+					// Add an entry for each parcel service
 					for (int i = 0; i < parcelServiceManager.size(); i++) {
 						final MenuItem item = new MenuItem(menu, SWT.PUSH);
 						item.setText(parcelServiceManager.getName(i));
@@ -189,7 +195,9 @@ public class OpenParcelServiceAction extends Action {
 					
 					menu.setLocation(x + 4, y + 4);
 					menu.setVisible(true);
-				} else if (parcelServiceManager.size() == 1){
+				} 
+				// There is only one parcel service. Do not show a menu
+				else if (parcelServiceManager.size() == 1){
 					ParcelServiceBrowserEditorInput input = new ParcelServiceBrowserEditorInput(dataSetDocument, parcelServiceManager);
 					openParcelServiceBrowser(page, input);
 				}
@@ -213,6 +221,14 @@ public class OpenParcelServiceAction extends Action {
 		}
 	}
 	
+	/**
+	 * Open a new browser editor with the parcel service's web site
+	 * 
+	 * @param page
+	 * 	Workbench page
+	 * @param input
+	 * 	Parcel service browser editor input
+	 */
 	private void openParcelServiceBrowser (IWorkbenchPage page, ParcelServiceBrowserEditorInput input) {
 		// Open the editor
 		try {
