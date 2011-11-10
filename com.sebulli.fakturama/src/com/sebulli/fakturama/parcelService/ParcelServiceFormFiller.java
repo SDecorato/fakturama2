@@ -14,12 +14,23 @@
 
 package com.sebulli.fakturama.parcelService;
 
+import static com.sebulli.fakturama.Translate._;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.ui.IEditorInput;
 
+import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.OSDependent;
+import com.sebulli.fakturama.Workspace;
+import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.Placeholders;
 import com.sebulli.fakturama.editors.ParcelServiceBrowserEditorInput;
@@ -32,11 +43,13 @@ import com.sebulli.fakturama.editors.ParcelServiceBrowserEditorInput;
  */
 public class ParcelServiceFormFiller {
 	
+	// The webbrowser
 	private Browser browser;
 	
+	// String that contains the name of all form fields
 	private String allFields = null;
 	
-	
+	// True, if form was filled
 	private boolean filled;
 
 	
@@ -166,33 +179,7 @@ public class ParcelServiceFormFiller {
 	 * @return
 	 * 		TRUE, if it exists.
 	 */
-	/*
-	private boolean formFieldExists (String fieldName) {
-		
-		// Script that counts the fields with this name
-		String script = "" +
-			"function getNumberOfFields() {"+
-			"  var cnt = 0;" +
-			"  documentForms = document.getElementsByTagName('form');" +
-			"  for (var i = 0; i < documentForms.length; i++) {" +
-			"    for(var ii = 0; ii < documentForms[i].elements.length; ii++) {" +
-			"      if (documentForms[i].elements[ii].name == '" + fieldName +"') {" +
-			"        cnt++;" +
-			"      }" + 
-			"    }" +
-			"  }" +
-			" return String(cnt);" +
-			"};" +
-			"return getNumberOfFields();"; 
 
-			// Convert the result to an integer
-			String value = (String)browser.evaluate(script);
-			Integer ivalue = Integer.valueOf(value);  
-			
-			// It exists, if there is at least one value
-			return (ivalue >= 1);
-	}
-	*/
 	
 	
 	/**
@@ -231,5 +218,174 @@ public class ParcelServiceFormFiller {
 
 		}
 	}
+	
+	/**
+	 * 
+	 * @param title
+	 * 		Title of the website
+	 * @return
+	 * 		The file name
+	 */
+	private static String getParcelServiceFileName(String title) {
+		// Get the directory of the workspace
+		String filename = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+
+		// Do not save parcel service files, if there is no workspace set
+		if (filename.isEmpty())
+			return "";
+
+		// Do not save  parcel service files, if workspace is not created
+		File directory = new File(filename);
+		if (!directory.exists())
+			return "";
+
+		// Create a sub folder "ParcelService", if it does not exist yet.
+		//T: Folder name of the parcel service. MUST BE ONE WORD 
+
+		filename += "/" + Workspace.INSTANCE.getTemplateFolderName() + "/" + _("ParcelService") + "/";
+		directory = new File(filename);
+		if (!directory.exists())
+			directory.mkdirs();
+
+		if (new File(filename + title+".txt").exists()) {
+			// Add date and time, if file exists
+			title+= "_"+DataUtils.DateAndTimeOfNowAsISO8601String();
+			title = title.replaceAll(":", "");
+			title = title.replaceAll(" ", "_");
+			title = title.replaceAll("\\.", "");
+		}
+
+		filename += title+".txt";
+
+		return filename;
+	}
+
+	
+	
+	/**
+	 * Test the parcel service form.
+	 * Fills all form elements with its names and creates a template file.
+	 * 
+	 */
+	public static void testParcelServiceForm(Browser browser) {
+		// Script that counts the fields with this name
+		String script = "" +
+			"function getAllFields() {" +
+			"  var s = ':';"+
+			"  documentForms = document.getElementsByTagName('form');" +
+			"  for (var i = 0; i < documentForms.length; i++) {" +
+			"    for(var ii = 0; ii < documentForms[i].elements.length; ii++) {" +
+			"		var e = documentForms[i].elements[ii];" +
+			"       e.title = e.name; " +
+			"       if ((e.type='text') ||(e.type='textarea')) {" +
+			"         e.value = e.name;" +
+			"         s = s + e.name + ':'" +
+			"       } " + 
+			"    }" +
+			"  }" +
+			"  return s;" +
+			"};" +
+			"return getAllFields();";
+		
+			String result = "";
+		
+			// Get the name of all text form elements
+			if (browser != null) {
+				result = (String)browser.evaluate(script);
+			}
+			
+			// The result string must be at least 10 characters long
+			// If not, this could not be a collection of all form fields of
+			// a parcel service web site
+			if (result.length() > 10) {
+
+				// Get the website's title
+				String title = (String)browser.evaluate("return document.title;");
+				
+				// Generate a file name
+				String filename = getParcelServiceFileName(title);
+
+				// Create a new parcel service template file
+				File file = new File(filename);
+				try {
+					
+					// Create a new file
+					file.createNewFile();
+					BufferedWriter bos = new BufferedWriter(new FileWriter(file, true));
+					
+					// Add name and URL
+					String NL = OSDependent.getNewLine();
+					String s = "# Name and URL of the parcel service:" + NL;
+					s += "name = "+ title + NL;  
+					s += "url  = "+ (String)browser.evaluate("return document.URL.split('?')[0];") + NL + NL;
+					s += "# Fields:"+ NL;
+					bos.write(s);
+
+					// Add all text fields
+					String fieldNames[] = result.split(":");
+					int longestString = 0;
+					for (String fieldName : fieldNames) {
+						if (fieldName.length() > longestString)
+							longestString = fieldName.length();
+					}
+					for (String fieldName : fieldNames) {
+						fieldName = fieldName.trim();
+						if (!fieldName.isEmpty()) {
+							if (longestString > 24)
+								longestString = 24;
+							
+							int l = longestString - fieldName.length();
+							if (l < 0)
+								l = 0;
+							bos.write(fieldName + "                         ".substring(24-l) + "="+ NL);
+						}
+					}
+					
+					// A an additional help text
+					s = NL+ NL+ NL+ NL + "# Syntax:" + NL +
+						"# field = PLACE.HOLDER" + NL +
+						"#" + NL +
+						"# Some of the most significant placeholders are:" + NL + 
+						"#" + NL +
+						"# YOURCOMPANY.COMPANY" + NL +
+						"# YOURCOMPANY.OWNER" + NL +
+						"# YOURCOMPANY.OWNER.FIRSTNAME" + NL +
+						"# YOURCOMPANY.OWNER.LASTNAME" + NL +
+						"# YOURCOMPANY.STREET" + NL +
+						"# YOURCOMPANY.STREETNAME" + NL +
+						"# YOURCOMPANY.STREETNO" + NL +
+						"# YOURCOMPANY.ZIP" + NL +
+						"# YOURCOMPANY.CITY" + NL +
+						"#" + NL +
+						"# DELIVERY.ADDRESS.NAME" + NL +
+						"# DELIVERY.ADDRESS.FIRSTNAME" + NL +
+						"# DELIVERY.ADDRESS.LASTNAME" + NL +
+						"# DELIVERY.ADDRESS.COMPANY" + NL +
+						"# DELIVERY.ADDRESS.STREET" + NL +
+						"# DELIVERY.ADDRESS.STREETNAME" + NL +
+						"# DELIVERY.ADDRESS.STREETNO" + NL +
+						"# DELIVERY.ADDRESS.ZIP" + NL +
+						"# DELIVERY.ADDRESS.CITY" +  NL +
+						"#" + NL +
+						"# Read the manual for all placeholders." + NL;
+					bos.write(s);
+					bos.close();
+					
+					// Show a dialog
+					Workspace.showMessageBox(SWT.OK, 
+							//T: Message box title
+							_("File created"),
+							//T: Message box text
+							_("A new parcel service template:\n") + filename + "\n" + 
+							//T: Message box text
+							_("was created"));
+					
+
+				} catch (IOException e) {
+				}
+			}
+			
+	}
+
 
 }

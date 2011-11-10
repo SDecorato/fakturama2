@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -168,13 +167,11 @@ public class CreateOODocumentAction extends Action {
 				}
 				else {
 					// Show an information dialog, if no template was found
-					MessageBox messageBox = new MessageBox(workbenchWindow.getShell(), SWT.ICON_WARNING | SWT.OK );
-					//T: Title of the dialog 
-					messageBox.setText(_("Information"));
-					//T: Text of the dialog
-					messageBox.setMessage(_("No OpenOffice.org *.ott template found in:\n") + templatePath1);
-					messageBox.open();
-
+					Workspace.showMessageBox(SWT.ICON_WARNING | SWT.OK,
+							//T: Title of the dialog 
+							_("Information"),
+							//T: Text of the dialog
+							"No OpenOffice.org *.ott template found in:\n" + templatePath1);
 				}
 			}
 	}
@@ -185,14 +182,13 @@ public class CreateOODocumentAction extends Action {
 		
 		if (OODocument.testOpenAsExisting(document, template)) {
 			// Show an information dialog, if no template was found
-			MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.CANCEL | SWT.YES | SWT.NO );
+			int answer = Workspace.showMessageBox(SWT.ICON_QUESTION | SWT.CANCEL | SWT.YES | SWT.NO,
 			//T: Title of the dialog 
-			messageBox.setText(_("Information"));
+			_("Information"),
 			//T: Text of the dialog
-			messageBox.setMessage(_("Document has been already printed. Should it be reopened ?\nYES: Reopen it.\nNO: Create a new one."));
+			_("Document has been already printed. Should it be reopened ?\nYES: Reopen it.\nNO: Create a new one.")
+			);
 
-			int answer = messageBox.open();
-			
 			if (answer == SWT.YES)
 				OOManager.INSTANCE.openOODocument(document, template, false);
 			if (answer == SWT.NO)

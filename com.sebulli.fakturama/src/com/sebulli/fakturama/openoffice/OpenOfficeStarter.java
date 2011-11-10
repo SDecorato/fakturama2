@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.PlatformUI;
 
 import ag.ion.bion.officelayer.application.IOfficeApplication;
 import ag.ion.bion.officelayer.application.OfficeApplicationException;
@@ -30,6 +28,7 @@ import ag.ion.bion.officelayer.application.OfficeApplicationRuntime;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -100,18 +99,15 @@ public class OpenOfficeStarter {
 
 		// Show a message (and exit), if there is no OpenOffice found
 		if (!isValidPath(preferencePath)) {
-			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK | SWT.CANCEL);
-			
-			//T: Title of the Message Box that appears if the OpenOffice path is invalid.
-			messageBox.setText(_("Error"));
-
-			//T: Text of the Message Box that appears if the OpenOffice path is invalid.
-			//T: Format: OpenOffice path ... is invalid.
-			messageBox.setMessage(_("OpenOffice-Path:") + "\n\n" + preferencePath + "\n\n"+
+			Workspace.showMessageBox(SWT.ICON_WARNING | SWT.OK,
+					//T: Title of the Message Box that appears if the OpenOffice path is invalid.
+					_("Error"), 
 					//T: Text of the Message Box that appears if the OpenOffice path is invalid.
 					//T: Format: OpenOffice path ... is invalid.
-					_("is invalid"));
-			messageBox.open();
+					_("OpenOffice-Path:") + "\n\n" + preferencePath + "\n\n"+
+							//T: Text of the Message Box that appears if the OpenOffice path is invalid.
+							//T: Format: OpenOffice path ... is invalid.
+							_("is invalid"));
 			return null;
 		}
 

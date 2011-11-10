@@ -41,7 +41,9 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.parcelService.ParcelServiceFormFiller;
 
 /**
  * Web Browser Editor
@@ -71,6 +73,8 @@ public class BrowserEditor extends Editor {
 	// Button, to go home to fakturama.com
 	private Composite homeButtonComposite;
 
+	// The URL textbox 
+	private Text urlText = null; 
 	
 	/**
 	 * Constructor
@@ -273,7 +277,7 @@ public class BrowserEditor extends Editor {
 			
 
 			// URL field
-			final Text urlText = new Text(urlComposite, SWT.BORDER);
+			urlText = new Text(urlComposite, SWT.BORDER);
 			urlText.setText("http://");
 			GridDataFactory.fillDefaults().grab(true, false).applyTo(urlText);
 			urlText.addKeyListener(new KeyListener() {
@@ -328,19 +332,36 @@ public class BrowserEditor extends Editor {
 			browser.addProgressListener(new ProgressListener() {
 				@Override
 				public void completed(ProgressEvent event) {
+					String browserURL = browser.getUrl();
+					boolean isValidURL = browserURL.startsWith("http://") || browserURL.startsWith("https://") || browserURL.startsWith("file://");
+					if (showURLbar){
+						if (urlText != null) {
+							String startUrl = "file://" +
+									Workspace.INSTANCE.getWorkspace() + "/" +
+									Workspace.INSTANCE.getTemplateFolderName() +  
+									"/Start/start.html";
+
+							if (! browserURL.equals(startUrl)  ){
+								if (isValidURL)
+									urlText.setText(browserURL);
+							}
+							else {
+								urlText.setText("http://");
+								
+							}
+									
+						}
+					}
 				}
 
 				// If the website has changes, add a "go back" button
 				@Override
 				public void changed(ProgressEvent event) {
 					
-					// 
+					String browserURL = browser.getUrl();
+					boolean isValidURL = browserURL.startsWith("http://") || browserURL.startsWith("https://") || browserURL.startsWith("file://");
 					if (showURLbar)
 						return;
-					
-					String browserURL = browser.getUrl();
-					boolean isValidURL = browserURL.startsWith("http://");
-
 					
 					// We are back at home - remove the button (if it exists)
 					if ((browserURL.startsWith("http://fakturama.sebulli.com") && !browserURL.startsWith("http://fakturama.sebulli.com/mantis")) || !isValidURL || !isFakturamaProjectUrl) {
@@ -388,33 +409,6 @@ public class BrowserEditor extends Editor {
 		}
 
 	}
-
-	/**
-	 * Test the parcel service form.
-	 * Fills all form elements with its names and creates a template file.
-	 * 
-	 */
-	public void testParcelServiceForm() {
-		// Script that counts the fields with this name
-		String script = "" +
-			"function fillFields() {"+
-			"  documentForms = document.getElementsByTagName('form');" +
-			"  for (var i = 0; i < documentForms.length; i++) {" +
-			"    for(var ii = 0; ii < documentForms[i].elements.length; ii++) {" +
-			"		var e = documentForms[i].elements[ii];" +
-			"       e.title = e.name; " +
-			"       if ((e.type='text') ||(e.type='textarea')) {" +
-			"       e.value = e.name;} " + 
-			"    }" +
-			"  }" +
-			"};" +
-			"fillFields();";
-		
-			// Set the value of all text elements to their names
-			if (browser != null)
-				browser.evaluate(script);
-
-	}
 	
 	/**
 	 * Go to the start page (fakturama.sebulli.com)
@@ -436,6 +430,21 @@ public class BrowserEditor extends Editor {
 	public void setFocus() {
 		if(top != null) 
 			top.setFocus();
+	}
+	
+	/**
+	 * Fills the form of the parcel service with the address data
+	 */
+	//public void fillForm(Browser browser, IEditorInput editorInput) {
+	//	this.browser = browser;
+	//}
+	
+	/**
+	 * Test the parcel service form.
+	 * Fills all form elements with its names and creates a template file.
+	 */
+	public void testParcelServiceForm() {
+		ParcelServiceFormFiller.testParcelServiceForm(browser);  
 	}
 
 

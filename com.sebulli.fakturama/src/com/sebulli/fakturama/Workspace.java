@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
@@ -311,5 +312,43 @@ public enum Workspace {
 	public String getTemplateFolderName () {
 		return templateFolderName;
 	}
+
+	/**
+	 * Displays a message dialog
+	 * 
+	 * @param style
+	 * 	Style of the dialog
+	 * @param title
+	 * 	Title of the dialog
+	 * @param text
+	 *  Dialog text
+	 *  
+	 * @return 
+	 * 		The result of the dialog
+	 */
+	static public int showMessageBox(final int style, final String title, final String text) {
+		try {
+			// Show an information dialog
+			MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+						style );
+			messageBox.setText(title);
+			messageBox.setMessage(text);
+			return messageBox.open();
+		} catch (Exception e) {
+			
+			Display.getDefault().syncExec(new Runnable() {
+			    public void run() {
+					// Show an information dialog
+					MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+							SWT.OK );
+					messageBox.setText(title);
+					messageBox.setMessage(text);
+					messageBox.open();
+			    }
+			});
+			return SWT.OK;
+		}
+	}
+
 
 }

@@ -29,12 +29,12 @@ public class Placeholders {
 			"YOURCOMPANY.OWNER.FIRSTNAME",
 			"YOURCOMPANY.OWNER.LASTNAME",
 			"YOURCOMPANY.STREET",
-			"YOURCOMPANY.STREET.NAME",
-			"YOURCOMPANY.STREET.NO",
-			"YOURCOMPANY.STREET.ZIP",
-			"YOURCOMPANY.STREET.CITY",
-			"YOURCOMPANY.STREET.COUNTRY",
-			"YOURCOMPANY.STREET.EMAIL",
+			"YOURCOMPANY.STREETNAME",
+			"YOURCOMPANY.STREETNO",
+			"YOURCOMPANY.ZIP",
+			"YOURCOMPANY.CITY",
+			"YOURCOMPANY.COUNTRY",
+			"YOURCOMPANY.EMAIL",
 			"DOCUMENT.DATE",
 			"DOCUMENT.ADDRESSES.EQUAL",
 			"DOCUMENT.ADDRESS",
@@ -340,10 +340,21 @@ public class Placeholders {
 		return s;
 	}
 
-	
+	/**
+	 * Get Information from document.
+	 * If there is no reference to a customer, use the address field to
+	 * Extract the address
+	 * 
+	 * @param document
+	 * 	The document
+	 * @param key
+	 * 	The key to extract
+	 * @return
+	 *  The extracted result
+	 */
 	public static String getDocumentInfo(DataSetDocument document, String key) {
 
-		
+		// Get the company information from the preferences
 		if (key.startsWith("YOURCOMPANY")) {
 			if (key.equals("YOURCOMPANY.COMPANY")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_NAME");
 
@@ -354,13 +365,13 @@ public class Placeholders {
 
 			String streetWithNo = Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_STREET");
 			if (key.equals("YOURCOMPANY.STREET")) return  streetWithNo;
-			if (key.equals("YOURCOMPANY.STREET.NAME")) return  Placeholders.getStreetName(streetWithNo);
-			if (key.equals("YOURCOMPANY.STREET.NO")) return  Placeholders.getStreetNo(streetWithNo);
+			if (key.equals("YOURCOMPANY.STREETNAME")) return  Placeholders.getStreetName(streetWithNo);
+			if (key.equals("YOURCOMPANY.STREETNO")) return  Placeholders.getStreetNo(streetWithNo);
 
-			if (key.equals("YOURCOMPANY.STREET.ZIP")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_ZIP");
-			if (key.equals("YOURCOMPANY.STREET.CITY")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_CITY");
-			if (key.equals("YOURCOMPANY.STREET.COUNTRY")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_COUNTRY");
-			if (key.equals("YOURCOMPANY.STREET.EMAIL")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_EMAIL");
+			if (key.equals("YOURCOMPANY.ZIP")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_ZIP");
+			if (key.equals("YOURCOMPANY.CITY")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_CITY");
+			if (key.equals("YOURCOMPANY.COUNTRY")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_COUNTRY");
+			if (key.equals("YOURCOMPANY.EMAIL")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_EMAIL");
 		}
 
 		
@@ -373,6 +384,7 @@ public class Placeholders {
 		// Get the contact of the UniDataSet document
 		int addressId = document.getIntValueByKey("addressid");
 
+		// Is there a reference to a contact ?
 		contact = null;
 		if (addressId >= 0) {
 			try {
@@ -426,6 +438,7 @@ public class Placeholders {
 			}
 		}
 		
+		// Get information from the document
 		if (key.equals("DOCUMENT.TYPE")) return DocumentType.getString(document.getIntValueByKey("category"));
 		if (key.equals("DOCUMENT.NAME")) return document.getStringValueByKey("name");
 		if (key.equals("DOCUMENT.CUSTOMERREF")) return document.getStringValueByKey("customerref");
@@ -523,6 +536,7 @@ public class Placeholders {
 
 		if (key2.equals("ADDRESS.FIRSTLINE")) return getDataFromAddressField(addressField,"addressfirstline");
 		
+		// There is a reference to a contact. Use this
 		if (contact != null) {
 			if (key.equals("ADDRESS")) return contact.getAddress(false);
 			if (key.equals("ADDRESS.GENDER")) return contact.getGenderString(false);
@@ -568,6 +582,7 @@ public class Placeholders {
 			if (key.equals("ADDRESS.NOTE")) return contact.getStringValueByKey("note");
 			if (key.equals("ADDRESS.DISCOUNT")) return contact.getFormatedStringValueByKey("discount");
 		}
+		// There is no reference - Try to get the information from the address field
 		else {
 			if (key2.equals("ADDRESS.GENDER")) return "";
 			if (key2.equals("ADDRESS.TITLE")) return "";
