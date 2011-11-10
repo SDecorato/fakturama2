@@ -315,7 +315,8 @@ public class ParcelServiceFormFiller {
 					
 					// Add name and URL
 					String NL = OSDependent.getNewLine();
-					String s = "# Name and URL of the parcel service:" + NL;
+					String s = "";
+					s += "# Name and URL of the parcel service:" + NL;
 					s += "name = "+ title + NL;  
 					s += "url  = "+ (String)browser.evaluate("return document.URL.split('?')[0];") + NL + NL;
 					s += "# Fields:"+ NL;
@@ -342,7 +343,11 @@ public class ParcelServiceFormFiller {
 					}
 					
 					// A an additional help text
-					s = NL+ NL+ NL+ NL + "# Syntax:" + NL +
+					s = NL+ NL+ NL+ NL + 
+						"# If you have created a template file for a new parcel service," + NL +
+						"# it would be nice to share it with other users on fakturama.sebulli.com" + NL +
+						"# " + NL +
+						"# Syntax:" + NL +
 						"# field = PLACE.HOLDER" + NL +
 						"#" + NL +
 						"# Some of the most significant placeholders are:" + NL + 
