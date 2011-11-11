@@ -191,5 +191,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <feature id="com.sebulli.fakturama.core"/>
    </features>
 
+   <configurations>
+      <property name="osgi.instance.area" value="@user.home/.fakturama" />
+   </configurations>
 
 </product>
