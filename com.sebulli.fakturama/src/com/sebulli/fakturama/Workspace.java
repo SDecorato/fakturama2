@@ -34,6 +34,7 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.parcelService.ParcelServiceManager;
 
 /**
  * Manages the workspace
@@ -159,6 +160,15 @@ public enum Workspace {
 			resourceCopy("Templates/Start/logo.png", templateFolderName + "/Start" , "logo.png");
 		}
 		
+		// Copy the parcel service templates
+		String parcelServiceTemplatePath = ParcelServiceManager.getRelativeTemplatePath();
+		File parcelServiceFolder = new File(ParcelServiceManager.getTemplatePath());
+		if (!parcelServiceFolder.exists()) {
+			resourceCopy("Templates/ParcelService/DHL_de.txt", parcelServiceTemplatePath , "DHL_de.txt");
+			resourceCopy("Templates/ParcelService/eFILIALE_de.txt", parcelServiceTemplatePath , "eFILIALE_de.txt");
+			resourceCopy("Templates/ParcelService/myHermes_de.txt", parcelServiceTemplatePath , "myHermes_de.txt");
+		}
+		
 		isInitialized = true;
 
 	}
@@ -175,6 +185,10 @@ public enum Workspace {
 	 */
 	public void resourceCopy(String resource, String filePath, String fileName) {
 
+		// Remove the last "/"
+		if (filePath.endsWith("/"))
+			filePath = filePath.substring(0, filePath.length()-1);
+			
 		// Relative path
 		filePath = workspace + "/" + filePath;
 

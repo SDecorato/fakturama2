@@ -1,53 +1,53 @@
-# Name and URL of the parcel service
+# Name and URL of the parcel service:
 name = myHermes.de
 url = https://www.myhermes.de/wps/portal/PRIPS_DEU/PAKETVERSAND
 
+# Fields:
+absender(NACHNAME)       = YOURCOMPANY.NAME
+absender(ADRESSZUSATZ)   = YOURCOMPANY.OWNER
+absender(STRASSE)        = YOURCOMPANY.STREETNAME
+absender(HAUSNUMMER)     = YOURCOMPANY.STREETNO
+absender(PLZ)            = YOURCOMPANY.ZIP
+absender(ORT)            = YOURCOMPANY.CITY
+absender(EMAIL)          = YOURCOMPANY.EMAIL
 
-absender(NACHNAME)     = YOURCOMPANY.NAME
-absender(ADRESSZUSATZ) = YOURCOMPANY.OWNER
-absender(STRASSE)      = YOURCOMPANY.STREET.NAME
-absender(HAUSNUMMER)   = YOURCOMPANY.STREET.NO
-absender(PLZ)          = YOURCOMPANY.ZIP
-absender(ORT)          = YOURCOMPANY.CITY
-absender(EMAIL)        = YOURCOMPANY.EMAIL
-
-consigneeCompanyName     = RECEIVER.COMPANY
-empfaenger(VORNAME)      = RECEIVER.FIRSTNAME
-empfaenger(NACHNAME)     = RECEIVER.LASTNAME
-empfaenger(ADRESSZUSATZ) = RECEIVER.ADDRESSFIRSTLINE
-empfaenger(STRASSE)      = RECEIVER.STREET.NAME
-empfaenger(HAUSNUMMER)   = RECEIVER.STREET.NO
-empfaenger(PLZ)          = RECEIVER.ZIP
-empfaenger(ORT)          = RECEIVER.CITY
-empfaenger(LAND)         = RECEIVER.COUNTRY
-
+empfaenger(VORNAME)      = DELIVERY.ADDRESS.FIRSTNAME
+empfaenger(NACHNAME)     = DELIVERY.ADDRESS.LASTNAME
+empfaenger(ADRESSZUSATZ) = DELIVERY.ADDRESS.COMPANY
+empfaenger(STRASSE)      = DELIVERY.ADDRESS.STREETNAME
+empfaenger(HAUSNUMMER)   = DELIVERY.ADDRESS.STREETNO
+empfaenger(PLZ)          = DELIVERY.ADDRESS.ZIP
+empfaenger(ORT)          = DELIVERY.ADDRESS.CITY
+empfaenger(LAND)         = DELIVERY.ADDRESS.COUNTRY
 
 
-# Possible values for sender address:
+
+# If you have created a template file for a new parcel service,
+# it yould be nice to share it with other users on fakturama.sebulli.com
 # 
-# YOURCOMPANY.COMPANY          (eg: Fakturama Inc. )
-# YOURCOMPANY.OWNER            (eg: Lisa Lauser    )
-# YOURCOMPANY.OWNER.FIRSTNAME  (eg: Lisa           )
-# YOURCOMPANY.OWNER.LASTNAME   (eg: Lauser         )
-# YOURCOMPANY.STREET           (eg: Bakerstreet 42 )
-# YOURCOMPANY.STREET.NAME      (eg: Bakerstreet    )
-# YOURCOMPANY.STREET.NO        (eg: 42             )
-# YOURCOMPANY.ZIP              (eg: 54321          )
-# YOURCOMPANY.CITY             (eg: Newtown        )
-# YOURCOMPANY.EMAIL            (eg: mail@mail.com  )
-# YOURCOMPANY.COUNTRY          (eg: Germany        )
-# 
-# Possible values for receiver address:
-# 
-# RECEIVER.COMPANY             (eg: Customer Lt.   )
-# RECEIVER.ADDRESSFIRSTLINE    (eg: Max Mustermann )
-# RECEIVER.FIRSTNAME           (eg: Max            )
-# RECEIVER.LASTNAME            (eg: Mustermann     )
-# RECEIVER.STREET              (eg: Mainstreet 99  )
-# RECEIVER.STREET.NAME         (eg: Mainstreet     )
-# RECEIVER.STREET.NO           (eg: 99             )
-# RECEIVER.ZIP                 (eg: 12345          )
-# RECEIVER.CITY                (eg: Oldtown        )
-# RECEIVER.EMAIL               (eg: lisa@mail.com  )
-# RECEIVER.COUNTRY             (eg: Germany        )
- 
+# Syntax:
+# field = PLACE.HOLDER
+#
+# Some of the most significant placeholders are:
+#
+# YOURCOMPANY.COMPANY
+# YOURCOMPANY.OWNER
+# YOURCOMPANY.OWNER.FIRSTNAME
+# YOURCOMPANY.OWNER.LASTNAME
+# YOURCOMPANY.STREET
+# YOURCOMPANY.STREETNAME
+# YOURCOMPANY.STREETNO
+# YOURCOMPANY.ZIP
+# YOURCOMPANY.CITY
+#
+# DELIVERY.ADDRESS.NAME
+# DELIVERY.ADDRESS.FIRSTNAME
+# DELIVERY.ADDRESS.LASTNAME
+# DELIVERY.ADDRESS.COMPANY
+# DELIVERY.ADDRESS.STREET
+# DELIVERY.ADDRESS.STREETNAME
+# DELIVERY.ADDRESS.STREETNO
+# DELIVERY.ADDRESS.ZIP
+# DELIVERY.ADDRESS.CITY
+#
+# Read the manual for all placeholders.

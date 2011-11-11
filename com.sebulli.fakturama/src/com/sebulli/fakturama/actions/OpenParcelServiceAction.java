@@ -32,8 +32,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.editors.BrowserEditor;
@@ -158,12 +156,7 @@ public class OpenParcelServiceAction extends Action {
 		if (dataSetDocument != null) {
 			if (dataSetDocument instanceof DataSetDocument) {
 				
-				String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-				
-				//T: Folder name of the parcel service. MUST BE ONE WORD 
-				String templatePath = workspace + "/" + Workspace.INSTANCE.getTemplateFolderName() + "/" + _("ParcelService") + "/";
-
-				final ParcelServiceManager parcelServiceManager = new ParcelServiceManager(templatePath);
+				final ParcelServiceManager parcelServiceManager = new ParcelServiceManager();
 
 				// Are there more than one parcel services ?
 				// Display a menu with all.

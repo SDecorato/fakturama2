@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.parcelService;
 
+import static com.sebulli.fakturama.Translate._;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.TemplateFilename;
+import com.sebulli.fakturama.Workspace;
 
 /**
  * Loads the parcel service configurations files into properties lists.  
@@ -43,10 +47,13 @@ public class ParcelServiceManager {
 	 * @param templatePath
 	 * 		The path where all the files are listed
 	 */
-	public ParcelServiceManager (String templatePath) {
+	public ParcelServiceManager () {
 		
 		// Clear all, and create a new array list
 		propertiesList = new ArrayList<Properties>();
+		
+		// Get the template path
+		String templatePath = getTemplatePath();
 		
 		// Get the directory and find all files
 		File dir = new File(templatePath);
@@ -85,6 +92,29 @@ public class ParcelServiceManager {
 		}
 	}
 
+	/**
+	 * Returns the template path for parcel service templates
+	 * @return
+	 */
+	public static String getTemplatePath () {
+
+		String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+		
+		//T: Folder name of the parcel service. MUST BE ONE WORD 
+		String templatePath = workspace + "/" + getRelativeTemplatePath();
+
+		return templatePath;
+	}
+	/**
+	 * Returns the template path for parcel service templates
+	 * relative to the workspace
+	 * @return
+	 */
+	public static String getRelativeTemplatePath () {
+
+		return Workspace.INSTANCE.getTemplateFolderName() + "/" + _("ParcelService") + "/";
+	}
+	
 	/**
 	 * Getter for the number of properties entries
 	 * 
@@ -158,6 +188,13 @@ public class ParcelServiceManager {
 	 */
 	public Properties getProperties () {
 		return propertiesList.get(active);
+	}
+	
+	/**
+	 * Copies the parcel service templates to template folder
+	 * 
+	 */
+	public static void copyParcelServiceTemplates() {
 	}
 	
 }

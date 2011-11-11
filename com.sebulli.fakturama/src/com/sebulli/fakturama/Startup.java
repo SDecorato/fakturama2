@@ -54,6 +54,10 @@ public class Startup implements IStartup {
 					action.run();
 				}
 				
+				// Check, if this is a newer Software, so do some update
+				Updater updater = new Updater();
+				updater.checkVersion();
+
 				
 			}
 		});
