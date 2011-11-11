@@ -242,7 +242,7 @@ public class ParcelServiceFormFiller {
 		// Create a sub folder "ParcelService", if it does not exist yet.
 		//T: Folder name of the parcel service. MUST BE ONE WORD 
 
-		filename += "/" + Workspace.INSTANCE.getTemplateFolderName() + "/" + _("ParcelService") + "/";
+		filename += ParcelServiceManager.getTemplatePath();
 		directory = new File(filename);
 		if (!directory.exists())
 			directory.mkdirs();
@@ -362,6 +362,7 @@ public class ParcelServiceFormFiller {
 						"# YOURCOMPANY.ZIP" + NL +
 						"# YOURCOMPANY.CITY" + NL +
 						"#" + NL +
+						"# DELIVERY.ADDRESS.COMPANY" + NL +
 						"# DELIVERY.ADDRESS.NAME" + NL +
 						"# DELIVERY.ADDRESS.FIRSTNAME" + NL +
 						"# DELIVERY.ADDRESS.LASTNAME" + NL +
