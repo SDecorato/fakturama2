@@ -1508,7 +1508,7 @@ public class DocumentEditor extends Editor {
 		txtCustomerRef = new Text(top, SWT.BORDER);
 		txtCustomerRef.setText(document.getStringValueByKey("customerref"));
 		txtCustomerRef.setToolTipText(labelCustomerRef.getToolTipText());
-		superviceControl(txtCustomerRef, 32);
+		superviceControl(txtCustomerRef, 250);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
 		
 		// The extra settings composite contains additional fields like
