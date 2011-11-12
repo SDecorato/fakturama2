@@ -3,13 +3,15 @@ name = myHermes.de
 url = https://www.myhermes.de/wps/portal/PRIPS_DEU/PAKETVERSAND
 
 # Fields:
-absender(NACHNAME)       = YOURCOMPANY.NAME
+absender(NACHNAME)       = YOURCOMPANY.COMPANY
 absender(ADRESSZUSATZ)   = YOURCOMPANY.OWNER
 absender(STRASSE)        = YOURCOMPANY.STREETNAME
 absender(HAUSNUMMER)     = YOURCOMPANY.STREETNO
 absender(PLZ)            = YOURCOMPANY.ZIP
 absender(ORT)            = YOURCOMPANY.CITY
 absender(EMAIL)          = YOURCOMPANY.EMAIL
+absender(VORWAHL)        = YOURCOMPANY.PHONE.PRE
+absender(TELEFON)        = YOURCOMPANY.PHONE.POST
 
 empfaenger(VORNAME)      = DELIVERY.ADDRESS.FIRSTNAME
 empfaenger(NACHNAME)     = DELIVERY.ADDRESS.LASTNAME
@@ -18,7 +20,9 @@ empfaenger(STRASSE)      = DELIVERY.ADDRESS.STREETNAME
 empfaenger(HAUSNUMMER)   = DELIVERY.ADDRESS.STREETNO
 empfaenger(PLZ)          = DELIVERY.ADDRESS.ZIP
 empfaenger(ORT)          = DELIVERY.ADDRESS.CITY
-empfaenger(LAND)         = DELIVERY.ADDRESS.COUNTRY
+empfaenger(VORWAHL)      = ADDRESS.PHONE.PRE
+empfaenger(TELEFON)      = ADDRESS.PHONE.POST
+empfaenger(LAND)         = DELIVERY.ADDRESS.COUNTRY$REPLACE:{"","DEU";"Belgien","BEL";"Dänemark","DNK";"Deutschland","DEU";"Estland","EST";"Finnland","FIN";"Frankreich","FRA";"Großbritannien","GBR";"Irland","IRL";"Italien","ITA";"Lettland","LVA";"Liechtenstein","LIE";"Litauen","LTU";"Luxemburg","LUX";"Monaco","MCO";"Niederlande","NLD";"Österreich","AUT";"Polen","POL";"Portugal","PRT";"Schweden","SWE";"Schweiz","CHE";"Slowakei","SVK";"Slowenien","SVN";"Spanien","ESP";"Tschechische Republik","CZE";"Ungarn","HUN"}
 
 
 

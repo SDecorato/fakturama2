@@ -35,16 +35,20 @@ public class Placeholders {
 			"YOURCOMPANY.CITY",
 			"YOURCOMPANY.COUNTRY",
 			"YOURCOMPANY.EMAIL",
+			"YOURCOMPANY.PHONE",
+			"YOURCOMPANY.PHONE.PRE",
+			"YOURCOMPANY.PHONE.POST",
+			"YOURCOMPANY.FAX",
+			"YOURCOMPANY.FAX.PRE",
+			"YOURCOMPANY.FAX.POST",
+			"YOURCOMPANY.WEBSITE",
+			"YOURCOMPANY.VATNR",
 			"DOCUMENT.DATE",
 			"DOCUMENT.ADDRESSES.EQUAL",
 			"DOCUMENT.ADDRESS",
 			"DOCUMENT.DELIVERYADDRESS",
-			"DOCUMENT.ADDRESS.INONELINE",
-			"DOCUMENT.DELIVERYADDRESS.INONELINE",
 			"DOCUMENT.DIFFERENT.ADDRESS",
 			"DOCUMENT.DIFFERENT.DELIVERYADDRESS",
-			"DOCUMENT.DIFFERENT.ADDRESS.INONELINE",
-			"DOCUMENT.DIFFERENT.DELIVERYADDRESS.INONELINE",
 			"DOCUMENT.TYPE",
 			"DOCUMENT.NAME",
 			"DOCUMENT.CUSTOMERREF",
@@ -116,8 +120,14 @@ public class Placeholders {
 			"ADDRESS.BANK.BIC",
 			"ADDRESS.NR",
 			"ADDRESS.PHONE",
+			"ADDRESS.PHONE.PRE",
+			"ADDRESS.PHONE.POST",
 			"ADDRESS.FAX",
+			"ADDRESS.FAX.PRE",
+			"ADDRESS.FAX.POST",
 			"ADDRESS.MOBILE",
+			"ADDRESS.MOBILE.PRE",
+			"ADDRESS.MOBILE.POST",
 			"ADDRESS.EMAIL",
 			"ADDRESS.WEBSITE",
 			"ADDRESS.VATNR",
@@ -210,7 +220,41 @@ public class Placeholders {
 			return "";
 	}
 	
-
+	/**
+	 * Get a part of the telephone number
+	 * 
+	 * @param pre
+	 * 		TRUE, if the area code should be returned
+	 * @return
+	 * 		Part of the telephone number
+	 */
+	private static String getTelPrePost(String no, boolean pre){
+		String parts[] = no.trim().split(" ", 2);
+		
+		// Split the number
+		if (parts.length < 2) {
+			String tel = parts[0];
+			// devide the number at the 4th position
+			if (tel.length() > 4) {
+				if (pre)
+					return tel.substring(0, 4);
+				else
+					return tel.substring(4);
+			}
+			// The number is very short
+			if (pre)
+				return "";
+			else
+				return tel;
+		}
+		// return the first or the second part
+		else {
+			if (pre)
+				return parts[0];
+			else
+				return parts[1];
+		}
+	}
 	
 	static public String getDataFromAddressField(String address, String key) {
 		
@@ -329,17 +373,226 @@ public class Placeholders {
 	 * 
 	 * @param s
 	 * 	The string in multiple lines
+	 * @param replacement
+	 * 	The replacement
 	 * @return
 	 * 	The string in one line, seperated by a "-"
 	 */
-	private static String StringInOneLine(String s) {
+	private static String StringInOneLine(String s, String replacement) {
 		// Convert CRLF to LF 
 		s = convertCRLF2LF(s).trim();
 		// Replace line feeds by a " - "
-		s = s.replaceAll("\\n", " - ");
+		s = s.replaceAll("\\n", replacement);
 		return s;
 	}
 
+	/**
+	 * Removes the quotation marks of a String
+	 * @param s
+	 * 	The string with quotation marks
+	 * @return
+	 *  The string without them
+	 */
+	private static String removeQuotationMarks(String s) {
+		
+		// Remove the leading
+		if (s.startsWith("\""))
+			s = s.substring(1);
+
+		// Remove the trailing
+		if (s.endsWith("\""))
+			s = s.substring(0, s.length() - 1);
+		
+		return s;
+	}
+	
+	/**
+	 * Replace the placeholder values by a value in a list
+	 * 
+	 * @param replacements
+	 * 		A list of replacements, separates by a ";"
+	 * 		eg: {"Belgien","BEL";"Dänemark","DNK"}
+	 * @param value
+	 * 		The input value
+	 * @return
+	 * 		The modified value
+	 */
+	private static String replaceValues(String replacements, String value) {
+		
+		// Remove spaces
+		replacements = replacements.trim();
+		
+		// Remove the leading {
+		if (replacements.startsWith("{"))
+			replacements = replacements.substring(1);
+
+		// Remove the trailing }
+		if (replacements.endsWith("}"))
+			replacements = replacements.substring(0, replacements.length() - 1);
+
+		String parts[] = replacements.split(";");
+
+		// Nothing to do
+		if (parts.length < 1)
+			return value;
+		
+		// get all parts
+		for (String part : parts) {
+			String twoStrings[] = part.split(",");
+			if (twoStrings.length == 2) {
+				// Replace the value, if it is equal to the entry
+				if (value.equalsIgnoreCase(removeQuotationMarks(twoStrings[0]))) {
+					value = removeQuotationMarks(twoStrings[1]);
+					return value;
+				}
+			}
+		}
+		
+		return value;
+	}
+	
+	/**
+	 * Interprets the placeholder parameters
+	 * 
+	 * @param placeholder
+	 * 		Name of the placeholder
+	 * @param value
+	 * 		The value
+	 * @return
+	 * 		The value mofified by the parameters
+	 */
+	public static String interpretParameters(String placeholder, String value) {
+		String par;
+
+		// The parameters "PRE" and "POST" are only used, if the
+		// placeholder value is not empty
+		if (!value.isEmpty()) {
+			
+			// Parameter "PRE"
+			par = Placeholders.extractParam(placeholder,"PRE");
+			if (!par.isEmpty())
+					value =  removeQuotationMarks(par) + value;
+
+			// Parameter "POST"
+			par = Placeholders.extractParam(placeholder,"POST");
+			if (!par.isEmpty())
+					value = value + removeQuotationMarks(par);
+
+			// Parameter "NEWLINE"
+			par = Placeholders.extractParam(placeholder,"NEWLINE");
+			if (!par.isEmpty())
+				value = StringInOneLine(value, removeQuotationMarks(par));
+
+			// Parameter "Replace"
+			par = Placeholders.extractParam(placeholder,"REPLACE");
+			if (!par.isEmpty())
+				value = replaceValues(removeQuotationMarks(par) , value);
+			
+		}
+		else {
+			// Parameter "EMPTY"
+			par = Placeholders.extractParam(placeholder,"EMPTY");
+			if (!par.isEmpty())
+					value = removeQuotationMarks(par);
+		}
+		
+		// Encode some special characters
+		value = Placeholders.encodeEntinities(value);
+		return value;
+	}
+	
+	/**
+	 * Extract the placeholder values from a given document
+	 * 
+	 * @param document
+	 * 		The document with all the values
+	 * @param placeholder
+	 * 		The placeholder to extract
+	 * @return
+	 * 		The extracted value
+	 */
+	public static String getDocumentInfo(DataSetDocument document, String placeholder) {
+		String value = getDocumentInfoByPlaceholder(document, extractPlaceholderName(placeholder));
+		return interpretParameters(placeholder, value);
+	}
+	
+	
+	/**
+	 * Extract the value of the parameter of a placeholder
+	 * 
+	 * @param placeholder
+	 * 	The placeholder name
+	 * 
+	 * @param param
+	 * 	Name of the parameter to extract
+	 * 
+	 * @return
+	 *  The extracted value
+	 */
+	public static  String extractParam(String placeholder, String param) {
+		String s;
+		
+		// A parameter starts with "$" and ends with ":"
+		param = "$" + param + ":";
+		
+		// Return, if parameter was not in placeholder's name
+		if (!placeholder.contains(param))
+			return "";
+
+		// Extract the string after the parameter name
+		s = placeholder.substring(placeholder.indexOf(param)+param.length());
+
+		// Extract the string until the next parameter, or the end
+		int i;
+		i = s.indexOf("$");
+		if ( i>0 )
+			s= s.substring(0, i);
+		else if (i == 0)
+			s = "";
+		
+		i = s.indexOf(">");
+		if ( i>0 )
+			s= s.substring(0, i);
+		else if (i == 0)
+			s = "";
+
+		// Return the value
+		return s;
+	}
+	
+	/**
+	 * Extracts the placeholder name, separated by a $
+	 * 
+	 * @param s
+	 * 		The placeholder with parameters
+	 * @return
+	 * 		The placeholder name without paramater
+	 */
+	private static String extractPlaceholderName(String s) {
+		return s.split("\\$" , 2)[0];
+	}
+	
+	/**
+	 * Decode the special characters
+	 * 
+	 * @param s
+	 * 	String to convert
+	 * @return
+	 *  Converted
+	 */
+	public static  String encodeEntinities(String s) {
+	
+		s = s.replaceAll("%LT", "<");
+		s = s.replaceAll("%GT", ">");
+		s = s.replaceAll("%NL", "\n");
+		s = s.replaceAll("%TAB", "\t");
+		s = s.replaceAll("%DOLLAR", Matcher.quoteReplacement("$"));
+		
+		return s;
+	}
+	
+
+	
 	/**
 	 * Get Information from document.
 	 * If there is no reference to a customer, use the address field to
@@ -352,8 +605,8 @@ public class Placeholders {
 	 * @return
 	 *  The extracted result
 	 */
-	public static String getDocumentInfo(DataSetDocument document, String key) {
-
+	private static String getDocumentInfoByPlaceholder(DataSetDocument document, String key) {
+		
 		// Get the company information from the preferences
 		if (key.startsWith("YOURCOMPANY")) {
 			if (key.equals("YOURCOMPANY.COMPANY")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_NAME");
@@ -372,6 +625,14 @@ public class Placeholders {
 			if (key.equals("YOURCOMPANY.CITY")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_CITY");
 			if (key.equals("YOURCOMPANY.COUNTRY")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_COUNTRY");
 			if (key.equals("YOURCOMPANY.EMAIL")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_EMAIL");
+			if (key.equals("YOURCOMPANY.PHONE")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_TEL");
+			if (key.equals("YOURCOMPANY.PHONE.PRE")) return  getTelPrePost(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_TEL"), true);
+			if (key.equals("YOURCOMPANY.PHONE.POST")) return  getTelPrePost(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_TEL"), false);
+			if (key.equals("YOURCOMPANY.FAX")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_FAX");
+			if (key.equals("YOURCOMPANY.FAX.PRE")) return  getTelPrePost(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_FAX"), true);
+			if (key.equals("YOURCOMPANY.FAX.POST")) return  getTelPrePost(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_FAX"), false);
+			if (key.equals("YOURCOMPANY.WEBSITE")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_WEBSITE");
+			if (key.equals("YOURCOMPANY.VATNR")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_VATNR");
 		}
 
 		
@@ -394,16 +655,12 @@ public class Placeholders {
 			}
 		}
 
-
-		
 		if (key.equals("DOCUMENT.DATE")) return document.getFormatedStringValueByKey("date");
 		if (key.equals("DOCUMENT.ADDRESSES.EQUAL")) return ((Boolean)document.deliveryAddressEqualsBillingAddress()).toString();
 
 		// Get address and delivery address
-		// with option "INONELINE" and without
 		// with option "DIFFERENT" and without
 		String deliverystring;
-		String inonelinestring;
 		String differentstring;
 		// address and delivery address
 		for (int i = 0;i<2 ; i++) {
@@ -412,29 +669,20 @@ public class Placeholders {
 			else
 				deliverystring = "";
 			
-			// with option "INONELINE" and without
-			for (int i2 = 0; i2<2; i2++) {
-				if (i2==1)
-					inonelinestring = ".INONELINE";
+			String s = document.getStringValueByKey(deliverystring + "address");
+			
+			//  with option "DIFFERENT" and without
+			for (int ii = 0 ; ii<2; ii++) {
+				if (ii==1)
+					differentstring = ".DIFFERENT";
 				else
-					inonelinestring = "";
-				String s = document.getStringValueByKey(deliverystring + "address");
-				if (i2==1)
-					s = StringInOneLine(s);
-				
-				//  with option "DIFFERENT" and without
-				for (int i3 = 0 ; i3<2; i3++) {
-					if (i3==1)
-						differentstring = ".DIFFERENT";
-					else
-						differentstring = "";
-					if (i3==1) {
-						if (document.deliveryAddressEqualsBillingAddress())
-							s="";
-					}
-					if (key.equals("DOCUMENT" + differentstring +"."+ deliverystring.toUpperCase()+ "ADDRESS" + inonelinestring)) return s;
-					
+					differentstring = "";
+				if (ii==1) {
+					if (document.deliveryAddressEqualsBillingAddress())
+						s="";
 				}
+				if (key.equals("DOCUMENT" + differentstring +"."+ deliverystring.toUpperCase()+ "ADDRESS")) return s;
+				
 			}
 		}
 		
@@ -542,7 +790,7 @@ public class Placeholders {
 			if (key.equals("ADDRESS.GENDER")) return contact.getGenderString(false);
 			if (key.equals("ADDRESS.GREETING")) return contact.getGreeting(false);
 			if (key.equals("ADDRESS.TITLE")) return contact.getStringValueByKey("title");
-			if (key.equals("ADDRESS.NAME")) return contact.getStringValueByKey("name");
+			if (key.equals("ADDRESS.NAME")) return contact.getName(false);
 			if (key.equals("ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("firstname");
 			if (key.equals("ADDRESS.LASTNAME")) return contact.getStringValueByKey("name");
 			if (key.equals("ADDRESS.COMPANY")) return contact.getStringValueByKey("company");
@@ -556,7 +804,7 @@ public class Placeholders {
 			if (key.equals("DELIVERY.ADDRESS.GENDER")) return contact.getGenderString(true);
 			if (key.equals("DELIVERY.ADDRESS.GREETING")) return contact.getGreeting(true);
 			if (key.equals("DELIVERY.ADDRESS.TITLE")) return contact.getStringValueByKey("delivery_title");
-			if (key.equals("DELIVERY.ADDRESS.NAME")) return contact.getStringValueByKey("delivery_name");
+			if (key.equals("DELIVERY.ADDRESS.NAME")) return contact.getName(true);
 			if (key.equals("DELIVERY.ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("delivery_firstname");
 			if (key.equals("DELIVERY.ADDRESS.LASTNAME")) return contact.getStringValueByKey("delivery_name");
 			if (key.equals("DELIVERY.ADDRESS.COMPANY")) return contact.getStringValueByKey("delivery_company");
@@ -574,8 +822,14 @@ public class Placeholders {
 			if (key.equals("ADDRESS.BANK.BIC")) return contact.getStringValueByKey("bic");
 			if (key.equals("ADDRESS.NR")) return contact.getStringValueByKey("nr");
 			if (key.equals("ADDRESS.PHONE")) return contact.getStringValueByKey("phone");
+			if (key.equals("ADDRESS.PHONE.PRE")) return getTelPrePost(contact.getStringValueByKey("phone"), true);
+			if (key.equals("ADDRESS.PHONE.POST")) return getTelPrePost(contact.getStringValueByKey("phone"), false);
 			if (key.equals("ADDRESS.FAX")) return contact.getStringValueByKey("fax");
+			if (key.equals("ADDRESS.FAX.PRE")) return getTelPrePost(contact.getStringValueByKey("fax"), true);
+			if (key.equals("ADDRESS.FAX.POST")) return getTelPrePost(contact.getStringValueByKey("fax"), false);
 			if (key.equals("ADDRESS.MOBILE")) return contact.getStringValueByKey("mobile");
+			if (key.equals("ADDRESS.MOBILE.PRE")) return getTelPrePost(contact.getStringValueByKey("mobile"), true);
+			if (key.equals("ADDRESS.MOBILE.POST")) return getTelPrePost(contact.getStringValueByKey("mobile"), false);
 			if (key.equals("ADDRESS.EMAIL")) return contact.getStringValueByKey("email");
 			if (key.equals("ADDRESS.WEBSITE")) return contact.getStringValueByKey("website");
 			if (key.equals("ADDRESS.VATNR")) return contact.getStringValueByKey("vatnr");
@@ -607,14 +861,21 @@ public class Placeholders {
 			if (key.equals("ADDRESS.BANK.BIC")) return "";
 			if (key.equals("ADDRESS.NR")) return "";
 			if (key.equals("ADDRESS.PHONE")) return "";
+			if (key.equals("ADDRESS.PHONE.PRE")) return "";
+			if (key.equals("ADDRESS.PHONE.POST")) return "";
 			if (key.equals("ADDRESS.FAX")) return "";
+			if (key.equals("ADDRESS.FAX.PRE")) return "";
+			if (key.equals("ADDRESS.FAX.POST")) return "";
 			if (key.equals("ADDRESS.MOBILE")) return "";
+			if (key.equals("ADDRESS.MOBILE.PRE")) return "";
+			if (key.equals("ADDRESS.MOBILE.POST")) return "";
 			if (key.equals("ADDRESS.EMAIL")) return "";
 			if (key.equals("ADDRESS.WEBSITE")) return "";
 			if (key.equals("ADDRESS.VATNR")) return "";
 			if (key.equals("ADDRESS.NOTE")) return "";
 			if (key.equals("ADDRESS.DISCOUNT")) return "";
 		}
+
 		return null;
 	}
 	
@@ -625,5 +886,25 @@ public class Placeholders {
 	 */
 	public static String[] getPlaceholders() {
 		return placeholders;
+	}
+	
+	/**
+	 * Test, if the name is in the list of all placeholders
+	 * 
+	 * @param testPlaceholder
+	 * 		The placeholder to test
+	 * @return
+	 * 		TRUE, if the placeholder is in the list
+	 */
+	public static boolean isPlaceholder (String testPlaceholder) {
+		
+		String placeholderName = extractPlaceholderName(testPlaceholder);
+		
+		// Test all placeholders
+		for (String placeholder : placeholders) {
+			if (placeholderName.equals(placeholder))
+				return true;
+		}
+		return false;
 	}
 }

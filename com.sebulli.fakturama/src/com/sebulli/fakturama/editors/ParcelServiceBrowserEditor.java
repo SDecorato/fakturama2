@@ -149,7 +149,7 @@ public class ParcelServiceBrowserEditor extends Editor {
 			browser.addProgressListener(new ProgressListener() {
 				@Override
 				public void completed(ProgressEvent event) {
-						parcelServiceFormFiller.fillForm(browser, editor.getEditorInput() );
+						parcelServiceFormFiller.fillForm(browser, editor.getEditorInput() , false );
 				}
 
 				@Override
@@ -229,4 +229,11 @@ public class ParcelServiceBrowserEditor extends Editor {
 	}
 
 
+	/**
+	 * Fill the form with the document data
+	 */
+	public void fillForm() {
+		parcelServiceFormFiller.fillForm(browser, editor.getEditorInput() , true);
+	}
+	
 }

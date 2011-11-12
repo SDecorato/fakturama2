@@ -1,27 +1,21 @@
 # Name and URL of the parcel service:
-name = eFILIALE.de
-url = https://www.efiliale.de/efiliale/pop/produktauswahl.jsp
+name = Deutsche Post efiliale.de
+url  = https://www.efiliale.de/efiliale/pop/produktauswahl.jsp
 
 # Fields:
-senderCompanyName       = YOURCOMPANY.NAME
-senderFirstName         = YOURCOMPANY.OWNER.FIRSTNAME
-senderLastName          = YOURCOMPANY.OWNER.LASTNAME
-senderAddressLine1      = YOURCOMPANY.OWNER
-senderAddressStreet     = YOURCOMPANY.STREETNAME
-senderAddressHouseNo    = YOURCOMPANY.STREETNO
-senderPLZ               = YOURCOMPANY.ZIP
-senderOrt               = YOURCOMPANY.CITY
+/de/dpag/efiliale/presentation/vo/POPProductVO.newPickupAddress.company        = YOURCOMPANY.COMPANY
+/de/dpag/efiliale/presentation/vo/POPProductVO.newPickupAddress.additionalInfo = YOURCOMPANY.OWNER
+/de/dpag/efiliale/presentation/vo/POPProductVO.newPickupAddress.street         = YOURCOMPANY.STREETNAME
+/de/dpag/efiliale/presentation/vo/POPProductVO.newPickupAddress.houseNumber    = YOURCOMPANY.STREETNO
+/de/dpag/efiliale/presentation/vo/POPProductVO.newPickupAddress.zipCode        = YOURCOMPANY.ZIP
+/de/dpag/efiliale/presentation/vo/POPProductVO.newPickupAddress.city           = YOURCOMPANY.CITY
 
-consigneeCompanyName    = DELIVERY.ADDRESS.COMPANY
-consigneeFirstName      = DELIVERY.ADDRESS.FIRSTNAME
-consigneeLastName       = DELIVERY.ADDRESS.LASTNAME
-consigneeAddressLine1   = RECEIVER.ADDRESSFIRSTLINE
-consigneeAddressStreet  = DELIVERY.ADDRESS.STREETNAME
-consigneeAddressHouseNo = DELIVERY.ADDRESS.STREETNO
-consigneePLZ            = DELIVERY.ADDRESS.ZIP
-consigneeOrt            = DELIVERY.ADDRESS.CITY
-receiverCountry         = DELIVERY.ADDRESS.COUNTRY
-
+/de/dpag/efiliale/presentation/vo/POPProductVO.newDeliveryAddress.company        = DELIVERY.ADDRESS.NAME
+/de/dpag/efiliale/presentation/vo/POPProductVO.newDeliveryAddress.additionalInfo = ""
+/de/dpag/efiliale/presentation/vo/POPProductVO.newDeliveryAddress.street         = DELIVERY.ADDRESS.STREETNAME
+/de/dpag/efiliale/presentation/vo/POPProductVO.newDeliveryAddress.houseNumber    = DELIVERY.ADDRESS.STREETNO
+/de/dpag/efiliale/presentation/vo/POPProductVO.newDeliveryAddress.zipCode        = DELIVERY.ADDRESS.ZIP
+/de/dpag/efiliale/presentation/vo/POPProductVO.newDeliveryAddress.city           = DELIVERY.ADDRESS.CITY
 
 
 # If you have created a template file for a new parcel service,
