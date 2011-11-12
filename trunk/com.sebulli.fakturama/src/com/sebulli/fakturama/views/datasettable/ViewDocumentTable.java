@@ -84,6 +84,7 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		int cw_name = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_NAME");
 		int cw_state = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_STATE");
 		int cw_total = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_TOTAL");
+		int cw_printed = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DOCUMENTS_PRINTED");
 		
 		// Create the table columns
 		// new TableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "ID", 30, 0, true, "id");
@@ -98,7 +99,11 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("State"), cw_state, true, "$status");
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Total"), cw_total, true, "total");
+		//T: Used as heading of a table. Keep the word short.
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Printed"), cw_printed, true, "$printed");
 
+		
+		
 		// Add a selection listener
 		hookSelect();
 

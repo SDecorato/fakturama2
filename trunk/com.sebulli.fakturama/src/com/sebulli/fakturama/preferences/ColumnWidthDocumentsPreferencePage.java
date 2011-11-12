@@ -65,6 +65,8 @@ public class ColumnWidthDocumentsPreferencePage extends FieldEditorPreferencePag
 		addField(new IntegerFieldEditor("COLUMNWIDTH_DOCUMENTS_STATE", _("State"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_DOCUMENTS_TOTAL", _("Total"), getFieldEditorParent()));
+		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
+		addField(new IntegerFieldEditor("COLUMNWIDTH_DOCUMENTS_PRINTED", _("Printes"), getFieldEditorParent()));
 	
 	}
 
@@ -93,6 +95,7 @@ public class ColumnWidthDocumentsPreferencePage extends FieldEditorPreferencePag
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_DOCUMENTS_NAME", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_DOCUMENTS_STATE", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_DOCUMENTS_TOTAL", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_DOCUMENTS_PRINTED", write);
 	}
 
 	/**
@@ -108,6 +111,7 @@ public class ColumnWidthDocumentsPreferencePage extends FieldEditorPreferencePag
 		node.put("COLUMNWIDTH_DOCUMENTS_NAME", "200");
 		node.put("COLUMNWIDTH_DOCUMENTS_STATE", "100");
 		node.put("COLUMNWIDTH_DOCUMENTS_TOTAL", "70");
+		node.put("COLUMNWIDTH_DOCUMENTS_PRINTED", "60");
 	}
 
 }

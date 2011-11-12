@@ -148,6 +148,7 @@ public class CreateOODocumentAction extends Action {
 								// save the document and open the exporter
 								documentEditor.doSave(null);
 								openOODocument(documentEditor.getDocument(), (String) e.widget.getData(),workbenchWindow.getShell());
+								//documentEditor.markAsPrinted();
 							}
 						});
 					}
@@ -164,6 +165,7 @@ public class CreateOODocumentAction extends Action {
 					// Save the document and open the exporter
 					documentEditor.doSave(null);
 					openOODocument(documentEditor.getDocument(), templates.get(0).getPathAndFilename(), workbenchWindow.getShell());
+					//documentEditor.markAsPrinted();
 				}
 				else {
 					// Show an information dialog, if no template was found
