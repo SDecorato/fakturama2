@@ -90,39 +90,28 @@ public class ParcelServiceFormFiller {
 			"  return s.replace (/^\\s+/, '').replace (/\\s+$/, '');" +
 			"}" +
 
-			// Compare two strings ignore case
-			"function mycompare (s1, s2) {" +
-			"  return trim(s1).toUpperCase() == trim(s2).toUpperCase();" +
-			"}" +
-		
-			// select an option by the value or by the text
-			"function selectOptionByValue(selObj, val){" +
-			"  var A= selObj.options, L= A.length;" +
-			"  while(L){" +
-			"    if (A[--L].value == '899'){" +
-			"      selObj.selectedIndex= L;" +
-			"      L= 0;" +
+			// Select an item of a drop box
+			"function setSelectedIndex(s, v) {" +
+			"    for ( var i = 0; i < s.options.length; i++ ) {" +
+			"        if ( s.options[i].value == v ) {" +
+			"            s.options[i].selected = true;" +
+			"            return;" +
+			"        }" +
 			"    }" +
-			"    if (mycompare( A[--L].text, '" + value + "')){" +
-			"      selObj.selectedIndex= L;" +
-			"      L= 0;" +
-			"    }" +
-			"  }" +
 			"}" +
-
+			
 			// Fill the form field
 			"function fillField() {"+
 			"  var cnt = 0;" +
 			"  documentForms = document.getElementsByTagName('form');" +
 			"  for (var i = 0; i < documentForms.length; i++) {" +
 			"    for(var ii = 0; ii < documentForms[i].elements.length; ii++) {" +
-			"      if (documentForms[i].elements[ii].name == '" + fieldName +"') {" +
-			"       if (documentForms[i].elements[ii].options) {" +
-			"		   if (documentForms[i].elements[ii].options.length > 0) {" +
-			"            selectOptionByValue(documentForms[i].elements[ii], '" + value + "');" +
-			"          }" + 
+			"      var e = documentForms[i].elements[ii];" +
+			"      if (e.name == '" + fieldName +"') {" +
+			"        if ((e.type == 'select-one') || (e.type == 'select')) {" +
+			"           setSelectedIndex(e, \"" + value + "\");" +
 			"        } else {" + 
-			"          documentForms[i].elements[ii].value = '" + value + "';" +
+			"          e.value = '" + value + "';" +
 			"        }" + 
 			"      }" + 
 			"    }" +
@@ -185,16 +174,18 @@ public class ParcelServiceFormFiller {
 	/**
 	 * Fills the form of the parcel service with the address data
 	 */
-	public void fillForm(Browser browser, IEditorInput editorInput) {
+	public void fillForm(Browser browser, IEditorInput editorInput, boolean forceFill) {
 		this.browser = browser;
 
 		Properties inputProperties = ((ParcelServiceBrowserEditorInput)editorInput).getProperties();
 		DataSetDocument document =((ParcelServiceBrowserEditorInput)editorInput).getDocument();
 		Properties p = new Properties();
 		
+		// Switch key and value
 		for (Map.Entry<Object, Object> propItem : inputProperties.entrySet())
 		{
 		    String key = (String) propItem.getKey();
+
 		    String value = (String) propItem.getValue();
 			if ((!key.equalsIgnoreCase("url")) && (!key.equalsIgnoreCase("url")) && (!value.isEmpty()) ) {
 				p.put(value, key);
@@ -203,19 +194,40 @@ public class ParcelServiceFormFiller {
 		
 		// Fill the fields
 		// At least this fields must exist in the website's form
-		if ( ( formFieldExists(p.getProperty("DELIVERY.ADDRESS.NAME")) ||
+		if (( ( formFieldExists(p.getProperty("DELIVERY.ADDRESS.NAME")) ||
 			   formFieldExists(p.getProperty("DELIVERY.ADDRESS.LASTNAME")) ||
+			   formFieldExists(p.getProperty("DELIVERY.ADDRESS.COMPANY")) ||
+			   formFieldExists(p.getProperty("YOURCOMPANY.COMPANY")) ||
+			   formFieldExists(p.getProperty("YOURCOMPANY.OWNER")) ||
+			   formFieldExists(p.getProperty("YOURCOMPANY.OWNER.FIRSTNAME")) ||
+			   formFieldExists(p.getProperty("YOURCOMPANY.OWNER.LASTNAME")) ||
 			   formFieldExists(p.getProperty("ADDRESS.NAME")) ||
 			   formFieldExists(p.getProperty("ADDRESS.LASTNAME"))   )&&
-				!filled ) {
+				!filled ) || forceFill){
 			filled = true;
-			
-			
-			// Get all placeholders and set them
-			for (String placeholder: Placeholders.getPlaceholders()) {
-				fillFormField(p.getProperty(placeholder),Placeholders.getDocumentInfo(document, placeholder));
-			}
 
+			// get all entries
+			for (Map.Entry<Object, Object> propItem : inputProperties.entrySet())
+			{
+			    String key = (String) propItem.getKey();
+			    String value = ((String) propItem.getValue()).trim();
+
+			    if ((!key.equalsIgnoreCase("url")) && (!key.equalsIgnoreCase("url")) && (!value.isEmpty()) ) {
+
+			    	// It is a placeholder
+			    	if (Placeholders.isPlaceholder(value)) {
+						fillFormField(key, Placeholders.getDocumentInfo(document, value));
+			    	}
+			    	// It is a constant String
+			    	else if (value.startsWith("\"") && value.endsWith("\"")) {
+
+			    		// Remove trailing and leading ""
+			    		value = value.substring(1, value.length()-1);
+			    		fillFormField(key, value);
+			    		
+			    	}
+				}
+			}
 		}
 	}
 	
@@ -240,9 +252,7 @@ public class ParcelServiceFormFiller {
 			return "";
 
 		// Create a sub folder "ParcelService", if it does not exist yet.
-		//T: Folder name of the parcel service. MUST BE ONE WORD 
-
-		filename += ParcelServiceManager.getTemplatePath();
+		filename += "/" + ParcelServiceManager.getRelativeTemplatePath();
 		directory = new File(filename);
 		if (!directory.exists())
 			directory.mkdirs();
@@ -277,8 +287,11 @@ public class ParcelServiceFormFiller {
 			"    for(var ii = 0; ii < documentForms[i].elements.length; ii++) {" +
 			"		var e = documentForms[i].elements[ii];" +
 			"       e.title = e.name; " +
-			"       if ((e.type='text') ||(e.type='textarea')) {" +
+			"       if ((e.type == 'text') || (e.type == 'textarea')) {" +
 			"         e.value = e.name;" +
+			"         s = s + e.name + ':'" +
+			"       } " + 
+			"       if ((e.type == 'select-one') || (e.type == 'select')) {" +
 			"         s = s + e.name + ':'" +
 			"       } " + 
 			"    }" +

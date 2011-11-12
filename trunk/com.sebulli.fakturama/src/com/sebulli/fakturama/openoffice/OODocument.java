@@ -982,68 +982,6 @@ public class OODocument extends Object {
 	}
 
 	/**
-	 * Extract the value of the parameter of a placeholder
-	 * 
-	 * @param placeholder
-	 * 	The placeholder name
-	 * 
-	 * @param param
-	 * 	Name of the parameter to extract
-	 * 
-	 * @return
-	 *  The extracted value
-	 */
-	private String extractParam(String placeholder, String param) {
-		String s;
-		
-		// A parameter starts with "$" and ends with ":"
-		param = "$" + param + ":";
-		
-		// Return, if parameter was not in placeholder's name
-		if (!placeholder.contains(param))
-			return "";
-
-		// Extract the string after the parameter name
-		s = placeholder.substring(placeholder.indexOf(param)+param.length());
-
-		// Extract the string until the next parameter, or the end
-		int i;
-		i = s.indexOf("$");
-		if ( i>0 )
-			s= s.substring(0, i);
-		else if (i == 0)
-			s = "";
-		
-		i = s.indexOf(">");
-		if ( i>0 )
-			s= s.substring(0, i);
-		else if (i == 0)
-			s = "";
-
-		// Return the value
-		return s;
-	}
-	
-	/**
-	 * Decode the special characters
-	 * 
-	 * @param s
-	 * 	String to convert
-	 * @return
-	 *  Converted
-	 */
-	private String encodeEntinities(String s) {
-	
-		s = s.replaceAll("%LT", "<");
-		s = s.replaceAll("%GT", ">");
-		s = s.replaceAll("%NL", "\n");
-		s = s.replaceAll("%TAB", "\t");
-		s = s.replaceAll("%DOLLAR", Matcher.quoteReplacement("$"));
-		
-		return s;
-	}
-	
-	/**
 	 * Set a property and add it to the user defined text fields in the
 	 * OpenOffice Writer document.
 	 * 
@@ -1065,41 +1003,25 @@ public class OODocument extends Object {
 		
 		// Set the user defined text field
 		addUserTextField(key, value);
-
+		
 		// Extract parameters
 		for (String placeholder : allPlaceholders) {
 			if ( (placeholder.equals("<" + key+">")) || 
 					( (placeholder.startsWith("<" + key+"$")) && (placeholder.endsWith(">")) ) ) {
 
-				// The parameters "PRE" and "POST" are only used, if the
-				// placeholder value is not empty
-				if (!value.isEmpty()) {
-					
-					// Parameter "PRE"
-					if (!extractParam(placeholder,"PRE").isEmpty())
-							value = extractParam(placeholder,"PRE") + value;
-
-					// Parameter "POST"
-					if (!extractParam(placeholder,"POST").isEmpty())
-							value = value + extractParam(placeholder,"POST");
-					
-				}
-				else {
-					// Parameter "EMPTY"
-					if (!extractParam(placeholder,"EMPTY").isEmpty())
-							value = extractParam(placeholder,"EMPTY");
-				}
-				
 				// Set the placeholder
-				properties.setProperty(placeholder.toUpperCase(), encodeEntinities(value));
+				properties.setProperty(placeholder.toUpperCase(), Placeholders.interpretParameters(placeholder, value));
 			}
 		}
 		
 	}
-
 	
-	
-	
+	/**
+	 * Set a common property
+	 * 
+	 * @param key
+	 * 	Name of the placeholder
+	 */
 	private void setCommonProperty(String key) {
 		setProperty(key,Placeholders.getDocumentInfo( document, key) );
 		

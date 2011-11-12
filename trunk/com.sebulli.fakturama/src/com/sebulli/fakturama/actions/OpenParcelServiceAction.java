@@ -90,6 +90,7 @@ public class OpenParcelServiceAction extends Action {
 
 		
 		BrowserEditor browserEditor = null;
+		ParcelServiceBrowserEditor parcelServiceBrowserEditor = null;
 		
 		// Get the active workbench window
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -109,6 +110,8 @@ public class OpenParcelServiceAction extends Action {
 		}
 			
 		if (editor != null) {
+			
+			// A document editor is active
 			if (editor instanceof DocumentEditor) {
 
 				// Search in the folder "Templates" and also in the folder with the localized  name
@@ -118,10 +121,20 @@ public class OpenParcelServiceAction extends Action {
 				dataSetDocument = documentEditor.getDocument();
 			}
 			
+			// A web browser editor is active
 			if (editor instanceof BrowserEditor) {
 				browserEditor = (BrowserEditor)editor;
 				dataSetDocument = null;
 			}
+
+			// A parcel service browser editor is active
+			if (editor instanceof ParcelServiceBrowserEditor) {
+				parcelServiceBrowserEditor = (ParcelServiceBrowserEditor)editor;
+				dataSetDocument = null;
+			}
+			
+			
+			
 		}
 		else if (part != null){
 			ISelection selection;
@@ -143,6 +156,7 @@ public class OpenParcelServiceAction extends Action {
 
 						// If we had a selection let change the state
 						if (obj != null) {
+							if (obj instanceof DataSetDocument)
 							dataSetDocument = (DataSetDocument) obj;
 						}
 					}
@@ -202,6 +216,10 @@ public class OpenParcelServiceAction extends Action {
 		else if (browserEditor != null ){
 			// Test the form fields
 			browserEditor.testParcelServiceForm();
+		}
+		else if (parcelServiceBrowserEditor != null ){
+			// Fill the form
+			parcelServiceBrowserEditor.fillForm();
 		}
 		else {
 			// Show an information dialog, if no document is selected
