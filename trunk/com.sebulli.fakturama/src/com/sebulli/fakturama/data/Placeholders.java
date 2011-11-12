@@ -76,7 +76,6 @@ public class Placeholders {
 			"SHIPPING.VAT.DESCRIPTION",
 			"DOCUMENT.DUNNING.LEVEL",
 			"PAYMENT.TEXT",
-			"DOCUMENT.DUNNING.LEVEL",
 			"PAYMENT.DESCRIPTION",
 			"PAYMENT.PAID.VALUE",
 			"PAYMENT.PAID.DATE",
@@ -463,7 +462,10 @@ public class Placeholders {
 	 */
 	public static String interpretParameters(String placeholder, String value) {
 		String par;
-
+		
+		if (value == null)
+			return value;
+		
 		// The parameters "PRE" and "POST" are only used, if the
 		// placeholder value is not empty
 		if (!value.isEmpty()) {
@@ -717,19 +719,19 @@ public class Placeholders {
 
 		if (key.equals("PAYMENT.TEXT")) {
 			// Replace the placeholders in the payment text
-			String pamenttext = document.getStringValueByKey("paymenttext");
-			pamenttext = pamenttext.replace("<PAID.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
-			pamenttext = pamenttext.replace("<PAID.DATE>", document.getFormatedStringValueByKey("paydate"));
-			pamenttext = pamenttext.replace("<DUE.DAYS>", Integer.toString(document.getIntValueByKey("duedays")));
-			pamenttext = pamenttext.replace("<DUE.DATE>", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
+			String paymenttext = document.getStringValueByKey("paymenttext");
+			paymenttext = paymenttext.replace("<PAID.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
+			paymenttext = paymenttext.replace("<PAID.DATE>", document.getFormatedStringValueByKey("paydate"));
+			paymenttext = paymenttext.replace("<DUE.DAYS>", Integer.toString(document.getIntValueByKey("duedays")));
+			paymenttext = paymenttext.replace("<DUE.DATE>", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
 			
 			// 2011-06-24 sbauer@eumedio.de
 			// New placeholder for bank
 			if (contact != null) {
-				pamenttext = pamenttext.replace("<BANK.ACCOUNT.HOLDER>", contact.getStringValueByKey("account_holder"));
-				pamenttext = pamenttext.replace("<BANK.ACCOUNT>", contact.getStringValueByKey("account"));
-				pamenttext = pamenttext.replace("<BANK.CODE>", contact.getStringValueByKey("bank_code"));
-				pamenttext = pamenttext.replace("<BANK.NAME>", contact.getStringValueByKey("bank_name"));
+				paymenttext = paymenttext.replace("<BANK.ACCOUNT.HOLDER>", contact.getStringValueByKey("account_holder"));
+				paymenttext = paymenttext.replace("<BANK.ACCOUNT>", contact.getStringValueByKey("account"));
+				paymenttext = paymenttext.replace("<BANK.CODE>", contact.getStringValueByKey("bank_code"));
+				paymenttext = paymenttext.replace("<BANK.NAME>", contact.getStringValueByKey("bank_name"));
 				
 				// 2011-06-24 sbauer@eumedio.de
 				// Additional placeholer for censored bank account
@@ -746,7 +748,7 @@ public class Placeholders {
 						censoredDigits += "*";
 					}
 					
-					pamenttext = pamenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredDigits + contact.getStringValueByKey("account").substring( bankAccountCensoredLength ));
+					paymenttext = paymenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredDigits + contact.getStringValueByKey("account").substring( bankAccountCensoredLength ));
 					
 				}
 			}
@@ -754,8 +756,8 @@ public class Placeholders {
 			
 			// 2011-06-24 sbauer@eumedio.de
 			// New placeholder for total sum
-			pamenttext = pamenttext.replace("<DOCUMENT.TOTAL>", document.getSummary().getTotalGross().asFormatedString());
-
+			paymenttext = paymenttext.replace("<DOCUMENT.TOTAL>", document.getSummary().getTotalGross().asFormatedString());
+			return paymenttext;
 		}
 		
 		if (key.equals("DOCUMENT.DUNNING.LEVEL")) return document.getStringValueByKey("dunninglevel");
