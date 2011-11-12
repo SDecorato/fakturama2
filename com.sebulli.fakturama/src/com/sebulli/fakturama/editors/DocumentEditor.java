@@ -211,10 +211,26 @@ public class DocumentEditor extends Editor {
 		thisDocumentEditor = this;
 	}
 
+	/**
+	 * Select the next cell
+	 * @param keyCode
+	 * @param element
+	 * @param itemEditingSupport
+	 */
 	public void selectNextCell(int keyCode, Object element, DocumentItemEditingSupport itemEditingSupport) {
 		cellNavigation.selectNextCell(keyCode, element, itemEditingSupport, items,tableViewerItems);
 	}
 	
+	/**
+	 * Mark this document as printed
+	 */
+	public void _markAsPrinted() {
+		// document.setBooleanValueByKey("printed", true);
+		// Refresh the table view
+		//refreshView();
+		//checkDirty();
+
+	}
 	
 	/**
 	 * Saves the contents of this part

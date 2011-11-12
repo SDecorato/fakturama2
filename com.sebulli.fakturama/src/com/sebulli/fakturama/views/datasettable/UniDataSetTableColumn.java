@@ -300,7 +300,17 @@ public class UniDataSetTableColumn {
 					}
 					cell.setText(getText(uds, dataKey));
 				}
+				
+				
+				// Fill the cell with the icon for printed status
+				else if (dataKey.equals("$printed")) {
 
+					if (uds.getBooleanValueByKey("printed")) {
+						cell.setImage(CHECKED);
+					}
+				}
+				
+				
 				// Fill the cell with the icon of the document type
 				else if (dataKey.equals("$documenttype")) {
 					DocumentType documentType = DocumentType.getType(((UniDataSet) cell.getElement()).getIntValueByKey("category"));
