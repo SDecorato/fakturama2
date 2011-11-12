@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchWindowAdvisor;
@@ -71,25 +70,25 @@ public class LogListener implements ILogListener {
 		if (!showerrorview)
 			return;
 
-		try {
-
-			// Find the error view
-			IWorkbenchWindow workbenchWindow = ApplicationWorkbenchWindowAdvisor.getActiveWorkbenchWindow(); 
-				
+		// Find the error view
+		IWorkbenchWindow workbenchWindow = ApplicationWorkbenchWindowAdvisor.getActiveWorkbenchWindow(); 
 			
-			if (workbenchWindow != null) {
-				IWorkbenchPage workbenchPage = workbenchWindow.getActivePage();
-				
-				if ( workbenchPage !=null ) {
+		
+		if (workbenchWindow != null) {
+			IWorkbenchPage workbenchPage = workbenchWindow.getActivePage();
+			
+			if ( workbenchPage !=null ) {
+				try  {
 					workbenchPage.showView(ErrorView.ID);
-					ErrorView view = (ErrorView) workbenchPage.findView(ErrorView.ID);
-
-					// Set the error text
-					view.setErrorText(errorString);
 				}
+				catch (Exception e) {
+					return;
+				}
+				ErrorView view = (ErrorView) workbenchPage.findView(ErrorView.ID);
+
+				// Set the error text
+				view.setErrorText(errorString);
 			}
-		}
-		catch (PartInitException e) {
 		}
 
 	}

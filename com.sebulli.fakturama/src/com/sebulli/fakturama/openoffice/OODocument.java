@@ -603,11 +603,14 @@ public class OODocument extends Object {
 	 *            The value of the user text field
 	 */
 	private void addUserTextField(String key, String value) {
+
+		if (value == null)
+			return;
+		
 		try {
 			textFieldService.addUserTextField(key, value);
 		}
 		catch (TextException e) {
-			Logger.logError(e, "Error setting User Text Field: " + key + " to " + value);
 		}
 	}
 
