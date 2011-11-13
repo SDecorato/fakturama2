@@ -14,6 +14,7 @@
 
 package com.sebulli.fakturama.data;
 
+
 /**
  * UniDataSet for all list entries
  * 
@@ -69,4 +70,25 @@ public class DataSetList extends UniDataSet {
 		sqlTabeName = "List";
 	}
 
+	/**
+	 * Test, if this is equal to an other list entry
+	 * Compare the category and the name. But ignore case and special characters
+	 * 
+	 * @param uds
+	 *            Other UniDataSet
+	 * @return True, if it's equal
+	 */
+	public boolean isTheSameAs(UniDataSet uds) {
+		
+		if (!uds.getStringValueByKey("name").equalsIgnoreCase(this.getStringValueByKey("name")))
+			return false;
+
+		if (!uds.getStringValueByKey("category").equalsIgnoreCase(this.getStringValueByKey("category")))
+			return false;
+		
+		return true;
+		
+	}
+
+	
 }

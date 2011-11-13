@@ -22,6 +22,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.CountryCodes;
 
 /**
  * Contains the data model
@@ -144,20 +145,8 @@ public enum Data {
 		setProperty("standardshipping", "0");
 		setProperty("standardpayment", "0");
 		
-		// String with default country codes.
-		//T: Some country codes separated by a semicolon. For French language use FRANCE=F and some neighbor countries. 		
-		String countryCodes = _("GERMANY=D;AUSTRIA=AT;SWITZERLAND=CH");
-		
-		// Split the string
-		String[] countryCodesPairs = countryCodes.split(";");
-		String[] countryCodesPairParts;
-
-		// Add all codes to the list of country codes
-		for (String countryCodesPair : countryCodesPairs) {
-			countryCodesPairParts = countryCodesPair.split("=");
-			list.addNewDataSet(new DataSetList("countrycodes", countryCodesPairParts[0], countryCodesPairParts[1]));
-		}
-
+		// Load the default country codes
+		CountryCodes.loadFromRecouces();
 		
 	}
 

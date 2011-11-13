@@ -32,7 +32,9 @@ public enum DataSetListNames {
 	 */
 	DataSetListNames() {
 		//T: Title of the list with country codes
-		setNamePair("country_codes", _("Country Codes"));
+		setNamePair("countrycodes_2", _("2 digit country codes"));
+		//T: Title of the list with country codes
+		setNamePair("countrycodes_3", _("3 digit country codes"));
 		//T: Title of the list with billing accounts
 		setNamePair("billing_accounts", _("Billing Accounts"));
 	}

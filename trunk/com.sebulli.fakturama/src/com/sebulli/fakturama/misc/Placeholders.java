@@ -89,6 +89,7 @@ public class Placeholders {
 			"ADDRESS.GREETING",
 			"ADDRESS.TITLE",
 			"ADDRESS.NAME",
+			"ADDRESS.NAMEWITHCOMPANY",
 			"ADDRESS.FIRSTNAME",
 			"ADDRESS.LASTNAME",
 			"ADDRESS.COMPANY",
@@ -98,12 +99,15 @@ public class Placeholders {
 			"ADDRESS.ZIP",
 			"ADDRESS.CITY",
 			"ADDRESS.COUNTRY",
+			"ADDRESS.COUNTRY.CODE2",
+			"ADDRESS.COUNTRY.CODE3",
 			"DELIVERY.ADDRESS.FIRSTLINE",
 			"DELIVERY.ADDRESS",
 			"DELIVERY.ADDRESS.GENDER",
 			"DELIVERY.ADDRESS.GREETING",
 			"DELIVERY.ADDRESS.TITLE",
 			"DELIVERY.ADDRESS.NAME",
+			"DELIVERY.ADDRESS.NAMEWITHCOMPANY",
 			"DELIVERY.ADDRESS.FIRSTNAME",
 			"DELIVERY.ADDRESS.LASTNAME",
 			"DELIVERY.ADDRESS.COMPANY",
@@ -113,6 +117,8 @@ public class Placeholders {
 			"DELIVERY.ADDRESS.ZIP",
 			"DELIVERY.ADDRESS.CITY",
 			"DELIVERY.ADDRESS.COUNTRY",
+			"DELIVERY.ADDRESS.COUNTRY.CODE2",
+			"DELIVERY.ADDRESS.COUNTRY.CODE3",
 			"ADDRESS.BANK.ACCOUNT.HOLDER",
 			"ADDRESS.BANK.ACCOUNT",
 			"ADDRESS.BANK.CODE",
@@ -189,11 +195,11 @@ public class Placeholders {
 			indexNo = matcher.start();
 		}
 		
-		// Extract the Number
+		// Extract the street
 		if (indexNo > 0)
 			return s.substring(0, indexNo).trim();
 		else
-			return "";
+			return s;
 	}
 
 	/**
@@ -785,6 +791,7 @@ public class Placeholders {
 			if (key.equals("ADDRESS.GREETING")) return contact.getGreeting(false);
 			if (key.equals("ADDRESS.TITLE")) return contact.getStringValueByKey("title");
 			if (key.equals("ADDRESS.NAME")) return contact.getName(false);
+			if (key.equals("ADDRESS.FIRSTANDLASTNAME")) return contact.getFirstAndLastName(false);
 			if (key.equals("ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("firstname");
 			if (key.equals("ADDRESS.LASTNAME")) return contact.getStringValueByKey("name");
 			if (key.equals("ADDRESS.COMPANY")) return contact.getStringValueByKey("company");
@@ -794,6 +801,8 @@ public class Placeholders {
 			if (key.equals("ADDRESS.ZIP")) return contact.getStringValueByKey("zip");
 			if (key.equals("ADDRESS.CITY")) return contact.getStringValueByKey("city");
 			if (key.equals("ADDRESS.COUNTRY")) return contact.getStringValueByKey("country");
+			if (key.equals("ADDRESS.COUNTRY.CODE2")) return CountryCodes.getCountryCodeByCountry(contact.getStringValueByKey("country"),"2");
+			if (key.equals("ADDRESS.COUNTRY.CODE3")) return CountryCodes.getCountryCodeByCountry(contact.getStringValueByKey("country"),"3");
 			if (key.equals("DELIVERY.ADDRESS")) return contact.getAddress(true);
 			if (key.equals("DELIVERY.ADDRESS.GENDER")) return contact.getGenderString(true);
 			if (key.equals("DELIVERY.ADDRESS.GREETING")) return contact.getGreeting(true);
@@ -808,6 +817,8 @@ public class Placeholders {
 			if (key.equals("DELIVERY.ADDRESS.ZIP")) return contact.getStringValueByKey("delivery_zip");
 			if (key.equals("DELIVERY.ADDRESS.CITY")) return contact.getStringValueByKey("delivery_city");
 			if (key.equals("DELIVERY.ADDRESS.COUNTRY")) return contact.getStringValueByKey("delivery_country");
+			if (key.equals("DELIVERY.ADDRESS.COUNTRY.CODE2")) return CountryCodes.getCountryCodeByCountry(contact.getStringValueByKey("delivery_country"),"2");
+			if (key.equals("DELIVERY.ADDRESS.COUNTRY.CODE3")) return CountryCodes.getCountryCodeByCountry(contact.getStringValueByKey("delivery_country"),"3");
 			if (key.equals("ADDRESS.BANK.ACCOUNT.HOLDER")) return contact.getStringValueByKey("account_holder");
 			if (key.equals("ADDRESS.BANK.ACCOUNT")) return contact.getStringValueByKey("account");
 			if (key.equals("ADDRESS.BANK.CODE")) return contact.getStringValueByKey("bank_code");
@@ -844,6 +855,12 @@ public class Placeholders {
 			if (key2.equals("ADDRESS.ZIP")) return getDataFromAddressField(addressField,"zip");
 			if (key2.equals("ADDRESS.CITY")) return getDataFromAddressField(addressField,"city");
 			if (key2.equals("ADDRESS.COUNTRY")) return getDataFromAddressField(addressField,"country");
+			if (key2.equals("ADDRESS.COUNTRY.CODE2")) {
+				return CountryCodes.getCountryCodeByCountry(getDataFromAddressField(addressField,"country"), "2");
+			}
+			if (key2.equals("ADDRESS.COUNTRY.CODE3")) {
+				return CountryCodes.getCountryCodeByCountry(getDataFromAddressField(addressField,"country"), "3");
+			}
 
 			if (key2.equals("ADDRESS.GREETING")) return DataSetContact.getCommonGreeting();
 

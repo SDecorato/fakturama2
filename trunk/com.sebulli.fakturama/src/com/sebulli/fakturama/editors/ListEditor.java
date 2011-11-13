@@ -253,7 +253,7 @@ public class ListEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
 		comboCategory.setToolTipText(labelCategory.getToolTipText());
-		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).hint(200, SWT.DEFAULT).applyTo(comboCategory);
+		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).hint(300, SWT.DEFAULT).applyTo(comboCategory);
 
 		// Add each localizes list name to the combo
 		for (Map.Entry<String, String> entry : DataSetListNames.NAMES.getLocalizedNames()) {

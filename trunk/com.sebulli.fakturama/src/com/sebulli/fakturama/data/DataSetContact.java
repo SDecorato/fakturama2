@@ -312,8 +312,36 @@ public class DataSetContact extends UniDataSet {
 		return address;
 	}
 
+	
 	/**
 	 * Get the first and the last name
+	 * 
+	 * @return First and last name
+	 */
+	public String getFirstAndLastName(boolean useDelivery) {
+		String line = "";
+
+		String deliveryString = "";
+		if (useDelivery)
+			deliveryString = "delivery_";
+
+		if (!this.getStringValueByKey(deliveryString + "firstname").isEmpty()) {
+			line += this.getStringValueByKey(deliveryString + "firstname");
+		}
+
+		
+		if (!this.getStringValueByKey(deliveryString + "name").isEmpty()) {
+			if (!line.isEmpty())
+				line += " ";
+			line += this.getStringValueByKey(deliveryString + "name");
+		}
+
+		return line;
+	}
+
+	
+	/**
+	 * Get the first and the last name, and maybe also the company
 	 * 
 	 * @return First and last name
 	 */
@@ -328,24 +356,13 @@ public class DataSetContact extends UniDataSet {
 			line = this.getStringValueByKey(deliveryString + "company");
 			if ((!this.getStringValueByKey(deliveryString + "firstname").isEmpty()) || 
 				(!this.getStringValueByKey(deliveryString + "name").isEmpty()) )
-				line +=",";
+				line +=", ";
 		}
 
-		if (!this.getStringValueByKey(deliveryString + "firstname").isEmpty()) {
-			if (!line.isEmpty())
-				line += " ";
-				line += this.getStringValueByKey(deliveryString + "firstname");
-		}
-
-		
-		if (!this.getStringValueByKey(deliveryString + "name").isEmpty()) {
-			if (!line.isEmpty())
-				line += " ";
-				line += this.getStringValueByKey(deliveryString + "name");
-		}
-
+		line += this.getFirstAndLastName(useDelivery);
 		return line;
 	}
+
 
 	/**
 	 * Get the gender String

@@ -33,6 +33,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
 import com.sebulli.fakturama.backup.BackupManager;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.editors.ParcelServiceBrowserEditor;
 import com.sebulli.fakturama.openoffice.OOManager;
 import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
@@ -130,7 +131,9 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		            	 }
 		            	 
 		            	 // Close the other editors, if they are not dirty
-		            	 if (!editor.isDirty() && !thisIsMe) {
+		            	 if (!editor.isDirty() && !thisIsMe && 
+					    		 // Do not close parcel service editors
+		            			 !(editor instanceof ParcelServiceBrowserEditor)) {
 		            			if (Activator.getDefault().getPreferenceStore().getBoolean("GENERAL_CLOSE_OTHER_EDITORS")) {
 		            				page.closeEditor(editor, false);
 		            				if (openEditors.size() > 1)
