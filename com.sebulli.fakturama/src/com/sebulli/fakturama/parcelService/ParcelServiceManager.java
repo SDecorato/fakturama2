@@ -20,6 +20,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -74,7 +76,8 @@ public class ParcelServiceManager {
 					BufferedInputStream stream;
 					try {
 						stream = new BufferedInputStream(new FileInputStream(templateFilename.getPathAndFilename()));
-						properties.load(stream);
+						Reader in = new InputStreamReader(stream,"UTF8");
+						properties.load(in);
 						stream.close();
 
 						// Use it only, if there is at least a name and a url key
