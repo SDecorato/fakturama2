@@ -17,6 +17,7 @@ formModel.receiver.houseNumber = DELIVERY.ADDRESS.STREETNO
 formModel.receiver.zip         = DELIVERY.ADDRESS.ZIP
 formModel.receiver.city        = DELIVERY.ADDRESS.CITY
 formModel.receiver.email       = ADDRESS.EMAIL
+formModel.receiver.countryCode = DELIVERY.ADDRESS.COUNTRY.CODE3
 
 
 # If you have created a template file for a new parcel service,
