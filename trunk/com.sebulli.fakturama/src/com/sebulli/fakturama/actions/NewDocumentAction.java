@@ -22,11 +22,11 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
 import com.sebulli.fakturama.editors.UniDataSetEditorInput;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DocumentType;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 

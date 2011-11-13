@@ -26,11 +26,11 @@ import java.util.Properties;
 
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.OSDependent;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.DataSetVAT;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.views.datasettable.ViewProductTable;
 import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 

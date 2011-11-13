@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.calculate;
+package com.sebulli.fakturama.misc;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;

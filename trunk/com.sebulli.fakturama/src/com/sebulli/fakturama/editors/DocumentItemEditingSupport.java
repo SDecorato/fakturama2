@@ -27,12 +27,12 @@ import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.widgets.Control;
 
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.DataSetVAT;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Item editing support for the item table of the document editor

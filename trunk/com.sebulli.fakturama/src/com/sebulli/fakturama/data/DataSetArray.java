@@ -19,8 +19,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Array List of UniDataSets This list is used to store all the data sets like

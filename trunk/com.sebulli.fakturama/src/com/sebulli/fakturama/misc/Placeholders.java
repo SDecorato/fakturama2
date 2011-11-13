@@ -12,13 +12,15 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.data;
+package com.sebulli.fakturama.misc;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.calculate.DataUtils;
+import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetContact;
+import com.sebulli.fakturama.data.DataSetDocument;
 
 public class Placeholders {
 	
@@ -393,6 +395,9 @@ public class Placeholders {
 	 *  The string without them
 	 */
 	private static String removeQuotationMarks(String s) {
+		
+		// remove leading and trailing spaces
+		s = s.trim();
 		
 		// Remove the leading
 		if (s.startsWith("\""))

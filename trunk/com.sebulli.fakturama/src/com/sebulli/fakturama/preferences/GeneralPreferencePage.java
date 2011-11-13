@@ -29,7 +29,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.calculate.DataUtils;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Preference page for the document settings

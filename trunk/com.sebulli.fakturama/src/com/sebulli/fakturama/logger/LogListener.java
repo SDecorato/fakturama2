@@ -32,7 +32,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchWindowAdvisor;
-import com.sebulli.fakturama.calculate.DataUtils;
+import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.views.ErrorView;
 
 /**

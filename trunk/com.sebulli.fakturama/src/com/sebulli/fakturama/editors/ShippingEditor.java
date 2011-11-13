@@ -39,13 +39,13 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetShipping;
 import com.sebulli.fakturama.data.DataSetVAT;
 import com.sebulli.fakturama.data.UniData;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.data.UniDataType;
+import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.views.datasettable.ViewShippingTable;
 
 /**

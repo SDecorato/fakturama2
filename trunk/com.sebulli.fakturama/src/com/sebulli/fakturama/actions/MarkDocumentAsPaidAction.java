@@ -27,7 +27,7 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DocumentType;
+import com.sebulli.fakturama.misc.DocumentType;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 
 /**

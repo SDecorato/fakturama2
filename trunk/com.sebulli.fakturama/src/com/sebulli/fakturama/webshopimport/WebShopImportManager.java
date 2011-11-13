@@ -56,7 +56,6 @@ import org.xml.sax.SAXException;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.DataSetDocument;
@@ -65,10 +64,11 @@ import com.sebulli.fakturama.data.DataSetPayment;
 import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.DataSetShipping;
 import com.sebulli.fakturama.data.DataSetVAT;
-import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.editors.ProductEditor;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DataUtils;
+import com.sebulli.fakturama.misc.DocumentType;
 
 /**
  * Web shop import manager This class provides the functionality to connect to

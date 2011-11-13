@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.calculate;
 
+import com.sebulli.fakturama.misc.DataUtils;
+
 /**
  * Class PriceValue Stores a value as double and provides methods to get the
  * value formated or rounded

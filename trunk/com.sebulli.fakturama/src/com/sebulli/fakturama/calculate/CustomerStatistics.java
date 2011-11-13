@@ -22,7 +22,8 @@ import java.util.GregorianCalendar;
 
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DocumentType;
+import com.sebulli.fakturama.misc.DataUtils;
+import com.sebulli.fakturama.misc.DocumentType;
 
 /**
  * This class can generate a customer statistic

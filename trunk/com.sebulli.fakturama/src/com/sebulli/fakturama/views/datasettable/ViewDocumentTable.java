@@ -32,7 +32,7 @@ import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DocumentType;
+import com.sebulli.fakturama.misc.DocumentType;
 
 /**
  * View with the table of all documents

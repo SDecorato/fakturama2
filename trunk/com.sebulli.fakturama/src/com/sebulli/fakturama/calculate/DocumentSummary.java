@@ -20,6 +20,7 @@ import java.util.Iterator;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DataSetShipping;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Calculates the tax, gross and sum of one document. This is the central

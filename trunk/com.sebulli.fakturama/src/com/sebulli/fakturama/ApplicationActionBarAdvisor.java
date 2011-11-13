@@ -66,7 +66,7 @@ import com.sebulli.fakturama.actions.OpenVatsAction;
 import com.sebulli.fakturama.actions.SelectWorkspaceAction;
 import com.sebulli.fakturama.actions.UpdateAction;
 import com.sebulli.fakturama.actions.WebShopImportAction;
-import com.sebulli.fakturama.data.DocumentType;
+import com.sebulli.fakturama.misc.DocumentType;
 
 /**
  * An action bar advisor is responsible for creating, adding, and disposing of

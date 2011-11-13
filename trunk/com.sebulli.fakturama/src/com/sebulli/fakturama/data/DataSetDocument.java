@@ -25,6 +25,7 @@ import java.util.UUID;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.calculate.DocumentSummary;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DocumentType;
 
 /**
  * UniDataSet for all documents

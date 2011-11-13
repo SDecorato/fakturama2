@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.DataBaseConnectionState;
-import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DocumentType;
 import com.sebulli.fakturama.parcelService.ParcelServiceManager;
 
 /**

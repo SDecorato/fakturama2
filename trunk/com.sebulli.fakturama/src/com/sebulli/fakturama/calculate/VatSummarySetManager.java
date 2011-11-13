@@ -15,7 +15,7 @@
 package com.sebulli.fakturama.calculate;
 
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DocumentType;
+import com.sebulli.fakturama.misc.DocumentType;
 
 /**
  * Stores one VatSummarySet object and provides some methods e.g. to add an
