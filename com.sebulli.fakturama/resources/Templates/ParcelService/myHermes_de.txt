@@ -22,8 +22,7 @@ empfaenger(PLZ)          = DELIVERY.ADDRESS.ZIP
 empfaenger(ORT)          = DELIVERY.ADDRESS.CITY
 empfaenger(VORWAHL)      = ADDRESS.PHONE.PRE
 empfaenger(TELEFON)      = ADDRESS.PHONE.POST
-empfaenger(LAND)         = DELIVERY.ADDRESS.COUNTRY$REPLACE:{"","DEU";"Belgien","BEL";"Dänemark","DNK";"Deutschland","DEU";"Estland","EST";"Finnland","FIN";"Frankreich","FRA";"Großbritannien","GBR";"Irland","IRL";"Italien","ITA";"Lettland","LVA";"Liechtenstein","LIE";"Litauen","LTU";"Luxemburg","LUX";"Monaco","MCO";"Niederlande","NLD";"Österreich","AUT";"Polen","POL";"Portugal","PRT";"Schweden","SWE";"Schweiz","CHE";"Slowakei","SVK";"Slowenien","SVN";"Spanien","ESP";"Tschechische Republik","CZE";"Ungarn","HUN"}
-
+empfaenger(LAND)         = DELIVERY.ADDRESS.COUNTRY.CODE3
 
 
 # If you have created a template file for a new parcel service,

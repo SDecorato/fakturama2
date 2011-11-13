@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Version;
 
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.misc.CountryCodes;
 
 /**
  * Does some update jobs
@@ -44,8 +45,12 @@ public class Updater {
 		Version dataBaseVersion = new Version(Data.INSTANCE.getProperty("bundleversion"));
 		
 		// The plugin version is newer
-		if (plugInVersion.compareTo(dataBaseVersion) >= 1) {
-			// Do something ... (in the future)
+		if (plugInVersion.compareTo(dataBaseVersion) >= 1) 
+		{
+			// Load the country codes
+			CountryCodes.update("1.5");
+			// Update the entry in the data base
+			Data.INSTANCE.setProperty("bundleversion", plugInVersion.toString());
 		}
 	}
 	
