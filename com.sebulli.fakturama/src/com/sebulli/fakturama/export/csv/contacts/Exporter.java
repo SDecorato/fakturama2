@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.sebulli.fakturama.OSDependent;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
+import com.sebulli.fakturama.misc.DataUtils;
 
 
 /**

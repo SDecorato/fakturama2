@@ -29,11 +29,11 @@ import ag.ion.bion.officelayer.spreadsheet.ISpreadsheetDocument;
 import ag.ion.noa.NOAException;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetExpenditure;
-import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DataUtils;
+import com.sebulli.fakturama.misc.DocumentType;
 import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.lang.IndexOutOfBoundsException;

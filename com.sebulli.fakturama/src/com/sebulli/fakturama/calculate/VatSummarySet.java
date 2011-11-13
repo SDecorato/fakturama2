@@ -17,6 +17,8 @@ package com.sebulli.fakturama.calculate;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import com.sebulli.fakturama.misc.DataUtils;
+
 /**
  * This Class can contain multiple VatSummaryItems.
  * 

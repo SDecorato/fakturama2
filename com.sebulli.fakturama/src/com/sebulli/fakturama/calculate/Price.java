@@ -17,6 +17,7 @@ package com.sebulli.fakturama.calculate;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Price class

@@ -23,8 +23,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.UniData;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * This class contains a SWT text widget and some methods to format the text as

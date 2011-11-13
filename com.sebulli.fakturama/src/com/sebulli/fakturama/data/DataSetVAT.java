@@ -16,7 +16,7 @@ package com.sebulli.fakturama.data;
 
 import static com.sebulli.fakturama.Translate._;
 
-import com.sebulli.fakturama.calculate.DataUtils;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * UniDataSet for all vats

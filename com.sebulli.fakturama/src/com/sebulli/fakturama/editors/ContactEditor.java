@@ -47,10 +47,10 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.UniDataSet;
+import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.views.datasettable.ViewContactTable;
 
 /**

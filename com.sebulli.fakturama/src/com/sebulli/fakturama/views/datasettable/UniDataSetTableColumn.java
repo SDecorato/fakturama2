@@ -35,14 +35,14 @@ import org.eclipse.swt.widgets.TableColumn;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DataSetProduct;
-import com.sebulli.fakturama.data.DocumentType;
 import com.sebulli.fakturama.data.UniDataSet;
+import com.sebulli.fakturama.misc.DataUtils;
+import com.sebulli.fakturama.misc.DocumentType;
 
 /**
  * This class represents a column of a table that contains UniDataSets

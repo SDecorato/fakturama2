@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.UniDataSet;
+import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.views.datasettable.TopicTreeViewer.TreeObject;
 
 /**

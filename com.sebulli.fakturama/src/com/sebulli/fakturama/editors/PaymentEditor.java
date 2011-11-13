@@ -29,9 +29,9 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetPayment;
+import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.views.datasettable.ViewPaymentTable;
 
 /**

@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.DataSetVAT;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Provides a list with all VAT entries with a value of "0%"

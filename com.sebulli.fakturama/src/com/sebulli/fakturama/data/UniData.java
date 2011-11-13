@@ -14,7 +14,7 @@
 
 package com.sebulli.fakturama.data;
 
-import com.sebulli.fakturama.calculate.DataUtils;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * This class is container for an value in different data types. If you read the

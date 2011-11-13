@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import com.sebulli.fakturama.calculate.DataUtils;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Dialog to enter a comment send to the user via the web shop

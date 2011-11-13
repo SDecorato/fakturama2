@@ -23,8 +23,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import com.sebulli.fakturama.Workspace;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.misc.DataUtils;
 
 public class BackupManager {
 

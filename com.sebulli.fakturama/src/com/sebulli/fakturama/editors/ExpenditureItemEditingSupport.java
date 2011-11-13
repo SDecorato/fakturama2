@@ -30,12 +30,12 @@ import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetList;
 import com.sebulli.fakturama.data.DataSetVAT;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Item editing support for the item table of the document editor

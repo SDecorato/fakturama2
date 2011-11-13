@@ -30,10 +30,10 @@ import org.eclipse.ui.IEditorInput;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.Workspace;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.Placeholders;
 import com.sebulli.fakturama.editors.ParcelServiceBrowserEditorInput;
+import com.sebulli.fakturama.misc.DataUtils;
+import com.sebulli.fakturama.misc.Placeholders;
 
 /**
  * Fills the form of the parcel service

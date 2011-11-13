@@ -22,7 +22,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.calculate.DataUtils;
 import com.sebulli.fakturama.calculate.PriceValue;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
 import com.sebulli.fakturama.calculate.VatSummarySetManager;
@@ -32,6 +31,7 @@ import com.sebulli.fakturama.data.DataSetExpenditure;
 import com.sebulli.fakturama.data.UniDataSetSorter;
 import com.sebulli.fakturama.export.CellFormatter;
 import com.sebulli.fakturama.export.OOCalcExporter;
+import com.sebulli.fakturama.misc.DataUtils;
 
 
 /**
