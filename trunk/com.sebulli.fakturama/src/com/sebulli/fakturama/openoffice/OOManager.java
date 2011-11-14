@@ -16,8 +16,12 @@ package com.sebulli.fakturama.openoffice;
 
 import java.util.ArrayList;
 
+import org.eclipse.ui.PlatformUI;
+
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.DataSetDocument;
+import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
+import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
 
 /**
  * Manages the OpenOffice documents. Stores a list of all open documents and
@@ -42,6 +46,10 @@ public enum OOManager {
 	 */
 	public void openOODocument(final DataSetDocument document, final String template,final boolean forceRecreation) {
 		
+		// Find the view
+		final ViewDataSetTable documentView = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(ViewDocumentTable.ID);
+
+
 		
 		// Start OpenOffice in a new thread, depending in the settings
 		if (Activator.getDefault().getPreferenceStore().getBoolean("OPENOFFICE_START_IN_NEW_THREAD")) {
@@ -49,7 +57,7 @@ public enum OOManager {
 			// Start OpenOffice in a new thread
 			new Thread(new Runnable() {
 				public void run() {
-					oODocuments.add(new OODocument(document, template, forceRecreation));
+					oODocuments.add(new OODocument(document, template, forceRecreation, documentView));
 				}
 			}).start();
 			
@@ -57,7 +65,7 @@ public enum OOManager {
 		else {
 			
 			// Start OpenOffice in this thread
-			oODocuments.add(new OODocument(document, template, forceRecreation));
+			oODocuments.add(new OODocument(document, template, forceRecreation, documentView));
 		}
 
 		
