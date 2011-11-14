@@ -29,6 +29,8 @@ import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
 
+import org.eclipse.swt.widgets.Display;
+
 import ag.ion.bion.officelayer.application.IOfficeApplication;
 import ag.ion.bion.officelayer.application.OfficeApplicationException;
 import ag.ion.bion.officelayer.desktop.GlobalCommands;
@@ -62,6 +64,7 @@ import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.misc.DocumentType;
 import com.sebulli.fakturama.misc.Placeholders;
+import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 import com.sun.star.awt.XTopWindow;
 import com.sun.star.frame.XFrame;
 import com.sun.star.text.HoriOrientation;
@@ -110,6 +113,9 @@ public class OODocument extends Object {
 	
 	private ArrayList<String> allPlaceholders;
 	
+	// View with all documents
+	private ViewDataSetTable documentView;
+	
 	/**
 	 * Constructor Create a new OpenOffice document. Open it by using a template
 	 * and replace the placeholders with the UniDataSet document
@@ -120,8 +126,11 @@ public class OODocument extends Object {
 	 * @param template
 	 *            OpenOffice template file name
 	 */
-	public OODocument(DataSetDocument document, String template, boolean forceRecreation) {
+	public OODocument(DataSetDocument document, String template, boolean forceRecreation, ViewDataSetTable documentView) {
 
+		// Set a reference to the documents view
+		this.documentView = documentView;
+		
 		// URL of the template file
 		String url = null;
 		this.template = template;
@@ -554,6 +563,16 @@ public class OODocument extends Object {
 			document.setBooleanValueByKey("printed", true);
 			document.setStringValueByKey("printedtemplate", template);
 			Data.INSTANCE.getDocuments().updateDataSet(document);
+			
+			// Refresh the document view
+			if (documentView != null) {
+				Display.getDefault().syncExec(new Runnable() {
+				    public void run() {
+				    	documentView.refresh();
+				    }
+				});
+			}
+
 		}
 
 	}

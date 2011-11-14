@@ -79,6 +79,9 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 	 */
 	static public void refreshView(String viewId) {
 
+		if (PlatformUI.getWorkbench().getActiveWorkbenchWindow() == null)
+			return;
+
 		// Find the view
 		ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(viewId);
 
