@@ -27,7 +27,7 @@ import com.sebulli.fakturama.calculate.VatSummaryItem;
 import com.sebulli.fakturama.calculate.VatSummarySetManager;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DataSetExpenditure;
+import com.sebulli.fakturama.data.DataSetExpenditureVoucher;
 import com.sebulli.fakturama.data.UniDataSetSorter;
 import com.sebulli.fakturama.export.CellFormatter;
 import com.sebulli.fakturama.export.OOCalcExporter;
@@ -86,7 +86,7 @@ public class Exporter extends OOCalcExporter{
 		// Get all undeleted documents
 		ArrayList<DataSetDocument> documents = Data.INSTANCE.getDocuments().getActiveDatasets();
 		// Get all undeleted expenditures
-		ArrayList<DataSetExpenditure> expenditures = Data.INSTANCE.getExpenditures().getActiveDatasets();
+		ArrayList<DataSetExpenditureVoucher> expenditures = Data.INSTANCE.getExpenditureVouchers().getActiveDatasets();
 
 		// Sort the documents by the pay date
 		Collections.sort(documents, new UniDataSetSorter(documentDateKey));

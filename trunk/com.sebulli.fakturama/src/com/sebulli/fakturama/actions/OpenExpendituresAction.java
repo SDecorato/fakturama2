@@ -19,7 +19,7 @@ import static com.sebulli.fakturama.Translate._;
 import org.eclipse.jface.action.Action;
 
 import com.sebulli.fakturama.views.ViewManager;
-import com.sebulli.fakturama.views.datasettable.ViewExpenditureTable;
+import com.sebulli.fakturama.views.datasettable.ViewExpenditureVoucherTable;
 
 /**
  * This action opens the expenditures in a table view.
@@ -57,6 +57,6 @@ public class OpenExpendituresAction extends Action {
 	 */
 	@Override
 	public void run() {
-		ViewManager.showView(ViewExpenditureTable.ID);
+		ViewManager.showView(ViewExpenditureVoucherTable.ID);
 	}
 }

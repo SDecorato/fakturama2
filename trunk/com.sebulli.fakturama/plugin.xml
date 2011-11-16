@@ -110,7 +110,7 @@
       </view>
       <view
             allowMultiple="true"
-            class="com.sebulli.fakturama.views.datasettable.ViewExpenditureTable"
+            class="com.sebulli.fakturama.views.datasettable.ViewVoucherTable"
             icon="icons/16/expenditure_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewExpenditureTable"
             name="Expenditures"
@@ -724,7 +724,7 @@
             name="List Editor">
       </editor>
       <editor
-            class="com.sebulli.fakturama.editors.ExpenditureEditor"
+            class="com.sebulli.fakturama.editors.VoucherEditor"
             default="false"
             icon="icons/16/expenditure_16.png"
             id="com.sebulli.fakturama.editors.expenditureEditor"

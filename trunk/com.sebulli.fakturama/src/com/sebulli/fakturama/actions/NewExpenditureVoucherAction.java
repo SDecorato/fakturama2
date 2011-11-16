@@ -20,7 +20,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.data.DataBaseConnectionState;
-import com.sebulli.fakturama.editors.ExpenditureEditor;
+import com.sebulli.fakturama.editors.ExpenditureVoucherEditor;
 import com.sebulli.fakturama.editors.UniDataSetEditorInput;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -29,12 +29,12 @@ import com.sebulli.fakturama.logger.Logger;
  * 
  * @author Gerd Bartelt
  */
-public class NewExpenditureAction extends NewEditorAction {
+public class NewExpenditureVoucherAction extends NewEditorAction {
 
 	/**
 	 * Default Constructor
 	 */
-	public NewExpenditureAction() {
+	public NewExpenditureVoucherAction() {
 		//T: Text of the action to create a new expenditure
 		super(_("New Expenditure"));
 
@@ -69,10 +69,10 @@ public class NewExpenditureAction extends NewEditorAction {
 
 		// Open a new Contact Editor 
 		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, ExpenditureEditor.ID);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(input, ExpenditureVoucherEditor.ID);
 		}
 		catch (PartInitException e) {
-			Logger.logError(e, "Error opening Editor: " + ExpenditureEditor.ID);
+			Logger.logError(e, "Error opening Editor: " + ExpenditureVoucherEditor.ID);
 		}
 	}
 }
