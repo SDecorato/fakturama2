@@ -343,7 +343,7 @@
             categoryId="com.sebulli.fakturama.categoryNewObject"
             description="Create New Expenditure"
             id="com.sebulli.fakturama.actions.newExpenditure"
-            name="Create New Expenditurey">
+            name="Create New Expenditure">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
