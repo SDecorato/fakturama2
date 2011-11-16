@@ -15,14 +15,14 @@ package com.sebulli.fakturama.data;
 
 public class DataSetExpenditureVoucherItem extends DataSetVoucherItem{
 
-	// Name of the table in the data base
-	public String sqlTabeName = "ExpenditureItems";
 	
 	/**
 	 * Default constructor
 	 */
 	public DataSetExpenditureVoucherItem() {
 		super();
+		// Name of the table in the data base
+		sqlTabeName = "ExpenditureItems";
 	}
 	
 	/**
