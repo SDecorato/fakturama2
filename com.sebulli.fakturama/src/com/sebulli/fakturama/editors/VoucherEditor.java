@@ -46,13 +46,12 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
-import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
-import com.sebulli.fakturama.data.DataSetExpenditure;
-import com.sebulli.fakturama.data.DataSetExpenditureItem;
 import com.sebulli.fakturama.data.DataSetList;
 import com.sebulli.fakturama.data.DataSetVAT;
+import com.sebulli.fakturama.data.DataSetVoucher;
+import com.sebulli.fakturama.data.DataSetVoucherItem;
 import com.sebulli.fakturama.data.UniData;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.data.UniDataType;
@@ -60,7 +59,6 @@ import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
-import com.sebulli.fakturama.views.datasettable.ViewExpenditureTable;
 import com.sebulli.fakturama.views.datasettable.ViewListTable;
 
 /**
@@ -68,13 +66,11 @@ import com.sebulli.fakturama.views.datasettable.ViewListTable;
  * 
  * @author Gerd Bartelt
  */
-public class ExpenditureEditor extends Editor {
+public abstract class VoucherEditor extends Editor {
 
-	// Editor's ID
-	public static final String ID = "com.sebulli.fakturama.editors.expenditureEditor";
 
 	// This UniDataSet represents the editor's input
-	private DataSetExpenditure expenditure;
+	protected DataSetVoucher voucher;
 
 	// SWT widgets of the editor
 	private Composite top;
@@ -94,32 +90,49 @@ public class ExpenditureEditor extends Editor {
 	private CellNavigation cellNavigation;
 
 	// The items of this document
-	private DataSetArray<DataSetExpenditureItem> expenditureItems;
+	private DataSetArray<DataSetVoucherItem> voucherItems;
 
 	// Flag, if item editing is active
-	ExpenditureItemEditingSupport itemEditingSupport = null;
+	VoucherItemEditingSupport itemEditingSupport = null;
 
 	// These flags are set by the preference settings.
 	// They define, if elements of the editor are displayed, or not.
 	private boolean useGross;
 
 	// defines, if the payment is new created
-	private boolean newExpenditure;
+	private boolean newVoucher;
 
 	/**
 	 * Constructor
 	 * 
 	 * Associate the table view with the editor
 	 */
-	public ExpenditureEditor() {
+	public VoucherEditor() {
 		cellNavigation = new CellNavigation(itemTableColumns);
-		tableViewID = ViewExpenditureTable.ID;
-		editorID = "expenditure";
+	}
+
+	/**
+	 * Get the voucher items from the data object
+	 * @return
+	 * 		all voucher items
+	 */
+	protected DataSetArray<DataSetVoucherItem> getVoucherItems() {
+		return null;
 	}
 
 	
-	public void selectNextCell(int keyCode, Object element, ExpenditureItemEditingSupport itemEditingSupport) {
-		cellNavigation.selectNextCell(keyCode, element, itemEditingSupport, expenditureItems,tableViewerItems);
+	/**
+	 * Get the vouchers from the data object
+	 * @return
+	 * 		all vouchers
+	 */
+	public DataSetArray<DataSetVoucher> getVouchers() {
+		return null;
+	}
+
+	
+	public void selectNextCell(int keyCode, Object element, VoucherItemEditingSupport itemEditingSupport) {
+		cellNavigation.selectNextCell(keyCode, element, itemEditingSupport, voucherItems,tableViewerItems);
 	}
 
 	/**
@@ -140,32 +153,32 @@ public class ExpenditureEditor extends Editor {
 			itemEditingSupport.cancelAndSave();
 
 		// Always set the editor's data set to "undeleted"
-		expenditure.setBooleanValueByKey("deleted", false);
+		voucher.setBooleanValueByKey("deleted", false);
 
 		// Set the payment data
-		expenditure.setStringValueByKey("name", textName.getText());
-		expenditure.setStringValueByKey("category", comboCategory.getText());
-		expenditure.setStringValueByKey("nr", textNr.getText());
-		expenditure.setStringValueByKey("documentnr", textDocumentNr.getText());
-		expenditure.setStringValueByKey("date", DataUtils.getDateTimeAsString(dtDate));
+		voucher.setStringValueByKey("name", textName.getText());
+		voucher.setStringValueByKey("category", comboCategory.getText());
+		voucher.setStringValueByKey("nr", textNr.getText());
+		voucher.setStringValueByKey("documentnr", textDocumentNr.getText());
+		voucher.setStringValueByKey("date", DataUtils.getDateTimeAsString(dtDate));
 
 		
 		// Set all the items
-		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems.getActiveDatasets();
+		ArrayList<DataSetVoucherItem> itemDatasets = voucherItems.getActiveDatasets();
 		String itemsString = "";
 
-		for (DataSetExpenditureItem itemDataset : itemDatasets) {
+		for (DataSetVoucherItem itemDataset : itemDatasets) {
 
-			// Get the ID of this expenditure item and
+			// Get the ID of this voucher item and
 			int id = itemDataset.getIntValueByKey("id");
 
-			DataSetExpenditureItem item = null;
+			DataSetVoucherItem item = null;
 
 			// Get an existing item, or use the temporary item
 			if (id >= 0) {
-				item = Data.INSTANCE.getExpenditureItems().getDatasetById(id);
+				item = getVoucherItems().getDatasetById(id);
 
-				// Copy the values to the existing expenditure item.
+				// Copy the values to the existing voucher item.
 				item.setStringValueByKey("name", itemDataset.getStringValueByKey("name"));
 				item.setStringValueByKey("category", itemDataset.getStringValueByKey("category"));
 				item.setDoubleValueByKey("price", itemDataset.getDoubleValueByKey("price"));
@@ -181,11 +194,11 @@ public class ExpenditureEditor extends Editor {
 			// If the ID of this item is -1, this was a new item.
 			// In this case, update the existing one
 			if (id >= 0) {
-				Data.INSTANCE.getExpenditureItems().updateDataSet(item);
+				getVoucherItems().updateDataSet(item);
 			}
 			else {
-				// Create a new expenditure item
-				itemDataset = Data.INSTANCE.getExpenditureItems().addNewDataSet(itemDataset);
+				// Create a new voucher item
+				itemDataset = getVoucherItems().addNewDataSet(itemDataset);
 				id = itemDataset.getIntValueByKey("id");
 			}
 
@@ -195,38 +208,38 @@ public class ExpenditureEditor extends Editor {
 			itemsString += Integer.toString(id);
 		}
 		// Set the string value
-		expenditure.setStringValueByKey("items", itemsString);
+		voucher.setStringValueByKey("items", itemsString);
 		
 		// Set total and paid value
-		expenditure.setDoubleValueByKey("total",totalValue.getValueAsDouble() );
+		voucher.setDoubleValueByKey("total",totalValue.getValueAsDouble() );
 
-		// The the expenditure was paid with a discount, use the paid value
+		// The the voucher was paid with a discount, use the paid value
 		if (bPaidWithDiscount.getSelection()) {
-			expenditure.setBooleanValueByKey("discounted", true);
-			expenditure.setDoubleValueByKey("paid",paidValue.getValueAsDouble() );
+			voucher.setBooleanValueByKey("discounted", true);
+			voucher.setDoubleValueByKey("paid",paidValue.getValueAsDouble() );
 		}
 		// else use the total value
 		else {
-			expenditure.setBooleanValueByKey("discounted", false);
-			expenditure.setDoubleValueByKey("paid",totalValue.getValueAsDouble() );
+			voucher.setBooleanValueByKey("discounted", false);
+			voucher.setDoubleValueByKey("paid",totalValue.getValueAsDouble() );
 		}
 
 
-		// If it is a new expenditure, add it to the expenditure list and
+		// If it is a new voucher, add it to the voucher list and
 		// to the data base
-		if (newExpenditure) {
-			expenditure = Data.INSTANCE.getExpenditures().addNewDataSet(expenditure);
-			newExpenditure = false;
+		if (newVoucher) {
+			voucher = getVouchers().addNewDataSet(voucher);
+			newVoucher = false;
 		}
 		// If it's not new, update at least the data base
 		else {
-			Data.INSTANCE.getExpenditures().updateDataSet(expenditure);
+			getVouchers().updateDataSet(voucher);
 		}
 
-		// Set the Editor's name to the expenditure name.
-		setPartName(expenditure.getStringValueByKey("name"));
+		// Set the Editor's name to the voucher name.
+		setPartName(voucher.getStringValueByKey("name"));
 
-		// Refresh the table view of all expenditures
+		// Refresh the table view of all vouchers
 		ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
 		refreshView();
 		checkDirty();
@@ -237,11 +250,11 @@ public class ExpenditureEditor extends Editor {
 	 * an entry with the same name 
 	 * 
 	 * @param vatID
-	 * 			VAT id of the expenditure item
+	 * 			VAT id of the voucher item
 	 * @param category
-	 * 			Category of the expenditure item
+	 * 			Category of the voucher item
 	 */
-	public static void updateBillingAccount(DataSetExpenditureItem item) {
+	public static void updateBillingAccount(DataSetVoucherItem item) {
 		
 		// Get list of all billing accounts
 		ArrayList<DataSetList> billing_accounts = Data.INSTANCE.getListEntries().getActiveDatasetsByCategory("billing_accounts");
@@ -294,6 +307,21 @@ public class ExpenditureEditor extends Editor {
 	}
 
 	/**
+	 * Creates a new Voucher
+	 */
+	protected void CreateNewVoucher(IEditorInput input) {
+		// Create a new data set
+//		voucher = new DataSetVoucher(((UniDataSetEditorInput) input).getCategory());
+	}
+	
+	
+	protected DataSetVoucherItem CreateNewVoucherItem (DataSetVoucherItem item) {
+		//new DataSetVoucherItem(item);
+		return null; 
+	}
+	
+	
+	/**
 	 * Initializes the editor. If an existing data set is opened, the local
 	 * variable "payment" is set to This data set. If the editor is opened to
 	 * create a new one, a new data set is created and the local variable
@@ -312,34 +340,31 @@ public class ExpenditureEditor extends Editor {
 		setInput(input);
 
 		// Set the editor's data set to the editor's input
-		expenditure = (DataSetExpenditure) ((UniDataSetEditorInput) input).getUniDataSet();
+		voucher = (DataSetVoucher) ((UniDataSetEditorInput) input).getUniDataSet();
 
 		// test, if the editor is opened to create a new data set. This is,
 		// if there is no input set.
-		newExpenditure = (expenditure == null);
+		newVoucher = (voucher == null);
 
 		// If new ..
-		if (newExpenditure) {
+		if (newVoucher) {
 
-			// Create a new data set
-			expenditure = new DataSetExpenditure(((UniDataSetEditorInput) input).getCategory());
-			
-			//T: Expenditure Editor: Name of a new Expenditure
-			setPartName(_("New Expenditure"));
+			//T: Voucher Editor: Name of a new Voucher
+			setPartName(_("New Voucher"));
 
 			// Us the last category
-			int lastExpenditureSize = Data.INSTANCE.getExpenditures().getActiveDatasets().size();
-			if (lastExpenditureSize > 0) {
-				DataSetExpenditure lastExpenditure = Data.INSTANCE.getExpenditures().getActiveDatasets().get(lastExpenditureSize - 1);
-				expenditure.setStringValueByKey("category", lastExpenditure.getStringValueByKey("category"));
+			int lastVoucherSize = getVouchers().getActiveDatasets().size();
+			if (lastVoucherSize > 0) {
+				DataSetVoucher lastVoucher = getVouchers().getActiveDatasets().get(lastVoucherSize - 1);
+				voucher.setStringValueByKey("category", lastVoucher.getStringValueByKey("category"));
 
 			}
 
 		}
 		else {
 
-			// Set the Editor's name to the expenditure name.
-			setPartName(expenditure.getStringValueByKey("name"));
+			// Set the Editor's name to the voucher name.
+			setPartName(voucher.getStringValueByKey("name"));
 		}
 
 		// Create a set of new temporary items.
@@ -347,10 +372,10 @@ public class ExpenditureEditor extends Editor {
 		// If the editor is opened, the items from the document are
 		// copied to this item set. If the editor is closed or saved,
 		// these items are copied back to the document and to the data base.
-		expenditureItems = new DataSetArray<DataSetExpenditureItem>();
+		voucherItems = new DataSetArray<DataSetVoucherItem>();
 
 		// Get all items by ID from the item string
-		String itemsString = expenditure.getStringValueByKey("items");
+		String itemsString = voucher.getStringValueByKey("items");
 		String[] itemsStringParts = itemsString.split(",");
 
 		// Parse the item string ..
@@ -366,13 +391,13 @@ public class ExpenditureEditor extends Editor {
 				}
 
 				// And copy the item to a new one
-				DataSetExpenditureItem item = new DataSetExpenditureItem(Data.INSTANCE.getExpenditureItems().getDatasetById(id));
-				expenditureItems.getDatasets().add(item);
+				DataSetVoucherItem item = CreateNewVoucherItem(getVoucherItems().getDatasetById(id)); 
+				voucherItems.getDatasets().add(item);
 			}
 		}
 
-		// If the expenditure list is empty, add one entry
-		if (expenditureItems.getDatasets().isEmpty())
+		// If the voucher list is empty, add one entry
+		if (voucherItems.getDatasets().isEmpty())
 			addNewItem();
 
 		paidValue = new UniData(UniDataType.DOUBLE, 0.0);
@@ -401,26 +426,26 @@ public class ExpenditureEditor extends Editor {
 			if (tableViewerItems.isCellEditorActive() && (itemEditingSupport != null))
 				return true;
 
-		if (expenditure.getBooleanValueByKey("deleted")) { return true; }
-		if (newExpenditure) { return true; }
+		if (voucher.getBooleanValueByKey("deleted")) { return true; }
+		if (newVoucher) { return true; }
 
-		if (!expenditure.getStringValueByKey("name").equals(textName.getText())) { return true; }
-		if (!expenditure.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
-		if (!expenditure.getStringValueByKey("nr").equals(textNr.getText())) { return true; }
-		if (!expenditure.getStringValueByKey("documentnr").equals(textDocumentNr.getText())) { return true; }
-		if (!expenditure.getStringValueByKey("date").equals(DataUtils.getDateTimeAsString(dtDate))) { return true; }
+		if (!voucher.getStringValueByKey("name").equals(textName.getText())) { return true; }
+		if (!voucher.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
+		if (!voucher.getStringValueByKey("nr").equals(textNr.getText())) { return true; }
+		if (!voucher.getStringValueByKey("documentnr").equals(textDocumentNr.getText())) { return true; }
+		if (!voucher.getStringValueByKey("date").equals(DataUtils.getDateTimeAsString(dtDate))) { return true; }
 
-		// Test all the expenditure items
+		// Test all the voucher items
 		String itemsString = "";
-		ArrayList<DataSetExpenditureItem> itemDatasets = expenditureItems.getActiveDatasets();
-		for (DataSetExpenditureItem itemDataset : itemDatasets) {
+		ArrayList<DataSetVoucherItem> itemDatasets = voucherItems.getActiveDatasets();
+		for (DataSetVoucherItem itemDataset : itemDatasets) {
 			int id = itemDataset.getIntValueByKey("id");
 
 			// There is no existing item
 			if (id < 0)
 				return true;
 
-			DataSetExpenditureItem item = Data.INSTANCE.getExpenditureItems().getDatasetById(id);
+			DataSetVoucherItem item = getVoucherItems().getDatasetById(id);
 
 			if (!item.getStringValueByKey("name").equals(itemDataset.getStringValueByKey("name"))) { return true; }
 			if (!item.getStringValueByKey("category").equals(itemDataset.getStringValueByKey("category"))) { return true; }
@@ -433,21 +458,21 @@ public class ExpenditureEditor extends Editor {
 		}
 
 		// Compare also the items string.
-		// So the expenditure is dirty, if new items are added or items have
+		// So the voucher is dirty, if new items are added or items have
 		// been deleted.
-		if (!expenditure.getStringValueByKey("items").equals(itemsString)) { return true; }
+		if (!voucher.getStringValueByKey("items").equals(itemsString)) { return true; }
 
 		// Compare paid value
-		// The the expenditure was paid with a discount, use the paid value
+		// The the voucher was paid with a discount, use the paid value
 		if (bPaidWithDiscount.getSelection()) {
-			if (!DataUtils.DoublesAreEqual(expenditure.getDoubleValueByKey("paid"), paidValue.getValueAsDouble() )) { return true; }
+			if (!DataUtils.DoublesAreEqual(voucher.getDoubleValueByKey("paid"), paidValue.getValueAsDouble() )) { return true; }
 		}
 		// else use the total value
 		else {
-			if (!DataUtils.DoublesAreEqual(expenditure.getDoubleValueByKey("paid"), totalValue.getValueAsDouble() )) { return true; }
+			if (!DataUtils.DoublesAreEqual(voucher.getDoubleValueByKey("paid"), totalValue.getValueAsDouble() )) { return true; }
 		}
 		
-		if (expenditure.getBooleanValueByKey("discounted") != bPaidWithDiscount.getSelection()) { return true; }
+		if (voucher.getBooleanValueByKey("discounted") != bPaidWithDiscount.getSelection()) { return true; }
 
 
 		
@@ -456,15 +481,15 @@ public class ExpenditureEditor extends Editor {
 	}
 
 	/**
-	 * Calculate the total sum of all expenditure items
+	 * Calculate the total sum of all voucher items
 	 */
 	private void calculateTotal() {
 		
 		// Do the calculation
-		expenditure.calculate(expenditureItems, false, 0.0, totalValue.getValueAsDouble(),false );
+		voucher.calculate(voucherItems, false, 0.0, totalValue.getValueAsDouble(),false );
 
 		// Get the total result
-		Double total = expenditure.getSummary().getTotalGross().asDouble();
+		Double total = voucher.getSummary().getTotalGross().asDouble();
 
 		// Update the text widget
 		totalValue.setValue(total);
@@ -499,21 +524,33 @@ public class ExpenditureEditor extends Editor {
 	 * @param active
 	 *            , TRUE, if editing is active
 	 */
-	public void setItemEditing(ExpenditureItemEditingSupport itemEditingSupport) {
+	public void setItemEditing(VoucherItemEditingSupport itemEditingSupport) {
 		this.itemEditingSupport = itemEditingSupport;
 	}
 
 	/**
-	 * Adds an empty expenditure item
+	 * Creates a new voucher item
+	 * @param name
+	 * @param category
+	 * @param price
+	 * @param vatId
+	 * @return
 	 */
-	private DataSetExpenditureItem addNewItem() {
+	protected DataSetVoucherItem createNewVoucherItem(String name, String category, Double price, int vatId) {
+		return null;
+	}
+	
+	/**
+	 * Adds an empty voucher item
+	 */
+	private DataSetVoucherItem addNewItem() {
 
-		DataSetExpenditureItem newItem = new DataSetExpenditureItem("Name", "", 0.0, 0);
+		DataSetVoucherItem newItem = createNewVoucherItem("Name", "", 0.0, 0);
 
 		// Use the standard VAT value
-		newItem.setIntValueByKey("id", -(expenditureItems.getDatasets().size() + 1));
+		newItem.setIntValueByKey("id", -(voucherItems.getDatasets().size() + 1));
 		newItem.setIntValueByKey("vatid", Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
-		expenditureItems.getDatasets().add(newItem);
+		voucherItems.getDatasets().add(newItem);
 		return newItem;
 
 	}
@@ -525,8 +562,7 @@ public class ExpenditureEditor extends Editor {
 	 *            parent control
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
-	public void createPartControl(Composite parent) {
+	protected void createPartControl(Composite parent, String helpID) {
 
 		// Get the some settings from the preference store
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
@@ -536,8 +572,9 @@ public class ExpenditureEditor extends Editor {
 		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(top);
 
 		// Add context help reference 
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.EXPENDITURE_EDITOR);
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, helpID);
 
+		
 		// There is no invisible component, so no container has to be created
 		// Composite invisible = new Composite(top, SWT.NONE);
 		// invisible.setVisible(false);
@@ -546,15 +583,15 @@ public class ExpenditureEditor extends Editor {
 		// Large title
 		Label labelTitle = new Label(top, SWT.NONE);
 		
-		//T: ExpenditureEditor - Title
+		//T: VoucherEditor - Title
 		labelTitle.setText(_("Expense Voucher"));
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
-		// Expenditure category
+		// Voucher category
 		Label labelCategory = new Label(top, SWT.NONE);
 
-		//T: Label in the expenditure editor
+		//T: Label in the voucher editor
 		labelCategory.setText(_("Category"));
 		//T: Tool Tip Text
 		labelCategory.setToolTipText(_("Category of this expense voucher. E.g. 'Bank', 'Cash', 'Credit Card'"));
@@ -562,11 +599,11 @@ public class ExpenditureEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
 		comboCategory.setToolTipText(labelCategory.getToolTipText());
-		comboCategory.setText(expenditure.getStringValueByKey("category"));
+		comboCategory.setText(voucher.getStringValueByKey("category"));
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
 
 		// Add all category strings to the combo
-		Object[] categories = Data.INSTANCE.getExpenditures().getCategoryStrings();
+		Object[] categories = getVouchers().getCategoryStrings();
 		for (Object category : categories) {
 			comboCategory.add(category.toString());
 		}
@@ -575,7 +612,7 @@ public class ExpenditureEditor extends Editor {
 
 		// Document date
 		Label labelDate = new Label(top, SWT.NONE);
-		//T: Label in the expenditure editor
+		//T: Label in the voucher editor
 		labelDate.setText(_("Date"));
 		//T: Tool Tip Text
 		labelDate.setToolTipText(_("Date of the voucher"));
@@ -590,55 +627,55 @@ public class ExpenditureEditor extends Editor {
 
 		
 
-		// Set the dtDate widget to the expenditures date
+		// Set the dtDate widget to the vouchers date
 		GregorianCalendar calendar = new GregorianCalendar();
-		calendar = DataUtils.getCalendarFromDateString(expenditure.getStringValueByKey("date"));
+		calendar = DataUtils.getCalendarFromDateString(voucher.getStringValueByKey("date"));
 		dtDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
 		// Number
 		Label labelNr = new Label(top, SWT.NONE);
-		//T: Label in the expenditure editor
+		//T: Label in the voucher editor
 		labelNr.setText(_("Voucher No."));
 		//T: Tool Tip Text
 		labelNr.setToolTipText(_("Consecutive number of all vouchers"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelNr);
 		textNr = new Text(top, SWT.BORDER);
-		textNr.setText(expenditure.getStringValueByKey("nr"));
+		textNr.setText(voucher.getStringValueByKey("nr"));
 		textNr.setToolTipText(labelNr.getToolTipText());
 		superviceControl(textNr, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textNr);
 
 		// Document number
 		Label labelDocumentNr = new Label(top, SWT.NONE);
-		//T: Label in the expenditure editor
+		//T: Label in the voucher editor
 		labelDocumentNr.setText(_("Document No."));
 		//T: Tool Tip Text
 		labelDocumentNr.setToolTipText(_("Number found on the voucher. (Document No of the supplier)"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDocumentNr);
 		textDocumentNr = new Text(top, SWT.BORDER);
-		textDocumentNr.setText(expenditure.getStringValueByKey("documentnr"));
+		textDocumentNr.setText(voucher.getStringValueByKey("documentnr"));
 		textDocumentNr.setToolTipText(labelDocumentNr.getToolTipText());
 		superviceControl(textDocumentNr, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textDocumentNr);
 
 		// Supplier name
 		Label labelName = new Label(top, SWT.NONE);
-		//T: Label in the expenditure editor
+		//T: Label in the voucher editor
 		labelName.setText(_("Supplier"));
 		//T: Tool Tip Text
 		labelName.setToolTipText(_("Name of the supplier"));
 		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);
-		textName.setText(expenditure.getStringValueByKey("name"));
+		textName.setText(voucher.getStringValueByKey("name"));
 		textName.setToolTipText(labelName.getToolTipText());
 		superviceControl(textName, 100);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(textName);
 
 		// Add the suggestion listener
-		textName.addVerifyListener(new Suggestion(textName, Data.INSTANCE.getExpenditures().getStrings("name")));
+		textName.addVerifyListener(new Suggestion(textName, getVouchers().getStrings("name")));
 
 
 		// Container for the label and the add and delete button.
@@ -648,8 +685,8 @@ public class ExpenditureEditor extends Editor {
 
 		// Items label
 		Label labelItems = new Label(addButtonComposite, SWT.NONE | SWT.RIGHT);
-		//T: ExpenditureEditor - Label Items
-		labelItems.setText(_("Items", "EXPENDITURE"));
+		//T: VoucherEditor - Label Items
+		labelItems.setText(_("Items", "VOUCHER"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(labelItems);
 
 		// Item add button
@@ -670,7 +707,7 @@ public class ExpenditureEditor extends Editor {
 			public void mouseDown(MouseEvent e) {
 				tableViewerItems.cancelEditing();
 
-				DataSetExpenditureItem newItem = addNewItem();
+				DataSetVoucherItem newItem = addNewItem();
 
 				tableViewerItems.refresh();
 				tableViewerItems.reveal(newItem);
@@ -720,30 +757,30 @@ public class ExpenditureEditor extends Editor {
 		tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 
 		// Get the column width from the preferences
-		int cw_text = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_TEXT");
-		int cw_accounttype = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_ACCOUNTTYPE");
-		int cw_vat = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_VAT");
-		int cw_net = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_NET");
-		int cw_gross = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITUREITEMS_GROSS");
+		int cw_text = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERITEMS_TEXT");
+		int cw_accounttype = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERITEMS_ACCOUNTTYPE");
+		int cw_vat = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERITEMS_VAT");
+		int cw_net = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERITEMS_NET");
+		int cw_gross = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERITEMS_GROSS");
 
 		// Create the table columns
 		//T: Used as heading of a table. Keep the word short.
-		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Text"), cw_text, false, "name", new ExpenditureItemEditingSupport(this,
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Text"), cw_text, false, "name", new VoucherItemEditingSupport(this,
 				tableViewerItems, 1)));
 		//T: Used as heading of a table. Keep the word short.
-		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Account Type"), cw_accounttype, true, "category", new ExpenditureItemEditingSupport(this,
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Account Type"), cw_accounttype, true, "category", new VoucherItemEditingSupport(this,
 				tableViewerItems, 2)));
 		//T: Used as heading of a table. Keep the word short.
 		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), cw_vat, true, "$vatnamebyid",
-						new ExpenditureItemEditingSupport(this, tableViewerItems, 3)));
-//		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$ExpenditureItemVatPercent",
-//				vatnamebyid				new ExpenditureItemEditingSupport(this, tableViewerItems, 3));
+						new VoucherItemEditingSupport(this, tableViewerItems, 3)));
+//		new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), 50, 0, true, "$VoucherItemVatPercent",
+//				vatnamebyid				new VoucherItemEditingSupport(this, tableViewerItems, 3));
 		//T: Used as heading of a table. Keep the word short.
-		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Net"), cw_net, true, "price", new ExpenditureItemEditingSupport(this,
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Net"), cw_net, true, "price", new VoucherItemEditingSupport(this,
 				tableViewerItems, 4)));
 		//T: Used as heading of a table. Keep the word short.
-		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Gross"), cw_gross, true, "$ExpenditureItemGrossPrice",
-				new ExpenditureItemEditingSupport(this, tableViewerItems, 5)));
+		itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Gross"), cw_gross, true, "$VoucherItemGrossPrice",
+				new VoucherItemEditingSupport(this, tableViewerItems, 5)));
 
 		// Create the top Composite
 		Composite bottom = new Composite(top, SWT.NONE);
@@ -753,8 +790,8 @@ public class ExpenditureEditor extends Editor {
 
 		// The paid label
 		bPaidWithDiscount = new Button(bottom, SWT.CHECK | SWT.RIGHT);
-		bPaidWithDiscount.setSelection(expenditure.getBooleanValueByKey("discounted"));
-		//T: Mark an expenditure, if the paid value is not equal to the total value.
+		bPaidWithDiscount.setSelection(voucher.getBooleanValueByKey("discounted"));
+		//T: Mark an voucher, if the paid value is not equal to the total value.
 		bPaidWithDiscount.setText(_("Paid with discount"));
 		//T: Tool Tip Text
 		bPaidWithDiscount.setToolTipText(_("Check this, if not the total value was paid. Then enter the paid value."));
@@ -786,13 +823,13 @@ public class ExpenditureEditor extends Editor {
 		
 		// Paid value
 		Label labelPaidValue = new Label(bottom, SWT.NONE);
-		//T: Label in the expenditure editor
+		//T: Label in the voucher editor
 		labelPaidValue.setText(_("Paid Value") + ":");
 		//T: Tool Tip Text
 		labelPaidValue.setToolTipText(_("The paid value (e.g. 97$, if the total value was 100$ with 3% discount)."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPaidValue);
 
-		paidValue.setValue(expenditure.getStringValueByKey("paid"));
+		paidValue.setValue(voucher.getStringValueByKey("paid"));
 
 		textPaidValue = new CurrencyText(this, bottom, SWT.BORDER | SWT.RIGHT, paidValue);
 		textPaidValue.getText().setVisible(bPaidWithDiscount.getSelection());
@@ -802,13 +839,13 @@ public class ExpenditureEditor extends Editor {
 
 		// Total value
 		Label labelTotalValue = new Label(bottom, SWT.NONE);
-		//T: Label in the expenditure editor
+		//T: Label in the voucher editor
 		labelTotalValue.setText(_("Total Value") + ":");
 		//T: Tool Tip Text
 		labelTotalValue.setToolTipText(_("The total value of the voucher (without discount)."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelTotalValue);
 
-		totalValue.setValue(expenditure.getStringValueByKey("total"));
+		totalValue.setValue(voucher.getStringValueByKey("total"));
 
 		textTotalValue = new CurrencyText(this, bottom, SWT.BORDER | SWT.RIGHT, totalValue);
 		textTotalValue.getText().setEditable(false);
@@ -817,7 +854,7 @@ public class ExpenditureEditor extends Editor {
 
 
 		// Fill the table with the items
-		tableViewerItems.setInput(expenditureItems);
+		tableViewerItems.setInput(voucherItems);
 
 	}
 

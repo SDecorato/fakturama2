@@ -44,7 +44,7 @@ import com.sebulli.fakturama.actions.MoveEntryDownAction;
 import com.sebulli.fakturama.actions.MoveEntryUpAction;
 import com.sebulli.fakturama.actions.NewContactAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
-import com.sebulli.fakturama.actions.NewExpenditureAction;
+import com.sebulli.fakturama.actions.NewExpenditureVoucherAction;
 import com.sebulli.fakturama.actions.NewListEntryAction;
 import com.sebulli.fakturama.actions.NewPaymentAction;
 import com.sebulli.fakturama.actions.NewProductAction;
@@ -148,8 +148,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private NewDocumentAction newProformaActionTB;
 	private NewTextAction newTextAction;
 	private NewListEntryAction newListEntryAction;
-	private NewExpenditureAction newExpenditureAction;
-	private NewExpenditureAction newExpenditureActionTB;
+	private NewExpenditureVoucherAction newExpenditureAction;
+	private NewExpenditureVoucherAction newExpenditureActionTB;
 	private SelectWorkspaceAction selectWorkspaceAction;
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
@@ -338,9 +338,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		openExpendituresAction = new OpenExpendituresAction();
 		register(openExpendituresAction);
-		newExpenditureAction = new NewExpenditureAction();
+		newExpenditureAction = new NewExpenditureVoucherAction();
 		register(newExpenditureAction);
-		newExpenditureActionTB = new NewExpenditureAction();
+		newExpenditureActionTB = new NewExpenditureVoucherAction();
 		register(newExpenditureActionTB);
 
 		openDocumentsAction = new OpenDocumentsAction();

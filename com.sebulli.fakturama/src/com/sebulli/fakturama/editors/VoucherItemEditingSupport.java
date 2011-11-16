@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.data.DataSetVoucherItem;
 import com.sebulli.fakturama.data.DataSetList;
 import com.sebulli.fakturama.data.DataSetVAT;
 import com.sebulli.fakturama.misc.DataUtils;
@@ -42,10 +42,10 @@ import com.sebulli.fakturama.misc.DataUtils;
  * 
  * @author Gerd Bartelt
  */
-public class ExpenditureItemEditingSupport extends ItemEditingSupport {
+public class VoucherItemEditingSupport extends ItemEditingSupport {
 
 	// Reference to this class
-	private ExpenditureItemEditingSupport me;
+	private VoucherItemEditingSupport me;
 
 	// The cell editor
 	private CellEditor editor;
@@ -61,12 +61,12 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 	// Text field "name"
 	private Text text = null;
 	
-	private DataSetExpenditureItem item = null;
+	private DataSetVoucherItem item = null;
 
 	private Object activeObject;
 
-	// The parent expenditure editor that contains the item table
-	private ExpenditureEditor expenditureEditor;
+	// The parent voucher editor that contains the item table
+	private VoucherEditor voucherEditor;
 
 	// Suggestion manager
 	private Suggestion suggestion = null;
@@ -81,11 +81,11 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 	 * @param column
 	 *            The column
 	 */
-	public ExpenditureItemEditingSupport(final ExpenditureEditor expenditureEditor, ColumnViewer viewer, int column) {
+	public VoucherItemEditingSupport(final VoucherEditor voucherEditor, ColumnViewer viewer, int column) {
 		super(viewer);
 
 		// Set the local variables
-		this.expenditureEditor = expenditureEditor;
+		this.voucherEditor = voucherEditor;
 		this.column = column;
 		me = this;
 
@@ -140,7 +140,7 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 							// Update the VAT cell in the table
 							if (vat != null) {
 								item.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
-								expenditureEditor.getTableViewerItems().update(item, null);
+								voucherEditor.getTableViewerItems().update(item, null);
 							}
 
 						}
@@ -166,7 +166,7 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 	            	cancelAndSave();
 	        		//select the next cell
 	            	if (!(editor instanceof ComboBoxCellEditor) || e.keyCode == SWT.TAB)
-	            		expenditureEditor.selectNextCell(e.keyCode, activeObject, me);
+	            		voucherEditor.selectNextCell(e.keyCode, activeObject, me);
 	            };
 			});
 		}
@@ -174,6 +174,8 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 
 	}
 
+	
+	
 	/**
 	 * Set suggestion handler
 	 * 
@@ -182,7 +184,7 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 
 		switch (column) {
 		case 1:
-			suggestion = new Suggestion(text, Data.INSTANCE.getExpenditureItems().getStrings("name"));
+			suggestion = new Suggestion(text, voucherEditor.getVoucherItems().getStrings("name"));
 			text.addVerifyListener(suggestion);
 			break;
 		case 2:
@@ -253,9 +255,9 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 		setSuggestionHandler();
 		
 		activeObject = element;
-		expenditureEditor.setItemEditing(this);
+		voucherEditor.setItemEditing(this);
 
-		item = (DataSetExpenditureItem) element;
+		item = (DataSetVoucherItem) element;
 		switch (this.column) {
 		case 1:
 			return item.getFormatedStringValueByKey("name");
@@ -289,9 +291,9 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 	 */
 	@Override
 	protected void setValue(Object element, Object value) {
-		DataSetExpenditureItem item = (DataSetExpenditureItem) element;
+		DataSetVoucherItem item = (DataSetVoucherItem) element;
 		
-		expenditureEditor.setItemEditing(null);
+		voucherEditor.setItemEditing(null);
 
 		switch (this.column) {
 		case 1:
@@ -365,7 +367,7 @@ public class ExpenditureItemEditingSupport extends ItemEditingSupport {
 			break;
 		}
 
-		this.expenditureEditor.checkDirty();
+		this.voucherEditor.checkDirty();
 
 		// Update the data
 		getViewer().update(element, null);

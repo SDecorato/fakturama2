@@ -43,8 +43,8 @@ public enum Data {
 	private DataSetArray<DataSetPayment> payments;
 	private DataSetArray<DataSetText> texts;
 	private DataSetArray<DataSetList> list;
-	private DataSetArray<DataSetExpenditure> expenditures;
-	private DataSetArray<DataSetExpenditureItem> expenditureitems;
+	private DataSetArray<DataSetExpenditureVoucher> expenditures;
+	private DataSetArray<DataSetExpenditureVoucherItem> expenditureitems;
 
 	// Reference to data base
 	DataBase db = null;
@@ -85,8 +85,8 @@ public enum Data {
 		payments = new DataSetArray<DataSetPayment>(dbref, new DataSetPayment());
 		texts = new DataSetArray<DataSetText>(dbref, new DataSetText());
 		list = new DataSetArray<DataSetList>(dbref, new DataSetList());
-		expenditures = new DataSetArray<DataSetExpenditure>(dbref, new DataSetExpenditure());
-		expenditureitems = new DataSetArray<DataSetExpenditureItem>(dbref, new DataSetExpenditureItem());
+		expenditures = new DataSetArray<DataSetExpenditureVoucher>(dbref, new DataSetExpenditureVoucher());
+		expenditureitems = new DataSetArray<DataSetExpenditureVoucherItem>(dbref, new DataSetExpenditureVoucherItem());
 
 		// If there is a connection to the data base
 		// read all the tables
@@ -366,7 +366,7 @@ public enum Data {
 	 * 
 	 * @return All items
 	 */
-	public DataSetArray<DataSetExpenditure> getExpenditures() {
+	public DataSetArray<DataSetExpenditureVoucher> getExpenditureVouchers() {
 		return expenditures;
 	}
 
@@ -375,7 +375,7 @@ public enum Data {
 	 * 
 	 * @return All items
 	 */
-	public DataSetArray<DataSetExpenditureItem> getExpenditureItems() {
+	public DataSetArray<DataSetExpenditureVoucherItem> getExpenditureVoucherItems() {
 		return expenditureitems;
 	}
 
@@ -399,8 +399,8 @@ public enum Data {
 			if (tableName.equalsIgnoreCase("payments")) { return getPayments().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("texts")) { return getTexts().getDatasetById(id); }
 			if (tableName.equalsIgnoreCase("list")) { return getListEntries().getDatasetById(id); }
-			if (tableName.equalsIgnoreCase("expenditures")) { return getExpenditures().getDatasetById(id); }
-			if (tableName.equalsIgnoreCase("expenditureitems")) { return getExpenditures().getDatasetById(id); }
+			if (tableName.equalsIgnoreCase("expenditures")) { return getExpenditureVouchers().getDatasetById(id); }
+			if (tableName.equalsIgnoreCase("expenditureitems")) { return getExpenditureVoucherItems().getDatasetById(id); }
 		}
 		catch (IndexOutOfBoundsException e) {
 			Logger.logError(e, "Index out of bounds: " + "TableName: " + tableName + " ID:" + Integer.toString(id));

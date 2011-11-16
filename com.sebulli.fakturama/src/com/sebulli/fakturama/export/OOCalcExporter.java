@@ -30,7 +30,7 @@ import ag.ion.noa.NOAException;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DataSetExpenditure;
+import com.sebulli.fakturama.data.DataSetVoucher;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.misc.DocumentType;
@@ -190,7 +190,7 @@ public class OOCalcExporter {
 	 *            The expenditure that is tested
 	 * @return True, if the expenditure should be exported
 	 */
-	protected boolean expenditureShouldBeExported(DataSetExpenditure expenditure) {
+	protected boolean expenditureShouldBeExported(DataSetVoucher expenditure) {
 
 		// By default, the document will be exported.
 		boolean isInIntervall = true;

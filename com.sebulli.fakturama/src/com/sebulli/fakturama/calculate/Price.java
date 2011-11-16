@@ -14,7 +14,7 @@
 
 package com.sebulli.fakturama.calculate;
 
-import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.data.DataSetVoucherItem;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
@@ -95,7 +95,7 @@ public class Price {
 	 * @param item
 	 *            Item as UniDataSet
 	 */
-	public Price(DataSetExpenditureItem item) {
+	public Price(DataSetVoucherItem item) {
 		this(1.0, item.getDoubleValueByKey("price"), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"), 0.0, false, false);
 	}
 
@@ -108,7 +108,7 @@ public class Price {
 	 * @param scaleFactor
 	 * 				Scale factor of this expenditure item
 	 */
-	public Price(DataSetExpenditureItem item, Double scaleFactor) {
+	public Price(DataSetVoucherItem item, Double scaleFactor) {
 		this(1.0, item.getDoubleValueByKey("price") * scaleFactor, item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"), 0.0, false, false);
 	}
 

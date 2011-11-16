@@ -22,14 +22,15 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.calculate.ExpenditureSummarySetManager;
 import com.sebulli.fakturama.calculate.PriceValue;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
+import com.sebulli.fakturama.calculate.VoucherSummarySetManager;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DataSetExpenditure;
-import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.data.DataSetExpenditureVoucher;
 import com.sebulli.fakturama.data.DataSetVAT;
+import com.sebulli.fakturama.data.DataSetVoucher;
+import com.sebulli.fakturama.data.DataSetVoucherItem;
 import com.sebulli.fakturama.data.UniDataSetSorter;
 import com.sebulli.fakturama.export.CellFormatter;
 import com.sebulli.fakturama.export.OOCalcExporter;
@@ -90,7 +91,7 @@ public class Exporter extends OOCalcExporter{
 		// Get all undeleted documents
 		ArrayList<DataSetDocument> documents = Data.INSTANCE.getDocuments().getActiveDatasets();
 		// Get all undeleted expenditures
-		ArrayList<DataSetExpenditure> expenditures = Data.INSTANCE.getExpenditures().getActiveDatasets();
+		ArrayList<DataSetExpenditureVoucher> expenditures = Data.INSTANCE.getExpenditureVouchers().getActiveDatasets();
 
 		// Sort the documents by the pay date
 		Collections.sort(documents, new UniDataSetSorter(documentDateKey));
@@ -117,7 +118,7 @@ public class Exporter extends OOCalcExporter{
 
 		// Create a expenditure summary set manager that collects all expenditure VAT
 		// values of all documents
-		ExpenditureSummarySetManager expenditureSummarySetAllExpenditures = new ExpenditureSummarySetManager();
+		VoucherSummarySetManager expenditureSummarySetAllExpenditures = new VoucherSummarySetManager();
 
 		//T: Sales Exporter - Text in the Calc document for the Expenditures
 		setCellTextInBold(row++, 0, _("Expenditures"));
@@ -155,7 +156,7 @@ public class Exporter extends OOCalcExporter{
 		// the columns are created.
 		// Later all the expenditures are analyzed a second time and then they
 		// are exported expenditure by expenditure into the table.
-		for (DataSetExpenditure expenditure : expenditures) {
+		for (DataSetVoucher expenditure : expenditures) {
 
 			if (expenditureShouldBeExported(expenditure)) {
 				expenditureSummarySetAllExpenditures.add(expenditure, false);
@@ -173,7 +174,7 @@ public class Exporter extends OOCalcExporter{
 		// The VAT summary items are sorted. So first ignore the VAT entries
 		// with 0%. 
 		// If the VAT value is >0%, create a column with heading.
-		for (Iterator<VatSummaryItem> iterator = expenditureSummarySetAllExpenditures.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
+		for (Iterator<VatSummaryItem> iterator = expenditureSummarySetAllExpenditures.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 			VatSummaryItem item = iterator.next();
 
 			// Create a column, if the value is not 0%
@@ -206,7 +207,7 @@ public class Exporter extends OOCalcExporter{
 
 		// A column for each Net value is created 
 		// The Net summary items are sorted. 
-		for (Iterator<VatSummaryItem> iterator = expenditureSummarySetAllExpenditures.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
+		for (Iterator<VatSummaryItem> iterator = expenditureSummarySetAllExpenditures.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 			VatSummaryItem item = iterator.next();
 
 			// Count the columns
@@ -230,16 +231,16 @@ public class Exporter extends OOCalcExporter{
 
 		// Second run.
 		// Export the expenditure data
-		for (DataSetExpenditure expenditure : expenditures) {
+		for (DataSetVoucher expenditure : expenditures) {
 
 			if (expenditureShouldBeExported(expenditure)) {
 
 				for (int expenditureItemIndex = 0; expenditureItemIndex < expenditure.getItems().getDatasets().size(); expenditureItemIndex++) {
 
-					DataSetExpenditureItem expenditureItem = expenditure.getItem(expenditureItemIndex);
+					DataSetVoucherItem expenditureItem = expenditure.getItem(expenditureItemIndex);
 
 					// Now analyze expenditure by expenditure
-					ExpenditureSummarySetManager vatSummarySetOneExpenditure = new ExpenditureSummarySetManager();
+					VoucherSummarySetManager vatSummarySetOneExpenditure = new VoucherSummarySetManager();
 					expenditure.calculate();
 
 					// Add the expenditure to the VAT summary
@@ -267,7 +268,7 @@ public class Exporter extends OOCalcExporter{
 
 					// Get all VAT entries of this expenditure and place them into the
 					// corresponding column.
-					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
+					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 						VatSummaryItem item = iterator.next();
 
 						// Get the column
@@ -285,7 +286,7 @@ public class Exporter extends OOCalcExporter{
 
 					// Get all net entries of this expenditure and place them into the
 					// corresponding column.
-					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
+					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 						VatSummaryItem item = iterator.next();
 
 						// Get the column
@@ -355,10 +356,10 @@ public class Exporter extends OOCalcExporter{
 
 		// Create a expenditure summary set manager that collects all 
 		// categories of expenditure items
-		ExpenditureSummarySetManager expenditureSummaryCategories = new ExpenditureSummarySetManager();
+		VoucherSummarySetManager expenditureSummaryCategories = new VoucherSummarySetManager();
 
 		// Calculate the summary
-		for (DataSetExpenditure expenditure : expenditures) {
+		for (DataSetVoucher expenditure : expenditures) {
 
 			if (expenditureShouldBeExported(expenditure)) {
 				expenditureSummaryCategories.add(expenditure, true);
@@ -392,7 +393,7 @@ public class Exporter extends OOCalcExporter{
 		// The VAT summary items are sorted. So first ignore the VAT entries
 		// with 0%. 
 		// If the VAT value is >0%, create a column with heading.
-		for (Iterator<VatSummaryItem> iterator = expenditureSummaryCategories.getExpenditureSummaryItems().iterator(); iterator.hasNext();) {
+		for (Iterator<VatSummaryItem> iterator = expenditureSummaryCategories.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 			VatSummaryItem item = iterator.next();
 
 			col = 0;

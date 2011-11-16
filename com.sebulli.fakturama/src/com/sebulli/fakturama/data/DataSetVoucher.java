@@ -17,37 +17,41 @@ package com.sebulli.fakturama.data;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.sebulli.fakturama.calculate.ExpenditureSummary;
+import com.sebulli.fakturama.calculate.VoucherSummary;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
- * UniDataSet for all expenditures.
+ * UniDataSet for all vouchers.
  * 
  * @author Gerd Bartelt
  */
-public class DataSetExpenditure extends UniDataSet {
-	ExpenditureSummary summary = new ExpenditureSummary();
+public abstract class DataSetVoucher extends UniDataSet {
+	
+	
+	protected VoucherSummary summary = new VoucherSummary();
+	
+	protected String editorID = "";
 
 	/**
-	 * Constructor Creates a new expenditure
+	 * Constructor Creates a new voucher
 	 * 
 	 */
-	public DataSetExpenditure() {
+	protected DataSetVoucher() {
 		this("");
 	}
 
 	/**
-	 * Constructor Creates a new expenditure
+	 * Constructor Creates a new voucher
 	 * 
 	 * @param category
-	 *            Category of the new expenditure
+	 *            Category of the new voucher
 	 */
-	public DataSetExpenditure(String category) {
+	protected DataSetVoucher(String category) {
 		this("", category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "", "", 0.0, 0.0, false);
 	}
 
 	/**
-	 * Constructor Creates a new expenditure
+	 * Constructor Creates a new voucher
 	 * 
 	 * @param name
 	 * @param category
@@ -59,12 +63,12 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param total
 	 * @param discounted
 	 */
-	public DataSetExpenditure(String name, String category, String date, String nr, String documentnr, String items, Double paid, Double total, boolean discounted) {
+	protected DataSetVoucher(String name, String category, String date, String nr, String documentnr, String items, Double paid, Double total, boolean discounted) {
 		this(-1, name, false, category, date, nr, documentnr, items, paid, total, discounted);
 	}
 
 	/**
-	 * Constructor Creates a new expenditure
+	 * Constructor Creates a new voucher
 	 * 
 	 * @param id
 	 * @param name
@@ -78,7 +82,7 @@ public class DataSetExpenditure extends UniDataSet {
 	 * @param total
 	 * @param discounted
 	 */
-	public DataSetExpenditure(int id, String name, boolean deleted, String category, String date, String nr, String documentnr, String items,
+	protected DataSetVoucher(int id, String name, boolean deleted, String category, String date, String nr, String documentnr, String items,
 				Double paid, Double total, boolean discounted) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
@@ -92,18 +96,15 @@ public class DataSetExpenditure extends UniDataSet {
 		this.hashMap.put("total", new UniData(UniDataType.PRICE, total));
 		this.hashMap.put("discounted", new UniData(UniDataType.BOOLEAN, discounted));
 		
-		// Name of the table in the data base
-		sqlTabeName = "Expenditures";
-
 	}
-
+	
 	/**
-	 * Get all the expenditure items. Generate the list by the items string
+	 * Get all the voucher items. Generate the list by the items string
 	 * 
-	 * @return All items of this expenditure
+	 * @return All items of this voucher
 	 */
-	public DataSetArray<DataSetExpenditureItem> getItems() {
-		DataSetArray<DataSetExpenditureItem> items = new DataSetArray<DataSetExpenditureItem>();
+	public DataSetArray<DataSetVoucherItem> getItems() {
+		DataSetArray<DataSetVoucherItem> items = new DataSetArray<DataSetVoucherItem>();
 
 		// Split the items string
 		String itemsString = this.getStringValueByKey("items");
@@ -120,19 +121,19 @@ public class DataSetExpenditure extends UniDataSet {
 					Logger.logError(e, "Error parsing item string");
 					id = 0;
 				}
-				items.getDatasets().add(Data.INSTANCE.getExpenditureItems().getDatasetById(id));
+				items.getDatasets().add(getVoucherByID(id));
 			}
 		}
 		return items;
 	}
 
 	/**
-	 * Get one expenditure item as array Generate the list with only one entry
+	 * Get one voucher item as array Generate the list with only one entry
 	 * 
-	 * @return One items of this expenditure
+	 * @return One items of this voucher
 	 */
-	public DataSetArray<DataSetExpenditureItem> getItems(int index) {
-		DataSetArray<DataSetExpenditureItem> items = new DataSetArray<DataSetExpenditureItem>();
+	public DataSetArray<DataSetVoucherItem> getItems(int index) {
+		DataSetArray<DataSetVoucherItem> items = new DataSetArray<DataSetVoucherItem>();
 
 		// Get one item and add it to the list
 		items.getDatasets().add(getItem(index));
@@ -140,11 +141,24 @@ public class DataSetExpenditure extends UniDataSet {
 	}
 
 	/**
-	 * Get one expenditure item
+	 * Returns the voucher by its ID
 	 * 
-	 * @return One items of this expenditure
+	 * @param id
+	 * 	Id if the data set
+	 * @return
+	 * 	The data set from the data object
 	 */
-	public DataSetExpenditureItem getItem(int index) {
+	protected DataSetVoucherItem getVoucherByID(int id) {
+//		return (Data.INSTANCE.getExpenditure......Items().getDatasetById(id));
+		return null;
+	}
+	
+	/**
+	 * Get one voucher item
+	 * 
+	 * @return One items of this voucher
+	 */
+	public DataSetVoucherItem getItem(int index) {
 
 		// Split the items string
 		String itemsString = this.getStringValueByKey("items");
@@ -159,40 +173,40 @@ public class DataSetExpenditure extends UniDataSet {
 				Logger.logError(e, "Error parsing item string");
 				id = 0;
 			}
-			return (Data.INSTANCE.getExpenditureItems().getDatasetById(id));
+			return (getVoucherByID(id));
 		}
 
-		Logger.logError("Expenditure item not found:" + index);
+		Logger.logError("Voucher item not found:" + index);
 		return null;
 
 	}
 
 	/**
-	 * Recalculate the expenditure total values
+	 * Recalculate the voucher total values
 	 */
 	public void calculate() {
 		calculate(this.getItems(), false, this.getDoubleValueByKey("paid"),this.getDoubleValueByKey("total"), this.getBooleanValueByKey("discounted") );
 	}
 
 	/**
-	 * Recalculate the expenditure total values
+	 * Recalculate the voucher total values
 	 * 
 	 * @param items
-	 *            Expenditure items as DataSetArray
+	 *            voucher items as DataSetArray
 	 * @param useCategory
 	 *            If true, the category is also used for the vat summary as a
 	 *            description
 	 */
-	public void calculate(DataSetArray<DataSetExpenditureItem> items, boolean useCategory, Double paid, Double total, boolean discounted) {
+	public void calculate(DataSetArray<DataSetVoucherItem> items, boolean useCategory, Double paid, Double total, boolean discounted) {
 		summary.calculate(null, items, useCategory, paid, total, discounted);
 	}
 
 	/**
-	 * Getter for the expenditure summary
+	 * Getter for the voucher summary
 	 * 
 	 * @return Summary
 	 */
-	public ExpenditureSummary getSummary() {
+	public VoucherSummary getSummary() {
 		return this.summary;
 	}
 

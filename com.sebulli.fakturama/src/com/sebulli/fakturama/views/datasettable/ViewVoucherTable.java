@@ -20,32 +20,24 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.actions.NewExpenditureAction;
-import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetExpenditure;
+import com.sebulli.fakturama.data.DataSetVoucher;
 
 /**
- * View with the table of all expenditures
+ * View with the table of all vouchers
  * 
  * @author Gerd Bartelt
  * 
  */
-public class ViewExpenditureTable extends ViewDataSetTable {
+public abstract class ViewVoucherTable extends ViewDataSetTable {
 
-	// ID of this view
-	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewExpenditureTable";
 
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite parent, String contextHelpId) {
 
-		// Add the action to create a new entry
-		addNewAction = new NewExpenditureAction();
 
 		// Mark the columns that are used by the search function.
 		searchColumns = new String[4];
@@ -54,24 +46,18 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		searchColumns[2] = "documentnr";
 		searchColumns[3] = "date";
 
-		super.createPartControl(parent,DataSetExpenditure.class, false, true, ContextHelpConstants.EXPENDITURE_TABLE_VIEW);
+		super.createPartControl(parent,DataSetVoucher.class, false, true, contextHelpId);
 
-		// Name of this view
-		this.setPartName(_("Expenditures"));
 
 		// Create the context menu
 		super.createDefaultContextMenu();
-
-		// Name of the editor
-		editor = "Expenditure";
-
 		
 		// Get the column width from the preferences
-		int cw_date = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_DATE");
-		int cw_voucher = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_VOUCHER");
-		int cw_document = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_DOCUMENT");
-		int cw_supplier = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_SUPPLIER");
-		int cw_total = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_EXPENDITURES_TOTAL");
+		int cw_date = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_DATE");
+		int cw_voucher = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_VOUCHER");
+		int cw_document = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_DOCUMENT");
+		int cw_supplier = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_SUPPLIER");
+		int cw_total = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_TOTAL");
 		
 		// Create the table columns
 		//T: Used as heading of a table. Keep the word short.
@@ -85,9 +71,6 @@ public class ViewExpenditureTable extends ViewDataSetTable {
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Total"), cw_total, true, "paid");
 
-		// Set the input of the table viewer and the tree viewer
-		tableViewer.setInput(Data.INSTANCE.getExpenditures());
-		topicTreeViewer.setInput(Data.INSTANCE.getExpenditures());
 
 	}
 

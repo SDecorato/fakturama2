@@ -19,13 +19,13 @@ package com.sebulli.fakturama.data;
  * 
  * @author Gerd Bartelt
  */
-public class DataSetExpenditureItem extends UniDataSet {
+public abstract class DataSetVoucherItem extends UniDataSet {
 
 	/**
 	 * Constructor Creates a new expenditure
 	 * 
 	 */
-	public DataSetExpenditureItem() {
+	protected DataSetVoucherItem() {
 		this("");
 	}
 
@@ -35,7 +35,7 @@ public class DataSetExpenditureItem extends UniDataSet {
 	 * @param category
 	 *            Category of the new expenditure
 	 */
-	public DataSetExpenditureItem(String category) {
+	protected DataSetVoucherItem(String category) {
 		this("", category, 0.0, -1);
 	}
 
@@ -45,7 +45,7 @@ public class DataSetExpenditureItem extends UniDataSet {
 	 * @param parent
 	 *            Parent expenditure item
 	 */
-	public DataSetExpenditureItem(DataSetExpenditureItem parent) {
+	protected DataSetVoucherItem(DataSetVoucherItem parent) {
 		this(parent.getIntValueByKey("id"), parent.getStringValueByKey("name"), parent.getBooleanValueByKey("deleted"), parent.getStringValueByKey("category"),
 				parent.getDoubleValueByKey("price"), parent.getIntValueByKey("vatid"));
 	}
@@ -59,7 +59,7 @@ public class DataSetExpenditureItem extends UniDataSet {
 	 * @param documentnr
 	 * @param items
 	 */
-	public DataSetExpenditureItem(String name, String category, Double price, int vatId) {
+	protected DataSetVoucherItem(String name, String category, Double price, int vatId) {
 		this(-1, name, false, category, price, vatId);
 	}
 
@@ -74,7 +74,7 @@ public class DataSetExpenditureItem extends UniDataSet {
 	 * @param documentnr
 	 * @param items
 	 */
-	public DataSetExpenditureItem(int id, String name, boolean deleted, String category, Double price, int vatId) {
+	protected DataSetVoucherItem(int id, String name, boolean deleted, String category, Double price, int vatId) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
@@ -82,8 +82,6 @@ public class DataSetExpenditureItem extends UniDataSet {
 		this.hashMap.put("price", new UniData(UniDataType.PRICE, price));
 		this.hashMap.put("vatid", new UniData(UniDataType.ID, vatId));
 
-		// Name of the table in the data base
-		sqlTabeName = "ExpenditureItems";
 
 	}
 
@@ -96,7 +94,7 @@ public class DataSetExpenditureItem extends UniDataSet {
 	 * @return True, if it's equal
 	 */
 	@Override
-	public boolean isTheSameAs(UniDataSet uds) {
+	protected boolean isTheSameAs(UniDataSet uds) {
 
 		return false;
 	}

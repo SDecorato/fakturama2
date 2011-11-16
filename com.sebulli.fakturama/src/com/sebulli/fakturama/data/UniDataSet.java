@@ -27,7 +27,9 @@ import com.sebulli.fakturama.logger.Logger;
 public abstract class UniDataSet {
 
 	public static final String ID = "com.sebulli.fakturama.data.UniDataSet";
-	public String sqlTabeName = "";
+
+	protected String sqlTabeName = "";
+	
 	protected HashMap<String, UniData> hashMap = new HashMap<String, UniData>();
 	private String key;
 	private UniDataSet uds;
@@ -195,7 +197,7 @@ public abstract class UniDataSet {
 	 *            Other UniDataSet
 	 * @return True, if it's equal
 	 */
-	public boolean isTheSameAs(UniDataSet uds) {
+	protected boolean isTheSameAs(UniDataSet uds) {
 		return false;
 	}
 

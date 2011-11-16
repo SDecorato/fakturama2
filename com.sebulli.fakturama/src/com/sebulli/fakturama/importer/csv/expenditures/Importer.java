@@ -27,13 +27,13 @@ import java.util.Properties;
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetExpenditure;
-import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.data.DataSetExpenditureVoucher;
+import com.sebulli.fakturama.data.DataSetExpenditureVoucherItem;
 import com.sebulli.fakturama.data.DataSetVAT;
-import com.sebulli.fakturama.editors.ExpenditureEditor;
+import com.sebulli.fakturama.editors.VoucherEditor;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
-import com.sebulli.fakturama.views.datasettable.ViewExpenditureTable;
+import com.sebulli.fakturama.views.datasettable.ViewExpenditureVoucherTable;
 import com.sebulli.fakturama.views.datasettable.ViewListTable;
 import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 
@@ -175,14 +175,14 @@ public class Importer {
 
 			// Store the last expenditure. This is used to import
 			// 2 lines with 2 expenditure items but only one expenditure.
-			DataSetExpenditure lastExpenditure = null;
+			DataSetExpenditureVoucher lastExpenditure = null;
 
 			// Read line by line
 			while ((line = in.readLine()) != null) {
 				lineNr++;
 
-				DataSetExpenditure expenditure = new DataSetExpenditure();
-				DataSetExpenditureItem expenditureItem = new DataSetExpenditureItem();
+				DataSetExpenditureVoucher expenditure = new DataSetExpenditureVoucher();
+				DataSetExpenditureVoucherItem expenditureItem = new DataSetExpenditureVoucherItem();
 				Properties prop = new Properties();
 
 				// Get the cells
@@ -231,7 +231,7 @@ public class Importer {
 
 						// If the data set is already existing, stop the CSV import
 						if (!repeatedExpenditure)
-							if (!Data.INSTANCE.getExpenditures().isNew(expenditure)) {
+							if (!Data.INSTANCE.getExpenditureVouchers().isNew(expenditure)) {
 								//T: Error message Dataset is already imported
 								result += NL + _("Dataset is already imported");
 								//T: Error message: DATASET xx FROM date
@@ -256,9 +256,9 @@ public class Importer {
 						expenditureItem.setIntValueByKey("vatid", vat.getIntValueByKey("id"));
 
 						// Add the expenditure and expenditure item to the data base
-						expenditureItem = Data.INSTANCE.getExpenditureItems().addNewDataSet(expenditureItem);
-						ExpenditureEditor.updateBillingAccount (expenditureItem);
-						expenditure = Data.INSTANCE.getExpenditures().addNewDataSetIfNew(expenditure);
+						expenditureItem = Data.INSTANCE.getExpenditureVoucherItems().addNewDataSet(expenditureItem);
+						VoucherEditor.updateBillingAccount (expenditureItem);
+						expenditure = Data.INSTANCE.getExpenditureVouchers().addNewDataSetIfNew(expenditure);
 
 						// Add the item to the item string
 						String oldItems = expenditure.getStringValueByKey("items");
@@ -280,7 +280,7 @@ public class Importer {
 						expenditure.setDoubleValueByKey("paid", total);
 					
 
-						Data.INSTANCE.getExpenditures().updateDataSet(expenditure);
+						Data.INSTANCE.getExpenditureVouchers().updateDataSet(expenditure);
 
 						// Set the reference of the last expenditure to this one
 						lastExpenditure = expenditure;
@@ -293,7 +293,7 @@ public class Importer {
 			// Refresh the views
 			ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
 			ApplicationWorkbenchAdvisor.refreshView(ViewVatTable.ID);
-			ApplicationWorkbenchAdvisor.refreshView(ViewExpenditureTable.ID);
+			ApplicationWorkbenchAdvisor.refreshView(ViewExpenditureVoucherTable.ID);
 			
 			// The result string
 			//T: Message: xx VOUCHERS HAVE BEEN IMPORTED 

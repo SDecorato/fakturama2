@@ -26,7 +26,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.importer.ImportWizardPage;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
-import com.sebulli.fakturama.views.datasettable.ViewExpenditureTable;
+import com.sebulli.fakturama.views.datasettable.ViewExpenditureVoucherTable;
 import com.sebulli.fakturama.views.datasettable.ViewVatTable;
 
 /**
@@ -102,7 +102,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
 
 				// Find the expenditure table view
 				ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-						.findView(ViewExpenditureTable.ID);
+						.findView(ViewExpenditureVoucherTable.ID);
 
 				// Refresh it
 				if (view != null)

@@ -17,7 +17,7 @@ package com.sebulli.fakturama.calculate;
 import java.util.ArrayList;
 
 import com.sebulli.fakturama.data.DataSetArray;
-import com.sebulli.fakturama.data.DataSetExpenditureItem;
+import com.sebulli.fakturama.data.DataSetVoucherItem;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -26,7 +26,7 @@ import com.sebulli.fakturama.logger.Logger;
  * 
  * @author Gerd Bartelt
  */
-public class ExpenditureSummary {
+public class VoucherSummary {
 
 	// total sum
 	private PriceValue totalNet;
@@ -36,7 +36,7 @@ public class ExpenditureSummary {
 	/**
 	 * Default constructor. Resets all value to 0.
 	 */
-	public ExpenditureSummary() {
+	public VoucherSummary() {
 		resetValues();
 	}
 
@@ -50,7 +50,7 @@ public class ExpenditureSummary {
 	}
 
 	/**
-	 * Calculates the tax, gross and sum of an expenditure
+	 * Calculates the tax, gross and sum of an voucher
 	 * 
 	 * @param globalVatSummarySet
 	 *            The documents vat is added to this global VAT summary set.
@@ -60,7 +60,7 @@ public class ExpenditureSummary {
 	 *            If true, the category is also used for the vat summary as a
 	 *            description
 	 */
-	public void calculate(VatSummarySet globalExpenditureSummarySet, DataSetArray<DataSetExpenditureItem> items, boolean useCategory, Double paid, Double total, boolean discounted) {
+	public void calculate(VatSummarySet globalVoucherSummarySet, DataSetArray<DataSetVoucherItem> items, boolean useCategory, Double paid, Double total, boolean discounted) {
 
 		Double vatPercent;
 		String vatDescription;
@@ -72,7 +72,7 @@ public class ExpenditureSummary {
 		
 		// Total value must not be 0, if paid value is != 0
 		if  ((total.compareTo(0.0) == 0) && (paid.compareTo(0.0) != 0)) {
-			Logger.logError("Expenditure Summary: Total value is 0, but paid value != 0");
+			Logger.logError("Voucher Summary: Total value is 0, but paid value != 0");
 		}
 		
 		if (discounted && (total.compareTo(0.0) != 0))
@@ -82,14 +82,14 @@ public class ExpenditureSummary {
 		// This Vat summary contains only the VAT entries of this document,
 		// whereas the the parameter vatSummaryItems is a global VAT summary
 		// and contains entries from this document and from others.
-		VatSummarySet expenditureSummaryItems = new VatSummarySet();
+		VatSummarySet voucherSummaryItems = new VatSummarySet();
 
 		// Set the values to 0.0
 		resetValues();
 
 		// Use all non-deleted items
-		ArrayList<DataSetExpenditureItem> itemDataset = items.getActiveDatasets();
-		for (DataSetExpenditureItem item : itemDataset) {
+		ArrayList<DataSetVoucherItem> itemDataset = items.getActiveDatasets();
+		for (DataSetVoucherItem item : itemDataset) {
 
 			// Get the data from each item
 			vatDescription = item.getStringValueByKeyFromOtherTable("vatid.VATS:description");
@@ -104,20 +104,20 @@ public class ExpenditureSummary {
 			// Add the VAT to the sum of VATs
 			this.totalVat.add(itemVat);
 
-			VatSummaryItem expenditureSummaryItem;
+			VatSummaryItem voucherSummaryItem;
 			if (useCategory) {
 				// Add the VAT summary item to the ... 
-				expenditureSummaryItem = new VatSummaryItem(vatDescription, vatPercent, price.getTotalNet().asDouble(), itemVat,
+				voucherSummaryItem = new VatSummaryItem(vatDescription, vatPercent, price.getTotalNet().asDouble(), itemVat,
 						item.getStringValueByKey("category"));
 			}
 			else {
 				// Add the VAT summary item to the ... 
-				expenditureSummaryItem = new VatSummaryItem(vatDescription, vatPercent, price.getTotalNet().asDouble(), itemVat, "");
+				voucherSummaryItem = new VatSummaryItem(vatDescription, vatPercent, price.getTotalNet().asDouble(), itemVat, "");
 
 			}
 
-			// .. VAT summary of the expenditure ..
-			expenditureSummaryItems.add(expenditureSummaryItem);
+			// .. VAT summary of the voucher ..
+			voucherSummaryItems.add(voucherSummaryItem);
 
 		}
 
@@ -131,11 +131,11 @@ public class ExpenditureSummary {
 		this.totalVat.set(this.totalGross.asDouble() - this.totalNet.asDouble());
 
 		// Round also the Vat summaries
-		expenditureSummaryItems.roundAllEntries();
+		voucherSummaryItems.roundAllEntries();
 
 		// Add the entries of the document summary set also to the global one
-		if (globalExpenditureSummarySet != null)
-			globalExpenditureSummarySet.addVatSummarySet(expenditureSummaryItems);
+		if (globalVoucherSummarySet != null)
+			globalVoucherSummarySet.addVatSummarySet(voucherSummaryItems);
 
 	}
 
