@@ -21,6 +21,7 @@ import java.net.URL;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetList;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -47,23 +48,23 @@ public class CountryCodes {
 			}
 			
 			// Loads all country codes files
-			loadFromRecouces();
+			loadFromRecouces(Data.INSTANCE.getListEntries());
 		}
 	}
 	
 	/**
 	 * Loads all country codes files
 	 */
-	public static void loadFromRecouces() {
-		loadListFromRecouces( "countrycodes_2" , Activator.getDefault().getBundle().getResource("ISO3166_alpha2.txt"));
-		loadListFromRecouces( "countrycodes_3" , Activator.getDefault().getBundle().getResource("ISO3166_alpha3.txt"));
+	public static void loadFromRecouces(DataSetArray<DataSetList> list) {
+		loadListFromRecouces( "countrycodes_2" , Activator.getDefault().getBundle().getResource("ISO3166_alpha2.txt"), list);
+		loadListFromRecouces( "countrycodes_3" , Activator.getDefault().getBundle().getResource("ISO3166_alpha3.txt"), list);
 	}
 	
 	
 	/**
 	 * Loads the country codes from resources
 	 */
-	private static void loadListFromRecouces(String category, URL url) {
+	private static void loadListFromRecouces(String category, URL url, DataSetArray<DataSetList> list) {
 		try {
 			// Open the resource message po file.
 			if (url == null)
@@ -90,7 +91,7 @@ public class CountryCodes {
 	        			// Use only uppercase keys without special characters
 	        			key = DataUtils.replaceAllAccentedChars(key).toUpperCase();
         				DataSetList newListEntry = new DataSetList(category, key, value);
-        				Data.INSTANCE.getListEntries().addNewDataSetIfNew(newListEntry);
+        				list.addNewDataSetIfNew(newListEntry);
 	        		}
 	        	}
 	        }
