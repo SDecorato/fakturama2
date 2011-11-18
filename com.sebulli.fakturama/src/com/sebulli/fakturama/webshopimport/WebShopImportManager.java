@@ -111,7 +111,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	    }
 
 	    /**
-	     * Return whether the reading was successfull
+	     * Return whether the reading was successful
 	     * 
 	     * @return
 	     * 		True, if the stream was read completely
@@ -239,7 +239,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		}
 		
 		// Add "http://"
-		if (!address.toLowerCase().startsWith("http://") && !address.toLowerCase().startsWith("file://"))
+		if (!address.toLowerCase().startsWith("http://") && !address.toLowerCase().startsWith("https://") && !address.toLowerCase().startsWith("file://"))
 			address = "http://" + address;
 
 		// Get the open order IDs that are out of sync with the webshop
