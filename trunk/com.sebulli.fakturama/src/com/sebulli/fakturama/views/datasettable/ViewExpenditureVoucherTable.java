@@ -12,6 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
+
 package com.sebulli.fakturama.views.datasettable;
 
 import static com.sebulli.fakturama.Translate._;
@@ -22,34 +23,46 @@ import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewExpenditureVoucherAction;
 import com.sebulli.fakturama.data.Data;
 
+
+
 /**
  * View with the table of all expenditures
  * 
  * @author Gerd Bartelt
  * 
  */
-public abstract class ViewExpenditureVoucherTable extends ViewVoucherTable{
+public class ViewExpenditureVoucherTable extends ViewVoucherTable{
 	
 	// ID of this view
 	public static final String ID = "com.sebulli.fakturama.views.datasettable.viewExpenditureVoucherTable";
 
-	
+	/**
+	 * Creates the SWT controls for this workbench part.
+	 * 
+	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 */
+	@Override
 	public void createPartControl(Composite parent) {
-		super.createPartControl(parent, ContextHelpConstants.EXPENDITURE_VOUCHER_TABLE_VIEW);
-
+		
 		// Add the action to create a new entry
 		addNewAction = new NewExpenditureVoucherAction();
-		
-		// Name of this view
-		this.setPartName(_("Expenditure vouchers"));
 
 		// Name of the editor
 		editor = "ExpenditureVoucher";
+		
+		// Create the super part control
+		super.createPartControl(parent, ContextHelpConstants.EXPENDITURE_VOUCHER_TABLE_VIEW);//, ContextHelpConstants.EXPENDITURE_VOUCHER_TABLE_VIEW);
+
+		// Name of this view
+		this.setPartName(_("Expenditure vouchers"));
 
 		
 		// Set the input of the table viewer and the tree viewer
 		tableViewer.setInput(Data.INSTANCE.getExpenditureVouchers());
 		topicTreeViewer.setInput(Data.INSTANCE.getExpenditureVouchers());
+		
+		
 	}
 
 }
+

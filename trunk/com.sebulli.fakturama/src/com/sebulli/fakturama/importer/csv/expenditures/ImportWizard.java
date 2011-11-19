@@ -101,6 +101,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
 				mainPage.setStatusText(csvImporter.getResult());
 
 				// Find the expenditure table view
+				
 				ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 						.findView(ViewExpenditureVoucherTable.ID);
 

@@ -33,6 +33,7 @@ public class DataSetExpenditureVoucherItem extends DataSetVoucherItem{
 	 */
 	public DataSetExpenditureVoucherItem(DataSetVoucherItem parent) {
 		super(parent);
+		sqlTabeName = "ExpenditureItems";
 	}
 	
 	/**
@@ -46,6 +47,7 @@ public class DataSetExpenditureVoucherItem extends DataSetVoucherItem{
 	 */
 	public DataSetExpenditureVoucherItem(String name, String category, Double price, int vatId) {
 		super(name, category, price, vatId);
+		sqlTabeName = "ExpenditureItems";
 	}
 
 

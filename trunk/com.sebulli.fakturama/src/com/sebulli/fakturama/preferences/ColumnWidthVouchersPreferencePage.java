@@ -31,12 +31,12 @@ import com.sebulli.fakturama.ContextHelpConstants;
  * 
  * @author Gerd Bartelt
  */
-public class ColumnWidthExpendituresPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class ColumnWidthVouchersPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Constructor
 	 */
-	public ColumnWidthExpendituresPreferencePage() {
+	public ColumnWidthVouchersPreferencePage() {
 		super(GRID);
 
 	}
@@ -53,15 +53,15 @@ public class ColumnWidthExpendituresPreferencePage extends FieldEditorPreference
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.COLUMN_WIDTH_PREFERENCE_PAGE);
 		
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITURES_DATE", _("Date"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERS_DATE", _("Date"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITURES_VOUCHER", _("Voucher"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERS_VOUCHER", _("Voucher"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITURES_DOCUMENT", _("Document"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERS_DOCUMENT", _("Document"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITURES_SUPPLIER", _("Supplier"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERS_SUPPLIER", _("Supplier"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITURES_TOTAL", _("Total"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERS_TOTAL", _("Total"), getFieldEditorParent()));
 	
 	}
 
@@ -74,7 +74,7 @@ public class ColumnWidthExpendituresPreferencePage extends FieldEditorPreference
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		//T: Preference page - Title
-		setDescription(_("Column width of the expenditure table"));
+		setDescription(_("Column width of the voucher table"));
 	}
 
 	/**
@@ -84,11 +84,11 @@ public class ColumnWidthExpendituresPreferencePage extends FieldEditorPreference
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITURES_DATE", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITURES_VOUCHER", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITURES_DOCUMENT", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITURES_SUPPLIER", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITURES_TOTAL", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_DATE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_VOUCHER", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_DOCUMENT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_SUPPLIER", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_TOTAL", write);
 	}
 
 	/**
@@ -98,11 +98,11 @@ public class ColumnWidthExpendituresPreferencePage extends FieldEditorPreference
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("COLUMNWIDTH_EXPENDITURES_DATE", "80");
-		node.put("COLUMNWIDTH_EXPENDITURES_VOUCHER", "100");
-		node.put("COLUMNWIDTH_EXPENDITURES_DOCUMENT", "150");
-		node.put("COLUMNWIDTH_EXPENDITURES_SUPPLIER", "200");
-		node.put("COLUMNWIDTH_EXPENDITURES_TOTAL", "80");
+		node.put("COLUMNWIDTH_VOUCHERS_DATE", "80");
+		node.put("COLUMNWIDTH_VOUCHERS_VOUCHER", "100");
+		node.put("COLUMNWIDTH_VOUCHERS_DOCUMENT", "150");
+		node.put("COLUMNWIDTH_VOUCHERS_SUPPLIER", "200");
+		node.put("COLUMNWIDTH_VOUCHERS_TOTAL", "80");
 	}
 
 }

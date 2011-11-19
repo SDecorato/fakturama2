@@ -31,12 +31,12 @@ import com.sebulli.fakturama.ContextHelpConstants;
  * 
  * @author Gerd Bartelt
  */
-public class ColumnWidthExpenditureItemsPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class ColumnWidthVoucherItemsPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Constructor
 	 */
-	public ColumnWidthExpenditureItemsPreferencePage() {
+	public ColumnWidthVoucherItemsPreferencePage() {
 		super(GRID);
 
 	}
@@ -53,15 +53,15 @@ public class ColumnWidthExpenditureItemsPreferencePage extends FieldEditorPrefer
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.COLUMN_WIDTH_PREFERENCE_PAGE);
 
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITUREITEMS_TEXT", _("Text"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERITEMS_TEXT", _("Text"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITUREITEMS_ACCOUNTTYPE", _("Account Type"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERITEMS_ACCOUNTTYPE", _("Account Type"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITUREITEMS_VAT", _("VAT"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERITEMS_VAT", _("VAT"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITUREITEMS_NET", _("Net"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERITEMS_NET", _("Net"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_EXPENDITUREITEMS_GROSS", _("Gross"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERITEMS_GROSS", _("Gross"), getFieldEditorParent()));
 		
 	}
 
@@ -74,7 +74,7 @@ public class ColumnWidthExpenditureItemsPreferencePage extends FieldEditorPrefer
 	public void init(IWorkbench workbench) {
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		//T: Preference page - Title
-		setDescription(_("Column width of the expenditure item table"));
+		setDescription(_("Column width of the voucher item table"));
 	}
 
 	/**
@@ -84,11 +84,11 @@ public class ColumnWidthExpenditureItemsPreferencePage extends FieldEditorPrefer
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITUREITEMS_TEXT", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITUREITEMS_ACCOUNTTYPE", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITUREITEMS_VAT", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITUREITEMS_NET", write);
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_EXPENDITUREITEMS_GROSS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERITEMS_TEXT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERITEMS_ACCOUNTTYPE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERITEMS_VAT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERITEMS_NET", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERITEMS_GROSS", write);
 	}
 	
 	/**
@@ -98,11 +98,11 @@ public class ColumnWidthExpenditureItemsPreferencePage extends FieldEditorPrefer
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
-		node.put("COLUMNWIDTH_EXPENDITUREITEMS_TEXT", "200");
-		node.put("COLUMNWIDTH_EXPENDITUREITEMS_ACCOUNTTYPE", "200");
-		node.put("COLUMNWIDTH_EXPENDITUREITEMS_VAT", "100");
-		node.put("COLUMNWIDTH_EXPENDITUREITEMS_NET", "85");
-		node.put("COLUMNWIDTH_EXPENDITUREITEMS_GROSS", "85");
+		node.put("COLUMNWIDTH_VOUCHERITEMS_TEXT", "200");
+		node.put("COLUMNWIDTH_VOUCHERITEMS_ACCOUNTTYPE", "200");
+		node.put("COLUMNWIDTH_VOUCHERITEMS_VAT", "100");
+		node.put("COLUMNWIDTH_VOUCHERITEMS_NET", "85");
+		node.put("COLUMNWIDTH_VOUCHERITEMS_GROSS", "85");
 	}
 
 }

@@ -55,7 +55,7 @@ import com.sebulli.fakturama.actions.OpenBrowserEditorAction;
 import com.sebulli.fakturama.actions.OpenCalculatorAction;
 import com.sebulli.fakturama.actions.OpenContactsAction;
 import com.sebulli.fakturama.actions.OpenDocumentsAction;
-import com.sebulli.fakturama.actions.OpenExpendituresAction;
+import com.sebulli.fakturama.actions.OpenExpenditureVouchersAction;
 import com.sebulli.fakturama.actions.OpenListsAction;
 import com.sebulli.fakturama.actions.OpenParcelServiceAction;
 import com.sebulli.fakturama.actions.OpenPaymentsAction;
@@ -120,7 +120,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private OpenPaymentsAction openPaymentsAction;
 	private OpenTextsAction openTextsAction;
 	private OpenListsAction openListsAction;
-	private OpenExpendituresAction openExpendituresAction;
+	private OpenExpenditureVouchersAction openExpenditureVouchersAction;
 	private NewProductAction newProductAction;
 	private NewProductAction newProductActionTB;
 	private NewContactAction newContactAction;
@@ -148,8 +148,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private NewDocumentAction newProformaActionTB;
 	private NewTextAction newTextAction;
 	private NewListEntryAction newListEntryAction;
-	private NewExpenditureVoucherAction newExpenditureAction;
-	private NewExpenditureVoucherAction newExpenditureActionTB;
+	private NewExpenditureVoucherAction newExpenditureVoucherAction;
+	private NewExpenditureVoucherAction newExpenditureVoucherActionTB;
 	private SelectWorkspaceAction selectWorkspaceAction;
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
@@ -336,12 +336,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newListEntryAction = new NewListEntryAction();
 		register(newListEntryAction);
 
-		openExpendituresAction = new OpenExpendituresAction();
-		register(openExpendituresAction);
-		newExpenditureAction = new NewExpenditureVoucherAction();
-		register(newExpenditureAction);
-		newExpenditureActionTB = new NewExpenditureVoucherAction();
-		register(newExpenditureActionTB);
+		openExpenditureVouchersAction = new OpenExpenditureVouchersAction();
+		register(openExpenditureVouchersAction);
+		newExpenditureVoucherAction = new NewExpenditureVoucherAction();
+		register(newExpenditureVoucherAction);
+		newExpenditureVoucherActionTB = new NewExpenditureVoucherAction();
+		register(newExpenditureVoucherActionTB);
 
 		openDocumentsAction = new OpenDocumentsAction();
 		register(openDocumentsAction);
@@ -509,7 +509,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		dataMenu.add(openVatsAction);
 		dataMenu.add(openTextsAction);
 		dataMenu.add(openListsAction);
-		dataMenu.add(openExpendituresAction);
+		dataMenu.add(openExpenditureVouchersAction);
 
 		// create menu
 		newMenu.add(newLetterAction);
@@ -529,7 +529,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newMenu.add(newVatAction);
 		newMenu.add(newTextAction);
 		newMenu.add(newListEntryAction);
-		newMenu.add(newExpenditureAction);
+		newMenu.add(newExpenditureVoucherAction);
 		newMenu.add(new Separator());
 		newMenu.add(openParcelServiceAction);
 		
@@ -707,12 +707,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newContactCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newContactCI);
 
-		newExpenditureActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_new_32.png"));
+		newExpenditureVoucherActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newExpenditureActionTB.setText(_("Voucher", "TOOLBAR"));
-		ActionContributionItem newExpenditureCI = new ActionContributionItem(newExpenditureActionTB);
-		newExpenditureCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newExpenditureCI);
+		newExpenditureVoucherActionTB.setText(_("Expenditure Voucher", "TOOLBAR"));
+		ActionContributionItem newExpenditureVoucherCI = new ActionContributionItem(newExpenditureVoucherActionTB);
+		newExpenditureVoucherCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		toolbar2.add(newExpenditureVoucherCI);
 
 		openParcelServiceActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/parcel_service_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
