@@ -36,7 +36,7 @@ public abstract class ViewVoucherTable extends ViewDataSetTable {
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createPartControl(Composite parent, String contextHelpId) {
+	protected void createPartControl(Composite parent, String contextHelpId) {
 
 
 		// Mark the columns that are used by the search function.

@@ -63,8 +63,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 		ColumnWidthContactsPreferencePage.setInitValues(node);
 		ColumnWidthDocumentsPreferencePage.setInitValues(node);
-		ColumnWidthExpendituresPreferencePage.setInitValues(node);
-		ColumnWidthExpenditureItemsPreferencePage.setInitValues(node);
+		ColumnWidthVouchersPreferencePage.setInitValues(node);
+		ColumnWidthVoucherItemsPreferencePage.setInitValues(node);
 		ColumnWidthItemsPreferencePage.setInitValues(node);
 		ColumnWidthListPreferencePage.setInitValues(node);
 		ColumnWidthPaymentsPreferencePage.setInitValues(node);

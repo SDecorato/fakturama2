@@ -26,25 +26,25 @@ import com.sebulli.fakturama.views.datasettable.ViewExpenditureVoucherTable;
  * 
  * @author Gerd Bartelt
  */
-public class OpenExpendituresAction extends Action {
+public class OpenExpenditureVouchersAction extends Action {
 
 	/**
 	 * Constructor
 	 */
-	public OpenExpendituresAction() {
+	public OpenExpenditureVouchersAction() {
 
 		//T: Text of the action to open the expenditures
-		super(_("Expenditures"));
+		super(_("Expenditure Vouchers"));
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open a list with all the expenditures") );
 
 		// The id is used to refer to the action in a menu or toolbar
-		setId(ICommandIds.CMD_OPEN_EXPENDITURES);
+		setId(ICommandIds.CMD_OPEN_EXPENDITUREVOUCHERS);
 
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
-		setActionDefinitionId(ICommandIds.CMD_OPEN_EXPENDITURES);
+		setActionDefinitionId(ICommandIds.CMD_OPEN_EXPENDITUREVOUCHERS);
 
 		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/expenditure_16.png"));

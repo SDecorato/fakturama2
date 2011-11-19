@@ -79,7 +79,7 @@ public abstract class VoucherEditor extends Editor {
 	private Text textName;
 	private Text textNr;
 	private Text textDocumentNr;
-	private TableViewer tableViewerItems;
+	protected TableViewer tableViewerItems;
 	private CurrencyText textPaidValue;
 	private CurrencyText textTotalValue;
 	private UniData paidValue; 
@@ -90,7 +90,7 @@ public abstract class VoucherEditor extends Editor {
 	private CellNavigation cellNavigation;
 
 	// The items of this document
-	private DataSetArray<DataSetVoucherItem> voucherItems;
+	protected DataSetArray<DataSetVoucherItem> voucherItems;
 
 	// Flag, if item editing is active
 	VoucherItemEditingSupport itemEditingSupport = null;
@@ -112,29 +112,131 @@ public abstract class VoucherEditor extends Editor {
 	}
 
 	/**
-	 * Get the voucher items from the data object
+	 * Get all items from the voucher
+	 * 
 	 * @return
-	 * 		all voucher items
+	 * 		All voucher items
 	 */
-	protected DataSetArray<DataSetVoucherItem> getVoucherItems() {
+	protected DataSetArray<?> getVoucherItems() {
 		return null;
 	}
 
+	/**
+	 * Get all vouchers
+	 * 
+	 * @return
+	 * 	All vouchers
+	 */
+	protected DataSetArray<?> getVouchers() {
+		return null;
+	}
+
+	/**
+	 * Add a voucher item to the list of all voucher items
+	 * 
+	 * @param item
+	 * 	The new item to add
+	 * @return
+	 *  A Reference to the added item
+	 */
+	protected DataSetVoucherItem addVoucherItem(DataSetVoucherItem item) {
+		return null;
+	}
+
+	/**
+	 * Add a voucher to the list of all vouchers
+	 * 
+	 * @param voucher
+	 * 	The new voucher to add
+	 * @return
+	 *  A Reference to the added voucher
+	 */
+	protected DataSetVoucher addVoucher(DataSetVoucher voucher) {
+		return null;
+	}
+
+	/**
+	 * Updates a voucher item
+	 * 
+	 * @param item
+	 * 		The voucher item to update
+	 */
+	protected void updateVoucherItem(DataSetVoucherItem item) {
+	}
+
+	/**
+	 * Updates a voucher
+	 * 
+	 * @param voucher
+	 * 		The voucher to update
+	 */
+	protected void updateVoucher(DataSetVoucher voucher) {
+	}
+
+	/**
+	 * Creates a new voucher item 
+     *
+	 * @param name
+	 * 	Data to create the item
+	 * @param category
+	 * 	Data to create the item
+	 * @param price
+	 * 	Data to create the item
+	 * @param vatId
+	 * 	Data to create the item
+	 * @return
+	 * 	The created item
+	 */
+	protected DataSetVoucherItem createNewVoucherItem(String name, String category, Double price, int vatId) {
+		return null;
+	}
+
+	/**
+	 * Creates a new voucher item by a parent item
+	 * 
+	 * @param item
+	 * 	The parent item
+	 * @return
+	 * 	The created item
+	 */
+	protected DataSetVoucherItem createNewVoucherItem (DataSetVoucherItem item) {
+		return null; 
+	}
+
+	/**
+	 * Creates a new voucher
+	 * 
+	 * @param input
+	 * 	The editors input
+	 * @return
+	 * 	The created voucher
+	 */
+	protected DataSetVoucher createNewVoucher (IEditorInput input) {
+		return null; 
+	}
 	
 	/**
-	 * Get the vouchers from the data object
+	 * Creates a new array for voucher items
+	 * 
 	 * @return
-	 * 		all vouchers
+	 * 	Array with all voucher items
 	 */
-	public DataSetArray<DataSetVoucher> getVouchers() {
+	protected DataSetArray<?> createNewVoucherItems () {
 		return null;
 	}
-
 	
+	/**
+	 * Selects the next table cell
+	 * 
+	 * @param keyCode
+	 * 		The key code (tab or cursor tabs)
+	 * @param element
+	 * @param itemEditingSupport
+	 */
 	public void selectNextCell(int keyCode, Object element, VoucherItemEditingSupport itemEditingSupport) {
 		cellNavigation.selectNextCell(keyCode, element, itemEditingSupport, voucherItems,tableViewerItems);
 	}
-
+	
 	/**
 	 * Saves the contents of this part
 	 * 
@@ -176,7 +278,7 @@ public abstract class VoucherEditor extends Editor {
 
 			// Get an existing item, or use the temporary item
 			if (id >= 0) {
-				item = getVoucherItems().getDatasetById(id);
+				item = (DataSetVoucherItem) getVoucherItems().getDatasetById(id);
 
 				// Copy the values to the existing voucher item.
 				item.setStringValueByKey("name", itemDataset.getStringValueByKey("name"));
@@ -194,11 +296,11 @@ public abstract class VoucherEditor extends Editor {
 			// If the ID of this item is -1, this was a new item.
 			// In this case, update the existing one
 			if (id >= 0) {
-				getVoucherItems().updateDataSet(item);
+				updateVoucherItem(item);
 			}
 			else {
 				// Create a new voucher item
-				itemDataset = getVoucherItems().addNewDataSet(itemDataset);
+				itemDataset = addVoucherItem(itemDataset);
 				id = itemDataset.getIntValueByKey("id");
 			}
 
@@ -228,12 +330,12 @@ public abstract class VoucherEditor extends Editor {
 		// If it is a new voucher, add it to the voucher list and
 		// to the data base
 		if (newVoucher) {
-			voucher = getVouchers().addNewDataSet(voucher);
+			voucher = addVoucher(voucher);
 			newVoucher = false;
 		}
 		// If it's not new, update at least the data base
 		else {
-			getVouchers().updateDataSet(voucher);
+			updateVoucher(voucher);
 		}
 
 		// Set the Editor's name to the voucher name.
@@ -306,20 +408,6 @@ public abstract class VoucherEditor extends Editor {
 	public void doSaveAs() {
 	}
 
-	/**
-	 * Creates a new Voucher
-	 */
-	protected void CreateNewVoucher(IEditorInput input) {
-		// Create a new data set
-//		voucher = new DataSetVoucher(((UniDataSetEditorInput) input).getCategory());
-	}
-	
-	
-	protected DataSetVoucherItem CreateNewVoucherItem (DataSetVoucherItem item) {
-		//new DataSetVoucherItem(item);
-		return null; 
-	}
-	
 	
 	/**
 	 * Initializes the editor. If an existing data set is opened, the local
@@ -332,6 +420,7 @@ public abstract class VoucherEditor extends Editor {
 	 * @param site
 	 *            The editor's site
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 
@@ -349,13 +438,17 @@ public abstract class VoucherEditor extends Editor {
 		// If new ..
 		if (newVoucher) {
 
+            // Create a new data set
+			voucher = createNewVoucher(((UniDataSetEditorInput) input));
+
+			
 			//T: Voucher Editor: Name of a new Voucher
 			setPartName(_("New Voucher"));
 
 			// Us the last category
 			int lastVoucherSize = getVouchers().getActiveDatasets().size();
 			if (lastVoucherSize > 0) {
-				DataSetVoucher lastVoucher = getVouchers().getActiveDatasets().get(lastVoucherSize - 1);
+				DataSetVoucher lastVoucher = (( DataSetArray<DataSetVoucher>)getVouchers()).getActiveDatasets().get(lastVoucherSize - 1);
 				voucher.setStringValueByKey("category", lastVoucher.getStringValueByKey("category"));
 
 			}
@@ -372,7 +465,7 @@ public abstract class VoucherEditor extends Editor {
 		// If the editor is opened, the items from the document are
 		// copied to this item set. If the editor is closed or saved,
 		// these items are copied back to the document and to the data base.
-		voucherItems = new DataSetArray<DataSetVoucherItem>();
+		voucherItems = (DataSetArray<DataSetVoucherItem>) createNewVoucherItems();
 
 		// Get all items by ID from the item string
 		String itemsString = voucher.getStringValueByKey("items");
@@ -391,7 +484,7 @@ public abstract class VoucherEditor extends Editor {
 				}
 
 				// And copy the item to a new one
-				DataSetVoucherItem item = CreateNewVoucherItem(getVoucherItems().getDatasetById(id)); 
+				DataSetVoucherItem item = createNewVoucherItem((DataSetVoucherItem)(getVoucherItems().getDatasetById(id))); 
 				voucherItems.getDatasets().add(item);
 			}
 		}
@@ -445,7 +538,8 @@ public abstract class VoucherEditor extends Editor {
 			if (id < 0)
 				return true;
 
-			DataSetVoucherItem item = getVoucherItems().getDatasetById(id);
+			@SuppressWarnings("unchecked")
+			DataSetVoucherItem item = ((DataSetArray <DataSetVoucherItem>)getVoucherItems()).getDatasetById(id);
 
 			if (!item.getStringValueByKey("name").equals(itemDataset.getStringValueByKey("name"))) { return true; }
 			if (!item.getStringValueByKey("category").equals(itemDataset.getStringValueByKey("category"))) { return true; }
@@ -528,17 +622,6 @@ public abstract class VoucherEditor extends Editor {
 		this.itemEditingSupport = itemEditingSupport;
 	}
 
-	/**
-	 * Creates a new voucher item
-	 * @param name
-	 * @param category
-	 * @param price
-	 * @param vatId
-	 * @return
-	 */
-	protected DataSetVoucherItem createNewVoucherItem(String name, String category, Double price, int vatId) {
-		return null;
-	}
 	
 	/**
 	 * Adds an empty voucher item
@@ -852,9 +935,6 @@ public abstract class VoucherEditor extends Editor {
 		textTotalValue.setToolTipText(labelTotalValue.getToolTipText());
 		GridDataFactory.swtDefaults().hint(80, SWT.DEFAULT).align(SWT.END, SWT.CENTER).applyTo(textTotalValue.getText());
 
-
-		// Fill the table with the items
-		tableViewerItems.setInput(voucherItems);
 
 	}
 

@@ -102,18 +102,26 @@
       </view>
       <view
             allowMultiple="true"
-            class="com.sebulli.fakturama.views.datasettable.ViewListTable"
-            icon="icons/16/list_16.png"
-            id="com.sebulli.fakturama.views.datasettable.viewListTable"
-            name="Lists"
+            class="com.sebulli.fakturama.views.datasettable.ViewTestTable"
+            icon="icons/16/text_16.png"
+            id="com.sebulli.fakturama.views.datasettable.viewTestTable"
+            name="Tests"
             restorable="true">
       </view>
       <view
             allowMultiple="true"
-            class="com.sebulli.fakturama.views.datasettable.ViewVoucherTable"
-            icon="icons/16/expenditure_16.png"
-            id="com.sebulli.fakturama.views.datasettable.viewExpenditureTable"
-            name="Expenditures"
+            class="com.sebulli.fakturama.views.datasettable.ViewExpenditureVoucherTable"
+            icon="icons/16/text_16.png"
+            id="com.sebulli.fakturama.views.datasettable.viewExpenditureVoucherTable"
+            name="Expenditure Vouchers"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
+            class="com.sebulli.fakturama.views.datasettable.ViewListTable"
+            icon="icons/16/list_16.png"
+            id="com.sebulli.fakturama.views.datasettable.viewListTable"
+            name="Lists"
             restorable="true">
       </view>
    </extension>
@@ -205,9 +213,9 @@
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
-            description="Open Expenditures"
-            id="com.sebulli.fakturama.actions.openExpenditures"
-            name="Open Expenditures">
+            description="Open Expenditures Vouchers"
+            id="com.sebulli.fakturama.actions.openExpenditureVouchers"
+            name="Open Expenditure Vouchers">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
@@ -341,9 +349,9 @@
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
-            description="Create New Expenditure"
-            id="com.sebulli.fakturama.actions.newExpenditure"
-            name="Create New Expenditure">
+            description="Create New Expenditure Voucher"
+            id="com.sebulli.fakturama.actions.newExpenditureVoucher"
+            name="Create New Expenditure Voucher">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
@@ -587,7 +595,7 @@
       </page>
       <page
       		category="com.sebulli.fakturama.preferences.columnWidthPreferencePage"
-            class="com.sebulli.fakturama.preferences.ColumnWidthExpendituresPreferencePage"
+            class="com.sebulli.fakturama.preferences.ColumnWidthVouchersPreferencePage"
             id="com.sebulli.fakturama.preferences.columnWidthExpendituresPreferencePage"
             name="%page.columnwidthexpenditures">
       </page>
@@ -599,7 +607,7 @@
       </page>
       <page
       		category="com.sebulli.fakturama.preferences.columnWidthPreferencePage"
-            class="com.sebulli.fakturama.preferences.ColumnWidthExpenditureItemsPreferencePage"
+            class="com.sebulli.fakturama.preferences.ColumnWidthVoucherItemsPreferencePage"
             id="com.sebulli.fakturama.preferences.columnWidthExpenditureItemsPreferencePage"
             name="%page.columnwidthexpenditureitems">
       </page>
@@ -724,11 +732,11 @@
             name="List Editor">
       </editor>
       <editor
-            class="com.sebulli.fakturama.editors.VoucherEditor"
+            class="com.sebulli.fakturama.editors.ExpenditureVoucherEditor"
             default="false"
             icon="icons/16/expenditure_16.png"
-            id="com.sebulli.fakturama.editors.expenditureEditor"
-            name="Expenditure Editor">
+            id="com.sebulli.fakturama.editors.expenditurevoucherEditor"
+            name="Expenditure Voucher Editor">
       </editor>
       <editor
             class="com.sebulli.fakturama.editors.BrowserEditor"

@@ -22,9 +22,9 @@ public class DataSetExpenditureVoucher extends DataSetVoucher{
 	 */
 	public DataSetExpenditureVoucher() {
 		super();
-
 		// Name of the table in the data base
 		sqlTabeName = "Expenditures";
+
 	}
 	
 	/**
@@ -35,6 +35,8 @@ public class DataSetExpenditureVoucher extends DataSetVoucher{
 	 */
 	public DataSetExpenditureVoucher(String category) {
 		super (category);
+		// Name of the table in the data base
+		sqlTabeName = "Expenditures";
 	}
 
 

@@ -87,8 +87,8 @@ public class PreferencesInDatabase {
 		ColumnWidthDialogTextsPreferencePage.syncWithPreferencesFromDatabase(save);
 		ColumnWidthContactsPreferencePage.syncWithPreferencesFromDatabase(save);
 		ColumnWidthDocumentsPreferencePage.syncWithPreferencesFromDatabase(save);
-		ColumnWidthExpendituresPreferencePage.syncWithPreferencesFromDatabase(save);
-		ColumnWidthExpenditureItemsPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthVouchersPreferencePage.syncWithPreferencesFromDatabase(save);
+		ColumnWidthVoucherItemsPreferencePage.syncWithPreferencesFromDatabase(save);
 		ColumnWidthItemsPreferencePage.syncWithPreferencesFromDatabase(save);
 		ColumnWidthListPreferencePage.syncWithPreferencesFromDatabase(save);
 		ColumnWidthPaymentsPreferencePage.syncWithPreferencesFromDatabase(save);

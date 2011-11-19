@@ -293,6 +293,7 @@ public class Importer {
 			// Refresh the views
 			ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
 			ApplicationWorkbenchAdvisor.refreshView(ViewVatTable.ID);
+
 			ApplicationWorkbenchAdvisor.refreshView(ViewExpenditureVoucherTable.ID);
 			
 			// The result string

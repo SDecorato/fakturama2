@@ -42,11 +42,11 @@ public class NewExpenditureVoucherAction extends NewEditorAction {
 		setToolTipText(_("Create a new expenditure") );
 
 		// The id is used to refer to the action in a menu or toolbar
-		setId(ICommandIds.CMD_NEW_EXPENDITURE);
+		setId(ICommandIds.CMD_NEW_EXPENDITUREVOUCHER);
 
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
-		setActionDefinitionId(ICommandIds.CMD_NEW_EXPENDITURE);
+		setActionDefinitionId(ICommandIds.CMD_NEW_EXPENDITUREVOUCHER);
 
 		// sets a default 16x16 pixel icon.
 		setImageDescriptor(com.sebulli.fakturama.Activator.getImageDescriptor("/icons/16/expenditure_16.png"));
