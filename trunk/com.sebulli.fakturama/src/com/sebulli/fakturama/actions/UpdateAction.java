@@ -27,13 +27,15 @@ import com.sebulli.fakturama.backup.BackupManager;
  */
 public class UpdateAction extends Action {
 
+	//T: Text of the action to check for updates
+	public final static String ACTIONTEXT = _("Check for Updates"); 
+
 	/**
 	 * Constructor
 	 */
 	public UpdateAction() {
 
-		//T: Text of the action to open the calculator
-		super(_("Check for Updates"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Check for Updates") );

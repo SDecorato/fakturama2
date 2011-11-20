@@ -31,13 +31,15 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class NewShippingAction extends NewEditorAction {
 
+	//T: Text of the action to create a new shipping 
+	public final static String ACTIONTEXT = _("New Shipping"); 
+
 	/**
 	 * Constructor
 	 */
 	public NewShippingAction() {
 
-		//T: Text of the action to create a new shipping 
-		super(_("New Shipping"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Create a new shipping method") );

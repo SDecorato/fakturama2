@@ -37,6 +37,9 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class OpenBrowserEditorAction extends Action {
 
+	//T: Text of the action to open the webbrowser
+	public final static String ACTIONTEXT = _("Web Browser"); 
+
 	// URL of the Fakturama project site
 	public final static String FAKTURAMA_PROJECT_URL = "http://fakturama.sebulli.com/app.php";
 	

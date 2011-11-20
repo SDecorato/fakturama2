@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewShippingTable;
  */
 public class OpenShippingsAction extends Action {
 
+	//T: Text of the action to open the shippings
+	public final static String ACTIONTEXT = _("Shippings"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenShippingsAction() {
 
-		//T: Text of the action to open the shippings
-		super(_("Shippings"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open a list with all shipping methods") );

@@ -54,13 +54,17 @@ public class OpenParcelServiceAction extends Action {
 	private DocumentEditor documentEditor;
 
 	private DataSetDocument dataSetDocument = null;
+
+	//T: Text of the action
+	public final static String ACTIONTEXT = _("Parcel Service"); 
+
 	
 	/**
 	 * Constructor
 	 */
 	public OpenParcelServiceAction() {
-		//T: Text of the action
-		super(_("Parcel Service"));
+		
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open the web site of the parcel service.") );

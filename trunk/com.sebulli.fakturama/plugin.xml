@@ -510,6 +510,11 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
+            class="com.sebulli.fakturama.preferences.ToolbarPreferencePage"
+            id="com.sebulli.fakturama.preferences.toolbarPreferencePage"
+            name="%page.toolbar">
+      </page>
+      <page
             class="com.sebulli.fakturama.preferences.ProductPreferencePage"
             id="com.sebulli.fakturama.preferences.productPreferencePage"
             name="%page.products">

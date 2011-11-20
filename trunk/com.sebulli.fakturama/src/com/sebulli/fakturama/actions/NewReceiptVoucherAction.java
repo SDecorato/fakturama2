@@ -31,12 +31,15 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class NewReceiptVoucherAction extends NewEditorAction {
 
+	//T: Text of the action to create a new receipt voucher
+	public final static String ACTIONTEXT = _("New Receipt Voucher"); 
+
 	/**
 	 * Default Constructor
 	 */
 	public NewReceiptVoucherAction() {
-		//T: Text of the action to create a new receipt voucher
-		super(_("New Receipt Voucher"));
+
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Create a new receipt voucher") );

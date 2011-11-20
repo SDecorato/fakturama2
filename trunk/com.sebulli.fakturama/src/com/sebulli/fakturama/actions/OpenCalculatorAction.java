@@ -31,13 +31,15 @@ import com.sebulli.fakturama.views.Calculator;
  */
 public class OpenCalculatorAction extends Action {
 
+	//T: Text of the action to open the calculator
+	public final static String ACTIONTEXT = _("Calculator"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenCalculatorAction() {
 
-		//T: Text of the action to open the calculator
-		super(_("Calculator"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open the calculator") );

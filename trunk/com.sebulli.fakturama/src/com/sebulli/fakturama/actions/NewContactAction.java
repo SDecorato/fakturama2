@@ -31,6 +31,9 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class NewContactAction extends NewEditorAction {
 
+	//T: Text of the action to create a new contact
+	public final static String ACTIONTEXT = _("New Contact"); 
+
 	/**
 	 * Constructor
 	 * 
@@ -39,8 +42,7 @@ public class NewContactAction extends NewEditorAction {
 	 */
 	public NewContactAction(String category) {
 
-		//T: Text of the action to create a new contact
-		super(_("New Contact"), category);
+		super(ACTIONTEXT, category);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Create a new contact") );

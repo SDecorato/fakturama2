@@ -16,9 +16,6 @@ package com.sebulli.fakturama;
 
 import static com.sebulli.fakturama.Translate._;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.ICoolBarManager;
@@ -599,25 +596,20 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		IToolBarManager toolbar1 = new ToolBarManager(SWT.FLAT);
 		IToolBarManager toolbar2 = new ToolBarManager(SWT.FLAT);
 		IToolBarManager toolbar3 = new ToolBarManager(SWT.FLAT);
+		IToolBarManager toolbar4 = new ToolBarManager(SWT.FLAT);
 
-		coolBar.add(new ToolBarContributionItem(toolbar1, "main1"));
-		coolBar.add(new ToolBarContributionItem(toolbar2, "main2"));
-		coolBar.add(new ToolBarContributionItem(toolbar3, "main3"));
-
-		// Get the screen width
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int screenWidth = screenSize.width;
+		ToolBarContributionItem tbci1 = new ToolBarContributionItem(toolbar1, "main1");
+		ToolBarContributionItem tbci2 = new ToolBarContributionItem(toolbar2, "main2");
+		ToolBarContributionItem tbci3 = new ToolBarContributionItem(toolbar3, "main3");
+		ToolBarContributionItem tbci4 = new ToolBarContributionItem(toolbar4, "main4");
 		
-		// Use a default screen width, if the value is invalid
-		if (screenWidth <= 0)
-			screenWidth = 1280;
-
 		webShopImportActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/shop_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		webShopImportActionTB.setText(_("Web Shop", "TOOLBAR"));
 		ActionContributionItem webShopImportCI = new ActionContributionItem(webShopImportActionTB);
 		webShopImportCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar1.add(webShopImportCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_WEBSHOP"))
+			toolbar1.add(webShopImportCI);
 
 		printActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/printoo_32.png"));
 		printActionTB.setDisabledImageDescriptor(Activator.getImageDescriptor("/icons/32/printoo_dis_32.png"));
@@ -625,7 +617,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		printActionTB.setText(_("Print", "TOOLBAR"));
 		ActionContributionItem printActionTBCI = new ActionContributionItem(printActionTB);
 		printActionTBCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar1.add(printActionTBCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_PRINT"))
+			toolbar1.add(printActionTBCI);
 
 		saveActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/save_32.png"));
 		saveActionTB.setDisabledImageDescriptor(Activator.getImageDescriptor("/icons/32/save_dis_32.png"));
@@ -633,128 +626,151 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		saveActionTB.setText(_("Save", "TOOLBAR"));
 		ActionContributionItem saveCI = new ActionContributionItem(saveActionTB);
 		saveCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar1.add(saveCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_SAVE"))
+			toolbar1.add(saveCI);
 
-		if (screenWidth > 1024) {
-			newLetterActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/letter_new_32.png"));
-			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-			newLetterActionTB.setText(_("Letter", "TOOLBAR"));
-			ActionContributionItem newLetterCI = new ActionContributionItem(newLetterActionTB);
-			newLetterCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		newLetterActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/letter_new_32.png"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newLetterActionTB.setText(_("Letter", "TOOLBAR"));
+		ActionContributionItem newLetterCI = new ActionContributionItem(newLetterActionTB);
+		newLetterCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_LETTER"))
 			toolbar2.add(newLetterCI);
-		}
 
 		newOfferActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/offer_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		newOfferActionTB.setText(_("Offer", "TOOLBAR"));
 		ActionContributionItem newOfferCI = new ActionContributionItem(newOfferActionTB);
 		newOfferCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newOfferCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_OFFER"))
+			toolbar2.add(newOfferCI);
 
 		newOrderActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/order_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		newOrderActionTB.setText(_("Order", "TOOLBAR"));
 		ActionContributionItem newOrderCI = new ActionContributionItem(newOrderActionTB);
 		newOrderCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newOrderCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_ORDER"))
+			toolbar2.add(newOrderCI);
 
 		newConfirmationActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/confirmation_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		newConfirmationActionTB.setText(_("Confirmation", "TOOLBAR"));
 		ActionContributionItem newConfirmationCI = new ActionContributionItem(newConfirmationActionTB);
 		newConfirmationCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newConfirmationCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_CONFIRMATION"))
+			toolbar2.add(newConfirmationCI);
 
 		newInvoiceActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/invoice_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		newInvoiceActionTB.setText(_("Invoice", "TOOLBAR"));
 		ActionContributionItem newInvoiceCI = new ActionContributionItem(newInvoiceActionTB);
 		newInvoiceCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newInvoiceCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_INVOICE"))
+			toolbar2.add(newInvoiceCI);
 
 		newDeliveryActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/delivery_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		newDeliveryActionTB.setText(_("Delivery", "TOOLBAR"));
 		ActionContributionItem newDeliveryCI = new ActionContributionItem(newDeliveryActionTB);
 		newDeliveryCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newDeliveryCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_DELIVERY"))
+			toolbar2.add(newDeliveryCI);
 
-
-		if (screenWidth > 1024) {
-
-			newCreditActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/credit_new_32.png"));
-			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-			newCreditActionTB.setText(_("Credit", "TOOLBAR"));
-			ActionContributionItem newCreditCI = new ActionContributionItem(newCreditActionTB);
-			newCreditCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		newCreditActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/credit_new_32.png"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newCreditActionTB.setText(_("Credit", "TOOLBAR"));
+		ActionContributionItem newCreditCI = new ActionContributionItem(newCreditActionTB);
+		newCreditCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_CREDIT"))
 			toolbar2.add(newCreditCI);
 
-			
-			newDunningActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
-			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-			newDunningActionTB.setText(_("Dunning", "TOOLBAR"));
-			ActionContributionItem newDunningCI = new ActionContributionItem(newDunningActionTB);
-			newDunningCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		
+		newDunningActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/dunning_new_32.png"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newDunningActionTB.setText(_("Dunning", "TOOLBAR"));
+		ActionContributionItem newDunningCI = new ActionContributionItem(newDunningActionTB);
+		newDunningCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_DUNNING"))
 			toolbar2.add(newDunningCI);
-			
-			newProformaActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/proforma_new_32.png"));
-			//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-			newProformaActionTB.setText(_("Proforma", "TOOLBAR"));
-			ActionContributionItem newProformaCI = new ActionContributionItem(newProformaActionTB);
-			newProformaCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		
+		newProformaActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/proforma_new_32.png"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newProformaActionTB.setText(_("Proforma", "TOOLBAR"));
+		ActionContributionItem newProformaCI = new ActionContributionItem(newProformaActionTB);
+		newProformaCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_PROFORMA"))
 			toolbar2.add(newProformaCI);
-
-			
-		}
 
 		newProductActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/product_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		newProductActionTB.setText(_("Product", "TOOLBAR"));
 		ActionContributionItem newProductCI = new ActionContributionItem(newProductActionTB);
 		newProductCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newProductCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_PRODUCT"))
+			toolbar3.add(newProductCI);
 
 		newContactActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/contact_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		newContactActionTB.setText(_("Contact", "TOOLBAR"));
 		ActionContributionItem newContactCI = new ActionContributionItem(newContactActionTB);
 		newContactCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newContactCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_CONTACT"))
+			toolbar3.add(newContactCI);
 
 		newExpenditureVoucherActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_voucher_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newExpenditureVoucherActionTB.setText(_("Expenditure Voucher", "TOOLBAR"));
+		newExpenditureVoucherActionTB.setText(_("Expenditure", "TOOLBAR"));
 		ActionContributionItem newExpenditureVoucherCI = new ActionContributionItem(newExpenditureVoucherActionTB);
 		newExpenditureVoucherCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newExpenditureVoucherCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_NEW_EXPENDITUREVOUCHER"))
+			toolbar3.add(newExpenditureVoucherCI);
 
 		newReceiptVoucherActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/receipt_voucher_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
-		newReceiptVoucherActionTB.setText(_("Receipt Voucher", "TOOLBAR"));
+		newReceiptVoucherActionTB.setText(_("Receipt", "TOOLBAR"));
 		ActionContributionItem newReceiptVoucherCI = new ActionContributionItem(newReceiptVoucherActionTB);
 		newReceiptVoucherCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(newReceiptVoucherCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_NEW_RECEIPTVOUCHER"))
+			toolbar3.add(newReceiptVoucherCI);
 
 		openParcelServiceActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/parcel_service_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		openParcelServiceActionTB.setText(_("Parcel", "TOOLBAR"));
 		ActionContributionItem openParcelServiceCI = new ActionContributionItem(openParcelServiceActionTB);
 		openParcelServiceCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar2.add(openParcelServiceCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_OPEN_PARCELSERVICE"))
+			toolbar4.add(openParcelServiceCI);
 
 		openBrowserEditorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/www_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		openBrowserEditorActionTB.setText(_("www", "TOOLBAR"));
 		ActionContributionItem openBrowserEditorCI = new ActionContributionItem(openBrowserEditorActionTB);
 		openBrowserEditorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar3.add(openBrowserEditorCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_OPEN_BROWSER"))
+			toolbar4.add(openBrowserEditorCI);
 
 		openCalculatorActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/calculator_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		openCalculatorActionTB.setText(_("Calculator", "TOOLBAR"));
 		ActionContributionItem openCalculatorCI = new ActionContributionItem(openCalculatorActionTB);
 		openCalculatorCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		toolbar3.add(openCalculatorCI);
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_OPEN_CALCULATOR"))
+			toolbar4.add(openCalculatorCI);
 
+		// Is there at least one icon in the toolbar ?
+		if (toolbar1.getItems().length > 0)
+			coolBar.add(tbci1);
+		// Is there at least one icon in the toolbar ?
+		if (toolbar2.getItems().length > 0)
+			coolBar.add(tbci2);
+		// Is there at least one icon in the toolbar ?
+		if (toolbar3.getItems().length > 0)
+			coolBar.add(tbci3);
+		// Is there at least one icon in the toolbar ?
+		if (toolbar4.getItems().length > 0)
+			coolBar.add(tbci4);
+
+		
 	}
 }

@@ -30,7 +30,9 @@ import com.sebulli.fakturama.data.DataSetVoucher;
  */
 public abstract class ViewVoucherTable extends ViewDataSetTable {
 
-
+	protected String customerSupplier = "-";
+	
+	
 	/**
 	 * Creates the SWT controls for this workbench part.
 	 * 
@@ -40,12 +42,11 @@ public abstract class ViewVoucherTable extends ViewDataSetTable {
 
 
 		// Mark the columns that are used by the search function.
-		searchColumns = new String[5];
+		searchColumns = new String[4];
 		searchColumns[0] = "name";
 		searchColumns[1] = "nr";
 		searchColumns[2] = "documentnr";
 		searchColumns[3] = "date";
-		searchColumns[4] = "donotbook";
 
 		super.createPartControl(parent,DataSetVoucher.class, false, true, contextHelpId);
 
@@ -70,7 +71,7 @@ public abstract class ViewVoucherTable extends ViewDataSetTable {
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Document"), cw_document, true, "documentnr");
 		//T: Used as heading of a table. Keep the word short.
-		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Supplier"), cw_supplier, false, "name");
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, customerSupplier, cw_supplier, false, "name");
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.LEFT, _("Total"), cw_total, true, "paid");
 

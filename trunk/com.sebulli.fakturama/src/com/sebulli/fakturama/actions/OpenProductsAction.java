@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewProductTable;
  */
 public class OpenProductsAction extends Action {
 
+	//T: Text of the action to open the products
+	public final static String ACTIONTEXT = _("Products"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenProductsAction() {
 
-		//T: Text of the action to open the products
-		super(_("Products"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open a list with all products") );

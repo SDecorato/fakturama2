@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewExpenditureVoucherAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetExpenditureVoucher;
 
 
 
@@ -49,6 +50,9 @@ public class ViewExpenditureVoucherTable extends ViewVoucherTable{
 
 		// Name of the editor
 		editor = "ExpenditureVoucher";
+		
+		// Text of the column "name"
+		customerSupplier = 	DataSetExpenditureVoucher.customerSupplier;
 		
 		// Create the super part control
 		super.createPartControl(parent, ContextHelpConstants.VOUCHER_TABLE_VIEW);

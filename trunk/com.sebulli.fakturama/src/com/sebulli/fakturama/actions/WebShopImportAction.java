@@ -48,13 +48,15 @@ import com.sebulli.fakturama.webshopimport.WebShopImportManager;
  */
 public class WebShopImportAction extends Action {
 
+	//T: Text of the action to connect to the web shop and import new data
+	public final static String ACTIONTEXT = _("Web Shop"); 
+
 	/**
 	 * Constructor
 	 */
 	public WebShopImportAction() {
 
-		//T: Text of the action to connect to the web shop and import new data
-		super(_("Web Shop"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Get new orders and products from web shop") );

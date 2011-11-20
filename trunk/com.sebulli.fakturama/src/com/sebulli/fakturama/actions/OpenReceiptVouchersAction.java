@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewReceiptVoucherTable;
  */
 public class OpenReceiptVouchersAction extends Action {
 
+	//T: Text of the action to open the receipt vouchers
+	public final static String ACTIONTEXT = _("Receipt Vouchers"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenReceiptVouchersAction() {
 
-		//T: Text of the action to open the receipt vouchers
-		super(_("Receipt Vouchers"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open a list with all the receipt vouchers") );

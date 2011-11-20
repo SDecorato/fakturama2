@@ -41,6 +41,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		IEclipsePreferences node = DefaultScope.INSTANCE.getNode(Activator.PLUGIN_ID);
 
 		// Initialize every single preference page
+		ToolbarPreferencePage.setInitValues(node);
 		ContactPreferencePage.setInitValues(node);
 		ContactFormatPreferencePage.setInitValues(node);
 		DocumentPreferencePage.setInitValues(node);

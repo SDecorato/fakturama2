@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
  */
 public class OpenDocumentsAction extends Action {
 
+	//T: Text of the action to open the documents
+	public final static String  ACTIONTEXT= _("Documents"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenDocumentsAction() {
 
-		//T: Text of the action to open the documents
-		super(_("Documents"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open a list with all the documents") );

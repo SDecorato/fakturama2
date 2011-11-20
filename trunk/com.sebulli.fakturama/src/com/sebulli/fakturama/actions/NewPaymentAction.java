@@ -31,12 +31,15 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class NewPaymentAction extends NewEditorAction {
 
+	//T: Text of the action to create a new payment
+	public final static String ACTIONTEXT = _("New Payment"); 
+
 	/**
 	 * Default Constructor
 	 */
 	public NewPaymentAction() {
-		//T: Text of the action to create a new payment
-		super(_("New Payment"));
+
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Create a new payment") );

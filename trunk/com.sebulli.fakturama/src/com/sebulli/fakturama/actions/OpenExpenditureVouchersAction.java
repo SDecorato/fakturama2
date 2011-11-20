@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewExpenditureVoucherTable;
  */
 public class OpenExpenditureVouchersAction extends Action {
 
+	//T: Text of the action to open the expenditures
+	public final static String ACTIONTEXT = _("Expenditure Vouchers"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenExpenditureVouchersAction() {
 
-		//T: Text of the action to open the expenditures
-		super(_("Expenditure Vouchers"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open a list with all the expenditures") );

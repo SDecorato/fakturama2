@@ -70,7 +70,8 @@ import com.sebulli.fakturama.views.datasettable.ViewListTable;
 public abstract class VoucherEditor extends Editor {
 
 	protected String titleText = "Voucher";
-
+	protected String customerSupplier = "-";
+	
 	// This UniDataSet represents the editor's input
 	protected DataSetVoucher voucher;
 
@@ -794,10 +795,10 @@ public abstract class VoucherEditor extends Editor {
 
 		// Supplier name
 		Label labelName = new Label(top, SWT.NONE);
-		//T: Label in the voucher editor
-		labelName.setText(_("Supplier"));
+
+		labelName.setText(customerSupplier);
 		//T: Tool Tip Text
-		labelName.setToolTipText(_("Name of the supplier"));
+		labelName.setToolTipText(_("Name of the") + " " + customerSupplier.toLowerCase());
 		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 		textName = new Text(top, SWT.BORDER);

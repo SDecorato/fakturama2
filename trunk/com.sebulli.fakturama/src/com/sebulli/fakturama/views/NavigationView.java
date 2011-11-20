@@ -98,7 +98,6 @@ public class NavigationView extends ViewPart implements ICommandIds {
 
 		bar3.addAction(new NewProductAction());
 		bar3.addAction(new NewContactAction(null));
-		bar3.addAction(new OpenParcelServiceAction());
 
 		/*
 		// Create the 4th expand bar "export"
@@ -113,6 +112,7 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		final ExpandBar bar5 = new ExpandBar(expandBarManager, top, SWT.NONE, _("Miscellaneous"), "/icons/16/misc_16.png" ,
 				_("Miscellaneous"));
 
+		bar5.addAction(new OpenParcelServiceAction());
 		bar5.addAction(new OpenBrowserEditorAction(true));
 		bar5.addAction(new OpenCalculatorAction());
 	}

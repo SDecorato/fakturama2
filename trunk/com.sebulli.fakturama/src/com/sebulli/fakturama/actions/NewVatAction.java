@@ -31,13 +31,15 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class NewVatAction extends NewEditorAction {
 
+	//T: Text of the action to create a new VAT
+	public final static String ACTIONTEXT = _("New VAT"); 
+
 	/**
 	 * Constructor
 	 */
 	public NewVatAction() {
 
-		//T: Text of the action to create a new VAT
-		super(_("New VAT"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Create a new tax rate") );

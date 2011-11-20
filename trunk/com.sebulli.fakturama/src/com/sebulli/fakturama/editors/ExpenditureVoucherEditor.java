@@ -37,7 +37,12 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 		super();
 		tableViewID = ViewExpenditureVoucherTable.ID;
 		editorID = "voucher";
+		
+		//T: Title of the voucher editor
 		titleText = _("Expense Voucher");
+
+		// Text of the name property
+		customerSupplier = 	DataSetExpenditureVoucher.customerSupplier;
 	}
 	
 	/**

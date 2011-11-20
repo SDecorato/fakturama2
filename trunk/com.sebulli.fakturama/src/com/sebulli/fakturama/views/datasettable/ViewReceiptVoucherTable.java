@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.actions.NewReceiptVoucherAction;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetReceiptVoucher;
 
 
 
@@ -50,6 +51,9 @@ public class ViewReceiptVoucherTable extends ViewVoucherTable{
 		// Name of the editor
 		editor = "ReceiptVoucher";
 		
+		// Text of the column "name"
+		customerSupplier = 	DataSetReceiptVoucher.customerSupplier;
+
 		// Create the super part control
 		super.createPartControl(parent, ContextHelpConstants.VOUCHER_TABLE_VIEW);
 

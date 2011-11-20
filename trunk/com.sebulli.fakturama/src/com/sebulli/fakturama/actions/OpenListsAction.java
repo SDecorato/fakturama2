@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewListTable;
  */
 public class OpenListsAction extends Action {
 
+	//T: Text of the action to open the lists
+	public final static String ACTIONTEXT = _("Lists"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenListsAction() {
 
-		//T: Text of the action to open the lists
-		super(_("Lists"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open miscellaneous lists") );

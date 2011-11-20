@@ -31,12 +31,15 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class NewExpenditureVoucherAction extends NewEditorAction {
 
+	//T: Text of the action to create a new expenditure
+	public final static String ACTIONTEXT = _("New Expenditure"); 
+
 	/**
 	 * Default Constructor
 	 */
 	public NewExpenditureVoucherAction() {
-		//T: Text of the action to create a new expenditure
-		super(_("New Expenditure"));
+
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Create a new expenditure") );
