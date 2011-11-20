@@ -51,7 +51,7 @@ public class ViewExpenditureVoucherTable extends ViewVoucherTable{
 		editor = "ExpenditureVoucher";
 		
 		// Create the super part control
-		super.createPartControl(parent, ContextHelpConstants.EXPENDITURE_VOUCHER_TABLE_VIEW);//, ContextHelpConstants.EXPENDITURE_VOUCHER_TABLE_VIEW);
+		super.createPartControl(parent, ContextHelpConstants.EXPENDITURE_VOUCHER_TABLE_VIEW);
 
 		// Name of this view
 		this.setPartName(_("Expenditure vouchers"));

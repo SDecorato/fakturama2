@@ -707,7 +707,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newContactCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newContactCI);
 
-		newExpenditureVoucherActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_new_32.png"));
+		newExpenditureVoucherActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_voucher_new_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
 		newExpenditureVoucherActionTB.setText(_("Expenditure Voucher", "TOOLBAR"));
 		ActionContributionItem newExpenditureVoucherCI = new ActionContributionItem(newExpenditureVoucherActionTB);

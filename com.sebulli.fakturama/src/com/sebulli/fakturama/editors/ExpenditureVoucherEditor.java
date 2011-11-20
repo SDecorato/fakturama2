@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 
@@ -35,7 +37,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 		super();
 		tableViewID = ViewExpenditureVoucherTable.ID;
 		editorID = "voucher";
-
+		titleText = _("Expense Voucher");
 	}
 	
 	/**

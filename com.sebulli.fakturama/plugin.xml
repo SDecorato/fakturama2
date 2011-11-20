@@ -102,16 +102,8 @@
       </view>
       <view
             allowMultiple="true"
-            class="com.sebulli.fakturama.views.datasettable.ViewTestTable"
-            icon="icons/16/text_16.png"
-            id="com.sebulli.fakturama.views.datasettable.viewTestTable"
-            name="Tests"
-            restorable="true">
-      </view>
-      <view
-            allowMultiple="true"
             class="com.sebulli.fakturama.views.datasettable.ViewExpenditureVoucherTable"
-            icon="icons/16/text_16.png"
+            icon="icons/16/expenditure_voucher_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewExpenditureVoucherTable"
             name="Expenditure Vouchers"
             restorable="true">
@@ -734,7 +726,7 @@
       <editor
             class="com.sebulli.fakturama.editors.ExpenditureVoucherEditor"
             default="false"
-            icon="icons/16/expenditure_16.png"
+            icon="icons/16/expenditure_voucher_16.png"
             id="com.sebulli.fakturama.editors.expenditurevoucherEditor"
             name="Expenditure Voucher Editor">
       </editor>
@@ -773,7 +765,7 @@
       <wizard
             category="com.sebulli.fakturama.importWizards.csv"
             class="com.sebulli.fakturama.importer.csv.expenditures.ImportWizard"
-            icon="icons/16/expenditure_16.png"
+            icon="icons/16/expenditure_voucher_16.png"
             id="com.sebulli.fakturama.importer.csv.expenditures.importWizard"
             name="%wizard.import.csv.expenditures.name">
          <description>
@@ -873,7 +865,7 @@
       <wizard
             category="com.sebulli.fakturama.export.salesandexpenditures"
             class="com.sebulli.fakturama.export.expenditures.ExportWizard"
-            icon="icons/16/expenditure_16.png"
+            icon="icons/16/expenditure_voucher_16.png"
             id="com.sebulli.fakturama.export.expenditures.exportWizard"
             name="%wizard.export.expenditures.name">
          <description>

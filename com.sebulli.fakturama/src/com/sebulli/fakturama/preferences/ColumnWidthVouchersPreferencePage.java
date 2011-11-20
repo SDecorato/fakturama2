@@ -53,6 +53,8 @@ public class ColumnWidthVouchersPreferencePage extends FieldEditorPreferencePage
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.COLUMN_WIDTH_PREFERENCE_PAGE);
 		
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
+		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERS_DONOTBOOK", _("Book"), getFieldEditorParent()));
+		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERS_DATE", _("Date"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_VOUCHERS_VOUCHER", _("Voucher"), getFieldEditorParent()));
@@ -84,6 +86,8 @@ public class ColumnWidthVouchersPreferencePage extends FieldEditorPreferencePage
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
+		
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_DONOTBOOK", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_DATE", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_VOUCHER", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_VOUCHERS_DOCUMENT", write);
@@ -98,6 +102,8 @@ public class ColumnWidthVouchersPreferencePage extends FieldEditorPreferencePage
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
+		
+		node.put("COLUMNWIDTH_VOUCHERS_DONOTBOOK", "20");
 		node.put("COLUMNWIDTH_VOUCHERS_DATE", "80");
 		node.put("COLUMNWIDTH_VOUCHERS_VOUCHER", "100");
 		node.put("COLUMNWIDTH_VOUCHERS_DOCUMENT", "150");
