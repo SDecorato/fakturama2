@@ -15,28 +15,28 @@
 package com.sebulli.fakturama.data;
 
 
-public class DataSetExpenditureVoucher extends DataSetVoucher{
+public class DataSetReceiptVoucher extends DataSetVoucher{
 	
 	/**
 	 * Constructor
 	 */
-	public DataSetExpenditureVoucher() {
+	public DataSetReceiptVoucher() {
 		super();
 		// Name of the table in the data base
-		sqlTabeName = "Expenditures";
+		sqlTabeName = "ReceiptVouchers";
 
 	}
 	
 	/**
-	 * Constructor Creates a new expenditure voucher
+	 * Constructor Creates a new receipt voucher
 	 * 
 	 * @param category
-	 *            Category of the new expenditure voucher
+	 *            Category of the new receipt voucher
 	 */
-	public DataSetExpenditureVoucher(String category) {
+	public DataSetReceiptVoucher(String category) {
 		super (category);
 		// Name of the table in the data base
-		sqlTabeName = "Expenditures";
+		sqlTabeName = "ReceiptVouchers";
 	}
 
 
@@ -50,7 +50,7 @@ public class DataSetExpenditureVoucher extends DataSetVoucher{
 	 * 	The data set from the data object
 	 */
 	protected DataSetVoucherItem getVoucherItemByID(int id) {
-		return (Data.INSTANCE.getExpenditureVoucherItems().getDatasetById(id));
+		return (Data.INSTANCE.getReceiptVoucherItems().getDatasetById(id));
 	}
 
 	

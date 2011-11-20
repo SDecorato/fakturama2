@@ -123,7 +123,7 @@ public abstract class DataSetVoucher extends UniDataSet {
 					Logger.logError(e, "Error parsing item string");
 					id = 0;
 				}
-				items.getDatasets().add(getVoucherByID(id));
+				items.getDatasets().add(getVoucherItemByID(id));
 			}
 		}
 		return items;
@@ -143,15 +143,14 @@ public abstract class DataSetVoucher extends UniDataSet {
 	}
 
 	/**
-	 * Returns the voucher by its ID
+	 * Returns the voucher item by its ID
 	 * 
 	 * @param id
 	 * 	Id if the data set
 	 * @return
 	 * 	The data set from the data object
 	 */
-	protected DataSetVoucherItem getVoucherByID(int id) {
-//		return (Data.INSTANCE.getExpenditure......Items().getDatasetById(id));
+	protected DataSetVoucherItem getVoucherItemByID(int id) {
 		return null;
 	}
 	
@@ -175,7 +174,7 @@ public abstract class DataSetVoucher extends UniDataSet {
 				Logger.logError(e, "Error parsing item string");
 				id = 0;
 			}
-			return (getVoucherByID(id));
+			return (getVoucherItemByID(id));
 		}
 
 		Logger.logError("Voucher item not found:" + index);

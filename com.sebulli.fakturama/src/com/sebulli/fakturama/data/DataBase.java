@@ -393,10 +393,14 @@ public class DataBase {
 					uds = new DataSetText();
 				if (udsTemplate instanceof DataSetList)
 					uds = new DataSetList();
-				if (udsTemplate instanceof DataSetVoucher)
+				if (udsTemplate instanceof DataSetExpenditureVoucher)
 					uds = new DataSetExpenditureVoucher();
-				if (udsTemplate instanceof DataSetVoucherItem)
+				if (udsTemplate instanceof DataSetExpenditureVoucherItem)
 					uds = new DataSetExpenditureVoucherItem();
+				if (udsTemplate instanceof DataSetReceiptVoucher)
+					uds = new DataSetReceiptVoucher();
+				if (udsTemplate instanceof DataSetReceiptVoucherItem)
+					uds = new DataSetReceiptVoucherItem();
 
 				if (uds == null)
 					Logger.logError("DataBase.getTable() Error: unknown UniDataSet Type");
@@ -703,6 +707,8 @@ public class DataBase {
 				checkTableAndInsertNewColumns(new DataSetList());
 				checkTableAndInsertNewColumns(new DataSetExpenditureVoucher());
 				checkTableAndInsertNewColumns(new DataSetExpenditureVoucherItem());
+				checkTableAndInsertNewColumns(new DataSetReceiptVoucher());
+				checkTableAndInsertNewColumns(new DataSetReceiptVoucherItem());
 
 			}
 			catch (SQLException e) {
@@ -722,6 +728,8 @@ public class DataBase {
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetList()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetExpenditureVoucher()));
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetExpenditureVoucherItem()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetReceiptVoucher()));
+					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetReceiptVoucherItem()));
 					stmt.close();
 					return true;
 

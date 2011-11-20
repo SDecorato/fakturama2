@@ -22,22 +22,22 @@ import org.eclipse.ui.IEditorInput;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
-import com.sebulli.fakturama.data.DataSetExpenditureVoucher;
-import com.sebulli.fakturama.data.DataSetExpenditureVoucherItem;
+import com.sebulli.fakturama.data.DataSetReceiptVoucher;
+import com.sebulli.fakturama.data.DataSetReceiptVoucherItem;
 import com.sebulli.fakturama.data.DataSetVoucher;
 import com.sebulli.fakturama.data.DataSetVoucherItem;
-import com.sebulli.fakturama.views.datasettable.ViewExpenditureVoucherTable;
+import com.sebulli.fakturama.views.datasettable.ViewReceiptVoucherTable;
 
-public class ExpenditureVoucherEditor extends VoucherEditor {
+public class ReceiptVoucherEditor extends VoucherEditor {
 	
 	// Editor's ID
-	public static final String ID = "com.sebulli.fakturama.editors.expenditurevoucherEditor";
+	public static final String ID = "com.sebulli.fakturama.editors.receiptvoucherEditor";
 	
-	public ExpenditureVoucherEditor () {
+	public ReceiptVoucherEditor () {
 		super();
-		tableViewID = ViewExpenditureVoucherTable.ID;
+		tableViewID = ViewReceiptVoucherTable.ID;
 		editorID = "voucher";
-		titleText = _("Expense Voucher");
+		titleText = _("Receipt Voucher");
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 		All voucher items
 	 */
 	public DataSetArray<?> getVoucherItems() {
-		DataSetArray<DataSetExpenditureVoucherItem> items = Data.INSTANCE.getExpenditureVoucherItems();
+		DataSetArray<DataSetReceiptVoucherItem> items = Data.INSTANCE.getReceiptVoucherItems();
 		return items;
 	}
 
@@ -58,7 +58,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 	All vouchers
 	 */
 	public DataSetArray<?> getVouchers() {
-		return Data.INSTANCE.getExpenditureVouchers();
+		return Data.INSTANCE.getReceiptVouchers();
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 *  A Reference to the added item
 	 */
 	public DataSetVoucherItem addVoucherItem(DataSetVoucherItem item) {
-		return Data.INSTANCE.getExpenditureVoucherItems().addNewDataSet((DataSetExpenditureVoucherItem) item);
+		return Data.INSTANCE.getReceiptVoucherItems().addNewDataSet((DataSetReceiptVoucherItem) item);
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 *  A Reference to the added voucher
 	 */
 	public DataSetVoucher addVoucher(DataSetVoucher voucher) {
-		return Data.INSTANCE.getExpenditureVouchers().addNewDataSet((DataSetExpenditureVoucher) voucher);
+		return Data.INSTANCE.getReceiptVouchers().addNewDataSet((DataSetReceiptVoucher) voucher);
 	}
 
 	/**
@@ -92,7 +92,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 		The voucher item to update
 	 */
 	public void updateVoucherItem(DataSetVoucherItem item) {
-		Data.INSTANCE.getExpenditureVoucherItems().updateDataSet((DataSetExpenditureVoucherItem) item);
+		Data.INSTANCE.getReceiptVoucherItems().updateDataSet((DataSetReceiptVoucherItem) item);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 		The voucher to update
 	 */
 	public void updateVoucher(DataSetVoucher voucher) {
-		Data.INSTANCE.getExpenditureVouchers().updateDataSet((DataSetExpenditureVoucher) voucher);
+		Data.INSTANCE.getReceiptVouchers().updateDataSet((DataSetReceiptVoucher) voucher);
 	}
 	
 	/**
@@ -120,7 +120,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 	The created item
 	 */
 	public DataSetVoucherItem createNewVoucherItem(String name, String category, Double price, int vatId) {
-		return new DataSetExpenditureVoucherItem(name, category,price, vatId);
+		return new DataSetReceiptVoucherItem(name, category,price, vatId);
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 	The created item
 	 */
 	public DataSetVoucherItem createNewVoucherItem (DataSetVoucherItem item) {
-		return new DataSetExpenditureVoucherItem(item); 
+		return new DataSetReceiptVoucherItem(item); 
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 	The created voucher
 	 */
 	public DataSetVoucher createNewVoucher (IEditorInput input) {
-		return new DataSetExpenditureVoucher(((UniDataSetEditorInput) input).getCategory());
+		return new DataSetReceiptVoucher(((UniDataSetEditorInput) input).getCategory());
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 	Array with all voucher items
 	 */
 	public DataSetArray<?> createNewVoucherItems () {
-		return new DataSetArray<DataSetExpenditureVoucherItem>();
+		return new DataSetArray<DataSetReceiptVoucherItem>();
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent, ContextHelpConstants.VOUCHER_EDITOR);
 		// Fill the table with the items
-		DataSetArray<DataSetExpenditureVoucherItem> a = (DataSetArray<DataSetExpenditureVoucherItem>) getMyVoucherItems();
+		DataSetArray<DataSetReceiptVoucherItem> a = (DataSetArray<DataSetReceiptVoucherItem>) getMyVoucherItems();
 		tableViewerItems.setInput(a);
 	}
 	

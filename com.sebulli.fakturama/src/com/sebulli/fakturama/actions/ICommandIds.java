@@ -32,6 +32,7 @@ public interface ICommandIds {
 	public static final String CMD_OPEN_TEXTS = "com.sebulli.fakturama.actions.openTexts";
 	public static final String CMD_OPEN_LISTS = "com.sebulli.fakturama.actions.openLists";
 	public static final String CMD_OPEN_EXPENDITUREVOUCHERS = "com.sebulli.fakturama.actions.openExpenditureVouchers";
+	public static final String CMD_OPEN_RECEIPTVOUCHERS = "com.sebulli.fakturama.actions.openReceiptVouchers";
 
 	public static final String CMD_NEW_CONTACT = "com.sebulli.fakturama.actions.newContact";
 	public static final String CMD_NEW_PRODUCT = "com.sebulli.fakturama.actions.newProduct";
@@ -42,6 +43,7 @@ public interface ICommandIds {
 	public static final String CMD_NEW_TEXT = "com.sebulli.fakturama.actions.newText";
 	public static final String CMD_NEW_LISTENTRY = "com.sebulli.fakturama.actions.newListEntry";
 	public static final String CMD_NEW_EXPENDITUREVOUCHER = "com.sebulli.fakturama.actions.newExpenditureVoucher";
+	public static final String CMD_NEW_RECEIPTVOUCHER = "com.sebulli.fakturama.actions.newReceiptVoucher";
 
 	public static final String CMD_NEW_ = "com.sebulli.fakturama.actions.new";
 

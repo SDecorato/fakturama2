@@ -48,6 +48,7 @@ import com.sebulli.fakturama.actions.NewExpenditureVoucherAction;
 import com.sebulli.fakturama.actions.NewListEntryAction;
 import com.sebulli.fakturama.actions.NewPaymentAction;
 import com.sebulli.fakturama.actions.NewProductAction;
+import com.sebulli.fakturama.actions.NewReceiptVoucherAction;
 import com.sebulli.fakturama.actions.NewShippingAction;
 import com.sebulli.fakturama.actions.NewTextAction;
 import com.sebulli.fakturama.actions.NewVatAction;
@@ -60,6 +61,7 @@ import com.sebulli.fakturama.actions.OpenListsAction;
 import com.sebulli.fakturama.actions.OpenParcelServiceAction;
 import com.sebulli.fakturama.actions.OpenPaymentsAction;
 import com.sebulli.fakturama.actions.OpenProductsAction;
+import com.sebulli.fakturama.actions.OpenReceiptVouchersAction;
 import com.sebulli.fakturama.actions.OpenShippingsAction;
 import com.sebulli.fakturama.actions.OpenTextsAction;
 import com.sebulli.fakturama.actions.OpenVatsAction;
@@ -121,6 +123,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private OpenTextsAction openTextsAction;
 	private OpenListsAction openListsAction;
 	private OpenExpenditureVouchersAction openExpenditureVouchersAction;
+	private OpenReceiptVouchersAction openReceiptVouchersAction;
 	private NewProductAction newProductAction;
 	private NewProductAction newProductActionTB;
 	private NewContactAction newContactAction;
@@ -150,6 +153,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private NewListEntryAction newListEntryAction;
 	private NewExpenditureVoucherAction newExpenditureVoucherAction;
 	private NewExpenditureVoucherAction newExpenditureVoucherActionTB;
+	private NewReceiptVoucherAction newReceiptVoucherAction;
+	private NewReceiptVoucherAction newReceiptVoucherActionTB;
 	private SelectWorkspaceAction selectWorkspaceAction;
 	private WebShopImportAction webShopImportAction;
 	private WebShopImportAction webShopImportActionTB;
@@ -343,6 +348,13 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newExpenditureVoucherActionTB = new NewExpenditureVoucherAction();
 		register(newExpenditureVoucherActionTB);
 
+		openReceiptVouchersAction = new OpenReceiptVouchersAction();
+		register(openReceiptVouchersAction);
+		newReceiptVoucherAction = new NewReceiptVoucherAction();
+		register(newReceiptVoucherAction);
+		newReceiptVoucherActionTB = new NewReceiptVoucherAction();
+		register(newReceiptVoucherActionTB);
+
 		openDocumentsAction = new OpenDocumentsAction();
 		register(openDocumentsAction);
 
@@ -510,6 +522,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		dataMenu.add(openTextsAction);
 		dataMenu.add(openListsAction);
 		dataMenu.add(openExpenditureVouchersAction);
+		dataMenu.add(openReceiptVouchersAction);
 
 		// create menu
 		newMenu.add(newLetterAction);
@@ -530,6 +543,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newMenu.add(newTextAction);
 		newMenu.add(newListEntryAction);
 		newMenu.add(newExpenditureVoucherAction);
+		newMenu.add(newReceiptVoucherAction);
 		newMenu.add(new Separator());
 		newMenu.add(openParcelServiceAction);
 		
@@ -713,6 +727,13 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		ActionContributionItem newExpenditureVoucherCI = new ActionContributionItem(newExpenditureVoucherActionTB);
 		newExpenditureVoucherCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
 		toolbar2.add(newExpenditureVoucherCI);
+
+		newReceiptVoucherActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/receipt_voucher_new_32.png"));
+		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.
+		newReceiptVoucherActionTB.setText(_("Receipt Voucher", "TOOLBAR"));
+		ActionContributionItem newReceiptVoucherCI = new ActionContributionItem(newReceiptVoucherActionTB);
+		newReceiptVoucherCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
+		toolbar2.add(newReceiptVoucherCI);
 
 		openParcelServiceActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/parcel_service_32.png"));
 		//T: Text of the actions in the tool bar. Keep it short that it can be placed under the icon.

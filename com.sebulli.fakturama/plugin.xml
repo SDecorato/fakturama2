@@ -110,6 +110,14 @@
       </view>
       <view
             allowMultiple="true"
+            class="com.sebulli.fakturama.views.datasettable.ViewReceiptVoucherTable"
+            icon="icons/16/receipt_voucher_16.png"
+            id="com.sebulli.fakturama.views.datasettable.viewReceiptVoucherTable"
+            name="Receipt Vouchers"
+            restorable="true">
+      </view>
+      <view
+            allowMultiple="true"
             class="com.sebulli.fakturama.views.datasettable.ViewListTable"
             icon="icons/16/list_16.png"
             id="com.sebulli.fakturama.views.datasettable.viewListTable"
@@ -208,6 +216,12 @@
             description="Open Expenditures Vouchers"
             id="com.sebulli.fakturama.actions.openExpenditureVouchers"
             name="Open Expenditure Vouchers">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
+            description="Open Receipt Vouchers"
+            id="com.sebulli.fakturama.actions.openReceiptVouchers"
+            name="Open Receipt Vouchers">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryOpenObjectTable"
@@ -344,6 +358,12 @@
             description="Create New Expenditure Voucher"
             id="com.sebulli.fakturama.actions.newExpenditureVoucher"
             name="Create New Expenditure Voucher">
+      </command>
+      <command
+            categoryId="com.sebulli.fakturama.categoryNewObject"
+            description="Create New Receipt Voucher"
+            id="com.sebulli.fakturama.actions.newReceiptVoucher"
+            name="Create New Receipt Voucher">
       </command>
       <command
             categoryId="com.sebulli.fakturama.categoryNewObject"
@@ -588,8 +608,8 @@
       <page
       		category="com.sebulli.fakturama.preferences.columnWidthPreferencePage"
             class="com.sebulli.fakturama.preferences.ColumnWidthVouchersPreferencePage"
-            id="com.sebulli.fakturama.preferences.columnWidthExpendituresPreferencePage"
-            name="%page.columnwidthexpenditures">
+            id="com.sebulli.fakturama.preferences.columnWidthVouchersPreferencePage"
+            name="%page.columnwidthvouchers">
       </page>
       <page
       		category="com.sebulli.fakturama.preferences.columnWidthPreferencePage"
@@ -600,8 +620,8 @@
       <page
       		category="com.sebulli.fakturama.preferences.columnWidthPreferencePage"
             class="com.sebulli.fakturama.preferences.ColumnWidthVoucherItemsPreferencePage"
-            id="com.sebulli.fakturama.preferences.columnWidthExpenditureItemsPreferencePage"
-            name="%page.columnwidthexpenditureitems">
+            id="com.sebulli.fakturama.preferences.columnWidthVoucherItemsPreferencePage"
+            name="%page.columnwidthvoucheritems">
       </page>
       <page
       		category="com.sebulli.fakturama.preferences.columnWidthPreferencePage"
@@ -729,6 +749,13 @@
             icon="icons/16/expenditure_voucher_16.png"
             id="com.sebulli.fakturama.editors.expenditurevoucherEditor"
             name="Expenditure Voucher Editor">
+      </editor>
+      <editor
+            class="com.sebulli.fakturama.editors.ReceiptVoucherEditor"
+            default="false"
+            icon="icons/16/receipt_voucher_16.png"
+            id="com.sebulli.fakturama.editors.receiptvoucherEditor"
+            name="Receipt Voucher Editor">
       </editor>
       <editor
             class="com.sebulli.fakturama.editors.BrowserEditor"

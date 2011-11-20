@@ -35,6 +35,7 @@ import com.sebulli.fakturama.actions.OpenListsAction;
 import com.sebulli.fakturama.actions.OpenParcelServiceAction;
 import com.sebulli.fakturama.actions.OpenPaymentsAction;
 import com.sebulli.fakturama.actions.OpenProductsAction;
+import com.sebulli.fakturama.actions.OpenReceiptVouchersAction;
 import com.sebulli.fakturama.actions.OpenShippingsAction;
 import com.sebulli.fakturama.actions.OpenTextsAction;
 import com.sebulli.fakturama.actions.OpenVatsAction;
@@ -88,6 +89,7 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		bar2.addAction(new OpenTextsAction());
 		bar2.addAction(new OpenListsAction());
 		bar2.addAction(new OpenExpenditureVouchersAction());
+		bar2.addAction(new OpenReceiptVouchersAction());
 
 		// Create the 3rd expand bar "Create new"
 		//T: Title of an expand bar in the navigations view
