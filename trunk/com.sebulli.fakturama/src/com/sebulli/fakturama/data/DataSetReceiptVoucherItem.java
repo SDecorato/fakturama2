@@ -13,31 +13,31 @@
  */
 package com.sebulli.fakturama.data;
 
-public class DataSetExpenditureVoucherItem extends DataSetVoucherItem{
+public class DataSetReceiptVoucherItem extends DataSetVoucherItem{
 
 	
 	/**
 	 * Default constructor
 	 */
-	public DataSetExpenditureVoucherItem() {
+	public DataSetReceiptVoucherItem() {
 		super();
 		// Name of the table in the data base
-		sqlTabeName = "ExpenditureVoucherItems";
+		sqlTabeName = "ReceiptVoucherItems";
 	}
 	
 	/**
-	 * Constructor Creates a new expenditure item from a parent item
+	 * Constructor Creates a new receipt item from a parent item
 	 * 
 	 * @param parent
-	 *            Parent expenditure item
+	 *            Parent receipt item
 	 */
-	public DataSetExpenditureVoucherItem(DataSetVoucherItem parent) {
+	public DataSetReceiptVoucherItem(DataSetVoucherItem parent) {
 		super(parent);
-		sqlTabeName = "ExpenditureVoucherItems";
+		sqlTabeName = "ReceiptVoucherItems";
 	}
 	
 	/**
-	 * Constructor Creates a new expenditure item
+	 * Constructor Creates a new receipt item
 	 * 
 	 * @param name
 	 * @param category
@@ -45,9 +45,9 @@ public class DataSetExpenditureVoucherItem extends DataSetVoucherItem{
 	 * @param documentnr
 	 * @param items
 	 */
-	public DataSetExpenditureVoucherItem(String name, String category, Double price, int vatId) {
+	public DataSetReceiptVoucherItem(String name, String category, Double price, int vatId) {
 		super(name, category, price, vatId);
-		sqlTabeName = "ExpenditureVoucherItems";
+		sqlTabeName = "ReceiptVoucherItems";
 	}
 
 

@@ -43,8 +43,10 @@ public enum Data {
 	private DataSetArray<DataSetPayment> payments;
 	private DataSetArray<DataSetText> texts;
 	private DataSetArray<DataSetList> list;
-	private DataSetArray<DataSetExpenditureVoucher> expenditures;
-	private DataSetArray<DataSetExpenditureVoucherItem> expenditureitems;
+	private DataSetArray<DataSetExpenditureVoucher> expenditurevouchers;
+	private DataSetArray<DataSetExpenditureVoucherItem> expenditurevoucheritems;
+	private DataSetArray<DataSetReceiptVoucher> receiptvouchers;
+	private DataSetArray<DataSetReceiptVoucherItem> receiptvoucheritems;
 
 	// Reference to data base
 	DataBase db = null;
@@ -85,8 +87,10 @@ public enum Data {
 		payments = new DataSetArray<DataSetPayment>(dbref, new DataSetPayment());
 		texts = new DataSetArray<DataSetText>(dbref, new DataSetText());
 		list = new DataSetArray<DataSetList>(dbref, new DataSetList());
-		expenditures = new DataSetArray<DataSetExpenditureVoucher>(dbref, new DataSetExpenditureVoucher());
-		expenditureitems = new DataSetArray<DataSetExpenditureVoucherItem>(dbref, new DataSetExpenditureVoucherItem());
+		expenditurevouchers = new DataSetArray<DataSetExpenditureVoucher>(dbref, new DataSetExpenditureVoucher());
+		expenditurevoucheritems = new DataSetArray<DataSetExpenditureVoucherItem>(dbref, new DataSetExpenditureVoucherItem());
+		receiptvouchers = new DataSetArray<DataSetReceiptVoucher>(dbref, new DataSetReceiptVoucher());
+		receiptvoucheritems = new DataSetArray<DataSetReceiptVoucherItem>(dbref, new DataSetReceiptVoucherItem());
 
 		// If there is a connection to the data base
 		// read all the tables
@@ -362,21 +366,39 @@ public enum Data {
 	}
 
 	/**
-	 * Getter for the DataSetArray expenditures
+	 * Getter for the DataSetArray expenditure vouchers
 	 * 
 	 * @return All items
 	 */
 	public DataSetArray<DataSetExpenditureVoucher> getExpenditureVouchers() {
-		return expenditures;
+		return expenditurevouchers;
 	}
 
 	/**
-	 * Getter for the DataSetArray expenditures
+	 * Getter for the DataSetArray expenditure voucher items
 	 * 
 	 * @return All items
 	 */
 	public DataSetArray<DataSetExpenditureVoucherItem> getExpenditureVoucherItems() {
-		return expenditureitems;
+		return expenditurevoucheritems;
+	}
+
+	/**
+	 * Getter for the DataSetArray receipt vouchers
+	 * 
+	 * @return All items
+	 */
+	public DataSetArray<DataSetReceiptVoucher> getReceiptVouchers() {
+		return receiptvouchers;
+	}
+
+	/**
+	 * Getter for the DataSetArray receipt voucher items
+	 * 
+	 * @return All items
+	 */
+	public DataSetArray<DataSetReceiptVoucherItem> getReceiptVoucherItems() {
+		return receiptvoucheritems;
 	}
 
 	/**

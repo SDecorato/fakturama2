@@ -28,7 +28,7 @@ public class ContextHelpConstants {
 	public static final String BROWSER_EDITOR = HELP_PLUGIN + "browserEditor";
 	public static final String CONTACT_EDITOR = HELP_PLUGIN + "contactEditor";
 	public static final String DOCUMENT_EDITOR = HELP_PLUGIN + "documentEditor";
-	public static final String EXPENDITURE_VOUCHER_EDITOR = HELP_PLUGIN + "expenditureVoucherEditor";
+	public static final String VOUCHER_EDITOR = HELP_PLUGIN + "expenditureVoucherEditor";
 	public static final String LIST_EDITOR = HELP_PLUGIN + "listEditor";
 	public static final String PAYMENT_EDITOR = HELP_PLUGIN + "paymentEditor";
 	public static final String PRODUCT_EDITOR = HELP_PLUGIN + "productEditor";
@@ -41,7 +41,7 @@ public class ContextHelpConstants {
 	// IDs for UniDataSetTable views
 	public static final String CONTACT_TABLE_VIEW = HELP_PLUGIN + "contactTableView";
 	public static final String DOCUMENT_TABLE_VIEW = HELP_PLUGIN + "documentTableView";
-	public static final String EXPENDITURE_VOUCHER_TABLE_VIEW = HELP_PLUGIN + "expenditureTableView";
+	public static final String VOUCHER_TABLE_VIEW = HELP_PLUGIN + "expenditureTableView";
 	public static final String LIST_TABLE_VIEW = HELP_PLUGIN + "listTableView";
 	public static final String PAYMENT_TABLE_VIEW = HELP_PLUGIN + "paymentTableView";
 	public static final String PRODUCT_TABLE_VIEW = HELP_PLUGIN + "productsTableView";
