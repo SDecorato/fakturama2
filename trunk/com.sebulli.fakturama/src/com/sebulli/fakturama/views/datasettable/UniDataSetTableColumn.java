@@ -37,9 +37,9 @@ import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.data.DataSetArray;
-import com.sebulli.fakturama.data.DataSetVoucherItem;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.data.DataSetProduct;
+import com.sebulli.fakturama.data.DataSetVoucherItem;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.misc.DocumentType;
@@ -64,10 +64,11 @@ public class UniDataSetTableColumn {
 	private static final Image DUNNING = Activator.getImageDescriptor("icons/16/dunning_16.png").createImage();
 	private static final Image LETTER = Activator.getImageDescriptor("icons/16/letter_16.png").createImage();
 	private static final Image PROFORMA = Activator.getImageDescriptor("icons/16/proforma_16.png").createImage();
-	private static final Image UNPAID = Activator.getImageDescriptor("icons/16/error_16.png").createImage();
+	private static final Image ERROR = Activator.getImageDescriptor("icons/16/error_16.png").createImage();
 	private static final Image ORDER_PENDING = Activator.getImageDescriptor("icons/16/order_pending_16.png").createImage();
 	private static final Image ORDER_PROCESSING = Activator.getImageDescriptor("icons/16/order_processing_16.png").createImage();
 	private static final Image ORDER_SHIPPED = Activator.getImageDescriptor("icons/16/order_shipped_16.png").createImage();
+	private static final Image REDPOINT = Activator.getImageDescriptor("icons/16/redpoint_16.png").createImage();
 	private int stdId = 0;
 	
 	private Display display = null;
@@ -257,6 +258,24 @@ public class UniDataSetTableColumn {
 
 				}
 
+				// Fill the cell with the icon for standard ID
+				else if (dataKey.equals("$donotbook")) {
+					if (!uds.getBooleanValueByKey("donotbook"))
+						cell.setImage(null);
+					else  {
+						cell.setImage(REDPOINT);
+						/*
+						Color color = new Color(null, 0xc0, 0x80, 0x80);
+						int columns = cell.getViewerRow().getColumnCount();
+						for (int i=0; i<columns; i++) {
+							 cell.getViewerRow().setForeground(i, color);
+						}
+						color.dispose();
+						*/
+					}
+
+				}
+
 				// Fill the cell with the icon for status
 				// eg. "paid/unpaid" for invoices
 				else if (dataKey.equals("$status")) {
@@ -267,7 +286,7 @@ public class UniDataSetTableColumn {
 							cell.setImage(CHECKED);
 						}
 						else {
-							cell.setImage(UNPAID);
+							cell.setImage(ERROR);
 						}
 						break;
 					case DUNNING:
@@ -275,7 +294,7 @@ public class UniDataSetTableColumn {
 							cell.setImage(CHECKED);
 						}
 						else {
-							cell.setImage(UNPAID);
+							cell.setImage(ERROR);
 						}
 						break;
 					case ORDER:

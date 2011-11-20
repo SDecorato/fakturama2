@@ -47,7 +47,7 @@ public abstract class DataSetVoucher extends UniDataSet {
 	 *            Category of the new voucher
 	 */
 	protected DataSetVoucher(String category) {
-		this("", category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "", "", 0.0, 0.0, false);
+		this("", category, (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), "", "", "", 0.0, 0.0, false, false);
 	}
 
 	/**
@@ -63,8 +63,9 @@ public abstract class DataSetVoucher extends UniDataSet {
 	 * @param total
 	 * @param discounted
 	 */
-	protected DataSetVoucher(String name, String category, String date, String nr, String documentnr, String items, Double paid, Double total, boolean discounted) {
-		this(-1, name, false, category, date, nr, documentnr, items, paid, total, discounted);
+	protected DataSetVoucher(String name, String category, String date, String nr, String documentnr, String items, Double paid,
+					Double total, boolean discounted, boolean donotbook) {
+		this(-1, name, false, category, date, nr, documentnr, items, paid, total, discounted, donotbook);
 	}
 
 	/**
@@ -83,7 +84,7 @@ public abstract class DataSetVoucher extends UniDataSet {
 	 * @param discounted
 	 */
 	protected DataSetVoucher(int id, String name, boolean deleted, String category, String date, String nr, String documentnr, String items,
-				Double paid, Double total, boolean discounted) {
+				Double paid, Double total, boolean discounted, boolean donotbook) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
@@ -95,6 +96,7 @@ public abstract class DataSetVoucher extends UniDataSet {
 		this.hashMap.put("paid", new UniData(UniDataType.PRICE, paid));
 		this.hashMap.put("total", new UniData(UniDataType.PRICE, total));
 		this.hashMap.put("discounted", new UniData(UniDataType.BOOLEAN, discounted));
+		this.hashMap.put("donotbook", new UniData(UniDataType.BOOLEAN, donotbook));
 		
 	}
 	

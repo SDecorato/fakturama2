@@ -40,11 +40,12 @@ public abstract class ViewVoucherTable extends ViewDataSetTable {
 
 
 		// Mark the columns that are used by the search function.
-		searchColumns = new String[4];
+		searchColumns = new String[5];
 		searchColumns[0] = "name";
 		searchColumns[1] = "nr";
 		searchColumns[2] = "documentnr";
 		searchColumns[3] = "date";
+		searchColumns[4] = "donotbook";
 
 		super.createPartControl(parent,DataSetVoucher.class, false, true, contextHelpId);
 
@@ -53,6 +54,7 @@ public abstract class ViewVoucherTable extends ViewDataSetTable {
 		super.createDefaultContextMenu();
 		
 		// Get the column width from the preferences
+		int cw_donotbook = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_DONOTBOOK");
 		int cw_date = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_DATE");
 		int cw_voucher = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_VOUCHER");
 		int cw_document = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_DOCUMENT");
@@ -60,6 +62,7 @@ public abstract class ViewVoucherTable extends ViewDataSetTable {
 		int cw_total = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_VOUCHERS_TOTAL");
 		
 		// Create the table columns
+		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, "", cw_donotbook, true, "$donotbook");
 		//T: Used as heading of a table. Keep the word short.
 		new UniDataSetTableColumn(tableColumnLayout, tableViewer, SWT.RIGHT, _("Date"), cw_date, true, "date");
 		//T: Used as heading of a table. Keep the word short.

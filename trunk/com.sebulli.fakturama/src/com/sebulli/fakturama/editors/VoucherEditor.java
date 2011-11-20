@@ -46,6 +46,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetList;
@@ -68,6 +69,7 @@ import com.sebulli.fakturama.views.datasettable.ViewListTable;
  */
 public abstract class VoucherEditor extends Editor {
 
+	protected String titleText = "Voucher";
 
 	// This UniDataSet represents the editor's input
 	protected DataSetVoucher voucher;
@@ -85,7 +87,8 @@ public abstract class VoucherEditor extends Editor {
 	private UniData paidValue; 
 	private UniData totalValue = new UniData(UniDataType.DOUBLE, 0.0);
 	private Button bPaidWithDiscount;
-
+	private Button bBook;
+	
 	private List<UniDataSetTableColumn> itemTableColumns = new ArrayList<UniDataSetTableColumn>();
 	private CellNavigation cellNavigation;
 
@@ -326,6 +329,8 @@ public abstract class VoucherEditor extends Editor {
 			voucher.setDoubleValueByKey("paid",totalValue.getValueAsDouble() );
 		}
 
+		// The selection "book" is inverted
+		voucher.setBooleanValueByKey("donotbook", !bBook.getSelection());
 
 		// If it is a new voucher, add it to the voucher list and
 		// to the data base
@@ -528,6 +533,10 @@ public abstract class VoucherEditor extends Editor {
 		if (!voucher.getStringValueByKey("documentnr").equals(textDocumentNr.getText())) { return true; }
 		if (!voucher.getStringValueByKey("date").equals(DataUtils.getDateTimeAsString(dtDate))) { return true; }
 
+		// The selection "book" is inverted
+		if (voucher.getBooleanValueByKey("donotbook") != (!bBook.getSelection())) { return true; }
+
+		
 		// Test all the voucher items
 		String itemsString = "";
 		ArrayList<DataSetVoucherItem> itemDatasets = voucherItems.getActiveDatasets();
@@ -663,14 +672,54 @@ public abstract class VoucherEditor extends Editor {
 		// invisible.setVisible(false);
 		// GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
 
+		// Create the top Composite
+		Composite titlebar = new Composite(top, SWT.NONE);
+		GridLayoutFactory.swtDefaults().numColumns(2).applyTo(titlebar);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(titlebar);
+
 		// Large title
-		Label labelTitle = new Label(top, SWT.NONE);
+		Label labelTitle = new Label(titlebar, SWT.NONE);
 		
 		//T: VoucherEditor - Title
-		labelTitle.setText(_("Expense Voucher"));
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).span(2, 1).applyTo(labelTitle);
+		labelTitle.setText(titleText);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(labelTitle);
 		makeLargeLabel(labelTitle);
 
+		
+		// The "book" label
+		bBook = new Button(titlebar, SWT.CHECK | SWT.RIGHT);
+		bBook.setSelection(voucher.getBooleanValueByKey("donotbook"));
+		//T: Mark an voucher, if the paid value is not equal to the total value.
+		bBook.setText(_("book"));
+		//T: Tool Tip Text
+		bBook.setToolTipText(_("Uncheck this, if the voucher should not be booked."));
+		
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.BOTTOM).applyTo(bBook);
+		bBook.setSelection(!voucher.getBooleanValueByKey("donotbook"));
+		
+		
+		// If the book check box is selected ...
+		bBook.addSelectionListener(new SelectionAdapter() {
+
+			// check dirty
+			public void widgetSelected(SelectionEvent e) {
+				checkDirty();
+				if (!bBook.getSelection()) {
+					//T: Dialog in the voucher editor to uncheck the book field 
+					if (Workspace.showMessageBox(SWT.OK | SWT.CANCEL, _("Please confirm"),
+					//T: Dialog in the voucher editor to uncheck the book field 
+							_("If you uncheck this, the voucher won't be booked !")) != SWT.OK) {
+						bBook.setSelection(true);
+					}
+				}
+				checkDirty();
+				
+			}
+		});
+
+
+
+		
 		// Voucher category
 		Label labelCategory = new Label(top, SWT.NONE);
 
