@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewVatTable;
  */
 public class OpenVatsAction extends Action {
 
+	//T: Text of the action to open the VATs
+	public final static String ACTIONTEXT = _("VATs"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenVatsAction() {
 
-		//T: Text of the action to open the VATs
-		super(_("VATs"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open a list with all tax rates") );

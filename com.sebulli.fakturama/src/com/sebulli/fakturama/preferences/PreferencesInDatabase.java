@@ -67,6 +67,7 @@ public class PreferencesInDatabase {
 	 * preference pages.
 	 */
 	public static void loadOrSavePreferencesFromOrInDatabase(boolean save) {
+		ToolbarPreferencePage.syncWithPreferencesFromDatabase(save);
 		ContactFormatPreferencePage.syncWithPreferencesFromDatabase(save);
 		ContactPreferencePage.syncWithPreferencesFromDatabase(save);
 		DocumentPreferencePage.syncWithPreferencesFromDatabase(save);

@@ -14,9 +14,14 @@
 
 package com.sebulli.fakturama.data;
 
+import static com.sebulli.fakturama.Translate._;
+
 
 public class DataSetExpenditureVoucher extends DataSetVoucher{
 	
+	//T: Text voucher name. Customer or supplier
+	public final static String customerSupplier = _("Supplier");
+
 	/**
 	 * Constructor
 	 */

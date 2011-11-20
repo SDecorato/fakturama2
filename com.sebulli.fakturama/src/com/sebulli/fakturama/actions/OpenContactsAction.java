@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewContactTable;
  */
 public class OpenContactsAction extends Action {
 
+	//T: Text of the action to open the contacts
+	public final static String  ACTIONTEXT= _("Contacts"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenContactsAction() {
 
-		//T: Text of the action to open the contacts
-		super(_("Contacts"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open the list with all contacts") );

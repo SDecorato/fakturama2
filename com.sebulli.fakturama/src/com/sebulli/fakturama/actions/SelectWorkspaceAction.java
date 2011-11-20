@@ -27,13 +27,15 @@ import com.sebulli.fakturama.Workspace;
  */
 public class SelectWorkspaceAction extends Action {
 
+	//T: Text of the action to select the workspace
+	public final static String ACTIONTEXT = _("Select Workspace"); 
+
 	/**
 	 * Constructor
 	 */
 	public SelectWorkspaceAction() {
 
-		//T: Text of the action to select the workspace
-		super(_("Select Workspace"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Select a new Workspace") );

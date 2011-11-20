@@ -71,5 +71,6 @@ public class ContextHelpConstants {
 	public static final String COLUMN_WIDTH_PREFERENCE_PAGE = HELP_PLUGIN + "columnWidthPreferencePage";
 	public static final String WEBSHOP_AUTHORIZATION_PREFERENCE_PAGE = HELP_PLUGIN + "webShopAuthorizationPreferencePage";
 	public static final String BROWSER_PREFERENCE_PAGE = HELP_PLUGIN + "browserPreferencePage";
+	public static final String TOOLBAR_PREFERENCE_PAGE = HELP_PLUGIN + "toolbarPreferencePage";
 	
 }

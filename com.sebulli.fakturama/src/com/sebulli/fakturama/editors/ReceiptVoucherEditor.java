@@ -37,7 +37,13 @@ public class ReceiptVoucherEditor extends VoucherEditor {
 		super();
 		tableViewID = ViewReceiptVoucherTable.ID;
 		editorID = "voucher";
+
+		//T: Title of the voucher editor
 		titleText = _("Receipt Voucher");
+		
+		// Text of the name property
+		customerSupplier = 	DataSetReceiptVoucher.customerSupplier;
+
 	}
 	
 	/**

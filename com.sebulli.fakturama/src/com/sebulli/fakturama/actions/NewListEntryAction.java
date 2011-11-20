@@ -31,13 +31,15 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class NewListEntryAction extends NewEditorAction {
 
+	//T: Text of the action to create a new list entry
+	public final static String ACTIONTEXT = _("New List Entry"); 
+
 	/**
 	 * Constructor
 	 */
 	public NewListEntryAction() {
 		
-		//T: Text of the action to create a new list entry
-		super(_("New List Entry"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Create a new list entry") );

@@ -28,13 +28,15 @@ import com.sebulli.fakturama.views.datasettable.ViewPaymentTable;
  */
 public class OpenPaymentsAction extends Action {
 
+	//T: Text of the action to open the payments
+	public final static String ACTIONTEXT = _("Payments"); 
+
 	/**
 	 * Constructor
 	 */
 	public OpenPaymentsAction() {
 		
-		//T: Text of the action to open the payments
-		super(_("Payments"));
+		super(ACTIONTEXT);
 
 		//T: Tool Tip Text
 		setToolTipText(_("Open a list with all payments") );

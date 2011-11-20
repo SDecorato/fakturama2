@@ -51,12 +51,15 @@ public class CreateOODocumentAction extends Action {
 	private TemplateFilename template;
 	private DocumentEditor documentEditor;
 
+	//T: Text of the action
+	public final static String ACTIONTEXT = _("Print as OO document"); 
+
+	
 	/**
 	 * default constructor
 	 */
 	public CreateOODocumentAction() {
-		//T: Text of the action
-		this(_("Print as OO document"), 
+		this(ACTIONTEXT, 
 				//T: Text of the action
 			_("Print/Export this document as an OpenOffice Writer document"));
 	}

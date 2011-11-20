@@ -546,13 +546,27 @@ public enum DocumentType {
 		return 1;
 	}
 
+	
+	
 	/**
 	 * Get the text to create a new instance of this document
 	 * 
 	 * @return Text as localized string.
 	 */
 	public String getNewText() {
-		switch (this) {
+		return (getNewText(this.getInt()));
+	}
+	
+	/**
+	 * Get the text to create a new instance of this document
+	 * 
+	 * @param i
+	 * 		The document type index
+	 * @return 
+	 * Text as localized string.
+	 */
+	public static String getNewText(int i) {
+		switch (DocumentType.getType(i)) {
 		case LETTER:
 			//T: Text of the action to create a new document
 			return _("New Letter");
@@ -583,6 +597,7 @@ public enum DocumentType {
 		}
 		//T: Text of the action to create a new document
 		return _("New Document");
+		
 	}
 
 }
