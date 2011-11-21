@@ -12,15 +12,20 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.export.expenditures;
+package com.sebulli.fakturama.export.vouchers;
 
 import static com.sebulli.fakturama.Translate._;
+
+import java.util.ArrayList;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
+import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.data.DataSetExpenditureVoucher;
+import com.sebulli.fakturama.data.DataSetVoucher;
 import com.sebulli.fakturama.export.ExportWizardPageStartEndDate;
 
 /**
@@ -28,7 +33,7 @@ import com.sebulli.fakturama.export.ExportWizardPageStartEndDate;
  * 
  * @author Gerd Bartelt
  */
-public class ExportWizard extends Wizard implements IExportWizard {
+public class ExportExpenditureWizard extends Wizard implements IExportWizard {
 
 	// The first (and only) page of this wizard
 	ExportWizardPageStartEndDate page1;
@@ -37,13 +42,13 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	/**
 	 * Constructor Adds the first page to the wizard
 	 */
-	public ExportWizard() {
+	public ExportExpenditureWizard() {
 		//T: Title of the export wizard
 		setWindowTitle(_("Export"));
 		//T: Title of the export wizard
-		page1 = new ExportWizardPageStartEndDate(_("List of Expenditures as Table"),
+		page1 = new ExportWizardPageStartEndDate(_("List of expenditure voucher as Table"),
 				//T: Text of the export wizard
-				_("Select a periode.\nOnly the invoices with a date in this periode will be exported.\nUnpaid invoices won't be exported."),
+				_("Select a periode.\nOnly the vouchers with a date in this periode will be exported."),
 				false);
 		//T: Title of the export wizard
 		page2 = new ExportOptionPage(_("List of Sales as Table"),
@@ -60,13 +65,27 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean performFinish() {
 		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate(),
 				page1.getUseTimePeriod(),
-				page2.getShowExpenditureSumColumn(),
+				page2.getShowVoucherSumColumn(),
 				page2.getShowZeroVatColumn());
-		return exporter.export();
+
+		//T: Title in the exported calc document
+		return exporter.export((ArrayList<DataSetVoucher>) getActiveVouchers(),_("Expenditure Vouchers"),
+				DataSetExpenditureVoucher.CUSTOMERSUPPLIER);
+	}
+	
+	/**
+	 * Returns all active vouchers
+	 * 
+	 * @return
+	 * 	All active vouchers
+	 */
+	private ArrayList<?> getActiveVouchers() {
+		return Data.INSTANCE.getExpenditureVouchers().getActiveDatasets();
 	}
 
 	/**

@@ -875,7 +875,7 @@
          </description>
       </wizard>
       <wizard
-            category="com.sebulli.fakturama.export.salesandexpenditures"
+            category="com.sebulli.fakturama.export.salesandvouchers"
             class="com.sebulli.fakturama.export.sales.ExportWizard"
             icon="icons/16/sales_16.png"
             id="com.sebulli.fakturama.export.sales.exportWizard"
@@ -885,7 +885,7 @@
          </description>
       </wizard>
       <wizard
-            category="com.sebulli.fakturama.export.salesandexpenditures"
+            category="com.sebulli.fakturama.export.salesandvouchers"
             class="com.sebulli.fakturama.export.sales.ExportWizardUnpaid"
             icon="icons/16/error_16.png"
             id="com.sebulli.fakturama.export.sales.exportWizardUnpaid"
@@ -895,13 +895,23 @@
          </description>
       </wizard>
       <wizard
-            category="com.sebulli.fakturama.export.salesandexpenditures"
-            class="com.sebulli.fakturama.export.expenditures.ExportWizard"
+            category="com.sebulli.fakturama.export.salesandvouchers"
+            class="com.sebulli.fakturama.export.vouchers.ExportExpenditureWizard"
             icon="icons/16/expenditure_voucher_16.png"
-            id="com.sebulli.fakturama.export.expenditures.exportWizard"
-            name="%wizard.export.expenditures.name">
+            id="com.sebulli.fakturama.export.vouchers.exportExpenditureWizard"
+            name="%wizard.export.expenditurevouchers.name">
          <description>
-            %wizard.export.expenditures.description
+            %wizard.export.expenditurevouchers.description
+         </description>
+      </wizard>
+      <wizard
+            category="com.sebulli.fakturama.export.salesandvouchers"
+            class="com.sebulli.fakturama.export.vouchers.ExportReceiptWizard"
+            icon="icons/16/receipt_voucher_16.png"
+            id="com.sebulli.fakturama.export.vouchers.exportReceiptWizard"
+            name="%wizard.export.receiptvouchers.name">
+         <description>
+            %wizard.export.receiptvouchers.description
          </description>
       </wizard>
       <wizard
@@ -959,8 +969,8 @@
             name="%wizard.export.productandbuyers.category">
       </category>
       <category
-            id="com.sebulli.fakturama.export.salesandexpenditures"
-            name="%wizard.export.salesandexpenditures.category">
+            id="com.sebulli.fakturama.export.salesandvouchers"
+            name="%wizard.export.salesandvouchers.category">
       </category>
       <category
             id="com.sebulli.fakturama.export.lists"

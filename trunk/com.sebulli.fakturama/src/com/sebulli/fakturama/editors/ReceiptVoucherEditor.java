@@ -42,7 +42,7 @@ public class ReceiptVoucherEditor extends VoucherEditor {
 		titleText = _("Receipt Voucher");
 		
 		// Text of the name property
-		customerSupplier = 	DataSetReceiptVoucher.customerSupplier;
+		customerSupplier = 	DataSetReceiptVoucher.CUSTOMERSUPPLIER;
 
 	}
 	

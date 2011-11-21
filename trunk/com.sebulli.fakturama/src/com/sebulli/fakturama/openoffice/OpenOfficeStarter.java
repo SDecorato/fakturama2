@@ -112,9 +112,27 @@ public class OpenOfficeStarter {
 		}
 
 		// Activate the OpenOffice Application
-		Map<String, String> configuration = new HashMap<String, String>();
+		Map<String, Object> configuration = new HashMap<String, Object>();
 		configuration.put(IOfficeApplication.APPLICATION_HOME_KEY, preferencePath);
 		configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY, "local");
+		/*
+		if (preferencePath.toLowerCase().contains("libreoffice")) {
+			configuration.put("arguments",
+	                   new String[] {"--nologo",
+	                   "--nofirststartwizard",
+	                   "--nodefault",
+	                   "--norestore",
+	                   "--nolockcheck"
+	                   });
+		}
+		*/
+		
+		/*
+	      configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY,
+	              IOfficeApplication.REMOTE_APPLICATION);
+	          configuration.put(IOfficeApplication.APPLICATION_HOST_KEY, "host");
+	          configuration.put(IOfficeApplication.APPLICATION_PORT_KEY, "8100");
+*/
 		IOfficeApplication officeApplication = null;
 		try {
 

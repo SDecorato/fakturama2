@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.export.expenditures;
+package com.sebulli.fakturama.export.vouchers;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -37,7 +37,7 @@ import com.sebulli.fakturama.logger.Logger;
 public class ExportOptionPage extends WizardPage {
 
 	//Control elements
-	private Button buttonShowExpenditureSumColumn;
+	private Button buttonShowVoucherSumColumn;
 	private Button buttonShowZeroVatColumn;
 	
 	/**
@@ -87,8 +87,8 @@ public class ExportOptionPage extends WizardPage {
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(0, 10).applyTo(labelDescription);
 
 		// Radio buttons for sort order
-		buttonShowExpenditureSumColumn = new Button (top, SWT.CHECK);
-		buttonShowExpenditureSumColumn.setText (_("Display column sum of expenditures"));
+		buttonShowVoucherSumColumn = new Button (top, SWT.CHECK);
+		buttonShowVoucherSumColumn.setText (_("Display column sum of vouchers"));
 		buttonShowZeroVatColumn = new Button (top, SWT.CHECK);
 		buttonShowZeroVatColumn.setText (_("Display columns with 0% tax"));
 		
@@ -100,8 +100,8 @@ public class ExportOptionPage extends WizardPage {
 	 * @return 
 	 * 		True, if the column with the sum should be displayed
 	 */
-	public boolean getShowExpenditureSumColumn() {
-		return buttonShowExpenditureSumColumn.getSelection();
+	public boolean getShowVoucherSumColumn() {
+		return buttonShowVoucherSumColumn.getSelection();
 	}
 	
 	/**
