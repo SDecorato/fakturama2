@@ -183,30 +183,35 @@ public class OOCalcExporter {
 	}
 
 	/**
-	 * Returns, if a given expenditure should be used to export. Only
-	 * expenditures in the specified time interval are exported.
+	 * Returns, if a given voucher should be used to export. Only
+	 * vouchers in the specified time interval are exported.
 	 * 
-	 * @param expenditure
-	 *            The expenditure that is tested
-	 * @return True, if the expenditure should be exported
+	 * @param voucher
+	 *            The voucher that is tested
+	 * @return True, if the voucher should be exported
 	 */
-	protected boolean expenditureShouldBeExported(DataSetVoucher expenditure) {
+	protected boolean voucherShouldBeExported(DataSetVoucher voucher) {
 
 		// By default, the document will be exported.
 		boolean isInIntervall = true;
 
+		// Use the time period
+		if (doNotUseTimePeriod) {
+			return true;
+		}
+		
 		// Get the date of the document and convert it to a
 		// GregorianCalendar object.
 		GregorianCalendar documentDate = new GregorianCalendar();
 		try {
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-			String expenditureDateString = "";
+			String voucherDateString = "";
 
-			// Use date 
-			expenditureDateString = expenditure.getStringValueByKey("date");
+			// Use date  
+			voucherDateString = voucher.getStringValueByKey("date");
 
-			documentDate.setTime(formatter.parse(expenditureDateString));
+			documentDate.setTime(formatter.parse(voucherDateString));
 		}
 		catch (ParseException e) {
 			Logger.logError(e, "Error parsing Date");
@@ -220,7 +225,7 @@ public class OOCalcExporter {
 				isInIntervall = false;
 		}
 
-		// Return, if expenditure is in the interval
+		// Return, if voucher is in the interval
 		return isInIntervall;
 	}
 

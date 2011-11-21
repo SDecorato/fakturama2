@@ -52,7 +52,7 @@ public class ViewReceiptVoucherTable extends ViewVoucherTable{
 		editor = "ReceiptVoucher";
 		
 		// Text of the column "name"
-		customerSupplier = 	DataSetReceiptVoucher.customerSupplier;
+		customerSupplier = 	DataSetReceiptVoucher.CUSTOMERSUPPLIER;
 
 		// Create the super part control
 		super.createPartControl(parent, ContextHelpConstants.VOUCHER_TABLE_VIEW);

@@ -12,7 +12,7 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama.export.expenditures;
+package com.sebulli.fakturama.export.vouchers;
 
 import static com.sebulli.fakturama.Translate._;
 
@@ -21,13 +21,9 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
-import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.calculate.PriceValue;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
 import com.sebulli.fakturama.calculate.VoucherSummarySetManager;
-import com.sebulli.fakturama.data.Data;
-import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DataSetExpenditureVoucher;
 import com.sebulli.fakturama.data.DataSetVAT;
 import com.sebulli.fakturama.data.DataSetVoucher;
 import com.sebulli.fakturama.data.DataSetVoucherItem;
@@ -38,7 +34,7 @@ import com.sebulli.fakturama.misc.DataUtils;
 
 
 /**
- * This class exports all expenditures in an OpenOffice.org 
+ * This class exports all vouchers in an OpenOffice.org 
  * Calc table. 
  * 
  * @author Gerd Bartelt
@@ -46,7 +42,7 @@ import com.sebulli.fakturama.misc.DataUtils;
 public class Exporter extends OOCalcExporter{
 
 	// Settings from the preference page
-	private boolean showExpenditureSumColumn;
+	private boolean showVoucherSumColumn;
 	private boolean showZeroVatColumn;
 
 
@@ -60,10 +56,10 @@ public class Exporter extends OOCalcExporter{
 	 */
 	public Exporter(GregorianCalendar startDate, GregorianCalendar endDate,
 			 boolean doNotUseTimePeriod,
-			 boolean showExpenditureSumColumn,
+			 boolean showVoucherSumColumn,
 			boolean showZeroVatColumn) {
 		super(startDate, endDate, doNotUseTimePeriod);
-		this.showExpenditureSumColumn = showExpenditureSumColumn;
+		this.showVoucherSumColumn = showVoucherSumColumn;
 		this.showZeroVatColumn = showZeroVatColumn;
 		
 	}
@@ -74,30 +70,14 @@ public class Exporter extends OOCalcExporter{
 	 * @return
 	 * 			True, if the export was successful
 	 */
-	public boolean export() {
+	public boolean export(ArrayList<DataSetVoucher> vouchers, String title, String customerSupplier) {
 
 		// Try to generate a spreadsheet
 		if (!createSpreadSheet())
 			return false;
-		
-		usePaidDate = Activator.getDefault().getPreferenceStore().getBoolean("EXPORTSALES_PAIDDATE");
 
-		// Use pay date or document date
-		if (usePaidDate)
-			documentDateKey = "paydate";
-		else
-			documentDateKey = "date";
-
-		// Get all undeleted documents
-		ArrayList<DataSetDocument> documents = Data.INSTANCE.getDocuments().getActiveDatasets();
-		// Get all undeleted expenditures
-		ArrayList<DataSetExpenditureVoucher> expenditures = Data.INSTANCE.getExpenditureVouchers().getActiveDatasets();
-
-		// Sort the documents by the pay date
-		Collections.sort(documents, new UniDataSetSorter(documentDateKey));
-
-		// Sort the expenditures by category and date
-		Collections.sort(expenditures, new UniDataSetSorter("category", "date"));
+		// Sort the vouchers by category and date
+		Collections.sort(vouchers, new UniDataSetSorter("category", "date"));
 
 
 		// Count the columns that contain a VAT and net value 
@@ -116,12 +96,12 @@ public class Exporter extends OOCalcExporter{
 		int col = 0;
 
 
-		// Create a expenditure summary set manager that collects all expenditure VAT
-		// values of all documents
-		VoucherSummarySetManager expenditureSummarySetAllExpenditures = new VoucherSummarySetManager();
+		// Create a voucher summary set manager that collects all voucher VAT
+		// values of all vouchers
+		VoucherSummarySetManager voucherSummarySetAllVouchers = new VoucherSummarySetManager();
 
-		//T: Sales Exporter - Text in the Calc document for the Expenditures
-		setCellTextInBold(row++, 0, _("Expenditures"));
+		// Set the title
+		setCellTextInBold(row++, 0, title);
 		row++;
 
 		// Table column headings
@@ -134,14 +114,14 @@ public class Exporter extends OOCalcExporter{
 		setCellTextInBold(row, col++, _("Voucher."));
 		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(row, col++, _("Doc.Nr."));
-		//T: Used as heading of a table. Keep the word short.
-		setCellTextInBold(row, col++, _("Supplier"));
+		// Customer or supplier
+		setCellTextInBold(row, col++, customerSupplier);
 		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(row, col++, _("Text"));
 		//T: Used as heading of a table. Keep the word short.
 		setCellTextInBold(row, col++, _("Account Type"));
 
-		if (showExpenditureSumColumn) {
+		if (showVoucherSumColumn) {
 			//T: Used as heading of a table. Keep the word short.
 			setCellTextInBold(row, col++, _("Net"));
 			//T: Used as heading of a table. Keep the word short.
@@ -151,15 +131,15 @@ public class Exporter extends OOCalcExporter{
 		row++;
 		int columnOffset = col;
 
-		// The expenditures are exported in 2 runs.
-		// First, only the summary of all expenditures is calculated and
+		// The vouchers are exported in 2 runs.
+		// First, only the summary of all vouchers is calculated and
 		// the columns are created.
-		// Later all the expenditures are analyzed a second time and then they
-		// are exported expenditure by expenditure into the table.
-		for (DataSetVoucher expenditure : expenditures) {
+		// Later all the vouchers are analyzed a second time and then they
+		// are exported voucher by voucher into the table.
+		for (DataSetVoucher voucher : vouchers) {
 
-			if (expenditureShouldBeExported(expenditure)) {
-				expenditureSummarySetAllExpenditures.add(expenditure, false);
+			if (voucherShouldBeExported(voucher)) {
+				voucherSummarySetAllVouchers.add(voucher, false);
 			}
 		}
 
@@ -174,7 +154,7 @@ public class Exporter extends OOCalcExporter{
 		// The VAT summary items are sorted. So first ignore the VAT entries
 		// with 0%. 
 		// If the VAT value is >0%, create a column with heading.
-		for (Iterator<VatSummaryItem> iterator = expenditureSummarySetAllExpenditures.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
+		for (Iterator<VatSummaryItem> iterator = voucherSummarySetAllVouchers.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 			VatSummaryItem item = iterator.next();
 
 			// Create a column, if the value is not 0%
@@ -188,7 +168,7 @@ public class Exporter extends OOCalcExporter{
 				columnsWithVatHeading++;
 
 				// Create a column heading in bold
-				int column = expenditureSummarySetAllExpenditures.getIndex(item) - zeroVatColumns;
+				int column = voucherSummarySetAllVouchers.getIndex(item) - zeroVatColumns;
 
 				// Add VAT name and description and use 2 lines
 				String text = item.getVatName();
@@ -207,14 +187,14 @@ public class Exporter extends OOCalcExporter{
 
 		// A column for each Net value is created 
 		// The Net summary items are sorted. 
-		for (Iterator<VatSummaryItem> iterator = expenditureSummarySetAllExpenditures.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
+		for (Iterator<VatSummaryItem> iterator = voucherSummarySetAllVouchers.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 			VatSummaryItem item = iterator.next();
 
 			// Count the columns
 			columnsWithNetHeading++;
 
 			// Create a column heading in bold
-			int column = expenditureSummarySetAllExpenditures.getIndex(item);
+			int column = voucherSummarySetAllVouchers.getIndex(item);
 
 			// Add VAT name and description and use 2 lines
 			//T: Used as heading of a table. Keep the word short.
@@ -227,52 +207,52 @@ public class Exporter extends OOCalcExporter{
 			setCellTextInBold(headLine, columnsWithVatHeading + column + columnOffset, text);
 		}
 
-		int expenditureIndex = 0;
+		int voucherIndex = 0;
 
 		// Second run.
-		// Export the expenditure data
-		for (DataSetVoucher expenditure : expenditures) {
+		// Export the voucher data
+		for (DataSetVoucher voucher : vouchers) {
 
-			if (expenditureShouldBeExported(expenditure)) {
+			if (voucherShouldBeExported(voucher)) {
 
-				for (int expenditureItemIndex = 0; expenditureItemIndex < expenditure.getItems().getDatasets().size(); expenditureItemIndex++) {
+				for (int voucherItemIndex = 0; voucherItemIndex < voucher.getItems().getDatasets().size(); voucherItemIndex++) {
 
-					DataSetVoucherItem expenditureItem = expenditure.getItem(expenditureItemIndex);
+					DataSetVoucherItem voucherItem = voucher.getItem(voucherItemIndex);
 
-					// Now analyze expenditure by expenditure
-					VoucherSummarySetManager vatSummarySetOneExpenditure = new VoucherSummarySetManager();
-					expenditure.calculate();
+					// Now analyze voucher by voucher
+					VoucherSummarySetManager vatSummarySetOneVoucher = new VoucherSummarySetManager();
+					voucher.calculate();
 
-					// Add the expenditure to the VAT summary
-					vatSummarySetOneExpenditure.add(expenditure, false, expenditureItemIndex);
+					// Add the voucher to the VAT summary
+					vatSummarySetOneVoucher.add(voucher, false, voucherItemIndex);
 
-					// Fill the row with the expenditure data
+					// Fill the row with the voucher data
 					col = 0;
 
-					if (expenditureItemIndex == 0) {
-						setCellText(row, col++, expenditure.getStringValueByKey("category"));
-						setCellText(row, col++, DataUtils.DateAsLocalString(expenditure.getStringValueByKey("date")));
-						setCellText(row, col++, expenditure.getStringValueByKey("nr"));
-						setCellText(row, col++, expenditure.getStringValueByKey("documentnr"));
-						setCellText(row, col++, expenditure.getStringValueByKey("name"));
+					if (voucherItemIndex == 0) {
+						setCellText(row, col++, voucher.getStringValueByKey("category"));
+						setCellText(row, col++, DataUtils.DateAsLocalString(voucher.getStringValueByKey("date")));
+						setCellText(row, col++, voucher.getStringValueByKey("nr"));
+						setCellText(row, col++, voucher.getStringValueByKey("documentnr"));
+						setCellText(row, col++, voucher.getStringValueByKey("name"));
 					}
 
 					col = 5;
-					setCellText(row, col++, expenditureItem.getStringValueByKey("name"));
-					setCellText(row, col++, expenditureItem.getStringValueByKey("category"));
+					setCellText(row, col++, voucherItem.getStringValueByKey("name"));
+					setCellText(row, col++, voucherItem.getStringValueByKey("category"));
 
 					//setCellValueAsLocalCurrency(xSpreadsheetDocument, spreadsheet, row, col++, document.getDoubleValueByKey("total"));
 
-					// Calculate the total VAT of the expenditure
+					// Calculate the total VAT of the voucher
 					PriceValue totalVat = new PriceValue(0.0);
 
-					// Get all VAT entries of this expenditure and place them into the
+					// Get all VAT entries of this voucher and place them into the
 					// corresponding column.
-					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
+					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneVoucher.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 						VatSummaryItem item = iterator.next();
 
 						// Get the column
-						int column = expenditureSummarySetAllExpenditures.getIndex(item) - zeroVatColumns;
+						int column = voucherSummarySetAllVouchers.getIndex(item) - zeroVatColumns;
 
 						// If column is <0, it was a VAT entry with 0%
 						if (column >= 0) {
@@ -284,13 +264,13 @@ public class Exporter extends OOCalcExporter{
 						}
 					}
 
-					// Get all net entries of this expenditure and place them into the
+					// Get all net entries of this voucher and place them into the
 					// corresponding column.
-					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneExpenditure.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
+					for (Iterator<VatSummaryItem> iterator = vatSummarySetOneVoucher.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 						VatSummaryItem item = iterator.next();
 
 						// Get the column
-						int column = expenditureSummarySetAllExpenditures.getIndex(item);
+						int column = voucherSummarySetAllVouchers.getIndex(item);
 
 						// If column is <0, it was a VAT entry with 0%
 						if (column >= 0) {
@@ -303,27 +283,27 @@ public class Exporter extends OOCalcExporter{
 						}
 					}
 
-					// Display the sum of an expenditure only in the row of the first
-					// expenditure item
-					if (showExpenditureSumColumn) {
-						if (expenditureItemIndex == 0) {
+					// Display the sum of an voucher only in the row of the first
+					// voucher item
+					if (showVoucherSumColumn) {
+						if (voucherItemIndex == 0) {
 							col = columnOffset - 2;
-							// Calculate the expenditures net and gross total 
-							setCellValueAsLocalCurrency(row, col++, expenditure.getSummary().getTotalNet().asDouble());
-							setCellValueAsLocalCurrency(row, col++, expenditure.getSummary().getTotalGross().asDouble());
+							// Calculate the vouchers net and gross total 
+							setCellValueAsLocalCurrency(row, col++, voucher.getSummary().getTotalNet().asDouble());
+							setCellValueAsLocalCurrency(row, col++, voucher.getSummary().getTotalGross().asDouble());
 						}
 					}
 
 					// Set the background of the table rows. Use an light and
 					// alternating blue color.
-					if ((expenditureIndex % 2) == 0)
+					if ((voucherIndex % 2) == 0)
 						setBackgroundColor(0, row, columnsWithVatHeading + columnsWithNetHeading + columnOffset - 1, row,
 								0x00e8ebed);
 
 					row++;
 
 				}
-				expenditureIndex++;
+				voucherIndex++;
 			}
 		}
 
@@ -333,7 +313,7 @@ public class Exporter extends OOCalcExporter{
 
 		// Show the sum only, if there are values in the table
 		if (sumrow > (headLine + 1)) {
-			for (int i = (showExpenditureSumColumn ? -2 : 0); i < (columnsWithVatHeading + columnsWithNetHeading); i++) {
+			for (int i = (showVoucherSumColumn ? -2 : 0); i < (columnsWithVatHeading + columnsWithNetHeading); i++) {
 				col = columnOffset + i;
 				try {
 					// Create formula for the sum. 
@@ -354,15 +334,15 @@ public class Exporter extends OOCalcExporter{
 			setBorder(sumrow, col, 0x000000, true, false, false, false);
 		}
 
-		// Create a expenditure summary set manager that collects all 
-		// categories of expenditure items
-		VoucherSummarySetManager expenditureSummaryCategories = new VoucherSummarySetManager();
+		// Create a voucher summary set manager that collects all 
+		// categories of voucher items
+		VoucherSummarySetManager voucherSummaryCategories = new VoucherSummarySetManager();
 
 		// Calculate the summary
-		for (DataSetVoucher expenditure : expenditures) {
+		for (DataSetVoucher voucher : vouchers) {
 
-			if (expenditureShouldBeExported(expenditure)) {
-				expenditureSummaryCategories.add(expenditure, true);
+			if (voucherShouldBeExported(voucher)) {
+				voucherSummaryCategories.add(voucher, true);
 			}
 		}
 
@@ -370,7 +350,7 @@ public class Exporter extends OOCalcExporter{
 		// Table heading
 		
 		//T: Sales Exporter - Text in the Calc document
-		setCellTextInBold(row++, 0, _("Expenditures Summary:"));
+		setCellTextInBold(row++, 0, _("Vouchers Summary:"));
 		row++;
 
 		col = 0;
@@ -393,7 +373,7 @@ public class Exporter extends OOCalcExporter{
 		// The VAT summary items are sorted. So first ignore the VAT entries
 		// with 0%. 
 		// If the VAT value is >0%, create a column with heading.
-		for (Iterator<VatSummaryItem> iterator = expenditureSummaryCategories.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
+		for (Iterator<VatSummaryItem> iterator = voucherSummaryCategories.getVoucherSummaryItems().iterator(); iterator.hasNext();) {
 			VatSummaryItem item = iterator.next();
 
 			col = 0;

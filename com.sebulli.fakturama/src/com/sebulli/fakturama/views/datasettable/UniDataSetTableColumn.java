@@ -429,7 +429,7 @@ public class UniDataSetTableColumn {
 				}
 
 				// Fill the cell with the VAT (percent) value of the item
-				else if (dataKey.equals("$ExpenditureItemVatPercent")) {
+				else if (dataKey.equals("$VoucherItemVatPercent")) {
 					cell.setText(new Price(((DataSetVoucherItem) cell.getElement())).getVatPercent());
 				}
 
@@ -444,7 +444,7 @@ public class UniDataSetTableColumn {
 				}
 
 				// Fill the cell with the gross price of the item
-				else if (dataKey.equals("$ExpenditureItemGrossPrice")) {
+				else if (dataKey.equals("$VoucherItemGrossPrice")) {
 					cell.setText(new Price(((DataSetVoucherItem) cell.getElement())).getUnitGross().asFormatedString());
 				}
 

@@ -52,7 +52,7 @@ public class ViewExpenditureVoucherTable extends ViewVoucherTable{
 		editor = "ExpenditureVoucher";
 		
 		// Text of the column "name"
-		customerSupplier = 	DataSetExpenditureVoucher.customerSupplier;
+		customerSupplier = 	DataSetExpenditureVoucher.CUSTOMERSUPPLIER;
 		
 		// Create the super part control
 		super.createPartControl(parent, ContextHelpConstants.VOUCHER_TABLE_VIEW);

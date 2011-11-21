@@ -42,7 +42,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 		titleText = _("Expense Voucher");
 
 		// Text of the name property
-		customerSupplier = 	DataSetExpenditureVoucher.customerSupplier;
+		customerSupplier = 	DataSetExpenditureVoucher.CUSTOMERSUPPLIER;
 	}
 	
 	/**
