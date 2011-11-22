@@ -323,7 +323,7 @@ public class DataSetArray<T> {
 	 * 
 	 * @return Array of all category strings
 	 */
-	public Object[] getCategoryStrings() {
+	public ArrayList<String> getCategoryStrings() {
 		Properties props = new Properties();
 		oldProps = new Properties();
 		String category;
@@ -366,7 +366,7 @@ public class DataSetArray<T> {
 		}
 
 		// return the category strings
-		return props.stringPropertyNames().toArray();
+		return new ArrayList<String>(props.stringPropertyNames());
 	}
 
 	/**

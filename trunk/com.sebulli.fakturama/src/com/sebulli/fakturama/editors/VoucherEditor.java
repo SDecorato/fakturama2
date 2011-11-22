@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TreeSet;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -725,18 +726,23 @@ public abstract class VoucherEditor extends Editor {
 		Label labelCategory = new Label(top, SWT.NONE);
 
 		//T: Label in the voucher editor
-		labelCategory.setText(_("Category"));
+		labelCategory.setText(_("Account"));
 		//T: Tool Tip Text
-		labelCategory.setToolTipText(_("Category of this expense voucher. E.g. 'Bank', 'Cash', 'Credit Card'"));
+		labelCategory.setToolTipText(_("Account of this voucher. E.g. 'Bank', 'Cash', 'Credit Card'"));
 		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
 		comboCategory = new Combo(top, SWT.BORDER);
 		comboCategory.setToolTipText(labelCategory.getToolTipText());
 		comboCategory.setText(voucher.getStringValueByKey("category"));
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
+		
+		// Collect all category strings
+		TreeSet<String> categories = new TreeSet<String>();
+		categories.addAll(Data.INSTANCE.getPayments().getCategoryStrings());
+		categories.addAll(Data.INSTANCE.getReceiptVouchers().getCategoryStrings());
+		categories.addAll(Data.INSTANCE.getExpenditureVouchers().getCategoryStrings());
 
 		// Add all category strings to the combo
-		Object[] categories = getVouchers().getCategoryStrings();
 		for (Object category : categories) {
 			comboCategory.add(category.toString());
 		}

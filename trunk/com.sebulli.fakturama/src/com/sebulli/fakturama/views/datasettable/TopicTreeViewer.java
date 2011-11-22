@@ -552,7 +552,7 @@ public class TopicTreeViewer extends TreeViewer {
 					if (inputElement instanceof DataSetArray<?>) {
 
 						// Get all category strings
-						Object[] entries = inputElement.getCategoryStrings();
+						Object[] entries = inputElement.getCategoryStrings().toArray();
 						for (Object entry : entries) {
 							addEntry(entry.toString());
 						}
@@ -562,7 +562,7 @@ public class TopicTreeViewer extends TreeViewer {
 
 			// Count the category strings
 			if (inputElement instanceof DataSetArray<?>) {
-				Object[] entries = inputElement.getCategoryStrings();
+				Object[] entries = inputElement.getCategoryStrings().toArray();
 				entryCnt = entries.length;
 			}
 

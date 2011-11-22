@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.TreeSet;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
@@ -85,7 +86,7 @@ public class ProductEditor extends Editor {
 	private Text textWeight;
 	private Text textQuantity;
 	private ComboViewer comboViewer;
-	private Text txtCategory;
+	private Combo comboCategory;
 	private Label labelProductPicture;
 	private Composite photoComposite;
 	private Text textProductPicturePath;
@@ -175,7 +176,7 @@ public class ProductEditor extends Editor {
 		// Set the product data
 		product.setStringValueByKey("itemnr", textItemNr.getText());
 		product.setStringValueByKey("name", textName.getText());
-		product.setStringValueByKey("category", txtCategory.getText());
+		product.setStringValueByKey("category", comboCategory.getText());
 		product.setStringValueByKey("description", DataUtils.removeCR(textDescription.getText()));
 
 		int i;
@@ -305,7 +306,7 @@ public class ProductEditor extends Editor {
 		if (product.getIntValueByKey("vatid") != vatId) { return true; }
 		if (!DataUtils.DoublesAreEqual(product.getStringValueByKey("weight"),textWeight.getText())) { return true; }
 		if (!DataUtils.DoublesAreEqual(product.getStringValueByKey("quantity"),textQuantity.getText())) { return true; }
-		if (!product.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!product.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!product.getStringValueByKey("picturename").equals(pictureName)) { return true; }
 
 		return false;
@@ -521,14 +522,26 @@ public class ProductEditor extends Editor {
 		labelCategory.setText(_("Category"));
 		//T: Tool Tip Text
 		labelCategory.setToolTipText(_("You can set a category to classify the products. This is also the web shop category."));
-
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
-		txtCategory = new Text(productDescGroup, SWT.BORDER);
-		txtCategory.setText(product.getStringValueByKey("category"));
-		txtCategory.setToolTipText(labelCategory.getToolTipText());
 
-		superviceControl(txtCategory, 64);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
+		comboCategory = new Combo(productDescGroup, SWT.BORDER);
+		comboCategory.setText(product.getStringValueByKey("category"));
+		comboCategory.setToolTipText(labelCategory.getToolTipText());
+		superviceControl(comboCategory);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
+
+		// Collect all category strings
+		TreeSet<String> categories = new TreeSet<String>();
+		categories.addAll(Data.INSTANCE.getProducts().getCategoryStrings());
+
+		// Add all category strings to the combo
+		for (Object category : categories) {
+			comboCategory.add(category.toString());
+		}
+
+		
+		
+		
 
 		// Product description
 		Label labelDescription = new Label(useDescription ? productDescGroup : invisible, SWT.NONE);

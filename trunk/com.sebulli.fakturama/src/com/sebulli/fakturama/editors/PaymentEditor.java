@@ -16,10 +16,13 @@ package com.sebulli.fakturama.editors;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.util.TreeSet;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -56,7 +59,7 @@ public class PaymentEditor extends Editor {
 	private Text textNetDays;
 	private Text textPaid;
 	private Text textUnpaid;
-	private Text txtCategory;
+	private Combo comboCategory;
 
 	// defines, if the payment is new created
 	private boolean newPayment;
@@ -91,7 +94,7 @@ public class PaymentEditor extends Editor {
 		// Set the payment data
 		payment.setStringValueByKey("name", textName.getText());
 		payment.setStringValueByKey("description", textDescription.getText());
-		payment.setStringValueByKey("category", txtCategory.getText());
+		payment.setStringValueByKey("category", comboCategory.getText());
 		payment.setDoubleValueByKey("discountvalue", DataUtils.StringToDouble(textDiscountValue.getText()));
 		payment.setStringValueByKey("discountdays", textDiscountDays.getText());
 		payment.setStringValueByKey("netdays", textNetDays.getText());
@@ -188,7 +191,7 @@ public class PaymentEditor extends Editor {
 		if (!DataUtils.DoublesAreEqual(payment.getDoubleValueByKey("discountvalue"), DataUtils.StringToDouble(textDiscountValue.getText()))) { return true; }
 		if (!payment.getStringValueByKey("discountdays").equals(textDiscountDays.getText())) { return true; }
 		if (!payment.getStringValueByKey("netdays").equals(textNetDays.getText())) { return true; }
-		if (!payment.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!payment.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("paidtext"), textPaid.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("unpaidtext"), textUnpaid.getText())) { return true; }
 
@@ -250,17 +253,29 @@ public class PaymentEditor extends Editor {
 
 		// Payment category
 		Label labelCategory = new Label(top, SWT.NONE);
-		labelCategory.setText(_("Category"));
-		//T: Tool Tip Text
-		labelCategory.setToolTipText(_("You can set a category to classify the payments"));
-
+		//T: Payment Editor - category
+		labelCategory.setText(_("Account"));
+		//T: Payment Editor - category Tool Tip Text
+		labelCategory.setToolTipText(_("Set an (bank) account. All invoices with this payment will be booked to that account. E.g. 'Bank', 'Cash', 'Credit Card'."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
-		txtCategory = new Text(top, SWT.BORDER);
-		txtCategory.setText(payment.getStringValueByKey("category"));
-		txtCategory.setToolTipText(labelCategory.getToolTipText());
-		superviceControl(txtCategory, 64);
-		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(txtCategory);
+		
+		comboCategory = new Combo(top, SWT.BORDER);
+		comboCategory.setText(payment.getStringValueByKey("category"));
+		comboCategory.setToolTipText(labelCategory.getToolTipText());
+		superviceControl(comboCategory);
+		GridDataFactory.fillDefaults().grab(true, false).span(3, 1).applyTo(comboCategory);
 
+		// Collect all category strings
+		TreeSet<String> categories = new TreeSet<String>();
+		categories.addAll(Data.INSTANCE.getPayments().getCategoryStrings());
+		categories.addAll(Data.INSTANCE.getReceiptVouchers().getCategoryStrings());
+		categories.addAll(Data.INSTANCE.getExpenditureVouchers().getCategoryStrings());
+
+		// Add all category strings to the combo
+		for (Object category : categories) {
+			comboCategory.add(category.toString());
+		}
+		
 		// Payment description
 		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText(_("Description"));
