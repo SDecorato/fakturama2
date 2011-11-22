@@ -53,6 +53,8 @@ public class ColumnWidthItemsPreferencePage extends FieldEditorPreferencePage im
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(this.getControl(), ContextHelpConstants.COLUMN_WIDTH_PREFERENCE_PAGE);
 
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
+		addField(new IntegerFieldEditor("COLUMNWIDTH_ITEMS_POS", _("Pos."), getFieldEditorParent()));
+		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_ITEMS_OPT", _("Opt."), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_ITEMS_QTY", _("Qty."), getFieldEditorParent()));
@@ -94,6 +96,7 @@ public class ColumnWidthItemsPreferencePage extends FieldEditorPreferencePage im
 	 *            TRUE: Write to the data base
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_POS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_OPT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_QTY", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_ITEMNO", write);
@@ -113,6 +116,7 @@ public class ColumnWidthItemsPreferencePage extends FieldEditorPreferencePage im
 	 *            The preference node
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
+		node.put("COLUMNWIDTH_ITEMS_POS", "40");
 		node.put("COLUMNWIDTH_ITEMS_OPT", "40");
 		node.put("COLUMNWIDTH_ITEMS_QTY", "60");
 		node.put("COLUMNWIDTH_ITEMS_ITEMNO", "80");
