@@ -221,6 +221,13 @@ public class UniDataSetTableColumn {
 					cell.setText(getText(uds, dataKey));
 				}
 
+
+				// Fill the cell with an mark, if optional is set
+				else if (dataKey.equals("$Row")) {
+					int i = ((DataSetItem)uds).row;
+					cell.setText(Integer.toString(i));
+				}
+
 				// Fill the cell with an mark, if optional is set
 				else if (dataKey.equals("$Optional")) {
 					if (uds.getBooleanValueByKey("optional")){

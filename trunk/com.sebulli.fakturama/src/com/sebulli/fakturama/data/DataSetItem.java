@@ -21,6 +21,8 @@ package com.sebulli.fakturama.data;
  */
 public class DataSetItem extends UniDataSet {
 
+	public int row = 0;
+	
 	/**
 	 * Constructor Creates a new item
 	 * 

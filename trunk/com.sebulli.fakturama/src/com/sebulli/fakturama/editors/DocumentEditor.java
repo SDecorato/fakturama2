@@ -762,7 +762,7 @@ public class DocumentEditor extends Editor {
 
 				// And copy the item to a new one
 				DataSetItem item = Data.INSTANCE.getItems().getDatasetById(id);
-
+				
 				
 				// the new item
 				DataSetItem newItem;
@@ -789,13 +789,15 @@ public class DocumentEditor extends Editor {
 				if (!DataUtils.DoublesAreEqual(newItem.getDoubleValueByKey("discount"),0.0))
 					containsDiscountedItems = true;
 
-				
 				// Add the new item
 				items.getDatasets().add(newItem);
 			}
 		}
+		
+		// Renumber all Items
+		RenumberItems();
 	}
-
+	
 	/**
 	 * Returns whether the contents of this part have changed since the last
 	 * save operation
@@ -944,6 +946,21 @@ public class DocumentEditor extends Editor {
 		return false;
 	}
 
+	/**
+	 * Renumber all items
+	 */
+	private void RenumberItems () {
+		
+		int no = 1;
+		// renumber all items
+		for (DataSetItem item : items.getActiveDatasets()) {
+			item.row = no;
+			no++;
+		}
+		
+	}
+
+	
 	/**
 	 * Sets a flag, if item editing is active
 	 * 
@@ -1864,13 +1881,16 @@ public class DocumentEditor extends Editor {
 								addNewItem(newItem);
 							}
 
-							tableViewerItems.refresh();
-							if (newItem!= null)
-								tableViewerItems.reveal(newItem);
-							calculate();
-							checkDirty();
 						}
-						
+
+						tableViewerItems.refresh();
+						if (newItem!= null)
+							tableViewerItems.reveal(newItem);
+						calculate();
+						checkDirty();
+
+						// Renumber all Items
+						RenumberItems();
 					}
 				}
 			});
@@ -1908,6 +1928,10 @@ public class DocumentEditor extends Editor {
 					tableViewerItems.reveal(newItem);
 					calculate();
 					checkDirty();
+					
+					// Renumber all Items
+					RenumberItems();
+
 				}
 			});
 
@@ -1936,6 +1960,10 @@ public class DocumentEditor extends Editor {
 
 						// delete the item
 						deleteItem(uds);
+
+						// Renumber all Items
+						RenumberItems();
+
 					}
 				}
 			});
@@ -1953,6 +1981,7 @@ public class DocumentEditor extends Editor {
 			tableViewerItems.setContentProvider(new ViewDataSetTableContentProvider(tableViewerItems));
 			
 			// Get the column width from the preferences
+			int cw_pos = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_POS");
 			int cw_opt = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_OPT");
 			int cw_qty = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_QTY");
 			int cw_itemno = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_ITEMNO");
@@ -1971,6 +2000,10 @@ public class DocumentEditor extends Editor {
 			if (OSDependent.isWin())
 				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER,"", 0, true, "$", null));
 
+			if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_ITEM_POS"))
+			//T: Used as heading of a table. Keep the word short.
+				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER,_("Pos"), cw_pos, true, "$Row", null));
+			
 			// Create the table columns 
 			if (containsOptionalItems || Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_USE") && (documentType == DocumentType.OFFER))
 				//T: Used as heading of a table. Keep the word short.
