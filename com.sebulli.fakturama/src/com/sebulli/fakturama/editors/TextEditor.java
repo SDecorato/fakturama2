@@ -16,10 +16,13 @@ package com.sebulli.fakturama.editors;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.util.TreeSet;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -50,7 +53,7 @@ public class TextEditor extends Editor {
 	private Composite top;
 	private Text textName;
 	private Text textText;
-	private Text txtCategory;
+	private Combo comboCategory;
 
 	// defines, if the text is new created
 	private boolean newText;
@@ -85,7 +88,7 @@ public class TextEditor extends Editor {
 		// Set the text data
 		text.setStringValueByKey("name", textName.getText());
 		text.setStringValueByKey("text", textText.getText());
-		text.setStringValueByKey("category", txtCategory.getText());
+		text.setStringValueByKey("category", comboCategory.getText());
 
 		// If it is a new text, add it to the text list and
 		// to the data base
@@ -172,7 +175,7 @@ public class TextEditor extends Editor {
 
 		if (!text.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!text.getStringValueByKey("text").equals(textText.getText())) { return true; }
-		if (!text.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!text.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 
 		return false;
 	}
@@ -238,12 +241,24 @@ public class TextEditor extends Editor {
 		labelCategory.setToolTipText(_("You can set a category to classify the texts"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
-		txtCategory = new Text(top, SWT.BORDER);
-		txtCategory.setText(text.getStringValueByKey("category"));
-		txtCategory.setToolTipText(labelCategory.getToolTipText());
-		superviceControl(txtCategory, 64);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
+		comboCategory = new Combo(top, SWT.BORDER);
+		comboCategory.setText(text.getStringValueByKey("category"));
+		comboCategory.setToolTipText(labelCategory.getToolTipText());
+		superviceControl(comboCategory);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
+
+		// Collect all category strings
+		TreeSet<String> categories = new TreeSet<String>();
+		categories.addAll(Data.INSTANCE.getTexts().getCategoryStrings());
+
+		// Add all category strings to the combo
+		for (Object category : categories) {
+			comboCategory.add(category.toString());
+		}
+
+
+		
 		// The text
 		Label labelText = new Label(top, SWT.NONE);
 		labelText.setText(_("Text"));

@@ -16,6 +16,8 @@ package com.sebulli.fakturama.editors;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.util.TreeSet;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -105,7 +107,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	private Text txtWebsite;
 	private Text txtVatNr;
 	private Text txtDiscount;
-	private Text txtCategory;
+	private Combo comboCategory;
 	private Group deliveryGroup;
 	private Button bDelAddrEquAddr;
 	private Combo comboUseNetGross;
@@ -232,7 +234,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		contact.setStringValueByKey("website", txtWebsite.getText());
 		contact.setStringValueByKey("vatnr", txtVatNr.getText());
 		contact.setDoubleValueByKey("discount", DataUtils.StringToDoubleDiscount(txtDiscount.getText()));
-		contact.setStringValueByKey("category", txtCategory.getText());
+		contact.setStringValueByKey("category", comboCategory.getText());
 		contact.setIntValueByKey("use_net_gross", comboUseNetGross.getSelectionIndex());
 
 
@@ -381,7 +383,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("email").equals(txtEmail.getText())) { return true; }
 		if (!contact.getStringValueByKey("website").equals(txtWebsite.getText())) { return true; }
 		if (!contact.getStringValueByKey("vatnr").equals(txtVatNr.getText())) { return true; }
-		if (!contact.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!contact.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!DataUtils.DoublesAreEqual(contact.getDoubleValueByKey("discount"), DataUtils.StringToDoubleDiscount(txtDiscount.getText()))) { return true; }
 		if (contact.getIntValueByKey("use_net_gross") != comboUseNetGross.getSelectionIndex()) { return true; }
 
@@ -855,12 +857,25 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		//T: Tool Tip Text
 		labelCategory.setToolTipText(_("Choose a category like 'Customer', 'Customer Web Shop' or 'Supplier'"));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
-		txtCategory = new Text(tabMisc, SWT.BORDER);
-		txtCategory.setText(contact.getStringValueByKey("category"));
-		txtCategory.setToolTipText(labelCategory.getToolTipText());
-		superviceControl(txtCategory, 64);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
+		comboCategory = new Combo(tabMisc, SWT.BORDER);
+		comboCategory.setText(contact.getStringValueByKey("category"));
+		comboCategory.setToolTipText(labelCategory.getToolTipText());
+		superviceControl(comboCategory);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
+
+		// Collect all category strings
+		TreeSet<String> categories = new TreeSet<String>();
+		categories.addAll(Data.INSTANCE.getContacts().getCategoryStrings());
+
+		// Add all category strings to the combo
+		for (Object category : categories) {
+			comboCategory.add(category.toString());
+		}
+
+		
+		
+		
 		// EMail
 		Label labelEmail = new Label(tabMisc, SWT.NONE);
 		//T: Label in the contact editor

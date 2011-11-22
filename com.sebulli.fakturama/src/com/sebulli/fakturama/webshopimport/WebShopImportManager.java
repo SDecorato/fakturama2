@@ -304,7 +304,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				}
 
 				if (onlyModifiedProducts) {
-					String lasttime = Data.INSTANCE.getProperty("lastwebshopimport");
+					String lasttime = Data.INSTANCE.getProperty("lastwebshopimport","");
 					if (! lasttime.isEmpty())
 						postString += "&lasttime=" + lasttime.toString();
 				}

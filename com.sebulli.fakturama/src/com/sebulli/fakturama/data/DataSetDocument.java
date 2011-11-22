@@ -19,7 +19,6 @@ import static com.sebulli.fakturama.Translate._;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
@@ -314,9 +313,9 @@ public class DataSetDocument extends UniDataSet {
 	 *            Array with all document types, that are used
 	 * @return Array with all category strings
 	 */
-	static public Object[] getCategoryStrings(boolean usedDocuments[]) {
+	static public ArrayList<String> getCategoryStrings(boolean usedDocuments[]) {
 
-		List<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<String>();
 
 		if (usedDocuments[DocumentType.LETTER.getInt()])
 			list.add(DocumentType.LETTER.getPluralString());
@@ -358,7 +357,7 @@ public class DataSetDocument extends UniDataSet {
 			list.add(DocumentType.PROFORMA.getPluralString());
 		}
 
-		return list.toArray();
+		return list;
 	}
 
 	/**

@@ -16,6 +16,8 @@ package com.sebulli.fakturama.editors;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.util.TreeSet;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -70,7 +72,7 @@ public class ShippingEditor extends Editor {
 	private Combo comboAutoVat;
 	private NetText netText;
 	private GrossText grossText;
-	private Text txtCategory;
+	private Combo comboCategory;
 
 	// These flags are set by the preference settings.
 	// They define, if elements of the editor are displayed, or not.
@@ -116,7 +118,7 @@ public class ShippingEditor extends Editor {
 
 		// Set the shipping data
 		shipping.setStringValueByKey("name", textName.getText());
-		shipping.setStringValueByKey("category", txtCategory.getText());
+		shipping.setStringValueByKey("category", comboCategory.getText());
 		shipping.setStringValueByKey("description", textDescription.getText());
 		shipping.setDoubleValueByKey("value", net.getValueAsDouble());
 		shipping.setIntValueByKey("vatid", vatId);
@@ -210,7 +212,7 @@ public class ShippingEditor extends Editor {
 		if (!shipping.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!shipping.getStringValueByKey("description").equals(textDescription.getText())) { return true; }
 		if (!DataUtils.DoublesAreEqual(shipping.getDoubleValueByKey("value"), net.getValueAsDouble())) { return true; }
-		if (!shipping.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!shipping.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (shipping.getIntValueByKey("vatid") != vatId) { return true; }
 		if (shipping.getIntValueByKey("autovat") != autoVat) { return true; }
 
@@ -355,12 +357,24 @@ public class ShippingEditor extends Editor {
 		labelCategory.setToolTipText(_("You can set a category to classify the shippings"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
-		txtCategory = new Text(top, SWT.BORDER);
-		txtCategory.setText(shipping.getStringValueByKey("category"));
-		txtCategory.setToolTipText(labelCategory.getToolTipText());
-		superviceControl(txtCategory, 64);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
+		comboCategory = new Combo(top, SWT.BORDER);
+		comboCategory.setText(shipping.getStringValueByKey("category"));
+		comboCategory.setToolTipText(labelCategory.getToolTipText());
+		superviceControl(comboCategory);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
+
+		// Collect all category strings
+		TreeSet<String> categories = new TreeSet<String>();
+		categories.addAll(Data.INSTANCE.getShippings().getCategoryStrings());
+
+		// Add all category strings to the combo
+		for (Object category : categories) {
+			comboCategory.add(category.toString());
+		}
+
+
+		
 		// Shipping description
 		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText(_("Description"));

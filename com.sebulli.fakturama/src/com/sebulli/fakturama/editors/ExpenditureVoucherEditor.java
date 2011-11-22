@@ -52,8 +52,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	 * 		All voucher items
 	 */
 	public DataSetArray<?> getVoucherItems() {
-		DataSetArray<DataSetExpenditureVoucherItem> items = Data.INSTANCE.getExpenditureVoucherItems();
-		return items;
+		return Data.INSTANCE.getExpenditureVoucherItems();
 	}
 
 	/**
@@ -183,8 +182,7 @@ public class ExpenditureVoucherEditor extends VoucherEditor {
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent, ContextHelpConstants.VOUCHER_EDITOR);
 		// Fill the table with the items
-		DataSetArray<DataSetExpenditureVoucherItem> a = (DataSetArray<DataSetExpenditureVoucherItem>) getMyVoucherItems();
-		tableViewerItems.setInput(a);
+		tableViewerItems.setInput((DataSetArray<DataSetExpenditureVoucherItem>) getMyVoucherItems());
 	}
 	
 	

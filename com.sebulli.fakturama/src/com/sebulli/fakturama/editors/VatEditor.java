@@ -16,10 +16,13 @@ package com.sebulli.fakturama.editors;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.util.TreeSet;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -52,7 +55,7 @@ public class VatEditor extends Editor {
 	private Text textName;
 	private Text textDescription;
 	private Text textValue;
-	private Text txtCategory;
+	private Combo comboCategory;
 
 	// defines, if the payment is new created
 	private boolean newVat;
@@ -87,7 +90,7 @@ public class VatEditor extends Editor {
 
 		// Set the payment data
 		vat.setStringValueByKey("name", textName.getText());
-		vat.setStringValueByKey("category", txtCategory.getText());
+		vat.setStringValueByKey("category", comboCategory.getText());
 		vat.setStringValueByKey("description", textDescription.getText());
 		vat.setDoubleValueByKey("value", DataUtils.StringToDouble(textValue.getText() + "%"));
 
@@ -179,7 +182,7 @@ public class VatEditor extends Editor {
 		if (!vat.getStringValueByKey("name").equals(textName.getText())) { return true; }
 		if (!vat.getStringValueByKey("description").equals(textDescription.getText())) { return true; }
 		if (!DataUtils.DoublesAreEqual(vat.getDoubleValueByKey("value"), DataUtils.StringToDouble(textValue.getText() + "%"))) { return true; }
-		if (!vat.getStringValueByKey("category").equals(txtCategory.getText())) { return true; }
+		if (!vat.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 
 		return false;
 	}
@@ -244,12 +247,23 @@ public class VatEditor extends Editor {
 		labelCategory.setToolTipText(_("You can set a category to classify the tax rates"));
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCategory);
-		txtCategory = new Text(top, SWT.BORDER);
-		txtCategory.setText(vat.getStringValueByKey("category"));
-		txtCategory.setToolTipText(labelCategory.getToolTipText());
-		superviceControl(txtCategory, 64);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtCategory);
 
+		comboCategory = new Combo(top, SWT.BORDER);
+		comboCategory.setText(vat.getStringValueByKey("category"));
+		comboCategory.setToolTipText(labelCategory.getToolTipText());
+		superviceControl(comboCategory);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
+
+		// Collect all category strings
+		TreeSet<String> categories = new TreeSet<String>();
+		categories.addAll(Data.INSTANCE.getVATs().getCategoryStrings());
+
+		// Add all category strings to the combo
+		for (Object category : categories) {
+			comboCategory.add(category.toString());
+		}
+
+		
 		// The description
 		Label labelDescription = new Label(top, SWT.NONE);
 		labelDescription.setText(_("Description"));
