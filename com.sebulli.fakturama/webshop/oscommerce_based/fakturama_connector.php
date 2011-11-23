@@ -6,9 +6,9 @@
  * 
  * Web shop connector script
  */
-define ('FAKTURAMA_CONNECTOR_VERSION','1.4.0'); 
+define ('FAKTURAMA_CONNECTOR_VERSION','1.4.1'); 
 /* 
- * Date: 2011-07-26
+ * Date: 2011-11-23
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -30,7 +30,7 @@ define ('FAKTURAMA_CONNECTOR_VERSION','1.4.0');
 // 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
-define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
+define ('FAKTURAMA_WEBSHOP','OSCOMMERCE');	
 
 // Character Set of the web shop. This is used to send notification comments.
 define ('FAKTURAMA_WEBSHOP_CHARSET','ISO-8859-1'); 
@@ -186,6 +186,21 @@ function sbf_db_num_rows($p) {
 	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_num_rows($p);
 	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_num_rows($p);
 }
+
+// Use the ean code or not
+if (FAKTURAMA_WEBSHOP == OSCOMMERCE) {
+  $use_ean_code = false;
+} else {
+  $use_ean_code = true;
+} 
+     
+
+if ($use_ean_code) {
+  $ean_query_string = ", prod.products_ean";
+} else {
+  $ean_query_string = "";
+} 
+
 
 
 // include the mail classes
@@ -649,10 +664,12 @@ class order {
 
       $index = 0;
 
+
+
      $orders_products_query = sbf_db_query("SELECT
      											tax.tax_description, ordprod.orders_products_id, ordprod.products_name,ordprod.products_id,
      											ordprod.products_model, ordprod.products_price, ordprod.products_tax,
-     											ordprod.products_quantity, ordprod.final_price, prod.products_ean 
+     											ordprod.products_quantity, ordprod.final_price" . $ean_query_string . " 
      										FROM
      											tax_rates tax 
      											RIGHT JOIN
@@ -1151,7 +1168,7 @@ if ($admin_valid != 1)
 
 			$products_query = sbf_db_query("SELECT 
  												prod.products_model, prod_desc.products_name, prod_desc.products_description, " . $products_short_description_query . 
-												"prod.products_image, products_quantity, prod.products_id, prod.products_ean,	 												
+												"prod.products_image, products_quantity, prod.products_id" . $ean_query_string . ",	 												
 												cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
 											FROM 
 												tax_rates tax
@@ -1194,7 +1211,12 @@ if ($admin_valid != 1)
 				echo ("id=\"". my_encrypt($products['products_id']) ."\" " );
 				echo (">\n");
 				echo ("   <model>" . my_encode($products['products_model'])."</model>\n");
-				echo ("   <ean>" . my_encode($products['products_ean'])."</ean>\n");
+				if ($use_ean_code) {
+					echo ("   <ean>" . my_encode($products['products_ean'])."</ean>\n");
+				}
+				else {
+					echo ("   <ean></ean>\n");
+				}
 				echo ("   <name>" . my_encode($products['products_name'])."</name>\n");
 				echo ("   <category>" . my_encode($products['categories_name'])."</category>\n");
 				echo ("   <vatname>".my_encode($products['tax_description'])."</vatname>\n");
@@ -1386,7 +1408,12 @@ if ($admin_valid != 1)
 						echo (my_encode($product['name']));
 					echo ("</model>\n");
 
-					echo ("    <ean>" . my_encode($product['products_ean'])."</ean>\n");
+					if ($use_ean_code) {
+						echo ("    <ean>" . my_encode($product['products_ean'])."</ean>\n");
+					}
+					else {
+						echo ("    <ean></ean>\n");
+					}
 					echo ("    <name>".my_encode($product['name'])) . "</name>\n";
 					echo ("    <category>".my_encode( $product['category']) ."</category>\n");
 					echo ("    <vatname>".my_encode($product['tax_description'])."</vatname>\n");
