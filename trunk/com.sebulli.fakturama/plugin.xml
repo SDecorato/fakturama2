@@ -886,6 +886,16 @@
       </wizard>
       <wizard
             category="com.sebulli.fakturama.export.salesandvouchers"
+            class="com.sebulli.fakturama.export.accounts.ExportWizard"
+            icon="icons/16/sales_16.png"
+            id="com.sebulli.fakturama.export.accounts.exportWizard"
+            name="%wizard.export.accounts.name">
+         <description>
+            %wizard.export.accounts.description
+         </description>
+      </wizard>
+      <wizard
+            category="com.sebulli.fakturama.export.salesandvouchers"
             class="com.sebulli.fakturama.export.sales.ExportWizardUnpaid"
             icon="icons/16/error_16.png"
             id="com.sebulli.fakturama.export.sales.exportWizardUnpaid"

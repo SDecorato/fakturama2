@@ -138,7 +138,7 @@ public class Exporter extends OOCalcExporter{
 		// are exported voucher by voucher into the table.
 		for (DataSetVoucher voucher : vouchers) {
 
-			if (voucherShouldBeExported(voucher)) {
+			if (isInTimeIntervall(voucher)) {
 				voucherSummarySetAllVouchers.add(voucher, false);
 			}
 		}
@@ -213,7 +213,7 @@ public class Exporter extends OOCalcExporter{
 		// Export the voucher data
 		for (DataSetVoucher voucher : vouchers) {
 
-			if (voucherShouldBeExported(voucher)) {
+			if (isInTimeIntervall(voucher)) {
 
 				for (int voucherItemIndex = 0; voucherItemIndex < voucher.getItems().getDatasets().size(); voucherItemIndex++) {
 
@@ -341,7 +341,7 @@ public class Exporter extends OOCalcExporter{
 		// Calculate the summary
 		for (DataSetVoucher voucher : vouchers) {
 
-			if (voucherShouldBeExported(voucher)) {
+			if (isInTimeIntervall(voucher)) {
 				voucherSummaryCategories.add(voucher, true);
 			}
 		}
