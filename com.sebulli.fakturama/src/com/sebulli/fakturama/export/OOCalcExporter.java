@@ -30,7 +30,7 @@ import ag.ion.noa.NOAException;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.DataSetDocument;
-import com.sebulli.fakturama.data.DataSetVoucher;
+import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.misc.DocumentType;
@@ -183,14 +183,14 @@ public class OOCalcExporter {
 	}
 
 	/**
-	 * Returns, if a given voucher should be used to export. Only
-	 * vouchers in the specified time interval are exported.
+	 * Returns, if a given data set should be used to export. Only
+	 * entries in the specified time interval are exported.
 	 * 
-	 * @param voucher
-	 *            The voucher that is tested
-	 * @return True, if the voucher should be exported
+	 * @param uds
+	 *            The uni data set that is tested
+	 * @return True, if the uni data set should be exported
 	 */
-	protected boolean voucherShouldBeExported(DataSetVoucher voucher) {
+	protected boolean isInTimeIntervall(UniDataSet uds) {
 
 		// By default, the document will be exported.
 		boolean isInIntervall = true;
@@ -200,24 +200,24 @@ public class OOCalcExporter {
 			return true;
 		}
 		
-		// Get the date of the document and convert it to a
+		// Get the date of the voucher and convert it to a
 		// GregorianCalendar object.
 		GregorianCalendar documentDate = new GregorianCalendar();
 		try {
 			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-			String voucherDateString = "";
+			String dateString = "";
 
 			// Use date  
-			voucherDateString = voucher.getStringValueByKey("date");
+			dateString = uds.getStringValueByKey("date");
 
-			documentDate.setTime(formatter.parse(voucherDateString));
+			documentDate.setTime(formatter.parse(dateString));
 		}
 		catch (ParseException e) {
 			Logger.logError(e, "Error parsing Date");
 		}
 
-		// Test, if the document's date is in the interval
+		// Test, if the voucher's date is in the interval
 		if ((startDate != null) && (endDate != null)) {
 			if (startDate.after(documentDate))
 				isInIntervall = false;
@@ -228,7 +228,7 @@ public class OOCalcExporter {
 		// Return, if voucher is in the interval
 		return isInIntervall;
 	}
-
+	
 	protected boolean createSpreadSheet() {
 		// Get the OpenOffice application
 		final IOfficeApplication officeAplication = OpenOfficeStarter.openOfficeApplication();

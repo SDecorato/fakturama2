@@ -36,7 +36,7 @@ public class DataSetArray<T> {
 	private ArrayList<T> datasets = new ArrayList<T>();
 
 	// Reference to the data base
-	private DataBase db;
+	private DataBase db = null;
 
 	private UniDataSet udsTemplate;
 	private int categoryStringsCode = 0;
@@ -46,6 +46,7 @@ public class DataSetArray<T> {
 	 * Constructor
 	 */
 	public DataSetArray() {
+		this.db = null;
 	}
 
 	/**
