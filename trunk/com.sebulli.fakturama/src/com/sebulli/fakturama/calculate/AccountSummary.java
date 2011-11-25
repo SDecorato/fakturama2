@@ -15,15 +15,21 @@
 package com.sebulli.fakturama.calculate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeSet;
 
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetAccountEntry;
 import com.sebulli.fakturama.data.DataSetArray;
+import com.sebulli.fakturama.data.DataSetDocument;
+import com.sebulli.fakturama.data.DataSetPayment;
 import com.sebulli.fakturama.data.DataSetVoucher;
+import com.sebulli.fakturama.misc.DocumentType;
 
 public class AccountSummary {
 
+	HashMap<String,Integer> paymentIds = new HashMap<String,Integer>();  
+	
 	// Set with all accounts
 	private TreeSet<String> accounts; 
 	
@@ -72,7 +78,7 @@ public class AccountSummary {
 	 * @param sign
 	 * 	The sign (+1 for receipts or for expenditures -1)
 	 */
-	private void collectEntries (String account, DataSetArray<?> vouchers , double sign) {
+	private void collectVouchers (String account, DataSetArray<?> vouchers , double sign) {
 
 		ArrayList<?> entries = vouchers.getActiveDatasets();
 		
@@ -84,6 +90,46 @@ public class AccountSummary {
 				accountEntries.add(accountEntry);
 			}
 			
+		}
+	}
+
+	private void collectDocuments (String account, DataSetArray<DataSetDocument> documents,
+			 DataSetArray<DataSetPayment> payments) {
+
+		paymentIds = new HashMap<String,Integer>();
+		
+		for (DataSetPayment payment : payments.getActiveDatasets()) {
+			paymentIds.put(payment.getStringValueByKey("description"), payment.getIntValueByKey("id"));
+		}
+		
+
+		
+		ArrayList<DataSetDocument> entries = documents.getActiveDatasets();
+		
+		for (DataSetDocument document : entries) {
+			
+			// Only invoiced and credits in the interval
+			// will be exported.
+			boolean isInvoiceOrCredit = ((document.getIntValueByKey("category") == DocumentType.INVOICE.getInt()) || (document.getIntValueByKey("category") == DocumentType.CREDIT
+					.getInt())) ;
+
+			if (isInvoiceOrCredit) {
+				int paymentid = document.getIntValueByKey("paymentid");
+				String paymentdescription = document.getStringValueByKey("paymentdescription");
+
+				if (paymentid < 0) {
+					if (paymentIds.containsKey(paymentdescription))
+						paymentid = paymentIds.get(paymentdescription);
+				}
+				
+				if (paymentid >= 0) {
+					String paymentAccount = payments.getDatasetById(paymentid).getStringValueByKey("category");
+					if (paymentAccount.equalsIgnoreCase(account)) {
+						DataSetAccountEntry accountEntry = new DataSetAccountEntry(document);
+						accountEntries.add(accountEntry);
+					}
+				}
+			}
 		}
 	}
 	
@@ -104,10 +150,12 @@ public class AccountSummary {
 	 */
 	public void collectEntries(String account) {
 		
+		
 		accountEntries = new ArrayList<DataSetAccountEntry>() ;
 
-		collectEntries( account, Data.INSTANCE.getReceiptVouchers(), 1.0);
-		collectEntries( account, Data.INSTANCE.getExpenditureVouchers(), -1.0);
+		collectDocuments( account, Data.INSTANCE.getDocuments(), Data.INSTANCE.getPayments());
+		collectVouchers( account, Data.INSTANCE.getReceiptVouchers(), 1.0);
+		collectVouchers( account, Data.INSTANCE.getExpenditureVouchers(), -1.0);
 	}
 	
 	
