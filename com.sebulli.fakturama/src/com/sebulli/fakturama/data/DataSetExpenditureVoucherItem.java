@@ -22,7 +22,7 @@ public class DataSetExpenditureVoucherItem extends DataSetVoucherItem{
 	public DataSetExpenditureVoucherItem() {
 		super();
 		// Name of the table in the data base
-		sqlTabeName = "ExpenditureVoucherItems";
+		sqlTabeName = "ExpenditureItems";
 	}
 	
 	/**

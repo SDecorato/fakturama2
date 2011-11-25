@@ -41,6 +41,17 @@ public class DataSetAccountEntry extends UniDataSet {
 				voucher.getDoubleValueByKey("paid") * sign);
 	}
 
+	
+	/**
+	 * Constructor Creates a account entry from a document
+	 * 
+	 */
+	public DataSetAccountEntry(DataSetDocument document) {
+		this(document.getStringValueByKey("paydate"), document.getStringValueByKey("addressfirstline"),
+				document.getStringValueByKey("name") ,
+				document.getDoubleValueByKey("payvalue"));
+	}
+
 	/**
 	 * Constructor Creates a account entry
 	 * @param date
@@ -53,7 +64,7 @@ public class DataSetAccountEntry extends UniDataSet {
 		
 		this.hashMap.put("date", new UniData(UniDataType.DATE, date));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
-		this.hashMap.put("text", new UniData(UniDataType.TEXT, name));
+		this.hashMap.put("text", new UniData(UniDataType.TEXT, text));
 		this.hashMap.put("value", new UniData(UniDataType.PRICE, value));
 	}
 }

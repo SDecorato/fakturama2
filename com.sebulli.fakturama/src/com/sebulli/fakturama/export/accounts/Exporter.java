@@ -83,7 +83,7 @@ public class Exporter extends OOCalcExporter{
 
 
 		// Set the title
-		setCellTextInBold(row++, 0, _("Account") + ":" + account);
+		setCellTextInBold(row++, 0, account);
 		row++;
 
 		//T: Used as heading of a table. Keep the word short.
