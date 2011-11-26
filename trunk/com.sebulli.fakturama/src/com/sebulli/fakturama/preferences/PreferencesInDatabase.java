@@ -79,7 +79,6 @@ public class PreferencesInDatabase {
 		WebShopImportPreferencePage.syncWithPreferencesFromDatabase(save);
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(save);
 		ExportPreferencePage.syncWithPreferencesFromDatabase(save);
-		ParcelServicePreferencePage.syncWithPreferencesFromDatabase(save);
 		OptionalItemsPreferencePage.syncWithPreferencesFromDatabase(save);
 		WebShopAuthorizationPreferencePage.syncWithPreferencesFromDatabase(save);
 		BrowserPreferencePage.syncWithPreferencesFromDatabase(save);
