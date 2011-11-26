@@ -20,10 +20,12 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetList;
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.views.datasettable.ViewListTable;
 
 /**
  * This class load the country codes
@@ -49,6 +51,10 @@ public class CountryCodes {
 			
 			// Loads all country codes files
 			loadFromRecouces(Data.INSTANCE.getListEntries());
+			
+			// Refresh the list view 
+			ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
+
 		}
 	}
 	
