@@ -574,11 +574,6 @@
             name="%page.openoffice">
       </page>
       <page
-            class="com.sebulli.fakturama.preferences.ParcelServicePreferencePage"
-            id="com.sebulli.fakturama.exportsales.parcelServicePreferencePage"
-            name="%page.parcelservice">
-      </page>
-      <page
             class="com.sebulli.fakturama.preferences.ExportPreferencePage"
             id="com.sebulli.fakturama.exportsales.exportPreferencePage"
             name="%page.export">
