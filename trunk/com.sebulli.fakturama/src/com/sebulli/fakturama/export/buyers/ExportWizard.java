@@ -56,7 +56,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 	 */
 	@Override
 	public boolean performFinish() {
-		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate(), page1.getUseTimePeriod());
+		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate(), page1.getDoNotUseTimePeriod());
 		return exporter.export();
 	}
 

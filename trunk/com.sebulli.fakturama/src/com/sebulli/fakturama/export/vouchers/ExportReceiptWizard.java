@@ -69,7 +69,7 @@ public class ExportReceiptWizard extends Wizard implements IExportWizard {
 	@Override
 	public boolean performFinish() {
 		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate(),
-				page1.getUseTimePeriod(),
+				page1.getDoNotUseTimePeriod(),
 				page2.getShowVoucherSumColumn(),
 				page2.getShowZeroVatColumn());
 		//T: Title in the exported calc document

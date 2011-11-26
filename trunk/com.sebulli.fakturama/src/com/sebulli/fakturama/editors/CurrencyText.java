@@ -66,7 +66,8 @@ public class CurrencyText {
 					if (e.keyCode == 13) {
 						value.setValue(DataUtils.StringToDouble(text.getText()));
 						update();
-						editor.checkDirty();
+						if (editor != null)
+							editor.checkDirty();
 					}
 				}
 			});
@@ -85,7 +86,8 @@ public class CurrencyText {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				update();
-				editor.checkDirty();
+				if (editor != null)
+					editor.checkDirty();
 			}
 
 		});
@@ -109,7 +111,8 @@ public class CurrencyText {
 			public void focusLost(FocusEvent e) {
 				value.setValue(DataUtils.StringToDouble(text.getText()));
 				update();
-				editor.checkDirty();
+				if (editor != null)
+					editor.checkDirty();
 			}
 
 		});

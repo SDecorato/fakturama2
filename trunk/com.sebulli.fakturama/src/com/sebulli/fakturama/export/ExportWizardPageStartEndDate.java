@@ -118,9 +118,21 @@ public class ExportWizardPageStartEndDate extends WizardPage {
 		dtStartDate = new DateTime(top, SWT.DROP_DOWN);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(dtStartDate);
 
+		dtStartDate.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				setPageComplete(canFlipToNextPage());
+			}
+		});
+		
 		// End date
 		dtEndDate = new DateTime(top, SWT.DROP_DOWN);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(20, 0).applyTo(dtEndDate);
+
+		dtEndDate.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				setPageComplete(canFlipToNextPage());
+			}
+		});
 
 		// Enable or disable the date widgets
 		enableDisableDateWidget();
@@ -141,10 +153,13 @@ public class ExportWizardPageStartEndDate extends WizardPage {
 		GridDataFactory.swtDefaults().applyTo(bDoNotUseTimePeriod);
 		bDoNotUseTimePeriod.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				
 				doNotUseTimePeriod = bDoNotUseTimePeriod.getSelection();
 				enableDisableDateWidget();
+				setPageComplete(canFlipToNextPage());
 			}
 		});
+		
 
 	}
 
@@ -173,8 +188,21 @@ public class ExportWizardPageStartEndDate extends WizardPage {
 	 * @return
 	 * 		TRUE, if all entries should be exported
 	 */
-	public boolean getUseTimePeriod() {
+	public boolean getDoNotUseTimePeriod() {
 		return doNotUseTimePeriod;
+	}
+
+
+	/**
+	 * Flip to the next page only of the start date is before the end date
+	 */
+	@Override
+	public boolean canFlipToNextPage() {
+		
+		if (doNotUseTimePeriod)
+			return true;
+		
+		return (getEndDate().after(getStartDate()));
 	}
 	
 }
