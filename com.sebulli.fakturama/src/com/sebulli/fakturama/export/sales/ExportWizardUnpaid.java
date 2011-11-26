@@ -63,7 +63,7 @@ public class ExportWizardUnpaid extends Wizard implements IExportWizard {
 	@Override
 	public boolean performFinish() {
 		Exporter exporter = new Exporter(page1.getStartDate(), page1.getEndDate(),
-										page1.getUseTimePeriod(),page2.getShowZeroVatColumn(), Exporter.UNPAID);
+										page1.getDoNotUseTimePeriod(),page2.getShowZeroVatColumn(), Exporter.UNPAID);
 		return exporter.export();
 	}
 

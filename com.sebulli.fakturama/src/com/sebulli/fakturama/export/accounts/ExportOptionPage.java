@@ -29,15 +29,15 @@ import org.eclipse.swt.widgets.Label;
 import com.sebulli.fakturama.calculate.AccountSummary;
 
 /**
- * Create the first (and only) page of the sales export wizard. This page is
- * used to select the start and end date.
+ * Create the 2nd page of the account export wizard. This page is
+ * used to select the account.
  * 
  * @author Gerd Bartelt
  */
 public class ExportOptionPage extends WizardPage {
 
 	//Control elements
-	private Combo comboCategory;
+	private Combo comboAccount;
 	private ExportOptionPage me = null;
 	
 	/**
@@ -73,15 +73,27 @@ public class ExportOptionPage extends WizardPage {
 		labelDescription.setText(_("Select an account to export")+":");
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).indent(0, 10).applyTo(labelDescription);
 
-		comboCategory = new Combo(top, SWT.BORDER);
-		comboCategory.setToolTipText(labelDescription.getToolTipText());
-		comboCategory.setText("");
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboCategory);
-		comboCategory.addSelectionListener(new SelectionAdapter() {
+		comboAccount = new Combo(top, SWT.BORDER);
+		comboAccount.setToolTipText(labelDescription.getToolTipText());
+		comboAccount.setText("");
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(comboAccount);
+		comboAccount.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				me.setPageComplete(me.isPageComplete());
+				boolean complete = me.canFlipToNextPage();
+				if (complete) {
+					if (me.getNextPage() instanceof AccountSettingsPage) {
+						
+						// Get the next page, the account setting page
+						AccountSettingsPage asp = (AccountSettingsPage)(me.getNextPage());
+						
+						// Set account start date and value
+						asp.setAccountStartValues(getSelectedAccount());
+					}
+				}
+					
+				me.setPageComplete(complete);
 			}
 		});
 		
@@ -92,7 +104,7 @@ public class ExportOptionPage extends WizardPage {
 		// Add all account entries to the combo
 		for (String account : accountSummary.getAccounts()) {
 			if (!account.isEmpty())
-				comboCategory.add(account);
+				comboAccount.add(account);
 		}
 	}
 
@@ -103,19 +115,23 @@ public class ExportOptionPage extends WizardPage {
 	 * 		The selected account
 	 */
 	public String getSelectedAccount() {
-		return comboCategory.getText();
+		return comboAccount.getText();
 	}
 
 	@Override
-	public boolean isPageComplete() {
+	//public boolean isPageComplete() {
+	public boolean canFlipToNextPage() {
+		
 		//return super.isPageComplete();
-		if (comboCategory == null)
+		if (comboAccount == null)
 			return false;
 		
-		if (comboCategory.getItemCount() == 0)
+		if (comboAccount.getItemCount() == 0)
 			return true;
 
-		return !comboCategory.getText().isEmpty();
+		// Do not flip to the next page, if no account is selected
+		return !comboAccount.getText().isEmpty();
 	}
+	
 	
 }

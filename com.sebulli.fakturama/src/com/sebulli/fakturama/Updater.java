@@ -42,7 +42,13 @@ public class Updater {
 		// Get the actual version from the bundle
 		Version plugInVersion = new Version(Platform.getBundle("com.sebulli.fakturama").getHeaders().get("Bundle-Version").toString());
 		// Get the last version from the data base
-		Version dataBaseVersion = new Version(Data.INSTANCE.getProperty("bundleversion"));
+		String dataBaseVersionString = Data.INSTANCE.getProperty("bundleversion");
+		
+		// if there is no version string, ist must be version 1.4.1 or earlier
+		if (dataBaseVersionString.isEmpty())
+			dataBaseVersionString = "1.4.1";
+
+		Version dataBaseVersion = new Version(dataBaseVersionString);
 		
 		// The plugin version is newer
 		if (plugInVersion.compareTo(dataBaseVersion) >= 1) 
