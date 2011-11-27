@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.TemplateFilename;
 import com.sebulli.fakturama.Workspace;
+import com.sebulli.fakturama.office.DocumentFilename;
 
 /**
  * Loads the parcel service configurations files into properties lists.  
@@ -66,7 +66,7 @@ public class ParcelServiceManager {
 			for (int i = 0; i < children.length; i++) {
 				
 				// Get filename of file or directory
-				TemplateFilename templateFilename = new TemplateFilename(templatePath, children[i]);
+				DocumentFilename templateFilename = new DocumentFilename(templatePath, children[i]);
 				
 				// It's used as a parcel service file, if it ends with a *.txt
 				if (templateFilename.getExtension().equalsIgnoreCase(".txt")) {
