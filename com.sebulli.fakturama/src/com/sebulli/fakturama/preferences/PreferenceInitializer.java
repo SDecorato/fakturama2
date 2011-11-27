@@ -48,7 +48,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		GeneralPreferencePage.setInitValues(node);
 		NumberRangeValuesPreferencePage.setInitValues(node);
 		NumberRangeFormatPreferencePage.setInitValues(node);
-		OpenOfficePreferencePage.setInitValues(node);
+		OfficePreferencePage.setInitValues(node);
 		ProductPreferencePage.setInitValues(node);
 		WebShopImportPreferencePage.setInitValues(node);
 		YourCompanyPreferencePage.setInitValues(node);

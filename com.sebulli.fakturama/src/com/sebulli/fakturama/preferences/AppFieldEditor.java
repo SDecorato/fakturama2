@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 
 import com.sebulli.fakturama.OSDependent;
-import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
+import com.sebulli.fakturama.office.OfficeStarter;
 
 /**
  * A field editor for a file path type preference. A standard file dialog
@@ -111,7 +111,7 @@ public class AppFieldEditor extends StringButtonFieldEditor {
 
 		// Check whether it is a valid application
 		if (path.length() != 0) {
-			if (!OpenOfficeStarter.isValidPath(path)) {
+			if (!OfficeStarter.isValidPath(path)) {
 				if (OSDependent.isOOApp())
 					//T: Error message if the selected file is not a valid OpenOffice app
 					msg = _("Not a valid OpenOffice App");

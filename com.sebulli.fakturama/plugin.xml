@@ -569,9 +569,9 @@
             name="%page.optionalitems">
       </page>
       <page
-            class="com.sebulli.fakturama.preferences.OpenOfficePreferencePage"
-            id="com.sebulli.fakturama.preferences.openOfficePreferencePage"
-            name="%page.openoffice">
+            class="com.sebulli.fakturama.preferences.OfficePreferencePage"
+            id="com.sebulli.fakturama.preferences.officePreferencePage"
+            name="%page.office">
       </page>
       <page
             class="com.sebulli.fakturama.preferences.ExportPreferencePage"
