@@ -11,13 +11,19 @@
  * Contributors:
  *     Gerd Bartelt - initial API and implementation
  */
+
 package com.sebulli.fakturama.misc;
+
+import static com.sebulli.fakturama.Translate._;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+
+import org.eclipse.jface.action.StatusLineManager;
+import org.eclipse.swt.widgets.Display;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
@@ -36,24 +42,25 @@ import com.sebulli.fakturama.views.datasettable.ViewListTable;
 public class CountryCodes {
 
 	
+	static int i;
+	
 	/**
 	 * Updates the country codes list
 	 * 
 	 * @param version
 	 * 	The new Version
 	 */
-	public static void update(String version) {
+	public static void update(String version, final StatusLineManager slm) {
 		if (version.equals("1.5")) {
+		
+			// Rename countrycodes to countrycodes_2
 			for (DataSetList list: Data.INSTANCE.getListEntries().getActiveDatasets()) {
 				if (list.getStringValueByKey("category").equals("countrycodes"))
 					list.setStringValueByKey("category", "countrycodes_2");
 			}
 			
-			// Loads all country codes files
-			loadFromRecouces(Data.INSTANCE.getListEntries());
-			
-			// Refresh the list view 
-			ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
+			// Load all country codes
+			loadFromRecouces(Data.INSTANCE.getListEntries(), slm);
 
 		}
 	}
@@ -61,16 +68,30 @@ public class CountryCodes {
 	/**
 	 * Loads all country codes files
 	 */
-	public static void loadFromRecouces(DataSetArray<DataSetList> list) {
-		loadListFromRecouces( "countrycodes_2" , Activator.getDefault().getBundle().getResource("ISO3166_alpha2.txt"), list);
-		loadListFromRecouces( "countrycodes_3" , Activator.getDefault().getBundle().getResource("ISO3166_alpha3.txt"), list);
+	public static void loadFromRecouces(final DataSetArray<DataSetList> list, final StatusLineManager slm) {
+
+		// Loads all country codes files
+		loadListFromRecouces( "countrycodes_2" , Activator.getDefault().getBundle().getResource("ISO3166_alpha2.txt"), list, slm);
+		loadListFromRecouces( "countrycodes_3" , Activator.getDefault().getBundle().getResource("ISO3166_alpha3.txt"), list, slm);
+		
+		Display.getDefault().syncExec(new Runnable() {
+		    public void run() {
+				// Refresh the list view 
+				ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
+		    }
+		});
+
 	}
 	
 	
 	/**
 	 * Loads the country codes from resources
 	 */
-	private static void loadListFromRecouces(String category, URL url, DataSetArray<DataSetList> list) {
+	private static void loadListFromRecouces(String category, URL url, DataSetArray<DataSetList> list, final StatusLineManager slm) {
+
+		
+		i = 0;
+
 		try {
 			// Open the resource message po file.
 			if (url == null)
@@ -85,6 +106,16 @@ public class CountryCodes {
 	        while ((strLine = br.readLine()) != null)  {
 	        	strLine = strLine.trim();
 	        	
+				i++;
+				if (slm != null) {
+					Display.getDefault().syncExec(new Runnable() {
+					    public void run() {
+							//T: Message in the status bar
+					    	slm.setMessage(_("Importing country code " + i));
+					    }
+					});
+				}
+
 	        	// Ignore empty and comments
 	        	if (!strLine.isEmpty() && !strLine.startsWith("#")) {
 	        		

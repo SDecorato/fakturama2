@@ -150,7 +150,7 @@ public enum Data {
 		setProperty("standardpayment", "0");
 		
 		// Load the default country codes
-		CountryCodes.loadFromRecouces(list);
+		CountryCodes.loadFromRecouces(list, null);
 		
 	}
 
