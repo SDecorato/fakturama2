@@ -50,7 +50,6 @@ import ag.ion.noa.frame.IDispatchDelegate;
 import ag.ion.noa.graphic.GraphicInfo;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.TemplateFilename;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
@@ -1063,7 +1062,7 @@ public class OfficeDocument extends Object {
 				FileOrganizer.ODT, document));
 		
 		if (oODocumentFile.exists() && document.getBooleanValueByKey("printed") &&
-				TemplateFilename.filesAreEqual(document.getStringValueByKey("printedtemplate"),template)) {
+				DocumentFilename.filesAreEqual(document.getStringValueByKey("printedtemplate"),template)) {
 			return true;
 		}
 		

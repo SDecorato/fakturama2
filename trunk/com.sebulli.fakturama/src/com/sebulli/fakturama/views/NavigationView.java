@@ -115,6 +115,7 @@ public class NavigationView extends ViewPart implements ICommandIds {
 		bar5.addAction(new OpenParcelServiceAction());
 		bar5.addAction(new OpenBrowserEditorAction(true));
 		bar5.addAction(new OpenCalculatorAction());
+//		bar5.addAction(new ReorganizeDocumentsAction());
 	}
 
 	/**

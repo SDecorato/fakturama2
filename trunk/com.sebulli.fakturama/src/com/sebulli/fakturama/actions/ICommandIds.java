@@ -74,4 +74,7 @@ public interface ICommandIds {
 	public static final String CMD_MOVE_UP = "com.sebulli.fakturama.actions.moveEntryUp";
 	public static final String CMD_MOVE_DOWN = "com.sebulli.fakturama.actions.moveEntryDown";
 	
+	public static final String CMD_REOGANIZE_DOCUMENTS = "com.sebulli.fakturama.actions.reorganizeDocuments";
+	
+	
 }

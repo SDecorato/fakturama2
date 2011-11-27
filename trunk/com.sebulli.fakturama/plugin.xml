@@ -431,6 +431,11 @@
             id="com.sebulli.fakturama.actions.install"
             name="Install">
       </command>
+      <command
+            description="Reoganize all documents"
+            id="com.sebulli.fakturama.actions.reorganizeDocuments"
+            name="Reorganize documents">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">

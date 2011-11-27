@@ -30,12 +30,12 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
-import com.sebulli.fakturama.TemplateFilename;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
+import com.sebulli.fakturama.office.DocumentFilename;
 import com.sebulli.fakturama.office.OfficeDocument;
 import com.sebulli.fakturama.office.OfficeManager;
 
@@ -47,8 +47,8 @@ import com.sebulli.fakturama.office.OfficeManager;
  */
 public class CreateOODocumentAction extends Action {
 
-	private ArrayList<TemplateFilename> templates = new ArrayList<TemplateFilename>();
-	private TemplateFilename template;
+	private ArrayList<DocumentFilename> templates = new ArrayList<DocumentFilename>();
+	private DocumentFilename template;
 	private DocumentEditor documentEditor;
 
 	//T: Text of the action
@@ -93,7 +93,7 @@ public class CreateOODocumentAction extends Action {
 		if (children != null) {
 			for (int i = 0; i < children.length; i++) {
 				// Get filename of file or directory
-				TemplateFilename oOTemplateFilename = new TemplateFilename(templatePath, children[i]);
+				DocumentFilename oOTemplateFilename = new DocumentFilename(templatePath, children[i]);
 				if (oOTemplateFilename.getExtension().equalsIgnoreCase(".ott"))
 					templates.add(oOTemplateFilename);
 			}
@@ -127,8 +127,8 @@ public class CreateOODocumentAction extends Action {
 					return;
 
 				String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-				String templatePath1 = workspace + TemplateFilename.getRelativeFolder(documentEditor.getDocumentType());
-				String templatePath2 = workspace + TemplateFilename.getLocalizedRelativeFolder(documentEditor.getDocumentType());
+				String templatePath1 = workspace + DocumentFilename.getRelativeFolder(documentEditor.getDocumentType());
+				String templatePath2 = workspace + DocumentFilename.getLocalizedRelativeFolder(documentEditor.getDocumentType());
 
 				// Clear the list before adding new entries
 				templates.clear();

@@ -62,6 +62,7 @@ import com.sebulli.fakturama.actions.OpenReceiptVouchersAction;
 import com.sebulli.fakturama.actions.OpenShippingsAction;
 import com.sebulli.fakturama.actions.OpenTextsAction;
 import com.sebulli.fakturama.actions.OpenVatsAction;
+import com.sebulli.fakturama.actions.ReorganizeDocumentsAction;
 import com.sebulli.fakturama.actions.SelectWorkspaceAction;
 import com.sebulli.fakturama.actions.UpdateAction;
 import com.sebulli.fakturama.actions.WebShopImportAction;
@@ -165,6 +166,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private InstallAction installAction;
 	private MoveEntryUpAction moveEntryUpAction;
 	private MoveEntryDownAction moveEntryDownAction;
+	private ReorganizeDocumentsAction reorganizeDocumentsAction;
 
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
@@ -418,6 +420,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		markDocumentAsUnpaidAction = new MarkDocumentAsPaidAction(false);
 		register(markDocumentAsUnpaidAction);
 		
+		reorganizeDocumentsAction = new ReorganizeDocumentsAction();
+		register(reorganizeDocumentsAction);
 		
 		updateAction = new UpdateAction();
 		register(updateAction);
@@ -448,6 +452,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		//T: Title of the menus in the main menu
 		MenuManager newMenu = new MenuManager(_("New"), "com.sebulli.faktura.menu.create");
 		//T: Title of the menus in the main menu
+		MenuManager extraMenu = new MenuManager(_("Extra"), "com.sebulli.faktura.menu.extra");
+		//T: Title of the menus in the main menu
 		MenuManager windowMenu = new MenuManager(_("Window"), IWorkbenchActionConstants.M_WINDOW);
 		//T: Title of the menus in the main menu
 		MenuManager helpMenu = new MenuManager(_("Help"), IWorkbenchActionConstants.M_HELP);
@@ -463,6 +469,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		menuBar.add(dataMenu);
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuBar.add(newMenu);
+		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+		menuBar.add(extraMenu);
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuBar.add(windowMenu);
 		menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -544,6 +552,9 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newMenu.add(new Separator());
 		newMenu.add(openParcelServiceAction);
 		
+		// extra menu
+		extraMenu.add(reorganizeDocumentsAction);
+
 		// window menu
 		windowMenu.add(resetViewAction);
 		windowMenu.add(new Separator());

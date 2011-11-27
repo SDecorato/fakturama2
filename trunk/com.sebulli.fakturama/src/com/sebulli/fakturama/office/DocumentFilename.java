@@ -12,8 +12,9 @@
  *     Gerd Bartelt - initial API and implementation
  */
 
-package com.sebulli.fakturama;
+package com.sebulli.fakturama.office;
 
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.misc.DocumentType;
 
 /**
@@ -22,7 +23,7 @@ import com.sebulli.fakturama.misc.DocumentType;
  * 
  * @author Gerd Bartelt
  */
-public class TemplateFilename {
+public class DocumentFilename {
 
 	// Path, name and extension of the filename
 	private String path;
@@ -37,7 +38,7 @@ public class TemplateFilename {
 	 * @param filename
 	 *            The file name with extension
 	 */
-	public TemplateFilename(String path, String filename) {
+	public DocumentFilename(String path, String filename) {
 		this.path = path;
 		int pPos = filename.lastIndexOf(".");
 		if (pPos > 0) {
@@ -169,5 +170,6 @@ public class TemplateFilename {
 		
 		return false;
 	}
+	
 	
 }
