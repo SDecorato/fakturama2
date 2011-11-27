@@ -14,8 +14,6 @@
 
 package com.sebulli.fakturama.openoffice;
 
-import static com.sebulli.fakturama.Translate._;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,6 +50,7 @@ import ag.ion.noa.frame.IDispatchDelegate;
 import ag.ion.noa.graphic.GraphicInfo;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.TemplateFilename;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
@@ -62,7 +61,6 @@ import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.data.DataSetItem;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
-import com.sebulli.fakturama.misc.DocumentType;
 import com.sebulli.fakturama.misc.Placeholders;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 import com.sun.star.awt.XTopWindow;
@@ -80,16 +78,6 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class OODocument extends Object {
 
-	
-	final static boolean WITH_FILENAME = true;
-	final static boolean NO_FILENAME = false;
-	final static boolean WITH_EXTENSION = true;
-	final static boolean NO_EXTENSION = false;
-	final static boolean PDF = true;
-	final static boolean NO_PDF = false;
-	
-	
-	
 	// The UniDataSet document, that is used to fill the OpenOffice document 
 	private DataSetDocument document;
 
@@ -152,7 +140,11 @@ public class OODocument extends Object {
 			// generate one by the data, but open the existing one.
 			if (testOpenAsExisting(document, template) && !forceRecreation) {
 				openExisting = true;
-				template = getDocumentPath(WITH_FILENAME, WITH_EXTENSION, NO_PDF, document);
+				template = FileOrganizer.getDocumentPath(
+						FileOrganizer.WITH_FILENAME,
+						FileOrganizer.WITH_EXTENSION,
+						FileOrganizer.ODT,
+						document);
 			}
 			
 			// Get the template file (*ott)
@@ -439,45 +431,6 @@ public class OODocument extends Object {
 		}
 	}
 
-	/**
-	 * Returns the filename (with path) of the OpenOffice document
-	 * 
-	 * @param inclFilename
-	 *            True, if also the filename should be used
-	 * @param inclExtension
-	 *            True, if also the extension should be used
-	 * @param PDF
-	 *            True, if it's the PDF filename
-	 * @return The filename
-	 */
-	public static String getDocumentPath(boolean inclFilename, boolean inclExtension, boolean isPDF, DataSetDocument document) {
-		String savePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-
-		//T: Subdirectory of the OpenOffice documents
-		savePath += _("/Documents");
-
-		if (isPDF)
-			savePath += "/PDF/";
-		else
-			savePath += "/OpenOffice/";
-
-		savePath += DocumentType.getPluralString(document.getIntValueByKey("category")) + "/";
-
-		// Use the document name as filename
-		if (inclFilename)
-			savePath += document.getStringValueByKey("name");
-
-		// Use the document name as filename
-		if (inclExtension) {
-			if (isPDF)
-				savePath += ".pdf";
-			else
-				savePath += ".odt";
-		}
-
-		return savePath;
-
-	}
 
 	/**
 	 * Save an OpenOffice document as *.odt and as *.pdf
@@ -492,7 +445,12 @@ public class OODocument extends Object {
 		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("PDF")) {
 
 			// Create the directories, if they don't exist.
-			File directory = new File(getDocumentPath(NO_FILENAME, NO_EXTENSION, PDF, document));
+			File directory = new File(FileOrganizer.getDocumentPath(
+					FileOrganizer.NO_FILENAME,
+					FileOrganizer.NO_EXTENSION,
+					FileOrganizer.PDF,
+					document));
+			
 			if (!directory.exists())
 				directory.mkdirs();
 
@@ -507,7 +465,12 @@ public class OODocument extends Object {
 
 			// Save the document
 			try {
-				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(WITH_FILENAME, WITH_EXTENSION, PDF, document)));
+				FileOutputStream fs = new FileOutputStream(new File(FileOrganizer.getDocumentPath(
+						FileOrganizer.WITH_FILENAME,
+						FileOrganizer.WITH_EXTENSION,
+						FileOrganizer.PDF,
+						document)));
+				
 				textDocument.getPersistenceService().export(fs, new PDFFilter());
 
 				wasSaved = true;
@@ -525,7 +488,12 @@ public class OODocument extends Object {
 		if (Activator.getDefault().getPreferenceStore().getString("OPENOFFICE_ODT_PDF").contains("ODT")) {
 
 			// Create the directories, if they don't exist.
-			File directory = new File(getDocumentPath(NO_FILENAME, NO_EXTENSION, NO_PDF, document));
+			File directory = new File(FileOrganizer.getDocumentPath(
+					FileOrganizer.NO_FILENAME,
+					FileOrganizer.NO_EXTENSION,
+					FileOrganizer.ODT,
+					document));
+			
 			if (!directory.exists())
 				directory.mkdirs();
 
@@ -540,7 +508,11 @@ public class OODocument extends Object {
 
 			// Save the document
 			try {
-				FileOutputStream fs = new FileOutputStream(new File(getDocumentPath(WITH_FILENAME, WITH_EXTENSION, NO_PDF, document)));
+				FileOutputStream fs = new FileOutputStream(new File(FileOrganizer.getDocumentPath(
+						FileOrganizer.WITH_FILENAME,
+						FileOrganizer.WITH_EXTENSION,
+						FileOrganizer.ODT,
+						document)));
 				textDocument.getPersistenceService().storeAs(fs);
 				
 
@@ -1082,13 +1054,16 @@ public class OODocument extends Object {
 		placeholder.getTextRange().setText(properties.getProperty(placeholderDisplayText));
 	}
 	
-	static public boolean testOpenAsExisting(DataSetDocument document,String template) {
+	static public boolean testOpenAsExisting(DataSetDocument document, String template) {
 		// Check, whether there is already a document then do not 
 		// generate one by the data, but open the existing one.
-		File oODocumentFile = new File(getDocumentPath(WITH_FILENAME, WITH_EXTENSION, NO_PDF, document));
+		File oODocumentFile = new File(FileOrganizer.getDocumentPath(
+				FileOrganizer.WITH_FILENAME,
+				FileOrganizer.WITH_EXTENSION, 
+				FileOrganizer.ODT, document));
 		
 		if (oODocumentFile.exists() && document.getBooleanValueByKey("printed") &&
-				document.getStringValueByKey("printedtemplate").equals(template)) {
+				TemplateFilename.filesAreEqual(document.getStringValueByKey("printedtemplate"),template)) {
 			return true;
 		}
 		

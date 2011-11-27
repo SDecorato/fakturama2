@@ -14,6 +14,8 @@
 
 package com.sebulli.fakturama;
 
+import com.sebulli.fakturama.misc.DocumentType;
+
 /**
  * This class provides functionality to get the path, the filename and the
  * filename extension of an OpenOffice document template file.
@@ -89,4 +91,83 @@ public class TemplateFilename {
 		return path + name + extension;
 	}
 
+	/**
+	 * Get the relative path of the template
+	 * 
+	 * @param doctype
+	 * 		The doctype defines the path
+	 * @return
+	 * 		The path as string
+	 */
+	public static String getRelativeFolder(DocumentType doctype) {
+		return "/Templates/" + doctype.getTypeAsString() + "/";
+	}
+	
+	/**
+	 * Get the localized relative path of the template
+	 * 
+	 * @param doctype
+	 * 		The doctype defines the path
+	 * @return
+	 * 		The path as string
+	 */
+	public static String getLocalizedRelativeFolder(DocumentType doctype) {
+		return "/" + Workspace.INSTANCE.getTemplateFolderName() + "/" + doctype.getString() + "/";
+		
+	}
+	
+	/**
+	 * Check, if 2 filenames are equal.
+	 * Test only the relative path and use the parameter "folder" to
+	 * separate the relative path from the absolute one.
+	 *  
+	 * @param fileName1
+	 * @param fileName2
+	 * @param folder
+	 * 		The folder name to separate the relative path
+	 * @return
+	 * 		True, if both are equal
+	 */
+	public static boolean filesAreEqual(String fileName1, String fileName2, String folder) {
+		
+		int pos;
+		pos = fileName1.indexOf(folder);
+		if (pos >= 0)
+			fileName1 = fileName1.substring(pos);
+
+		pos = fileName2.indexOf(folder);
+		if (pos >= 0)
+			fileName2 = fileName2.substring(pos);
+
+		
+		return fileName1.equals(fileName2);
+	}
+	
+	/**
+	 * Test, if 2 template filenames are equal.
+	 * The absolute path is ignored
+	 * 
+	 * @param fileName1
+	 * @param fileName2
+	 * 
+	 * @return
+	 * 		True, if both filenames are equal
+	 */
+	public static boolean filesAreEqual(String fileName1, String fileName2) {
+		
+		// Test, if also the absolute path is equal
+		if (fileName1.equals(fileName2))
+			return true;
+		
+		// If not, use the unlocalized folder names
+		if (filesAreEqual(fileName1,fileName2, "/Templates/"))
+			return true;
+
+		// Use the localized folder names
+		if (filesAreEqual(fileName1,fileName2, "/" + Workspace.INSTANCE.getTemplateFolderName() + "/"))
+			return true;
+		
+		return false;
+	}
+	
 }

@@ -14,11 +14,19 @@
 
 package com.sebulli.fakturama;
 
+import static com.sebulli.fakturama.Translate._;
+
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.action.StatusLineManager;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.osgi.framework.Version;
 
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.misc.CountryCodes;
+import com.sebulli.fakturama.openoffice.FileOrganizer;
 
 /**
  * Does some update jobs
@@ -26,6 +34,7 @@ import com.sebulli.fakturama.misc.CountryCodes;
  * @author Gerd Bartelt
  *
  */
+@SuppressWarnings("restriction")
 public class Updater {
 
 	
@@ -53,12 +62,33 @@ public class Updater {
 		// The plugin version is newer
 		if (plugInVersion.compareTo(dataBaseVersion) >= 1) 
 		{
-			// Load the country codes
-			CountryCodes.update("1.5");
 			// Update the entry in the data base
 			Data.INSTANCE.setProperty("bundleversion", plugInVersion.toString());
+
+			IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+			final StatusLineManager slm = ((WorkbenchWindow)workbenchWindow).getStatusLineManager();
+
+			
+			new Thread(new Runnable() {
+				public void run() {
+					
+					// Load the country codes
+					CountryCodes.update("1.5", slm);
+
+					// Update the documents
+					FileOrganizer.update("1.5", slm);
+					
+					Display.getDefault().syncExec(new Runnable() {
+					    public void run() {
+					    	//T: Clear the status bar
+					    	slm.setMessage(_("done !"));
+					    }
+					});
+
+				}
+			}).start();
+			
 		}
 	}
-	
 	
 }

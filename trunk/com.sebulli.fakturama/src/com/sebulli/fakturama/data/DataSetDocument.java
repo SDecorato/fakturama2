@@ -170,7 +170,7 @@ public class DataSetDocument extends UniDataSet {
 			Double shippingvat, String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid,
 			String webshopdate, String orderdate, boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel,
 			int invoiceid, String paymentdescription, String shippingdescription,
-			String message2, String message3) {
+			String message2, String message3 ) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("name", new UniData(UniDataType.STRING, name));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
@@ -215,6 +215,8 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("printedtemplate", new UniData(UniDataType.STRING, ""));
 		this.hashMap.put("message2", new UniData(UniDataType.TEXT, message2));
 		this.hashMap.put("message3", new UniData(UniDataType.TEXT, message3));
+		this.hashMap.put("odtpath", new UniData(UniDataType.STRING, ""));
+		this.hashMap.put("pdfpath", new UniData(UniDataType.STRING, ""));
 
 		// Name of the table in the data base
 		sqlTabeName = "Documents";
