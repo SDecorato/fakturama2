@@ -34,7 +34,7 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 import com.sebulli.fakturama.backup.BackupManager;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.editors.ParcelServiceBrowserEditor;
-import com.sebulli.fakturama.openoffice.OOManager;
+import com.sebulli.fakturama.office.OfficeManager;
 import com.sebulli.fakturama.preferences.PreferencesInDatabase;
 
 /**
@@ -174,7 +174,7 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 	public void postWindowClose() {
 
 		//Closes all OpenOffice documents 
-		OOManager.INSTANCE.closeAll();
+		OfficeManager.INSTANCE.closeAll();
 
 		PreferencesInDatabase.savePreferencesInDatabase();
 		if (Data.INSTANCE != null)

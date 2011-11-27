@@ -34,7 +34,7 @@ import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.misc.DocumentType;
-import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
+import com.sebulli.fakturama.office.OfficeStarter;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.lang.IndexOutOfBoundsException;
 import com.sun.star.lang.WrappedTargetException;
@@ -231,7 +231,7 @@ public class OOCalcExporter {
 	
 	protected boolean createSpreadSheet() {
 		// Get the OpenOffice application
-		final IOfficeApplication officeAplication = OpenOfficeStarter.openOfficeApplication();
+		final IOfficeApplication officeAplication = OfficeStarter.openOfficeApplication();
 		if (officeAplication == null)
 			return false;
 

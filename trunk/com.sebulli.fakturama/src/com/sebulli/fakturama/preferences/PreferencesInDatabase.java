@@ -74,7 +74,7 @@ public class PreferencesInDatabase {
 		GeneralPreferencePage.syncWithPreferencesFromDatabase(save);
 		NumberRangeFormatPreferencePage.syncWithPreferencesFromDatabase(save);
 		NumberRangeValuesPreferencePage.syncWithPreferencesFromDatabase(save);
-		OpenOfficePreferencePage.syncWithPreferencesFromDatabase(save);
+		OfficePreferencePage.syncWithPreferencesFromDatabase(save);
 		ProductPreferencePage.syncWithPreferencesFromDatabase(save);
 		WebShopImportPreferencePage.syncWithPreferencesFromDatabase(save);
 		YourCompanyPreferencePage.syncWithPreferencesFromDatabase(save);

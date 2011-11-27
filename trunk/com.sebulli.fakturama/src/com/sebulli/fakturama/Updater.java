@@ -26,7 +26,7 @@ import org.osgi.framework.Version;
 
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.misc.CountryCodes;
-import com.sebulli.fakturama.openoffice.FileOrganizer;
+import com.sebulli.fakturama.office.FileOrganizer;
 
 /**
  * Does some update jobs

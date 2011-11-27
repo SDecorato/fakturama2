@@ -36,8 +36,8 @@ import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.editors.DocumentEditor;
 import com.sebulli.fakturama.editors.Editor;
-import com.sebulli.fakturama.openoffice.OODocument;
-import com.sebulli.fakturama.openoffice.OOManager;
+import com.sebulli.fakturama.office.OfficeDocument;
+import com.sebulli.fakturama.office.OfficeManager;
 
 /**
  * This action starts the OpenOffice exporter. If there is more than one
@@ -185,7 +185,7 @@ public class CreateOODocumentAction extends Action {
 	private void openOODocument(final DataSetDocument document, final String template, Shell shell) {
 
 		
-		if (OODocument.testOpenAsExisting(document, template)) {
+		if (OfficeDocument.testOpenAsExisting(document, template)) {
 			// Show an information dialog, if no template was found
 			int answer = Workspace.showMessageBox(SWT.ICON_QUESTION | SWT.CANCEL | SWT.YES | SWT.NO,
 			//T: Title of the dialog 
@@ -195,12 +195,12 @@ public class CreateOODocumentAction extends Action {
 			);
 
 			if (answer == SWT.YES)
-				OOManager.INSTANCE.openOODocument(document, template, false);
+				OfficeManager.INSTANCE.openOODocument(document, template, false);
 			if (answer == SWT.NO)
-				OOManager.INSTANCE.openOODocument(document, template, true);
+				OfficeManager.INSTANCE.openOODocument(document, template, true);
 		}
 		else
-			OOManager.INSTANCE.openOODocument(document, template, false);
+			OfficeManager.INSTANCE.openOODocument(document, template, false);
 	
 	}
 }

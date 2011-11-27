@@ -29,19 +29,19 @@ import org.eclipse.ui.PlatformUI;
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
 import com.sebulli.fakturama.OSDependent;
-import com.sebulli.fakturama.openoffice.OpenOfficeStarter;
+import com.sebulli.fakturama.office.OfficeStarter;
 
 /**
  * Preference page for the OpenOffice settings
  * 
  * @author Gerd Bartelt
  */
-public class OpenOfficePreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class OfficePreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
 	/**
 	 * Constructor
 	 */
-	public OpenOfficePreferencePage() {
+	public OfficePreferencePage() {
 		super(GRID);
 	}
 
@@ -118,7 +118,7 @@ public class OpenOfficePreferencePage extends FieldEditorPreferencePage implemen
 
 		if (!write) {
 			if (oOHome.isEmpty()){
-				defaultOOHome = OpenOfficeStarter.getHome();
+				defaultOOHome = OfficeStarter.getHome();
 				if (defaultOOHome.isEmpty())
 					defaultOOHome = OSDependent.getOODefaultPath();
 			}
