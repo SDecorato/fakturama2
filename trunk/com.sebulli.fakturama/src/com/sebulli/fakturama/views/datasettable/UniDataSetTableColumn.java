@@ -54,6 +54,8 @@ public class UniDataSetTableColumn {
 	// All used images are loaded by default and when the table row is
 	// displayed. This makes the loading of the table faster.
 	private static final Image CHECKED = Activator.getImageDescriptor("icons/16/checked_16.png").createImage();
+	private static final Image PRINTER = Activator.getImageDescriptor("icons/16/printer_16.png").createImage();
+	private static final Image PRINTERGREY = Activator.getImageDescriptor("icons/16/printer_grey_16.png").createImage();
 	private static final Image CHECKED48 = Activator.getImageDescriptor("icons/48/checked_48x64.png").createImage();
 	private static final Image OFFER = Activator.getImageDescriptor("icons/16/offer_16.png").createImage();
 	private static final Image CONFIRMATION = Activator.getImageDescriptor("icons/16/confirmation_16.png").createImage();
@@ -332,7 +334,10 @@ public class UniDataSetTableColumn {
 				else if (dataKey.equals("$printed")) {
 
 					if (uds.getBooleanValueByKey("printed")) {
-						cell.setImage(CHECKED);
+						cell.setImage(PRINTER);
+					}
+					else if (!uds.getStringValueByKey("odtpath").isEmpty() || !uds.getStringValueByKey("pdfpath").isEmpty()) {
+						cell.setImage(PRINTERGREY);
 					}
 				}
 				
