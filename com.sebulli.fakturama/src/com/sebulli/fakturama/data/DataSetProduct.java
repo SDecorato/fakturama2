@@ -162,9 +162,9 @@ public class DataSetProduct extends UniDataSet {
 			if (webshopid == this.getIntValueByKey("webshopid"))
 				return true;
 		}
-		if (!uds.getStringValueByKey("itemnr").equals(this.getStringValueByKey("itemnr")))
+		if (!uds.getStringValueByKey("itemnr").equalsIgnoreCase(this.getStringValueByKey("itemnr")))
 			return false;
-		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
+		if (!uds.getStringValueByKey("name").equalsIgnoreCase(this.getStringValueByKey("name")))
 			return false;
 
 		return true;

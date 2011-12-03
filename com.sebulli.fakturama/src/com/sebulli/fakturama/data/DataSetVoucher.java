@@ -221,15 +221,15 @@ public abstract class DataSetVoucher extends UniDataSet {
 	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
-		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
+		if (!uds.getStringValueByKey("name").equalsIgnoreCase(this.getStringValueByKey("name")))
 			return false;
-		if (!uds.getStringValueByKey("category").equals(this.getStringValueByKey("category")))
+		if (!uds.getStringValueByKey("category").equalsIgnoreCase(this.getStringValueByKey("category")))
 			return false;
 		if (!uds.getStringValueByKey("date").equals(this.getStringValueByKey("date")))
 			return false;
-		if (!uds.getStringValueByKey("nr").equals(this.getStringValueByKey("nr")))
+		if (!uds.getStringValueByKey("nr").equalsIgnoreCase(this.getStringValueByKey("nr")))
 			return false;
-		if (!uds.getStringValueByKey("documentnr").equals(this.getStringValueByKey("documentnr")))
+		if (!uds.getStringValueByKey("documentnr").equalsIgnoreCase(this.getStringValueByKey("documentnr")))
 			return false;
 
 		return true;

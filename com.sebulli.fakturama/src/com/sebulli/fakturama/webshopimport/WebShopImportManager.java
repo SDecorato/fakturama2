@@ -971,6 +971,11 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// The document id
 		int documentId;
 
+		// Remember the vat name, of there is no vat calculated
+		boolean noVat = true;
+		String noVatName = "";
+		
+		
 		// Get the attributes ID and date of this order
 		NamedNodeMap attributes = orderNode.getAttributes();
 		order_id = getAttributeAsString(attributes, "id");
@@ -1106,12 +1111,23 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				itemCategory = getChildTextAsString(childnode, "category");
 				itemVatname = getChildTextAsString(childnode, "vatname");
 
+				
+				
 				// Convert VAT percent value to a factor (100% -> 1.00)
 				Double vat_percentDouble = 0.0;
 				try {
 					vat_percentDouble = Double.valueOf(itemVatpercent).doubleValue() / 100;
 				}
 				catch (Exception e) {
+				}
+
+				// If one item has a vat value, reset the noVat flag
+				if (vat_percentDouble > 0.0)
+					noVat = false;
+				else {
+					// Use the vat name
+					if (noVatName.isEmpty() && !itemVatname.isEmpty())
+						noVatName = itemVatname;
 				}
 
 				// Calculate the net value of the price
@@ -1283,6 +1299,21 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		dataSetDocument.setStringValueByKey("items", itemString);
 		dataSetDocument.setDoubleValueByKey("total", order_totalDouble);
 
+		// There is no VAT used
+		if (noVat) {
+			// Set the no-VAT flag in the document and use the name and description
+			
+			dataSetDocument.setBooleanValueByKey("novat", true);
+			dataSetDocument.setStringValueByKey("novatname", noVatName);
+
+			DataSetVAT v = Data.INSTANCE.getVATs().getDatasetByName(noVatName);
+			if (v != null)
+				dataSetDocument.setStringValueByKey("novatdescription", 
+						v.getStringValueByKey("description"));
+				
+			
+		}
+		
 		// Update the data base with the new document data
 		Data.INSTANCE.getDocuments().updateDataSet(dataSetDocument);
 

@@ -98,7 +98,7 @@ public class DataSetPayment extends UniDataSet {
 	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
-		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
+		if (!uds.getStringValueByKey("name").equalsIgnoreCase(this.getStringValueByKey("name")))
 			return false;
 		return true;
 	}

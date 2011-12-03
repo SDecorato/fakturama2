@@ -90,7 +90,7 @@ public class DataSetVAT extends UniDataSet {
 
 		// If the name of the DataSet to test is empty, than search for an entry with at least the same VAT value
 		if (!uds.getStringValueByKey("name").isEmpty())
-			if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
+			if (!uds.getStringValueByKey("name").equalsIgnoreCase(this.getStringValueByKey("name")))
 				return false;
 
 		if (!DataUtils.DoublesAreEqual(uds.getDoubleValueByKey("value"), this.getDoubleValueByKey("value")))

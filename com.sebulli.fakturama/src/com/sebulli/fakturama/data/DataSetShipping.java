@@ -95,7 +95,7 @@ public class DataSetShipping extends UniDataSet {
 	 */
 	@Override
 	public boolean isTheSameAs(UniDataSet uds) {
-		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
+		if (!uds.getStringValueByKey("name").equalsIgnoreCase(this.getStringValueByKey("name")))
 			return false;
 		if (!uds.getStringValueByKey("value").equals(this.getStringValueByKey("value")))
 			return false;

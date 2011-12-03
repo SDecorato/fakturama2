@@ -79,7 +79,7 @@ public class ParcelServiceFormFiller {
 		if (fieldName.isEmpty())
 			return;
 		
-		System.out.println("fill: " + fieldName + " with: "+ pvalue);
+		//System.out.println("fill: " + fieldName + " with: "+ pvalue);
 		String value = pvalue.trim();
 		
 		// Script that counts the fields with this name
