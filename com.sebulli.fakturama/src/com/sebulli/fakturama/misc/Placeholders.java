@@ -68,6 +68,14 @@ public class Placeholders {
 			"DOCUMENT.ITEMS.NET",
 			"DOCUMENT.TOTAL.VAT",
 			"DOCUMENT.TOTAL.GROSS",
+			"DOCUMENT.REFERENCE.OFFER",
+			"DOCUMENT.REFERENCE.ORDER",
+			"DOCUMENT.REFERENCE.CONFIRMATION",
+			"DOCUMENT.REFERENCE.INVOICE",
+			"DOCUMENT.REFERENCE.DELIVERY",
+			"DOCUMENT.REFERENCE.CREDIT",
+			"DOCUMENT.REFERENCE.DUNNING",
+			"DOCUMENT.REFERENCE.PROFORMA",
 			"ITEMS.DISCOUNT.PERCENT",
 			"ITEMS.DISCOUNT.NET",
 			"ITEMS.DISCOUNT.GROSS",
@@ -715,6 +723,21 @@ public class Placeholders {
 		if (key.equals("SHIPPING.VAT.DESCRIPTION")) return document.getStringValueByKey("shippingvatdescription");
 		if (key.equals("DOCUMENT.DUNNING.LEVEL")) return document.getStringValueByKey("dunninglevel");
 
+
+		// Get the reference string to other documents
+		if (key.startsWith("DOCUMENT.REFERENCE.")) {
+			Transaction transaction = new Transaction(document);
+			if (key.equals("DOCUMENT.REFERENCE.OFFER")) return transaction.getReference(DocumentType.OFFER);
+			if (key.equals("DOCUMENT.REFERENCE.ORDER")) return transaction.getReference(DocumentType.ORDER);
+			if (key.equals("DOCUMENT.REFERENCE.CONFIRMATION")) return transaction.getReference(DocumentType.CONFIRMATION);
+			if (key.equals("DOCUMENT.REFERENCE.INVOICE")) return transaction.getReference(DocumentType.INVOICE);
+			if (key.equals("DOCUMENT.REFERENCE.DELIVERY")) return transaction.getReference(DocumentType.DELIVERY);
+			if (key.equals("DOCUMENT.REFERENCE.CREDIT")) return transaction.getReference(DocumentType.CREDIT);
+			if (key.equals("DOCUMENT.REFERENCE.DUNNING")) return transaction.getReference(DocumentType.DUNNING);
+			if (key.equals("DOCUMENT.REFERENCE.PROFORMA")) return transaction.getReference(DocumentType.PROFORMA);
+
+		}
+		
 		if (key.equals("PAYMENT.TEXT")) {
 			// Replace the placeholders in the payment text
 			String paymenttext = document.getStringValueByKey("paymenttext");
