@@ -523,14 +523,14 @@ public class DataSetContact extends UniDataSet {
 
 		// Compare customer number, only if it is set.
 		if (!uds.getStringValueByKey("nr").isEmpty() && !this.getStringValueByKey("nr").isEmpty()
-				&& !uds.getStringValueByKey("nr").equals(this.getStringValueByKey("nr")))
+				&& !uds.getStringValueByKey("nr").equalsIgnoreCase(this.getStringValueByKey("nr")))
 			return false;
 
-		if (!uds.getStringValueByKey("firstname").equals(this.getStringValueByKey("firstname")))
+		if (!uds.getStringValueByKey("firstname").equalsIgnoreCase(this.getStringValueByKey("firstname")))
 			return false;
-		if (!uds.getStringValueByKey("name").equals(this.getStringValueByKey("name")))
+		if (!uds.getStringValueByKey("name").equalsIgnoreCase(this.getStringValueByKey("name")))
 			return false;
-		if (!uds.getStringValueByKey("zip").equals(this.getStringValueByKey("zip")))
+		if (!uds.getStringValueByKey("zip").equalsIgnoreCase(this.getStringValueByKey("zip")))
 			return false;
 		return true;
 	}

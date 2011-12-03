@@ -568,6 +568,24 @@ public class DataSetArray<T> {
 	}
 
 	/**
+	 * Get the data sets with a specified name
+	 * 
+	 * @param name
+	 *            the name
+	 * 
+	 * @return The specified dataset
+	 */
+	public T getDatasetByName(String name) {
+		ArrayList<T> undeletedDatasets = getActiveDatasets();
+
+		for (T dataset : undeletedDatasets) {
+			UniDataSet uds = (UniDataSet) dataset;
+			if (uds.getStringValueByKey("name").equalsIgnoreCase(name)) { return (dataset); }
+		}
+		return null;
+	}
+
+	/**
 	 * Get all active (undeleted) data sets
 	 * 
 	 * @return ArrayList with all undeleted data sets

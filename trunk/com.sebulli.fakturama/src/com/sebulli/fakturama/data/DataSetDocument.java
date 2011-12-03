@@ -458,7 +458,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @return True, if it's equal
 	 */
 	public boolean isTheSameAs(UniDataSet uds) {
-		if (!uds.getStringValueByKey("webshopid").equals(this.getStringValueByKey("webshopid")))
+		if (!uds.getStringValueByKey("webshopid").equalsIgnoreCase(this.getStringValueByKey("webshopid")))
 			return false;
 		if (!uds.getStringValueByKey("webshopdate").equals(this.getStringValueByKey("webshopdate")))
 			return false;
