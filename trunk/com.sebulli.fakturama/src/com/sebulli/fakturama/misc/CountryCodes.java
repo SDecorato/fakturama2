@@ -77,7 +77,11 @@ public class CountryCodes {
 		Display.getDefault().syncExec(new Runnable() {
 		    public void run() {
 				// Refresh the list view 
-				ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
+		    	try {
+					ApplicationWorkbenchAdvisor.refreshView(ViewListTable.ID);
+		    	}
+		    	catch (Exception e) {
+		    	}
 		    }
 		});
 
