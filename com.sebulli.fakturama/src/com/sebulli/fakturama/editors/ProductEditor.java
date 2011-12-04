@@ -85,6 +85,7 @@ public class ProductEditor extends Editor {
 	private Combo comboVat;
 	private Text textWeight;
 	private Text textQuantity;
+	private Text textQuantityUnit;
 	private ComboViewer comboViewer;
 	private Combo comboCategory;
 	private Label labelProductPicture;
@@ -103,6 +104,7 @@ public class ProductEditor extends Editor {
 	// They define, if elements of the editor are displayed, or not.
 	private boolean useWeight;
 	private boolean useQuantity;
+	private boolean useQuantityUnit;
 	private boolean useItemNr;
 	private boolean useNet;
 	private boolean useGross;
@@ -178,6 +180,7 @@ public class ProductEditor extends Editor {
 		product.setStringValueByKey("name", textName.getText());
 		product.setStringValueByKey("category", comboCategory.getText());
 		product.setStringValueByKey("description", DataUtils.removeCR(textDescription.getText()));
+		product.setStringValueByKey("qunit", textQuantityUnit.getText());
 
 		int i;
 		Double lastScaledPrice = 0.0;
@@ -308,7 +311,9 @@ public class ProductEditor extends Editor {
 		if (!DataUtils.DoublesAreEqual(product.getStringValueByKey("quantity"),textQuantity.getText())) { return true; }
 		if (!product.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!product.getStringValueByKey("picturename").equals(pictureName)) { return true; }
+		if (!product.getStringValueByKey("qunit").equals(textQuantityUnit.getText())) { return true; }
 
+		
 		return false;
 	}
 
@@ -466,6 +471,7 @@ public class ProductEditor extends Editor {
 		useVat = Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_VAT");
 		usePicture = Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_PICTURE");
 		useQuantity = Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_QUANTITY");
+		useQuantityUnit = Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_QUNIT");
 		
 		// Get the product VAT
 		vatId = product.getIntValueByKey("vatid");
@@ -556,6 +562,18 @@ public class ProductEditor extends Editor {
 		superviceControl(textDescription, 250);
 		GridDataFactory.fillDefaults().hint(10, 80).grab(true, false).applyTo(textDescription);
 
+		// Product quantity
+		Label labelQuantityUnit = new Label(useQuantityUnit ? productDescGroup : invisible, SWT.NONE);
+		//T: Product Editor - Label Product quantity unit
+		labelQuantityUnit.setText(_("Quantity unit"));
+
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelQuantityUnit);
+		textQuantityUnit = new Text(useQuantityUnit ? productDescGroup : invisible, SWT.BORDER);
+		textQuantityUnit.setText(product.getFormatedStringValueByKey("qunit"));
+		superviceControl(textQuantityUnit, 16);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(textQuantityUnit);
+
+		
 		// Product price
 		Label labelPrice = new Label(productDescGroup, SWT.NONE);
 

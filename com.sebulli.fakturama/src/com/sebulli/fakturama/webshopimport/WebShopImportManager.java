@@ -694,6 +694,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String pictureName;
 		String productQuantity;
 		String productEAN;
+		String productQUnit;
 		int productID;
 		
 		// Get the attributes ID and date of this order
@@ -709,7 +710,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		productVatName = getChildTextAsString(productNode, "vatname");
 		productImage = getChildTextAsString(productNode, "image");
 		productEAN = getChildTextAsString(productNode, "ean");
-		
+		productQUnit = getChildTextAsString(productNode, "qunit");
 
 		// Get the product description as plain text.
 		productDescription = "";
@@ -791,7 +792,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		}
 
 		// Create a new product object
-		product = new DataSetProduct(productName, productModel, shopCategory + productCategory, productDescription, priceNet, vatId, "", pictureName, quantity, productID);
+		product = new DataSetProduct(productName, productModel, shopCategory + productCategory, productDescription, priceNet,
+						vatId, "", pictureName, quantity, productID, productQUnit);
 
 		// Add a new product to the data base, if it's not existing yet
 		if (Data.INSTANCE.getProducts().isNew(product)) {
@@ -809,6 +811,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			existingProduct.setStringValueByKey("picturename", product.getStringValueByKey("picturename"));
 			existingProduct.setDoubleValueByKey("quantity", product.getDoubleValueByKey("quantity"));
 			existingProduct.setIntValueByKey("webshopid", product.getIntValueByKey("webshopid"));
+			existingProduct.setStringValueByKey("qunit", product.getStringValueByKey("qunit"));
 
 			// Update the modified product data
 			Data.INSTANCE.getProducts().updateDataSet(existingProduct);
@@ -945,6 +948,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String itemCategory;
 		String itemVatpercent;
 		String itemVatname;
+		String itemQUnit;
 		int productID;
 
 		// Order data
@@ -1110,6 +1114,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				itemName = getChildTextAsString(childnode, "name");
 				itemCategory = getChildTextAsString(childnode, "category");
 				itemVatname = getChildTextAsString(childnode, "vatname");
+				itemQUnit = getChildTextAsString(childnode, "qunit");
 
 				
 				
@@ -1177,7 +1182,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				}
 
 				// Create a new product
-				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "", 1.0, productID);
+				product = new DataSetProduct(itemName, itemModel, shopCategory + itemCategory, itemDescription, priceNet, vatId, "", "", 1.0, productID, itemQUnit);
 
 				// Add the new product to the data base, if it's not existing yet
 				DataSetProduct newOrExistingProduct = Data.INSTANCE.getProducts().addNewDataSetIfNew(product);
