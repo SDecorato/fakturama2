@@ -305,8 +305,9 @@ public abstract class VoucherEditor extends Editor {
 			}
 			else {
 				// Create a new voucher item
-				itemDataset = addVoucherItem(itemDataset);
-				id = itemDataset.getIntValueByKey("id");
+				DataSetVoucherItem itemDatasetTemp = addVoucherItem(itemDataset);
+				id = itemDatasetTemp.getIntValueByKey("id");
+				itemDataset.setIntValueByKey("id", id);
 			}
 
 			// Collect all item IDs in a sting and separate them by a comma

@@ -75,7 +75,8 @@ public class ReceiptVoucherEditor extends VoucherEditor {
 	 *  A Reference to the added item
 	 */
 	public DataSetVoucherItem addVoucherItem(DataSetVoucherItem item) {
-		return Data.INSTANCE.getReceiptVoucherItems().addNewDataSet((DataSetReceiptVoucherItem) item);
+		return Data.INSTANCE.getReceiptVoucherItems().addNewDataSet(
+				new DataSetReceiptVoucherItem((DataSetReceiptVoucherItem) item));
 	}
 	
 	/**
