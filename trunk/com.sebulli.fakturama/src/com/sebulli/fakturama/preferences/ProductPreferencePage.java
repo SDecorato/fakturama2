@@ -57,6 +57,9 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 		//T: Preference page "Product" - Label "Use item No."
 		addField(new BooleanFieldEditor("PRODUCT_USE_ITEMNR", _("Use item No."), getFieldEditorParent()));
 
+		//T: Preference page "Product" - Label "Use Quantity Unit"
+		addField(new BooleanFieldEditor("PRODUCT_USE_QUNIT", _("Use Quantity Unit"), getFieldEditorParent()));
+
 		//T: Preference page "Product" - Label "Use description"
 		addField(new BooleanFieldEditor("PRODUCT_USE_DESCRIPTION", _("Use description"), getFieldEditorParent()));
 
@@ -104,6 +107,7 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_ITEMNR", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_QUNIT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_DESCRIPTION", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_USE_NET_GROSS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("PRODUCT_SCALED_PRICES", write);
@@ -121,6 +125,7 @@ public class ProductPreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	public static void setInitValues(IEclipsePreferences node) {
 		node.putBoolean("PRODUCT_USE_ITEMNR", true);
+		node.putBoolean("PRODUCT_USE_QUNIT", false);
 		node.putBoolean("PRODUCT_USE_DESCRIPTION", true);
 		node.put("PRODUCT_USE_NET_GROSS", "2");
 		node.put("PRODUCT_SCALED_PRICES", "1");

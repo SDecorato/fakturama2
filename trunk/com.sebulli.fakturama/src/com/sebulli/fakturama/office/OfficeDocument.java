@@ -779,6 +779,11 @@ public class OfficeDocument extends Object {
 			value = item.getStringValueByKey("itemnr");
 		}
 
+		// Get the quanity unit
+		else if (placeholderDisplayText.equals("<ITEM.QUANTITYUNIT>")) {
+			value = item.getStringValueByKey("qunit");
+		}
+
 		// Get the item description
 		else if (placeholderDisplayText.equals("<ITEM.DESCRIPTION>")) {
 			// 2011-06-24 sbauer@eumedio.de

@@ -59,6 +59,8 @@ public class ColumnWidthItemsPreferencePage extends FieldEditorPreferencePage im
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_ITEMS_QTY", _("Qty."), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
+		addField(new IntegerFieldEditor("COLUMNWIDTH_ITEMS_QUNIT", _("Qty. Unit"), getFieldEditorParent()));
+		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_ITEMS_ITEMNO", _("Item No."), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_ITEMS_PICTURE", _("Picture"), getFieldEditorParent()));
@@ -99,6 +101,7 @@ public class ColumnWidthItemsPreferencePage extends FieldEditorPreferencePage im
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_POS", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_OPT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_QTY", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_QUNIT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_ITEMNO", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_PICTURE", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("COLUMNWIDTH_ITEMS_NAME", write);
@@ -119,6 +122,7 @@ public class ColumnWidthItemsPreferencePage extends FieldEditorPreferencePage im
 		node.put("COLUMNWIDTH_ITEMS_POS", "40");
 		node.put("COLUMNWIDTH_ITEMS_OPT", "40");
 		node.put("COLUMNWIDTH_ITEMS_QTY", "60");
+		node.put("COLUMNWIDTH_ITEMS_QUNIT", "60");
 		node.put("COLUMNWIDTH_ITEMS_ITEMNO", "80");
 		node.put("COLUMNWIDTH_ITEMS_PICTURE", "64");
 		node.put("COLUMNWIDTH_ITEMS_NAME", "100");

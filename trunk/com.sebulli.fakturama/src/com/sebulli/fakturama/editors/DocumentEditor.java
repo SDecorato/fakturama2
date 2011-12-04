@@ -920,6 +920,7 @@ public class DocumentEditor extends Editor {
 				if (!DataUtils.DoublesAreEqual(item.getDoubleValueByKey("vatvalue"), itemDataset.getDoubleValueByKey("vatvalue"))) { return true; }
 				if (!item.getStringValueByKey("vatname").equals(itemDataset.getStringValueByKey("vatname"))) { return true; }
 				if (!item.getStringValueByKey("vatdescription").equals(itemDataset.getStringValueByKey("vatdescription"))) { return true; }
+				if (!item.getStringValueByKey("qunit").equals(itemDataset.getStringValueByKey("qunit"))) { return true; }
 				if (item.getBooleanValueByKey("optional") != itemDataset.getBooleanValueByKey("optional")) { return true; }
 			}
 			if (itemsString.length() > 0)
@@ -1918,7 +1919,7 @@ public class DocumentEditor extends Editor {
 					//T: Text of a new item
 					DataSetItem newItem = new DataSetItem(_("Name"), 
 							//T: Text of a new item
-							_("Item No."), "", documentType.sign() * 1.0, "", 0.0, 0, "");
+							_("Item No."), "", documentType.sign() * 1.0, "", 0.0, 0, "", "");
 
 					// Use the standard VAT value
 					newItem.setVat(Integer.parseInt(Data.INSTANCE.getProperty("standardvat")));
@@ -1984,6 +1985,7 @@ public class DocumentEditor extends Editor {
 			int cw_pos = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_POS");
 			int cw_opt = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_OPT");
 			int cw_qty = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_QTY");
+			int cw_qunit = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_QUNIT");
 			int cw_itemno = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_ITEMNO");
 			int cw_picture = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_PICTURE");
 			int cw_name = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_ITEMS_NAME");
@@ -2012,6 +2014,12 @@ public class DocumentEditor extends Editor {
 			//T: Used as heading of a table. Keep the word short.
 			itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Qty."), cw_qty, true, "quantity", new DocumentItemEditingSupport(this,
 					tableViewerItems, DocumentItemEditingSupport.Column.QUANTITY)));
+			
+			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_QUNIT"))
+			//T: Used as heading of a table. Keep the word short.
+			itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.CENTER, _("Q. Unit"), cw_qunit, true, "qunit", new DocumentItemEditingSupport(this,
+					tableViewerItems, DocumentItemEditingSupport.Column.QUNIT)));
+
 			if (Activator.getDefault().getPreferenceStore().getBoolean("PRODUCT_USE_ITEMNR"))
 				//T: Used as heading of a table. Keep the word short.
 				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Item No."), cw_itemno, true, "itemnr", new DocumentItemEditingSupport(this,

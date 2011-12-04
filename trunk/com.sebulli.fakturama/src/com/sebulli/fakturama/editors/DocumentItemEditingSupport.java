@@ -43,7 +43,7 @@ public class DocumentItemEditingSupport extends ItemEditingSupport {
 
 	// Public column enum
 	public static enum Column {
-		OPTIONAL, QUANTITY, ITEMNR, PICTURE, NAME, DESCRIPTION,
+		OPTIONAL, QUANTITY, QUNIT, ITEMNR, PICTURE, NAME, DESCRIPTION,
 		VAT, PRICE, DISCOUNT, TOTAL
 	}
 	
@@ -131,6 +131,7 @@ public class DocumentItemEditingSupport extends ItemEditingSupport {
 		switch (this.column) {
 		case OPTIONAL:
 		case QUANTITY:
+		case QUNIT:
 		case ITEMNR:
 		case PICTURE:
 		case NAME:
@@ -153,6 +154,7 @@ public class DocumentItemEditingSupport extends ItemEditingSupport {
 		switch (this.column) {
 		case OPTIONAL:
 		case QUANTITY:
+		case QUNIT:
 		case ITEMNR:
 		case NAME:
 		case DESCRIPTION:
@@ -195,6 +197,8 @@ public class DocumentItemEditingSupport extends ItemEditingSupport {
 			return optional;
 		case QUANTITY:
 			return item.getFormatedStringValueByKey("quantity");
+		case QUNIT:
+			return item.getFormatedStringValueByKey("qunit");
 		case ITEMNR:
 			return item.getStringValueByKey("itemnr");
 		case PICTURE:
@@ -262,6 +266,10 @@ public class DocumentItemEditingSupport extends ItemEditingSupport {
 					item.setDoubleValueByKey("price", newPrice);
 			}
 			
+			break;
+		case QUNIT:
+			// Set the quanity unit
+			item.setStringValueByKey("qunit", String.valueOf(value));
 			break;
 		case ITEMNR:
 			// Set the item number

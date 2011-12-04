@@ -665,18 +665,22 @@ class order {
       $index = 0;
 
 
-
      $orders_products_query = sbf_db_query("SELECT
 
      											tax.tax_description, ordprod.orders_products_id, ordprod.products_name,ordprod.products_id,
      											ordprod.products_model, ordprod.products_price, ordprod.products_tax,
-     											ordprod.products_quantity, ordprod.final_price" . $ean_query_string_order . " 
+     											ordprod.products_quantity, ordprod.final_price" . $ean_query_string_order . ",  
+											p_vpe.products_vpe_name
   											FROM
 											orders_products ordprod
 											LEFT JOIN
 											products prod ON (prod.products_id = ordprod.products_id) 
 											LEFT JOIN
 											tax_rates tax ON ((prod.products_tax_class_id = tax.tax_class_id) AND (tax.tax_zone_id = '" . (int)$customer_geo_zone . "'))
+											LEFT JOIN	
+											languages langu ON (langu.code = '". DEFAULT_LANGUAGE . "')
+											LEFT JOIN 
+											products_vpe p_vpe ON (prod.products_vpe = p_vpe.products_vpe_id) AND (p_vpe.language_id = langu.languages_id)
 											WHERE 
      											ordprod.orders_id = '" . (int)$order_id . "' 
      										");
@@ -702,6 +706,7 @@ class order {
                                         'tax' => $orders_products['products_tax'],
                                         'tax_description' => $orders_products['tax_description'],
                                         'price' => $orders_products['products_price'],
+                                        'products_vpe_name' => $orders_products['products_vpe_name'],
                                         'final_price' => $orders_products['final_price']);
                                    
         $category_query = sbf_db_query("SELECT
@@ -1173,7 +1178,8 @@ if ($admin_valid != 1)
 			$products_query = sbf_db_query("SELECT 
  											prod.products_model, prod_desc.products_name, prod_desc.products_description, " . $products_short_description_query . 
 											"prod.products_image, products_quantity, prod.products_id" . $ean_query_string . ",	 												
-											cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description
+											cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description,
+											p_vpe.products_vpe_name
 
 											FROM
 											products_description prod_desc   
@@ -1191,6 +1197,8 @@ if ($admin_valid != 1)
 											countries ON (countries.countries_id = z2geozones.zone_country_id) 
 											LEFT JOIN	
 											languages langu ON (langu.languages_id = cat_desc.language_id) AND (countries.countries_id = '". STORE_COUNTRY . "')
+											LEFT JOIN 
+											products_vpe p_vpe ON (prod.products_vpe = p_vpe.products_vpe_id) AND (p_vpe.language_id = langu.languages_id)
 											WHERE
 											(langu.code = '". DEFAULT_LANGUAGE . "') AND (langu.languages_id = prod_desc.language_id) 
 											" . $lasttime_query . "
@@ -1226,6 +1234,7 @@ if ($admin_valid != 1)
 				}
 				echo ("   <name>" . my_encode($products['products_name'])."</name>\n");
 				echo ("   <category>" . my_encode($products['categories_name'])."</category>\n");
+				echo ("   <qunit>" . my_encode($products['products_vpe_name'])."</qunit>\n");
 				echo ("   <vatname>".my_encode($products['tax_description'])."</vatname>\n");
 				echo ("   <short_description>" . my_clean_nl(my_encode( $products['products_short_description'])) . "</short_description>\n");
 
@@ -1425,6 +1434,7 @@ if ($admin_valid != 1)
 					}
 					echo ("    <name>".my_encode($product['name'])) . "</name>\n";
 					echo ("    <category>".my_encode( $product['category']) ."</category>\n");
+					echo ("    <qunit>" . my_encode($product['products_vpe_name'])."</qunit>\n");
 					echo ("    <vatname>".my_encode($product['tax_description'])."</vatname>\n");
 
 
