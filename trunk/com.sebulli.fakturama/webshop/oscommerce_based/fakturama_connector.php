@@ -6,9 +6,9 @@
  * 
  * Web shop connector script
  */
-define ('FAKTURAMA_CONNECTOR_VERSION','1.4.2'); 
+define ('FAKTURAMA_CONNECTOR_VERSION','1.4.2..'); 
 /* 
- * Date: 2011-12-03
+ * Date: 2011-12-04
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -200,7 +200,6 @@ if ($use_ean_code) {
 } else {
   $ean_query_string = "";
 } 
-
 
 
 // include the mail classes
@@ -493,17 +492,18 @@ class order {
 
     function query($order_id) {
     
-
 	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 		$order_query_payment_class = "";
 		$customers_cid_shs = '';
 		$language_shs = '';
+		$ean_query_string_order = "";
 
 	}
 	else {
 	      	$order_query_payment_class = ",payment_class";
 		$customers_cid_shs = ', customers_cid';
 		$language_shs = ',language';
+		$ean_query_string_order = ", prod.products_ean";
 	}
 
 
@@ -645,7 +645,7 @@ class order {
 
      while ($geo_zone_line = sbf_db_fetch_array($geo_zone_query)) {
 	if ($geo_zone_line['geo_zone_id'] > 0)
-		 $customer_geo_zone = $geo_zone_line['geo_zone_id']+10;
+		 $customer_geo_zone = $geo_zone_line['geo_zone_id'];
      }
 
      // Get the geozone if only the country and the zone matches
@@ -670,7 +670,7 @@ class order {
 
      											tax.tax_description, ordprod.orders_products_id, ordprod.products_name,ordprod.products_id,
      											ordprod.products_model, ordprod.products_price, ordprod.products_tax,
-     											ordprod.products_quantity, ordprod.final_price" . $ean_query_string . " 
+     											ordprod.products_quantity, ordprod.final_price" . $ean_query_string_order . " 
   											FROM
 											orders_products ordprod
 											LEFT JOIN
@@ -680,7 +680,7 @@ class order {
 											WHERE 
      											ordprod.orders_id = '" . (int)$order_id . "' 
      										");
-     										
+
 	$language_query = sbf_db_query("SELECT
        									langu.code
     								FROM
@@ -703,8 +703,7 @@ class order {
                                         'tax_description' => $orders_products['tax_description'],
                                         'price' => $orders_products['products_price'],
                                         'final_price' => $orders_products['final_price']);
-                                        
-                                        
+                                   
         $category_query = sbf_db_query("SELECT
         								  cat_desc.categories_name, langu.code , cat_desc.categories_id , prod_cat.products_id
         								  FROM
@@ -1389,6 +1388,8 @@ if ($admin_valid != 1)
 													  WHERE
 													  	tax_class_id = '" . $tax_class . "'
 													  ");
+
+
 					if ($taxs = sbf_db_fetch_array($orders_tax_query)) {
 						$shipping_tax = $taxs['tax_rate'];
 						$shipping_tax_name = $taxs['tax_description'];
@@ -1417,7 +1418,7 @@ if ($admin_valid != 1)
 					echo ("</model>\n");
 
 					if ($use_ean_code) {
-						echo ("    <ean>" . my_encode($product['products_ean'])."</ean>\n");
+						echo ("    <ean>" . my_encode($product['ean'])."</ean>\n");
 					}
 					else {
 						echo ("    <ean></ean>\n");
