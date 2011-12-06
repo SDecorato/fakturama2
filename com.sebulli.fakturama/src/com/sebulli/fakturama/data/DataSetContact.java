@@ -17,6 +17,7 @@ package com.sebulli.fakturama.data;
 import static com.sebulli.fakturama.Translate._;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * UniDataSet for all contacts
@@ -353,7 +354,7 @@ public class DataSetContact extends UniDataSet {
 			deliveryString = "delivery_";
 
 		if (!this.getStringValueByKey(deliveryString + "company").isEmpty()) {
-			line = this.getStringValueByKey(deliveryString + "company");
+			line = DataUtils.getSingleLine(this.getStringValueByKey(deliveryString + "company"));
 			if ((!this.getStringValueByKey(deliveryString + "firstname").isEmpty()) || 
 				(!this.getStringValueByKey(deliveryString + "name").isEmpty()) )
 				line +=", ";

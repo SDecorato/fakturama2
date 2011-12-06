@@ -18,6 +18,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 
 import com.sebulli.fakturama.data.UniDataSet;
+import com.sebulli.fakturama.misc.DataUtils;
 
 /**
  * Filters the contents of the table view
@@ -67,7 +68,7 @@ public class TableFilter extends ViewerFilter {
 
 		// Search all the columns
 		for (int i = 0; i < searchColumns.length; i++) {
-			if (uds.getStringValueByKey(searchColumns[i]).matches(searchString)) { return true; }
+			if (DataUtils.getSingleLine(uds.getStringValueByKey(searchColumns[i])).matches(searchString)) { return true; }
 		}
 
 		return false;
