@@ -2553,14 +2553,17 @@ public class DocumentEditor extends Editor {
 			int pos = items.getActiveDatasets().indexOf(uds);
 			int size = items.getActiveDatasets().size();
 
-			// Move up
-			if (up && (pos >=1 )){
-				items.swapPosition(pos-1, pos);
-			}
+			// Do not move one single item
+			if (size >= 2) {
+				// Move up
+				if (up && (pos >=1 )){
+					items.swapPosition(pos-1, pos);
+				}
 
-			// Move down
-			if (!up && (pos < (size-1))){
-				items.swapPosition(pos-1, pos);
+				// Move down
+				if (!up && (pos < (size-1))){
+					items.swapPosition(pos, pos+1);
+				}
 			}
 		}
 		// Refresh the table
