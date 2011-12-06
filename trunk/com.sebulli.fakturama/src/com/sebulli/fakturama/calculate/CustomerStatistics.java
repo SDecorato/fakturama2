@@ -41,6 +41,9 @@ public class CustomerStatistics {
 	// The last date
 	private GregorianCalendar lastOrderDate = null;
 
+	// Some of the invoices
+	private String invoices = "";
+	
 	// The total volume
 	private Double total = 0.0;
 	
@@ -115,6 +118,18 @@ public class CustomerStatistics {
 					// It's a regular customer
 					isRegularCustomer = true;
 
+					// Add the invoice number to the list of invoices
+					// Add maximum 4 invoices
+					if (ordersCount < 4) {
+						if (!invoices.isEmpty())
+							invoices += ", ";
+						invoices += document.getStringValueByKey("name");
+					}
+					else if (ordersCount == 4) {
+						invoices += ", ...";
+					}
+					
+					
 					// Increment the count of orders
 					ordersCount ++;
 					
@@ -199,5 +214,15 @@ public class CustomerStatistics {
 			return  DataUtils.getDateTimeAsLocalString(lastOrderDate);
 		else
 			return "-";
+	}
+	
+	/**
+	 * Returns the string with some of the invoices
+	 * 
+	 * @return
+	 * 	String with invoice numbers
+	 */
+	public String getInvoices () {
+		return invoices;
 	}
 }
