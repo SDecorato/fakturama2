@@ -1397,7 +1397,9 @@ public class DocumentEditor extends Editor {
 						//T: Part of the customer statistics dialog
 						_("times in the past.") + "\n" + 
 						//T: Part of the customer statistics dialog
-						_("Last time:") + " " + customerStaticstics.getLastOrderDate()  + "\n" +  
+						_("Last time:") + " " + customerStaticstics.getLastOrderDate()  + "\n" +
+						//T: Part of the customer statistics dialog
+						_("Invoice numbers:") + " " + customerStaticstics.getInvoices()  + "\n" +
 						//T: Part of the customer statistics dialog
 						_("Total volume:") +" " + DataUtils.DoubleToFormatedPrice(customerStaticstics.getTotal()));
 			
