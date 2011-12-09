@@ -1157,7 +1157,7 @@ if ($admin_valid != 1)
 			if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
 				$products_short_description_query = '';
 			else
-				$products_short_description_query = 'prod_desc.products_short_description,';
+				$products_short_description_query = ', prod_desc.products_short_description';
 
 			// Limit the query to maxproducts
 			$productslimit_query = "";
@@ -1176,38 +1176,37 @@ if ($admin_valid != 1)
 
 
 			$products_query = sbf_db_query("SELECT 
- 											prod.products_model, prod_desc.products_name, prod_desc.products_description, " . $products_short_description_query . 
-											"prod.products_image, products_quantity, prod.products_id" . $ean_query_string . ",	 												
-											cat_desc.categories_name, prod.products_price, tax.tax_rate, tax.tax_description,
+											prod_desc.products_name, prod_desc.products_description, prod_desc.products_short_description " . $products_short_description_query . ",
+											prod.products_model, prod.products_image, products_quantity, prod.products_id " . $ean_query_string . ", prod.products_price,	
+											prod.products_price,
+											cat_desc.categories_name,
+											countries.countries_id,
+											tax.tax_rate, tax.tax_description,
 											p_vpe.products_vpe_name
 
 											FROM
 											products_description prod_desc   
 											LEFT JOIN 
 											products prod ON (prod.products_id = prod_desc.products_id) 
+											LEFT JOIN
+											languages langu ON (langu.languages_id = prod_desc.language_id) 
 											LEFT JOIN 
 											products_to_categories prod_cat ON (prod_cat.products_id = prod.products_id)
 											LEFT JOIN 
-											categories_description cat_desc ON (prod_cat.categories_id = cat_desc.categories_id) 
-											LEFT JOIN 
-											tax_rates tax ON (prod.products_tax_class_id = tax.tax_class_id)
-											LEFT JOIN 
-											zones_to_geo_zones z2geozones ON (z2geozones.geo_zone_id = tax.tax_zone_id)
+											categories_description cat_desc ON (prod_cat.categories_id = cat_desc.categories_id) AND  (cat_desc.language_id  = langu.languages_id )
 											LEFT JOIN
-											countries ON (countries.countries_id = z2geozones.zone_country_id) 
-											LEFT JOIN	
-											languages langu ON (langu.languages_id = cat_desc.language_id) AND (countries.countries_id = '". STORE_COUNTRY . "')
+											countries ON  (countries.countries_id = '". STORE_COUNTRY . "')
 											LEFT JOIN 
-											products_vpe p_vpe ON (prod.products_vpe = p_vpe.products_vpe_id) AND (p_vpe.language_id = langu.languages_id)
+											zones_to_geo_zones z2geozones ON (countries.countries_id = z2geozones.zone_country_id)
+											LEFT JOIN 
+											tax_rates tax ON (prod.products_tax_class_id = tax.tax_class_id) AND (z2geozones.geo_zone_id = tax.tax_zone_id)
+											LEFT JOIN 
+                                                                                        products_vpe p_vpe ON (prod.products_vpe = p_vpe.products_vpe_id) AND (p_vpe.language_id = langu.languages_id)
 											WHERE
-											(langu.code = '". DEFAULT_LANGUAGE . "') AND (langu.languages_id = prod_desc.language_id) 
+											(langu.code = '". DEFAULT_LANGUAGE . "') AND (prod.products_status = '1')
 											" . $lasttime_query . "
 											" . $productslimit_query . "										   
 											");
-
-		
-
-
 
 			$last_products_model_name = "";
 			while ($products = sbf_db_fetch_array($products_query)) {
