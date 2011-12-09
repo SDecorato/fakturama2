@@ -8,7 +8,7 @@
  */
 define ('FAKTURAMA_CONNECTOR_VERSION','1.4.2..'); 
 /* 
- * Date: 2011-12-04
+ * Date: 2011-12-09
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -27,7 +27,7 @@ define ('FAKTURAMA_CONNECTOR_VERSION','1.4.2..');
 
 
 // Define Shop system. Allowed values are:
-// 'OSCOMMERCE'		// osCommerce	2.2 RC2a		www.oscommerce.com
+// 'OSCOMMERCE'		// osCommerce	2.3.1			www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
 define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
@@ -497,6 +497,8 @@ class order {
 		$customers_cid_shs = '';
 		$language_shs = '';
 		$ean_query_string_order = "";
+		$vpe_query_string_A ="";
+		$vpe_query_string_B ="";
 
 	}
 	else {
@@ -504,6 +506,8 @@ class order {
 		$customers_cid_shs = ', customers_cid';
 		$language_shs = ',language';
 		$ean_query_string_order = ", prod.products_ean";
+		$vpe_query_string_A =",	p_vpe.products_vpe_name";
+		$vpe_query_string_B ="LEFT JOIN products_vpe p_vpe ON (prod.products_vpe = p_vpe.products_vpe_id) AND (p_vpe.language_id = langu.languages_id)";
 	}
 
 
@@ -669,8 +673,7 @@ class order {
 
      											tax.tax_description, ordprod.orders_products_id, ordprod.products_name,ordprod.products_id,
      											ordprod.products_model, ordprod.products_price, ordprod.products_tax,
-     											ordprod.products_quantity, ordprod.final_price" . $ean_query_string_order . ",  
-											p_vpe.products_vpe_name
+     											ordprod.products_quantity, ordprod.final_price" . $ean_query_string_order . $vpe_query_string_A ."
   											FROM
 											orders_products ordprod
 											LEFT JOIN
@@ -679,8 +682,7 @@ class order {
 											tax_rates tax ON ((prod.products_tax_class_id = tax.tax_class_id) AND (tax.tax_zone_id = '" . (int)$customer_geo_zone . "'))
 											LEFT JOIN	
 											languages langu ON (langu.code = '". DEFAULT_LANGUAGE . "')
-											LEFT JOIN 
-											products_vpe p_vpe ON (prod.products_vpe = p_vpe.products_vpe_id) AND (p_vpe.language_id = langu.languages_id)
+											" . $vpe_query_string_B. "											
 											WHERE 
      											ordprod.orders_id = '" . (int)$order_id . "' 
      										");
@@ -1154,10 +1156,16 @@ if ($admin_valid != 1)
 			echo (" <products imagepath=\"" . my_encrypt($imagepath) . "\">\n");
 
 			
-			if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
+			if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 				$products_short_description_query = '';
-			else
+				$vpe_query_string_A ="";
+				$vpe_query_string_B ="";
+			}
+			else {
 				$products_short_description_query = ', prod_desc.products_short_description';
+				$vpe_query_string_A =",	p_vpe.products_vpe_name";
+				$vpe_query_string_B ="LEFT JOIN products_vpe p_vpe ON (prod.products_vpe = p_vpe.products_vpe_id) AND (p_vpe.language_id = langu.languages_id)";
+			}
 
 			// Limit the query to maxproducts
 			$productslimit_query = "";
@@ -1176,13 +1184,13 @@ if ($admin_valid != 1)
 
 
 			$products_query = sbf_db_query("SELECT 
-											prod_desc.products_name, prod_desc.products_description, prod_desc.products_short_description " . $products_short_description_query . ",
+											prod_desc.products_name, prod_desc.products_description " . $products_short_description_query . ",
 											prod.products_model, prod.products_image, products_quantity, prod.products_id " . $ean_query_string . ", prod.products_price,	
 											prod.products_price,
 											cat_desc.categories_name,
 											countries.countries_id,
-											tax.tax_rate, tax.tax_description,
-											p_vpe.products_vpe_name
+											tax.tax_rate, tax.tax_description
+											" . $vpe_query_string_A . "
 
 											FROM
 											products_description prod_desc   
@@ -1200,9 +1208,8 @@ if ($admin_valid != 1)
 											zones_to_geo_zones z2geozones ON (countries.countries_id = z2geozones.zone_country_id)
 											LEFT JOIN 
 											tax_rates tax ON (prod.products_tax_class_id = tax.tax_class_id) AND (z2geozones.geo_zone_id = tax.tax_zone_id)
-											LEFT JOIN 
-                                                                                        products_vpe p_vpe ON (prod.products_vpe = p_vpe.products_vpe_id) AND (p_vpe.language_id = langu.languages_id)
-											WHERE
+											" . $vpe_query_string_B . "											
+ 											WHERE
 											(langu.code = '". DEFAULT_LANGUAGE . "') AND (prod.products_status = '1')
 											" . $lasttime_query . "
 											" . $productslimit_query . "										   
