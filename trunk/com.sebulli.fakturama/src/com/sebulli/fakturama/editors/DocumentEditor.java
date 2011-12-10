@@ -140,7 +140,12 @@ public class DocumentEditor extends Editor {
 	private Label totalValue;
 	private Composite addressAndIconComposite;
 	private Label differentDeliveryAddressIcon;
+	private Label netLabel;
+	private TableColumnLayout tableColumnLayout;
 	
+	// Column number of the unit and total price. Use this to update the column
+	private int unitPriceColumn = 0;
+	private int totalPriceColumn = 0;
 	
 	private List<UniDataSetTableColumn> itemTableColumns = new ArrayList<UniDataSetTableColumn>();
 	private CellNavigation cellNavigation;
@@ -1075,6 +1080,84 @@ public class DocumentEditor extends Editor {
 
 	}
 
+
+	/**
+	 * Get the total text, net or gross
+	 * 
+	 * @return
+	 * 		The total text
+	 */
+	private String getTotalText () {
+		if (useGross)
+			//T: Document Editor - Label Total gross 
+			return _("Total Gross");
+		else
+			//T: Document Editor - Label Total net 
+			return _("Total Net");
+
+	}
+	
+	/**
+	 * Change the document from net to gross or backwards 
+	 */
+	private void updateUseGross() {
+		
+		boolean oldUseGross = useGross;
+		
+		// Use the customers settings instead, if they are set
+		if (addressId >= 0) {
+			// Get some settings from the preference store
+			useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
+ 
+			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 1)
+				useGross = false;
+			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 2)
+				useGross = true;
+
+			// Show a warning, if the customer uses a different setting for net or gross
+			if (useGross != oldUseGross) {
+				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
+
+				//T: Title of the dialog that appears if customer uses a different setting for net or gross.
+				messageBox.setText(_("Warning"));
+				
+				
+				if (useGross) {
+					//T: Text of the dialog that appears if customer uses a different setting for net or gross.
+					messageBox.setMessage(_("Gross values are used!"));
+				}
+				else {
+					//T: Text of the dialog that appears if customer uses a different setting for net or gross.
+					messageBox.setMessage(_("Net values are used!"));
+				}
+				messageBox.open();
+
+				// Update the columns
+				if (itemTableColumns != null ) {
+					if (useGross) {
+						itemTableColumns.get(unitPriceColumn).setDataKey("$ItemGrossPrice");
+						itemTableColumns.get(totalPriceColumn).setDataKey("$ItemGrossTotal");
+					}
+					else {
+						itemTableColumns.get(unitPriceColumn).setDataKey("price");
+						itemTableColumns.get(totalPriceColumn).setDataKey("$ItemNetTotal");
+					}
+
+					// Update the total text
+					netLabel.setText(getTotalText());
+
+					tableViewerItems.refresh();
+				}
+				
+				// This includes the call of calculate();
+				changeShippingValue(); 
+
+			}
+		}
+
+		
+	}
+	
 	/**
 	 * Returns, if this editor used net or gross values.
 	 * 
@@ -1327,7 +1410,7 @@ public class DocumentEditor extends Editor {
 		
 		showHideWarningIcon();
 		addressAndIconComposite.layout(true);
-
+		updateUseGross();
 		
 	}
 	
@@ -1408,36 +1491,7 @@ public class DocumentEditor extends Editor {
 		
 		// Get some settings from the preference store
 		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
-		boolean oldUseGross = useGross;
-		
-		// Use the customers settings instead, if they are set
-		if (addressId >= 0) {
-			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 1)
-				useGross = false;
-			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 2)
-				useGross = true;
 
-			// Show a warning, if the customer uses a different setting for net or gross
-			if (useGross != oldUseGross) {
-				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
-
-				//T: Title of the dialog that appears if customer uses a different setting for net or gross.
-				messageBox.setText(_("Warning"));
-				
-				
-				if (useGross) {
-					//T: Text of the dialog that appears if customer uses a different setting for net or gross.
-					messageBox.setMessage(_("Gross values are used!"));
-				}
-				else {
-					//T: Text of the dialog that appears if customer uses a different setting for net or gross.
-					messageBox.setMessage(_("Net values are used!"));
-				}
-				messageBox.open();
-
-			}
-		}
-		
 		// Create the top composite of the editor
 		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(4).applyTo(top);
@@ -1974,7 +2028,7 @@ public class DocumentEditor extends Editor {
 			// Composite that contains the table
 			Composite tableComposite = new Composite(top, SWT.NONE);
 			GridDataFactory.fillDefaults().grab(true, true).span(3, 1).applyTo(tableComposite);
-			TableColumnLayout tableColumnLayout = new TableColumnLayout();
+			tableColumnLayout = new TableColumnLayout();
 			tableComposite.setLayout(tableColumnLayout);
 
 			// The table viewer
@@ -2042,29 +2096,39 @@ public class DocumentEditor extends Editor {
 				//T: Used as heading of a table. Keep the word short.
 				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), cw_vat, true, "$ItemVatPercent", new DocumentItemEditingSupport(this,
 						tableViewerItems, DocumentItemEditingSupport.Column.VAT)));
-				if (useGross)
+
+				if (useGross) {
 					//T: Unit Price.
 					//T: Used as heading of a table. Keep the word short.
 					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), cw_uprice, true, "$ItemGrossPrice",
 							new DocumentItemEditingSupport(this, tableViewerItems, DocumentItemEditingSupport.Column.PRICE)));
-				else
+				}
+				else {
 					//T: Used as heading of a table. Keep the word short.
 					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("U.Price"), cw_uprice, true, "price", new DocumentItemEditingSupport(this,
 							tableViewerItems, DocumentItemEditingSupport.Column.PRICE)));
-
+				}
+				unitPriceColumn = itemTableColumns.size()-1;
+				
 				if (containsDiscountedItems || Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_DISCOUNT_EACH_ITEM"))
 					//T: Used as heading of a table. Keep the word short.
 					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Discount"), cw_discount, true, "discount", new DocumentItemEditingSupport(this,
 							tableViewerItems, DocumentItemEditingSupport.Column.DISCOUNT)));
 
-				if (useGross)
+				
+				if (useGross){
 					//T: Used as heading of a table. Keep the word short.
 					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), cw_price, true, "$ItemGrossTotal", new DocumentItemEditingSupport(
 							this, tableViewerItems, DocumentItemEditingSupport.Column.TOTAL)));
-				else
+				}
+				else {
 					//T: Used as heading of a table. Keep the word short.
 					itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("Price"), cw_price, true, "$ItemNetTotal", new DocumentItemEditingSupport(
 							this, tableViewerItems, DocumentItemEditingSupport.Column.TOTAL)));
+				}
+
+				totalPriceColumn = itemTableColumns.size()-1;
+
 			}
 			// Fill the table with the items
 			tableViewerItems.setInput(items);
@@ -2220,13 +2284,9 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).grab(true, false).span(1, 2).applyTo(totalComposite);
 
 			// Label sub total
-			Label netLabel = new Label(totalComposite, SWT.NONE);
-			if (useGross)
-				//T: Document Editor - Label Total gross 
-				netLabel.setText(_("Total Gross"));
-			else
-				//T: Document Editor - Label Total net 
-				netLabel.setText(_("Total Net"));
+			netLabel = new Label(totalComposite, SWT.NONE);
+			// Set the total text
+			netLabel.setText(getTotalText());
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(netLabel);
 
 			// Sub total
@@ -2459,6 +2519,8 @@ public class DocumentEditor extends Editor {
 
 			}
 		}
+
+		updateUseGross();
 
 		// Calculate the total sum
 		calculate();
