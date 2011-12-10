@@ -75,6 +75,8 @@ public class UniDataSetTableColumn {
 	
 	private Display display = null;
 
+	private String dataKey = "";
+	
 	// Editing support of this column
 	EditingSupport editingSupport;
 
@@ -99,8 +101,8 @@ public class UniDataSetTableColumn {
 	 *            Key that represents the column's data
 	 */
 	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight,
-			boolean fixsize, final String dataKey) {
-		this(tableColumnLayout, tableViewer, style, header, weight, fixsize, dataKey, null);
+			boolean fixsize, String dKey) {
+		this(tableColumnLayout, tableViewer, style, header, weight, fixsize, dKey, null);
 	}
 	/**
 	 * Constructor Creates a UniDatSet table column with no editing support
@@ -123,11 +125,15 @@ public class UniDataSetTableColumn {
 	 *            Key that represents the column's data
 	 */
 	public UniDataSetTableColumn(Display display, TableColumnLayout tableColumnLayout, TableViewer tableViewer, int style, String header, int weight,
-			boolean fixsize, final String dataKey, EditingSupport editingSupport) {
-		this(tableColumnLayout, tableViewer, style, header, weight, fixsize, dataKey, editingSupport);
+			boolean fixsize, String dKey, EditingSupport editingSupport) {
+		this(tableColumnLayout, tableViewer, style, header, weight, fixsize, dKey, editingSupport);
 		this.display = display;
 	}
 
+	public void setDataKey (String dataKey) {
+		this.dataKey = dataKey;
+	}
+	
 	/**
 	 * Constructor Creates a UniDatSet table column with editing support
 	 * 
@@ -153,8 +159,10 @@ public class UniDataSetTableColumn {
 	 *            column of the table
 	 */
 	public UniDataSetTableColumn(TableColumnLayout tableColumnLayout, final TableViewer tableViewer, int style, String header, int weight,
-			boolean fixsize, final String dataKey, EditingSupport editingSupport) {
+			boolean fixsize, String dKey, EditingSupport editingSupport) {
 
+		this.dataKey = dKey;
+		
 		// Create a TableViewerColum for the column
 		TableViewerColumn viewerNameColumn = new TableViewerColumn(tableViewer, style);
 
