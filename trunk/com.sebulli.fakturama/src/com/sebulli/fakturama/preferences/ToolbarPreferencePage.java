@@ -146,7 +146,8 @@ public class ToolbarPreferencePage extends FieldEditorPreferencePage implements 
 		node.putBoolean("TOOLBAR_SHOW_SAVE", true);
 		// Get all documents
 		for (int i=1; i<DocumentType.MAXID; i++) {
-			node.putBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_" + DocumentType.getTypeAsString(i).toUpperCase(), i>=3 && i <=6);
+			node.putBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_" + DocumentType.getTypeAsString(i).toUpperCase(), 
+					i==3 || i ==5 || i == 6);
 		}
 		node.putBoolean("TOOLBAR_SHOW_NEW_PRODUCT", true);
 		node.putBoolean("TOOLBAR_SHOW_NEW_CONTACT", true);
