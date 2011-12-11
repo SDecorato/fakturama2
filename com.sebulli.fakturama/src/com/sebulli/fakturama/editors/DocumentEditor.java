@@ -1149,8 +1149,9 @@ public class DocumentEditor extends Editor {
 					tableViewerItems.refresh();
 				}
 				
-				// This includes the call of calculate();
-				changeShippingValue(); 
+				// Update the shipping value;
+				calculate();
+				//changeShippingValue(false); 
 
 			}
 		}
@@ -1182,6 +1183,7 @@ public class DocumentEditor extends Editor {
 		// Set the shippingAutoVat to net or gross, depending on the
 		// settings of this editor.
 		if (!DataUtils.DoublesAreEqual(newShippingValue, shipping)) {
+			
 			if (useGross)
 				shippingAutoVat = DataSetShipping.SHIPPINGVATGROSS;
 			else
