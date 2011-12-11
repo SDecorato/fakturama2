@@ -87,6 +87,7 @@ public class ExportOptionPage extends WizardPage {
 
 		// Radio buttons for sort order
 		buttonShowZeroVatColumn = new Button (top, SWT.CHECK);
+		//T: Export Wizard page, xgettext:no-c-format
 		buttonShowZeroVatColumn.setText (_("Display columns with 0% tax"));
 		
 	}

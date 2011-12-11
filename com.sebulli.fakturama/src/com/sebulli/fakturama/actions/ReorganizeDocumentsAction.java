@@ -78,9 +78,7 @@ public class ReorganizeDocumentsAction extends NewEditorAction {
 				//T: Title of the message dialog
 				_("Warning"), 
 				//T: Text of the message dialog to reorganize all documents
-				_("All printed documents will be renamed.\n" + 
-					"You should first backup your workspace.\n" +  
-					"Do you want to reorganize all documents now ?")) != SWT.YES)
+				_("All printed documents will be renamed.\nYou should first backup your workspace.\nDo you want to reorganize all documents now ?")) != SWT.YES)
 			return;
 		
 		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();

@@ -692,7 +692,7 @@ public abstract class VoucherEditor extends Editor {
 		// The "book" label
 		bBook = new Button(titlebar, SWT.CHECK | SWT.RIGHT);
 		bBook.setSelection(voucher.getBooleanValueByKey("donotbook"));
-		//T: Mark an voucher, if the paid value is not equal to the total value.
+		//T: Label voucher edito
 		bBook.setText(_("book"));
 		//T: Tool Tip Text
 		bBook.setToolTipText(_("Uncheck this, if the voucher should not be booked."));
@@ -965,7 +965,7 @@ public abstract class VoucherEditor extends Editor {
 		Label labelPaidValue = new Label(bottom, SWT.NONE);
 		//T: Label in the voucher editor
 		labelPaidValue.setText(_("Paid Value") + ":");
-		//T: Tool Tip Text
+		//T: Tool Tip Text,  xgettext:no-c-format
 		labelPaidValue.setToolTipText(_("The paid value (e.g. 97$, if the total value was 100$ with 3% discount)."));
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPaidValue);
 

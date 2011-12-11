@@ -66,7 +66,7 @@ public class ColumnWidthDocumentsPreferencePage extends FieldEditorPreferencePag
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 		addField(new IntegerFieldEditor("COLUMNWIDTH_DOCUMENTS_TOTAL", _("Total"), getFieldEditorParent()));
 		//T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
-		addField(new IntegerFieldEditor("COLUMNWIDTH_DOCUMENTS_PRINTED", _("Printes"), getFieldEditorParent()));
+		addField(new IntegerFieldEditor("COLUMNWIDTH_DOCUMENTS_PRINTED", _("Printed"), getFieldEditorParent()));
 	
 	}
 

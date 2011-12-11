@@ -718,7 +718,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newProductActionTB.setText(_("Product", "TOOLBAR"));
 		ActionContributionItem newProductCI = new ActionContributionItem(newProductActionTB);
 		newProductCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_PRODUCT"))
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_NEW_PRODUCT"))
 			toolbar3.add(newProductCI);
 
 		newContactActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/contact_new_32.png"));
@@ -726,7 +726,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		newContactActionTB.setText(_("Contact", "TOOLBAR"));
 		ActionContributionItem newContactCI = new ActionContributionItem(newContactActionTB);
 		newContactCI.setMode(ActionContributionItem.MODE_FORCE_TEXT);
-		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_DOCUMENT_NEW_CONTACT"))
+		if (Activator.getDefault().getPreferenceStore().getBoolean("TOOLBAR_SHOW_NEW_CONTACT"))
 			toolbar3.add(newContactCI);
 
 		newExpenditureVoucherActionTB.setImageDescriptor(Activator.getImageDescriptor("/icons/32/expenditure_voucher_new_32.png"));

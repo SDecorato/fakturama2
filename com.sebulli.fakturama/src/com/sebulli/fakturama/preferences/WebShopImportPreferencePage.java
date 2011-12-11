@@ -147,7 +147,7 @@ public class WebShopImportPreferencePage extends FieldEditorPreferencePage imple
 		node.putBoolean("WEBSHOP_NOTIFY_PROCESSING", false);
 		node.putBoolean("WEBSHOP_NOTIFY_SHIPPED", true);
 		node.put("WEBSHOP_MAX_PRODUCTS", "1000");
-		node.putBoolean("WEBSHOP_ONLY_MODIFIED_PRODUCTS", true);
+		node.putBoolean("WEBSHOP_ONLY_MODIFIED_PRODUCTS", false);
 		node.putBoolean("WEBSHOP_USE_EAN_AS_ITEMNR", false);
 		
 	}

@@ -2305,7 +2305,7 @@ public class DocumentEditor extends Editor {
 				Label discountLabel = new Label(totalComposite, SWT.NONE);
 				//T: Document Editor - Label discount 
 				discountLabel.setText(_("Discount"));
-				//T: Tool Tip Text
+				//T: Tool Tip Text, xgettext:no-c-format
 				discountLabel.setToolTipText(_("Enter a discount value in % for all items."));
 				GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(discountLabel);
 
