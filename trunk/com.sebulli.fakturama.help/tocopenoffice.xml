@@ -5,6 +5,7 @@
 	
 	<topic label="OpenOffice.org Vorlagen"  href="html/openoffice/templates.html">
 		<topic label="Allgemeine Platzhalter"  href="html/openoffice/placeholders_common.html"></topic>
+		<topic label="Platzhalter mit Parameter"  href="html/openoffice/placeholders_parameter.html"></topic>
 		<topic label="Platzhalter Artikelliste"  href="html/openoffice/placeholders_itemtable.html"></topic>
 		<topic label="Platzhalter Zwischensumme"  href="html/openoffice/placeholders_sum.html"></topic>
 	</topic>
