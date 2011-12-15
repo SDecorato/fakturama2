@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Platzhalter mit Parameter</title>
+  	<link rel="stylesheet" href="../common/style.css" type="text/css" />
+</head>
+
+<body>
+	<h1>Platzhalter mit Parameter</h1>
+	<p>Bei allen allgemeinen Platzhalter dürfen zusätzliche Parameter angegeben werden.
+	Diese starten mit einem Dollarzeichen "<b>$</b>", dem Parameternamen und einem Doppelpunkt "<b>:</b>".</p>
+	<p>Beispiel: Ist die Lieferadresse leer, wird der Text <b>Siehe Rechnungsadresse</b> angezeigt:</p>
+	<p><b>&lt;DOCUMENT.DELIVERYADDRESS$EMPTY:Siehe Rechnungsadresse&gt;</b></p>
+
+	<h2>EMPTY</h2>
+	<p>Dieser Text wird an der Stelle des Platzhalters angezeigt, wenn der Platzhaltertext leer ist.</p>
+
+	<h2>PRE</h2>
+	<p>Dieser Text wird vor dem Platzhaltertext angezeigt. Jedoch nur dann, wenn diese nicht leer ist.</p>
+
+	<h2>POST</h2>
+	<p>Dieser Text wird nach dem Platzhaltertext angezeigt. Jedoch nur dann, wenn diese nicht leer ist.</p>
+
+	<h2>INONELINE</h2>
+	<p>Stellt einen mehrzeiligen Text in einer einzigen Zeile dar. Anstatt den Zeilenumbrüchen wird
+	die angegebene Zeichenkette verwendet.</p>
+
+	<h2>REPLACE</h2>
+	<p>Ersetzt den Platzhaltertext durch einen anderen. Es wird eine Liste mit allen möglichen Ersetzungen
+	angebenen. Die Liste muss in eine geschweifte Klammer eingeschlossen sein. Alle Listenelemente sind durch
+	ein Semikolon getrennt. Jedes Listenelement besteht aus einem Schlüssel und dem zu ersetzenden Text.
+	Beide wiederum durch ein Komma getrennt.</p>
+
+	<p>Beispiel: Ein <b>DE</b> würde durch den Text <b>Deutschland</b> ersetzt werden, ein <b>CH</b> durch <b>Schweiz</b>:</p>
+	<p><b>&lt;ADDRESS.COUNTRY.CODE2$REPLACE:{DE,Deutschland;CH,Schweiz}&gt;</b></p>
+
+	<h2>Sonderzeichen</h2>
+	<p>Um in den Parametern auch spezielle Sonderzeichen verwenden zu können, werden diese extra kodiert:</p>
+
+	<ul>
+		<li><b>%LT</b> für <b>&lt;</b></li>
+		<li><b>%GT</b> für <b>&gt;</b></li>
+		<li><b>%NL</b> für <b>Neue Zeile</b></li>
+		<li><b>%TAB</b> für <b>Tabspace</b></li>
+		<li><b>%DOLLAR</b> für <b>$</b></li>
+	</ul>
+
+	<p class="see">Siehe auch <a href="placeholders_common.html">Allgemeine Platzhalter</a></p>
+
+</body>
+</html>

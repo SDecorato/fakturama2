@@ -486,8 +486,8 @@ public class Placeholders {
 			if (!par.isEmpty())
 					value = value + removeQuotationMarks(par);
 
-			// Parameter "NEWLINE"
-			par = Placeholders.extractParam(placeholder,"NEWLINE");
+			// Parameter "INONELINE"
+			par = Placeholders.extractParam(placeholder,"INONELINE");
 			if (!par.isEmpty())
 				value = StringInOneLine(value, removeQuotationMarks(par));
 

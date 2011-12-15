@@ -309,6 +309,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 						postString += "&lasttime=" + lasttime.toString();
 				}
 				
+//				System.out.println(postString);
 				writer.write(postString);
 				writer.flush();
 				writer.close();
@@ -565,6 +566,13 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// Add an "*" to mark the ID as "notify customer"
 		String value = Integer.toString(webshopState);
 
+		//Replace the "," by "&comma;
+		comment = comment.replace("%2C", "%26comma%3B");
+		//Replace the "=" by "&equal;
+		comment = comment.replace("%3D", "%26equal%3B");
+		
+		
+		
 		if (notify)
 			value += "*" + comment;
 

@@ -6,9 +6,9 @@
  * 
  * Web shop connector script
  */
-define ('FAKTURAMA_CONNECTOR_VERSION','1.4.2..'); 
+define ('FAKTURAMA_CONNECTOR_VERSION','1.5'); 
 /* 
- * Date: 2011-12-09
+ * Date: 2011-12-15
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -879,6 +879,7 @@ $orderstosync = (isset($_POST['setstate']) ? $_POST['setstate'] : '{}');
 $maxproducts = (isset($_POST['maxproducts']) ? $_POST['maxproducts'] : '');
 $lasttime = (isset($_POST['lasttime']) ? $_POST['lasttime'] : '');
 
+
 $orderstosync = substr($orderstosync, 0, -1);
 $orderstosync = substr($orderstosync, 1);
 $orderstosync = explode(",", $orderstosync);
@@ -1034,6 +1035,11 @@ if ($admin_valid != 1)
             // Remove the "*"
 	    $notify_comments = substr($notify_comments,1);
 
+	    // Replace the &comma;
+            $notify_comments = str_replace('&comma;', ",", $notify_comments);
+
+	    // Replace the &equal;
+            $notify_comments = str_replace('&equal;', "=", $notify_comments);
 
 	    // Convert it into the correct character encoding
 	    if (function_exists('iconv'))
