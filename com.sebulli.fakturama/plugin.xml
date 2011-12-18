@@ -887,7 +887,7 @@
       <wizard
             category="com.sebulli.fakturama.export.salesandvouchers"
             class="com.sebulli.fakturama.export.accounts.ExportWizard"
-            icon="icons/16/sales_16.png"
+            icon="icons/16/accounts_16.png"
             id="com.sebulli.fakturama.export.accounts.exportWizard"
             name="%wizard.export.accounts.name">
          <description>

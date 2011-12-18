@@ -34,6 +34,9 @@
       <toc
             file="toclicense.xml">
       </toc>
+      <toc
+            file="tocparcelservice.xml">
+      </toc>
    </extension>
    <extension
          point="org.eclipse.help.contexts">

@@ -29,7 +29,7 @@ import com.sebulli.fakturama.data.DataSetVoucher;
 import com.sebulli.fakturama.export.ExportWizardPageStartEndDate;
 
 /**
- * Export wizard to export sales
+ * Export wizard to export receipt vouchers
  * 
  * @author Gerd Bartelt
  */
@@ -51,9 +51,9 @@ public class ExportReceiptWizard extends Wizard implements IExportWizard {
 				_("Select a periode.\nOnly the vouchers with a date in this periode will be exported."),
 				false);
 		//T: Title of the export wizard
-		page2 = new ExportOptionPage(_("List of Sales as Table"),
+		page2 = new ExportOptionPage(_("List of receipt vouchers as Table"),
 				//T: Text of the export wizard
-				_("Set some export options"+"."));
+				_("Set some export options."));
 
 		addPage(page1);
 		addPage(page2);

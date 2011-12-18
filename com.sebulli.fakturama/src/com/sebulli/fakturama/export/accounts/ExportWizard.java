@@ -53,11 +53,11 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		//T: Title of the export wizard
 		page2 = new ExportOptionPage(_("List of account entries as Table"),
 				//T: Text of the export wizard
-				_("Set some export options"+"."));
+				_("Set some export options."));
 		//T: Title of the export wizard
 		page3 = new AccountSettingsPage(_("Account settings"),
 				//T: Text of the export wizard
-				_("Set the start value of this account"+"."));
+				_("Set the start value of this account."));
 
 		addPage(page1);
 		addPage(page2);

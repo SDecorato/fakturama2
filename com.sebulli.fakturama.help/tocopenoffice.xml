@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Open Office.org" link_to="toc.xml#openoffice"> 
+<toc label="Open/Libre Office" link_to="toc.xml#openoffice"> 
 	
-	<topic label="OpenOffice.org Vorlagen"  href="html/openoffice/templates.html">
+	<topic label="Open/Libre Office Vorlagen"  href="html/openoffice/templates.html">
 		<topic label="Allgemeine Platzhalter"  href="html/openoffice/placeholders_common.html"></topic>
 		<topic label="Platzhalter mit Parameter"  href="html/openoffice/placeholders_parameter.html"></topic>
 		<topic label="Platzhalter Artikelliste"  href="html/openoffice/placeholders_itemtable.html"></topic>

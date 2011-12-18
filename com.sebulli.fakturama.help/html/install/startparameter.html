@@ -10,10 +10,21 @@
 <body>
 	<h1>Zusätzliche Programmparameter beim Programmaufruf</h1>
 
-	<h2>Arbeitsverzeichnis / Mandant</h2>
+	<h2>Arbeitsverzeichnis / Mandant - Variante A</h2>
 	<p>Startet Fakturama mit einem bestimmten Arbeitsverzeichnis. Aufruf:<b>-workspace <i>Verzeichnispfad</i></b></p>
 	<p>Beispiel:</p>
 	<p><b>-workspace /home/user/Dokumente/FirmaB</b></p>
+
+	<h2>Arbeitsverzeichnis / Mandant - Variante B</h2>
+	<p>Startet Fakturama komplett mit neuen Einstellungen. Aufruf:<b>-data <i>Verzeichnispfad</i></b></p>
+	<p>Beispiel:</p>
+	<p><b>-data /home/user/.fakturamaB</b></p>
+	<p>Im Gegensatz zur Variante A wird für Fakturama selbst ein neuer Arbeitsordner gesetzt,
+	der nur indirekt etwas mit dem Arbeitsverzeichnis der Firma/Mandanten zu tun hat.
+	Bei dieser Variante wird der Benutzer nach dem ersten Start aufgefordert, ein neues
+	Arbeitsverzeichnis auszuwählen. Außerdem werden hier Einstellungen wie Fensterposition 
+	und Größe von Mandant zu Mandant unterschiedlich abgespeichert.</p>
+
 
 	<h2>Sprache / Land</h2>
 	<p>Startet Fakturama mit einer bestimmten Sprach oder Ländereinstellung. Aufruf:<b>-nl <i>Sprach_LÄNDERCODE</i></b></p>
