@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2011-12-11 13:23+0100\n"
+"POT-Creation-Date: 2011-12-18 14:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -566,94 +566,94 @@ msgid "Connected to:"
 msgstr ""
 
 #. T: Status error message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:333
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:334
 msgid "Error while connecting to webserver."
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:342
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:343
 msgid "Error reading web shop data."
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:351
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:352
 msgid "Loading Data"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:416
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:417
 msgid "No webshop data:"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:468
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:469
 msgid "Error opening:"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:664
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:672
 msgid "Cash_on_Delivery"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:666
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:674
 msgid "Prepayment"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:668
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:676
 msgid "Credit_Card"
 msgstr ""
 
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:670
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:678
 msgid "Check"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:901
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:909
 msgid "Malformated URL:"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:905
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:913
 msgid "Error downloading picture from:"
 msgstr ""
 
 #. T: Text of the web shop reference
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1264
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1272
 msgid "Web shop No."
 msgstr ""
 
 #. T: Error message importing data from web shop
 #. T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
 #. T: Type of the document (singular)
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1334
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1342
 #: ../src/com/sebulli/fakturama/misc/DocumentType.java:154
 msgid "Order"
 msgstr ""
 
 #. T: Error message importing data from web shop
 #. T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1338
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1346
 msgid "Total sum from web shop:"
 msgstr ""
 
 #. T: Error message importing data from web shop
 #. T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1342
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1350
 msgid "is not equal to the calculated one:"
 msgstr ""
 
 #. T: Error message importing data from web shop
 #. T: Format: ORDER xx TOTAL SUM FROM WEB SHOP: xx IS NOT EQUAL TO CALCULATED ONE: xx. PLEASE CHECK
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1346
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1354
 msgid "Please check this!"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1389
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1397
 msgid "Loading product image"
 msgstr ""
 
 #. T: Status message importing data from web shop
-#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1401
+#: ../src/com/sebulli/fakturama/webshopimport/WebShopImportManager.java:1409
 msgid "Importing orders"
 msgstr ""
 
@@ -860,7 +860,7 @@ msgstr ""
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportOptionPage.java:86
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportReceiptWizard.java:56
 #: ../src/com/sebulli/fakturama/export/accounts/ExportWizard.java:56
-msgid "Set some export options"
+msgid "Set some export options."
 msgstr ""
 
 #. T: Sales Exporter - Text in the Calc document for the period
@@ -957,8 +957,6 @@ msgstr ""
 #: ../src/com/sebulli/fakturama/export/sales/ExportWizardUnpaid.java:49
 #: ../src/com/sebulli/fakturama/export/sales/ExportWizard.java:44
 #: ../src/com/sebulli/fakturama/export/sales/ExportWizard.java:49
-#: ../src/com/sebulli/fakturama/export/vouchers/ExportExpenditureWizard.java:54
-#: ../src/com/sebulli/fakturama/export/vouchers/ExportReceiptWizard.java:54
 msgid "List of Sales as Table"
 msgstr ""
 
@@ -1025,7 +1023,8 @@ msgstr ""
 
 #. T: Title of the export wizard
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportExpenditureWizard.java:49
-msgid "List of expenditure voucher as Table"
+#: ../src/com/sebulli/fakturama/export/vouchers/ExportExpenditureWizard.java:54
+msgid "List of expenditure vouchers as Table"
 msgstr ""
 
 #. T: Text of the export wizard
@@ -1049,6 +1048,7 @@ msgstr ""
 
 #. T: Title of the export wizard
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportReceiptWizard.java:49
+#: ../src/com/sebulli/fakturama/export/vouchers/ExportReceiptWizard.java:54
 msgid "List of receipt vouchers as Table"
 msgstr ""
 
@@ -1119,7 +1119,7 @@ msgstr ""
 
 #. T: Text of the export wizard
 #: ../src/com/sebulli/fakturama/export/accounts/ExportWizard.java:60
-msgid "Set the start value of this account"
+msgid "Set the start value of this account."
 msgstr ""
 
 #. T: Text of the export wizard

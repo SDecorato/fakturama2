@@ -46,9 +46,9 @@ public class ExportWizardUnpaid extends Wizard implements IExportWizard {
 				_("Select a periode.\nOnly the unpaid invoices with a date in this periode will be exported."),
 				true);
 		//T: Title of the export wizard
-		page2 = new ExportOptionPage(_("List of Sales as Table"),
+		page2 = new ExportOptionPage(_("List of unpaid invoices"),
 				//T: Text of the export wizard
-				_("Set some export options"+"."));
+				_("Set some export options."));
 
 		addPage(page1);
 		addPage(page2);

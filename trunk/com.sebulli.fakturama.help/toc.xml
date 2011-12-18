@@ -17,6 +17,9 @@
    <topic label="Webshop" href="html/webshop/webshop.html">
       <anchor id="webshop"/>
    </topic>
+   <topic label="Paketdienst" href="html/parcelservice/main.html">
+      <anchor id="parcelservice"/>
+   </topic>
    <topic label="Arbeitsverzeichnis" href="html/workspace/workspace.html">
       <anchor id="workspace"/>
    </topic>

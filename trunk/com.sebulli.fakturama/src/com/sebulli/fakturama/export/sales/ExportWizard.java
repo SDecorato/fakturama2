@@ -48,7 +48,7 @@ public class ExportWizard extends Wizard implements IExportWizard {
 		//T: Title of the export wizard
 		page2 = new ExportOptionPage(_("List of Sales as Table"),
 				//T: Text of the export wizard
-				_("Set some export options"+"."));
+				_("Set some export options."));
 
 		addPage(page1);
 		addPage(page2);
