@@ -491,10 +491,21 @@ public class Placeholders {
 			if (!par.isEmpty())
 				value = StringInOneLine(value, removeQuotationMarks(par));
 
-			// Parameter "Replace"
+			// Parameter "REPLACE"
 			par = Placeholders.extractParam(placeholder,"REPLACE");
 			if (!par.isEmpty())
 				value = replaceValues(removeQuotationMarks(par) , value);
+
+			// Parameter "FORMAT"
+			par = Placeholders.extractParam(placeholder,"FORMAT");
+			if (!par.isEmpty()) {
+				try {
+					value = DataUtils.DoubleToDecimalFormatedValue(Double.valueOf(value), par);
+				}
+				catch (Exception e) {
+				}
+
+			}
 			
 		}
 		else {
