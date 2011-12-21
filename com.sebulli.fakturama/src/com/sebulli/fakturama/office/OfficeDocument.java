@@ -734,35 +734,26 @@ public class OfficeDocument extends Object {
 	private void fillItemTableWithData(int row, String placeholderDisplayText, DataSetItem item, IText iText, int index, String cellText) {
 
 		String value = "";
-		String format = "";
 		
 		// Get the column's header
-		String key = placeholderDisplayText.substring(1, placeholderDisplayText.length() - 1);
+		String placeholder = placeholderDisplayText.substring(1, placeholderDisplayText.length() - 1);
+		String key = placeholder.split("\\$")[0];
 
 		Price price = new Price(item);
 
 		// Get the item quantity
-		if (placeholderDisplayText.equals("<ITEM.QUANTITY>")) {
+		if (key.equals("ITEM.QUANTITY")) {
 			value = DataUtils.DoubleToFormatedQuantity(item.getDoubleValueByKey("quantity"));
 		}
 
-		else if (placeholderDisplayText.startsWith("<ITEM.QUANTITY$") && placeholderDisplayText.endsWith(">")) {
-			format = placeholderDisplayText.substring(15, placeholderDisplayText.length()-1);
-			try {
-				value = DataUtils.DoubleToDecimalFormatedValue(item.getDoubleValueByKey("quantity"), format);
-			}
-			catch (Exception e) {
-				value = DataUtils.DoubleToFormatedQuantity(item.getDoubleValueByKey("quantity"));
-			}
-		}
-		
+
 		// The position
-		else if (placeholderDisplayText.equals("<ITEM.POS>")) {
+		else if (key.equals("ITEM.POS")) {
 			value = Integer.toString(row + 1);
 		}
 
 		// The text for optional items
-		else if (placeholderDisplayText.equals("<ITEM.OPTIONAL.TEXT>")) {
+		else if (key.equals("ITEM.OPTIONAL.TEXT")) {
 			if (item.getBooleanValueByKey("optional")) {
 				value = Activator.getDefault().getPreferenceStore().getString("OPTIONALITEMS_OPTIONALITEM_TEXT");
 				value = value.replaceAll("<br>", "\n");
@@ -770,22 +761,22 @@ public class OfficeDocument extends Object {
 		}
 		
 		// Get the item name
-		else if (placeholderDisplayText.equals("<ITEM.NAME>")) {
+		else if (key.equals("ITEM.NAME")) {
 			value = item.getStringValueByKey("name");
 		}
 
 		// Get the item number
-		else if (placeholderDisplayText.equals("<ITEM.NR>")) {
+		else if (key.equals("ITEM.NR")) {
 			value = item.getStringValueByKey("itemnr");
 		}
 
 		// Get the quanity unit
-		else if (placeholderDisplayText.equals("<ITEM.QUANTITYUNIT>")) {
+		else if (key.equals("ITEM.QUANTITYUNIT")) {
 			value = item.getStringValueByKey("qunit");
 		}
 
 		// Get the item description
-		else if (placeholderDisplayText.equals("<ITEM.DESCRIPTION>")) {
+		else if (key.equals("ITEM.DESCRIPTION")) {
 			// 2011-06-24 sbauer@eumedio.de
 			// Remove pre linebreak if description if description is empty to avoid empty lines
 			if( item.getStringValueByKey("description").isEmpty() )
@@ -795,57 +786,57 @@ public class OfficeDocument extends Object {
 		}
 
 		// Get the item discount
-		else if (placeholderDisplayText.equals("<ITEM.DISCOUNT.PERCENT>")) {
+		else if (key.equals("ITEM.DISCOUNT.PERCENT")) {
 			value = DataUtils.DoubleToFormatedPercent(item.getDoubleValueByKey("discount"));
 		}
 
 		// Get the item's VAT
-		else if (placeholderDisplayText.equals("<ITEM.VAT.PERCENT>")) {
+		else if (key.equals("ITEM.VAT.PERCENT")) {
 			value = DataUtils.DoubleToFormatedPercent(item.getDoubleValueByKey("vatvalue"));
 		}
 
 		// Get the item's VAT name
-		else if (placeholderDisplayText.equals("<ITEM.VAT.NAME>")) {
+		else if (key.equals("ITEM.VAT.NAME")) {
 			value = item.getStringValueByKey("vatname");
 		}
 
 		// Get the item's VAT description
-		else if (placeholderDisplayText.equals("<ITEM.VAT.DESCRIPTION>")) {
+		else if (key.equals("ITEM.VAT.DESCRIPTION")) {
 			value = item.getStringValueByKey("vatdescription");
 		}
 
 		// Get the item net value
-		else if (placeholderDisplayText.equals("<ITEM.UNIT.NET>")) {
+		else if (key.equals("ITEM.UNIT.NET")) {
 			value = price.getUnitNetRounded().asFormatedString();
 		}
 
 		// Get the item VAT
-		else if (placeholderDisplayText.equals("<ITEM.UNIT.VAT>")) {
+		else if (key.equals("ITEM.UNIT.VAT")) {
 			value = price.getUnitVatRounded().asFormatedString();
 		}
 
 		// Get the item gross value
-		else if (placeholderDisplayText.equals("<ITEM.UNIT.GROSS>")) {
+		else if (key.equals("ITEM.UNIT.GROSS")) {
 			value = price.getUnitGrossRounded().asFormatedString();
 		}
 
 		// Get the discounted item net value
-		else if (placeholderDisplayText.equals("<ITEM.UNIT.NET.DISCOUNTED>")) {
+		else if (key.equals("ITEM.UNIT.NET.DISCOUNTED")) {
 			value = price.getUnitNetDiscountedRounded().asFormatedString();
 		}
 
 		// Get the discounted item VAT
-		else if (placeholderDisplayText.equals("<ITEM.UNIT.VAT.DISCOUNTED>")) {
+		else if (key.equals("ITEM.UNIT.VAT.DISCOUNTED")) {
 			value = price.getUnitVatDiscountedRounded().asFormatedString();
 		}
 
 		// Get the discounted item gross value
-		else if (placeholderDisplayText.equals("<ITEM.UNIT.GROSS.DISCOUNTED>")) {
+		else if (key.equals("ITEM.UNIT.GROSS.DISCOUNTED")) {
 			value = price.getUnitGrossDiscountedRounded().asFormatedString();
 		}
 
 		// Get the total net value
-		else if (placeholderDisplayText.equals("<ITEM.TOTAL.NET>")) {
+		else if (key.equals("ITEM.TOTAL.NET")) {
 			value = price.getTotalNetRounded().asFormatedString();
 			if (item.getBooleanValueByKey("optional")) {
 				if (Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_REPLACE_PRICE"))
@@ -855,7 +846,7 @@ public class OfficeDocument extends Object {
 		}
 
 		// Get the total VAT
-		else if (placeholderDisplayText.equals("<ITEM.TOTAL.VAT>")) {
+		else if (key.equals("ITEM.TOTAL.VAT")) {
 			value = price.getTotalVatRounded().asFormatedString();
 			if (item.getBooleanValueByKey("optional")) {
 				if (Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_REPLACE_PRICE"))
@@ -864,7 +855,7 @@ public class OfficeDocument extends Object {
 		}
 
 		// Get the total gross value
-		else if (placeholderDisplayText.equals("<ITEM.TOTAL.GROSS>")) {
+		else if (key.equals("ITEM.TOTAL.GROSS")) {
 			value = price.getTotalGrossRounded().asFormatedString();
 			if (item.getBooleanValueByKey("optional")) {
 				if (Activator.getDefault().getPreferenceStore().getBoolean("OPTIONALITEMS_REPLACE_PRICE"))
@@ -873,27 +864,30 @@ public class OfficeDocument extends Object {
 		}
 		
 		// Get product picture
-		else if (placeholderDisplayText.startsWith("<ITEM.PICTURE") && placeholderDisplayText.endsWith(">") ){
+		else if (key.startsWith("ITEM.PICTURE")){
 			
-			// Is the image width and height set ?
-			if (placeholderDisplayText.startsWith("<ITEM.PICTURE$") && placeholderDisplayText.endsWith(">")) 
-				format = placeholderDisplayText.substring(14, placeholderDisplayText.length()-1);
+			String width_s = Placeholders.extractParam(placeholder,"WIDTH");
+			String height_s = Placeholders.extractParam(placeholder,"HEIGHT");
 
 			if (!item.getStringValueByKey("picturename").isEmpty()) {
 				// Default height and with
-				int pixelWidth = 150;
-				int pixelHeight = 100;
+				int pixelWidth = 0;
+				int pixelHeight = 0;
 
-				// Get the width and height from the format string
-				String formatParts[] = format.split(",");
-				if (formatParts.length >=2) {
-					try {
-						pixelWidth = Integer.parseInt(formatParts[0]);
-						pixelHeight = Integer.parseInt(formatParts[1]);
-					}
-					catch (NumberFormatException e) {
-					}
+				// Use the parameter values
+				try {
+					pixelWidth = Integer.parseInt(width_s);
+					pixelHeight = Integer.parseInt(height_s);
 				}
+				catch (NumberFormatException e) {
+				}
+				
+				// Use default values
+				if (pixelWidth < 1)
+					pixelWidth = 150;
+				if (pixelHeight < 1)
+					pixelHeight = 100;
+
 
 				String imagePath = Workspace.INSTANCE.getWorkspace() + 
 				 					Workspace.productPictureFolderName + 
@@ -962,6 +956,9 @@ public class OfficeDocument extends Object {
 		else
 			return;
 
+		// Interpret all parameters
+		value = Placeholders.interpretParameters(placeholder,value);
+		
 		// Convert CRLF to LF 
 		value = convertCRLF2LF(value);
 
