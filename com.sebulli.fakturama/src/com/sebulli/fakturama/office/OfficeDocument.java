@@ -250,13 +250,13 @@ public class OfficeDocument extends Object {
 				String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
 				
 				// Find the item table
-				if (placeholderDisplayText.equals("<ITEM.NAME>") || placeholderDisplayText.equals("<ITEM.DESCRIPTION>")) {
+				if (placeholderDisplayText.startsWith("<ITEM.")) {
 					itemCell = placeholder.getTextRange().getCell();
 					itemsTable = itemCell.getTextTable();
 				}
 
 				// Find the vat table
-				if (placeholderDisplayText.equals("<VATLIST.VALUES>") || placeholderDisplayText.equals("<VATLIST.DESCRIPTIONS>")) {
+				if (placeholderDisplayText.startsWith("<VATLIST.")) {
 					vatListCell = placeholder.getTextRange().getCell();
 					vatListTable = vatListCell.getTextTable();
 				}
@@ -285,7 +285,7 @@ public class OfficeDocument extends Object {
 
 					// Get each placeholder
 					ITextField placeholder = placeholders[i];
-					String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
+					String placeholderDisplayText = placeholder.getDisplayText();
 
 					if (placeholder.getTextRange().getCell() != null) {
 
@@ -777,12 +777,11 @@ public class OfficeDocument extends Object {
 
 		// Get the item description
 		else if (key.equals("ITEM.DESCRIPTION")) {
-			// 2011-06-24 sbauer@eumedio.de
-			// Remove pre linebreak if description if description is empty to avoid empty lines
-			if( item.getStringValueByKey("description").isEmpty() )
-				cellText = cellText.replaceFirst("\n<ITEM.DESCRIPTION>", "");
-			
 			value = item.getStringValueByKey("description");
+			// Remove pre linebreak if description is empty to avoid empty lines
+			if( value.isEmpty() ) {
+				placeholderDisplayText = placeholderDisplayText.replaceFirst("\n<ITEM.DESCRIPTION>", "<ITEM.DESCRIPTION>");
+			}
 		}
 
 		// Get the item discount
