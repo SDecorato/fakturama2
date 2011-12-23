@@ -430,4 +430,26 @@ public abstract class UniDataSet {
 			this.ud = defaultUniData;
 	}
 
+	
+	/**
+	 * Copy a complete data set into an other. Except the id
+	 * 
+	 * @param destination
+	 * @param source
+	 * @param copyEmptyValues
+	 * 		True, if empty values will be copied
+	 */
+	public static void copy(UniDataSet destination, UniDataSet source, boolean copyEmptyValues) {
+		
+		// Copy all values, except the id
+		for (String key : source.hashMap.keySet()) {
+			if (!key.equals("id")) {
+				
+				String value = source.getStringValueByKey(key);
+				if (copyEmptyValues || !value.isEmpty())
+					destination.setStringValueByKey(key, value);
+			}
+		}
+
+	}
 }

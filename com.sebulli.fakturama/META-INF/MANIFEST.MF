@@ -8,7 +8,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.hsqldb;bundle-version="2.0.0",
  org.eclipse.ui.intro,
- ag.ion.noa;bundle-version="2.2.301"
+ ag.ion.noa;bundle-version="2.2.301",
+ au.com.bytecode.opencsv;bundle-version="2.3.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: sebulli.com

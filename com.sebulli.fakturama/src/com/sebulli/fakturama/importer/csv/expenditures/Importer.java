@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.data.Data;
@@ -77,30 +79,6 @@ public class Importer {
 		return false;
 	}
 
-	/**
-	 * Removes the leading and trailing quotes of a string
-	 * 
-	 * @param s
-	 *            Input string with quotes
-	 * @return The string without quotes
-	 * 
-	 */
-	private String removeQuotes(String s) {
-
-		// To short
-		if (s.length() < 2)
-			return s;
-
-		// Removes the leading quotes
-		if (s.startsWith("\""))
-			s = s.substring(1);
-
-		// Removes the trailing quotes
-		if (s.endsWith("\""))
-			s = s.substring(0, s.length() - 1);
-
-		return s;
-	}
 
 	/**
 	 * The import procedure
@@ -126,10 +104,13 @@ public class Importer {
 		// Open the existing file
 		InputStreamReader isr;
 		BufferedReader in = null;
+		CSVReader csvr = null;
+
 	
 		try {
 			isr = new InputStreamReader(new FileInputStream(fileName),"UTF-8");
 			in = new BufferedReader(isr);
+			csvr = new CSVReader(in, ';');
 		}
 		catch (UnsupportedEncodingException e) {
 			Logger.logError(e, "Unsupported UTF-8 encoding");
@@ -142,22 +123,15 @@ public class Importer {
 			return;
 		}
 
-		String line = "";
 		String[] columns;
 
 		// Read the first line
 		try {
-			if ((line = in.readLine()) != null) {
-				lineNr++;
-
-				// Get the headers of the columns
-				columns = line.split(";");
-				for (int i = 0; i < columns.length; i++) {
-					columns[i] = removeQuotes(columns[i]);
-				}
-
-			}
-			else {
+			
+			// Read next CSV line
+			columns = csvr.readNext();
+			
+			if (columns.length < 5) {
 				//T: Error message
 				result += NL + _("Error reading the first line");
 				return;
@@ -178,22 +152,20 @@ public class Importer {
 			DataSetExpenditureVoucher lastExpenditure = null;
 
 			// Read line by line
-			while ((line = in.readLine()) != null) {
+			String[] cells;
+			while ((cells = csvr.readNext()) != null) {
 				lineNr++;
 
 				DataSetExpenditureVoucher expenditure = new DataSetExpenditureVoucher();
 				DataSetExpenditureVoucherItem expenditureItem = new DataSetExpenditureVoucherItem();
 				Properties prop = new Properties();
 
-				// Get the cells
-				String[] cells = line.split(";");
-
 				// Dispatch all the cells into a property
 				for (int col = 0; col < cells.length; col++) {
 					if (col < columns.length) {
 
 						if (isRequiredColumn(columns[col])) {
-							prop.setProperty(columns[col].toLowerCase(), removeQuotes(cells[col]));
+							prop.setProperty(columns[col].toLowerCase(), cells[col]);
 						}
 					}
 				}

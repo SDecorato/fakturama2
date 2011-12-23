@@ -24,7 +24,8 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
-import com.sebulli.fakturama.importer.ImportWizardPage;
+import com.sebulli.fakturama.importer.ImportOptionPage;
+import com.sebulli.fakturama.importer.ImportProgressDialog;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTable;
 import com.sebulli.fakturama.views.datasettable.ViewProductTable;
 import com.sebulli.fakturama.views.datasettable.ViewVatTable;
@@ -36,8 +37,8 @@ import com.sebulli.fakturama.views.datasettable.ViewVatTable;
  */
 public class ImportWizard extends Wizard implements IImportWizard {
 
-	// The first (and only) wizard page
-	ImportWizardPage mainPage;
+	// The wizard pages
+	ImportOptionPage optionPage;
 
 	// The selected file to import
 	String selectedFile = "";
@@ -50,9 +51,14 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	public ImportWizard() {
 		//T: Title of the CSV Import wizard
 		setWindowTitle(_("Import CSV"));
-		mainPage = new ImportWizardPage();
-		mainPage.setPageComplete(true);
-		addPage(mainPage);
+		//T: Import product wizard
+		optionPage = new ImportOptionPage(_("Import Products"),
+				//T: Import product wizard
+				_("Set some import options."),
+				"/icons/preview/products2.png");
+
+		optionPage.setPageComplete(true);
+		addPage(optionPage);
 		setNeedsProgressMonitor(true);
 	}
 
@@ -63,18 +69,8 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	public boolean performFinish() {
-		return true;
-	}
 
-	/**
-	 * Initializes this creation wizard using the passed workbench and object
-	 * selection
-	 * 
-	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
-	 *      org.eclipse.jface.viewers.IStructuredSelection)
-	 */
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		FileDialog fileDialog = new FileDialog(workbench.getActiveWorkbenchWindow().getShell());
+		FileDialog fileDialog = new FileDialog(this.getShell());
 		//fileDialog.setFilterPath("/");
 		fileDialog.setFilterExtensions(new String[] { "*.csv" });
 
@@ -96,11 +92,12 @@ public class ImportWizard extends Wizard implements IImportWizard {
 			if (!selectedFile.isEmpty()) {
 
 				Importer csvImporter = new Importer();
-				csvImporter.importCSV(selectedFile, false);
+				csvImporter.importCSV(selectedFile, false,optionPage.getUpdateExisting(), optionPage.getUpdateWithEmptyValues());
 
-				mainPage.setStatusText(csvImporter.getResult());
+				ImportProgressDialog dialog= new ImportProgressDialog(this.getShell());
+				dialog.setStatusText(csvImporter.getResult());
 
-				// Find the products table view
+				// Find the voucher table view
 				ViewDataSetTable view = (ViewDataSetTable) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 						.findView(ViewProductTable.ID);
 
@@ -114,10 +111,22 @@ public class ImportWizard extends Wizard implements IImportWizard {
 				// Refresh it
 				if (view != null)
 					view.refresh();
+				
+				return (dialog.open() == ImportProgressDialog.OK);
 
 			}
 		}
 
+		return false;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
+	 */
+	@Override
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
+	}
+
 
 }
