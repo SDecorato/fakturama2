@@ -113,7 +113,7 @@ public class OfficePreferencePage extends FieldEditorPreferencePage implements I
 	public static void syncWithPreferencesFromDatabase(boolean write) {
 		IEclipsePreferences node = DefaultScope.INSTANCE.getNode(Activator.PLUGIN_ID);
 
-		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_PATH", write);
+		//PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_PATH", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_ODT_PDF", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_START_IN_NEW_THREAD", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("OPENOFFICE_ODT_PATH_FORMAT", write);
