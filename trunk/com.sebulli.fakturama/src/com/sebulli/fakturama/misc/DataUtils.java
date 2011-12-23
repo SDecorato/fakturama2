@@ -627,7 +627,7 @@ public class DataUtils {
 					calendar.setTime(formatter.parse(date));
 				}
 				catch (ParseException e3) {
-					Logger.logError(e3, "Error parsing Date");
+					Logger.logError(e3, "Error parsing Date:" + date);
 				}
 			}
 		}

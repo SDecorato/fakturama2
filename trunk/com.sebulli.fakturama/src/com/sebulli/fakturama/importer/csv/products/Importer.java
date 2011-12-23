@@ -24,11 +24,14 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
 import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.data.DataSetVAT;
+import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.views.datasettable.ViewProductTable;
@@ -44,7 +47,7 @@ public class Importer {
 	// Defines all columns that are used and imported
 	private String[] requiredHeaders = { "itemnr", "name", "category", "description", "price1", "price2", "price3", "price4", "price5",
 			 "block1", "block2", "block3", "block4", "block5", "vat", "options", "weight", "unit", 
-			 "date_added", "picturename", "quantity", "webshopid" };
+			 "date_added", "picturename", "quantity", "webshopid", "qunit" };
 
 	
 	// The result string
@@ -78,30 +81,6 @@ public class Importer {
 		return false;
 	}
 
-	/**
-	 * Removes the leading and trailing quotes of a string
-	 * 
-	 * @param s
-	 *            Input string with quotes
-	 * @return The string without quotes
-	 * 
-	 */
-	private String removeQuotes(String s) {
-
-		// To short
-		if (s.length() < 2)
-			return s;
-
-		// Removes the leading quotes
-		if (s.startsWith("\""))
-			s = s.substring(1);
-
-		// Removes the trailing quotes
-		if (s.endsWith("\""))
-			s = s.substring(0, s.length() - 1);
-
-		return s;
-	}
 
 	/**
 	 * The import procedure
@@ -110,8 +89,12 @@ public class Importer {
 	 *            Name of the file to import
 	 * @param test
 	 *            if true, the dataset are not imported (currently not used)
+	 * @param updateExisting
+	 *            if true, also existing entries will be updated
+	 * @param importEmptyValues
+	 *            if true, also empty values will be updated
 	 */
-	public void importCSV(final String fileName, boolean test) {
+	public void importCSV(final String fileName, boolean test,boolean updateExisting, boolean importEmptyValues) {
 
 		// Result string
 		//T: Importing + .. FILENAME
@@ -119,18 +102,20 @@ public class Importer {
 
 		// Count the imported products
 		int importedProducts = 0;
+		int updatedProducts = 0;
 
 		// Count the line of the import file
 		int lineNr = 0;
 
-
 		// Open the existing file
 		InputStreamReader isr;
 		BufferedReader in = null;
-	
+		CSVReader csvr = null;
+		
 		try {
 			isr = new InputStreamReader(new FileInputStream(fileName),"UTF-8");
 			in = new BufferedReader(isr);
+			csvr = new CSVReader(in, ';');
 		}
 		catch (UnsupportedEncodingException e) {
 			Logger.logError(e, "Unsupported UTF-8 encoding");
@@ -143,22 +128,15 @@ public class Importer {
 			return;
 		}
 
-		String line = "";
 		String[] columns;
 
 		// Read the first line
 		try {
-			if ((line = in.readLine()) != null) {
-				lineNr++;
-
-				// Get the headers of the columns
-				columns = line.split(";");
-				for (int i = 0; i < columns.length; i++) {
-					columns[i] = removeQuotes(columns[i]);
-				}
-
-			}
-			else {
+			
+			// Read next CSV line
+			columns = csvr.readNext();
+			
+			if (columns.length < 5) {
 				//T: Error message
 				result += NL + _("Error reading the first line");
 				return;
@@ -175,21 +153,19 @@ public class Importer {
 		try {
 
 			// Read line by line
-			while ((line = in.readLine()) != null) {
+			String[] cells;
+			while ((cells = csvr.readNext()) != null) {
 				lineNr++;
 
 				DataSetProduct product = new DataSetProduct();
 				Properties prop = new Properties();
-
-				// Get the cells
-				String[] cells = line.split(";");
 
 				// Dispatch all the cells into a property
 				for (int col = 0; col < cells.length; col++) {
 					if (col < columns.length) {
 
 						if (isRequiredColumn(columns[col])) {
-							prop.setProperty(columns[col].toLowerCase(), removeQuotes(cells[col]));
+							prop.setProperty(columns[col].toLowerCase(), cells[col]);
 						}
 					}
 				}
@@ -235,6 +211,7 @@ public class Importer {
 					product.setStringValueByKey("picturename", prop.getProperty("picturename"));
 					product.setStringValueByKey("quantity", prop.getProperty("quantity"));
 					product.setStringValueByKey("webshopid", prop.getProperty("webshopid"));
+					product.setStringValueByKey("qunit", prop.getProperty("qunit"));
 
 					String vatName = prop.getProperty("item vat");
 
@@ -248,6 +225,17 @@ public class Importer {
 						importedProducts++;
 						Data.INSTANCE.getProducts().addNewDataSet(product);
 					}
+					else if (updateExisting)
+					{
+						// Update data
+						DataSetProduct existingProduct = Data.INSTANCE.getProducts().getExistingDataSet(product);
+						UniDataSet.copy(existingProduct, product, importEmptyValues);
+						
+						updatedProducts ++;
+						// Update the modified product data
+						Data.INSTANCE.getProducts().updateDataSet(existingProduct);
+
+					}
 				}
 
 			}
@@ -258,7 +246,10 @@ public class Importer {
 			
 			// The result string
 			//T: Message: xx Products HAVE BEEN IMPORTED 
-			result += NL + Integer.toString(importedProducts) + " " + _("Products have been imported.");
+			result += NL + Integer.toString(importedProducts) + " " + _("products have been imported.");
+			if (updatedProducts > 0)
+				result += NL + Integer.toString(updatedProducts) + " " + _("products have been updated.");
+				
 
 		}
 		catch (IOException e) {
