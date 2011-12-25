@@ -56,9 +56,9 @@
       <description>Tabelle mit einer Übersicht aller Dokumente.</description>
       <topic label="Übersichtsfester Dokumente"  href="html/application/overview.html" />
    </context>
-   <context id="expenditureTableView" title="Übersicht aller Ausgabenbelege">
-      <description>Tabelle mit einer Übersicht aller Ausgabenbelege</description>
-      <topic label="Übersichtsfester Ausgabenbelege"  href="html/application/overview.html" />
+   <context id="voucherTableView" title="Übersicht aller Belege">
+      <description>Tabelle mit einer Übersicht aller Belege</description>
+      <topic label="Übersichtsfester Belege"  href="html/application/overview.html" />
    </context>
    <context id="listTableView" title="Übersicht aller Listeneinträge">
       <description>Tabelle mit einer Übersicht aller Listeneinträge</description>
@@ -161,6 +161,10 @@
    <context id="browserPreferencePage" title="Webbrowser / Startseite">
       <description>Einstellungen des Webbrowsers und der Startseite.</description>
       <topic label="Webbrowser / Startseite"  href="html/preferences/browser.html" />
+   </context>
+   <context id="toolbarPreferencePage" title="Toolbar">
+      <description>Icons in der Toolbar ein/ausblenden.</description>
+      <topic label="Toolbar"  href="html/preferences/toolbar.html" />
    </context>
    
 </contexts>
