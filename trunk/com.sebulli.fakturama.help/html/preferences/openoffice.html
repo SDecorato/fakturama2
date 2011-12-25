@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>OpenOffice Einstellungen</title>
+	<title>OpenOffice.org / LibreOffice Einstellungen</title>
   	<link rel="stylesheet" href="../common/style.css" type="text/css" />
 </head>
 
@@ -31,6 +31,26 @@
 	im Arbeitsverzeichnis gespeichert. Entweder als OpenOffice.org/LibreOffice ODT Dokument, als PDF oder beides.</p>
 	<img class="icon" src="odt.png" alt="" />
 	<img class="icon" src="pdf.png" alt="" />
+
+	<a name="preferences_office_path" ></a>
+	<h2>Format und Pfad der Dateien</h2>
+	<p>Legt den Pfad der gedruckten und gespeicherten Office und PDF Dokumente fest.</p>
+	<p>Über das Hauptmenü Extras <b>Dokumente neu organisieren</b> ist es möglich,
+	bereits gespeichterte Dokumente nach den neuen Vorgaben zu verschieben und umzubenennen.</p>
+	<p>Beispiel:</p>
+	<p class="code">ODT2/{doctype}/{yyyy}/{mm}/{docname}_{address}.odt</p>
+	<p>Folgende Platzhalter können benutzt werden:</p>
+	<ul>
+		<li><b>{docname}</b> Name des Dokumentes</li>
+		<li><b>{doctype}</b> Art des Dokumentes, z.B. <b>Rechnungen</b></li>
+		<li><b>{address}</b> Adresse des Kunden (1. Zeile)</li>
+		<li><b>{yyyy}</b> Jahr (4-stellig)</li>
+		<li><b>{yy}</b> Jahr (2-stellig)</li>
+		<li><b>{mm}</b> Monat</li>
+		<li><b>{tt}</b> Tag</li>
+	</ul>
+	<p class="see">Siehe auch <a href="../application/mainmenu_extras.html">Hauptmenü Extras</a></p>
+
 
 	<h2>OpenOffice in eigenem Thread starten</h2>
 	<p>Wird diese Option aktiviert, so wird beim Drucken eines Dokumentes die Anwendung OpenOffice.org Writer in einem
