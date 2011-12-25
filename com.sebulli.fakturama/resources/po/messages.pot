@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2011-12-18 14:56+0100\n"
+"POT-Creation-Date: 2011-12-25 12:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -815,6 +815,7 @@ msgstr ""
 #: ../src/com/sebulli/fakturama/export/productbuyers/ExportOptionPage.java:71
 #: ../src/com/sebulli/fakturama/export/sales/ExportOptionPage.java:70
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportOptionPage.java:71
+#: ../src/com/sebulli/fakturama/importer/ImportOptionPage.java:74
 msgid "preview"
 msgstr ""
 
@@ -943,6 +944,7 @@ msgstr ""
 
 #. T: Title of the export wizard
 #: ../src/com/sebulli/fakturama/export/sales/ExportWizardUnpaid.java:44
+#: ../src/com/sebulli/fakturama/export/sales/ExportWizardUnpaid.java:49
 msgid "List of unpaid invoices"
 msgstr ""
 
@@ -954,7 +956,6 @@ msgid ""
 msgstr ""
 
 #. T: Title of the export wizard
-#: ../src/com/sebulli/fakturama/export/sales/ExportWizardUnpaid.java:49
 #: ../src/com/sebulli/fakturama/export/sales/ExportWizard.java:44
 #: ../src/com/sebulli/fakturama/export/sales/ExportWizard.java:49
 msgid "List of Sales as Table"
@@ -1358,128 +1359,154 @@ msgid ""
 "Fakturama will be restarted!"
 msgstr ""
 
-#. T: Text of the Import CSV Wizard Page
-#: ../src/com/sebulli/fakturama/importer/ImportWizardPage.java:45
-msgid "ImportCSVWizardPage"
+#. T: Import Wizard Page 1 - Long description.
+#. T: Import product wizard
+#: ../src/com/sebulli/fakturama/importer/ImportOptionPage.java:90
+#: ../src/com/sebulli/fakturama/importer/csv/products/ImportWizard.java:57
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/ImportWizard.java:56
+msgid "Set some import options."
 msgstr ""
 
-#. T: Text of the Import CSV Wizard Page
-#: ../src/com/sebulli/fakturama/importer/ImportWizardPage.java:47
-msgid "Import Table as CSV"
+#. T: Import Wizard page
+#: ../src/com/sebulli/fakturama/importer/ImportOptionPage.java:96
+msgid "Update existing entries"
 msgstr ""
 
-#. T: Import progress of the CSV import
-#: ../src/com/sebulli/fakturama/importer/ImportWizardPage.java:81
-msgid "Import Progress:"
+#. T: Import Wizard page
+#: ../src/com/sebulli/fakturama/importer/ImportOptionPage.java:101
+msgid "Update with empty values"
 msgstr ""
 
 #. T: Importing + .. FILENAME
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:118
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:117
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:118
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:101
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:95
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:101
 msgid "Importing"
 msgstr ""
 
 #. T: Error message
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:142
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:141
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:142
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:127
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:122
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:129
 msgid "File not found."
 msgstr ""
 
 #. T: Error message
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:163
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:169
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:162
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:168
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:163
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:169
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:141
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:147
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:136
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:142
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:143
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:149
 msgid "Error reading the first line"
 msgstr ""
 
 #. T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:202
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:206
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:202
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:178
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:178
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:180
 msgid "Line"
 msgstr ""
 
 #. T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:204
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:208
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:204
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:180
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:180
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:182
 msgid "No Data in Column"
 msgstr ""
 
 #. T: Format: LINE: xx: NO DATA IN COLUMN yy FOUND.
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:206
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:210
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:206
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:182
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:182
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:184
 msgid "found."
 msgstr ""
 
 #. T: Message: xx Products HAVE BEEN IMPORTED
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:261
-msgid "Products have been imported."
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:249
+msgid "products have been imported."
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:251
+msgid "products have been updated."
 msgstr ""
 
 #. T: Error message
-#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:266
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:306
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:280
+#: ../src/com/sebulli/fakturama/importer/csv/products/Importer.java:257
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:278
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:273
 msgid "Error opening the file."
 msgstr ""
 
 #. T: Title of the CSV Import wizard
-#: ../src/com/sebulli/fakturama/importer/csv/products/ImportWizard.java:52
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/ImportWizard.java:52
+#: ../src/com/sebulli/fakturama/importer/csv/products/ImportWizard.java:53
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/ImportWizard.java:53
 #: ../src/com/sebulli/fakturama/importer/csv/contacts/ImportWizard.java:52
 msgid "Import CSV"
 msgstr ""
 
+#. T: Import product wizard
+#: ../src/com/sebulli/fakturama/importer/csv/products/ImportWizard.java:55
+msgid "Import Products"
+msgstr ""
+
 #. T: CSV Import File Dialog Title
-#: ../src/com/sebulli/fakturama/importer/csv/products/ImportWizard.java:88
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/ImportWizard.java:88
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/ImportWizard.java:88
+#: ../src/com/sebulli/fakturama/importer/csv/products/ImportWizard.java:84
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/ImportWizard.java:75
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/ImportWizard.java:82
 msgid "Select file to import"
 msgstr ""
 
 #. T: CSV Import File Filter
-#: ../src/com/sebulli/fakturama/importer/csv/products/ImportWizard.java:91
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/ImportWizard.java:91
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/ImportWizard.java:91
+#: ../src/com/sebulli/fakturama/importer/csv/products/ImportWizard.java:87
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/ImportWizard.java:78
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/ImportWizard.java:85
 msgid "Table as CSV"
 msgstr ""
 
 #. T: Error message Dataset is already imported
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:236
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:208
 msgid "Dataset is already imported"
 msgstr ""
 
 #. T: Error message: DATASET xx FROM date
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:238
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:210
 msgid "Dataset"
 msgstr ""
 
 #. T: DATASET xx FROM date
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:240
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:212
 msgctxt "DATE"
 msgid "from"
 msgstr ""
 
 #. T: Error message Import stopped
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:242
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:214
 msgid "Import stopped"
 msgstr ""
 
 #. T: Message: xx VOUCHERS HAVE BEEN IMPORTED
-#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:301
+#: ../src/com/sebulli/fakturama/importer/csv/expenditures/Importer.java:273
 msgid "Vouchers have been imported."
 msgstr ""
 
-#. T: Message: xx Products HAVE BEEN IMPORTED
-#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:275
-msgid "Contacts have been imported."
+#. T: Message: xx Contacts have been imported
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:266
+msgid "contacts have been imported."
+msgstr ""
+
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/Importer.java:268
+msgid "contacts have been updated."
+msgstr ""
+
+#. T: Import contact wizard
+#: ../src/com/sebulli/fakturama/importer/csv/contacts/ImportWizard.java:54
+msgid "Import Contacts"
+msgstr ""
+
+#. T: Import progress of the CSV import
+#: ../src/com/sebulli/fakturama/importer/ImportProgressDialog.java:47
+msgid "Import Progress:"
 msgstr ""
 
 #. T: Preference page "Office" - Label: Example of the default path. Format: (e.g. PATH).

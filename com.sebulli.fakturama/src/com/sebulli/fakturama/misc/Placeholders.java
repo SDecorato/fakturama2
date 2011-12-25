@@ -90,6 +90,7 @@ public class Placeholders {
 			"PAYMENT.PAID.VALUE",
 			"PAYMENT.PAID.DATE",
 			"PAYMENT.DUE.DAYS",
+			"PAYMENT.DUE.DATE",
 			"PAYMENT.PAID",
 			"ADDRESS.FIRSTLINE",
 			"ADDRESS",

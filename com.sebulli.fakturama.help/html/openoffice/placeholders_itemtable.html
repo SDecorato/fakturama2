@@ -13,15 +13,11 @@
 	Je nach Anzahl der Artikel wird diese Tabellenzeile vervielfacht. Einer der beiden Platzhalter
 	<b>ITEM.NAME</b> oder <b>ITEM.DESCRIPTION</b> ist mindestens erforderlich.</p>
 	<img class="icon" src="placeholders_itemtable.png" alt="" /> <br />
+	<p>Bei diesen Platzhaltern können zusätzliche Parameter angegeben werden.</p>
+	<p class="see">Siehe auch <a href="placeholders_parameter.html">Platzhalter mit Parameter</a></p>
 
 	<h2>ITEM.QUANTITY</h2>
 	<p>Artikelanzahl.</p>
-	<p>Das Format kann durch ein zusätzliches Dollarzeichen <b>$</b> und das Zahlenformat festgelegt werden.</p>
-	<p>Beispiele:</p>
-	<ul>
-		<li><b>ITEM.QUANTITY$0.00</b> Die Menge 1 wird mit 2 Nachkommastellen als 1.00 dargestellt</li>
-		<li><b>ITEM.QUANTITY$0</b> Die Menge 3.1 wird mit ohne Nachkommastellen als 3 dargestellt</li>
-	</ul>
 
 	<h2>ITEM.POS</h2>
 	<p>Position, fortlaufende Nummer bei 1 beginnend.</p>
@@ -36,6 +32,9 @@
 
 	<h2>ITEM.NR</h2>
 	<p>Artikelnummer</p>
+
+	<h2>ITEM.QUANTITYUNIT</h2>
+	<p>Mengeneinheit</p>
 
 	<h2>ITEM.DESCRIPTION</h2>
 	<p>Beschreibung des Artikels</p>
@@ -85,12 +84,11 @@
 	<p class="see">Siehe <a href="../preferences/optional_items.html">Einstellungen Bedarfspositionen</a></p>
 
 	<h2>ITEM.PICTURE</h2>
-	<p>Platzhalter für das Produktbild. <br />
-	Außer dem Produktbild sollte sich ansonsten kein Platzhalter in der gleichen Spalte befinden.</p>
-	<p>Die Bildgröße kann durch ein zusätzliches Dollarzeichen <b>$</b>
-	und Breite und Höhe in Pixel durch Komma getrennt angegeben werden.</p>
+	<p>Platzhalter für das Produktbild. Größe des Bilder kann über die Parameter
+	<b>HEIGHT</b> und <b>WIDTH</b> festgelegt werden.</p>
 	<p>Beispiel:</p>
-	<p><b>ITEM.PICTURE$200,150</b> Produktbild wird in der Größe 200 x 150 Pixel ausgegeben.</p>
+	<p><b>ITEM.PICTURE$WIDTH:200$HEIGHT:150</b> Produktbild wird 200 x 150 Pixel groß.</p>
+
 
 </body>
 </html>
