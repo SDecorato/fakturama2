@@ -41,7 +41,7 @@ public class ContextHelpConstants {
 	// IDs for UniDataSetTable views
 	public static final String CONTACT_TABLE_VIEW = HELP_PLUGIN + "contactTableView";
 	public static final String DOCUMENT_TABLE_VIEW = HELP_PLUGIN + "documentTableView";
-	public static final String VOUCHER_TABLE_VIEW = HELP_PLUGIN + "expenditureTableView";
+	public static final String VOUCHER_TABLE_VIEW = HELP_PLUGIN + "voucherTableView";
 	public static final String LIST_TABLE_VIEW = HELP_PLUGIN + "listTableView";
 	public static final String PAYMENT_TABLE_VIEW = HELP_PLUGIN + "paymentTableView";
 	public static final String PRODUCT_TABLE_VIEW = HELP_PLUGIN + "productsTableView";
