@@ -4,8 +4,6 @@
 <toc label="Paketdienst" link_to="toc.xml#parcelservice"> 
 	
 	<topic label="Paketdienstvorlagen"  href="html/parcelservice/templates.html">
-		<topic label="Platzhalter"  href="html/openoffice/placeholders_common.html"></topic>
-		<topic label="Platzhalter mit Parameter"  href="html/openoffice/placeholders_parameter.html"></topic>
 	</topic>
 
 </toc>

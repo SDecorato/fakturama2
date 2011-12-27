@@ -33,7 +33,7 @@
 		<topic label="Editor Steuersatz"  href="html/editor/editor_vat.html"></topic>
 		<topic label="Editor Text"  href="html/editor/editor_text.html"></topic>
 		<topic label="Editor Listeneintrag"  href="html/editor/editor_list.html"></topic>
-		<topic label="Editor Einnahmen/Ausgabenbeleg"  href="html/editor/editor_voucher.html"></topic>
+		<topic label="Editor Einnahme/Ausgabebeleg"  href="html/editor/editor_voucher.html"></topic>
 	</topic>
 
 	<topic label="Übersichtsfenster"  href="html/application/overview.html"></topic>

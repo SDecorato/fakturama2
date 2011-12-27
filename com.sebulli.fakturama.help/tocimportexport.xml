@@ -7,8 +7,8 @@
 	<topic label="Import Kontakte aus CSV Datei"  href="html/importexport/import_csv_contacts.html"></topic>
 	<topic label="Import Produkte aus CSV Datei"  href="html/importexport/import_csv_products.html"></topic>
 	<topic label="Export Kontostand"  href="html/importexport/export_accounts.html"></topic>
-	<topic label="Export Liste Ausgabenbelege"  href="html/importexport/export_expenditure_vouchers.html"></topic>
-	<topic label="Export Liste Einnahmenbelege"  href="html/importexport/export_receipt_vouchers.html"></topic>
+	<topic label="Export Liste Ausgabebelege"  href="html/importexport/export_expenditure_vouchers.html"></topic>
+	<topic label="Export Liste Einnahmebelege"  href="html/importexport/export_receipt_vouchers.html"></topic>
 	<topic label="Export Liste Umsätze (bezahlte Rechnungen)"  href="html/importexport/export_sales.html"></topic>
 	<topic label="Export Liste unbezahlte Rechnungen"  href="html/importexport/export_unpaid_invoices.html"></topic>
 	<topic label="Export Adressliste"  href="html/importexport/export_contacts.html"></topic>
