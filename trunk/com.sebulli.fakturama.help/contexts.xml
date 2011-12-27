@@ -15,9 +15,9 @@
       <description>Dokumenteditor für Rechnungen, Lieferscheine etc.</description>
       <topic label="Dokumenteneditor"  href="html/editor/editor_document.html" />
    </context>
-   <context id="expenditureEditor" title="Editor Ausgabenbeleg">
-      <description>Editor für Ausgabenbelege. Alle Ausgaben können tabellarisch exportiert werden.</description>
-      <topic label="Editor Ausgabenbeleg"  href="html/editor/editor_expenditure.html" />
+   <context id="voucherEditor" title="Editor Bebeleg">
+      <description>Editor für Einnahme- und Ausgabebelege. Alle Belege können tabellarisch exportiert werden.</description>
+      <topic label="Editor Bebeleg"  href="html/editor/editor_voucher.html" />
    </context>
    <context id="listEditor" title="Editor Listeneintrag">
       <description>Fakturama benutzt Listen (Tabelle mit 2 Spalten) für Daten wie Kontennummern oder Länderkennungen.</description>
@@ -162,9 +162,9 @@
       <description>Einstellungen des Webbrowsers und der Startseite.</description>
       <topic label="Webbrowser / Startseite"  href="html/preferences/browser.html" />
    </context>
-   <context id="toolbarPreferencePage" title="Toolbar">
-      <description>Icons in der Toolbar ein/ausblenden.</description>
-      <topic label="Toolbar"  href="html/preferences/toolbar.html" />
+   <context id="toolbarPreferencePage" title="Werkzeugleiste">
+      <description>Icons in der Werkzeugleiste ein/ausblenden.</description>
+      <topic label="Werkzeugleiste"  href="html/preferences/toolbar.html" />
    </context>
    
 </contexts>

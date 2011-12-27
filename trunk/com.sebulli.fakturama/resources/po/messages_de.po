@@ -397,7 +397,7 @@ msgstr "abgeschlossen"
 
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewExpenditureVoucherTable.java:61
 msgid "Expenditure vouchers"
-msgstr "Ausgabenbelege"
+msgstr "Ausgabebelege"
 
 #. T: Text of the action to open the lists
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewListTable.java:58
@@ -495,7 +495,7 @@ msgstr "Stadt"
 
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewReceiptVoucherTable.java:61
 msgid "Receipt vouchers"
-msgstr "Einnahmenbeleg"
+msgstr "Einnahmebeleg"
 
 #. T: Title of an expand bar in the navigations view
 #: ../src/com/sebulli/fakturama/views/NavigationView.java:74
@@ -1034,7 +1034,7 @@ msgstr "Zusammenfassung Belege:"
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportExpenditureWizard.java:49
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportExpenditureWizard.java:54
 msgid "List of expenditure vouchers as Table"
-msgstr "Liste der Ausgabenbelege als Tabelle"
+msgstr "Liste der Ausgabebelege als Tabelle"
 
 #. T: Text of the export wizard
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportExpenditureWizard.java:51
@@ -1051,7 +1051,7 @@ msgstr ""
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportExpenditureWizard.java:77
 #: ../src/com/sebulli/fakturama/actions/OpenExpenditureVouchersAction.java:32
 msgid "Expenditure Vouchers"
-msgstr "Ausgabenbelege"
+msgstr "Ausgabebelege"
 
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportOptionPage.java:91
 msgid "Display column sum of vouchers"
@@ -1061,14 +1061,14 @@ msgstr "Spalte Summe der Belege anzeigen"
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportReceiptWizard.java:49
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportReceiptWizard.java:54
 msgid "List of receipt vouchers as Table"
-msgstr "Liste der Einnahmenbelege als Tabelle"
+msgstr "Liste der Einnahmebelege als Tabelle"
 
 #. T: Title in the exported calc document
 #. T: Text of the action to open the receipt vouchers
 #: ../src/com/sebulli/fakturama/export/vouchers/ExportReceiptWizard.java:76
 #: ../src/com/sebulli/fakturama/actions/OpenReceiptVouchersAction.java:32
 msgid "Receipt Vouchers"
-msgstr "Einnahmenbelege"
+msgstr "Einnahmebelege"
 
 #. T: account exporter dialog
 #. T: Title of the message dialog
@@ -2207,7 +2207,7 @@ msgstr "Speichern"
 #. T: Preference page Title"
 #: ../src/com/sebulli/fakturama/preferences/ToolbarPreferencePage.java:111
 msgid "Toolbar Icons"
-msgstr "Toolbar Icons"
+msgstr "Icons Werkzeugleiste"
 
 #. T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 #: ../src/com/sebulli/fakturama/preferences/ColumnWidthVouchersPreferencePage.java:56
@@ -2656,17 +2656,17 @@ msgstr "Eine Liste mit allen Adressen öffnen"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/actions/OpenExpenditureVouchersAction.java:42
 msgid "Open a list with all the expenditures"
-msgstr "Eine Liste mit allen Ausgabenbelegen öffnen"
+msgstr "Eine Liste mit allen Ausgabebelegen öffnen"
 
 #. T: Text of the action to create a new expenditure
 #: ../src/com/sebulli/fakturama/actions/NewExpenditureVoucherAction.java:35
 msgid "New Expenditure"
-msgstr "Neuer Ausgabenbeleg"
+msgstr "Neuer Ausgabebeleg"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/actions/NewExpenditureVoucherAction.java:45
 msgid "Create a new expenditure"
-msgstr "Einen neuen Ausgabenbeleg erstellen"
+msgstr "Einen neuen Ausgabebeleg erstellen"
 
 #. T: Text of the action
 #: ../src/com/sebulli/fakturama/actions/CreateOODocumentAction.java:55
@@ -2905,12 +2905,12 @@ msgstr "Ein Dokument muss geöffnet oder angewählt sein."
 #. T: Text of the action to create a new receipt voucher
 #: ../src/com/sebulli/fakturama/actions/NewReceiptVoucherAction.java:35
 msgid "New Receipt Voucher"
-msgstr "Neuer Einnahmenbeleg"
+msgstr "Neuer Einnahmebeleg"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/actions/NewReceiptVoucherAction.java:45
 msgid "Create a new receipt voucher"
-msgstr "Einen neuen Einnahmenbeleg erstellen"
+msgstr "Einen neuen Einnahmebeleg erstellen"
 
 #. T: Text of the action to open the calculator
 #: ../src/com/sebulli/fakturama/actions/InstallAction.java:39
@@ -2957,12 +2957,12 @@ msgstr "Als \"unbezahlt\" markieren"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/actions/OpenReceiptVouchersAction.java:42
 msgid "Open a list with all the receipt vouchers"
-msgstr "Eine Liste mit allen Einnahmenbelege öffnen"
+msgstr "Eine Liste mit allen Einnahmebelege öffnen"
 
 #. T: Title of the voucher editor
 #: ../src/com/sebulli/fakturama/editors/ReceiptVoucherEditor.java:42
 msgid "Receipt Voucher"
-msgstr "Einnahmenbeleg"
+msgstr "Einnahmebeleg"
 
 #. T: List Editor - Title
 #: ../src/com/sebulli/fakturama/editors/ListEditor.java:242
@@ -3385,7 +3385,7 @@ msgstr "Mit MwSt."
 #. T: Title of the voucher editor
 #: ../src/com/sebulli/fakturama/editors/ExpenditureVoucherEditor.java:42
 msgid "Expense Voucher"
-msgstr "Ausgabenbeleg"
+msgstr "Ausgabebeleg"
 
 #. T: Text Editor: Part Name of a new text entry
 #: ../src/com/sebulli/fakturama/editors/TextEditor.java:151
@@ -3509,7 +3509,7 @@ msgstr "Konto"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:732
 msgid "Account of this voucher. E.g. 'Bank', 'Cash', 'Credit Card'"
-msgstr "Konto dieses Ausgabenbeleges. Zum Beispiel 'Bank', 'Barzahlung', 'Kreditkarte'"
+msgstr "Konto dieses Ausgabebeleges. Zum Beispiel 'Bank', 'Barzahlung', 'Kreditkarte'"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:758
@@ -4103,7 +4103,7 @@ msgstr "Neue Proforma-Rechnung"
 #~ msgstr "Spaltenbreite der Ausgabentabelle"
 
 #~ msgid "Column width of the expenditure item table"
-#~ msgstr "Spaltenbreite der Tabelle der Ausgabenbelege"
+#~ msgstr "Spaltenbreite der Tabelle der Ausgabebelege"
 
 #~ msgid "GERMANY=D;AUSTRIA=AT;SWITZERLAND=CH"
 #~ msgstr "DEUTSCHLAND=D;ÖSTERREICH=AT;SCHWEIZ=CH"

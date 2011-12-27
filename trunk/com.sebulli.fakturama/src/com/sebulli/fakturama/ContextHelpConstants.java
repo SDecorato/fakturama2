@@ -28,7 +28,7 @@ public class ContextHelpConstants {
 	public static final String BROWSER_EDITOR = HELP_PLUGIN + "browserEditor";
 	public static final String CONTACT_EDITOR = HELP_PLUGIN + "contactEditor";
 	public static final String DOCUMENT_EDITOR = HELP_PLUGIN + "documentEditor";
-	public static final String VOUCHER_EDITOR = HELP_PLUGIN + "expenditureVoucherEditor";
+	public static final String VOUCHER_EDITOR = HELP_PLUGIN + "voucherEditor";
 	public static final String LIST_EDITOR = HELP_PLUGIN + "listEditor";
 	public static final String PAYMENT_EDITOR = HELP_PLUGIN + "paymentEditor";
 	public static final String PRODUCT_EDITOR = HELP_PLUGIN + "productEditor";

@@ -107,7 +107,9 @@ public class Exporter {
 					//T: Used as heading of a table. Keep the word short.
 					"\""+ "quantity" + "\";"+
 					//T: Used as heading of a table. Keep the word short.
-					"\""+ "webshopid" + "\""+
+					"\""+ "webshopid" + "\";"+
+					//T: Used as heading of a table. Keep the word short.
+					"\""+ "qunit" + "\""+
 					NEW_LINE);
 
 		
@@ -144,6 +146,7 @@ public class Exporter {
 						inQuotes(product.getStringValueByKey("picturename"))+ ";" +
 						DataUtils.DoubleToDecimalFormatedValue(product.getDoubleValueByKey("quantity"),"0.00")+ ";" +
 						product.getStringValueByKey("webshopid")+ "" +
+						inQuotes(product.getStringValueByKey("qunit"))+ ";" +
 						NEW_LINE);
 			}
 		
