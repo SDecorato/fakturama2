@@ -1402,12 +1402,17 @@ public class DocumentEditor extends Editor {
 			if (itemsDiscount != null)
 				itemsDiscount.setText(DataUtils.DoubleToFormatedPercent(contact.getDoubleValueByKey("discount")));
 
-		//Use the payment method of the customer
-		if (comboPayment != null) {
-			comboPayment.setText(contact.getFormatedStringValueByKeyFromOtherTable("payment.PAYMENTS:description"));
-		}
+		// Check, if the payment is valid
+		int paymentid = contact.getIntValueByKey("payment");
+		
+		if (paymentid >= 0) {
+			//Use the payment method of the customer
+			if (comboPayment != null) {
+				comboPayment.setText(contact.getFormatedStringValueByKeyFromOtherTable("payment.PAYMENTS:description"));
+			}
 
-		usePayment(contact.getIntValueByKey("payment"));
+			usePayment(contact.getIntValueByKey("payment"));
+		}
 
 		
 		showHideWarningIcon();
@@ -1423,6 +1428,11 @@ public class DocumentEditor extends Editor {
 	 * 	ID of the payment
 	 */
 	private void usePayment(int id) {
+		
+		// Return, if no payment is set
+		if (id < 0)
+			return;
+		
 		paymentId = id;
 		
 		DataSetPayment payment = Data.INSTANCE.getPayments().getDatasetById(id);
