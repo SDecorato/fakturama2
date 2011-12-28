@@ -148,8 +148,8 @@ public class OfficePreferencePage extends FieldEditorPreferencePage implements I
 	public static void setInitValues(IEclipsePreferences node) {
 		
 		node.put("OPENOFFICE_ODT_PDF", "ODT+PDF");
-		node.put("OPENOFFICE_ODT_PATH_FORMAT", "ODT/doctype/yyyy/{docname}.odt");
-		node.put("OPENOFFICE_PDF_PATH_FORMAT", "PDF/doctype/yyyy/{docname}.pdf");
+		node.put("OPENOFFICE_ODT_PATH_FORMAT", "ODT/{yyyy}/{doctype}/{docname}_{address}.odt");
+		node.put("OPENOFFICE_PDF_PATH_FORMAT", "PDF/{yyyy}/{doctype}/{docname}_{address}.pdf");
 		node.putBoolean("OPENOFFICE_START_IN_NEW_THREAD", true);
 
 	}
