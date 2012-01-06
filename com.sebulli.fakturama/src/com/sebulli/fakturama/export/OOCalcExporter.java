@@ -65,14 +65,14 @@ public class OOCalcExporter {
 	// the date key to sort the documents
 	protected String documentDateKey;
 	// Settings from the preference page
-	protected boolean usePaidDate;
+	protected boolean usePaidDate ;
 
 	// The "Export" spreadsheet
 	protected XSpreadsheet spreadsheet = null;
 	protected XSpreadsheetDocument xSpreadsheetDocument = null;
 
 	// export paid or unpaid invoices
-	protected boolean exportPaid;
+	protected boolean exportPaid = true;
 
 	
 	/**
