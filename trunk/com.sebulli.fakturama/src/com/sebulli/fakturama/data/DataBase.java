@@ -27,7 +27,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.SWT;
 
+import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.logger.Logger;
 
 /**
@@ -409,6 +411,18 @@ public class DataBase {
 				for (int i = 1; i <= meta.getColumnCount(); i++) {
 					columnName = meta.getColumnName(i).toLowerCase();
 					s = rs.getString(i);
+					String dbt = getDataBaseTypeByUniDataType(uds.getUniDataTypeByKey(columnName));
+
+					
+					// Test Data length
+					if (s!= null) {
+						if ( (dbt.equals("VARCHAR(256)") && (s.length() >= 256)) || 
+								(dbt.equals("VARCHAR(32768)") && (s.length() >= 32768)) ){
+							Workspace.showMessageBox(SWT.OK, "Warning", 
+									"Dataset " + columnName + " is to long for " + dbt + ":\n"+ s);
+						}
+					}
+					
 					uds.setStringValueByKey(columnName, s);
 				}
 
