@@ -41,6 +41,8 @@ public class DataBase {
 	
 	private final static Integer DBVersion = 2;
 	
+	private boolean checkSize = true;
+	
 	private Connection con = null;
 
 	/**
@@ -415,11 +417,12 @@ public class DataBase {
 
 					
 					// Test Data length
-					if (s!= null) {
+					if (s!= null && checkSize) {
 						if ( (dbt.equals("VARCHAR(256)") && (s.length() >= 256)) || 
 								(dbt.equals("VARCHAR(32768)") && (s.length() >= 32768)) ){
-							Workspace.showMessageBox(SWT.OK, "Warning", 
-									"Dataset " + columnName + " is to long for " + dbt + ":\n"+ s);
+							if (Workspace.showMessageBox(SWT.OK | SWT.CANCEL, "Warning", 
+									"Dataset \"" + columnName + "\" is to long for " + dbt + ":\n"+ s) == SWT.CANCEL)
+								checkSize = false;
 						}
 					}
 					
