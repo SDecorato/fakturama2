@@ -130,15 +130,17 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		            		 thisIsMe = true;
 		            	 }
 		            	 
-		            	 // Close the other editors, if they are not dirty
-		            	 if (!editor.isDirty() && !thisIsMe && 
-					    		 // Do not close parcel service editors
-		            			 !(editor instanceof ParcelServiceBrowserEditor)) {
-		            			if (Activator.getDefault().getPreferenceStore().getBoolean("GENERAL_CLOSE_OTHER_EDITORS")) {
-		            				page.closeEditor(editor, false);
-		            				if (openEditors.size() > 1)
-		            					openEditors.remove(editorRef);
-		            			}
+		            	 if (editor!= null) {
+			            	 // Close the other editors, if they are not dirty
+			            	 if (!editor.isDirty() && !thisIsMe && 
+						    		 // Do not close parcel service editors
+			            			 !(editor instanceof ParcelServiceBrowserEditor)) {
+			            			if (Activator.getDefault().getPreferenceStore().getBoolean("GENERAL_CLOSE_OTHER_EDITORS")) {
+			            				page.closeEditor(editor, false);
+			            				if (openEditors.size() > 1)
+			            					openEditors.remove(editorRef);
+			            			}
+			            	 }
 		            	 }
 		             }
 		         }
