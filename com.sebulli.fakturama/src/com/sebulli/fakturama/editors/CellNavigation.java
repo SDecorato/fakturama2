@@ -57,8 +57,12 @@ public class CellNavigation {
 		for (int i=0; i< tableColumns.size(); i++){
 			UniDataSetTableColumn col = tableColumns.get(i);
 			EditingSupport es = (EditingSupport)col.getEditingSupport();
-			if (es.equals(itemEditingSupport)) {
+			
+			// es must not be NULL
+			if (es != null) {
+				if (es.equals(itemEditingSupport)) {
 				myColumn = i;
+				}
 			}
 		}
 		
