@@ -47,11 +47,11 @@ public class CellNavigation {
 	
 	
 	@SuppressWarnings("unchecked")
-	public <T> void selectNextCell(int keyCode, Object element, EditingSupport itemEditingSupport,
-			DataSetArray<T> items,TableViewer tableViewerItems) {
+	public <T> void selectNextCell(int keyCode, Object element, EditingSupport editingSupport,
+			DataSetArray<T> items,TableViewer tableViewerItems ) {
 
-		int myColumn = -1;
-		
+		 int myColumn = -1; 
+		 
 		// Try to find the column number of the current cell
 		// that is active
 		for (int i=0; i< tableColumns.size(); i++){
@@ -60,7 +60,7 @@ public class CellNavigation {
 			
 			// es must not be NULL
 			if (es != null) {
-				if (es.equals(itemEditingSupport)) {
+				if (es.equals(editingSupport)) {
 				myColumn = i;
 				}
 			}
@@ -92,16 +92,28 @@ public class CellNavigation {
 
 		Object newElement = null;
 		
-		// TAB oder key down can select the next row
-		if ((keyCode == SWT.TAB) || (keyCode == 16777218 /* KeyDown */)) {
+		// TAB can select the next row
+		if (keyCode == SWT.TAB ) {
 			newElement = items.getNextDataSet((T)element);
 		}
 
-		// Key up can select the previous row
-		if (keyCode == 16777217/* KeyUp */) {
-			newElement = items.getPreviousDataSet((T)element);
+		
+		// Key up and down inactive, in multi-line controls 
+		if (!((ItemEditingSupport)editingSupport).getMultiLineEditing()) {
+			// Key down can select the next row
+			if (keyCode == 16777218 /* KeyDown */) {
+				newElement = items.getNextDataSet((T)element);
+			}
+
+			// Key up can select the previous row
+			if (keyCode == 16777217/* KeyUp */) {
+				newElement = items.getPreviousDataSet((T)element);
+			}
+			
 		}
 
+
+		
 		if (newElement == null)
 			return;
 

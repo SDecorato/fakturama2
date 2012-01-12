@@ -964,6 +964,10 @@ public class DocumentEditor extends Editor {
 			no++;
 		}
 		
+		// Refresh the table viewer
+		if (tableViewerItems != null)
+			tableViewerItems.refresh();
+		
 	}
 
 	
@@ -2626,22 +2630,31 @@ public class DocumentEditor extends Editor {
 		if (items.getActiveDatasets().contains(uds)) {
 
 			// Get the position of the selected element
-			int pos = items.getActiveDatasets().indexOf(uds);
-			int size = items.getActiveDatasets().size();
+			int prepos = items.getDatasets().indexOf(items.getPreviousDataSet((DataSetItem) uds));
+			int pos = items.getDatasets().indexOf(uds);
+			int nextpos = items.getDatasets().indexOf(items.getNextDataSet((DataSetItem) uds));
+			int size = items.getDatasets().size();
+			int activesize = items.getActiveDatasets().size();
 
 			// Do not move one single item
-			if (size >= 2) {
+			if (activesize >= 2) {
 				// Move up
-				if (up && (pos >=1 )){
-					items.swapPosition(pos-1, pos);
+				if (up && (prepos >=0 )){
+					items.swapPosition(prepos, pos);
 				}
 
 				// Move down
-				if (!up && (pos < (size-1))){
-					items.swapPosition(pos, pos+1);
+				if (!up && (nextpos < size) && nextpos >= 0){
+					items.swapPosition(pos, nextpos);
 				}
 			}
+			
+			
 		}
+
+		//Renumber the items
+		RenumberItems();
+
 		// Refresh the table
 		tableViewerItems.refresh();
 		checkDirty();
@@ -2657,6 +2670,10 @@ public class DocumentEditor extends Editor {
 		
 		// Delete it (mark it as deleted)
 		uds.setBooleanValueByKey("deleted", true);
+		
+		// Renumber the items
+		RenumberItems();
+
 		tableViewerItems.refresh();
 		calculate();
 		checkDirty();

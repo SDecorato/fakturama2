@@ -41,6 +41,8 @@ import com.sebulli.fakturama.misc.DataUtils;
  */
 public class DocumentItemEditingSupport extends ItemEditingSupport {
 
+	private boolean multiLineEditing = false;
+	
 	// Public column enum
 	public static enum Column {
 		OPTIONAL, QUANTITY, QUNIT, ITEMNR, PICTURE, NAME, DESCRIPTION,
@@ -79,6 +81,7 @@ public class DocumentItemEditingSupport extends ItemEditingSupport {
 		this.documentEditor = documentEditor;
 		this.column = column;
 		me = this;
+		multiLineEditing = false;
 		
 		// Create the correct editor based on the column index
 		// Column nr.6 uses a combo box cell editor.
@@ -99,6 +102,7 @@ public class DocumentItemEditingSupport extends ItemEditingSupport {
 		case DESCRIPTION:
 			// Multi line editor
 			editor = new TextCellEditor(((TableViewer) viewer).getTable(),SWT.MULTI);
+			multiLineEditing = true;
 			break;
 		default:
 			editor = new TextCellEditor(((TableViewer) viewer).getTable());
@@ -361,6 +365,16 @@ public class DocumentItemEditingSupport extends ItemEditingSupport {
 		this.setValue(activeObject, this.editor.getValue());
 	}
 
+	/**
+	 * Getter for multi line editing
+	 * 
+	 * @return
+	 *  True, if it is a control that suports multi line editing
+	 */
+	public boolean getMultiLineEditing () {
+		return this.multiLineEditing;
+		
+	}
 
 	
 }

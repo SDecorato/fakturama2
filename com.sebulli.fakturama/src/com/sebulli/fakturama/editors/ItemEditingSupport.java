@@ -35,4 +35,8 @@ public abstract class ItemEditingSupport extends EditingSupport{
 		return false;
 	}
 
+	protected boolean getMultiLineEditing() {
+		return false;
+	}
+
 }
