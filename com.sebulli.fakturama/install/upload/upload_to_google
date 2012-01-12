@@ -18,7 +18,7 @@ then
 #    ./googlecode_upload.py -s "Fakturama $4 for Linux 64Bit as Debian Package" -p fakturama -u $1 -w $2 ./bin/Fakturama_Linux_64Bit_$3.deb             -l Type-Package,OpSys-Linux,Architecture-64
 
 #    ./googlecode_upload.py -s "Fakturama $4 for Linux 32Bit as File Archive"   -p fakturama -u $1 -w $2 ./bin/Fakturama_$3_Linux_32Bit.tar.gz          -l Type-Archive,OpSys-Linux,Architecture-32
-#    ./googlecode_upload.py -s "Fakturama $4 for Linux 64Bit as File Archive"   -p fakturama -u $1 -w $2 ./bin/Fakturama_$3_Linux_64Bit.tar.gz          -l Type-Archive,OpSys-Linux,Architecture-32
+#    ./googlecode_upload.py -s "Fakturama $4 for Linux 64Bit as File Archive"   -p fakturama -u $1 -w $2 ./bin/Fakturama_$3_Linux_64Bit.tar.gz          -l Type-Archive,OpSys-Linux,Architecture-64
 
 #    ./googlecode_upload.py -s "Fakturama $4 for Mac OS X Carbon X86 (32Bit) as File Archive"  -p fakturama -u $1 -w $2 ./bin/Fakturama_$3_macosx.carbon.x86.tar.gz -l Type-Archive,OpSys-OSX,Architecture-32
 #    ./googlecode_upload.py -s "Fakturama $4 for Mac OS X Cocoa PPC (32Bit) as File Archive"   -p fakturama -u $1 -w $2 ./bin/Fakturama_$3_macosx.cocoa.ppc.tar.gz  -l Type-Archive,OpSys-OSX,Architecture-32
