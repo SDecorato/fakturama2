@@ -37,6 +37,10 @@ public class Logger {
 	 *            The message that will be logged
 	 */
 	static public void logError(Exception e, String message) {
+
+		// Print the stack trace
+		Thread.dumpStack();
+
 		ILog logger = Activator.getDefault().getLog();
 		IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, message, e);
 		logger.log(status);
@@ -49,6 +53,9 @@ public class Logger {
 	 *            The message that will be logged
 	 */
 	static public void logError(String message) {
+		// Print the stack trace
+		Thread.dumpStack();
+
 		ILog logger = Activator.getDefault().getLog();
 		IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, message);
 		logger.log(status);
