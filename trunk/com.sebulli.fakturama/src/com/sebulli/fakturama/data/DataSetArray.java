@@ -235,11 +235,11 @@ public class DataSetArray<T> {
 			Logger.logError(e, "Fatal Error: ID " + Integer.toString(id) + " not in Dataset");
 			// Return index 0 is not correct, but if index 0 exists, the system
 			// is at least stable.
-			// And if there is no data set - create a dummy one (DataSetText)
+			// And if there is no data set - no chance, return a null
 			if (datasets.size() > 0)
 				return datasets.get(0);
 			else
-				return (T) new DataSetText();
+				return null;
 		}
 	}
 
