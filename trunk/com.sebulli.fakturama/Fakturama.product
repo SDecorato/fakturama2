@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="1.5.3" useFeatures="true" includeLaunchers="true">
+<product name="Fakturama" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="1.5.4" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="icons/app/about.png"/>
