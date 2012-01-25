@@ -15,13 +15,16 @@
 package com.sebulli.fakturama;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
 import com.sebulli.fakturama.logger.Logger;
+import com.sebulli.fakturama.office.DocumentFilename;
 
 /**
  * Translate strings using gettext
@@ -253,6 +256,40 @@ public class Translate {
 		URL url;
 		boolean loadedLocalFile = false;
 		
+		// Get the language file path
+		String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
+		String langFilePath = workspace + "/Language/";
+		
+		// Get the directory and find all files
+		File dir = new File(langFilePath);
+		String[] children = dir.list();
+
+		// Get all files
+		if (children != null) {
+			for (int i = 0; i < children.length; i++) {
+				
+				// Get filename of file or directory
+				DocumentFilename langFileName = new DocumentFilename(langFilePath, children[i]);
+				
+				// It's used as a language file, if it ends with a *.po
+				if (langFileName.getExtension().equalsIgnoreCase(".po")) {
+
+					// Get the file
+					File f = new File(langFileName.getPathAndFilename());
+					
+					if (f.exists()) {
+						try {
+							// Load it
+							loadPoFile( f.toURI().toURL());
+							return;
+						} catch (MalformedURLException e) {
+						}
+					}
+					
+				}
+			}
+		}
+
 
 		// Use the system language and country
 		String localCode = System.getProperty("osgi.nl");
