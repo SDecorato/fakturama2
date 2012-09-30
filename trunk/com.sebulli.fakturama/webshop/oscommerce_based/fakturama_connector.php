@@ -6,9 +6,9 @@
  * 
  * Web shop connector script
  */
-define ('FAKTURAMA_CONNECTOR_VERSION','1.5'); 
+define ('FAKTURAMA_CONNECTOR_VERSION','1.5.5'); 
 /* 
- * Date: 2011-12-15
+ * Date: 2012-09-30
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -373,6 +373,33 @@ function endsWith( $str, $sub ) {
 function startsWith($str, $sub){ 
     return substr($str, 0, strlen($sub)) == $sub;
 }
+
+//replaces the last 
+function str_replace_last($search, $replace, $str) { 
+
+        $str_rev     = strrev($str); 
+        $search_rev  = strrev($search); 
+        $replace_rev = strrev($replace); 
+         
+        $pos = strpos($str_rev, $search_rev); 
+         
+        if($pos !== FALSE) { 
+             
+            return strrev(substr_replace($str_rev, $replace_rev, $pos, strlen($search))); 
+             
+        } else { 
+             
+            return $str; 
+             
+        } 
+
+} 
+
+// Uses the number format with no 1000 seperator
+function my_number_format($s,$d) {
+	return number_format($s,$d,".","");
+}
+
 
 // Encrypt the data
 function my_encrypt($s) {
@@ -1232,8 +1259,8 @@ if ($admin_valid != 1)
 					$products['products_short_description'] = $products['products_description'];
 
 				echo ("  <product ");
-				echo ("gross=\"". my_encrypt(number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2) )."\" " );
-				echo ("vatpercent=\"". my_encrypt(number_format( $products['tax_rate'], 2) ) ."\" " );
+				echo ("gross=\"". my_encrypt(my_number_format( $products['products_price']* (1+ $products['tax_rate']/100), 2) )."\" " );
+				echo ("vatpercent=\"". my_encrypt(my_number_format( $products['tax_rate'], 2) ) ."\" " );
 				echo ("quantity=\"". my_encrypt($products['products_quantity']) ."\" " );
 				echo ("id=\"". my_encrypt($products['products_id']) ."\" " );
 				echo (">\n");
@@ -1353,8 +1380,15 @@ if ($admin_valid != 1)
 				if ($order->info['orders_status'] == 3) $order_status_text = "shipped";
 
 				$total = 0.0;
-				if (preg_match("/[0-9]+\.[0-9]+/", str_replace(",",".",strip_tags($check_orders['order_total']) ),$matches))
+				$total_s = str_replace(".",",",strip_tags($check_orders['order_total']) );
+				$total_s = str_replace_last(",",".",$total_s); 	
+				$total_s = str_replace(",","",	$total_s);
+		
+
+				if (preg_match("/[0-9]+\.[0-9]+/", $total_s,$matches))
 					$total = $matches[0];
+				else
+					$total = 0.0;
 
 				echo ("currency=\"".$order->info['currency']."\" ");
 				echo ("currency_value=\"".$order->info['currency_value']."\" ");
@@ -1425,11 +1459,11 @@ if ($admin_valid != 1)
 					echo ("quantity=\"".my_encrypt($product['qty'])."\" ");
 					
 					if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
-						echo ("gross=\"".my_encrypt(number_format( $product['price'] * (1+ $product['tax']/100), 2)) ."\" ");
+						echo ("gross=\"".my_encrypt(my_number_format( $product['price'] * (1+ $product['tax']/100), 2)) ."\" ");
 					if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE)
-						echo ("gross=\"".my_encrypt(number_format( $product['price'], 2)) ."\" ");
+						echo ("gross=\"".my_encrypt(my_number_format( $product['price'], 2)) ."\" ");
 
-					echo ("vatpercent=\"". my_encrypt(number_format($product['tax'],2)) . "\">\n");
+					echo ("vatpercent=\"". my_encrypt(my_number_format($product['tax'],2)) . "\">\n");
 
 					echo ("    <model>");
 					if (!empty($product['model']))
@@ -1544,9 +1578,9 @@ if ($admin_valid != 1)
 				$shipping_value += $cod_fee_value;
 
 				echo ("   <shipping ");
-				echo ("gross=\"".my_encrypt(number_format( $shipping_value , 2))."\" ");
-//				echo ("net=\"" .number_format( $shipping_value / ( 1 + $shipping_tax/100), 2)."\" ");
-				echo ("vatpercent=\"". my_encrypt(number_format($shipping_tax,2)) . "\">\n");
+				echo ("gross=\"".my_encrypt(my_number_format( $shipping_value , 2))."\" ");
+//				echo ("net=\"" .my_number_format( $shipping_value / ( 1 + $shipping_tax/100), 2)."\" ");
+				echo ("vatpercent=\"". my_encrypt(my_number_format($shipping_tax,2)) . "\">\n");
 				echo ("    <name>".my_encode($shipping_title)."</name>\n");
 				echo ("    <vatname>". my_encode($shipping_tax_name) . "</vatname>\n");
 				echo ("   </shipping>\n");
@@ -1555,7 +1589,7 @@ if ($admin_valid != 1)
 				
 				echo ("   <payment ");
 				echo ("type=\"". my_encode($payment_text) ."\" ");
-				echo ("total=\"".my_encrypt(number_format($total,2))."\">\n");
+				echo ("total=\"".my_encrypt(my_number_format($total,2))."\">\n");
 				echo ("    <name>".my_encode($order->info['payment_method'])."</name>\n");
 				echo ("   </payment>\n");
 				
