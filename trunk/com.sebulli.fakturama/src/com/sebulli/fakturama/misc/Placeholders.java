@@ -66,6 +66,7 @@ public class Placeholders {
 			"DOCUMENT.ORDER.DATE",
 			"DOCUMENT.ITEMS.GROSS",
 			"DOCUMENT.ITEMS.NET",
+			"DOCUMENT.TOTAL.NET",
 			"DOCUMENT.TOTAL.VAT",
 			"DOCUMENT.TOTAL.GROSS",
 			"DOCUMENT.REFERENCE.OFFER",
@@ -722,6 +723,7 @@ public class Placeholders {
 		if (key.equals("DOCUMENT.ORDER.DATE")) return document.getFormatedStringValueByKey("orderdate");
 		if (key.equals("DOCUMENT.ITEMS.GROSS")) return document.getSummary().getItemsGross().asFormatedRoundedString();
 		if (key.equals("DOCUMENT.ITEMS.NET")) return document.getSummary().getItemsNet().asFormatedRoundedString();
+		if (key.equals("DOCUMENT.TOTAL.NET")) return document.getSummary().getTotalNet().asFormatedRoundedString();
 		if (key.equals("DOCUMENT.TOTAL.VAT")) return document.getSummary().getTotalVat().asFormatedRoundedString();
 		if (key.equals("DOCUMENT.TOTAL.GROSS")) return document.getSummary().getTotalGross().asFormatedString();
 		if (key.equals("ITEMS.DISCOUNT.PERCENT")) return document.getFormatedStringValueByKey("itemsdiscount");
