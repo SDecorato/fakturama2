@@ -405,7 +405,7 @@ public class OfficeDocument extends Object {
 			officeFrame.removeDispatchDelegate(GlobalCommands.SAVE);
 
 		// Close only open document
-		if (oOdocument.isOpen())
+		if (oOdocument != null && oOdocument.isOpen())
 			oOdocument.close();
 		
 		// Get the remaining documents

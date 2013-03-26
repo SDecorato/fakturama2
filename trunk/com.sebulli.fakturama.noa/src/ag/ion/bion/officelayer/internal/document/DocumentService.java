@@ -72,7 +72,7 @@ import com.sun.star.uno.UnoRuntime;
 /**
  * Service for documents.
  * 
- * @author Andreas Bröker
+ * @author Andreas BrÃ¶ker
  * @version $Revision: 11756 $
  */
 public class DocumentService implements IDocumentService {
@@ -98,7 +98,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws IllegalArgumentException if the submitted office connection is not valid
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public DocumentService(IOfficeConnection officeConnection, IServiceProvider serviceProvider)
       throws IllegalArgumentException {
@@ -119,7 +119,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws NOAException if the new document can not be constructed
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IDocument constructNewDocument(String documentType, IDocumentDescriptor documentDescriptor)
       throws NOAException {
@@ -150,7 +150,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws NOAException if the new document can not be constructed
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IDocument constructNewDocument(IFrame frame, String documentType,
       IDocumentDescriptor documentDescriptor) throws NOAException {
@@ -220,7 +220,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws NOAException if the document can not be contructed
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    * @date 16.03.2006
    */
   public IDocument constructNewHiddenDocument(String documentType) throws NOAException {
@@ -238,7 +238,7 @@ public class DocumentService implements IDocumentService {
    * @throws DocumentException if the document can not be loaded or the URL does
    * not locate an OpenOffice.org document
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IDocument loadDocument(String url) throws DocumentException {
     try {
@@ -268,7 +268,7 @@ public class DocumentService implements IDocumentService {
    * @throws NOAException if the document can not be loaded or the URL does
    * not locate an OpenOffice.org document
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    * @date 02.07.2006
    */
   public IDocument loadDocument(String url, IDocumentDescriptor documentDescriptor)
@@ -290,6 +290,7 @@ public class DocumentService implements IDocumentService {
   //----------------------------------------------------------------------------
   /**
    * Loads document on the basis of the submitted stream.
+   * May be <b>significantly slower</b> than the load* variants which take an URL String as parameter.
    * 
    * @param inputStream input stream to be used
    * @param documentDescriptor document descriptor to be used
@@ -298,8 +299,8 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws DocumentException if the document can not be loaded
    * 
-   * @author Andreas Bröker
-   * @author Markus Krüger
+   * @author Andreas BrÃ¶ker
+   * @author Markus KrÃ¼ger
    */
   public IDocument loadDocument(InputStream inputStream, IDocumentDescriptor documentDescriptor)
       throws DocumentException {
@@ -315,6 +316,8 @@ public class DocumentService implements IDocumentService {
    * OpenOffice.org can not recognize if the document is already open - 
    * therefore the document will be never opened in <code>ReadOnly</code> mode.</b>
    * 
+   * May be <b>significantly slower</b> than the load* variants which take an URL String as parameter.
+   * 
    * @param frame frame to be used for the document
    * @param inputStream input stream to be used
    * @param documentDescriptor document descriptor to be used
@@ -323,7 +326,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws DocumentException if the document can not be loaded
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IDocument loadDocument(IFrame frame, InputStream inputStream,
       IDocumentDescriptor documentDescriptor) throws DocumentException {
@@ -333,6 +336,7 @@ public class DocumentService implements IDocumentService {
   //----------------------------------------------------------------------------
   /**
    * Loads document on the basis of the submitted stream.
+   * May be <b>significantly slower</b> than the load* variants which take an URL String as parameter.
    * 
    * @param officeProgressMonitor office progress monitor to be used
    * @param inputStream input stream to be used
@@ -342,7 +346,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws DocumentException if the document can not be loaded
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IDocument loadDocument(IOfficeProgressMonitor officeProgressMonitor,
       InputStream inputStream, IDocumentDescriptor documentDescriptor) throws DocumentException {
@@ -358,6 +362,8 @@ public class DocumentService implements IDocumentService {
    * OpenOffice.org can not recognize if the document is already open - 
    * therefore the document will be never opened in <code>ReadOnly</code> mode.</b>
    * 
+   * May be <b>significantly slower</b> than the load* variants which take an URL String as parameter.
+   * 
    * @param officeProgressMonitor office progress monitor to be used
    * @param frame frame to be used for the document
    * @param inputStream input stream to be used
@@ -367,7 +373,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws DocumentException if the document can not be loaded
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IDocument loadDocument(IOfficeProgressMonitor officeProgressMonitor, IFrame frame,
       InputStream inputStream, IDocumentDescriptor documentDescriptor) throws DocumentException {
@@ -427,7 +433,7 @@ public class DocumentService implements IDocumentService {
    * @throws DocumentException if the document can not be loaded, the URL does
    * not locate an OpenOffice.org document of the submitted frame or URL is not valid
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IDocument loadDocument(IFrame frame, String url) throws DocumentException {
     return loadDocument(frame, url, null);
@@ -446,7 +452,7 @@ public class DocumentService implements IDocumentService {
    * @throws DocumentException if the document can not be loaded, the URL does
    * not locate an OpenOffice.org document or the submitted frame or URL is not valid
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IDocument loadDocument(IFrame frame, String url, IDocumentDescriptor documentDescriptor)
       throws DocumentException {
@@ -488,7 +494,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws DocumentException if the documents cannot be provided
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    */
   public IDocument[] getCurrentDocuments() throws DocumentException {
     return getCurrentDocuments(serviceProvider);
@@ -502,7 +508,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @return number documents of an application
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    * @date 11.11.2008
    */
   public int getCurrentDocumentCount() throws DocumentException {
@@ -517,7 +523,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws DocumentException if the documents cannot be provided
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    * @date 11.11.2008
    */
   public static IDocument[] getCurrentDocuments(IServiceProvider serviceProvider)
@@ -550,7 +556,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @return number documents of an application
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    * @date 11.11.2008
    */
   public static int getCurrentDocumentCount(IServiceProvider serviceProvider)
@@ -582,7 +588,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws NOAException if the OpenOffice.org instance reached the number of maximum open documents.
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    * @date 11.11.2008
    */
   public static void checkMaxOpenDocuments(IServiceProvider serviceProvider) throws NOAException {
@@ -600,7 +606,7 @@ public class DocumentService implements IDocumentService {
   /**
    * Disposes all allocated resources.
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    */
   public void dispose() {
   }
@@ -613,7 +619,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws NOAException if the new database document can not be constructed
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    * @date 16.03.2006
    */
   private IDatabaseDocument constructDatabaseDocument() throws NOAException {
@@ -641,7 +647,7 @@ public class DocumentService implements IDocumentService {
    * 
    * @throws Exception if the OpenOffice.org XComponentLoader can not be constructed
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    */
   private XComponentLoader constructComponentLoader() throws Exception {
     Object oDesktop = officeConnection.getXMultiComponentFactory().createInstanceWithContext("com.sun.star.frame.Desktop", officeConnection.getXComponentContext()); //$NON-NLS-1$

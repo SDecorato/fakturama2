@@ -52,6 +52,7 @@ import ag.ion.bion.officelayer.util.INumberFormatService;
 import ag.ion.noa.document.ISearchService;
 import ag.ion.noa.internal.document.SearchService;
 import ag.ion.noa.internal.text.DocumentIndexService;
+import ag.ion.noa.service.IServiceProvider;
 import ag.ion.noa.text.IDocumentIndexService;
 
 import com.sun.star.beans.PropertyValue;
@@ -72,7 +73,7 @@ import com.sun.star.view.XViewSettingsSupplier;
 /**
  * OpenOffice.org text document.
  * 
- * @author Andreas Bröker
+ * @author Andreas BrÃ¶ker
  * @version $Revision: 11637 $
  */
 public class TextDocument extends AbstractDocument implements ITextDocument {
@@ -96,17 +97,23 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @throws IllegalArgumentException if the submitted OpenOffice.org XTextDocument is not valid
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public TextDocument(XTextDocument xTextDocument, PropertyValue[] initialProperties)
       throws IllegalArgumentException {
-    super((XComponent) UnoRuntime.queryInterface(XComponent.class, xTextDocument),
-        initialProperties);
-    this.xTextDocument = xTextDocument;
-    this.xMultiServiceFactory = (XMultiServiceFactory) UnoRuntime.queryInterface(XMultiServiceFactory.class,
-        xTextDocument);
+	  this(xTextDocument, initialProperties, null);
   }
 
+  public TextDocument(XTextDocument xTextDocument, PropertyValue[] initialProperties, 
+		  IServiceProvider serviceProvider)
+		  throws IllegalArgumentException {
+	  super((XComponent) UnoRuntime.queryInterface(XComponent.class, xTextDocument),
+			  initialProperties, serviceProvider);
+	  this.xTextDocument = xTextDocument;
+	  this.xMultiServiceFactory = (XMultiServiceFactory) UnoRuntime.queryInterface(XMultiServiceFactory.class,
+			  xTextDocument);
+  }
+  
   //----------------------------------------------------------------------------
   /**
    * Returns OpenOffice.org XTextDocument interface. This method
@@ -114,7 +121,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return OpenOffice.org XTextDocument interface
    * 
-   * @author Andreas Bröker 
+   * @author Andreas BrÃ¶ker 
    */
   public XTextDocument getXTextDocument() {
     return xTextDocument;
@@ -126,7 +133,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return type of the document
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public String getDocumentType() {
     return IDocument.WRITER;
@@ -152,7 +159,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return page service of the document
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IPageService getPageService() {
     if (pageService == null)
@@ -166,7 +173,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return service for text fields
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public ITextFieldService getTextFieldService() {
     if (textFieldService == null)
@@ -180,7 +187,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return text service
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public ITextService getTextService() {
     if (textService == null)
@@ -194,7 +201,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return view cursor service
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public IViewCursorService getViewCursorService() {
     if (viewCursorService == null)
@@ -208,7 +215,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return text table service
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public ITextTableService getTextTableService() {
     if (textTableService == null)
@@ -222,7 +229,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return number format service
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public INumberFormatService getNumberFormatService() {
     if (numberFormatService == null) {
@@ -246,7 +253,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
   /**
    * Reformats the document.
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    */
   public void reformat() {
     xTextDocument.reformat();
@@ -256,7 +263,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
   /**
    * Updates/refreshes the document.
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    * @date 11.02.2008
    */
   public void update() {
@@ -269,7 +276,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return search service of the searchable document
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    * @date 09.07.2006
    */
   public ISearchService getSearchService() {
@@ -283,7 +290,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @return index service of the document
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    * @date 17.08.2006
    */
   public IDocumentIndexService getIndexService() {
@@ -300,7 +307,7 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    * 
    * @throws DocumentException if zoom fails
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    * @date 06.07.2007
    */
   public void zoom(short zoomType, short zoomValue) throws DocumentException {

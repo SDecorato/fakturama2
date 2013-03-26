@@ -43,7 +43,7 @@ import ag.ion.bion.officelayer.document.IDocument;
 /**
  * OpenOffice.org database document.
  * 
- * @author Andreas Bröker
+ * @author Andreas BrÃ¶ker
  * @version $Revision: 10398 $
  * @date 16.03.2006
  */
@@ -55,7 +55,7 @@ public interface IDatabaseDocument extends IDocument {
 	 * 
 	 * @return XOfficeDatabaseDocument OpenOffice.org interface
 	 * 
-	 * @author Andreas Bröker
+	 * @author Andreas BrÃ¶ker
 	 * @date 16.03.2006
 	 */
 	public XOfficeDatabaseDocument getOfficeDatabaseDocument();
