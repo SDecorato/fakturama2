@@ -45,7 +45,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 /**
- * @author Andreas Bröker
+ * @author Andreas BrÃ¶ker
  */
 public class TextTableCellNameHelperTest extends TestCase {
 

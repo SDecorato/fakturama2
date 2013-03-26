@@ -70,7 +70,7 @@ import com.sun.star.uno.UnoRuntime;
 /**
  * Document loading helper class. 
  * 
- * @author Andreas Bröker
+ * @author Andreas BrÃ¶ker
  * @version $Revision: 11724 $
  */
 public class DocumentLoader {
@@ -257,7 +257,7 @@ public class DocumentLoader {
       XTextDocument xTextDocument = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class,
           xComponent);
       if (xTextDocument != null) {
-        document = new TextDocument(xTextDocument, intitialProperties);
+        document = new TextDocument(xTextDocument, intitialProperties, serviceProvider);
       }
     }
     else if (xServiceInfo.supportsService("com.sun.star.sheet.SpreadsheetDocument")) {
@@ -321,9 +321,12 @@ public class DocumentLoader {
       //XXX WORKAROUND: If you haven an app with more than one openoffice noa integrated frames, then the second frame and upwards is sometimes
       //not displayed under linux. The following lines of code works around this issue.
       if (!isHidden) {
-        XWindow containerWindow = document.getFrame().getXFrame().getContainerWindow();
-        containerWindow.setVisible(false);
-        containerWindow.setVisible(true);
+        if (document.getServiceProvider() != null) {
+        	//RHE
+          XWindow containerWindow = document.getFrame().getXFrame().getContainerWindow();
+          containerWindow.setVisible(false);
+          containerWindow.setVisible(true);
+        }
       }
     }
     return document;

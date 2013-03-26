@@ -45,7 +45,7 @@ import com.sun.star.text.XText;
 /**
  * Cursor service of a text document.
  * 
- * @author Andreas Bröker
+ * @author Andreas BrÃ¶ker
  * @version $Revision: 10398 $
  */
 public class CursorService implements ICursorService {
@@ -60,7 +60,7 @@ public class CursorService implements ICursorService {
    * 
    * @throws IllegalArgumentException if the OpenOffice.org interface is not valid
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public CursorService(XText xText) throws IllegalArgumentException {
     if(xText == null)

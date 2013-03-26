@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/sandbox.jar"/>
 	<classpathentry kind="lib" path="lib/unoil.jar"/>
 	<classpathentry kind="lib" path="lib/unoloader.jar"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

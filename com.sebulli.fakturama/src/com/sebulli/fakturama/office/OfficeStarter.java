@@ -114,8 +114,8 @@ public class OfficeStarter {
 		// Activate the OpenOffice Application
 		Map<String, Object> configuration = new HashMap<String, Object>();
 		configuration.put(IOfficeApplication.APPLICATION_HOME_KEY, preferencePath);
-		configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY, "local");
-		/*
+		configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY, IOfficeApplication.LOCAL_APPLICATION);
+		
 		if (preferencePath.toLowerCase().contains("libreoffice")) {
 			configuration.put("arguments",
 	                   new String[] {"--nologo",
@@ -125,7 +125,7 @@ public class OfficeStarter {
 	                   "--nolockcheck"
 	                   });
 		}
-		*/
+		
 		
 		/*
 	      configuration.put(IOfficeApplication.APPLICATION_TYPE_KEY,

@@ -51,8 +51,8 @@ import com.sun.star.uno.UnoRuntime;
 /**
  * OpenOffice.org presentation document representation.
  * 
- * @author Andreas Bröker
- * @author Markus Krüger
+ * @author Andreas BrÃ¶ker
+ * @author Markus KrÃ¼ger
  * @version $Revision: 11637 $
  */
 public class PresentationDocument extends AbstractDocument implements IPresentationDocument {
@@ -69,7 +69,7 @@ public class PresentationDocument extends AbstractDocument implements IPresentat
    * 
    * @throws IllegalArgumentException if the submitted OpenOffice.org interface is not valid
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public PresentationDocument(XPresentationSupplier xPresentationSupplier,
       PropertyValue[] initialProperties) throws IllegalArgumentException {
@@ -84,7 +84,7 @@ public class PresentationDocument extends AbstractDocument implements IPresentat
    * 
    * @return OpenOffice.org XPresentationSupplier interface
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public XPresentationSupplier getPresentationSupplier() {
     return xPresentationSupplier;
@@ -96,7 +96,7 @@ public class PresentationDocument extends AbstractDocument implements IPresentat
    * 
    * @return type of the document
    * 
-   * @author Andreas Bröker
+   * @author Andreas BrÃ¶ker
    */
   public String getDocumentType() {
     return IDocument.IMPRESS;
@@ -106,7 +106,7 @@ public class PresentationDocument extends AbstractDocument implements IPresentat
   /**
    * Reformats the document.
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    */
   public void reformat() {
     //TODO fill with logic
@@ -118,7 +118,7 @@ public class PresentationDocument extends AbstractDocument implements IPresentat
    * 
    * @return page service of the document
    * 
-   * @author Markus Krüger
+   * @author Markus KrÃ¼ger
    * @date 07.01.2008
    */
   public IPageService getPageService() {
