@@ -94,7 +94,7 @@ public class DataSetDocument extends UniDataSet {
 						.getStringValueByKey("orderdate"), parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent
 						.getStringValueByKey("novatdescription"), parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent
 						.getIntValueByKey("invoiceid"), parent.getStringValueByKey("paymentdescription"), parent.getStringValueByKey("shippingdescription"),
-						parent.getStringValueByKey("message3"),parent.getStringValueByKey("message2"));
+						parent.getStringValueByKey("message2"),parent.getStringValueByKey("message3"));
 
 		// Get the Items string, split it ..
 		String itemsString = this.getStringValueByKey("items");

@@ -653,9 +653,12 @@ public class DocumentEditor extends Editor {
 				document = new DataSetDocument(documentType);
 
 			// Copy the entry "message", or reset it to ""
-			if (!Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_COPY_MESSAGE_FROM_PARENT"))
+			if (!Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_COPY_MESSAGE_FROM_PARENT")) {
 				document.setStringValueByKey("message", "");
-
+				document.setStringValueByKey("message2", "");
+				document.setStringValueByKey("message3", "");
+			}
+			
 			// Set the editor ID to the document type
 			editorID = documentType.getTypeAsString();
 
