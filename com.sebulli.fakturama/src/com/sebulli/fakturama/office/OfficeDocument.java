@@ -50,6 +50,7 @@ import ag.ion.noa.frame.IDispatchDelegate;
 import ag.ion.noa.graphic.GraphicInfo;
 
 import com.sebulli.fakturama.Activator;
+import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.calculate.Price;
 import com.sebulli.fakturama.calculate.VatSummaryItem;
@@ -1049,9 +1050,16 @@ public class OfficeDocument extends Object {
 	private void replaceText(ITextField placeholder) {
 		// Get the placeholder's text
 		String placeholderDisplayText = placeholder.getDisplayText().toUpperCase();
-
-		// Replace it with the value of the property list.
-		placeholder.getTextRange().setText(properties.getProperty(placeholderDisplayText));
+		
+		// Get the value of the Property list.
+		String text = properties.getProperty(placeholderDisplayText);
+		
+		// If the String is non empty, replace the OS new line with the OpenOffice new line
+		if(text != null){
+			text = text.replaceAll(OSDependent.getNewLine(), "\r");
+		}
+		// Replace the placeholder with the value of the property list.
+		placeholder.getTextRange().setText(text);
 	}
 	
 	static public boolean testOpenAsExisting(DataSetDocument document, String template) {
