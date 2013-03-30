@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Noa
 Bundle-SymbolicName: com.sebulli.fakturama.noa
-Bundle-Version: 2.2.303
+Bundle-Version: 2.2.304
 Bundle-ClassPath: noa.jar,
  lib/bootstrapconnector.jar,
  lib/java_uno.jar,
