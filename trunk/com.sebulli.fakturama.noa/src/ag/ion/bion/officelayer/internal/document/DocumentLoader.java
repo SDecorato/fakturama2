@@ -257,7 +257,7 @@ public class DocumentLoader {
       XTextDocument xTextDocument = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class,
           xComponent);
       if (xTextDocument != null) {
-        document = new TextDocument(xTextDocument, intitialProperties, serviceProvider);
+        document = new TextDocument(xTextDocument, intitialProperties);
       }
     }
     else if (xServiceInfo.supportsService("com.sun.star.sheet.SpreadsheetDocument")) {
@@ -322,7 +322,6 @@ public class DocumentLoader {
       //not displayed under linux. The following lines of code works around this issue.
       if (!isHidden) {
         if (document.getServiceProvider() != null) {
-        	//RHE
           XWindow containerWindow = document.getFrame().getXFrame().getContainerWindow();
           containerWindow.setVisible(false);
           containerWindow.setVisible(true);

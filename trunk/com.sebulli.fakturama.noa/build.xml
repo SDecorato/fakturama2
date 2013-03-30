@@ -88,8 +88,8 @@
     <property name="namePrefix"           					value="noa"/>       
     <property name="name" 									value="com.sebulli.fakturama.ag.ion.noa"/>
   	<property name="testAppendix" 									value="test"/>
-    <property name="version" 								value="2.2.301"/>
-    <property name="year" 									value="2003-2011"/>
+    <property name="version" 								value="2.2.304"/>
+    <property name="year" 									value="2003-2013"/>
 
     <echo message="----------------- ${projectName} ${version} [${year}] -----------------"/>
     
