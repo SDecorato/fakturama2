@@ -568,21 +568,6 @@ public abstract class AbstractDocument implements IDocument {
 		addEventListener(documentListenerWrapper);
 	}
 
-	public AbstractDocument(XComponent xComponent,
-			PropertyValue[] initialProperties, IServiceProvider serviceProvider) throws IllegalArgumentException {
-		if (xComponent == null) {
-			throw new IllegalArgumentException(
-					"The submitted OpenOffice.org XComponent interface is not valid.");
-		}
-		this.xComponent = xComponent;
-		this.initialProperties = initialProperties;
-		this.serviceProvider = serviceProvider;
-		
-		documentListenerWrapper = new DocumentListenerWrapper(
-				new DocumentListener(), getServiceProvider());
-		addEventListener(documentListenerWrapper);
-	}
-	
 	// ----------------------------------------------------------------------------
 	/**
 	 * Returns OpenOffice.org XComponent interface. This method is not part of

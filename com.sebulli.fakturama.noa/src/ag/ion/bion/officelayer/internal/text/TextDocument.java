@@ -52,7 +52,6 @@ import ag.ion.bion.officelayer.util.INumberFormatService;
 import ag.ion.noa.document.ISearchService;
 import ag.ion.noa.internal.document.SearchService;
 import ag.ion.noa.internal.text.DocumentIndexService;
-import ag.ion.noa.service.IServiceProvider;
 import ag.ion.noa.text.IDocumentIndexService;
 
 import com.sun.star.beans.PropertyValue;
@@ -101,19 +100,13 @@ public class TextDocument extends AbstractDocument implements ITextDocument {
    */
   public TextDocument(XTextDocument xTextDocument, PropertyValue[] initialProperties)
       throws IllegalArgumentException {
-	  this(xTextDocument, initialProperties, null);
+    super((XComponent) UnoRuntime.queryInterface(XComponent.class, xTextDocument),
+        initialProperties);
+    this.xTextDocument = xTextDocument;
+    this.xMultiServiceFactory = (XMultiServiceFactory) UnoRuntime.queryInterface(XMultiServiceFactory.class,
+        xTextDocument);
   }
 
-  public TextDocument(XTextDocument xTextDocument, PropertyValue[] initialProperties, 
-		  IServiceProvider serviceProvider)
-		  throws IllegalArgumentException {
-	  super((XComponent) UnoRuntime.queryInterface(XComponent.class, xTextDocument),
-			  initialProperties, serviceProvider);
-	  this.xTextDocument = xTextDocument;
-	  this.xMultiServiceFactory = (XMultiServiceFactory) UnoRuntime.queryInterface(XMultiServiceFactory.class,
-			  xTextDocument);
-  }
-  
   //----------------------------------------------------------------------------
   /**
    * Returns OpenOffice.org XTextDocument interface. This method
