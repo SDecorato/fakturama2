@@ -2,7 +2,7 @@
 <feature
       id="com.sebulli.fakturama.core"
       label="Fakturama Core Feature"
-      version="1.5.4.qualifier"
+      version="1.6.0.qualifier"
       provider-name="sebulli.com">
 
    <description url="http://fakturama.sebulli.com">
