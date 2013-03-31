@@ -24,6 +24,7 @@ import java.net.URL;
 
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.swt.widgets.Display;
+import org.osgi.framework.Version;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ApplicationWorkbenchAdvisor;
@@ -50,8 +51,9 @@ public class CountryCodes {
 	 * @param version
 	 * 	The new Version
 	 */
-	public static void update(String version, final StatusLineManager slm) {
-		if (version.equals("1.5")) {
+	public static void update(final Version newVersion, final Version oldVersion, final StatusLineManager slm) {
+		if ((newVersion.compareTo(new Version (1,5,0)) >= 0 ) && 
+		    (oldVersion.compareTo(new Version (1,5,0)) < 0  )){
 		
 			// Rename countrycodes to countrycodes_2
 			for (DataSetList list: Data.INSTANCE.getListEntries().getActiveDatasets()) {
