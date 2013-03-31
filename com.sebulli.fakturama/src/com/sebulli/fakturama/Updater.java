@@ -49,14 +49,14 @@ public class Updater {
 	 */
 	public void checkVersion() {
 		// Get the actual version from the bundle
-		Version plugInVersion = new Version(Platform.getBundle("com.sebulli.fakturama").getHeaders().get("Bundle-Version").toString());
+		final Version plugInVersion = new Version(Platform.getBundle("com.sebulli.fakturama").getHeaders().get("Bundle-Version").toString());
 
 		// Get the last version from the data base
-		// if there is no version string, ist must be version 1.4.1 or earlier
+		// if there is no version string, it must be version 1.4.1 or earlier
 		String dataBaseVersionString = Data.INSTANCE.getProperty("bundleversion","1.4.1");
 		
 
-		Version dataBaseVersion = new Version(dataBaseVersionString);
+		final Version dataBaseVersion = new Version(dataBaseVersionString);
 		
 		// The plugin version is newer
 		if (plugInVersion.compareTo(dataBaseVersion) >= 1) 
@@ -72,10 +72,10 @@ public class Updater {
 				public void run() {
 					
 					// Load the country codes
-					CountryCodes.update("1.5", slm);
+					CountryCodes.update(plugInVersion, dataBaseVersion, slm);
 
 					// Update the documents
-					FileOrganizer.update("1.5", slm);
+					FileOrganizer.update(plugInVersion ,dataBaseVersion, slm);
 					
 					Display.getDefault().syncExec(new Runnable() {
 					    public void run() {
