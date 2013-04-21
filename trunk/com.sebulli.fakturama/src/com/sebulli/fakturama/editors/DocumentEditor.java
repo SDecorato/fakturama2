@@ -1150,8 +1150,11 @@ public class DocumentEditor extends Editor {
 						itemTableColumns.get(totalPriceColumn).setDataKey("$ItemNetTotal");
 					}
 
-					// Update the total text
-					netLabel.setText(getTotalText());
+					// for deliveries there's no netLabel...
+					if(netLabel != null) {
+						// Update the total text
+						netLabel.setText(getTotalText());
+					}
 
 					tableViewerItems.refresh();
 				}
