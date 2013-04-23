@@ -14,6 +14,9 @@
 
 package com.sebulli.fakturama.misc;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,6 +83,13 @@ public class Placeholders {
 			"ITEMS.DISCOUNT.PERCENT",
 			"ITEMS.DISCOUNT.NET",
 			"ITEMS.DISCOUNT.GROSS",
+
+			"ITEMS.DISCOUNT.VALUE",
+			"ITEMS.DISCOUNT.NETVALUE",
+			"ITEMS.DISCOUNT.DISCOUNTPERCENT",
+			"ITEMS.DISCOUNT.DAYS",
+			"ITEMS.DISCOUNT.DUEDATE",
+
 			"SHIPPING.NET",
 			"SHIPPING.VAT",
 			"SHIPPING.GROSS",
@@ -729,6 +739,29 @@ public class Placeholders {
 		if (key.equals("ITEMS.DISCOUNT.PERCENT")) return document.getFormatedStringValueByKey("itemsdiscount");
 		if (key.equals("ITEMS.DISCOUNT.NET")) return document.getSummary().getDiscountNet().asFormatedRoundedString();
 		if (key.equals("ITEMS.DISCOUNT.GROSS")) return document.getSummary().getDiscountGross().asFormatedRoundedString();
+
+		if (key.equals("ITEMS.DISCOUNT.DAYS")) return Integer.toString(document.getIntValueByKey("duedays"));
+		if (key.equals("ITEMS.DISCOUNT.DUEDATE")) {
+			Calendar calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
+			calendar.add(Calendar.DATE, document.getIntValueByKey("duedays"));
+			DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+			return formatter.format(calendar.getTime());
+		}
+		if (key.equals("ITEMS.DISCOUNT.DISCOUNTPERCENT")) return DataUtils.DoubleToFormatedPercent(document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue"));
+		if (key.equals("ITEMS.DISCOUNT.VALUE")) {
+			 double percent = document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue");
+			 return DataUtils.DoubleToFormatedPriceRound(document.getSummary().getItemsGross().asDouble() * (1 - percent));
+		}
+		if (key.equals("ITEMS.DISCOUNT.NETVALUE")) {
+			double percent = document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue");
+			return DataUtils.DoubleToFormatedPriceRound(document.getSummary().getItemsNet().asDouble() * (1 - percent));
+		}
+		if (key.equals("ITEMS.DISCOUNT.TARAVALUE")) {
+			double percent = document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue");
+			Double vatVal = document.getSummary().getItemsGross().asDouble() - document.getSummary().getItemsNet().asDouble();
+			return DataUtils.DoubleToFormatedPriceRound(vatVal * (1 - percent));
+		}
+
 		if (key.equals("SHIPPING.NET")) return document.getSummary().getShippingNet().asFormatedString();
 		if (key.equals("SHIPPING.VAT")) return document.getSummary().getShippingVat().asFormatedString();
 		if (key.equals("SHIPPING.GROSS")) return document.getSummary().getShippingGross().asFormatedString();
@@ -828,6 +861,7 @@ public class Placeholders {
 			if (key.equals("ADDRESS.GREETING")) return contact.getGreeting(false);
 			if (key.equals("ADDRESS.TITLE")) return contact.getStringValueByKey("title");
 			if (key.equals("ADDRESS.NAME")) return contact.getName(false);
+			if (key.equals("ADDRESS.NAMEWITHCOMPANY")) return contact.getName(false);  // TODO
 			if (key.equals("ADDRESS.FIRSTANDLASTNAME")) return contact.getFirstAndLastName(false);
 			if (key.equals("ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("firstname");
 			if (key.equals("ADDRESS.LASTNAME")) return contact.getStringValueByKey("name");
@@ -845,6 +879,7 @@ public class Placeholders {
 			if (key.equals("DELIVERY.ADDRESS.GREETING")) return contact.getGreeting(true);
 			if (key.equals("DELIVERY.ADDRESS.TITLE")) return contact.getStringValueByKey("delivery_title");
 			if (key.equals("DELIVERY.ADDRESS.NAME")) return contact.getName(true);
+			if (key.equals("DELIVERY.ADDRESS.NAMEWITHCOMPANY")) return contact.getName(true); // TODO 
 			if (key.equals("DELIVERY.ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("delivery_firstname");
 			if (key.equals("DELIVERY.ADDRESS.LASTNAME")) return contact.getStringValueByKey("delivery_name");
 			if (key.equals("DELIVERY.ADDRESS.COMPANY")) return contact.getStringValueByKey("delivery_company");
