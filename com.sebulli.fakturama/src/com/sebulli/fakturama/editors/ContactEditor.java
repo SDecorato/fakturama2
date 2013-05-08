@@ -16,6 +16,8 @@ package com.sebulli.fakturama.editors;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.TreeSet;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -35,6 +37,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
@@ -81,6 +84,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	private Text txtZip;
 	private Text txtCity;
 	private Text txtCountry;
+	private DateTime dtBirthday;
 	private Combo comboDeliveryGender;
 	private Text txtDeliveryTitle;
 	private Text txtDeliveryFirstname;
@@ -236,7 +240,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		contact.setDoubleValueByKey("discount", DataUtils.StringToDoubleDiscount(txtDiscount.getText()));
 		contact.setStringValueByKey("category", comboCategory.getText());
 		contact.setIntValueByKey("use_net_gross", comboUseNetGross.getSelectionIndex());
-
+		contact.setStringValueByKey("birthday", DataUtils.getDateTimeAsString(dtBirthday));
 
 		// Set the note
 		contact.setStringValueByKey("note", DataUtils.removeCR(textNote.getText()));
@@ -386,6 +390,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!DataUtils.DoublesAreEqual(contact.getDoubleValueByKey("discount"), DataUtils.StringToDoubleDiscount(txtDiscount.getText()))) { return true; }
 		if (contact.getIntValueByKey("use_net_gross") != comboUseNetGross.getSelectionIndex()) { return true; }
+		if (!contact.getStringValueByKey("birthday").equals(DataUtils.getDateTimeAsString(dtBirthday))) { return true; }
 
 		if (!DataUtils.MultiLineStringsAreEqual(contact.getStringValueByKey("note"), textNote.getText())) { return true; }
 
@@ -925,6 +930,23 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		txtWebsite.setText(contact.getStringValueByKey("website"));
 		superviceControl(txtWebsite, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtWebsite);
+		
+		// Birthday
+		Label labelBirthday = new Label(tabMisc, SWT.NONE);
+		//T: Label in the contact editor
+		labelBirthday.setText(_("Birthday"));
+		//T: Tool Tip Text
+		labelBirthday.setToolTipText(_("The contact's birthday"));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelBirthday);		
+		dtBirthday = new DateTime(tabMisc, SWT.DROP_DOWN);
+		dtBirthday.setToolTipText(labelBirthday.getToolTipText());
+		GridDataFactory.swtDefaults().applyTo(dtBirthday);
+		superviceControl(dtBirthday);
+		
+		// Set the dtBirthday widget to the contact's birthday date
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar = DataUtils.getCalendarFromDateString(contact.getStringValueByKey("birthday"));
+		dtBirthday.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
 		// Payment
 		Label labelPayment = new Label(tabMisc, SWT.NONE);
