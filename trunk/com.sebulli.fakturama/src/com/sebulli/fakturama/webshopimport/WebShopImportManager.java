@@ -1057,7 +1057,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 								new DataSetContact(-1, false, shopCategory, genderInt, "", firstname, lastname, company, street, zip, city, country,
 										deliveryGenderInt, "", delivery_firstname, delivery_lastname, delivery_company, delivery_street, delivery_zip,
 										delivery_city, delivery_country, "", "", "", "", "", "", id, "", "", Data.INSTANCE.getPropertyAsInt("standardpayment"),
-										0, phone, "", "", email, "", "", 0, 0.0, 0, ""));
+										0, phone, "", "", email, "", "", 0, 0.0, 0, "", ""));
 
 				// set explicit the customers data
 				contact.setIntValueByKey("gender", genderInt);
