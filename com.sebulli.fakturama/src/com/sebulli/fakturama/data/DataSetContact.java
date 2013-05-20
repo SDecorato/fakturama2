@@ -56,7 +56,7 @@ public class DataSetContact extends UniDataSet {
 	 */
 	public DataSetContact(boolean deleted, String category, String firstname, String name, String street, String zip, String city) {
 		this(-1, deleted, category, 0, "", firstname, name, "", street, zip, city, "", 0, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-				-1, 0, "", "", "", "", "", "", 0, 0.0, -1, "");
+				-1, 0, "", "", "", "", "", "", 0, 0.0, -1, "", "");
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class DataSetContact extends UniDataSet {
 			String delivery_company, String delivery_street, String delivery_zip, String delivery_city, String delivery_country, String account_holder,
 			String account, String bank_code, String bank_name, String iban, String bic, String nr, String note, String date_added, int payment,
 			int reliability, String phone, String fax, String mobile, String email, String website, String vatnr, int vatnrvalid, double discount,
-			int use_net_gross, String birthDay) {
+			int use_net_gross, String birthDay, String deliveryBirthday) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
 		this.hashMap.put("deleted", new UniData(UniDataType.BOOLEAN, deleted));
 		this.hashMap.put("category", new UniData(UniDataType.STRING, category));
@@ -122,6 +122,7 @@ public class DataSetContact extends UniDataSet {
 		this.hashMap.put("zip", new UniData(UniDataType.STRING, zip));
 		this.hashMap.put("city", new UniData(UniDataType.STRING, city));
 		this.hashMap.put("country", new UniData(UniDataType.STRING, country));
+		this.hashMap.put("birthday", new UniData(UniDataType.DATE, birthDay));
 
 		this.hashMap.put("delivery_gender", new UniData(UniDataType.INT, delivery_gender));
 		this.hashMap.put("delivery_title", new UniData(UniDataType.STRING, delivery_title));
@@ -132,6 +133,7 @@ public class DataSetContact extends UniDataSet {
 		this.hashMap.put("delivery_zip", new UniData(UniDataType.STRING, delivery_zip));
 		this.hashMap.put("delivery_city", new UniData(UniDataType.STRING, delivery_city));
 		this.hashMap.put("delivery_country", new UniData(UniDataType.STRING, delivery_country));
+		this.hashMap.put("delivery_birthday", new UniData(UniDataType.DATE, deliveryBirthday));
 
 		this.hashMap.put("account_holder", new UniData(UniDataType.STRING, account_holder));
 		this.hashMap.put("account", new UniData(UniDataType.STRING, account));
@@ -154,7 +156,6 @@ public class DataSetContact extends UniDataSet {
 		this.hashMap.put("vatnrvalid", new UniData(UniDataType.INT, vatnrvalid));
 		this.hashMap.put("discount", new UniData(UniDataType.PERCENT, discount));
 		this.hashMap.put("use_net_gross", new UniData(UniDataType.INT, use_net_gross));
-		this.hashMap.put("birthday", new UniData(UniDataType.DATE, birthDay));
 
 		// Name of the table in the data base
 		sqlTabeName = "Contacts";

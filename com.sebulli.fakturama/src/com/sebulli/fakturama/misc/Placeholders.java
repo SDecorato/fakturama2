@@ -109,6 +109,7 @@ public class Placeholders {
 			"ADDRESS.GREETING",
 			"ADDRESS.TITLE",
 			"ADDRESS.NAME",
+			"ADDRESS.BIRTHDAY",
 			"ADDRESS.NAMEWITHCOMPANY",
 			"ADDRESS.FIRSTNAME",
 			"ADDRESS.LASTNAME",
@@ -127,6 +128,7 @@ public class Placeholders {
 			"DELIVERY.ADDRESS.GREETING",
 			"DELIVERY.ADDRESS.TITLE",
 			"DELIVERY.ADDRESS.NAME",
+			"DELIVERY.ADDRESS.BIRTHDAY",
 			"DELIVERY.ADDRESS.NAMEWITHCOMPANY",
 			"DELIVERY.ADDRESS.FIRSTNAME",
 			"DELIVERY.ADDRESS.LASTNAME",
@@ -861,6 +863,7 @@ public class Placeholders {
 			if (key.equals("ADDRESS.GREETING")) return contact.getGreeting(false);
 			if (key.equals("ADDRESS.TITLE")) return contact.getStringValueByKey("title");
 			if (key.equals("ADDRESS.NAME")) return contact.getName(false);
+			if (key.equals("ADDRESS.BIRTHDAY")) return contact.getStringValueByKey("birthday");
 			if (key.equals("ADDRESS.NAMEWITHCOMPANY")) return contact.getName(false);  // TODO
 			if (key.equals("ADDRESS.FIRSTANDLASTNAME")) return contact.getFirstAndLastName(false);
 			if (key.equals("ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("firstname");
@@ -879,6 +882,7 @@ public class Placeholders {
 			if (key.equals("DELIVERY.ADDRESS.GREETING")) return contact.getGreeting(true);
 			if (key.equals("DELIVERY.ADDRESS.TITLE")) return contact.getStringValueByKey("delivery_title");
 			if (key.equals("DELIVERY.ADDRESS.NAME")) return contact.getName(true);
+			if (key.equals("DELIVERY.ADDRESS.BIRTHDAY")) return contact.getStringValueByKey("delivery_birthday");
 			if (key.equals("DELIVERY.ADDRESS.NAMEWITHCOMPANY")) return contact.getName(true); // TODO 
 			if (key.equals("DELIVERY.ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("delivery_firstname");
 			if (key.equals("DELIVERY.ADDRESS.LASTNAME")) return contact.getStringValueByKey("delivery_name");
