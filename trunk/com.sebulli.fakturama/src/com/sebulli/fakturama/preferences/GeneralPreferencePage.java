@@ -66,6 +66,9 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements 
 
 		//T: Preference page "General"
 		addField(new StringFieldEditor("GENERAL_CURRENCY", _("Currency"), getFieldEditorParent()));
+		
+		//T: Preference page "General"
+		addField(new BooleanFieldEditor("GENERAL_HAS_THOUSANDS_SEPARATOR", _("Thousands separator"), getFieldEditorParent()));
 
 	}
 
