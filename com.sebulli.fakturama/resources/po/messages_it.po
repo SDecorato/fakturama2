@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Fakturama 1.5\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
-"POT-Creation-Date: 2013-05-25 20:46+0200\n"
+"POT-Creation-Date: 2013-05-26 00:03+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Ralf Heydenreich <rheydenr@justmail.de>\n"
 "Language-Team: FranzBrail\n"
@@ -738,12 +738,12 @@ msgid "Payment due upon receipt of invoice."
 msgstr "Pagamento dovuto a ricezione fattura."
 
 #. T: Gender
-#: ../src/com/sebulli/fakturama/data/DataSetContact.java:428
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:414
 msgid "Mr"
 msgstr "Sig."
 
 #. T: Gender
-#: ../src/com/sebulli/fakturama/data/DataSetContact.java:431
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:417
 msgid "Ms"
 msgstr "Sig.ra"
 
@@ -752,7 +752,7 @@ msgstr "Sig.ra"
 #. T: Used as heading of a table. Keep the word short.
 #. T: Preference page "Column width" - Use the same text as in the heading of the corresponding table
 #. T: Used as heading of a table. Keep the word short.
-#: ../src/com/sebulli/fakturama/data/DataSetContact.java:433
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:419
 #: ../src/com/sebulli/fakturama/dialogs/SelectContactDialog.java:85
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:646
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:772
@@ -766,19 +766,19 @@ msgid "Company"
 msgstr "Compagnia"
 
 #. T: Reliability
-#: ../src/com/sebulli/fakturama/data/DataSetContact.java:484
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:470
 msgctxt "RELIABILITY"
 msgid "poor"
 msgstr "povero"
 
 #. T: Reliability
-#: ../src/com/sebulli/fakturama/data/DataSetContact.java:487
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:473
 msgctxt "RELIABILITY"
 msgid "medium"
 msgstr "medio"
 
 #. T: Reliability
-#: ../src/com/sebulli/fakturama/data/DataSetContact.java:490
+#: ../src/com/sebulli/fakturama/data/DataSetContact.java:476
 msgctxt "RELIABILITY"
 msgid "good"
 msgstr "buono"
@@ -3111,7 +3111,7 @@ msgstr "Mostra  barra dell'URL"
 
 #. T: Preference page "General" - Title"
 #: ../src/com/sebulli/fakturama/preferences/BrowserPreferencePage.java:79
-#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:81
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:84
 msgid "General Settings"
 msgstr "Impostazioni generali"
 
@@ -3467,6 +3467,11 @@ msgstr "Chiudi altri editor"
 #: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:68
 msgid "Currency"
 msgstr "Valuta"
+
+#. T: Preference page "General"
+#: ../src/com/sebulli/fakturama/preferences/GeneralPreferencePage.java:71
+msgid "Thousands separator"
+msgstr "Rappresentare i numeri con separatore delle migliaia"
 
 #. T: Preference page "Number Range Format" - Label "Format of the Customer ID"
 #: ../src/com/sebulli/fakturama/preferences/NumberRangeFormatPreferencePage.java:56
