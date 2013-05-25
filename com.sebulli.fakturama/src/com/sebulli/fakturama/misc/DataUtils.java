@@ -40,13 +40,14 @@ import com.sebulli.fakturama.logger.Logger;
 public class DataUtils {
 
 	private static String currencySymbol = null;
+	private static boolean hasThousandsSeparator = false;
 	
 	/**
-	 * Update the currency symbol from the preferences
+	 * Update the currency symbol and the thousands separator from the preferences
 	 */
 	public static void updateCurrencySymbol() {
-		
 		currencySymbol = Activator.getDefault().getPreferenceStore().getString("GENERAL_CURRENCY");
+		hasThousandsSeparator = Activator.getDefault().getPreferenceStore().getBoolean("GENERAL_HAS_THOUSANDS_SEPARATOR");
 	}
 	
 	/**
@@ -227,13 +228,13 @@ public class DataUtils {
 	}
 
 	/**
-	 * Convert a double to a formated string value. If the value has parts of a
+	 * Convert a double to a formatted string value. If the value has parts of a
 	 * cent, add ".."
 	 * 
 	 * @param d
 	 *            Double value to convert
 	 * @param twoDecimals
-	 *            TRUE, if the value is displayed in the format 0.00
+	 *            <code>true</code>, if the value is displayed in the format 0.00
 	 * @return Converted value as String
 	 */
 	private static String DoubleToFormatedValue(Double d, boolean twoDecimals) {
@@ -247,27 +248,19 @@ public class DataUtils {
 			floorValue = Math.ceil(d * 100.0 - 0.0001) / 100.0;
 
 		// Format as "0.00"
-		DecimalFormat price = new DecimalFormat("0.00");
+		DecimalFormat price;
+		if(twoDecimals) {
+			price = new DecimalFormat((hasThousandsSeparator ? ",##" : "") + "0.00");
+		} else {
+			price = new DecimalFormat((hasThousandsSeparator ? ",##" : "") + "0.##");
+		}
 		String s = price.format(floorValue);
 
 		// Are there parts of a cent ? Add ".."
-		if (Math.abs(d - floorValue) > 0.0002)
-			return s + "..";
-		else {
-
-			if (!twoDecimals) {
-
-				// remove the last ".00" from e.g. "12.00"
-				if (s.endsWith("00"))
-					return s.substring(0, s.length() - 3);
-
-				// remove the last "0" from e.g. "12.50"
-				if (s.endsWith("0"))
-					return s.substring(0, s.length() - 1);
-			}
-
-			return s;
+		if (Math.abs(d - floorValue) > 0.0002) {
+			s += "..";
 		}
+		return s;
 	}
 
 	/**
