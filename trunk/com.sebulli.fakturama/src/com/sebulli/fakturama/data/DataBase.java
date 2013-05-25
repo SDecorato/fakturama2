@@ -682,10 +682,10 @@ public class DataBase {
 
 		// Get the JDBC driver
 		try {
-			Class.forName("org.hsqldb.jdbcDriver");
+			Class.forName("org.hsqldb.jdbc.JDBCDriver");
 		}
 		catch (ClassNotFoundException e) {
-			Logger.logError("Class org.hsqldb.jdbcDriver not found");
+			Logger.logError("Class org.hsqldb.jdbc.JDBCDriver not found");
 			return false;
 		}
 
