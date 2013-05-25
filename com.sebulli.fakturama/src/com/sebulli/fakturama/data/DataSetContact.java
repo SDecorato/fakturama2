@@ -347,21 +347,7 @@ public class DataSetContact extends UniDataSet {
 	 * @return First and last name
 	 */
 	public String getName(boolean useDelivery) {
-		String line = "";
-
-		String deliveryString = "";
-		if (useDelivery)
-			deliveryString = "delivery_";
-
-		if (!this.getStringValueByKey(deliveryString + "company").isEmpty()) {
-			line = DataUtils.getSingleLine(this.getStringValueByKey(deliveryString + "company"));
-			if ((!this.getStringValueByKey(deliveryString + "firstname").isEmpty()) || 
-				(!this.getStringValueByKey(deliveryString + "name").isEmpty()) )
-				line +=", ";
-		}
-
-		line += this.getFirstAndLastName(useDelivery);
-		return line;
+		return getFirstAndLastName(useDelivery);
 	}
 
 
@@ -534,6 +520,27 @@ public class DataSetContact extends UniDataSet {
 		if (!uds.getStringValueByKey("zip").equalsIgnoreCase(this.getStringValueByKey("zip")))
 			return false;
 		return true;
+	}
+
+	/**
+	 * the name of the company (if any) and the name of the contact (deliverer or contact)
+	 * 
+	 * @param b
+	 * @return
+	 */
+	public String getNameWithCompany(boolean useDelivery) {
+		String line = "";
+		String deliveryString = (useDelivery) ? "delivery_" : "";
+
+		if (!this.getStringValueByKey(deliveryString + "company").isEmpty()) {
+			line = DataUtils.getSingleLine(this.getStringValueByKey(deliveryString + "company"));
+			if ((!this.getStringValueByKey(deliveryString + "firstname").isEmpty()) || 
+				(!this.getStringValueByKey(deliveryString + "name").isEmpty()) )
+				line +=", ";
+		}
+
+		line += this.getFirstAndLastName(useDelivery);
+		return line;
 	}
 
 }
