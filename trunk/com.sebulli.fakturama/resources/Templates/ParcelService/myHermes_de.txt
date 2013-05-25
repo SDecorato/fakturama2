@@ -1,28 +1,29 @@
 # Name and URL of the parcel service:
 name = myHermes.de
 url = https://www.myhermes.de/wps/portal/PRIPS_DEU/PAKETVERSAND
+# as of 09.05.2012
 
 # Fields:
-absender(NACHNAME)       = YOURCOMPANY.COMPANY
-absender(ADRESSZUSATZ)   = YOURCOMPANY.OWNER
-absender(STRASSE)        = YOURCOMPANY.STREETNAME
-absender(HAUSNUMMER)     = YOURCOMPANY.STREETNO
-absender(PLZ)            = YOURCOMPANY.ZIP
-absender(ORT)            = YOURCOMPANY.CITY
-absender(EMAIL)          = YOURCOMPANY.EMAIL
-absender(VORWAHL)        = YOURCOMPANY.PHONE.PRE
-absender(TELEFON)        = YOURCOMPANY.PHONE.POST
+packageLabelDTO.senderAddress.lastname            = YOURCOMPANY.COMPANY
+packageLabelDTO.senderAddress.addressExtension    = YOURCOMPANY.OWNER
+packageLabelDTO.senderAddress.street              = YOURCOMPANY.STREETNAME
+packageLabelDTO.senderAddress.streetNo            = YOURCOMPANY.STREETNO
+packageLabelDTO.senderAddress.postalCode          = YOURCOMPANY.ZIP
+packageLabelDTO.senderAddress.city                = YOURCOMPANY.CITY
+packageLabelDTO.senderEmail.email                 = YOURCOMPANY.EMAIL
+packageLabelDTO.senderTelephone.areaCodePhoneNo   = YOURCOMPANY.PHONE.PRE
+packageLabelDTO.senderTelephone.phoneNo           = YOURCOMPANY.PHONE.POST
 
-empfaenger(VORNAME)      = DELIVERY.ADDRESS.FIRSTNAME
-empfaenger(NACHNAME)     = DELIVERY.ADDRESS.LASTNAME
-empfaenger(ADRESSZUSATZ) = DELIVERY.ADDRESS.COMPANY
-empfaenger(STRASSE)      = DELIVERY.ADDRESS.STREETNAME
-empfaenger(HAUSNUMMER)   = DELIVERY.ADDRESS.STREETNO
-empfaenger(PLZ)          = DELIVERY.ADDRESS.ZIP
-empfaenger(ORT)          = DELIVERY.ADDRESS.CITY
-empfaenger(VORWAHL)      = ADDRESS.PHONE.PRE
-empfaenger(TELEFON)      = ADDRESS.PHONE.POST
-empfaenger(LAND)         = DELIVERY.ADDRESS.COUNTRY.CODE3
+packageLabelDTO.receiverAddress.firstname         = DELIVERY.ADDRESS.FIRSTNAME
+packageLabelDTO.receiverAddress.lastname          = DELIVERY.ADDRESS.LASTNAME
+packageLabelDTO.receiverAddress.addressExtension  = DELIVERY.ADDRESS.COMPANY
+packageLabelDTO.receiverAddress.street            = DELIVERY.ADDRESS.STREETNAME
+packageLabelDTO.receiverAddress.streetNo          = DELIVERY.ADDRESS.STREETNO
+packageLabelDTO.receiverAddress.postalCode        = DELIVERY.ADDRESS.ZIP
+packageLabelDTO.receiverAddress.city              = DELIVERY.ADDRESS.CITY
+packageLabelDTO.receiverTelephone.areaCodePhoneNo = ADDRESS.PHONE.PRE
+packageLabelDTO.receiverTelephone.phoneNo         = ADDRESS.PHONE.POST
+packageLabelDTO.receiverAddress.countryISO2       = DELIVERY.ADDRESS.COUNTRY.CODE2
 
 
 # If you have created a template file for a new parcel service,
