@@ -114,6 +114,7 @@ public class DocumentEditor extends Editor {
 	private Text txtName;
 	private DateTime dtDate;
 	private DateTime dtOrderDate;
+	private DateTime dtServiceDate;
 	private Text txtCustomerRef;
 	private Text txtAddress;
 	private Combo comboNoVat;
@@ -309,8 +310,8 @@ public class DocumentEditor extends Editor {
 		else
 			document.setStringValueByKey("orderdate", DataUtils.getDateTimeAsString(dtOrderDate));
 
-		document.setStringValueByKey("servicedate", document.getStringValueByKey("date"));
-
+		document.setStringValueByKey("servicedate", DataUtils.getDateTimeAsString(dtServiceDate));
+		
 		document.setIntValueByKey("addressid", addressId);
 		String addressById = "";
 
@@ -854,6 +855,8 @@ public class DocumentEditor extends Editor {
 			}
 			if (!orderDateString.equals(DataUtils.getDateTimeAsString(dtOrderDate))) { return true; }
 		}
+		
+		if (!document.getStringValueByKey("servicedate").equals(DataUtils.getDateTimeAsString(dtServiceDate))) { return true; }
 
 		if (document.getIntValueByKey("addressid") != addressId) { return true; }
 		if (documentType == DocumentType.DELIVERY) {
@@ -1548,7 +1551,7 @@ public class DocumentEditor extends Editor {
 
 		superviceControl(txtName, 32);
 		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).applyTo(txtName);
-
+		
 		// Document date
 		//T: Document Editor
 		//T: Label Document Date
@@ -1558,7 +1561,7 @@ public class DocumentEditor extends Editor {
 		labelDate.setToolTipText(_("The document's date"));
 		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
-
+		
 		// Document date
 		dtDate = new DateTime(nrDateComposite, SWT.DROP_DOWN);
 		dtDate.setToolTipText(labelDate.getToolTipText());
@@ -1576,7 +1579,7 @@ public class DocumentEditor extends Editor {
 		});
 		GridDataFactory.swtDefaults().applyTo(dtDate);
 		superviceControl(dtDate);
-
+		
 		// Set the dtDate widget to the documents date
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
@@ -1631,10 +1634,30 @@ public class DocumentEditor extends Editor {
 
 		boolean useOrderDate = (documentType != DocumentType.ORDER);
 
+		// Service date
+		//T: Document Editor
+		//T: Label Service Date
+		Label labelServiceDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
+		labelServiceDate.setText(_("ServiceDate"));
+		//T: Tool Tip Text
+		labelServiceDate.setToolTipText(_("The service date"));
+		
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelServiceDate);
+
+		// Service date
+		dtServiceDate = new DateTime(useOrderDate ? xtraSettingsComposite : invisible, SWT.DROP_DOWN);
+		dtServiceDate.setToolTipText(labelServiceDate.getToolTipText());
+		GridDataFactory.swtDefaults().applyTo(dtServiceDate);
+		superviceControl(dtServiceDate);
+
+		// Set the dtDate widget to the documents date
+		calendar = new GregorianCalendar();
+		calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("servicedate"));
+		dtServiceDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+
 		// Order date
 		Label labelOrderDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
-		
-		
 		if (documentType == DocumentType.OFFER) {
 			//T: Label in the document editor
 			labelOrderDate.setText(_("Date of request"));
@@ -1648,7 +1671,7 @@ public class DocumentEditor extends Editor {
 		}
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelOrderDate);
-
+		
 		// Order date
 		dtOrderDate = new DateTime(useOrderDate ? xtraSettingsComposite : invisible, SWT.DROP_DOWN);
 		dtOrderDate.setToolTipText(labelOrderDate.getToolTipText());
