@@ -8,56 +8,58 @@
 </head>
 
 <body>
-	<h1>Kontakte aus CSV Datei importieren</h1>
-	<p>Adressdaten können aus einer CSV-Tabelle in Fakturama importiert werden.
-	Damit ist eine Datenübernahme aus einem anderen Programm möglich.</p>
+	<h1>Kontakte aus CSV-Datei importieren</h1>
+	<p>Adressdaten können aus einer CSV-Datei in Fakturama importiert werden.
+	Damit ist eine Datenübernahme aus einem anderen Programm möglich. Die Datei muss im Format UTF-8 vorliegen
+	und durch Semikolon getrennt sein. Zeichenketten sind in Hochkommata einzuschließen.
+	Beispiel:</p>
 
-	<p class="code">
-		"category";"gender";"title";"firstname";"name";"company";"street";"zip";"city";"country";"delivery_gender";"delivery_title";"delivery_firstname";"delivery_name";"delivery_company";"delivery_street";"delivery_zip";"delivery_city";"delivery_country";"account_holder";"account";"bank_code";"bank_name";"iban";"bic";"nr";"note";"date_added";"payment";"reliability";"phone";"fax";"mobile";"email";"website";"vatnr";"vatnrvalid";"discount"
-		"Shop Kunden";"Frau";"";"Lisa";"Lausser";"";"Langerweg 19";"12345";"Lausburg";"Germany";"Frau";"";"Lisa";"Lausser";"";"Langerweg 19";"12345";"Lausburg";"Germany";"";"";"";"";"";"";"1";"";"";"Barzahlung";"---";"07889 110223";"";"";"lisalausser@web.de";"";"";0;"0,00"
-		"Shop Kunden";"Herr";"";"Max";"Mustermann";"";"Musterstrasse 42";"10000";"Berlin";"Germany";"Herr";"";"Max";"Mustermann";"";"Musterstrasse 42";"10000";"Berlin";"Germany";"";"";"";"";"";"";"2";"";"";"Barzahlung";"---";"01234 567890";"";"";"maxmustermann@web.de";"";"";0;"0,00"
-	</p>
+	<p class="code"><pre>
+"category";"gender";"title";"firstname";"name";"company";"street";"zip";"city";"country";"delivery_gender";"delivery_title";"delivery_firstname";"delivery_name";"delivery_company";"delivery_street";"delivery_zip";"delivery_city";"delivery_country";"account_holder";"account";"bank_code";"bank_name";"iban";"bic";"nr";"note";"date_added";"payment";"reliability";"phone";"fax";"mobile";"email";"website";"vatnr";"vatnrvalid";"discount"
+"Shop Kunden";"Frau";"";"Lisa";"Lausser";"";"Langerweg 19";"12345";"Lausburg";"Germany";"Frau";"";"Lisa";"Lausser";"";"Langerweg 19";"12345";"Lausburg";"Germany";"";"";"";"";"";"";"1";"";"";"Barzahlung";"---";"07889 110223";"";"";"lisalausser@web.de";"";"";0;"0,00"
+"Shop Kunden";"Herr";"";"Max";"Mustermann";"";"Musterstrasse 42";"10000";"Berlin";"Germany";"Herr";"";"Max";"Mustermann";"";"Musterstrasse 42";"10000";"Berlin";"Germany";"";"";"";"";"";"";"2";"";"";"Barzahlung";"---";"01234 567890";"";"";"maxmustermann@web.de";"";"";0;"0,00"
+	</pre></p>
 
-	<p>Die zu importierenden Daten müssen in einer CSV Tabelle vorliegen und folgende Spalten beinhalten:</p>
-	<ul>
-		<li><b>category</b> Kategorie, in die der Kontakt einsortiert wird. Zum Beispiel "Shop Kunden", "Lieferanten"</li>
-		<li><b>gender</b> Geschlecht. "Herr" oder "Frau".</li>
-		<li><b>title</b> Zusätzlicher Titel.</li>
-		<li><b>firstname</b> Vorname</li>
-		<li><b>name</b> Nachname</li>
-		<li><b>company</b> Firma</li>
-		<li><b>street</b> Strasse und Hausnummer</li>
-		<li><b>zip</b> PLZ</li>
-		<li><b>city</b> Ort</li>
-		<li><b>country</b> Land</li>
-		<li><b>delivery_gender</b> Lieferanschrift - Geschlecht. "Herr" oder "Frau".</li>
-		<li><b>delivery_title</b> Lieferanschrift - Zusätzlicher Titel.</li>
-		<li><b>delivery_firstname</b> Lieferanschrift - Vorname</li>
-		<li><b>delivery_name</b> Lieferanschrift - Nachname</li>
-		<li><b>delivery_company</b> Lieferanschrift - Firma</li>
-		<li><b>delivery_street</b> Lieferanschrift - Strasse und Hausnummer</li>
-		<li><b>delivery_zip</b> Lieferanschrift - PLZ</li>
-		<li><b>delivery_city</b> Lieferanschrift - Ort</li>
-		<li><b>delivery_country</b> Lieferanschrift - Land</li>
-		<li><b>account_holder</b> Kontoinhaber</li>
-		<li><b>account</b> Kontonummer</li>
-		<li><b>bank_code</b> Bankleitzahl</li>
-		<li><b>bank_name</b> Name der Bank</li>
-		<li><b>iban</b> IBAN</li>
-		<li><b>bic</b> BIC</li>
-		<li><b>nr</b> Kunden/Lieferantennummer</li>
-		<li><b>note</b> Notiz</li>
-		<li><b>date_added</b> Datum, an dem der Kunde angelegt wurde, oder leer.</li>
-		<li><b>reliability</b> Bonität <b>---</b>, <b>schlecht</b>, <b>mittel</b> oder <b>gut</b></li>
-		<li><b>phone</b> Telefonnummer</li>
-		<li><b>fax</b> Telefaxnummer</li>
-		<li><b>mobile</b> Telefonnummer Mobiltelefon</li>
-		<li><b>email</b> Email</li>
-		<li><b>website</b> Webseite</li>
-		<li><b>vatnr</b> USt.IdNr.</li>
-		<li><b>vatnrvalid</b> USt.IdNr. gültig. 0 = ungültig oder nicht geprüft, 1 = geprüft und gültig</li>
-		<li><b>discount</b> Rabatt, der diesem Kunden gewährt wird.</li>
-	</ul>
+	<p>Die zu importierenden Daten müssen in einer CSV-Datei vorliegen und folgende Spalten beinhalten:</p>
+	<dl>
+		<dt>category</dt><dd> Kategorie, in die der Kontakt einsortiert wird. Zum Beispiel "Shop Kunden", "Lieferanten"</dd>
+		<dt>gender</dt><dd> Geschlecht. "Herr" oder "Frau".</dd>
+		<dt>title</dt><dd> Zusätzlicher Titel.</dd>
+		<dt>firstname</dt><dd> Vorname</dd>
+		<dt>name</dt><dd> Nachname</dd>
+		<dt>company</dt><dd> Firma</dd>
+		<dt>street</dt><dd> Strasse und Hausnummer</dd>
+		<dt>zip</dt><dd> PLZ</dd>
+		<dt>city</dt><dd> Ort</dd>
+		<dt>country</dt><dd> Land</dd>
+		<dt>delivery_gender</dt><dd> Lieferanschrift - Geschlecht. "Herr" oder "Frau".</dd>
+		<dt>delivery_title</dt><dd> Lieferanschrift - Zusätzlicher Titel.</dd>
+		<dt>delivery_firstname</dt><dd> Lieferanschrift - Vorname</dd>
+		<dt>delivery_name</dt><dd> Lieferanschrift - Nachname</dd>
+		<dt>delivery_company</dt><dd> Lieferanschrift - Firma</dd>
+		<dt>delivery_street</dt><dd> Lieferanschrift - Strasse und Hausnummer</dd>
+		<dt>delivery_zip</dt><dd> Lieferanschrift - PLZ</dd>
+		<dt>delivery_city</dt><dd> Lieferanschrift - Ort</dd>
+		<dt>delivery_country</dt><dd> Lieferanschrift - Land</dd>
+		<dt>account_holder</dt><dd> Kontoinhaber</dd>
+		<dt>account</dt><dd> Kontonummer</dd>
+		<dt>bank_code</dt><dd> Bankleitzahl</dd>
+		<dt>bank_name</dt><dd> Name der Bank</dd>
+		<dt>iban</dt><dd> IBAN</dd>
+		<dt>bic</dt><dd> BIC</dd>
+		<dt>nr</dt><dd> Kunden/Lieferantennummer</dd>
+		<dt>note</dt><dd> Notiz</dd>
+		<dt>date_added</dt><dd> Datum, an dem der Kunde angelegt wurde, oder leer.</dd>
+		<dt>reliability</dt><dd>Bonität ("---", "schlecht", "mittel" oder "gut")</dd>
+		<dt>phone</dt><dd> Telefonnummer</dd>
+		<dt>fax</dt><dd> Telefaxnummer</dd>
+		<dt>mobile</dt><dd> Telefonnummer Mobiltelefon</dd>
+		<dt>email</dt><dd> Email</dd>
+		<dt>website</dt><dd> Webseite</dd>
+		<dt>vatnr</dt><dd> USt.IdNr.</dd>
+		<dt>vatnrvalid</dt><dd> USt.IdNr. gültig. 0 = ungültig oder nicht geprüft, 1 = geprüft und gültig</dd>
+		<dt>discount</dt><dd> Rabatt, der diesem Kunden gewährt wird.</dd>
+	</dl>
 
 	<p>Es wird empfohlen, den Import zuerst mit einer Tabelle aus nur 2-3 Einträgen zu testen, bevor die ganze Tabelle importiert wird.
 	Bei einem fehlerhaften Import muss ansonsten jeder Kontakt einzeln gelöscht werden.</p>
