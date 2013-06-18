@@ -1,11 +1,11 @@
 # Fakturama translatable messages.
-# Copyright (C) 2012 Gerd Bartelt
+# Copyright (C) 2013 Gerd Bartelt
 # This file is distributed under the same license as the Fakturama package.
-# Gerd Bartelt <fakturamaATsebulli.com>, 2012.
+# Gerd Bartelt <fakturamaATsebulli.com>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: com.sebulli.fakturama 1.5\n"
+"Project-Id-Version: com.sebulli.fakturama 1.6.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2013-05-26 00:39+0200\n"
 "PO-Revision-Date: 2013-05-26 00:42+0100\n"
@@ -16,7 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,389,-1,-1\n"
 "X-Generator: Poedit 1.5.5\n"
 
 #. T: Text of the action

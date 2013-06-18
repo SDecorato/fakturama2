@@ -1,23 +1,23 @@
 # Fakturama translatable messages.
-# Copyright (C) 2012 Gerd Bartelt
+# Copyright (C) 2013 Gerd Bartelt
 # This file is distributed under the same license as the Fakturama package.
-# Gerd Bartelt <fakturamaATsebulli.com>, 2012.
+# Gerd Bartelt <fakturamaATsebulli.com>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: com.sebulli.fakturama 1.4\n"
+"Project-Id-Version: com.sebulli.fakturama 1.6.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2011-08-03 18:12+0200\n"
-"PO-Revision-Date: 2011-08-03 19:22+0100\n"
-"Last-Translator: Gerd Bartelt <fakturama(..)sebulli.com>\n"
+"PO-Revision-Date: 2013-06-18 19:11+0100\n"
+"Last-Translator: Gerd Bartelt <info@sebulli.com>\n"
 "Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: German\n"
-"X-Poedit-Country: AUSTRIA\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,389,-1,-1\n"
+"Language: de_AT\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #. T: Preference page "Contact Format" - Example format Strings (Hidden countries)
 #. T: Separate the country by a comma.
@@ -34,5 +34,3 @@ msgstr "Österreich,Austria"
 #: ../src/com/sebulli/fakturama/preferences/WebShopImportPreferencePage.java:138
 msgid "fakturama.sebulli.com/shop/admin/fakturama_connector.php"
 msgstr "fakturama.sebulli.com/shop/admin/fakturama_connector_AT.php"
-
-

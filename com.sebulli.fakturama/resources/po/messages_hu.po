@@ -1,23 +1,23 @@
 # Fakturama translatable messages.
-# Copyright (C) 2012 Gerd Bartelt
+# Copyright (C) 2013 Gerd Bartelt
 # This file is distributed under the same license as the Fakturama package.
-# Gerd Bartelt <fakturamaATsebulli.com>, 2012.
+# Gerd Bartelt <fakturamaATsebulli.com>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: com.sebulli.fakturama 1.5\n"
+"Project-Id-Version: com.sebulli.fakturama 1.6.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2011-12-25 12:01+0100\n"
-"PO-Revision-Date: 2013-06-02 20:29+0100\n"
-"Last-Translator: \n"
-"Language-Team: Gerd Bartelt <fakturamaATsebulli.com>\n"
+"PO-Revision-Date: 2013-06-18 19:22+0100\n"
+"Last-Translator: Gerd Bartelt <info@sebulli.com>\n"
+"Language-Team: Franky nox\n"
 "Language: hu_HU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,-1,-1,-1,389,-1,-1\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #. T: Text of the action to open the shippings
 #: ../src/com/sebulli/fakturama/views/datasettable/ViewShippingTable.java:62
@@ -706,7 +706,8 @@ msgstr "Összes névjegy exportálása vcard formátumban"
 #. T: Text of the export wizard
 #: ../src/com/sebulli/fakturama/export/vcf/contacts/ExportWizard.java:48
 msgid "Export the contacts in an address book vcard *.vcf file."
-msgstr "A címjegyzékben található vcard (.vcf) formátumú névjegyek exportálása."
+msgstr ""
+"A címjegyzékben található vcard (.vcf) formátumú névjegyek exportálása."
 
 #. T: Text in a file name dialog
 #: ../src/com/sebulli/fakturama/export/vcf/contacts/ExportWizard.java:69
@@ -960,7 +961,8 @@ msgid ""
 "Only the unpaid invoices with a date in this periode will be exported."
 msgstr ""
 "Válasszon időszakot.\n"
-"A rendszer kizárólag az ezen időszakban kelt, kifizetetlen számlákat exportálja."
+"A rendszer kizárólag az ezen időszakban kelt, kifizetetlen számlákat "
+"exportálja."
 
 #. T: Title of the export wizard
 #: ../src/com/sebulli/fakturama/export/sales/ExportWizard.java:44
@@ -3135,8 +3137,12 @@ msgstr "Teljes térfogat:"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1515
-msgid "Reference number of this document. Next document number and the format can be set unter preferences/number range"
-msgstr "A dokumentum hivatkozási száma. A soron következő dokumentumszám és annak formátuma beállítható a Tulajdonságok/Számtartomány menüpontban"
+msgid ""
+"Reference number of this document. Next document number and the format can "
+"be set unter preferences/number range"
+msgstr ""
+"A dokumentum hivatkozási száma. A soron következő dokumentumszám és annak "
+"formátuma beállítható a Tulajdonságok/Számtartomány menüpontban"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1538
@@ -3187,8 +3193,12 @@ msgstr "A dokumentumhoz tartozó számla száma."
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1673
-msgid "If this document is set to a tax rate with 0%, all the items of the document are calculated with 0% tax."
-msgstr "Ha a dokumentumot 0%-os ÁFA-kulcsra állítja, akkor a rendszer a dokumentumban található összes elemet 0% ÁFA-val számolja."
+msgid ""
+"If this document is set to a tax rate with 0%, all the items of the document "
+"are calculated with 0% tax."
+msgstr ""
+"Ha a dokumentumot 0%-os ÁFA-kulcsra állítja, akkor a rendszer a "
+"dokumentumban található összes elemet 0% ÁFA-val számolja."
 
 #. T: Document Editor
 #. T: Label Group box to create a new document based on this one.
@@ -3295,8 +3305,12 @@ msgstr "Kiszállítás"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:2359
-msgid "It's possible to enter a different shipping value than those of the selected shipping entry"
-msgstr "Lehetőség van a kiválasztott szállítási bejegyzések összegétől eltérő kiszállítási érték megadására"
+msgid ""
+"It's possible to enter a different shipping value than those of the selected "
+"shipping entry"
+msgstr ""
+"Lehetőség van a kiválasztott szállítási bejegyzések összegétől eltérő "
+"kiszállítási érték megadására"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:2467
@@ -3330,13 +3344,21 @@ msgstr "A termék neve, amely a dokumentumban szereplő elemeket jelöli."
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:530
-msgid "You can set a category to classify the products. This is also the web shop category."
-msgstr "Kategóriákba sorolhatja a termékeket. Ez egyben a Webshop kategóriát is meghatározza."
+msgid ""
+"You can set a category to classify the products. This is also the web shop "
+"category."
+msgstr ""
+"Kategóriákba sorolhatja a termékeket. Ez egyben a Webshop kategóriát is "
+"meghatározza."
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:556
-msgid "Additional description. Can be used for the item. This can be selected in preferences/documents."
-msgstr "Az elemekhez használható kiegészítő leírás, ami a Tulajdonságok/Dokumentumok menüpontban állítható be."
+msgid ""
+"Additional description. Can be used for the item. This can be selected in "
+"preferences/documents."
+msgstr ""
+"Az elemekhez használható kiegészítő leírás, ami a Tulajdonságok/Dokumentumok "
+"menüpontban állítható be."
 
 #. T: Product Editor - Label Product quantity unit
 #: ../src/com/sebulli/fakturama/editors/ProductEditor.java:568
@@ -3408,8 +3430,12 @@ msgstr "A szövegek kategóriákba sorolhatók."
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/TextEditor.java:266
-msgid "Enter a text. It can be used as template. E.g. for the message field in the document editor."
-msgstr "Adja meg a szöveget. A szöveg sablonként is használható (pl. a dokumentumszerkesztő üzenet mezejében)."
+msgid ""
+"Enter a text. It can be used as template. E.g. for the message field in the "
+"document editor."
+msgstr ""
+"Adja meg a szöveget. A szöveg sablonként is használható (pl. a "
+"dokumentumszerkesztő üzenet mezejében)."
 
 #. T: Shipping Editor: Title
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:335
@@ -3418,8 +3444,11 @@ msgstr "Szállítási költségek"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:343
-msgid "Name of the shipping. This is also the identifier used by the shop system."
-msgstr "A szállítási mód neve, amelyet a rendszer egyben a Shopban történő azonosításra is használ."
+msgid ""
+"Name of the shipping. This is also the identifier used by the shop system."
+msgstr ""
+"A szállítási mód neve, amelyet a rendszer egyben a Shopban történő "
+"azonosításra is használ."
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:357
@@ -3440,8 +3469,12 @@ msgstr "ÁFA kiszámítása"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:516
-msgid "Define how the VAT for the shipping is calculated. Should a fix value be used, or should the VAT calculated based on the VAT of the items."
-msgstr "A szállítási mód ÁFA-számítási módjának beállítása: fix ÁFA használata vagy az ÁFA kiszámítása az elemek ÁFA-értéke alapján."
+msgid ""
+"Define how the VAT for the shipping is calculated. Should a fix value be "
+"used, or should the VAT calculated based on the VAT of the items."
+msgstr ""
+"A szállítási mód ÁFA-számítási módjának beállítása: fix ÁFA használata vagy "
+"az ÁFA kiszámítása az elemek ÁFA-értéke alapján."
 
 #. T: Shipping Editor: list entry for "constant VAT calculation"
 #: ../src/com/sebulli/fakturama/editors/ShippingEditor.java:524
@@ -3486,7 +3519,8 @@ msgstr "könyvelés"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:698
 msgid "Uncheck this, if the voucher should not be booked."
-msgstr "Vegye ki a jelölést a négyzetből, ha a bizonylatot nem szeretné könyvelni."
+msgstr ""
+"Vegye ki a jelölést a négyzetből, ha a bizonylatot nem szeretné könyvelni."
 
 #. T: Dialog in the voucher editor to uncheck the book field
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:712
@@ -3496,7 +3530,9 @@ msgstr "Kérjük, erősítse meg"
 #. T: Dialog in the voucher editor to uncheck the book field
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:714
 msgid "If you uncheck this, the voucher won't be booked !"
-msgstr "Ha kiveszi a jelölést a négyzetből, akkor a rendszer nem könyveli le a bizonylatot!"
+msgstr ""
+"Ha kiveszi a jelölést a négyzetből, akkor a rendszer nem könyveli le a "
+"bizonylatot!"
 
 #. T: Label in the voucher editor
 #. T: Payment Editor - category
@@ -3564,7 +3600,9 @@ msgstr "Fizetve, kedvezménnyel"
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:937
 msgid "Check this, if not the total value was paid. Then enter the paid value."
-msgstr "Jelölje be ezt a négyzetet, ha nem a teljes végösszeget fizették ki, majd adja meg a kifizetett összeget."
+msgstr ""
+"Jelölje be ezt a négyzetet, ha nem a teljes végösszeget fizették ki, majd "
+"adja meg a kifizetett összeget."
 
 #. T: Label in the voucher editor
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:967
@@ -3573,8 +3611,11 @@ msgstr "Kifizetett összeg"
 
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:969
 #, no-c-format
-msgid "The paid value (e.g. 97$, if the total value was 100$ with 3% discount)."
-msgstr "A kifizetett összeg (pl. 97 dollár, ha a végösszeg 100 dollár, a kedvezmény pedig 3% volt)."
+msgid ""
+"The paid value (e.g. 97$, if the total value was 100$ with 3% discount)."
+msgstr ""
+"A kifizetett összeg (pl. 97 dollár, ha a végösszeg 100 dollár, a kedvezmény "
+"pedig 3% volt)."
 
 #. T: Label in the voucher editor
 #: ../src/com/sebulli/fakturama/editors/VoucherEditor.java:983
@@ -3598,8 +3639,11 @@ msgstr "ÁFA-kulcs"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/VatEditor.java:234
-msgid "Name of the tax rate. This is also the identifier used by the shop system."
-msgstr "Az ÁFA-kulcs neve, amit a rendszer egyben a Webshopban történő azonosításra is használ."
+msgid ""
+"Name of the tax rate. This is also the identifier used by the shop system."
+msgstr ""
+"Az ÁFA-kulcs neve, amit a rendszer egyben a Webshopban történő azonosításra "
+"is használ."
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/VatEditor.java:247
@@ -3639,8 +3683,11 @@ msgstr "Bankszámla"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:556
-msgid "Next contact ID and the format can be set unter preferences/number range"
-msgstr "A soron következő névjegy-azonosító és annak formátuma beállítható a Tulajdonságok/Számtartomány menüpontban"
+msgid ""
+"Next contact ID and the format can be set unter preferences/number range"
+msgstr ""
+"A soron következő névjegy-azonosító és annak formátuma beállítható a "
+"Tulajdonságok/Számtartomány menüpontban"
 
 #. T: Label in the contact editor
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:568
@@ -3665,8 +3712,12 @@ msgstr "Irányítószám, város"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:675
-msgid "Set also your home county. Under preferences/contacts you can set those country names that are not displayed on the address label"
-msgstr "Állítsa be a honos országát. A Tulajdonságok/Névjegyek menüpontban beállíthatja a cím címkén meg nem jelenő országnevek listáját."
+msgid ""
+"Set also your home county. Under preferences/contacts you can set those "
+"country names that are not displayed on the address label"
+msgstr ""
+"Állítsa be a honos országát. A Tulajdonságok/Névjegyek menüpontban "
+"beállíthatja a cím címkén meg nem jelenő országnevek listáját."
 
 #. T: Format of the name in an address
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:722
@@ -3691,7 +3742,8 @@ msgstr "A rendszer ezt a fizetési módot használja új dokumentum létrehozás
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:989
 msgid "This customer's discount is used when creating a new document"
-msgstr "A rendszer ezt az ügyfélkedvezményt használja új dokumentum létrehozásakor"
+msgstr ""
+"A rendszer ezt az ügyfélkedvezményt használja új dokumentum létrehozásakor"
 
 #. T: Label in the contact editor
 #: ../src/com/sebulli/fakturama/editors/ContactEditor.java:1014
@@ -3705,13 +3757,21 @@ msgstr "Ezzel a számmal már létezik egy ügyfél:"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:245
-msgid "Name of the payment. This is also the identifier used by the shop system."
-msgstr "Fizetési mód neve, amit a rendszer egyben a Webshopban történő azonosításra is használ."
+msgid ""
+"Name of the payment. This is also the identifier used by the shop system."
+msgstr ""
+"Fizetési mód neve, amit a rendszer egyben a Webshopban történő azonosításra "
+"is használ."
 
 #. T: Payment Editor - category Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:259
-msgid "Set an (bank) account. All invoices with this payment will be booked to that account. E.g. 'Bank', 'Cash', 'Credit Card'."
-msgstr "Számla (bankszámla) beállítása. Az ezzel a fizetési móddal kiállított számlákat a rendszer a meghatározott számlákhoz könyveli le (pl. Átutalás, Készpénz vagy Hitelkártya)."
+msgid ""
+"Set an (bank) account. All invoices with this payment will be booked to that "
+"account. E.g. 'Bank', 'Cash', 'Credit Card'."
+msgstr ""
+"Számla (bankszámla) beállítása. Az ezzel a fizetési móddal kiállított "
+"számlákat a rendszer a meghatározott számlákhoz könyveli le (pl. Átutalás, "
+"Készpénz vagy Hitelkártya)."
 
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:294
 msgid "Cash discount"
@@ -3744,8 +3804,12 @@ msgstr "\"Fizetett\" szöveg"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:337
-msgid "Enter the text that appears in the document, if the invoice is paid. Placeholders can be used."
-msgstr "Adja meg a dokumentumban a számla kifizetése esetén megjelenő szöveget (helyőrző karaktereket is használhat)."
+msgid ""
+"Enter the text that appears in the document, if the invoice is paid. "
+"Placeholders can be used."
+msgstr ""
+"Adja meg a dokumentumban a számla kifizetése esetén megjelenő szöveget "
+"(helyőrző karaktereket is használhat)."
 
 #. T: Payment Editor: Label for the text unpaid
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:351
@@ -3754,8 +3818,12 @@ msgstr "\"Kifizetetlen\" szöveg"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:353
-msgid "Enter the text that appears in the document, if the invoice is not paid. Placeholders can be used."
-msgstr "Adja meg a dokumentumban a számla kifizetetlensége esetén megjelenő szöveget (helyőrző karaktereket is használhat)."
+msgid ""
+"Enter the text that appears in the document, if the invoice is not paid. "
+"Placeholders can be used."
+msgstr ""
+"Adja meg a dokumentumban a számla kifizetetlensége esetén megjelenő szöveget "
+"(helyőrző karaktereket is használhat)."
 
 #. T: Label in the payment editor
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:369
@@ -4113,12 +4181,12 @@ msgstr "Új proforma számla"
 
 #~ msgid "Name of the supplier"
 #~ msgstr "Name des Lieferanten"
-#~ msgctxt "EXPENDITURE"
 
+#~ msgctxt "EXPENDITURE"
 #~ msgid "Items"
 #~ msgstr "Positionen"
-#~ msgctxt "TOOLBAR"
 
+#~ msgctxt "TOOLBAR"
 #~ msgid "Voucher"
 #~ msgstr "Beleg"
 
