@@ -1,6 +1,11 @@
+# Fakturama translatable messages.
+# Copyright (C) 2013 Gerd Bartelt
+# This file is distributed under the same license as the Fakturama package.
+# Gerd Bartelt <fakturamaATsebulli.com>, 2013.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Fakturama 1.5\n"
+"Project-Id-Version: com.sebulli.fakturama 1.6.1\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2013-05-26 00:03+0200\n"
 "PO-Revision-Date: \n"
