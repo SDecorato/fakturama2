@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Fakturama" uid="Fakturama.ID" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="1.6.0" useFeatures="true" includeLaunchers="true">
+<product name="Fakturama" uid="Fakturama.ID" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="1.6.1" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="icons/app/about.png"/>
@@ -184,7 +184,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <plugin id="org.eclipse.ui.carbon" fragment="true"/>
       <plugin id="org.eclipse.ui.cocoa" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
-      <plugin id="org.hsqldb"/>
+      <plugin id="org.hsqldb" fragment=""/>
    </plugins>
 
    <features>
