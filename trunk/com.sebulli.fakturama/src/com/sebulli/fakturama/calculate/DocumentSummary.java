@@ -246,8 +246,7 @@ public class DocumentSummary {
 
 			// Calculate the sum of all VatSummary entries
 			Double netSumOfAllVatSummaryItems = 0.0;
-			for (Iterator<VatSummaryItem> iterator = documentVatSummaryItems.iterator(); iterator.hasNext();) {
-				VatSummaryItem vatSummaryItem = iterator.next();
+			for (VatSummaryItem vatSummaryItem : documentVatSummaryItems) {
 				netSumOfAllVatSummaryItems += vatSummaryItem.getNet();
 			}
 
