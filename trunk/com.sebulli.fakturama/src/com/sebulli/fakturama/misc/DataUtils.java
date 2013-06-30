@@ -39,6 +39,7 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class DataUtils {
 
+	protected static final double EPSILON = 0.0001;
 	private static String currencySymbol = null;
 	private static boolean hasThousandsSeparator = false;
 	
@@ -74,7 +75,7 @@ public class DataUtils {
 	 * @return True, if the values are equal.
 	 */
 	public static boolean DoublesAreEqual(Double d1, Double d2) {
-		return (Math.abs(d1 - d2) < 0.0001);
+		return (Math.abs(d1 - d2) < EPSILON);
 	}
 
 	/**
@@ -134,14 +135,14 @@ public class DataUtils {
 			// Get the first character
 			char firstChar = s.charAt(0);
 			
-			if (((firstChar >= '0') && (firstChar <= '9')) ||
+			if (Character.isDigit(firstChar) ||
 					(firstChar == '-')  || (firstChar == '+') )
 				digitFound = true;
 			else
 				//remove the first character
 				s = s.substring(1);
 			
-		} ;
+		}
 		
 
 		
@@ -156,7 +157,7 @@ public class DataUtils {
 			// Get the last character
 			char lastChar = s.charAt(l-1);
 			
-			if ((lastChar >= '0') && (lastChar <= '9'))
+			if (Character.isDigit(lastChar))
 				digitFound = true;
 			else
 				//remove the last character
@@ -224,7 +225,7 @@ public class DataUtils {
 	 * @return Rounded value
 	 */
 	public static Double round(Double d) {
-		return (Math.round((d + 0.0001) * 100.0)) / 100.0;
+		return (Math.round((d) * 100.0)) / 100.0;
 	}
 
 	/**
@@ -243,9 +244,9 @@ public class DataUtils {
 		// for negative values, use the ceil
 		Double floorValue;
 		if (d >= 0)
-			floorValue = Math.floor(d * 100.0 + 0.0001) / 100.0;
+			floorValue = Math.floor(d * 100.0 + EPSILON) / 100.0;
 		else
-			floorValue = Math.ceil(d * 100.0 - 0.0001) / 100.0;
+			floorValue = Math.ceil(d * 100.0 - EPSILON) / 100.0;
 
 		// Format as "0.00"
 		DecimalFormat price;
@@ -820,16 +821,16 @@ public class DataUtils {
 	 * @return
 	 */
 	public static String getSingleLine(String s) {
-		int pos = s.indexOf('\n');
-		
-		// There is a line break, so use the string 
-		// before this character
-		if (pos > 0) {
-			s = s.substring(0, pos-1);
-		}
-		else if (pos == 0)
-			s = "";
-		return s;
+		String newline = System.getProperty("line.separator");
+		return s != null ? s.split(newline)[0] : "";
+	}
+	
+	public static void main(String[] args) {
+		System.out.println("Start Tests...");
+		String newline = System.getProperty("line.separator");
+		String s = "Hello"+newline+"World";
+		System.out.println(String.format("String before: [%s]", s));
+		System.out.println(String.format("String after: [%s]", getSingleLine(s)));
 	}
 
 	
