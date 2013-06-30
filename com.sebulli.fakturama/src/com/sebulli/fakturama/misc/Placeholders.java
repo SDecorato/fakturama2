@@ -15,6 +15,7 @@
 package com.sebulli.fakturama.misc;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -163,6 +164,8 @@ public class Placeholders {
 			"ADDRESS.NOTE",
 			"ADDRESS.DISCOUNT"			
 	};
+	
+	private static NumberFormat localizedNumberFormat = NumberFormat.getInstance(Locale.getDefault());;
 
 	
 	/**
@@ -498,7 +501,7 @@ public class Placeholders {
 			// Parameter "POST"
 			par = Placeholders.extractParam(placeholder,"POST");
 			if (!par.isEmpty())
-					value = value + removeQuotationMarks(par);
+					value += removeQuotationMarks(par);
 
 			// Parameter "INONELINE"
 			par = Placeholders.extractParam(placeholder,"INONELINE");
@@ -514,13 +517,13 @@ public class Placeholders {
 			par = Placeholders.extractParam(placeholder,"FORMAT");
 			if (!par.isEmpty()) {
 				try {
-					value = DataUtils.DoubleToDecimalFormatedValue(Double.valueOf(value), par);
+					Double parsedDouble = localizedNumberFormat.parse(value).doubleValue();
+					value = DataUtils.DoubleToDecimalFormatedValue(parsedDouble, par);
 				}
 				catch (Exception e) {
+					// TODO implement!
 				}
-
 			}
-			
 		}
 		else {
 			// Parameter "EMPTY"
