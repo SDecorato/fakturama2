@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Control;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
+import com.sebulli.fakturama.views.datasettable.TableSorter;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
 
@@ -65,6 +66,7 @@ public class SelectContactDialog extends SelectDataSetDialog {
 
 		// Set the content provider
 		tableViewer.setContentProvider(new ViewDataSetTableContentProvider(tableViewer));
+		tableViewer.setSorter(new TableSorter());
 
 		// Get the column width from the preferences
 		int cw_no = Activator.getDefault().getPreferenceStore().getInt("COLUMNWIDTH_DIALOG_CONTACTS_NO");
