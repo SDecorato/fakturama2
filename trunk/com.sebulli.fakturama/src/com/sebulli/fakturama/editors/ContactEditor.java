@@ -52,6 +52,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
+import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.UniDataSet;
@@ -264,7 +265,15 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		}
 		
 		// Set the Editor's name to the first name and last name of the contact.
-		setPartName(contact.getNameWithCompany(false));
+		
+		String nameWithCompany = contact.getNameWithCompany(false);
+		if(nameWithCompany.contains("\r")) {
+			nameWithCompany = nameWithCompany.split("\\r")[0];
+		}
+		else if (nameWithCompany.contains("\n")) {
+			nameWithCompany = nameWithCompany.split("\\n")[0];
+		}
+		setPartName(nameWithCompany);
 
 		// Refresh the table view of all contacts
 		refreshView();
