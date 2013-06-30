@@ -215,7 +215,7 @@ public class Exporter {
 				writeVCard("VERSION:","3.0");
 				writeVCard("N:", contact.getStringValueByKey("name"),
 						contact.getStringValueByKey("firstname"));
-				writeVCard("FN:", contact.getName(false));
+				writeVCard("FN:", contact.getNameWithCompany(false));
 				writeVCard("ADR;TYPE=home:",
 						"",
 						contact.getStringValueByKey("company"),
@@ -236,7 +236,7 @@ public class Exporter {
 						);
 				
 				writeVCard("ADR;TYPE=other:",
-						contact.getName(true),
+						contact.getNameWithCompany(true),
 						contact.getStringValueByKey("delivery_company"),
 						contact.getStringValueByKey("delivery_street"),
 						contact.getStringValueByKey("delivery_city"),

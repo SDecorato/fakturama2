@@ -264,7 +264,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		}
 		
 		// Set the Editor's name to the first name and last name of the contact.
-		setPartName(contact.getName(false));
+		setPartName(contact.getNameWithCompany(false));
 
 		// Refresh the table view of all contacts
 		refreshView();
@@ -325,7 +325,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		else {
 
 			// Set the Editor's name to the first name and last name of the contact.
-			setPartName(contact.getName(false));
+			setPartName(contact.getNameWithCompany(false));
 		}
 	}
 
