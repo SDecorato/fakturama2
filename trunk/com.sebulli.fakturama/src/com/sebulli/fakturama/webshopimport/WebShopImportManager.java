@@ -100,6 +100,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	    // true, if there was an error
 	    private boolean isError = false;
 	    
+	    
 	    /**
 	     * Constructor. Creates a new connection to use it in an extra thread
 	     * 
@@ -1082,7 +1083,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				dataSetDocument.setIntValueByKey("addressid", contact.getIntValueByKey("id"));
 				dataSetDocument.setStringValueByKey("address", contact.getAddress(false));
 				dataSetDocument.setStringValueByKey("deliveryaddress", contact.getAddress(true));
-				dataSetDocument.setStringValueByKey("addressfirstline", contact.getName(false));
+				dataSetDocument.setStringValueByKey("addressfirstline", contact.getNameWithCompany(false));
 
 			}
 		}
