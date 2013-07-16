@@ -745,7 +745,7 @@ public class Placeholders {
 		if (key.equals("ITEMS.DISCOUNT.NET")) return document.getSummary().getDiscountNet().asFormatedRoundedString();
 		if (key.equals("ITEMS.DISCOUNT.GROSS")) return document.getSummary().getDiscountGross().asFormatedRoundedString();
 
-		if (key.equals("ITEMS.DISCOUNT.DAYS")) return Integer.toString(document.getIntValueByKey("duedays"));
+		if (key.equals("ITEMS.DISCOUNT.DAYS")) return document.getStringValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays");
 		if (key.equals("ITEMS.DISCOUNT.DUEDATE")) {
 			Calendar calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
 			calendar.add(Calendar.DATE, document.getIntValueByKey("duedays"));
