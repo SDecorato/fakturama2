@@ -391,6 +391,11 @@ public class DocumentEditor extends Editor {
 				document.setBooleanValueByKey("paid", true);
 				document.setStringValueByKey("paydate", DataUtils.getDateTimeAsString(dtPaidDate));
 				document.setDoubleValueByKey("payvalue", paidValue.getValueAsDouble());
+				
+				if(documentType == DocumentType.INVOICE) {
+					// update dunnings
+					updateDunnings();
+				}
 
 				// Use the text for "paid" from the current payment
 				if (paymentId >= 0) {
@@ -600,6 +605,34 @@ public class DocumentEditor extends Editor {
 	}
 
 	/**
+	 * Updates all Dunnings which are related to the current invoice.
+	 * TODO: REFACTOR if database layer is switched to JPA (should be a one-liner...)
+	 */
+	private void updateDunnings() {
+		DataSetArray<DataSetDocument> content = Data.INSTANCE.getDocuments();
+		
+		// Create a 2nd list, which will contain only those elements,
+		// that are not deleted and match the filters.
+		ArrayList<DataSetDocument> dunnings = new ArrayList<DataSetDocument>();
+
+		// Check all dunning entries and collect matching dunnings
+		int invoiceId = document.getIntValueByKey("id");
+		for (DataSetDocument uds : content.getActiveDatasetsByCategory(Integer.toString(DocumentType.getInt(DocumentType.DUNNING)))) {
+			if (invoiceId == uds.getIntValueByKey("invoiceid")) {
+				dunnings.add(uds);
+			}
+		}
+		
+		// TODO What if "payvalue" is not the total sum? Is it paid?
+		for (DataSetDocument dunning : dunnings) {
+			dunning.setPaid(bPaid.getSelection());
+			dunning.setStringValueByKey("paydate", DataUtils.getDateTimeAsString(dtPaidDate));
+			dunning.setDoubleValueByKey("payvalue", paidValue.getValueAsDouble());
+			Data.INSTANCE.getDocuments().updateDataSet(dunning);
+		}
+	}
+
+	/**
 	 * There is no saveAs function
 	 */
 	@Override
@@ -707,6 +740,7 @@ public class DocumentEditor extends Editor {
 			else {
 				paymentId = document.getIntValueByKey("paymentid");
 				shippingId = document.getIntValueByKey("shippingid");
+				total = document.getDoubleValueByKey("total");
 			}
 
 			// Get the next document number
@@ -1037,16 +1071,20 @@ public class DocumentEditor extends Editor {
 			Data.INSTANCE.updateDataSet(document);
 		}
 	}
+	
+	public void calculate() {
+		calculate(false);
+	}
 
 	/**
 	 * Recalculate the total sum of this editor and write the result to the
 	 * corresponding fields.
 	 * 
 	 */
-	public void calculate() {
+	public void calculate(boolean forceCalc) {
 
 		// Recalculate only documents that contains price values.
-		if (!documentType.hasPrice())
+		if (!documentType.hasPrice() && !forceCalc)
 			return;
 
 		// Get the sign of this document ( + or -)
@@ -1085,8 +1123,10 @@ public class DocumentEditor extends Editor {
 			vatValue.setText(document.getSummary().getTotalVat().asFormatedString());
 
 		// Set the total value
-		if (totalValue != null)
+		if (totalValue != null) {
 			totalValue.setText(document.getSummary().getTotalGross().asFormatedString());
+			totalValue.setToolTipText(_("paid") + ":" + document.getFormatedStringValueByKey("payvalue"));
+		}
 
 	}
 
@@ -2314,9 +2354,27 @@ public class DocumentEditor extends Editor {
 				GridDataFactory.fillDefaults().hint(SWT.DEFAULT, noOfMessageFields*65).span(3, 1).grab(true, false).applyTo(messageFieldsComposite);
 			else
 				GridDataFactory.fillDefaults().span(3, 1).grab(true, true).applyTo(messageFieldsComposite);
-		}
 
-		else {
+
+			Composite totalComposite = new Composite(top, SWT.NONE);
+			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(totalComposite);
+			GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).grab(true, false).span(4, 5).applyTo(totalComposite);
+			// Total label
+			Label totalLabel = new Label(totalComposite, SWT.NONE);
+			//T: Document Editor - Total sum of this document 
+			totalLabel.setText(_("Total"));
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(totalLabel);
+
+			// Total value
+			totalValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
+			totalValue.setText("---");
+			shipping = document.getDoubleValueByKey("shipping");
+
+			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(totalValue);
+//			calculate(Data.INSTANCE.getDocuments().getDatasetById(invoiceId));
+			calculate(true);
+		
+		} else {
 
 			if (documentType.hasPaid())
 				GridDataFactory.fillDefaults().span(2, 1).hint(100, noOfMessageFields*65).grab(true, false).applyTo(messageFieldsComposite);
@@ -2568,7 +2626,9 @@ public class DocumentEditor extends Editor {
 		updateUseGross();
 
 		// Calculate the total sum
-		calculate();
+		if(documentType != DocumentType.DUNNING) {
+			calculate();
+		}
 
 	}
 
