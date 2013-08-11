@@ -18,12 +18,15 @@ import static com.sebulli.fakturama.Translate._;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -33,6 +36,8 @@ import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.data.DataSetDocument;
+import com.sebulli.fakturama.data.DataSetItem;
+import com.sebulli.fakturama.data.DataSetProduct;
 import com.sebulli.fakturama.dialogs.OrderStatusDialog;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DocumentType;
@@ -130,6 +135,59 @@ public class MarkOrderAsAction extends Action {
 
 			// Do it only, if it is an order.
 			if (DocumentType.getType(uds.getIntValueByKey("category")) == DocumentType.ORDER) {
+				
+				// begin Patch from Grucknak, see http://fakturama.sebulli.com/phorum/read.php?4,2503
+				int progress_old = uds.getIntValueByKey("progress");
+				// Stock
+				if (progress==SHIPPED && progress_old != SHIPPED) // mark as shipped - take from stock
+				{
+					ArrayList<DataSetItem> items = uds.getItems().getActiveDatasets();
+					for (DataSetItem item : items) {
+						int id = item.getIntValueByKey("productid");
+						int quantity_order = item.getIntValueByKey("quantity");
+						
+						ArrayList<DataSetProduct> products = Data.INSTANCE.getProducts().getActiveDatasets();
+						for (DataSetProduct product : products) {
+							if (product.getIntValueByKey("id") == id)
+							{
+								int quantity_stock =  product.getIntValueByKey("quantity");
+								product.setIntValueByKey("quantity", quantity_stock - quantity_order);
+								if ((quantity_stock - quantity_order) <= 0)
+								{
+									String name = product.getFormatedStringValueByKey("name");
+									String cat = product.getFormatedStringValueByKey("category");
+									MessageBox mb = new MessageBox(workbenchWindow.getShell(), SWT.ICON_WARNING);
+									mb.setMessage("Bestand kleiner oder gleich Null. Produkt / Kategorie: " + name + "/" + cat);
+									mb.setText("Information");
+									mb.open();
+								}
+								Data.INSTANCE.getProducts().updateDataSet(product);
+								break;
+							}
+						}
+					}
+				}
+				else if (progress_old == SHIPPED && progress != SHIPPED)  // mark as processing or lower - add to stock
+				{
+					ArrayList<DataSetItem> items = uds.getItems().getActiveDatasets();
+					for (DataSetItem item : items) {
+						int id = item.getIntValueByKey("productid");
+						int quantity_order = item.getIntValueByKey("quantity");
+						
+						ArrayList<DataSetProduct> products = Data.INSTANCE.getProducts().getActiveDatasets();
+						for (DataSetProduct product : products) {
+							if (product.getIntValueByKey("id") == id)
+							{
+								int quantity_stock =  product.getIntValueByKey("quantity");								
+								product.setIntValueByKey("quantity", quantity_stock + quantity_order);
+
+								Data.INSTANCE.getProducts().updateDataSet(product);
+								break;
+							}
+						}
+					}
+				}
+				// end patch
 
 				// change the state
 				uds.setIntValueByKey("progress", progress);
