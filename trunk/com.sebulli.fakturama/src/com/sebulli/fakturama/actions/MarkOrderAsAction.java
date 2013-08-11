@@ -157,8 +157,10 @@ public class MarkOrderAsAction extends Action {
 									String name = product.getFormatedStringValueByKey("name");
 									String cat = product.getFormatedStringValueByKey("category");
 									MessageBox mb = new MessageBox(workbenchWindow.getShell(), SWT.ICON_WARNING);
-									mb.setMessage("Bestand kleiner oder gleich Null. Produkt / Kategorie: " + name + "/" + cat);
-									mb.setText("Information");
+									//T: Stock is less or equal to zero for product / category
+									mb.setMessage(_("Stock is less or equal to zero for product / category: ") + name + "/" + cat);
+									//T: Title of a message box
+									mb.setText(_("Information"));
 									mb.open();
 								}
 								Data.INSTANCE.getProducts().updateDataSet(product);
