@@ -52,7 +52,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.UniDataSet;

@@ -30,7 +30,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Button;
@@ -463,11 +462,7 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 	 * "isDirty" validation, if the content of the text dateTime is modified.
 	 */
 	protected void superviceControl(DateTime dateTime) {
-		dateTime.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+		dateTime.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -492,11 +487,7 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 			}
 		});
 
-		combo.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
+		combo.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
