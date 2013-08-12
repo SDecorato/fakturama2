@@ -1675,9 +1675,8 @@ public class DocumentEditor extends Editor {
 		boolean useOrderDate = (documentType != DocumentType.ORDER);
 
 		// Service date
-		//T: Document Editor
-		//T: Label Service Date
 		Label labelServiceDate = new Label(useOrderDate ? xtraSettingsComposite : invisible, SWT.NONE);
+		//T: Label Service Date
 		labelServiceDate.setText(_("ServiceDate"));
 		//T: Tool Tip Text
 		labelServiceDate.setToolTipText(_("The service date"));
