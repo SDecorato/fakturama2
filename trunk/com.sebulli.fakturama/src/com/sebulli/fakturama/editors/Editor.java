@@ -14,6 +14,7 @@
 
 package com.sebulli.fakturama.editors;
 
+import static com.sebulli.fakturama.Translate._;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
@@ -157,7 +158,8 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 
 			// Create the button to make this entry to the standard
 			stdButton = new Button(stdComposite, SWT.BORDER);
-			stdButton.setText("zum Standard machen");
+			//T: Button text
+			stdButton.setText(_("Set as standard"));
 			GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.CENTER).applyTo(stdButton);
 			stdButton.setEnabled(false);
 			stdButton.addSelectionListener(new SelectionAdapter() {
@@ -534,8 +536,11 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 	 */
 	@Override
 	public int promptToSaveOnClose() {
-
-		MessageDialog dialog = new MessageDialog(getEditorSite().getShell(), "Änderungen speichern", null, "Änderungen speichern ?", MessageDialog.QUESTION,
+		
+		//T: Dialog Header
+		MessageDialog dialog = new MessageDialog(getEditorSite().getShell(), _("Save changes"), null,
+				//T: Dialog Text
+				_("Save changes ?"), MessageDialog.QUESTION,
 				new String[] { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL, IDialogConstants.CANCEL_LABEL }, 0);
 
 		final int dialogResult = dialog.open();

@@ -119,9 +119,11 @@ public class OpenBrowserEditorAction extends Action {
 		// Sets the URL as input for the editor.
 		BrowserEditorInput input;
 		if (isFakturamaProjectUrl)
-			input = new BrowserEditorInput(url, "Fakturama Project", true);
+			//T: Short description of start page 
+			input = new BrowserEditorInput(url, _("Fakturama Project"), true);
 		else
-			input = new BrowserEditorInput(url, "Start", false);
+			//T: Short description of start page 
+			input = new BrowserEditorInput(url, _("Start"), false);
 
 		// Open the editor
 		try {
