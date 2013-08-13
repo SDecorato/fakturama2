@@ -118,6 +118,10 @@ public class DataSetDocument extends UniDataSet {
 				Data.INSTANCE.updateDataSet(item);
 			}
 		}
+		
+		if(parent.getSummary() != null) {
+			this.summary = parent.getSummary();
+		}
 	}
 
 	/**
