@@ -176,7 +176,8 @@ public class UniDataSetEditorInput implements IEditorInput {
 
 		// Return "new", if no unidataset is specified
 		if (uds == null)
-			return "neu";
+		//T: Hint text	
+			return "new";
 
 		// Else return the name of the unidataset
 		return uds.getStringValueByKey("name");
