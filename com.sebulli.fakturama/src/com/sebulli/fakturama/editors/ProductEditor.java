@@ -263,7 +263,7 @@ public class ProductEditor extends Editor {
 			product = new DataSetProduct(((UniDataSetEditorInput) input).getCategory());
 			
 			//T: Header of product editor
-			setPartName(_("new product"));
+			setPartName(_("New product"));
 
 			// Set the vat to the standard value
 			product.setIntValueByKey("vatid", Data.INSTANCE.getPropertyAsInt("standardvat"));
