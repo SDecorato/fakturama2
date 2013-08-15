@@ -2315,15 +2315,19 @@ public class DocumentEditor extends Editor {
 		txtMessage = new Text(messageFieldsComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		txtMessage.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("message")));
 		txtMessage.setToolTipText(messageLabel.getToolTipText());
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage);
+		
+		GridDataFactory.defaultsFor(txtMessage).minSize(80, 50).applyTo(txtMessage);
+//		GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage);
 		superviceControl(txtMessage, 10000);
 
 		if (noOfMessageFields >= 2) {
 			// Add a multi line text field for the message.
 			txtMessage2 = new Text(messageFieldsComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			txtMessage2.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("message2")));
+			
+			GridDataFactory.defaultsFor(txtMessage2).minSize(80, 50).applyTo(txtMessage2);
 			txtMessage2.setToolTipText(messageLabel.getToolTipText());
-			GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage2);
+//			GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage2);
 			superviceControl(txtMessage2, 10000);
 		}
 		if (noOfMessageFields >= 3) {
@@ -2331,7 +2335,9 @@ public class DocumentEditor extends Editor {
 			txtMessage3 = new Text(messageFieldsComposite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 			txtMessage3.setText(DataUtils.makeOSLineFeeds(document.getStringValueByKey("message3")));
 			txtMessage3.setToolTipText(messageLabel.getToolTipText());
-			GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage3);
+			
+			GridDataFactory.defaultsFor(txtMessage3).minSize(80, 50).applyTo(txtMessage3);
+//			GridDataFactory.fillDefaults().grab(true, true).applyTo(txtMessage3);
 			superviceControl(txtMessage3, 10000);
 		}
 		
