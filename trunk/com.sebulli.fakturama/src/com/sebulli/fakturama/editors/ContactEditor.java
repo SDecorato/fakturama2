@@ -52,6 +52,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
+import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.UniDataSet;
@@ -108,6 +109,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	private Text txtPhone;
 	private Text txtFax;
 	private Text txtMobile;
+	private Text txtSupplierNr;
 	private Text txtEmail;
 	private Text txtWebsite;
 	private Text txtVatNr;
@@ -237,6 +239,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		contact.setStringValueByKey("phone", txtPhone.getText());
 		contact.setStringValueByKey("fax", txtFax.getText());
 		contact.setStringValueByKey("mobile", txtMobile.getText());
+		contact.setStringValueByKey("suppliernumber", txtSupplierNr.getText());
 		contact.setStringValueByKey("email", txtEmail.getText());
 		contact.setStringValueByKey("website", txtWebsite.getText());
 		contact.setStringValueByKey("vatnr", txtVatNr.getText());
@@ -396,6 +399,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("phone").equals(txtPhone.getText())) { return true; }
 		if (!contact.getStringValueByKey("fax").equals(txtFax.getText())) { return true; }
 		if (!contact.getStringValueByKey("mobile").equals(txtMobile.getText())) { return true; }
+		if (!contact.getStringValueByKey("suppliernumber").equals(txtSupplierNr.getText())) { return true; }
 		if (!contact.getStringValueByKey("email").equals(txtEmail.getText())) { return true; }
 		if (!contact.getStringValueByKey("website").equals(txtWebsite.getText())) { return true; }
 		if (!contact.getStringValueByKey("vatnr").equals(txtVatNr.getText())) { return true; }
@@ -928,7 +932,15 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 			comboCategory.add(category.toString());
 		}
 
-		
+		// Suppliernumber
+		Label labelSupplier = new Label(tabMisc, SWT.NONE);
+		//T: Label in the contact editor
+		labelSupplier.setText(_("Supplier Number"));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelSupplier);
+		txtSupplierNr = new Text(tabMisc, SWT.BORDER);
+		txtSupplierNr.setText(contact.getStringValueByKey("suppliernumber"));
+		superviceControl(txtSupplierNr, 64);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtSupplierNr);
 		
 		
 		// EMail
@@ -1159,3 +1171,4 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	}
 
 }
+

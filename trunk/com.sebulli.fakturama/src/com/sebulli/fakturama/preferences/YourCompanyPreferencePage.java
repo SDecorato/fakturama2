@@ -84,6 +84,23 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_VATNR", _("VAT No."), getFieldEditorParent()));
 
+		//T: Preference page "Your company"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_TAXOFFICE", _("Tax Office"), getFieldEditorParent()));
+
+		//T: Preference page "Your company"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_BANKACCOUNTNR", _("Bank Account Nr"), getFieldEditorParent()));
+		
+		//T: Preference page "Your company"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_BANKCODE", _("Bank Code"), getFieldEditorParent()));
+		
+		//T: Preference page "Your company"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_BANK", _("Bank"), getFieldEditorParent()));
+		
+		//T: Preference page "Your company"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_IBAN", _("IBAN"), getFieldEditorParent()));
+		
+		//T: Preference page "Your company"
+		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_BIC", _("BIC"), getFieldEditorParent()));
 	}
 
 	/**
@@ -116,6 +133,12 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_EMAIL", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_WEBSITE", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_VATNR", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_TAXOFFICE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_BANKACCOUNTNR", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_BANKCODE", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_BANK", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_IBAN", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_BIC", write);
 	}
 
 	/**
@@ -128,3 +151,4 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 	}
 
 }
+
