@@ -115,7 +115,9 @@ public class DocumentEditor extends Editor {
 	private DateTime dtDate;
 	private DateTime dtOrderDate;
 	private DateTime dtServiceDate;
+	private Composite refConsult;
 	private Text txtCustomerRef;
+	private Text txtConsultant;
 	private Text txtAddress;
 	private Combo comboNoVat;
 	private ComboViewer comboViewerNoVat;
@@ -367,6 +369,9 @@ public class DocumentEditor extends Editor {
 
 		// Set the customer reference number
 		document.setStringValueByKey("customerref", txtCustomerRef.getText());
+		
+		// Set the consultant value
+		document.setStringValueByKey("consultant", txtConsultant.getText());
 
 		// Set the payment values depending on if the document is paid or not
 		// Set the shipping values
@@ -904,6 +909,9 @@ public class DocumentEditor extends Editor {
 
 		if (!document.getStringValueByKey("customerref").equals(txtCustomerRef.getText())) { return true; }
 
+		if (!document.getStringValueByKey("consultant").equals(txtConsultant.getText())) { return true; }
+		
+		
 		if (spDueDays != null)
 			if (document.getBooleanValueByKey("paid") != bPaid.getSelection()) { return true; }
 		if (bPaid != null) {
@@ -1659,12 +1667,35 @@ public class DocumentEditor extends Editor {
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCustomerRef);
 
+		// Container for the Customer reference and the consultant
+		refConsult = new Composite(top, SWT.NONE);
+		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(3).applyTo(refConsult);
+		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(refConsult);
+		
 		// Customer reference
-		txtCustomerRef = new Text(top, SWT.BORDER);
+		txtCustomerRef = new Text(refConsult, SWT.BORDER);
 		txtCustomerRef.setText(document.getStringValueByKey("customerref"));
 		txtCustomerRef.setToolTipText(labelCustomerRef.getToolTipText());
 		superviceControl(txtCustomerRef, 250);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
+		GridDataFactory.fillDefaults().hint(150, SWT.DEFAULT).align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
+		
+		// Consultant label
+		Label labelConsultant = new Label(refConsult, SWT.NONE);
+		//T: Document Editor - Label Consultant
+		labelConsultant.setText(_("Consultant"));
+		//T: Tool Tip Text
+		labelConsultant.setToolTipText(_("Consultant, e.g.: Heinz Mueller"));
+
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelConsultant);
+
+		// Consultant
+		txtConsultant = new Text(refConsult, SWT.BORDER);
+		txtConsultant.setText(document.getStringValueByKey("consultant"));
+		txtConsultant.setToolTipText(labelConsultant.getToolTipText());
+		superviceControl(txtConsultant, 250);
+		GridDataFactory.fillDefaults().hint(150, SWT.DEFAULT).align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtConsultant);
+		
+		
 		
 		// The extra settings composite contains additional fields like
 		// the no-Vat widget or a reference to the invoice

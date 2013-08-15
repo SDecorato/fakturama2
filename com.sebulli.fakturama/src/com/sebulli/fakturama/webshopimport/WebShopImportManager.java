@@ -938,6 +938,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String country;
 		String phone;
 		String email;
+		String suppliernumber;
 
 		// The delivery data
 		String delivery_firstname;
@@ -1037,6 +1038,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				delivery_country = getChildTextAsString(childnode, "delivery_country");
 				phone = getChildTextAsString(childnode, "phone");
 				email = getChildTextAsString(childnode, "email");
+				suppliernumber = getChildTextAsString(childnode, "suppliernumber");
 
 				// Convert a gender character "m" or "f" to the gender number 
 				// 1 or 2
@@ -1058,7 +1060,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 								new DataSetContact(-1, false, shopCategory, genderInt, "", firstname, lastname, company, street, zip, city, country,
 										deliveryGenderInt, "", delivery_firstname, delivery_lastname, delivery_company, delivery_street, delivery_zip,
 										delivery_city, delivery_country, "", "", "", "", "", "", id, "", "", Data.INSTANCE.getPropertyAsInt("standardpayment"),
-										0, phone, "", "", email, "", "", 0, 0.0, 0, "", ""));
+										0, phone, "", "", "", email, "", "", 0, 0.0, 0, "", ""));
 
 				// set explicit the customers data
 				contact.setIntValueByKey("gender", genderInt);
@@ -1421,3 +1423,4 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	}
 
 }
+

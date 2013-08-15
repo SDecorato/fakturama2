@@ -26,6 +26,7 @@ import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.DataSetDocument;
 
+
 public class Placeholders {
 	
 	// all placeholders
@@ -58,6 +59,7 @@ public class Placeholders {
 			"DOCUMENT.TYPE",
 			"DOCUMENT.NAME",
 			"DOCUMENT.CUSTOMERREF",
+			"DOCUMENT.CONSULTANT",
 			"DOCUMENT.SERVICEDATE",
 			"DOCUMENT.MESSAGE",
 			"DOCUMENT.MESSAGE1",
@@ -158,6 +160,7 @@ public class Placeholders {
 			"ADDRESS.MOBILE",
 			"ADDRESS.MOBILE.PRE",
 			"ADDRESS.MOBILE.POST",
+			"ADDRESS.SUPPLIER.NUMBER",
 			"ADDRESS.EMAIL",
 			"ADDRESS.WEBSITE",
 			"ADDRESS.VATNR",
@@ -669,6 +672,12 @@ public class Placeholders {
 			if (key.equals("YOURCOMPANY.FAX.POST")) return  getTelPrePost(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_FAX"), false);
 			if (key.equals("YOURCOMPANY.WEBSITE")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_WEBSITE");
 			if (key.equals("YOURCOMPANY.VATNR")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_VATNR");
+			if (key.equals("YOURCOMPANY.TAXOFFICE")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_TAXOFFICE");
+			if (key.equals("YOURCOMPANY.BANKACCOUNTNR")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR");
+			if (key.equals("YOURCOMPANY.BANKCODE")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKCODE");
+			if (key.equals("YOURCOMPANY.BANK")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANK");
+			if (key.equals("YOURCOMPANY.IBAN")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN");
+			if (key.equals("YOURCOMPANY.BIC")) return  Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BIC");
 		}
 
 		
@@ -726,6 +735,7 @@ public class Placeholders {
 		if (key.equals("DOCUMENT.TYPE")) return DocumentType.getString(document.getIntValueByKey("category"));
 		if (key.equals("DOCUMENT.NAME")) return document.getStringValueByKey("name");
 		if (key.equals("DOCUMENT.CUSTOMERREF")) return document.getStringValueByKey("customerref");
+		if (key.equals("DOCUMENT.CONSULTANT")) return document.getStringValueByKey("consultant");
 		if (key.equals("DOCUMENT.SERVICEDATE")) return document.getFormatedStringValueByKey("servicedate");
 		if (key.equals("DOCUMENT.MESSAGE")) return document.getStringValueByKey("message");
 		if (key.equals("DOCUMENT.MESSAGE1")) return document.getStringValueByKey("message");
@@ -914,6 +924,7 @@ public class Placeholders {
 			if (key.equals("ADDRESS.MOBILE")) return contact.getStringValueByKey("mobile");
 			if (key.equals("ADDRESS.MOBILE.PRE")) return getTelPrePost(contact.getStringValueByKey("mobile"), true);
 			if (key.equals("ADDRESS.MOBILE.POST")) return getTelPrePost(contact.getStringValueByKey("mobile"), false);
+			if (key.equals("ADDRESS.SUPPLIER.NUMBER")) return contact.getStringValueByKey("suppliernumber");
 			if (key.equals("ADDRESS.EMAIL")) return contact.getStringValueByKey("email");
 			if (key.equals("ADDRESS.WEBSITE")) return contact.getStringValueByKey("website");
 			if (key.equals("ADDRESS.VATNR")) return contact.getStringValueByKey("vatnr");
@@ -998,3 +1009,4 @@ public class Placeholders {
 		return false;
 	}
 }
+
