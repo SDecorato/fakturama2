@@ -368,7 +368,9 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("zip").equals(txtZip.getText())) { return true; }
 		if (!contact.getStringValueByKey("city").equals(txtCity.getText())) { return true; }
 		if (!contact.getStringValueByKey("country").equals(txtCountry.getText())) { return true; }
-		if (!contact.getStringValueByKey("birthday").equals(DataUtils.getDateTimeAsString(dtBirthday))) { return true; }
+		
+		// FIXME dtBirthday is *always* filled, whereas contact.getStringValueByKey("birthday") isn't!
+//		if (!contact.getStringValueByKey("birthday").equals(DataUtils.getDateTimeAsString(dtBirthday))) { return true; }
 
 		if (contact.getIntValueByKey("delivery_gender") != comboDeliveryGender.getSelectionIndex()) { return true; }
 		if (!contact.getStringValueByKey("delivery_title").equals(txtDeliveryTitle.getText())) { return true; }
@@ -379,7 +381,9 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("delivery_zip").equals(txtDeliveryZip.getText())) { return true; }
 		if (!contact.getStringValueByKey("delivery_city").equals(txtDeliveryCity.getText())) { return true; }
 		if (!contact.getStringValueByKey("delivery_country").equals(txtDeliveryCountry.getText())) { return true; }
-		if (!contact.getStringValueByKey("delivery_birthday").equals(DataUtils.getDateTimeAsString(dtDeliveryBirthday))) { return true; }
+		
+		// FIXME dtDeliveryBirthday is *always* filled, whereas contact.getStringValueByKey("delivery_birthday") isn't!
+//		if (!contact.getStringValueByKey("delivery_birthday").equals(DataUtils.getDateTimeAsString(dtDeliveryBirthday))) { return true; }
 
 		if (!contact.getStringValueByKey("account_holder").equals(txtAccountHolder.getText())) { return true; }
 		if (!contact.getStringValueByKey("account").equals(txtAccount.getText())) { return true; }
