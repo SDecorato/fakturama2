@@ -876,7 +876,13 @@ public class Placeholders {
 			if (key.equals("ADDRESS.GREETING")) return contact.getGreeting(false);
 			if (key.equals("ADDRESS.TITLE")) return contact.getStringValueByKey("title");
 			if (key.equals("ADDRESS.NAME")) return contact.getName(false);
-			if (key.equals("ADDRESS.BIRTHDAY")) return contact.getFormatedStringValueByKey("birthday");
+			if (key.equals("ADDRESS.BIRTHDAY")) {
+				if ("".equals(contact.getStringValueByKey("birthday")))
+					return "";
+				else {
+					return contact.getFormatedStringValueByKey("birthday");
+				}
+			}
 			if (key.equals("ADDRESS.NAMEWITHCOMPANY")) return contact.getNameWithCompany(false);
 			if (key.equals("ADDRESS.FIRSTANDLASTNAME")) return contact.getFirstAndLastName(false);
 			if (key.equals("ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("firstname");
@@ -895,7 +901,12 @@ public class Placeholders {
 			if (key.equals("DELIVERY.ADDRESS.GREETING")) return contact.getGreeting(true);
 			if (key.equals("DELIVERY.ADDRESS.TITLE")) return contact.getStringValueByKey("delivery_title");
 			if (key.equals("DELIVERY.ADDRESS.NAME")) return contact.getName(true);
-			if (key.equals("DELIVERY.ADDRESS.BIRTHDAY")) return contact.getFormatedStringValueByKey("delivery_birthday");
+			if (key.equals("DELIVERY.ADDRESS.BIRTHDAY")) {
+				if ("".equals(contact.getStringValueByKey("delivery_birthday")))
+					return "";
+				else
+					return contact.getFormatedStringValueByKey("delivery_birthday");
+			}
 			if (key.equals("DELIVERY.ADDRESS.NAMEWITHCOMPANY")) return contact.getNameWithCompany(true);
 			if (key.equals("DELIVERY.ADDRESS.FIRSTNAME")) return contact.getStringValueByKey("delivery_firstname");
 			if (key.equals("DELIVERY.ADDRESS.LASTNAME")) return contact.getStringValueByKey("delivery_name");
