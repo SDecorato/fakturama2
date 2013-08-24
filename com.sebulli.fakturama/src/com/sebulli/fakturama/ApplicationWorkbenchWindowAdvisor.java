@@ -178,12 +178,13 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 		//Closes all OpenOffice documents 
 		OfficeManager.INSTANCE.closeAll();
 
-		PreferencesInDatabase.savePreferencesInDatabase();
-		if (Data.INSTANCE != null)
+		if (Data.INSTANCE != null) {
+			PreferencesInDatabase.savePreferencesInDatabase();
 			Data.INSTANCE.close();
 
-		// Create a database backup 
-		BackupManager.createBackup();
+			// Create a database backup 
+			BackupManager.createBackup();
+		}
 	}
 
 }

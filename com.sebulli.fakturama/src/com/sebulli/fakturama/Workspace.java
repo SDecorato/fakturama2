@@ -265,10 +265,8 @@ public enum Workspace {
 
 		if (selectedDirectory != null) {
 
-			// test, if it is valid
-			if (selectedDirectory.equals("/"))
-				selectedDirectory = "";
-			if (selectedDirectory.equals("\\"))
+			// test if it is valid
+			if (selectedDirectory.equals("/") || selectedDirectory.equals("\\"))
 				selectedDirectory = "";
 			if (!selectedDirectory.isEmpty()) {
 
@@ -298,7 +296,7 @@ public enum Workspace {
 			}
 		}
 
-		// Close the workbench, if no workspace is set.
+		// Close the workbench if no workspace is set.
 		if (workspace.isEmpty())
 			PlatformUI.getWorkbench().close();
 

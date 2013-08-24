@@ -76,7 +76,7 @@ import com.sun.star.uno.UnoRuntime;
  * 
  * @author Gerd Bartelt
  */
-public class OfficeDocument extends Object {
+public class OfficeDocument {
 
 	// The UniDataSet document, that is used to fill the OpenOffice document 
 	private DataSetDocument document;
@@ -534,6 +534,26 @@ public class OfficeDocument extends Object {
 			// Mark the document as "printed"
 			document.setBooleanValueByKey("printed", true);
 			document.setStringValueByKey("printedtemplate", template);
+			
+			String filename = FileOrganizer.getDocumentPath(
+					FileOrganizer.WITH_FILENAME,
+					FileOrganizer.WITH_EXTENSION,
+					FileOrganizer.ODT,
+					document);
+			if ((new File(filename)).exists()) {
+				document.setStringValueByKey("odtpath",
+						filename);
+			}
+
+			// Update the document entry "pdfpath"
+			filename = FileOrganizer.getDocumentPath(FileOrganizer.WITH_FILENAME,
+					FileOrganizer.WITH_EXTENSION,
+					FileOrganizer.PDF, document);
+			if ((new File(filename)).exists()) {
+				document.setStringValueByKey("pdfpath",
+						filename);
+			}
+
 			Data.INSTANCE.getDocuments().updateDataSet(document);
 			
 			// Refresh the document view
