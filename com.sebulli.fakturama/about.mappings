@@ -1,0 +1,8 @@
+version=${env_var:BUILD_ID}
+0=1.6.2
+1=Gerd Bartelt\n\
+Ralf Heydenreich\n\
+Stefan Bauer\n\
+Tim Schneider\n\
+Thomas Kaiser\n\
+Sven Powalla\n
