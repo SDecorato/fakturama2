@@ -16,6 +16,7 @@ package com.sebulli.fakturama.editors;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -91,6 +92,7 @@ import com.sebulli.fakturama.dialogs.SelectTextDialog;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.misc.DocumentType;
+import com.sebulli.fakturama.office.FileOrganizer;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
@@ -232,8 +234,8 @@ public class DocumentEditor extends Editor {
 	/**
 	 * Mark this document as printed
 	 */
-	public void _markAsPrinted() {
-		// document.setBooleanValueByKey("printed", true);
+	public void markAsPrinted() {
+		document.setBooleanValueByKey("printed", true);
 		// Refresh the table view
 		//refreshView();
 		//checkDirty();
@@ -597,6 +599,7 @@ public class DocumentEditor extends Editor {
 			this.setInput(new UniDataSetEditorInput(document));
 		}
 		else {
+
 			// Do not create a new data set - just update the old one
 			Data.INSTANCE.getDocuments().updateDataSet(document);
 		}

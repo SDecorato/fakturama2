@@ -382,10 +382,10 @@ public class FileOrganizer {
 						isPDF, document);
 
 		// Move it, if it is existing
-		if ((new File(workspacePath + oldDocument)).exists() &&
-				!oldDocument.equals(filename)) {
-			fileMove(workspacePath + oldDocument, workspacePath + filename);
-			document.setStringValueByKey(odtpdf+ "path", filename);
+		if ((new File(oldDocument)).exists() &&
+				!oldDocument.equals(workspacePath + filename)) {
+			fileMove(oldDocument, workspacePath + filename);
+			document.setStringValueByKey(odtpdf+ "path", workspacePath + filename);
 			changed = true;
 		}
 
@@ -406,7 +406,7 @@ public class FileOrganizer {
 		ArrayList<DataSetDocument> documents = Data.INSTANCE.getDocuments().getActiveDatasets();
 		// Get the workspace path
 		String workspacePath = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-
+		
 		i = 0;
 		// Get all documents
 		for (DataSetDocument document : documents) {
