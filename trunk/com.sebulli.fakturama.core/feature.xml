@@ -2,7 +2,7 @@
 <feature
       id="com.sebulli.fakturama.core"
       label="Fakturama Core Feature"
-      version="1.6.1.qualifier"
+      version="1.6.2"
       provider-name="sebulli.com">
 
    <description url="http://fakturama.sebulli.com">
@@ -203,22 +203,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.security.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.equinox.security.ui.nl_de"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.ui.workbench.nl_de"
          download-size="0"
          install-size="0"
@@ -228,13 +212,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.eclipse.ui.forms"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="ag.ion.noa"
          download-size="0"
          install-size="0"
          version="0.0.0"
@@ -253,5 +230,11 @@ This Agreement is governed by the laws of the State of New York and the intellec
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
+   <plugin
+         id="noa-libre"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>
