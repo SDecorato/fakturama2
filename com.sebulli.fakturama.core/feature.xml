@@ -123,6 +123,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="ag.ion.noa" version="2.2.304" match="greaterOrEqual"/>
    </requires>
 
    <plugin
@@ -232,9 +233,10 @@ This Agreement is governed by the laws of the State of New York and the intellec
          unpack="false"/>
 
    <plugin
-         id="noa-libre"
+         id="ag.ion.noa"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
