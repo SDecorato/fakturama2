@@ -71,7 +71,7 @@ import com.sun.star.text.VertOrientation;
 import com.sun.star.uno.UnoRuntime;
 
 /**
- * This class opens an OpenOffice Writer template and replaces all the
+ * This class opens an OpenOffice Writer template  and replaces all the
  * placeholders with the document data.
  * 
  * @author Gerd Bartelt
@@ -677,7 +677,7 @@ public class OfficeDocument {
 			return;
 
 		// Set the text
-		iText.setText(cellText.replaceAll(placeholderDisplayText, textValue));
+		iText.setText(cellText.replaceAll(placeholderDisplayText, Matcher.quoteReplacement(textValue)));
 
 		// And also add it to the user defined text fields in the OpenOffice
 		// Writer document.
@@ -989,7 +989,7 @@ public class OfficeDocument {
 		}
 		
 		// Set the text of the cell
-		iText.setText(cellText.replaceAll(Matcher.quoteReplacement(placeholderDisplayText), value));
+		iText.setText(cellText.replaceAll(Matcher.quoteReplacement(placeholderDisplayText), Matcher.quoteReplacement(value)));
 
 		// And also add it to the user defined text fields in the OpenOffice
 		// Writer document.
