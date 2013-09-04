@@ -147,7 +147,7 @@ public class DocumentEditor extends Editor {
 	private Label differentDeliveryAddressIcon;
 	private Label netLabel;
 	private TableColumnLayout tableColumnLayout;
-	
+
 	// Column number of the unit and total price. Use this to update the column
 	private int unitPriceColumn = 0;
 	private int totalPriceColumn = 0;
@@ -368,7 +368,8 @@ public class DocumentEditor extends Editor {
 				messageBox.open();
 			}
 		}
-
+		
+		
 		// Set the customer reference number
 		document.setStringValueByKey("customerref", txtCustomerRef.getText());
 		
@@ -1670,42 +1671,36 @@ public class DocumentEditor extends Editor {
 
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelCustomerRef);
 
-		// Container for the Customer reference and the consultant
-		refConsult = new Composite(top, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(3).applyTo(refConsult);
-		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.CENTER).grab(true, false).applyTo(refConsult);
-		
-		// Customer reference
-		txtCustomerRef = new Text(refConsult, SWT.BORDER);
-		txtCustomerRef.setText(document.getStringValueByKey("customerref"));
+		// Customer reference 
+		txtCustomerRef = new Text(top, SWT.BORDER); 
+		txtCustomerRef.setText(document.getStringValueByKey("customerref")); 
 		txtCustomerRef.setToolTipText(labelCustomerRef.getToolTipText());
 		superviceControl(txtCustomerRef, 250);
-		GridDataFactory.fillDefaults().hint(150, SWT.DEFAULT).align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
-		
-		// Consultant label
-		Label labelConsultant = new Label(refConsult, SWT.NONE);
-		//T: Document Editor - Label Consultant
-		labelConsultant.setText(_("Consultant"));
-		//T: Tool Tip Text
-		labelConsultant.setToolTipText(_("Consultant, e.g.: Heinz Mueller"));
-
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelConsultant);
-
-		// Consultant
-		txtConsultant = new Text(refConsult, SWT.BORDER);
-		txtConsultant.setText(document.getStringValueByKey("consultant"));
-		txtConsultant.setToolTipText(labelConsultant.getToolTipText());
-		superviceControl(txtConsultant, 250);
-		GridDataFactory.fillDefaults().hint(150, SWT.DEFAULT).align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtConsultant);
-		
-		
-		
+	 	GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(txtCustomerRef);
+				
+				
 		// The extra settings composite contains additional fields like
 		// the no-Vat widget or a reference to the invoice
 		Composite xtraSettingsComposite = new Composite(top, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(xtraSettingsComposite);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.BOTTOM).span(1, 2).grab(true, false).applyTo(xtraSettingsComposite);
-
+		
+		// Consultant label
+		Label labelConsultant = new Label(xtraSettingsComposite, SWT.NONE);
+		//T: Document Editor - Label Consultant
+		labelConsultant.setText(_("Consultant"));
+		//T: Tool Tip Text
+		labelConsultant.setToolTipText(_("Consultant, e.g.: Heinz Mueller"));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelConsultant);
+		
+		
+		// Consultant
+		txtConsultant = new Text(xtraSettingsComposite, SWT.BORDER);
+		txtConsultant.setText(document.getStringValueByKey("consultant"));
+		txtConsultant.setToolTipText(labelConsultant.getToolTipText());
+		superviceControl(txtConsultant, 250);
+		
+		
 		boolean useOrderDate = (documentType != DocumentType.ORDER);
 
 		// Service date
