@@ -958,6 +958,8 @@ public class OfficeDocument {
 					ITextDocumentImage textDocumentImage = textContentService.constructNewImage(graphicInfo);
 					textContentService.insertTextContent(iText.getTextCursorService().getTextCursor().getEnd(), textDocumentImage);
 
+					// replace the placeholder
+					iText.setText(cellText.replaceAll(Matcher.quoteReplacement(placeholderDisplayText), Matcher.quoteReplacement(value)));
 					return;
 				}
 				catch (IOException e) {
@@ -967,7 +969,6 @@ public class OfficeDocument {
 				catch (TextException e) {
 					e.printStackTrace();
 				}
-				
 			}
 			
 			value = "";
