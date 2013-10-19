@@ -2,7 +2,7 @@
 <feature
       id="com.sebulli.fakturama.core"
       label="Fakturama Core Feature"
-      version="1.6.2"
+      version="1.6.3"
       provider-name="sebulli.com">
 
    <description url="http://fakturama.sebulli.com">
@@ -650,6 +650,21 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <plugin
          id="org.eclipse.help.ui.nl_uk"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.ds"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.ds.nl_de"
          download-size="0"
          install-size="0"
          version="0.0.0"
