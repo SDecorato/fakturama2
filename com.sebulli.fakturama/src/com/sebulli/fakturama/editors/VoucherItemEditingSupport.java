@@ -276,9 +276,10 @@ public class VoucherItemEditingSupport extends ItemEditingSupport {
 		case 3:
 			return item.getIntValueByKey("vatid");
 		case 4:
-			return new Price(item).getUnitNet().asFormatedString();
+			return item.getFormatedStringValueByKey("price");
 		case 5:
-			return new Price(item).getUnitGross().asFormatedString();
+			return DataUtils.CalculateGrossFromNet(item.getDoubleValueByKey("price"), item.getDoubleValueByKeyFromOtherTable("vatid.VATS:value"));
+//			return new Price(item).getUnitGross().asFormatedString();
 		}
 		return "";
 	}
