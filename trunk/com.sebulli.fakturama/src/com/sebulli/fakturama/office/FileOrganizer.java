@@ -20,6 +20,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.swt.widgets.Display;
@@ -159,6 +161,37 @@ public class FileOrganizer {
 		String address = document.getStringValueByKey("addressfirstline");
 		address = replaceIllegalCharacters(address);
 		fileNamePlaceholder = fileNamePlaceholder.replaceAll("\\{address\\}", address);
+		
+		String name = document.getFormatedStringValueByKeyFromOtherTable("addressid.CONTACTS:name");
+		name = replaceIllegalCharacters(name);
+		fileNamePlaceholder = fileNamePlaceholder.replaceAll("\\{name\\}", name);
+		
+		// Find the placeholder for a decimal number with n digits
+		// with the format "{Xnr}", "X" is the number of digits (which can be empty).
+		Pattern p = Pattern.compile("\\{(\\d*)nr\\}");
+		Matcher m = p.matcher(fileNamePlaceholder);
+		if(m.find()) {  // found?
+			String replacementString = "";
+			String replaceNumberString = "%d";     // default
+			if(m.groupCount() > 0) {               // has some digits before <nr>?
+				String numberString = m.group(1);  // get the length for the resulting number
+				if(numberString.matches("\\d+")) { // is this really a number?
+					replaceNumberString = "%0"+numberString+"d";  // build a format replacement string 
+				}
+			}
+			// find the current docNumber
+			Pattern docNumberPattern = Pattern.compile("\\w+(\\d+)");
+			Matcher docNumberMatcher = docNumberPattern.matcher(document.getStringValueByKey("name"));
+			if(docNumberMatcher.find()) {
+				if(docNumberMatcher.groupCount() > 0) {
+					String docNumberString = docNumberMatcher.group(1);
+					Integer docNumber = Integer.valueOf(docNumberString);
+					replacementString = String.format(replaceNumberString, docNumber);
+				}
+			}
+			fileNamePlaceholder = fileNamePlaceholder.replaceAll("\\{\\d*nr\\}", replacementString);
+		}
+
 		
 		String dateString = document.getStringValueByKey("date");
 		GregorianCalendar calendar = DataUtils.getCalendarFromDateString(dateString);
