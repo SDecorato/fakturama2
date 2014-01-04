@@ -804,7 +804,7 @@ public class Placeholders {
 		if (key.equals("ITEMS.DISCOUNT.DAYS")) return document.getStringValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays");
 		if (key.equals("ITEMS.DISCOUNT.DUEDATE")) {
 			Calendar calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
-			calendar.add(Calendar.DATE, document.getIntValueByKey("duedays"));
+			calendar.add(Calendar.DATE, document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays").intValue());
 			DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
 			return formatter.format(calendar.getTime());
 		}
