@@ -596,7 +596,7 @@ public class OfficeDocument {
 
 				// Get the cell and fill the cell content
 				IText iText = vatListTable.getCell(column, templateRow + i).getTextService().getText();
-				fillVatTableWithData(placeholderDisplayText, vatSummaryItem.getVatName(), Double.toString(vatSummaryItem.getVat()), iText, i, cellText);
+				fillVatTableWithData(placeholderDisplayText, vatSummaryItem, iText, i, cellText);
 
 			}
 			catch (TextException e) {
@@ -657,8 +657,9 @@ public class OfficeDocument {
 	 * @param cellText
 	 *            The cell's text.
 	 */
-	private void fillVatTableWithData(String placeholderDisplayText, String key, String value, IText iText, int index, String cellText) {
-
+	private void fillVatTableWithData(String placeholderDisplayText, VatSummaryItem vatSummaryItem, IText iText, int index, String cellText) {
+		String key = vatSummaryItem.getVatName();
+		String value = Double.toString(vatSummaryItem.getVat());
 		// Get the text of the column. This is to determine, if it is the column
 		// with the VAT description or with the VAT value
 		String textValue;
@@ -672,7 +673,12 @@ public class OfficeDocument {
 		else if (placeholderDisplayText.equals("<VATLIST.VALUES>")) {
 			textValue = DataUtils.DoubleToFormatedPriceRound(Double.parseDouble(value));
 		}
-
+		else if (placeholderDisplayText.equals("<VATLIST.PERCENT>")) {
+			textValue = DataUtils.DoubleToFormatedPercent(vatSummaryItem.getVatPercent());
+		}
+		else if (placeholderDisplayText.equals("<VATLIST.VATSUBTOTAL>")) {
+			textValue = DataUtils.DoubleToFormatedPrice(vatSummaryItem.getNet());
+		}
 		else
 			return;
 
