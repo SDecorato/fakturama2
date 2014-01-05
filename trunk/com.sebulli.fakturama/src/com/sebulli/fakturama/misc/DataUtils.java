@@ -39,6 +39,7 @@ import com.sebulli.fakturama.logger.Logger;
  */
 public class DataUtils {
 
+	private static final String ZERO_DATE = "2000-01-01";
 	protected static final double EPSILON = 0.0001;
 	private static String currencySymbol = null;
 	private static boolean hasThousandsSeparator = false;
@@ -519,6 +520,9 @@ public class DataUtils {
 	 * @return Date as formated String
 	 */
 	public static String DateAsLocalString(String s) {
+		if(s.equals(ZERO_DATE)) {
+			return "";
+		}
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		try {
