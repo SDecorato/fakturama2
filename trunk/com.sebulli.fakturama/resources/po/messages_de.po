@@ -2586,7 +2586,7 @@ msgstr "Kontonummer"
 #. T: Preference page "Your company"
 #: ../src/com/sebulli/fakturama/preferences/YourCompanyPreferencePage.java:97
 msgid "Bank"
-msgstr "BLZ"
+msgstr "Bankname"
 
 #. T: Preference page "Your company" - Title"
 #: ../src/com/sebulli/fakturama/preferences/YourCompanyPreferencePage.java:115
