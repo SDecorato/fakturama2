@@ -85,6 +85,7 @@ public class Placeholders {
 			"DOCUMENT.REFERENCE.ORDER",
 			"DOCUMENT.REFERENCE.CONFIRMATION",
 			"DOCUMENT.REFERENCE.INVOICE",
+			"DOCUMENT.REFERENCE.INVOICE.DATE",
 			"DOCUMENT.REFERENCE.DELIVERY",
 			"DOCUMENT.REFERENCE.CREDIT",
 			"DOCUMENT.REFERENCE.DUNNING",
@@ -839,6 +840,7 @@ public class Placeholders {
 			if (key.equals("DOCUMENT.REFERENCE.ORDER")) return transaction.getReference(DocumentType.ORDER);
 			if (key.equals("DOCUMENT.REFERENCE.CONFIRMATION")) return transaction.getReference(DocumentType.CONFIRMATION);
 			if (key.equals("DOCUMENT.REFERENCE.INVOICE")) return transaction.getReference(DocumentType.INVOICE);
+			if (key.equals("DOCUMENT.REFERENCE.INVOICE.DATE")) return transaction.getFirstReferencedDocumentDate(DocumentType.INVOICE);
 			if (key.equals("DOCUMENT.REFERENCE.DELIVERY")) return transaction.getReference(DocumentType.DELIVERY);
 			if (key.equals("DOCUMENT.REFERENCE.CREDIT")) return transaction.getReference(DocumentType.CREDIT);
 			if (key.equals("DOCUMENT.REFERENCE.DUNNING")) return transaction.getReference(DocumentType.DUNNING);

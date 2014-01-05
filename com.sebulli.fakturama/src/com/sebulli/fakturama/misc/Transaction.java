@@ -96,4 +96,28 @@ public class Transaction {
 		// Return the reference string
 		return reference;
 	}
+	
+	/**
+	 * Gets the first referenced document for this transaction.
+	 * 
+	 * @return
+	 */
+	public String getFirstReferencedDocumentDate(DocumentType docType) {
+		DataSetDocument reference = null;
+		
+		// Get all documents
+		for (DataSetDocument document: documents) {
+			
+			// Has this document the same type
+			if (document.getIntValueByKey("category") == docType.getInt()) {
+				// Add the name to the reference string
+				reference = document;
+				break;
+			}
+		}
+		
+		// Return the reference date
+		return reference.getFormatedStringValueByKey("date");
+		
+	}
 }
