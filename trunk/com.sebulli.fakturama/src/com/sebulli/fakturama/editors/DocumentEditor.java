@@ -16,7 +16,6 @@ package com.sebulli.fakturama.editors;
 
 import static com.sebulli.fakturama.Translate._;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -92,7 +91,6 @@ import com.sebulli.fakturama.dialogs.SelectTextDialog;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.misc.DocumentType;
-import com.sebulli.fakturama.office.FileOrganizer;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
@@ -1526,6 +1524,7 @@ public class DocumentEditor extends Editor {
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
+	@SuppressWarnings("deprecation")
 	public void createPartControl(Composite parent) {
 
 		// Printing an document from the document editor means:
@@ -2402,7 +2401,12 @@ public class DocumentEditor extends Editor {
 			// Total value
 			totalValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
 			totalValue.setText("---");
+
+			// Get the documents'shipping values.
 			shipping = document.getDoubleValueByKey("shipping");
+			shippingVat = document.getDoubleValueByKey("shippingvat");
+			shippingAutoVat = document.getIntValueByKey("shippingautovat");
+			shippingVatDescription = document.getStringValueByKey("shippingvatdescription");
 
 			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(totalValue);
 //			calculate(Data.INSTANCE.getDocuments().getDatasetById(invoiceId));
