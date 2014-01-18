@@ -29,6 +29,7 @@ import com.sebulli.fakturama.data.DataSetDocument;
 
 public class Placeholders {
 	
+	
 	// all placeholders
 	private static String placeholders[] = {
 			"YOURCOMPANY.COMPANY",
@@ -96,6 +97,7 @@ public class Placeholders {
 
 			"ITEMS.DISCOUNT.VALUE",
 			"ITEMS.DISCOUNT.NETVALUE",
+			"ITEMS.DISCOUNT.TARAVALUE",
 			"ITEMS.DISCOUNT.DISCOUNTPERCENT",
 			"ITEMS.DISCOUNT.DAYS",
 			"ITEMS.DISCOUNT.DUEDATE",
@@ -271,7 +273,8 @@ public class Placeholders {
 	 * 		Part of the telephone number
 	 */
 	private static String getTelPrePost(String no, boolean pre){
-		String parts[] = no.trim().split(" ", 2);
+		// if no contains "/" ord " " (space) then split there
+		String parts[] = no.trim().split("[ /]", 2);
 		
 		// Split the number
 		if (parts.length < 2) {
@@ -810,18 +813,15 @@ public class Placeholders {
 			return formatter.format(calendar.getTime());
 		}
 		if (key.equals("ITEMS.DISCOUNT.DISCOUNTPERCENT")) return DataUtils.DoubleToFormatedPercent(document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue"));
+		double percent = document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue");
 		if (key.equals("ITEMS.DISCOUNT.VALUE")) {
-			 double percent = document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue");
-			 return DataUtils.DoubleToFormatedPriceRound(document.getSummary().getItemsGross().asDouble() * (1 - percent));
+			return DataUtils.DoubleToFormatedPriceRound(document.getSummary().getTotalGross().asDouble() * (1 - percent));
 		}
 		if (key.equals("ITEMS.DISCOUNT.NETVALUE")) {
-			double percent = document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue");
-			return DataUtils.DoubleToFormatedPriceRound(document.getSummary().getItemsNet().asDouble() * (1 - percent));
+			return DataUtils.DoubleToFormatedPriceRound(document.getSummary().getTotalNet().asDouble() * (1 - percent));
 		}
 		if (key.equals("ITEMS.DISCOUNT.TARAVALUE")) {
-			double percent = document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue");
-			Double vatVal = document.getSummary().getItemsGross().asDouble() - document.getSummary().getItemsNet().asDouble();
-			return DataUtils.DoubleToFormatedPriceRound(vatVal * (1 - percent));
+			return DataUtils.DoubleToFormatedPriceRound(document.getSummary().getTotalVat().asDouble() * (1 - percent));
 		}
 
 		if (key.equals("SHIPPING.NET")) return document.getSummary().getShippingNet().asFormatedString();
@@ -858,15 +858,22 @@ public class Placeholders {
 			
 			// 2011-06-24 sbauer@eumedio.de
 			// New placeholder for bank
-			if (contact != null) {
-				paymenttext = paymenttext.replace("<BANK.ACCOUNT.HOLDER>", contact.getStringValueByKey("account_holder"));
-				paymenttext = paymenttext.replace("<BANK.ACCOUNT>", contact.getStringValueByKey("account"));
-				paymenttext = paymenttext.replace("<BANK.CODE>", contact.getStringValueByKey("bank_code"));
-				paymenttext = paymenttext.replace("<BANK.NAME>", contact.getStringValueByKey("bank_name"));
+				paymenttext = paymenttext.replace("<BANK.ACCOUNT.HOLDER>", 
+						Activator.getDefault().getPreferenceStore().getString("BANK_ACCOUNT_HOLDER"));
+				paymenttext = paymenttext.replace("<BANK.ACCOUNT>", 
+						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR"));
+				paymenttext = paymenttext.replace("<BANK.IBAN>", 
+						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
+				paymenttext = paymenttext.replace("<BANK.BIC>", 
+						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
+				paymenttext = paymenttext.replace("<BANK.NAME>", 
+						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BIC"));
+				paymenttext = paymenttext.replace("<BANK.CODE>", 
+						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKCODE"));
 				
 				// 2011-06-24 sbauer@eumedio.de
-				// Additional placeholer for censored bank account
-				Integer bankAccountLength = contact.getStringValueByKey("account").length();
+				// Additional placeholder for censored bank account
+				Integer bankAccountLength = Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR").length();
 				
 				// Only set placeholder if bank account exists
 				if( bankAccountLength > 0 ) {
@@ -879,9 +886,8 @@ public class Placeholders {
 						censoredDigits += "*";
 					}
 					
-					paymenttext = paymenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredDigits + contact.getStringValueByKey("account").substring( bankAccountCensoredLength ));
+					paymenttext = paymenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredDigits + Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR").substring( bankAccountCensoredLength ));
 					
-				}
 			}
 
 			
