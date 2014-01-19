@@ -2,14 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Fakturama
 Bundle-SymbolicName: com.sebulli.fakturama;singleton:=true
-Bundle-Version: 1.6.3
+Bundle-Version: 1.6.4
 Bundle-Activator: com.sebulli.fakturama.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.intro,
- ag.ion.noa;bundle-version="2.2.304",
  au.com.bytecode.opencsv;bundle-version="2.3.0",
- org.hsqldb.hsqldb;bundle-version="[2.2.9,3.0.0)"
+ org.hsqldb.hsqldb;bundle-version="[2.2.9,3.0.0)",
+ ag.ion.noa;bundle-version="2.2.304"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: sebulli.com

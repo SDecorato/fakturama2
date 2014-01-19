@@ -27,8 +27,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.SWT;
+import org.hsqldb.lib.StringUtil;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.Workspace;
 import com.sebulli.fakturama.logger.Logger;
 
@@ -38,11 +41,20 @@ import com.sebulli.fakturama.logger.Logger;
  * @author Gerd Bartelt
  */
 public class DataBase {
-	
+
+	// The plugin's preference store
+	private IPreferenceStore preferences;
+
 	private final static Integer DBVersion = 2;
 	
+	/**
+	 * @uml.property  name="checkSize"
+	 */
 	private boolean checkSize = true;
 	
+	/**
+	 * @uml.property  name="con"
+	 */
 	private Connection con = null;
 
 	/**
@@ -679,6 +691,7 @@ public class DataBase {
 		String dataBaseName;
 		ResultSet rs;
 		String bundleVersion = Platform.getBundle("com.sebulli.fakturama").getHeaders().get("Bundle-Version").toString();
+		preferences = Activator.getDefault().getPreferenceStore();
 
 		// Get the JDBC driver
 		try {
@@ -697,10 +710,14 @@ public class DataBase {
 			directory.mkdirs();
 
 		dataBaseName = path + "Database";
-
+		String dataBaseHost = preferences.getString("DATABASE_HOST");
 		try {
 			// connect to the database
-			con = DriverManager.getConnection("jdbc:hsqldb:file:" + dataBaseName + ";shutdown=true", "sa", "");
+			if(!StringUtil.isEmpty(dataBaseHost)) {
+				con = DriverManager.getConnection("jdbc:hsqldb:hsql://" + dataBaseHost + "/Fakturama", "sa", "");
+			} else {
+				con = DriverManager.getConnection("jdbc:hsqldb:file:" + dataBaseName + ";shutdown=true", "sa", "");
+			}
 			Statement stmt = con.createStatement();
 
 			// Read the "Properties" table, to see, if it exists.
@@ -760,6 +777,10 @@ public class DataBase {
 		}
 		catch (SQLException e) {
 			Logger.logError(e, "Error connecting the Database:" + dataBaseName);
+			if(dataBaseHost != null) {
+				Logger.logError("Selected Database Host: " + dataBaseHost);
+				
+			}
 		}
 		return false;
 	}

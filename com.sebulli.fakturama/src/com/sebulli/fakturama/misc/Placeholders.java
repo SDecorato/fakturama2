@@ -865,9 +865,9 @@ public class Placeholders {
 				paymenttext = paymenttext.replace("<BANK.IBAN>", 
 						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
 				paymenttext = paymenttext.replace("<BANK.BIC>", 
-						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
-				paymenttext = paymenttext.replace("<BANK.NAME>", 
 						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BIC"));
+				paymenttext = paymenttext.replace("<BANK.NAME>", 
+						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANK"));
 				paymenttext = paymenttext.replace("<BANK.CODE>", 
 						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKCODE"));
 				
