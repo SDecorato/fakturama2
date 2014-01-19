@@ -1,5 +1,4 @@
-version=${env_var:BUILD_ID}
-0=1.6.3
+0=1.6.4
 1=Gerd Bartelt\n\
 Ralf Heydenreich\n\
 Stefan Bauer\n\

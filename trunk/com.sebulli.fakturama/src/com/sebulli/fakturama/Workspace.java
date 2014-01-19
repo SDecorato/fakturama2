@@ -74,6 +74,10 @@ public enum Workspace {
 		
 		int i = 0;
 		while (i < args.length) {
+			if (args[i].equals("-dbHost")) {
+				i++;
+				preferences.setValue("DATABASE_HOST", args[i]);
+			}
 			if (args[i].equals("-workspace"))
 			{
 				i++;
@@ -114,8 +118,10 @@ public enum Workspace {
 			}
 		}
 
-		if (!workspace.isEmpty())
+		if (!workspace.isEmpty()) {
 			showWorkingDirInTitleBar();
+			setWorkspace(workspace);
+		}
 
 	}
 

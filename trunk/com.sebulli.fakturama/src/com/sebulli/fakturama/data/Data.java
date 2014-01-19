@@ -33,25 +33,88 @@ public enum Data {
 	INSTANCE;
 
 	// Data Model
+	/**
+	 * @uml.property  name="properties"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetProperty> properties;
+	/**
+	 * @uml.property  name="products"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetProduct> products;
+	/**
+	 * @uml.property  name="contacts"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetContact> contacts;
+	/**
+	 * @uml.property  name="vats"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetVAT> vats;
+	/**
+	 * @uml.property  name="items"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetItem> items;
+	/**
+	 * @uml.property  name="documents"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetDocument> documents;
+	/**
+	 * @uml.property  name="shippings"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetShipping> shippings;
+	/**
+	 * @uml.property  name="payments"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetPayment> payments;
+	/**
+	 * @uml.property  name="texts"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetText> texts;
+	/**
+	 * @uml.property  name="list"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetList> list;
+	/**
+	 * @uml.property  name="expenditurevouchers"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetExpenditureVoucher> expenditurevouchers;
+	/**
+	 * @uml.property  name="expenditurevoucheritems"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetExpenditureVoucherItem> expenditurevoucheritems;
+	/**
+	 * @uml.property  name="receiptvouchers"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetReceiptVoucher> receiptvouchers;
+	/**
+	 * @uml.property  name="receiptvoucheritems"
+	 * @uml.associationEnd  
+	 */
 	private DataSetArray<DataSetReceiptVoucherItem> receiptvoucheritems;
 
 	// Reference to data base
+	/**
+	 * @uml.property  name="db"
+	 * @uml.associationEnd  
+	 */
 	DataBase db = null;
 
 	// True, if a new data base was created
+	/**
+	 * @uml.property  name="newDBcreated"
+	 */
 	boolean newDBcreated = false;
 
 	/**
@@ -75,6 +138,9 @@ public enum Data {
 		// Set the reference to the database, if there is a connection
 		if (this.db.isConnected())
 			dbref = db;
+		else {
+			throw new RuntimeException("couldn't connect to database. see error log.");
+		}
 
 		// Read the data from the database
 		properties = new DataSetArray<DataSetProperty>(dbref, new DataSetProperty());
