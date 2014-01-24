@@ -3544,7 +3544,7 @@ msgstr "Bitte die Rechnung innerhalb diesen Tagen bezahlen"
 #. T: Format:  DUE DAYS: <DAYS> THIS LABEL <ISSUE DATE>
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1373
 msgid "Pay Until"
-msgstr "Tagen bis zum"
+msgstr "Tagen (netto) bis zum"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/DocumentEditor.java:1375

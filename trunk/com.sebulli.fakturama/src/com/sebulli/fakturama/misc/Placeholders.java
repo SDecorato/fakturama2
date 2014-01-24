@@ -79,6 +79,7 @@ public class Placeholders {
 			"DOCUMENT.ORDER.DATE",
 			"DOCUMENT.ITEMS.GROSS",
 			"DOCUMENT.ITEMS.NET",
+			"DOCUMENT.ITEMS.COUNT",
 			"DOCUMENT.TOTAL.NET",
 			"DOCUMENT.TOTAL.VAT",
 			"DOCUMENT.TOTAL.GROSS",
@@ -801,16 +802,14 @@ public class Placeholders {
 		if (key.equals("DOCUMENT.TOTAL.NET")) return document.getSummary().getTotalNet().asFormatedRoundedString();
 		if (key.equals("DOCUMENT.TOTAL.VAT")) return document.getSummary().getTotalVat().asFormatedRoundedString();
 		if (key.equals("DOCUMENT.TOTAL.GROSS")) return document.getSummary().getTotalGross().asFormatedString();
+		if (key.equals("DOCUMENT.ITEMS.COUNT")) return String.format("%d", document.getItems().getActiveDatasets().size());
 		if (key.equals("ITEMS.DISCOUNT.PERCENT")) return document.getFormatedStringValueByKey("itemsdiscount");
 		if (key.equals("ITEMS.DISCOUNT.NET")) return document.getSummary().getDiscountNet().asFormatedRoundedString();
 		if (key.equals("ITEMS.DISCOUNT.GROSS")) return document.getSummary().getDiscountGross().asFormatedRoundedString();
 
 		if (key.equals("ITEMS.DISCOUNT.DAYS")) return document.getStringValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays");
 		if (key.equals("ITEMS.DISCOUNT.DUEDATE")) {
-			Calendar calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
-			calendar.add(Calendar.DATE, document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays").intValue());
-			DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
-			return formatter.format(calendar.getTime());
+			return getDiscountDueDate(document);
 		}
 		if (key.equals("ITEMS.DISCOUNT.DISCOUNTPERCENT")) return DataUtils.DoubleToFormatedPercent(document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue"));
 		double percent = document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue");
@@ -855,6 +854,11 @@ public class Placeholders {
 			paymenttext = paymenttext.replace("<PAID.DATE>", document.getFormatedStringValueByKey("paydate"));
 			paymenttext = paymenttext.replace("<DUE.DAYS>", Integer.toString(document.getIntValueByKey("duedays")));
 			paymenttext = paymenttext.replace("<DUE.DATE>", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
+			
+			paymenttext = paymenttext.replace("<DUE.DISCOUNT.PERCENT>", DataUtils.DoubleToFormatedPercent(document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue")));
+			paymenttext = paymenttext.replace("<DUE.DISCOUNT.DAYS>", document.getStringValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays"));
+			paymenttext = paymenttext.replace("<DUE.DISCOUNT.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getSummary().getTotalGross().asDouble() * (1 - percent)));
+			paymenttext = paymenttext.replace("<DUE.DISCOUNT.DATE>", getDiscountDueDate(document));
 			
 			// 2011-06-24 sbauer@eumedio.de
 			// New placeholder for bank
@@ -1043,6 +1047,17 @@ public class Placeholders {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param document
+	 * @return
+	 */
+	private static String getDiscountDueDate(DataSetDocument document) {
+		Calendar calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
+		calendar.add(Calendar.DATE, document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays").intValue());
+		DateFormat formatter = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
+		return formatter.format(calendar.getTime());
 	}
 	
 	/**
