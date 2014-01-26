@@ -57,6 +57,7 @@ public class Placeholders {
 			"YOURCOMPANY.BANKCODE",
 			"YOURCOMPANY.IBAN",
 			"YOURCOMPANY.BIC",
+			"YOURCOMPANY.CREDITORID",
 			"DOCUMENT.DATE",
 			"DOCUMENT.ADDRESSES.EQUAL",
 			"DOCUMENT.ADDRESS",
@@ -160,6 +161,7 @@ public class Placeholders {
 			"ADDRESS.BANK.NAME",
 			"ADDRESS.BANK.IBAN",
 			"ADDRESS.BANK.BIC",
+			"DEBITOR.MANDATREF",
 			"ADDRESS.NR",
 			"ADDRESS.PHONE",
 			"ADDRESS.PHONE.PRE",
@@ -862,38 +864,42 @@ public class Placeholders {
 			
 			// 2011-06-24 sbauer@eumedio.de
 			// New placeholder for bank
-				paymenttext = paymenttext.replace("<BANK.ACCOUNT.HOLDER>", 
-						Activator.getDefault().getPreferenceStore().getString("BANK_ACCOUNT_HOLDER"));
-				paymenttext = paymenttext.replace("<BANK.ACCOUNT>", 
-						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR"));
-				paymenttext = paymenttext.replace("<BANK.IBAN>", 
-						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
-				paymenttext = paymenttext.replace("<BANK.BIC>", 
-						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BIC"));
-				paymenttext = paymenttext.replace("<BANK.NAME>", 
-						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANK"));
-				paymenttext = paymenttext.replace("<BANK.CODE>", 
-						Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKCODE"));
-				
-				// 2011-06-24 sbauer@eumedio.de
-				// Additional placeholder for censored bank account
-				Integer bankAccountLength = Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR").length();
-				
-				// Only set placeholder if bank account exists
-				if( bankAccountLength > 0 ) {
-					
-					// Show only the last 3 digits
-					Integer bankAccountCensoredLength = bankAccountLength - 3;
-					String censoredDigits = "";
-					
-					for( int i = 1; i <= bankAccountCensoredLength; i++ ) {
-						censoredDigits += "*";
-					}
-					
-					paymenttext = paymenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredDigits + Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR").substring( bankAccountCensoredLength ));
-					
-			}
-
+			paymenttext = paymenttext.replace("<BANK.ACCOUNT.HOLDER>", 
+					Activator.getDefault().getPreferenceStore().getString("BANK_ACCOUNT_HOLDER"));
+			paymenttext = paymenttext.replace("<BANK.ACCOUNT>", 
+					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR"));
+			paymenttext = paymenttext.replace("<BANK.IBAN>", 
+					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
+			paymenttext = paymenttext.replace("<BANK.BIC>", 
+					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BIC"));
+			paymenttext = paymenttext.replace("<BANK.NAME>", 
+					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANK"));
+			paymenttext = paymenttext.replace("<BANK.CODE>", 
+					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKCODE"));
+			paymenttext = paymenttext.replace("<YOURCOMPANY.CREDITORID>", 
+					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_CREDITORID"));
+			
+			// 2011-06-24 sbauer@eumedio.de
+			// Additional placeholder for censored bank account
+			String censoredAccount = censorAccountNumber(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR"));
+			paymenttext = paymenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredAccount);
+			censoredAccount = censorAccountNumber(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
+			paymenttext = paymenttext.replace("<BANK.IBAN.CENSORED>", censoredAccount);
+			
+			// debitor's bank account
+			paymenttext = paymenttext.replace("<DEBITOR.BANK.ACCOUNT.HOLDER>", 
+					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:account_holder"));
+			paymenttext = paymenttext.replace("<DEBITOR.BANK.IBAN>", 
+					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:iban"));
+			paymenttext = paymenttext.replace("<DEBITOR.BANK.BIC>", 
+					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:bic"));
+			paymenttext = paymenttext.replace("<DEBITOR.BANK.NAME>", 
+					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:bank_name"));
+			paymenttext = paymenttext.replace("<DEBITOR.MANDATREF>", 
+					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:mandat_ref"));
+			// Additional placeholder for censored bank account
+			censoredAccount = censorAccountNumber(document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:iban"));
+			paymenttext = paymenttext.replace("<DEBITOR.BANK.IBAN.CENSORED>", censoredAccount);
 			
 			// 2011-06-24 sbauer@eumedio.de
 			// New placeholder for total sum
@@ -1047,6 +1053,27 @@ public class Placeholders {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param paymenttext
+	 * @param bankAccountLength
+	 * @return
+	 */
+	private static String censorAccountNumber(String accountNumber) {
+		String retval = "";
+		Integer bankAccountLength = accountNumber.length();			
+		// Only set placeholder if bank account exists
+		if( bankAccountLength > 0 ) {				
+			// Show only the last 3 digits
+			Integer bankAccountCensoredLength = bankAccountLength - 3;
+			String censoredDigits = "";				
+			for( int i = 1; i <= bankAccountCensoredLength; i++ ) {
+				censoredDigits += "*";
+			}				
+			retval = censoredDigits + accountNumber.substring( bankAccountCensoredLength );
+		}
+		return retval;
 	}
 
 	/**
