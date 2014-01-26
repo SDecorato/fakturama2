@@ -101,6 +101,9 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		
 		//T: Preference page "Your company"
 		addField(new StringFieldEditor("YOURCOMPANY_COMPANY_BIC", _("BIC"), getFieldEditorParent()));
+		
+		//T: Preference page "Your company"
+		addField(new StringFieldEditor("YOURCOMPANY_CREDITORID", _("Creditor ID"), getFieldEditorParent()));
 	}
 
 	/**
@@ -139,6 +142,7 @@ public class YourCompanyPreferencePage extends FieldEditorPreferencePage impleme
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_BANK", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_IBAN", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_COMPANY_BIC", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("YOURCOMPANY_CREDITORID", write);
 	}
 
 	/**

@@ -52,7 +52,6 @@ import org.eclipse.ui.PlatformUI;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
-import com.sebulli.fakturama.OSDependent;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetContact;
 import com.sebulli.fakturama.data.UniDataSet;
@@ -102,6 +101,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	private Text txtBankName;
 	private Text txtIBAN;
 	private Text txtBIC;
+	private Text txtMandatRef;
 	private Text txtNr;
 	private Combo comboPayment;
 	private ComboViewer comboPaymentViewer;
@@ -224,6 +224,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		contact.setStringValueByKey("bank_name", txtBankName.getText());
 		contact.setStringValueByKey("iban", txtIBAN.getText());
 		contact.setStringValueByKey("bic", txtBIC.getText());
+		contact.setStringValueByKey("mandat_ref", txtMandatRef.getText());
 
 		// Set the customer number
 		contact.setStringValueByKey("nr", txtNr.getText());
@@ -391,6 +392,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		if (!contact.getStringValueByKey("bank_name").equals(txtBankName.getText())) { return true; }
 		if (!contact.getStringValueByKey("iban").equals(txtIBAN.getText())) { return true; }
 		if (!contact.getStringValueByKey("bic").equals(txtBIC.getText())) { return true; }
+		if (!contact.getStringValueByKey("mandat_ref").equals(txtMandatRef.getText())) { return true; }
 
 		if (!contact.getStringValueByKey("nr").equals(txtNr.getText())) { return true; }
 
@@ -891,16 +893,6 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		superviceControl(txtBankName, 64);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtBankName);
 
-		// IBAN Bank code
-		Label labelIBAN = new Label(tabBank, SWT.NONE);
-		//T: Bank code
-		labelIBAN.setText(_("IBAN"));
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelIBAN);
-		txtIBAN = new Text(tabBank, SWT.BORDER);
-		txtIBAN.setText(contact.getStringValueByKey("iban"));
-		superviceControl(txtIBAN, 32);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtIBAN);
-
 		// BIC
 		Label labelBIC = new Label(tabBank, SWT.NONE);
 		//T: Bank code
@@ -910,6 +902,27 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		txtBIC.setText(contact.getStringValueByKey("bic"));
 		superviceControl(txtBIC, 32);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtBIC);
+
+		// IBAN Bank code
+		Label labelIBAN = new Label(tabBank, SWT.NONE);
+		//T: Bank code
+		labelIBAN.setText(_("IBAN"));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelIBAN);
+		txtIBAN = new Text(tabBank, SWT.BORDER);
+		txtIBAN.setText(contact.getStringValueByKey("iban"));
+		superviceControl(txtIBAN, 32);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtIBAN);
+		
+		// Customer's Mandat reference
+		Label labelMandate = new Label(tabBank, SWT.NONE);
+		//T: Mandate reference
+		labelMandate.setText(_("Mandate reference"));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelMandate);
+		txtMandatRef = new Text(tabBank, SWT.BORDER);
+		txtMandatRef.setText(contact.getStringValueByKey("mandat_ref"));
+		superviceControl(txtMandatRef, 32);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(txtMandatRef);	
+		
 
 		// Controls in tab "Misc"
 
