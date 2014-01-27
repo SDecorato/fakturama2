@@ -117,7 +117,7 @@ public class Transaction {
 		}
 		
 		// Return the reference date
-		return reference.getFormatedStringValueByKey("date");
+		return reference != null ? reference.getFormatedStringValueByKey("date") : "";
 		
 	}
 }
