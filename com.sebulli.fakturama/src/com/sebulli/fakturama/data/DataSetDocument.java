@@ -191,12 +191,12 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("servicedate", new UniData(UniDataType.DATE, servicedate));
 		this.hashMap.put("paymentid", new UniData(UniDataType.ID, paymentid));
 		this.hashMap.put("paymentname", new UniData(UniDataType.STRING, paymentname));
-		this.hashMap.put("paymentdescription", new UniData(UniDataType.STRING, paymentdescription));
+		this.hashMap.put("paymentdescription", new UniData(UniDataType.TEXT, paymentdescription));
 		this.hashMap.put("duedays", new UniData(UniDataType.INT, duedays));
 		this.hashMap.put("paid", new UniData(UniDataType.BOOLEAN, paid));
 		this.hashMap.put("paydate", new UniData(UniDataType.DATE, paydate));
 		this.hashMap.put("payvalue", new UniData(UniDataType.PRICE, payvalue));
-		this.hashMap.put("paymenttext", new UniData(UniDataType.STRING, paymenttext));
+		this.hashMap.put("paymenttext", new UniData(UniDataType.TEXT, paymenttext));
 		this.hashMap.put("items", new UniData(UniDataType.TEXT, items));
 		this.hashMap.put("shippingid", new UniData(UniDataType.ID, shippingid));
 		this.hashMap.put("shippingname", new UniData(UniDataType.STRING, shippingname));
