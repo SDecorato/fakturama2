@@ -115,7 +115,6 @@ public class DocumentEditor extends Editor {
 	private DateTime dtDate;
 	private DateTime dtOrderDate;
 	private DateTime dtServiceDate;
-	private Composite refConsult;
 	private Text txtCustomerRef;
 	private Text txtConsultant;
 	private Text txtAddress;
@@ -147,8 +146,8 @@ public class DocumentEditor extends Editor {
 	private TableColumnLayout tableColumnLayout;
 
 	// Column number of the unit and total price. Use this to update the column
-	private int unitPriceColumn = 0;
-	private int totalPriceColumn = 0;
+	private int unitPriceColumn = -1;
+	private int totalPriceColumn = -1;
 	
 	private List<UniDataSetTableColumn> itemTableColumns = new ArrayList<UniDataSetTableColumn>();
 	private CellNavigation cellNavigation;
@@ -1175,7 +1174,7 @@ public class DocumentEditor extends Editor {
 				useGross = true;
 
 			// Show a warning, if the customer uses a different setting for net or gross
-			if (useGross != oldUseGross) {
+			if ((useGross != oldUseGross) && documentType.hasPrice()) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
 
 				//T: Title of the dialog that appears if customer uses a different setting for net or gross.
@@ -1195,12 +1194,16 @@ public class DocumentEditor extends Editor {
 				// Update the columns
 				if (itemTableColumns != null ) {
 					if (useGross) {
-						itemTableColumns.get(unitPriceColumn).setDataKey("$ItemGrossPrice");
-						itemTableColumns.get(totalPriceColumn).setDataKey("$ItemGrossTotal");
+						if (unitPriceColumn >= 0)
+							itemTableColumns.get(unitPriceColumn).setDataKey("$ItemGrossPrice");
+						if (totalPriceColumn >= 0)
+							itemTableColumns.get(totalPriceColumn).setDataKey("$ItemGrossTotal");
 					}
 					else {
-						itemTableColumns.get(unitPriceColumn).setDataKey("price");
-						itemTableColumns.get(totalPriceColumn).setDataKey("$ItemNetTotal");
+						if (unitPriceColumn >= 0)
+							itemTableColumns.get(unitPriceColumn).setDataKey("price");
+						if (totalPriceColumn >= 0)
+							itemTableColumns.get(totalPriceColumn).setDataKey("$ItemNetTotal");
 					}
 
 					// for deliveries there's no netLabel...
