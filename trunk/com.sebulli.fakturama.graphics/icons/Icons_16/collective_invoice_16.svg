@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="collective_invoice_16.svg"
-   inkscape:export-filename="/Users/gerdbartelt/Documents/Fakturama/com.sebulli.fakturama/icons/invoice_16.png"
+   inkscape:export-filename="/home/gerd/Documents/Fakturama/workspace/com.sebulli.fakturama/icons/16/collective_invoice_16.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -680,7 +680,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
