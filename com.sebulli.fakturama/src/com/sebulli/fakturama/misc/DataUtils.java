@@ -226,7 +226,7 @@ public class DataUtils {
 	 * @return Rounded value
 	 */
 	public static Double round(Double d) {
-		return (Math.round((d) * 100.0)) / 100.0;
+		return (Math.round((d + EPSILON) * 100.0)) / 100.0;
 	}
 
 	/**
