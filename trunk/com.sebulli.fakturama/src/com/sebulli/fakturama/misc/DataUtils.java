@@ -40,7 +40,7 @@ import com.sebulli.fakturama.logger.Logger;
 public class DataUtils {
 
 	private static final String ZERO_DATE = "2000-01-01";
-	protected static final double EPSILON = 0.0001;
+	protected static final double EPSILON = 0.00000001;
 	private static String currencySymbol = null;
 	private static boolean hasThousandsSeparator = false;
 	
