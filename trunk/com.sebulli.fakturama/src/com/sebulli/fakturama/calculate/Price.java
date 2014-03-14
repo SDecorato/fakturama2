@@ -232,7 +232,8 @@ public class Price {
 		// and the net value is the difference.
 		// But only if the Net value is still a rounded value and the gross is not,
 		// then the rounded gross value is calculated from rounded net and vat. 
-		if (!DataUtils.isRounded(this.totalGross) && DataUtils.isRounded(this.totalNet)) {
+		//if (!DataUtils.isRounded(this.totalGross) && DataUtils.isRounded(this.totalNet)) {
+		if (!asGross) {
 			this.unitNetRounded = DataUtils.round(unitNet);
 			this.unitVatRounded = DataUtils.round(unitVat);
 			this.unitGrossRounded = this.unitNetRounded + this.unitVatRounded;
@@ -244,7 +245,7 @@ public class Price {
 
 			this.totalNetRounded = DataUtils.round(totalNet);
 			this.totalVatRounded = DataUtils.round(totalVat);
-			this.totalGrossRounded = this.totalNetRounded + this.totalVatRounded;
+			this.totalGrossRounded = DataUtils.round(this.totalNetRounded + this.totalVatRounded);
 		}
 		else {
 			this.unitGrossRounded = DataUtils.round(unitGross);
@@ -257,7 +258,7 @@ public class Price {
 
 			this.totalGrossRounded = DataUtils.round(totalGross);
 			this.totalVatRounded = DataUtils.round(totalVat);
-			this.totalNetRounded = this.totalGrossRounded - this.totalVatRounded;
+			this.totalNetRounded = DataUtils.round(this.totalGrossRounded - this.totalVatRounded);
 		}
 	}
 
