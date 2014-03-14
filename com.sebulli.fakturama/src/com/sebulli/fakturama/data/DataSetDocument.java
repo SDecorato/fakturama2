@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.calculate.DocumentSummary;
 import com.sebulli.fakturama.logger.Logger;
@@ -66,7 +67,9 @@ public class DataSetDocument extends UniDataSet {
 	public DataSetDocument(DocumentType documentType, String webshopid, String webshopdate) {
 		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat(
 				"yyyy-MM-dd")).format(new Date()), -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0, 0.0, "", 1, 0.0, "", 0, webshopid, webshopdate,
-				webshopdate, false, "", "", 0.0, 0, -1, "", "","","");
+				webshopdate, false, "", "", 
+				Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") + 1,
+				0.0, 0, -1, "", "","","");
 
 		this.hashMap.put("transaction", new UniData(UniDataType.INT, Math.abs(UUID.randomUUID().hashCode())));
 	}
@@ -92,7 +95,8 @@ public class DataSetDocument extends UniDataSet {
 				parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent.getStringValueByKey("message"), parent
 						.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent.getStringValueByKey("webshopdate"), parent
 						.getStringValueByKey("orderdate"), parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent
-						.getStringValueByKey("novatdescription"), parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent
+						.getStringValueByKey("novatdescription"), parent.getIntValueByKey("netgross"),
+						parent.getDoubleValueByKey("itemsdiscount"), parent.getIntValueByKey("dunninglevel"), parent
 						.getIntValueByKey("invoiceid"), parent.getStringValueByKey("paymentdescription"), parent.getStringValueByKey("shippingdescription"),
 						parent.getStringValueByKey("message2"),parent.getStringValueByKey("message3"));
 
@@ -163,6 +167,7 @@ public class DataSetDocument extends UniDataSet {
 	 * @param noVat
 	 * @param noVatName
 	 * @param noVatDescription
+	 * @param netgross
 	 * @param itemsdiscount
 	 * @param dunninglevel
 	 * @param invoiceid
@@ -173,7 +178,7 @@ public class DataSetDocument extends UniDataSet {
 			String addressfirstline, int progress, String customerref, String consultant, String date, String servicedate, int paymentid, String paymentname, int duedays,
 			boolean paid, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping,
 			Double shippingvat, String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid,
-			String webshopdate, String orderdate, boolean noVat, String noVatName, String noVatDescription, double itemsdiscount, int dunninglevel,
+			String webshopdate, String orderdate, boolean noVat, String noVatName, String noVatDescription, int netgross, double itemsdiscount, int dunninglevel,
 			int invoiceid, String paymentdescription, String shippingdescription,
 			String message2, String message3 ) {
 		this.hashMap.put("id", new UniData(UniDataType.ID, id));
@@ -223,6 +228,7 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("message3", new UniData(UniDataType.TEXT, message3));
 		this.hashMap.put("odtpath", new UniData(UniDataType.STRING, ""));
 		this.hashMap.put("pdfpath", new UniData(UniDataType.STRING, ""));
+		this.hashMap.put("netgross", new UniData(UniDataType.INT, netgross));
 
 		// Name of the table in the data base
 		sqlTabeName = "Documents";
@@ -404,7 +410,7 @@ public class DataSetDocument extends UniDataSet {
 		int sign = DocumentType.getType(this.getIntValueByKey("category")).sign();
 		calculate(this.getItems(), this.getDoubleValueByKey("shipping") * sign, this.getDoubleValueByKey("shippingvat"),
 				this.getStringValueByKey("shippingvatdescription"), this.getIntValueByKey("shippingautovat"), this.getDoubleValueByKey("itemsdiscount"),
-				this.getBooleanValueByKey("novat"), this.getStringValueByKey("novatdescription"), 1.0);
+				this.getBooleanValueByKey("novat"), this.getStringValueByKey("novatdescription"), 1.0, this.getIntValueByKey("netgross"));
 	}
 
 	/**
@@ -426,10 +432,12 @@ public class DataSetDocument extends UniDataSet {
 	 *            True, if 0% vat is used
 	 * @param noVatDescription
 	 *            Name of the vat, if 0% is used
+	 * @param netgross
+	 *            should the values be rounded to optimal net or gross values
 	 */
 	public void calculate(DataSetArray<DataSetItem> items, double shippingNet, double shippingVat, String shippingVatDescription, int shippingAutoVat,
-			Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor) {
-		summary.calculate(null, items, shippingNet, shippingVat, shippingVatDescription, shippingAutoVat, itemsDiscount, noVat, noVatDescription, scaleFactor);
+			Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor, int netgross) {
+		summary.calculate(null, items, shippingNet, shippingVat, shippingVatDescription, shippingAutoVat, itemsDiscount, noVat, noVatDescription, scaleFactor, netgross);
 	}
 
 	/**

@@ -45,6 +45,7 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -72,6 +73,7 @@ import com.sebulli.fakturama.actions.MoveEntryDownAction;
 import com.sebulli.fakturama.actions.MoveEntryUpAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
 import com.sebulli.fakturama.calculate.CustomerStatistics;
+import com.sebulli.fakturama.calculate.DocumentSummary;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetArray;
 import com.sebulli.fakturama.data.DataSetContact;
@@ -120,6 +122,7 @@ public class DocumentEditor extends Editor {
 	private Text txtAddress;
 	private Combo comboNoVat;
 	private ComboViewer comboViewerNoVat;
+	private Combo comboNetGross;
 	private Text txtInvoiceRef;
 	private TableViewer tableViewerItems;
 	private Text txtMessage;
@@ -181,6 +184,7 @@ public class DocumentEditor extends Editor {
 	private String billingAddress = "";
 	private String deliveryAddress = "";
 	private DocumentEditor thisDocumentEditor;
+	private int netgross = DocumentSummary.NOTSPECIFIED;
 	
 	// Flag, if item editing is active
 	private DocumentItemEditingSupport itemEditingSupport = null;
@@ -466,6 +470,9 @@ public class DocumentEditor extends Editor {
 		document.setStringValueByKey("novatname", noVatName);
 		document.setStringValueByKey("novatdescription", noVatDescription);
 
+		// Set whether the document uses net or gross values
+		document.setIntValueByKey("netgross", netgross);
+		
 		// Set the dunning level
 		document.setIntValueByKey("dunninglevel", dunningLevel);
 
@@ -731,13 +738,15 @@ public class DocumentEditor extends Editor {
 				shippingVat = stdShipping.getDoubleValueByKeyFromOtherTable("vatid.VATS:value");
 				shippingAutoVat = stdShipping.getIntValueByKey("autovat");
 				shippingVatDescription = stdShipping.getStringValueByKey("description");
-
+				netgross = DocumentSummary.NOTSPECIFIED;
+				
 				document.setDoubleValueByKey("shipping", shipping);
 				document.setDoubleValueByKey("shippingvat", shippingVat);
 				document.setStringValueByKey("shippingdescription", stdShipping.getStringValueByKey("description"));
 				document.setIntValueByKey("shippingautovat", shippingAutoVat);
 				document.setStringValueByKey("shippingvatdescription", shippingVatDescription);
-
+				
+				
 				// Default payment
 				paymentId = Data.INSTANCE.getPropertyAsInt("standardpayment");
 				document.setStringValueByKey("paymentdescription", Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("description"));
@@ -776,6 +785,8 @@ public class DocumentEditor extends Editor {
 		noVat = document.getBooleanValueByKey("novat");
 		noVatName = document.getStringValueByKey("novatname");
 		noVatDescription = document.getStringValueByKey("novatdescription");
+		netgross = document.getIntValueByKey("netgross");
+		
 		paidValue.setValue(document.getDoubleValueByKey("payvalue"));
 		if (dunningLevel <= 0)
 			dunningLevel = document.getIntValueByKey("dunninglevel");
@@ -946,7 +957,8 @@ public class DocumentEditor extends Editor {
 		if (document.getBooleanValueByKey("novat") != noVat) { return true; }
 		if (!document.getStringValueByKey("novatname").equals(noVatName)) { return true; }
 		if (!document.getStringValueByKey("novatdescription").equals(noVatDescription)) { return true; }
-
+		if (document.getIntValueByKey("netgross") != netgross) { return true; }
+		
 		// Test all the document items
 		String itemsString = "";
 		ArrayList<DataSetItem> itemDatasets = items.getActiveDatasets();
@@ -1106,7 +1118,7 @@ public class DocumentEditor extends Editor {
 
 		// Do the calculation
 		document.calculate(items, shipping * sign, shippingVat, shippingVatDescription, shippingAutoVat,
-				discount, noVat, noVatDescription, 1.0);
+				discount, noVat, noVatDescription, 1.0, netgross);
 
 		// Get the total result
 		total = document.getSummary().getTotalGross().asDouble();
@@ -1159,22 +1171,37 @@ public class DocumentEditor extends Editor {
 	/**
 	 * Change the document from net to gross or backwards 
 	 */
-	private void updateUseGross() {
+	private void updateUseGross(boolean address_changed) {
 		
 		boolean oldUseGross = useGross;
 		
-		// Use the customers settings instead, if they are set
-		if (addressId >= 0) {
-			// Get some settings from the preference store
+		// Get some settings from the preference store
+		if (netgross == DocumentSummary.NOTSPECIFIED)
 			useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
- 
-			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 1)
+		else 
+			useGross = ( netgross == DocumentSummary.ROUND_GROSS_VALUES );
+		
+		
+		// Use the customers settings instead, if they are set
+		if ((addressId >= 0) && address_changed) {
+			
+			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 1) {
 				useGross = false;
-			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 2)
+				netgross = DocumentSummary.ROUND_NET_VALUES;
+				comboNetGross.select(netgross);
+			}
+			if (Data.INSTANCE.getContacts().getDatasetById(addressId).getIntValueByKey("use_net_gross") == 2) {
 				useGross = true;
+				netgross = DocumentSummary.ROUND_GROSS_VALUES;
+				comboNetGross.select(netgross);
+			}
+			
+		}
 
-			// Show a warning, if the customer uses a different setting for net or gross
-			if ((useGross != oldUseGross) && documentType.hasPrice()) {
+		// Show a warning, if the customer uses a different setting for net or gross
+		if ((useGross != oldUseGross) && documentType.hasPrice()) {
+			
+			if (address_changed) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
 
 				//T: Title of the dialog that appears if customer uses a different setting for net or gross.
@@ -1190,38 +1217,36 @@ public class DocumentEditor extends Editor {
 					messageBox.setMessage(_("Net values are used!"));
 				}
 				messageBox.open();
-
-				// Update the columns
-				if (itemTableColumns != null ) {
-					if (useGross) {
-						if (unitPriceColumn >= 0)
-							itemTableColumns.get(unitPriceColumn).setDataKey("$ItemGrossPrice");
-						if (totalPriceColumn >= 0)
-							itemTableColumns.get(totalPriceColumn).setDataKey("$ItemGrossTotal");
-					}
-					else {
-						if (unitPriceColumn >= 0)
-							itemTableColumns.get(unitPriceColumn).setDataKey("price");
-						if (totalPriceColumn >= 0)
-							itemTableColumns.get(totalPriceColumn).setDataKey("$ItemNetTotal");
-					}
-
-					// for deliveries there's no netLabel...
-					if(netLabel != null) {
-						// Update the total text
-						netLabel.setText(getTotalText());
-					}
-
-					tableViewerItems.refresh();
-				}
-				
-				// Update the shipping value;
-				calculate();
-				//changeShippingValue(false); 
-
 			}
-		}
 
+			// Update the columns
+			if (itemTableColumns != null ) {
+				if (useGross) {
+					if (unitPriceColumn >= 0)
+						itemTableColumns.get(unitPriceColumn).setDataKey("$ItemGrossPrice");
+					if (totalPriceColumn >= 0)
+						itemTableColumns.get(totalPriceColumn).setDataKey("$ItemGrossTotal");
+				}
+				else {
+					if (unitPriceColumn >= 0)
+						itemTableColumns.get(unitPriceColumn).setDataKey("price");
+					if (totalPriceColumn >= 0)
+						itemTableColumns.get(totalPriceColumn).setDataKey("$ItemNetTotal");
+				}
+
+				// for deliveries there's no netLabel...
+				if(netLabel != null) {
+					// Update the total text
+					netLabel.setText(getTotalText());
+				}
+
+				tableViewerItems.refresh();
+			}
+			
+			// Update the shipping value;
+			calculate();
+			
+		}
 		
 	}
 	
@@ -1483,7 +1508,7 @@ public class DocumentEditor extends Editor {
 		
 		showHideWarningIcon();
 		addressAndIconComposite.layout(true);
-		updateUseGross();
+		updateUseGross(true);
 		
 	}
 	
@@ -1569,8 +1594,11 @@ public class DocumentEditor extends Editor {
 		}
 		
 		// Get some settings from the preference store
-		useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
-
+		if (netgross == DocumentSummary.NOTSPECIFIED)
+			useGross = (Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") == 1);
+		else 
+			useGross = ( netgross == DocumentSummary.ROUND_GROSS_VALUES );
+		
 		// Create the top composite of the editor
 		top = new Composite(parent, SWT.NONE);
 		GridLayoutFactory.swtDefaults().numColumns(4).applyTo(top);
@@ -1594,12 +1622,12 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelName);
 
 		// Container for the document number and the date
-		Composite nrDateComposite = new Composite(top, SWT.NONE);
-		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(3).applyTo(nrDateComposite);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(nrDateComposite);
+		Composite nrDateNetGrossComposite = new Composite(top, SWT.NONE);
+		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(4).applyTo(nrDateNetGrossComposite);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).grab(true, false).applyTo(nrDateNetGrossComposite);
 
 		// The document number is the document name
-		txtName = new Text(nrDateComposite, SWT.BORDER);
+		txtName = new Text(nrDateNetGrossComposite, SWT.BORDER);
 		txtName.setText(document.getStringValueByKey("name"));
 		txtName.setToolTipText(labelName.getToolTipText());
 
@@ -1609,7 +1637,7 @@ public class DocumentEditor extends Editor {
 		// Document date
 		//T: Document Editor
 		//T: Label Document Date
-		Label labelDate = new Label(nrDateComposite, SWT.NONE);
+		Label labelDate = new Label(nrDateNetGrossComposite, SWT.NONE);
 		labelDate.setText(_("Date"));
 		//T: Tool Tip Text
 		labelDate.setToolTipText(_("The document's date"));
@@ -1617,7 +1645,7 @@ public class DocumentEditor extends Editor {
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDate);
 		
 		// Document date
-		dtDate = new DateTime(nrDateComposite, SWT.DROP_DOWN);
+		dtDate = new DateTime(nrDateNetGrossComposite, SWT.DROP_DOWN);
 		dtDate.setToolTipText(labelDate.getToolTipText());
 		dtDate.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -1639,6 +1667,43 @@ public class DocumentEditor extends Editor {
 		calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("date"));
 		dtDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
+		
+		// combo list to select between net or gross
+		comboNetGross = new Combo(documentType.hasPrice() ? nrDateNetGrossComposite : invisible, SWT.BORDER);
+		comboNetGross.setToolTipText(_("Specify if the prices should be rounded to net or gross values"));
+		// empty, if nothing is selected
+		comboNetGross.add("---"); 
+		//T: Text in combo box
+		comboNetGross.add(_("Net"));
+		//T: Text in combo box
+		comboNetGross.add(_("Gross"));
+		
+		
+		//comboViewerNetGross = new ComboViewer(comboNetGross);
+		//comboViewerNetGross.setContentProvider(new NoVatContentProvider());
+		GridDataFactory.swtDefaults().hint(100, SWT.DEFAULT).grab(false, false).align(SWT.BEGINNING, SWT.CENTER).applyTo(comboNetGross);
+		comboNetGross.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				netgross = comboNetGross.getSelectionIndex();
+				// recalculate the total sum
+				calculate();
+				checkDirty();
+				updateUseGross(false);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+		});
+		
+		comboNetGross.select(netgross);
+	
+		
+		
+		
 		// The titleComposite contains the tile and the document icon
 		Composite titleComposite = new Composite(top, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(titleComposite);
@@ -1835,6 +1900,7 @@ public class DocumentEditor extends Editor {
 			comboNoVat.setText(noVatName);
 		else
 			comboNoVat.select(0);
+
 
 		// Group with tool bar with buttons to generate
 		// a new document from this document
@@ -2664,7 +2730,7 @@ public class DocumentEditor extends Editor {
 			}
 		}
 
-		updateUseGross();
+		updateUseGross(false);
 
 		// Calculate the total sum
 		if(documentType != DocumentType.DUNNING) {

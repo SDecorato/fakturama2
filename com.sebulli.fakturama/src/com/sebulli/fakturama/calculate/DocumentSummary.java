@@ -30,6 +30,13 @@ import com.sebulli.fakturama.misc.DataUtils;
  */
 public class DocumentSummary {
 
+	// The prices are not rounded to net or gross
+	public static final int NOTSPECIFIED = 0;
+	// The prices are rounded, that the net values are full cent values.
+	public static final int ROUND_NET_VALUES = 1;
+	// The prices are rounded, that the gross values are full cent values.
+	public static final int ROUND_GROSS_VALUES = 2;
+	
 	// sum off items
 	private PriceValue itemsNet;
 	private PriceValue itemsGross;
@@ -96,7 +103,7 @@ public class DocumentSummary {
 	 * @param scaleFactor
 	 */
 	public void calculate(VatSummarySet globalVatSummarySet, DataSetArray<DataSetItem> items, double shippingValue, double shippingVatPercent,
-			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor) {
+			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor, int netgross) {
 
 		Double vatPercent;
 		String vatDescription;
@@ -140,14 +147,33 @@ public class DocumentSummary {
 
 		}
 
+		// *** round sum of items
+		
+		// round to full net cents
+		if (netgross == DocumentSummary.ROUND_NET_VALUES) {
+			this.itemsNet.round();
+		} 
+		
 		// Gross value is the sum of net and VAT value
 		this.totalNet = new PriceValue(this.itemsNet);
 		this.itemsGross = new PriceValue(this.itemsNet);
 		this.itemsGross.add(this.totalVat.asDouble());
-
+		
+		// round to full gross cents
+		if (netgross == DocumentSummary.ROUND_GROSS_VALUES) {
+			this.itemsGross.round();
+			this.itemsNet.set(this.itemsGross.asDouble() - this.totalVat.asDouble() );
+			this.totalNet.set(this.itemsNet.asDouble());
+		}
+		this.totalGross.set(this.itemsGross.asDouble());
+		
+		
 		Double itemsNet = this.itemsNet.asDouble();
 		Double itemsGross = this.itemsGross.asDouble();
 
+		
+		// *** DISCOUNT ***
+		
 		// Calculate the absolute discount values
 		this.discountNet.set(itemsDiscount * itemsNet);
 		this.discountGross.set(itemsDiscount * itemsGross);
@@ -209,8 +235,26 @@ public class DocumentSummary {
 
 			// adjust the documents sum by the discount
 			this.totalVat.add(discountVatValue);
-			this.totalNet.add(new Price(discountNet, discountVatPercent).getUnitNet().asDouble());
-			this.totalGross.set(this.totalNet.asDouble() + this.totalVat.asDouble());
+			this.totalNet.add(discountNet);
+			
+			// round to full net cents
+			if (netgross == DocumentSummary.ROUND_NET_VALUES) {
+				this.discountNet.round();
+				this.totalNet.round();
+			} 
+			
+			if (netgross != DocumentSummary.ROUND_GROSS_VALUES) {
+				this.totalGross.set(this.totalNet.asDouble() + this.totalVat.asDouble());
+			}
+			
+			// round to full gross cents
+			if (netgross == DocumentSummary.ROUND_GROSS_VALUES) {
+				this.discountGross.round();
+				this.totalGross.add(this.discountGross.asDouble());
+				this.totalGross.round();
+				this.discountNet.set(this.discountGross.asDouble() - discountVatValue);
+				this.totalNet.set(this.totalGross.asDouble() - this.totalVat.asDouble());
+			}
 		}
 
 		// calculate shipping
@@ -306,18 +350,42 @@ public class DocumentSummary {
 
 		}
 
+		// round to full net cents
+		if (netgross == DocumentSummary.ROUND_NET_VALUES) {
+			this.shippingNet.round();
+			this.totalNet.round();
+		} 
+		
+		this.shippingGross.set(this.shippingNet.asDouble() + this.shippingVat.asDouble());
+		
+		// round to full gross cents
+		if (netgross == DocumentSummary.ROUND_GROSS_VALUES) {
+			this.shippingGross.round();
+			this.totalGross.round();
+			this.totalNet.set(this.totalGross.asDouble() - this.totalVat.asDouble());
+			this.shippingNet.set(this.shippingGross.asDouble() - this.shippingVat.asDouble());
+		}
+
+		
 		// Add the shipping to the documents sum.
 		this.totalVat.add(shippingVat.asDouble());
 		this.totalNet.add(shippingNet.asDouble());
 		this.totalGross.set(this.totalNet.asDouble() + this.totalVat.asDouble());
 
-		this.shippingGross.set(this.shippingNet.asDouble() + this.shippingVat.asDouble());
-
 		// Finally, round the values
-
-		this.totalGross.round();
-		this.totalNet.round();
-		this.totalVat.set(this.totalGross.asDouble() - this.totalNet.asDouble());
+		if (netgross == DocumentSummary.ROUND_NET_VALUES) {
+			this.totalNet.round();
+			this.totalVat.round();
+			this.totalGross.set(this.totalNet.asDouble() + this.totalVat.asDouble());
+		} else if (netgross == DocumentSummary.ROUND_GROSS_VALUES) {
+			this.totalGross.round();
+			this.totalVat.round();
+			this.totalNet.set(this.totalGross.asDouble() - this.totalVat.asDouble());
+		} else {
+			this.totalNet.round();
+			this.totalGross.round();
+			this.totalVat.set(this.totalGross.asDouble() - this.totalNet.asDouble());
+		}
 
 		this.discountNet.round();
 		this.discountGross.round();
@@ -325,9 +393,21 @@ public class DocumentSummary {
 		this.itemsNet.round();
 		this.itemsGross.round();
 
-		this.shippingNet.round();
-		this.shippingGross.round();
-		this.shippingVat.set(this.shippingGross.asDouble() - this.shippingNet.asDouble());
+		// Finally, round the values
+		if (netgross == DocumentSummary.ROUND_NET_VALUES) {
+			this.shippingNet.round();
+			this.shippingVat.round();
+			this.shippingGross.set(this.shippingNet.asDouble() + this.shippingVat.asDouble());
+		} else if (netgross == DocumentSummary.ROUND_GROSS_VALUES) {
+			this.shippingGross.round();
+			this.shippingVat.round();
+			this.shippingNet.set(this.shippingGross.asDouble() - this.shippingVat.asDouble());
+		} else {
+			this.shippingNet.round();
+			this.shippingGross.round();
+			this.shippingVat.set(this.shippingGross.asDouble() - this.shippingVat.asDouble());
+		}
+
 
 		// Round also the Vat summaries
 		documentVatSummaryItems.roundAllEntries();
