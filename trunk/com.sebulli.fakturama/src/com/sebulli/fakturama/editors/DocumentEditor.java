@@ -1670,7 +1670,7 @@ public class DocumentEditor extends Editor {
 		
 		// combo list to select between net or gross
 		comboNetGross = new Combo(documentType.hasPrice() ? nrDateNetGrossComposite : invisible, SWT.BORDER);
-		comboNetGross.setToolTipText(_("Specify if the prices should be rounded to net or gross values"));
+		comboNetGross.setToolTipText(_("Specify whether the prices should be rounded to net or gross values"));
 		// empty, if nothing is selected
 		comboNetGross.add("---"); 
 		//T: Text in combo box
