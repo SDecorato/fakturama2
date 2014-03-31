@@ -175,6 +175,12 @@ public enum Workspace {
 			resourceCopy("Templates/ParcelService/myHermes_de.txt", parcelServiceTemplatePath , "myHermes_de.txt");
 		}
 		
+		// copy the ZUGFeRD properties files
+		File zugferdProps = new File(workspace + "/measure-units.properties");
+		if(!zugferdProps.exists()) {
+			resourceCopy("/resources/measure-units.properties", "", "measure-units.properties");
+		}
+		
 		isInitialized = true;
 
 	}
