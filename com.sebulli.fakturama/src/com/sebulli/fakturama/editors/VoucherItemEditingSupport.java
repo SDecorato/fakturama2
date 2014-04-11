@@ -253,7 +253,8 @@ public class VoucherItemEditingSupport extends ItemEditingSupport {
 	protected Object getValue(Object element) {
 
 		setSuggestionHandler();
-		
+		Integer ix;
+		String s;
 		activeObject = element;
 		voucherEditor.setItemEditing(this);
 
@@ -274,7 +275,15 @@ public class VoucherItemEditingSupport extends ItemEditingSupport {
 			return -1;
 
 		case 3:
-			return item.getIntValueByKey("vatid");
+			// Get the name of the selected VAT and search the ComboBox for the VAT with the same name	
+			ix = item.getIntValueByKey("vatid");
+			s = Data.INSTANCE.getVATs().getDatasetById(ix).getStringValueByKey("description");
+			String[] item_names = ((ComboBoxCellEditor) this.editor).getItems();
+			for(ix = 0; ix < item_names.length; ix++) {
+				if (item_names[ix].equals(s))
+					return ix;
+			}
+			return 0;
 		case 4:
 			return item.getFormatedStringValueByKey("price");
 		case 5:
