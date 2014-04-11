@@ -477,6 +477,10 @@ public class Placeholders {
 		for (String part : parts) {
 			String twoStrings[] = part.split(",");
 			if (twoStrings.length == 2) {
+				
+				//Escape sequence "%COMMA" for ","
+				twoStrings[0] = twoStrings[0].replace("%COMMA", ",");
+			    
 				// Replace the value, if it is equal to the entry
 				if (DataUtils.replaceAllAccentedChars(value).equalsIgnoreCase(
 						DataUtils.replaceAllAccentedChars(removeQuotationMarks(twoStrings[0])))) {
