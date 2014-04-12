@@ -72,7 +72,7 @@ public class ToolbarPreferencePage extends FieldEditorPreferencePage implements 
 		addField(new BooleanFieldEditor("TOOLBAR_SHOW_SAVE", showIcon + _("Save"), getFieldEditorParent()));
 
 		// Get all documents
-		for (int i=1; i<DocumentType.MAXID; i++) {
+		for (int i=1; i<= DocumentType.MAXID; i++) {
 			addField(new BooleanFieldEditor("TOOLBAR_SHOW_DOCUMENT_NEW_" + DocumentType.getTypeAsString(i).toUpperCase(), showIcon + DocumentType.getNewText(i), getFieldEditorParent()));
 		}
 		
@@ -122,7 +122,7 @@ public class ToolbarPreferencePage extends FieldEditorPreferencePage implements 
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("TOOLBAR_SHOW_PRINT", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("TOOLBAR_SHOW_SAVE", write);
 		// Get all documents
-		for (int i=1; i<10; i++) {
+		for (int i=1; i<= DocumentType.MAXID; i++) {
 			PreferencesInDatabase.syncWithPreferencesFromDatabase("TOOLBAR_SHOW_DOCUMENT_NEW_" + DocumentType.getTypeAsString(i).toUpperCase(), write);
 		}
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("TOOLBAR_SHOW_NEW_PRODUCT", write);
