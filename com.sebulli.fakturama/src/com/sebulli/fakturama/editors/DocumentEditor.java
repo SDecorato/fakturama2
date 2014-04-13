@@ -94,6 +94,7 @@ import com.sebulli.fakturama.dialogs.SelectTextDialog;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DataUtils;
 import com.sebulli.fakturama.misc.DocumentType;
+import com.sebulli.fakturama.misc.Transaction;
 import com.sebulli.fakturama.views.datasettable.UniDataSetTableColumn;
 import com.sebulli.fakturama.views.datasettable.ViewDataSetTableContentProvider;
 import com.sebulli.fakturama.views.datasettable.ViewDocumentTable;
@@ -495,6 +496,10 @@ public class DocumentEditor extends Editor {
 				DataSetDocument deliveryNote = Data.INSTANCE.getDocuments().getDatasetById(importedDeliveryNote);
 				deliveryNote.setIntValueByKey("invoiceid", documentId );
 				Data.INSTANCE.updateDataSet(deliveryNote);
+				
+				// Change also the transaction id of the imported delivery note
+				Transaction.mergeTwoTransactions(document, deliveryNote);
+
 			}
 				
 		}
@@ -2227,8 +2232,14 @@ public class DocumentEditor extends Editor {
 									// If the document has no id, collect the imported 
 									// delivery notes in a list.
 									if (documentID >= 0) {
+										
+										// Set the reference of the imported delivery note to
+										// this invoice
 										deliveryNote.setIntValueByKey("invoiceid", documentID );
 										Data.INSTANCE.updateDataSet(deliveryNote);
+										
+										// Change also the transaction id of the imported delivery note
+										Transaction.mergeTwoTransactions(document, deliveryNote);
 									}
 									else
 										importedDeliveryNotes.add(deliveryNote.getIntValueByKey("id"));

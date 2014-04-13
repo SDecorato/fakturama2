@@ -19,13 +19,13 @@ import static com.sebulli.fakturama.Translate._;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.calculate.DocumentSummary;
 import com.sebulli.fakturama.logger.Logger;
 import com.sebulli.fakturama.misc.DocumentType;
+import com.sebulli.fakturama.misc.Transaction;
 
 /**
  * UniDataSet for all documents
@@ -71,7 +71,7 @@ public class DataSetDocument extends UniDataSet {
 				Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") + 1,
 				0.0, 0, -1, "", "","","");
 
-		this.hashMap.put("transaction", new UniData(UniDataType.INT, Math.abs(UUID.randomUUID().hashCode())));
+		this.hashMap.put("transaction", new UniData(UniDataType.INT, Transaction.getNewTransactionId()));
 	}
 
 	/**

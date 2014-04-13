@@ -15,6 +15,7 @@
 package com.sebulli.fakturama.misc;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
@@ -38,7 +39,7 @@ public class Transaction {
 	 * Collects all documents with the same transaction number
 	 * 
 	 * @param document
-	 * 	The document with the paranet transaction number
+	 * 	The document with the parent transaction number
 	 */
 	public Transaction (DataSetDocument document) {
 		
@@ -66,6 +67,15 @@ public class Transaction {
 	}
 	
 	/**
+	 * Generates a random transaction number
+	 * 
+	 * @return new random ID
+	 */
+	public static int getNewTransactionId () {
+		return Math.abs(UUID.randomUUID().hashCode());
+	}
+	
+	/**
 	 * Returns a string with all documents with the same transaction
 	 *  
 	 * @param docType
@@ -84,7 +94,7 @@ public class Transaction {
 			// Has this document the same type
 			if (document.getIntValueByKey("category") == docType.getInt()) {
 
-				// Separate multiple reference names by a komma
+				// Separate multiple reference names by a comma
 				if (!reference.isEmpty())
 					reference += ", ";
 
@@ -119,5 +129,35 @@ public class Transaction {
 		// Return the reference date
 		return reference != null ? reference.getFormatedStringValueByKey("date") : "";
 		
+	}
+	
+	/**
+	 * Merge 2 transactions and to one single
+	 * 
+	 * @param mainDocument the main document
+	 * @param otherDocument the document which gets the id of the main document
+	 */
+	public static void mergeTwoTransactions (DataSetDocument mainDocument, DataSetDocument otherDocument) {
+		int idMainDocument = mainDocument.getIntValueByKey("transaction");
+		int idOtherDocument = otherDocument.getIntValueByKey("transaction");
+		
+		// Nothing to do, if both are equal
+		if (idMainDocument == idOtherDocument)
+			return;
+		
+		// Get all documents
+		ArrayList<DataSetDocument> allDocuments;
+		allDocuments = Data.INSTANCE.getDocuments().getActiveDatasets();
+		
+		// Search for all documents with the same number
+		for (DataSetDocument oneDocument: allDocuments) {
+			if (oneDocument.getIntValueByKey("transaction") == idOtherDocument ) {
+
+				// Change the transaction number to the new one
+				oneDocument.setIntValueByKey("transaction", idMainDocument);
+				Data.INSTANCE.updateDataSet(oneDocument);
+			}
+		}
+
 	}
 }
