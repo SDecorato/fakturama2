@@ -465,7 +465,7 @@ public enum DocumentType {
 	 */
 	public boolean hasItemsPrice() {
 		if (this == DELIVERY)
-			return  Activator.getDefault().getPreferenceStore().getBoolean("DELIVERY_NOTE_ITEMS_WITH_PRICE");
+			return  Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_DELIVERY_NOTE_ITEMS_WITH_PRICE");
 		else 
 			return this.hasPrice();
 	}
