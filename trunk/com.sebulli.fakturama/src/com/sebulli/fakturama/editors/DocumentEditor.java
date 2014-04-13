@@ -491,8 +491,12 @@ public class DocumentEditor extends Editor {
 
 		// Update the references in the delivery notes
 		for (Integer importedDeliveryNote : importedDeliveryNotes) {
-			if (importedDeliveryNote >= 0)
-				Data.INSTANCE.getDocuments().getDatasetById(importedDeliveryNote).setIntValueByKey("invoiceid", documentId );
+			if (importedDeliveryNote >= 0) {
+				DataSetDocument deliveryNote = Data.INSTANCE.getDocuments().getDatasetById(importedDeliveryNote);
+				deliveryNote.setIntValueByKey("invoiceid", documentId );
+				Data.INSTANCE.updateDataSet(deliveryNote);
+			}
+				
 		}
 		importedDeliveryNotes.clear();
 		
@@ -2209,19 +2213,23 @@ public class DocumentEditor extends Editor {
 										}
 									}
 									
-									String dNName = deliveryNote.getStringValueByKey("name");
-									
-									// Put the number of the delivery note in a new line
-									if (!txtMessage.getText().isEmpty())
-										dNName = OSDependent.getNewLine() + dNName;
-									txtMessage.setText(txtMessage.getText() + dNName);
+									// Put the number of the delivery note in a new line of the message field
+									if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_ADD_NR_OF_IMPORTED_DELIVERY_NOTE")) {
+										String dNName = deliveryNote.getStringValueByKey("name");
+										
+										if (!txtMessage.getText().isEmpty())
+											dNName = OSDependent.getNewLine() + dNName;
+										txtMessage.setText(txtMessage.getText() + dNName);
+									}
 									
 									// Set the delivery notes reference to this invoice
 									int documentID = document.getIntValueByKey("id");
 									// If the document has no id, collect the imported 
 									// delivery notes in a list.
-									if (documentID >= 0)
+									if (documentID >= 0) {
 										deliveryNote.setIntValueByKey("invoiceid", documentID );
+										Data.INSTANCE.updateDataSet(deliveryNote);
+									}
 									else
 										importedDeliveryNotes.add(deliveryNote.getIntValueByKey("id"));
 
