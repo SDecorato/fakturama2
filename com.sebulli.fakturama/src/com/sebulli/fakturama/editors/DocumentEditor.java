@@ -88,6 +88,7 @@ import com.sebulli.fakturama.data.UniData;
 import com.sebulli.fakturama.data.UniDataSet;
 import com.sebulli.fakturama.data.UniDataType;
 import com.sebulli.fakturama.dialogs.SelectContactDialog;
+import com.sebulli.fakturama.dialogs.SelectDeliveryNoteDialog;
 import com.sebulli.fakturama.dialogs.SelectProductDialog;
 import com.sebulli.fakturama.dialogs.SelectTextDialog;
 import com.sebulli.fakturama.logger.Logger;
@@ -209,6 +210,12 @@ public class DocumentEditor extends Editor {
 	// use this variable to store the payment and due days
 	private int newPaymentID = -1;
 	private String newPaymentDescription = "";
+	
+	// Imported delivery notes. This list is used to
+	// set an reference to this document, if it's an invoice.
+	// The reference is not set during the import but later when the
+	// document is saved. Because the the  document has an id to reference to.
+	private List<Integer> importedDeliveryNotes = new ArrayList<Integer>();
 	
 	/**
 	 * Constructor
@@ -482,6 +489,13 @@ public class DocumentEditor extends Editor {
 			documentId = Data.INSTANCE.getDocuments().getNextFreeId();
 		}
 
+		// Update the references in the delivery notes
+		for (Integer importedDeliveryNote : importedDeliveryNotes) {
+			if (importedDeliveryNote >= 0)
+				Data.INSTANCE.getDocuments().getDatasetById(importedDeliveryNote).setIntValueByKey("invoiceid", documentId );
+		}
+		importedDeliveryNotes.clear();
+		
 		// Set all the items
 		ArrayList<DataSetItem> itemDatasets = items.getActiveDatasets();
 		String itemsString = "";
@@ -1199,7 +1213,7 @@ public class DocumentEditor extends Editor {
 		}
 
 		// Show a warning, if the customer uses a different setting for net or gross
-		if ((useGross != oldUseGross) && documentType.hasPrice()) {
+		if ((useGross != oldUseGross) && documentType.hasItemsPrice()) {
 			
 			if (address_changed) {
 				MessageBox messageBox = new MessageBox(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), SWT.ICON_WARNING | SWT.OK);
@@ -1669,7 +1683,7 @@ public class DocumentEditor extends Editor {
 
 		
 		// combo list to select between net or gross
-		comboNetGross = new Combo(documentType.hasPrice() ? nrDateNetGrossComposite : invisible, SWT.BORDER);
+		comboNetGross = new Combo(documentType.hasItemsPrice() ? nrDateNetGrossComposite : invisible, SWT.BORDER);
 		comboNetGross.setToolTipText(_("Specify whether the prices should be rounded to net or gross values"));
 		// empty, if nothing is selected
 		comboNetGross.add("---"); 
@@ -2064,7 +2078,7 @@ public class DocumentEditor extends Editor {
 		
 		
 		// Add the item table, if the document is one with items.
-		if (documentType.hasItems()) {
+		if (documentType.hasItems()) {	
 
 			// Container for the label and the add and delete button.
 			Composite addButtonComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
@@ -2133,6 +2147,101 @@ public class DocumentEditor extends Editor {
 				}
 			});
 
+			// Add the button to add all items from a delivery note
+			if (documentType.hasAddFromDeliveryNote()) {
+				// Item add button
+				Label addFromDeliveryNoteButton = new Label(addButtonComposite, SWT.NONE);
+				//T: Tool Tip Text
+				addFromDeliveryNoteButton.setToolTipText(_("Insert all items from a delivery note"));
+
+				try {
+					addFromDeliveryNoteButton.setImage((Activator.getImageDescriptor("/icons/20/delivery_note_list_20.png").createImage()));
+				}
+				catch (Exception e) {
+					Logger.logError(e, "Icon not found");
+				}
+				GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addFromDeliveryNoteButton);
+				addFromDeliveryNoteButton.addMouseListener(new MouseAdapter() {
+
+					// Open the product dialog and add the
+					// selected product as new item.
+					public void mouseDown(MouseEvent e) {
+
+						DataSetItem newItem = null;
+						
+						//T: Document Editor
+						//T: Title of the dialog to select a delivery note
+						SelectDeliveryNoteDialog dialog = new SelectDeliveryNoteDialog(_("Select a delivey note"), addressId);
+						if (dialog.open() == Dialog.OK) {
+							
+							// Get the array list of all selected elements
+							for (UniDataSet uds : dialog.getSelectedDataSets()) {
+								
+								// Get one product
+								DataSetDocument deliveryNote = (DataSetDocument)uds;
+								
+								if (deliveryNote != null) {
+									// Get all items by ID from the item string
+									String itemsString = deliveryNote.getStringValueByKey("items");
+									String[] itemsStringParts = itemsString.split(",");
+									
+									// Parse the item string ..
+									for (String itemsStringPart : itemsStringParts) {
+										int id;
+										if (itemsStringPart.length() > 0) {
+											try {
+												id = Integer.parseInt(itemsStringPart);
+											}
+											catch (NumberFormatException e1) {
+												Logger.logError(e1, "Error parsing item string");
+												id = 0;
+											}
+											
+											// And copy the item to a new one
+											DataSetItem item = Data.INSTANCE.getItems().getDatasetById(id);
+											
+											// the new item
+											newItem = new DataSetItem(item);
+
+											// Add the new item
+											items.getDatasets().add(newItem);
+											
+										}
+									}
+									
+									String dNName = deliveryNote.getStringValueByKey("name");
+									
+									// Put the number of the delivery note in a new line
+									if (!txtMessage.getText().isEmpty())
+										dNName = OSDependent.getNewLine() + dNName;
+									txtMessage.setText(txtMessage.getText() + dNName);
+									
+									// Set the delivery notes reference to this invoice
+									int documentID = document.getIntValueByKey("id");
+									// If the document has no id, collect the imported 
+									// delivery notes in a list.
+									if (documentID >= 0)
+										deliveryNote.setIntValueByKey("invoiceid", documentID );
+									else
+										importedDeliveryNotes.add(deliveryNote.getIntValueByKey("id"));
+
+								}
+
+							}
+
+							tableViewerItems.refresh();
+							if (newItem!= null)
+								tableViewerItems.reveal(newItem);
+							calculate();
+							checkDirty();
+
+							// Renumber all Items
+							RenumberItems();
+						}
+					}
+				});
+			}
+			
 			// Item add button
 			Label addButton = new Label(addButtonComposite, SWT.NONE);
 			//T: Tool Tip Text
@@ -2273,7 +2382,7 @@ public class DocumentEditor extends Editor {
 			//T: Used as heading of a table. Keep the word short.
 			itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.LEFT, _("Description"), cw_description, false, "description", new DocumentItemEditingSupport(
 					this, tableViewerItems, DocumentItemEditingSupport.Column.DESCRIPTION)));
-			if (documentType.hasPrice()) {
+			if (documentType.hasItemsPrice()) {
 				//T: Used as heading of a table. Keep the word short.
 				itemTableColumns.add( new UniDataSetTableColumn(tableColumnLayout, tableViewerItems, SWT.RIGHT, _("VAT"), cw_vat, true, "$ItemVatPercent", new DocumentItemEditingSupport(this,
 						tableViewerItems, DocumentItemEditingSupport.Column.VAT)));
@@ -2458,18 +2567,18 @@ public class DocumentEditor extends Editor {
 				GridDataFactory.fillDefaults().span(3, 1).grab(true, true).applyTo(messageFieldsComposite);
 
 
-			Composite totalComposite = new Composite(top, SWT.NONE);
-			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(totalComposite);
-			GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).grab(true, false).span(4, 5).applyTo(totalComposite);
-			// Total label
-			Label totalLabel = new Label(totalComposite, SWT.NONE);
-			//T: Document Editor - Total sum of this document 
-			totalLabel.setText(_("Total"));
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(totalLabel);
-
-			// Total value
-			totalValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
-			totalValue.setText("---");
+//			Composite totalComposite = new Composite(top, SWT.NONE);
+//			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(totalComposite);
+//			GridDataFactory.fillDefaults().align(SWT.END, SWT.TOP).grab(true, false).span(4, 5).applyTo(totalComposite);
+//			// Total label
+//			Label totalLabel = new Label(totalComposite, SWT.NONE);
+//			//T: Document Editor - Total sum of this document 
+//			totalLabel.setText(_("Total"));
+//			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(totalLabel);
+//
+//			// Total value
+//			totalValue = new Label(totalComposite, SWT.NONE | SWT.RIGHT);
+//			totalValue.setText("---");
 
 			// Get the documents'shipping values.
 			shipping = document.getDoubleValueByKey("shipping");
@@ -2477,7 +2586,7 @@ public class DocumentEditor extends Editor {
 			shippingAutoVat = document.getIntValueByKey("shippingautovat");
 			shippingVatDescription = document.getStringValueByKey("shippingvatdescription");
 
-			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(totalValue);
+//			GridDataFactory.swtDefaults().hint(70, SWT.DEFAULT).align(SWT.END, SWT.TOP).applyTo(totalValue);
 //			calculate(Data.INSTANCE.getDocuments().getDatasetById(invoiceId));
 			calculate(true);
 		

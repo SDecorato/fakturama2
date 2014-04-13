@@ -253,7 +253,25 @@ public class DataSetDocument extends UniDataSet {
 		//T: Mark an unpaid document with this text.
 		return _("unpaid");
 	};
-
+	
+	/**
+	 * Get the state whether the delivery note has an invoice or not as localized string
+	 * 
+	 * @return String for "has invoice"
+	 */
+	public static String getStringHASINVOICE() {
+		//T: Mark an delivery note with this text.
+		return _("has invoice");
+	};
+	/**
+	 * Get the state whether the delivery note has an invoice or not as localized string
+	 * 
+	 * @return String for "has invoice"
+	 */
+	public static String getStringHASNOINVOICE() {
+		//T: Mark an delivery note with this text.
+		return _("has no invoice");
+	};
 	/**
 	 * Get the shipping state as localized string
 	 * 
@@ -283,7 +301,7 @@ public class DataSetDocument extends UniDataSet {
 		try {
 			String category = DocumentType.getPluralString(hashMap.get("category").getValueAsInteger());
 			DocumentType documentType = DocumentType.getType(hashMap.get("category").getValueAsInteger());
-
+			
 			// use the document type to generate the category string ..
 			switch (documentType) {
 			case INVOICE:
@@ -294,6 +312,13 @@ public class DataSetDocument extends UniDataSet {
 					category += "/" + DataSetDocument.getStringPAID();
 				else
 					category += "/" + DataSetDocument.getStringNOTPAID();
+				break;
+			case DELIVERY:
+				// .. the state of the delivery document ..
+				if (this.hashMap.get("invoiceid").getValueAsInteger() >=0 )
+					category += "/" + DataSetDocument.getStringHASINVOICE();
+				else
+					category += "/" + DataSetDocument.getStringHASNOINVOICE();
 				break;
 			case ORDER:
 				// .. and the state of the shipping
@@ -352,9 +377,12 @@ public class DataSetDocument extends UniDataSet {
 			list.add(DocumentType.INVOICE.getPluralString() + "/" + getStringPAID());
 		}
 
-		if (usedDocuments[DocumentType.DELIVERY.getInt()])
-			list.add(DocumentType.DELIVERY.getPluralString());
-
+		if (usedDocuments[DocumentType.DELIVERY.getInt()]) {
+			// add state whether delivery not has a reference to an invoice or not
+			list.add(DocumentType.DELIVERY.getPluralString()+ "/" + getStringHASINVOICE());
+			list.add(DocumentType.DELIVERY.getPluralString()+ "/" + getStringHASNOINVOICE());
+		}
+		
 		if (usedDocuments[DocumentType.CREDIT.getInt()]) {
 			// add payment state
 			list.add(DocumentType.CREDIT.getPluralString() + "/" + getStringNOTPAID());

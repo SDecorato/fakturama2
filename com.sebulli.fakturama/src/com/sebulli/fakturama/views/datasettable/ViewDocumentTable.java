@@ -30,6 +30,7 @@ import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.MarkDocumentAsPaidAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
 import com.sebulli.fakturama.actions.NewDocumentAction;
+import com.sebulli.fakturama.actions.RemoveInvoiceReferenceAction;
 import com.sebulli.fakturama.data.Data;
 import com.sebulli.fakturama.data.DataSetDocument;
 import com.sebulli.fakturama.misc.DocumentType;
@@ -128,8 +129,11 @@ public class ViewDocumentTable extends ViewDataSetTable {
 			menuManager.add(new MarkOrderAsAction(MarkOrderAsAction.PROCESSING));
 			menuManager.add(new MarkOrderAsAction(MarkOrderAsAction.SHIPPED));
 		}
+		else if (documentType.equals(DocumentType.DELIVERY)) {
+			menuManager.add(new RemoveInvoiceReferenceAction());
+		}
 		// Add the entries to mark a document as paid
-		else if (documentType.hasPaid()) {
+		if (documentType.hasPaid()) {
 			menuManager.add(new MarkDocumentAsPaidAction(false));
 			menuManager.add(new MarkDocumentAsPaidAction(true));
 		}
@@ -145,6 +149,7 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		menuManager.add(new NewDocumentAction(DocumentType.DELIVERY));
 		menuManager.add(new NewDocumentAction(DocumentType.CREDIT));
 		menuManager.add(new NewDocumentAction(DocumentType.DUNNING));
+		menuManager.add(new NewDocumentAction(DocumentType.PROFORMA));
 
 		menuManager.add(new Separator());
 

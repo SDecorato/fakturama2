@@ -76,5 +76,7 @@ public interface ICommandIds {
 	
 	public static final String CMD_REOGANIZE_DOCUMENTS = "com.sebulli.fakturama.actions.reorganizeDocuments";
 	
+	public static final String CMD_REMOVE_INVOICE_REF = "com.sebulli.fakturama.actions.removeInvoiceRef";
+	
 	
 }
