@@ -81,6 +81,8 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", _("Use discount for all items"), getFieldEditorParent()));
 		//T: Preference page "Document" 
+		addField(new BooleanFieldEditor("DELIVERY_NOTE_ITEMS_WITH_PRICE", _("Delivery note has items with prices"), getFieldEditorParent()));
+		//T: Preference page "Document" 
 		addField(new BooleanFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", _("Show a customer statistics dialog"), getFieldEditorParent()));
 		//T: Preference page "Document" - How to compare the address to generate the customer statistics
 		addField(new RadioGroupFieldEditor("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", _("Compare:"), 2, new String[][] { 
@@ -122,9 +124,11 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_PREVIEW_PICTURE", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_DISCOUNT_EACH_ITEM", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DELIVERY_NOTE_ITEMS_WITH_PRICE", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_MESSAGES", write);
+		
 		}
 
 	/**
@@ -141,6 +145,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		node.putBoolean("DOCUMENT_USE_PREVIEW_PICTURE", true);
 		node.putBoolean("DOCUMENT_USE_DISCOUNT_EACH_ITEM", true);
 		node.putBoolean("DOCUMENT_USE_DISCOUNT_ALL_ITEMS", true);
+		node.putBoolean("DELIVERY_NOTE_ITEMS_WITH_PRICE", false);
 		node.putBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", true);
 		node.put("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", "1");
 		node.put("DOCUMENT_MESSAGES", "1");

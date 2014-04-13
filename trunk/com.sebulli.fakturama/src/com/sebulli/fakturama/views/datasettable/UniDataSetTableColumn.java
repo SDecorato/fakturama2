@@ -306,6 +306,11 @@ public class UniDataSetTableColumn {
 							cell.setImage(ERROR);
 						}
 						break;
+					case DELIVERY:
+						if (uds.getIntValueByKey("invoiceid") >=0) {
+							cell.setImage(INVOICE);
+						}
+						break;
 					case DUNNING:
 						if (uds.getBooleanValueByKey("paid")) {
 							cell.setImage(CHECKED);

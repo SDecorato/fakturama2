@@ -416,6 +416,11 @@
             id="com.sebulli.fakturama.actions.markDocumentAsPaid"
             name="Mark Document As Paid">
       </command>
+            <command
+            description="Remove Invoice Reference"
+            id="com.sebulli.fakturama.actions.removeInvoiceRef"
+            name="Remove Invoice Reference">
+      </command>
       <command
             description="Save"
             id="com.sebulli.fakturama.actions.save"

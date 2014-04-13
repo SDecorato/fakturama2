@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
+import com.sebulli.fakturama.Activator;
+
 /**
  * Enumeration of all 8 data types, a document can be.
  * 
@@ -457,6 +459,18 @@ public enum DocumentType {
 	}
 
 	/**
+	 * Defines all Document Types that contains a price for items
+	 * 
+	 * @return True for all types with a price for items
+	 */
+	public boolean hasItemsPrice() {
+		if (this == DELIVERY)
+			return  Activator.getDefault().getPreferenceStore().getBoolean("DELIVERY_NOTE_ITEMS_WITH_PRICE");
+		else 
+			return this.hasPrice();
+	}
+	
+	/**
 	 * Defines all Document Types that can be marked as paid
 	 * 
 	 * @return True for all types with a price
@@ -516,6 +530,36 @@ public enum DocumentType {
 		return false;
 	}
 
+	/**
+	 * Defines all Document Types that can add items from a delivery note.
+	 * 
+	 * @return True for all types that can add items from a delivery note.
+	 */
+	public boolean hasAddFromDeliveryNote() {
+		switch (this) {
+		case LETTER:
+			return false;
+		case OFFER:
+			return false;
+		case ORDER:
+			return false;
+		case CONFIRMATION:
+			return false;
+		case INVOICE:
+			return true;
+		case DELIVERY:
+			return false;
+		case CREDIT:
+			return false;
+		case DUNNING:
+			return false;
+		case PROFORMA:
+			return true;
+
+		}
+		return false;
+	}
+	
 	/**
 	 * Defines the sign of a document
 	 * 

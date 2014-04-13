@@ -600,6 +600,15 @@ public class DataSetArray<T> {
 		return undeletedDatasets;
 	}
 
+	public ArrayList<T> getAllDatasets() {
+		ArrayList<T> undeletedDatasets = new ArrayList<T>();
+		for (T dataset : datasets) {
+			UniDataSet uds = (UniDataSet) dataset;
+			undeletedDatasets.add(dataset);
+		}
+		return undeletedDatasets;
+	}
+	
 	/**
 	 * Get all active (undeleted) data sets with a specified category
 	 * 
@@ -610,8 +619,10 @@ public class DataSetArray<T> {
 	 */
 	public ArrayList<T> getActiveDatasetsByCategory(String category) {
 		ArrayList<T> filteredDatasets = new ArrayList<T>();
+		String c;
 		for (T dataset : datasets) {
 			UniDataSet uds = (UniDataSet) dataset;
+			c = uds.getStringValueByKey("category");
 			if (!uds.getBooleanValueByKey("deleted") && uds.getStringValueByKey("category").equalsIgnoreCase(category)) {
 				filteredDatasets.add(dataset);
 			}
