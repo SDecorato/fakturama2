@@ -27,7 +27,9 @@ import com.sebulli.fakturama.Activator;
  * 
  */
 public class Logger {
-
+	static int cntErrors = 0;
+	static final int MAXERRORS = 100;
+	
 	/**
 	 * Log an exception as an error
 	 * 
@@ -38,6 +40,11 @@ public class Logger {
 	 */
 	static public void logError(Exception e, String message) {
 
+		// Limit output
+		if (cntErrors > MAXERRORS)
+			return;
+		cntErrors++;
+		
 		// Print the stack trace
 		Thread.dumpStack();
 
@@ -53,6 +60,12 @@ public class Logger {
 	 *            The message that will be logged
 	 */
 	static public void logError(String message) {
+		
+		// Limit output
+		if (cntErrors > MAXERRORS)
+			return;
+		cntErrors++;
+		
 		// Print the stack trace
 		Thread.dumpStack();
 
@@ -68,6 +81,12 @@ public class Logger {
 	 *            The message that will be logged
 	 */
 	static public void logInfo(String message) {
+		
+		// Limit output
+		if (cntErrors > MAXERRORS)
+			return;
+		cntErrors++;
+		
 		ILog logger = Activator.getDefault().getLog();
 		IStatus status = new Status(IStatus.INFO, Activator.PLUGIN_ID, message);
 		logger.log(status);
