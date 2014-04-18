@@ -14,7 +14,9 @@
 
 package com.sebulli.fakturama.database_check;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Model to store the database table headers and table content
@@ -26,15 +28,20 @@ public class Database {
 
 	// Table headers
 	public HashMap<String, TableHeader> tableHeaders;
+	
 	// Content of the tables
 	public HashMap<String, Datatable> tableDataset;
-
+	// Sorted Keys
+	public List<String> dataTableKeys;
+	
 	/**
 	 * Constructor Create an empty hash map with table headers and tables
 	 */
 	public Database() {
 		tableHeaders = new HashMap<String, TableHeader>();
 		tableDataset = new HashMap<String, Datatable>();
+		dataTableKeys = new ArrayList<String>();
+		
 	}
 
 	/**
@@ -56,9 +63,12 @@ public class Database {
 	public void addDataset(Dataset dataset) {
 		String tableName = dataset.getTableName();
 		
-		if (!tableDataset.containsKey(tableName))
+		if (!tableDataset.containsKey(tableName)) {
 			tableDataset.put(tableName,
 					new Datatable(tableName));
+			// Add the table name also to the sorted list
+			dataTableKeys.add(tableName);
+		}
 		tableDataset.get(tableName).getDatatable().add(dataset);
 	}
 
@@ -68,7 +78,7 @@ public class Database {
 	 * @param columnname
 	 * @return The index or -1 of column was not found
 	 */
-	private int getColumnIndexByName (String tablename, String columnname) {
+	public int getColumnIndexByName (String tablename, String columnname) {
 		int columnNr = -1;
 
 		// Scan all columns of the table header for this column with the
@@ -86,6 +96,7 @@ public class Database {
 		
 		return columnNr;
 	}
+	
 	/**
 	 * Get a table cell as String by data set and columnname
 	 * 
@@ -96,7 +107,7 @@ public class Database {
 	 * 
 	 * @return The cell content as String
 	 */
-	public String getData(Dataset dataset, String columnname) {
+	public String getDataRaw(Dataset dataset, String columnname) {
 
 		int columnNr = getColumnIndexByName(dataset.getTableName(), columnname);
 		
@@ -112,6 +123,25 @@ public class Database {
 		}
 
 		return "";
+	}
+	
+	/**
+	 * Get a table cell as String by data set and columnname
+	 * Convert it to UTF-8
+	 * @param dataset
+	 *            The data set
+	 * @param columnname
+	 *            The name of the column
+	 * 
+	 * @return The cell content as String
+	 */
+	public String getData(Dataset dataset, String columnname) {
+
+		String data = getDataRaw(dataset, columnname);
+
+		// Convert it to UTF-8
+		data = UnicodeEscape2UTF8.convertUnicodeEscape(data);
+		return data;
 	}
 
 	/**
@@ -156,7 +186,7 @@ public class Database {
 	 * 
 	 * @return The cell content as string
 	 */
-	public String getData(String tablename, int datasetid, String columnname,
+	public String getDataRaw(String tablename, int datasetid, String columnname,
 			boolean ignoreMinus1) {
 		
 		// Get the table
@@ -195,4 +225,27 @@ public class Database {
 
 		return "";
 	}
+	
+	/**
+	 * Get the content of a table cell as string by table name, data set id and column name
+	 * Convert it also to UTF8
+	 * 
+	 * @param tablename The name of the table with the data
+	 * @param datasetid ID of the data set 
+	 * @param columnname Name of the columns
+	 * @param ignoreMinus1 true, if a reference to -1 should be ignored
+	 * 
+	 * @return The cell content as string
+	 */
+	public String getData(String tablename, int datasetid, String columnname,
+			boolean ignoreMinus1) {
+		
+		String data = getDataRaw(tablename, datasetid, columnname, ignoreMinus1);
+
+		// Convert it to UTF-8
+		data = UnicodeEscape2UTF8.convertUnicodeEscape(data);
+		return data;
+	}
+	
+
 }

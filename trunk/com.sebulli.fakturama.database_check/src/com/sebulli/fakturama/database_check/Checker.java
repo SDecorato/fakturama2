@@ -65,6 +65,9 @@ public class Checker {
 				for (int column=0; column < dataset.getData().size(); column++) {
 					String data = dataset.getData().get(column);
 					
+					// Convert it to UTF-8
+					data = UnicodeEscape2UTF8.convertUnicodeEscape(data);
+					
 					// Is this a valid column ?
 					if (database.tableHeaders.containsKey(key)) {
 						if (column < database.tableHeaders.get(key).columns.size()) {
@@ -160,7 +163,7 @@ public class Checker {
 				// set the line number
 				Logger.getInstance().setLineNr(dataset.getLineNr());
 				
-				// Check, whether the id of the datasat is the same
+				// Check, whether the id of the dataset is the same
 				// as it's index
 				// Column 0 is the columns with the ID
 				int id = Integer.parseInt(dataset.getData().get(0));
