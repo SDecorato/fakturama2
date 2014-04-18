@@ -219,7 +219,7 @@ public class Checker {
 					
 					// Check whether the referencing dataset is marked as "deleted"
 					data = database.getData(dataset, columnname);
-					mainDeleted = data.equals("TRUE");
+					mainDeleted = database.getData(dataset, "DELETED").equals("TRUE");
 					
 					// Get the ID as integer
 					int id = Integer.parseInt(id_s);

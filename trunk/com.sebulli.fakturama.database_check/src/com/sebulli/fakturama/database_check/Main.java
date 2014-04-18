@@ -26,14 +26,14 @@ public class Main {
 		String filename = "";
 		
 		// Show also warnings
-		boolean showWarnings = false;
+		boolean showWarnings = true;
 		
 		// analyse all program arguments
 		for (String arg: args) {
 			
-			// Show also warnings with -w
-			if (arg.equals("-w"))
-				showWarnings = true;
+//			// Show also warnings with -w
+//			if (arg.equals("-w"))
+//				showWarnings = true;
 			
 			// Set input file with "-i Filename"
 			if (arg.startsWith("-i")) {
@@ -42,7 +42,7 @@ public class Main {
 		}
 		
 		// Output program version
-		Logger.getInstance().logText("Database checker version 1.0.2");
+		Logger.getInstance().logText("Database checker version 1.0.3");
 		Logger.getInstance().logText("2014 - Gerd Bartelt - www.sebulli.com");
 		
 		// Configure logger
