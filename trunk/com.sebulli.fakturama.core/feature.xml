@@ -2,15 +2,15 @@
 <feature
       id="com.sebulli.fakturama.core"
       label="Fakturama Core Feature"
-      version="1.6.4"
+      version="1.6.5"
       provider-name="sebulli.com">
 
-   <description url="http://fakturama.sebulli.com">
+   <description url="http://www.fakturama.org/">
       Fakturama - Free Invoicing Software
    </description>
 
-   <copyright url="http://fakturama.sebulli.com/">
-      Copyright (C) 2012 Gerd Bartelt
+   <copyright url="http://www.fakturama.org/">
+      Copyright (C) 2014 Gerd Bartelt, Ralf Heydenreich
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
@@ -104,8 +104,8 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <url>
-      <update label="Fakturama Update Site 1.6+" url="http://fakturama.sebulli.com/update1_6/"/>
-      <discovery label="Fakturama Project Web Site" url="http://fakturama.sebulli.com"/>
+      <update label="Fakturama Update Site 1.6+" url="http://www.fakturama.org/update1_6/"/>
+      <discovery label="Fakturama Project Web Site" url="http://www.fakturama.org/"/>
    </url>
 
    <includes
