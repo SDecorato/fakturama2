@@ -30,15 +30,19 @@ public class Importer {
 	Database database;
 	// The line number in the Database.script file
 	int lineNr = 0;
-	
+	// Filename to import
+	String fileName = "Database.script";
+
 	/**
 	 * Constructor
 	 * Set a reference to the database
 	 * 
 	 * @param database A reference to the database
 	 */
-	public Importer(Database database) {
+	public Importer(Database database, String fileName) {
 		this.database = database;
+		if (!fileName.isEmpty())
+			this.fileName = fileName;
 	}
 	
 	/**
@@ -165,10 +169,8 @@ public class Importer {
 	public boolean run () {
 		lineNr = 0;
 		
-		String file = "Database.script";
-		
 		// Read the Database.script line by line
-		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			Logger.getInstance().logText("Reading database ...");
 		    for(String line; (line = br.readLine()) != null; ) {
 
@@ -187,7 +189,7 @@ public class Importer {
 		    	}
 		    }
 		} catch (FileNotFoundException e) {
-			Logger.getInstance().logText("File not found: \"" + file + "\"");
+			Logger.getInstance().logText("File not found: \"" + fileName + "\"");
 			return false;
 		} catch (IOException e) {
 			Logger.getInstance().logText("IO Exception");

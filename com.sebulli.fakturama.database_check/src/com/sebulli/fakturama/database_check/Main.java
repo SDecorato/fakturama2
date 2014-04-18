@@ -23,6 +23,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
+		String filename = "";
+		
 		// Show also warnings
 		boolean showWarnings = false;
 		
@@ -32,10 +34,15 @@ public class Main {
 			// Show also warnings with -w
 			if (arg.equals("-w"))
 				showWarnings = true;
+			
+			// Set input file with "-i Filename"
+			if (arg.startsWith("-i")) {
+				filename = arg.substring(2);
+			}
 		}
 		
 		// Output program version
-		Logger.getInstance().logText("Database checker version 1.0.1");
+		Logger.getInstance().logText("Database checker version 1.0.2");
 		Logger.getInstance().logText("2014 - Gerd Bartelt - www.sebulli.com");
 		
 		// Configure logger
@@ -43,7 +50,7 @@ public class Main {
 		
 		// Import the database
 		Database database = new Database();
-		Importer importer = new Importer(database);
+		Importer importer = new Importer(database, filename);
 		
 		// Check the database for errors
 		Checker checker = new Checker(database);
