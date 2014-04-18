@@ -14,6 +14,9 @@
 
 package com.sebulli.fakturama.database_check;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class Main {
 
 	/**
@@ -23,41 +26,67 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		String filename = "";
+		String inputFilename = "";
+		String outputFilename = "";
 		
 		// Show also warnings
 		boolean showWarnings = true;
 		
-		// analyse all program arguments
+		// Output of the scrambled data
+		PrintWriter outputWriter = null;
+		
+		// analyze all program arguments
 		for (String arg: args) {
 			
 //			// Show also warnings with -w
 //			if (arg.equals("-w"))
 //				showWarnings = true;
 			
-			// Set input file with "-i Filename"
+			// Set output file with "-oFilename"
+			if (arg.startsWith("-o")) {
+				outputFilename = arg.substring(2);
+			}
+			
+			// Set input file with "-iFilename"
 			if (arg.startsWith("-i")) {
-				filename = arg.substring(2);
+				inputFilename = arg.substring(2);
 			}
 		}
 		
 		// Output program version
-		Logger.getInstance().logText("Database checker version 1.0.3");
+		Logger.getInstance().logText("Database checker version 1.1.0");
 		Logger.getInstance().logText("2014 - Gerd Bartelt - www.sebulli.com");
 		
 		// Configure logger
 		Logger.getInstance().config(showWarnings);
 		
+		// Create the writer for the scrambled output file
+		if (!outputFilename.isEmpty()) {
+			try {
+				outputWriter = new PrintWriter(outputFilename);
+			} catch (FileNotFoundException e) {
+			}
+		}
+		
 		// Import the database
 		Database database = new Database();
-		Importer importer = new Importer(database, filename);
+		Importer importer = new Importer(database, inputFilename, outputWriter);
 		
-		// Check the database for errors
+		// Scramble and check the database for errors
 		Checker checker = new Checker(database);
 		if (importer.run()) {
+			
+			// Scramble the database
+			Scrambler scrambler = new Scrambler(database, outputWriter);
+			scrambler.run();
+			// Finally close the output file
+			if (outputWriter != null)
+				outputWriter.close();
+			
 			checker.checkAll();
-			Logger.getInstance().logFinal();
 		}
+		
+		Logger.getInstance().logFinal();
 	}
 
 }

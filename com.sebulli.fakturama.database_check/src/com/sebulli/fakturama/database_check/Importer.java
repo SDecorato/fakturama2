@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * Reads the Database.script and import the data into the Database object
@@ -32,6 +33,9 @@ public class Importer {
 	int lineNr = 0;
 	// Filename to import
 	String fileName = "Database.script";
+	
+	// Output of the scrambled data
+	PrintWriter outputWriter = null;
 
 	/**
 	 * Constructor
@@ -39,10 +43,12 @@ public class Importer {
 	 * 
 	 * @param database A reference to the database
 	 */
-	public Importer(Database database, String fileName) {
+	public Importer(Database database, String fileName, PrintWriter outputWriter ) {
 		this.database = database;
 		if (!fileName.isEmpty())
 			this.fileName = fileName;
+		
+		this.outputWriter = outputWriter;
 	}
 	
 	/**
@@ -146,8 +152,6 @@ public class Importer {
 					
 					// remove the terminating ","
 					data = data.substring(0, data.length()-1);
-					// Convert it to UTF-8
-					data = UnicodeEscape2UTF8.convertUnicodeEscape(data);
 					// Add the cell to the dataset
 					dataset.addString(data);
 					data = "";
@@ -186,6 +190,10 @@ public class Importer {
 		    	// Import the data
 		    	if (line.startsWith("INSERT INTO ")) {
 		    		importData(line.substring(12));
+		    	}
+		    	// Write the other line of the data base to the scrambled output file
+		    	else if (outputWriter != null) {
+		    		outputWriter.println(line);
 		    	}
 		    }
 		} catch (FileNotFoundException e) {
