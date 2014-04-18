@@ -1071,6 +1071,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				contact.setStringValueByKey("zip", zip);
 				contact.setStringValueByKey("city", city);
 				contact.setStringValueByKey("country", country);
+				contact.setStringValueByKey("suppliernumber", suppliernumber);
+
 				contact.setIntValueByKey("delivery_gender", deliveryGenderInt);
 				contact.setStringValueByKey("delivery_firstname", delivery_firstname);
 				contact.setStringValueByKey("delivery_name", delivery_lastname);
