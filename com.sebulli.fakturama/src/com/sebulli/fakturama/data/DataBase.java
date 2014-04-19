@@ -748,7 +748,7 @@ public class DataBase {
 			catch (SQLException e) {
 				// In a new data base: create all the tables
 				try {
-					stmt.executeUpdate("CREATE TABLE Properties(Id INT IDENTITY PRIMARY KEY, Name VARCHAR (256), Value VARCHAR (60000) )");
+					stmt.executeUpdate("CREATE TABLE Properties(Id INT IDENTITY PRIMARY KEY, Name VARCHAR (256), Value VARCHAR (32768) )");
 					stmt.executeUpdate("INSERT INTO Properties VALUES(0,'version','" + DBVersion + "')");
 					stmt.executeUpdate("INSERT INTO Properties VALUES(1,'bundleversion','" + bundleVersion + "')");
 					stmt.executeUpdate("CREATE TABLE " + getCreateSqlTableString(new DataSetProduct()));
