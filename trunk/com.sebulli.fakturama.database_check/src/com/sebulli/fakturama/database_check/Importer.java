@@ -173,6 +173,8 @@ public class Importer {
 	public boolean run () {
 		lineNr = 0;
 		
+		boolean publicSchema = false;
+		
 		// Read the Database.script line by line
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			Logger.getInstance().logText("Reading database ...");
@@ -184,6 +186,13 @@ public class Importer {
 		    	// Collect all lines
 		    	Logger.getInstance().lines.add(line);
 		    	
+		    	// switch between public schema
+		    	if (line.startsWith("SET SCHEMA ")) {
+		    		publicSchema = false;
+		    	}
+		    	if (line.startsWith("SET SCHEMA PUBLIC")) {
+		    		publicSchema = true;
+		    	}
 		    	
 		    	// Import the table header
 		    	if (line.startsWith("CREATE MEMORY TABLE PUBLIC.")) {
@@ -191,7 +200,7 @@ public class Importer {
 		    	}
 		    	
 		    	// Import the data
-		    	if (line.startsWith("INSERT INTO ")) {
+		    	if (publicSchema && line.startsWith("INSERT INTO ")) {
 		    		importData(line.substring(12));
 		    	}
 		    	// Write the other line of the data base to the scrambled output file

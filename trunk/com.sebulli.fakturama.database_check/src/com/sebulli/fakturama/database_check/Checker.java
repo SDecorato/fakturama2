@@ -61,13 +61,19 @@ public class Checker {
 				// take the line number
 				Logger.getInstance().setLineNr(dataset.getLineNr());
 				
-				// Check count of columns
-				if (database.tableHeaders.get(key).columns.size() != dataset.getData().size()) {
-					
-					// Wrong number of columns
-					String name = database.getData(dataset, "NAME");
-					Logger.getInstance().logError("Dataset " + key + "(" + name + ") has " + dataset.getData().size() 
-							+ " columns, expected: " + database.tableHeaders.get(key).columns.size());
+				// Check, if table header exists
+				if (database.tableHeaders.containsKey(key)) {
+					// Check count of columns
+					if (database.tableHeaders.get(key).columns.size() != dataset.getData().size()) {
+						
+						// Wrong number of columns
+						String name = database.getData(dataset, "NAME");
+						Logger.getInstance().logError("Dataset " + key + "(" + name + ") has " + dataset.getData().size() 
+								+ " columns, expected: " + database.tableHeaders.get(key).columns.size());
+					}
+				} else {
+					Logger.getInstance().logError("There is no table defined:" + key);
+
 				}
 				
 				// Scan all columns of the dataset
@@ -140,8 +146,6 @@ public class Checker {
 							}
 						}
 						
-					} else {
-						Logger.getInstance().logError("There is no table defined:" + key);
 					}
 				}
 			}
@@ -202,6 +206,10 @@ public class Checker {
 		boolean otherDeleted = false;
 		
 		// Get the main table and the datasets
+		if (!database.tableDataset.containsKey(mainTable)) {
+			return;
+		}
+		
 		Datatable table = database.tableDataset.get(mainTable);
 		List<Dataset> datasets = table.getDatatable();
 		
