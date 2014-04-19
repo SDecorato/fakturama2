@@ -41,7 +41,7 @@ public class OpenBrowserEditorAction extends Action {
 	public final static String ACTIONTEXT = _("Web Browser"); 
 
 	// URL of the Fakturama project site
-	public final static String FAKTURAMA_PROJECT_URL = "http://fakturama.sebulli.com/app.php";
+	public final static String FAKTURAMA_PROJECT_URL = "http://www.fakturama.org/";
 	
 	// Open the Fakturama forum
 	private boolean useFakturamaProjectURL;
@@ -50,12 +50,12 @@ public class OpenBrowserEditorAction extends Action {
 	 * Constructor
 	 */
 	public OpenBrowserEditorAction(boolean useFakturamaProjectURL) {
-		super("fakturama.sebulli.com");
+		super("www.fakturama.org");
 
 		this.useFakturamaProjectURL = useFakturamaProjectURL;
 		
 		//T: Tool Tip Text
-		setToolTipText(_("Open the project web site fakturama.sebulli.com") );
+		setToolTipText(_("Open the project web site www.fakturama.org") );
 
 		// The id is used to refer to the action in a menu or toolbar
 		setId(ICommandIds.CMD_OPEN_BROWSER_EDITOR);
@@ -87,7 +87,7 @@ public class OpenBrowserEditorAction extends Action {
 			url = Activator.getDefault().getPreferenceStore().getString("GENERAL_WEBBROWSER_URL");
 
 			// In case of an empty URL: use the start page
-			if (url.isEmpty() || url.equals("http://fakturama.sebulli.com/app.php"))
+			if (url.isEmpty() || url.equals("http://www.fakturama.org/"))
 				url = "file://" +
 					Workspace.INSTANCE.getWorkspace() + "/" +
 					Workspace.INSTANCE.getTemplateFolderName() +  
