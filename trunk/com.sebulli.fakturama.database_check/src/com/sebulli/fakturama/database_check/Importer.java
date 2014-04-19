@@ -177,10 +177,13 @@ public class Importer {
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			Logger.getInstance().logText("Reading database ...");
 		    for(String line; (line = br.readLine()) != null; ) {
-
+		    	
 		    	// Get the line number
 		    	lineNr ++;
 		    	Logger.getInstance().setLineNr(lineNr);
+		    	// Collect all lines
+		    	Logger.getInstance().lines.add(line);
+		    	
 		    	
 		    	// Import the table header
 		    	if (line.startsWith("CREATE MEMORY TABLE PUBLIC.")) {

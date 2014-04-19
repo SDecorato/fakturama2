@@ -15,6 +15,8 @@ package com.sebulli.fakturama.database_check;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Log error or warnings to the console and to a log file
@@ -35,7 +37,10 @@ public class Logger {
 	private boolean showWarnings = false;
 	
 	// The log file
-	PrintWriter out;
+	private PrintWriter out;
+	
+	// All lines
+	public List<String> lines;
 	
 	/**
 	 * Constructor
@@ -47,6 +52,8 @@ public class Logger {
 			out = new PrintWriter("database_check.txt");
 		} catch (FileNotFoundException e) {
 		}
+		
+		lines = new ArrayList<String>();
 	}
 	
 	/**
@@ -85,8 +92,9 @@ public class Logger {
 	 * @param line
 	 */
 	private void logErrorLine (String line) {
-		System.err.println(line);
+		System.out.println(line);
 		out.println(line);
+		
 	}
 	
 	/**
@@ -104,6 +112,9 @@ public class Logger {
 	 */
 	public void logError (String error) {
 		logErrorLine("ERROR in " + lineNr +": " + error);
+		int lineIndex = lineNr-1;
+		if (lineIndex>=0 && lineIndex<lines.size() )
+			logLine("Line:" + lines.get(lineIndex));
 		errors ++;
 	}
 	
@@ -113,8 +124,13 @@ public class Logger {
 	 * @param warning Text
 	 */
 	public void logWarning (String warning) {
-		if (showWarnings)
+		if (showWarnings) {
 			logLine("WARNING in " + lineNr +": " + warning);
+			int lineIndex = lineNr-1;
+			if (lineIndex>=0 && lineIndex<lines.size() )
+				logLine("Line:" + lines.get(lineIndex));
+		}
+		
 	}
 	
 	/**
