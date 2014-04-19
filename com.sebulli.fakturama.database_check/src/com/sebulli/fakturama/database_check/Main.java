@@ -54,8 +54,8 @@ public class Main {
 		}
 		
 		// Output program version
-		Logger.getInstance().logText("Database checker version 1.1.0");
-		Logger.getInstance().logText("2014 - Gerd Bartelt - www.sebulli.com");
+		Logger.getInstance().logText("Database checker version 1.1.1 - 2014-04-19");
+		Logger.getInstance().logText("Gerd Bartelt - www.sebulli.com");
 		
 		// Configure logger
 		Logger.getInstance().config(showWarnings);

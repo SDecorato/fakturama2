@@ -42,6 +42,9 @@ public class TableColumn {
 		case "DOUBLE": this.type = Columntype.DOUBLE; break;
 		case "VARCHAR(256)": this.type = Columntype.VARCHAR_256; break;
 		case "VARCHAR(32768)": this.type = Columntype.VARCHAR_32768; break;
+		case "VARCHAR(60000)": this.type = Columntype.VARCHAR_60000; 
+		Logger.getInstance().logWarning("Old data type VARCHAR(60000) is used");
+		break;
 		default: 
 			this.type = Columntype.NONE;
 			Logger.getInstance().logError("Wrong columntype. Name:" + name +" type: " + type );

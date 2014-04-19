@@ -23,5 +23,5 @@ public enum Columntype {
 		/**
 		 * All types used by the data base
 		 */
-		NONE, INTEGER, BOOLEAN, DOUBLE, VARCHAR_256, VARCHAR_32768;
+		NONE, INTEGER, BOOLEAN, DOUBLE, VARCHAR_256, VARCHAR_32768, VARCHAR_60000;
 }
