@@ -115,6 +115,7 @@ public class Checker {
 								break;
 
 								case VARCHAR_32768:
+								case VARCHAR_60000:
 									if (!data.startsWith("'"))
 										Logger.getInstance().logError("STRING value must start with a ':" + data + " Column name:" + tablecolumn.getName());
 									else if (!data.endsWith("'"))

@@ -114,7 +114,8 @@ public class Scrambler {
 				String data = dataset.getData().get(columnNr);
 				
 				// Replace it with default data
-				if ((type == Columntype.VARCHAR_256 || type == Columntype.VARCHAR_32768)
+				if ((type == Columntype.VARCHAR_256 || type == Columntype.VARCHAR_32768
+						|| type == Columntype.VARCHAR_60000)
 						&& data.startsWith("'") && data.endsWith("'")) {
 					data = "'XXX'";
 				} else if (type == Columntype.BOOLEAN){
