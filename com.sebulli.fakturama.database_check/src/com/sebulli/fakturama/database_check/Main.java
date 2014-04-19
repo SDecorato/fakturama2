@@ -32,6 +32,9 @@ public class Main {
 		// Show also warnings
 		boolean showWarnings = true;
 		
+		// scramble data
+		boolean crambleData = false;
+		
 		// Output of the scrambled data
 		PrintWriter outputWriter = null;
 		
@@ -41,6 +44,10 @@ public class Main {
 //			// Show also warnings with -w
 //			if (arg.equals("-w"))
 //				showWarnings = true;
+			
+			// Show also warnings with -w
+			if (arg.equals("-x"))
+				crambleData = true;
 			
 			// Set output file with "-oFilename"
 			if (arg.startsWith("-o")) {
@@ -54,7 +61,7 @@ public class Main {
 		}
 		
 		// Output program version
-		Logger.getInstance().logText("Database checker version 1.1.1 - 2014-04-19");
+		Logger.getInstance().logText("Database checker version 1.1.2 - 2014-04-19");
 		Logger.getInstance().logText("Gerd Bartelt - www.sebulli.com");
 		
 		// Configure logger
@@ -77,10 +84,13 @@ public class Main {
 		if (importer.run()) {
 			
 			// Scramble the database
-			Scrambler scrambler = new Scrambler(database, outputWriter);
-			scrambler.run();
+			if (crambleData) {
+				Scrambler scrambler = new Scrambler(database, outputWriter);
+				scrambler.run();
+			}
+			
 			// Finally close the output file
-			if (outputWriter != null)
+			if (outputWriter != null) 
 				outputWriter.close();
 			
 			checker.checkAll();

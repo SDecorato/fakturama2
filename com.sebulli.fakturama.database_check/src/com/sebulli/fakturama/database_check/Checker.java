@@ -61,6 +61,15 @@ public class Checker {
 				// take the line number
 				Logger.getInstance().setLineNr(dataset.getLineNr());
 				
+				// Check count of columns
+				if (database.tableHeaders.get(key).columns.size() != dataset.getData().size()) {
+					
+					// Wrong number of columns
+					String name = database.getData(dataset, "NAME");
+					Logger.getInstance().logError("Dataset " + key + "(" + name + ") has " + dataset.getData().size() 
+							+ " columns, expected: " + database.tableHeaders.get(key).columns.size());
+				}
+				
 				// Scan all columns of the dataset
 				for (int column=0; column < dataset.getData().size(); column++) {
 					String data = dataset.getData().get(column);
@@ -129,9 +138,6 @@ public class Checker {
 							} else {
 								nullEntries++;
 							}
-
-						} else {
-							Logger.getInstance().logError("Table "+ key + " has no column with number: " + column);
 						}
 						
 					} else {
