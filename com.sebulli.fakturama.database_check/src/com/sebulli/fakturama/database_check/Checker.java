@@ -204,6 +204,10 @@ public class Checker {
 		// set, of a dataset is marked as "deleted"
 		boolean mainDeleted = false;
 		boolean otherDeleted = false;
+		String mainName = "";
+		String otherName = "";
+		String mainID = "";
+		String otherID = "";
 		
 		// Get the main table and the datasets
 		if (!database.tableDataset.containsKey(mainTable)) {
@@ -221,7 +225,10 @@ public class Checker {
 			
 			// Get content of the cell
 			String data = database.getData(dataset, columnname);
-			
+			mainName = database.getData(dataset, "NAME");
+			mainID = database.getData(dataset, "ID");
+			mainDeleted = database.getData(dataset, "DELETED").equals("TRUE");
+
 			// If not an empty cell
 			if (!data.equals("''")) {
 				
@@ -237,8 +244,7 @@ public class Checker {
 					
 					// Check whether the referencing dataset is marked as "deleted"
 					data = database.getData(dataset, columnname);
-					mainDeleted = database.getData(dataset, "DELETED").equals("TRUE");
-					
+
 					// Get the ID as integer
 					int id = Integer.parseInt(id_s);
 					
@@ -247,11 +253,20 @@ public class Checker {
 						
 						// other exists, but is marked as "deleted"
 						otherDeleted = database.getData(otherTable, id, "DELETED", ignoreMinus1).equals("TRUE");
-
+						otherName = database.getData(otherTable, id, "NAME", true);
+						otherID = database.getData(otherTable, id, "ID", true);
+						
+						// Log the relationship between both cells in an extra log file
+						if (!mainDeleted && !ignoreDeleted) {
+							Logger.getInstance().logRelationship(
+									mainTable, mainName, mainID, 
+									otherTable, otherName ,otherID, otherDeleted);
+						}
+						
 						if (otherDeleted && !mainDeleted && !ignoreDeleted)
-							Logger.getInstance().logWarning("Dataset " + otherTable + "(" + database.getData(otherTable, id, "NAME", ignoreMinus1) + ") is deleted, but "+ dataset.getTableName() + "(" + database.getData(dataset, "NAME") + ") refers to it.");
+							Logger.getInstance().logWarning("Dataset " + otherTable + "(" + database.getData(otherTable, id, "NAME", ignoreMinus1) + ") is deleted, but "+ dataset.getTableName() + "(" + mainName + ") refers to it.");
 					} else {
-						Logger.getInstance().logError("ID " + id + " not found in table " + otherTable + ", but there is a reference from " + database.getData(dataset, "NAME")+ " " + mainTable + "("+ columnname +")");
+						Logger.getInstance().logError("ID " + id + " not found in table " + otherTable + ", but there is a reference from " + mainTable + "("+ mainName +")");
 					}
 				}
 			}
