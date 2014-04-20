@@ -421,12 +421,20 @@ public class DataBase {
 				if (uds == null)
 					Logger.logError("DataBase.getTable() Error: unknown UniDataSet Type");
 
+				int id = -1;
+				
 				// Copy the table to the new UniDataSet
 				for (int i = 1; i <= meta.getColumnCount(); i++) {
 					columnName = meta.getColumnName(i).toLowerCase();
 					s = rs.getString(i);
 					String dbt = getDataBaseTypeByUniDataType(uds.getUniDataTypeByKey(columnName));
 
+					if (columnName.equals("id")) {
+						try {
+							id = Integer.parseInt(s);
+						} catch (Exception e) {
+						}
+					}
 					
 					// Test Data length
 					if (s!= null && checkSize) {
@@ -442,7 +450,23 @@ public class DataBase {
 				}
 
 				// Add the new UniDataSet to the Array List
-				uniDataList.add(uds);
+				if (id >= 0) {
+					if (id == uniDataList.size()) {
+						// Add it to the end
+						uniDataList.add(id,uds);
+					} else 	if (id < uniDataList.size()) { 
+						// Set it at the specified position
+						uniDataList.set(id,uds);
+					} else if (id > uniDataList.size()) { 
+						// Add it to the specified position and fill the empty ids up to this position also
+						// with the same content
+						int udlsize = uniDataList.size();
+						for (int i = udlsize; i <= id ; i++)
+							uniDataList.add(i,uds);
+					}
+				}
+				else
+					uniDataList.add(uds);
 			}
 
 			rs.close();
