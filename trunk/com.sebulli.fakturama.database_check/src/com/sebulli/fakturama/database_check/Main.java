@@ -30,7 +30,7 @@ public class Main {
 		String outputFilename = "";
 		
 		// Show also warnings
-		boolean showWarnings = true;
+		boolean showWarnings = false;
 		
 		// scramble data
 		boolean crambleData = false;
@@ -41,9 +41,9 @@ public class Main {
 		// analyze all program arguments
 		for (String arg: args) {
 			
-//			// Show also warnings with -w
-//			if (arg.equals("-w"))
-//				showWarnings = true;
+			// Show also warnings with -w
+			if (arg.equals("-w"))
+				showWarnings = true;
 			
 			// Show also warnings with -w
 			if (arg.equals("-x"))
@@ -61,7 +61,7 @@ public class Main {
 		}
 		
 		// Output program version
-		Logger.getInstance().logText("Database checker version 1.1.4 - 2014-04-19");
+		Logger.getInstance().logText("Database checker version 1.1.5 - 2014-04-20");
 		Logger.getInstance().logText("Gerd Bartelt - www.sebulli.com");
 		
 		// Configure logger

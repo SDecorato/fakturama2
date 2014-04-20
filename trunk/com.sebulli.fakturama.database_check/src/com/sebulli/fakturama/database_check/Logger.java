@@ -36,8 +36,10 @@ public class Logger {
 	// Show also warnings
 	private boolean showWarnings = false;
 	
-	// The log file
+	// The log file for errros
 	private PrintWriter out;
+	// The log file for relationsships
+	private PrintWriter rels;
 	
 	// All lines
 	public List<String> lines;
@@ -49,7 +51,8 @@ public class Logger {
 	private Logger() {
 		errors = 0;
 		try {
-			out = new PrintWriter("database_check.txt");
+			out  = new PrintWriter("database_check.txt");
+			rels = new PrintWriter("relationships.csv");
 		} catch (FileNotFoundException e) {
 		}
 		
@@ -134,6 +137,41 @@ public class Logger {
 	}
 	
 	/**
+	 * removes semicolons and commas and limit string length
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private String cleanUpForCSV (String s) {
+		s = s.replace(";", " ");
+		s = s.replace(",", " ");
+		if (s.length()>40)
+			s = s.substring(0,40) + "...";
+		
+				
+		return s;
+	}
+	/**
+	 * Log a relationship between 2 table cells
+	 * 
+	 * @param warning Text
+	 */
+	public void logRelationship (String mainTableName, String mainName, String mainID,
+			String otherTableName, String otherName, String otherID, boolean otherDeleted) {
+		rels.print(cleanUpForCSV(mainTableName) + ";");
+		rels.print(cleanUpForCSV(mainID) + ";");
+		rels.print(cleanUpForCSV(mainName) + ";");
+		rels.print(cleanUpForCSV(otherTableName) + ";");
+		rels.print(cleanUpForCSV(otherID) + ";");
+		rels.print(cleanUpForCSV(otherName) + ";");
+		if (otherDeleted)
+			rels.print("DELETED" + ";");
+		else
+			rels.print(";");
+		rels.println();
+	}
+	
+	/**
 	 * Set the line number of the Database.script
 	 * 
 	 * @param lineNr
@@ -154,6 +192,7 @@ public class Logger {
 		}
 		
 		out.close();
+		rels.close();
 	}
 	
 
