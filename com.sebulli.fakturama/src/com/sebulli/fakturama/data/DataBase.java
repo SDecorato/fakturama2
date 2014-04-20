@@ -363,6 +363,46 @@ public class DataBase {
 	}
 
 	/**
+	 * Creates a new dataset based on a template
+	 * 
+	 * @param udsTemplate
+	 * @return
+	 */
+	private UniDataSet createDatasetByTemplate(UniDataSet udsTemplate) {
+		UniDataSet uds = null;
+		// Create a new temporary UniDataSet to store the data
+		if (udsTemplate instanceof DataSetProduct)
+			uds = new DataSetProduct();
+		if (udsTemplate instanceof DataSetContact)
+			uds = new DataSetContact();
+		if (udsTemplate instanceof DataSetItem)
+			uds = new DataSetItem();
+		if (udsTemplate instanceof DataSetVAT)
+			uds = new DataSetVAT();
+		if (udsTemplate instanceof DataSetProperty)
+			uds = new DataSetProperty();
+		if (udsTemplate instanceof DataSetShipping)
+			uds = new DataSetShipping();
+		if (udsTemplate instanceof DataSetPayment)
+			uds = new DataSetPayment();
+		if (udsTemplate instanceof DataSetDocument)
+			uds = new DataSetDocument();
+		if (udsTemplate instanceof DataSetText)
+			uds = new DataSetText();
+		if (udsTemplate instanceof DataSetList)
+			uds = new DataSetList();
+		if (udsTemplate instanceof DataSetExpenditureVoucher)
+			uds = new DataSetExpenditureVoucher();
+		if (udsTemplate instanceof DataSetExpenditureVoucherItem)
+			uds = new DataSetExpenditureVoucherItem();
+		if (udsTemplate instanceof DataSetReceiptVoucher)
+			uds = new DataSetReceiptVoucher();
+		if (udsTemplate instanceof DataSetReceiptVoucherItem)
+			uds = new DataSetReceiptVoucherItem();
+		return uds;
+	}
+	
+	/**
 	 * Copy the data base table into a UniDataSet ArrayList
 	 * 
 	 * @param uniDataList
@@ -386,37 +426,8 @@ public class DataBase {
 			rs = stmt.executeQuery(s);
 			ResultSetMetaData meta = rs.getMetaData();
 			while (rs.next()) {
-				uds = null;
 
-				// Create a new temporary UniDataSet to store the data
-				if (udsTemplate instanceof DataSetProduct)
-					uds = new DataSetProduct();
-				if (udsTemplate instanceof DataSetContact)
-					uds = new DataSetContact();
-				if (udsTemplate instanceof DataSetItem)
-					uds = new DataSetItem();
-				if (udsTemplate instanceof DataSetVAT)
-					uds = new DataSetVAT();
-				if (udsTemplate instanceof DataSetProperty)
-					uds = new DataSetProperty();
-				if (udsTemplate instanceof DataSetShipping)
-					uds = new DataSetShipping();
-				if (udsTemplate instanceof DataSetPayment)
-					uds = new DataSetPayment();
-				if (udsTemplate instanceof DataSetDocument)
-					uds = new DataSetDocument();
-				if (udsTemplate instanceof DataSetText)
-					uds = new DataSetText();
-				if (udsTemplate instanceof DataSetList)
-					uds = new DataSetList();
-				if (udsTemplate instanceof DataSetExpenditureVoucher)
-					uds = new DataSetExpenditureVoucher();
-				if (udsTemplate instanceof DataSetExpenditureVoucherItem)
-					uds = new DataSetExpenditureVoucherItem();
-				if (udsTemplate instanceof DataSetReceiptVoucher)
-					uds = new DataSetReceiptVoucher();
-				if (udsTemplate instanceof DataSetReceiptVoucherItem)
-					uds = new DataSetReceiptVoucherItem();
+				uds = createDatasetByTemplate(udsTemplate);
 
 				if (uds == null)
 					Logger.logError("DataBase.getTable() Error: unknown UniDataSet Type");
@@ -459,10 +470,16 @@ public class DataBase {
 						uniDataList.set(id,uds);
 					} else if (id > uniDataList.size()) { 
 						// Add it to the specified position and fill the empty ids up to this position also
-						// with the same content
+						// with dummy datasets
 						int udlsize = uniDataList.size();
-						for (int i = udlsize; i <= id ; i++)
+						for (int i = udlsize; i < id ; i++) {
+							UniDataSet dummyUds = createDatasetByTemplate(udsTemplate);
+							//mark the dummy datasets as "deleted"
+							if (dummyUds.containsKey("deleted"))
+								dummyUds.setBooleanValueByKey("deleted", true);
 							uniDataList.add(i,uds);
+						}
+						uniDataList.add(id,uds);
 					}
 				}
 				else
