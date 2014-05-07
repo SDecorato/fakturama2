@@ -1120,7 +1120,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 
 		// The note
 		String note = DataUtils.makeOSLineFeeds(contact.getStringValueByKey("note"));
-		textNote = new Text(tabNote, SWT.BORDER | SWT.MULTI);
+		textNote = new Text(tabNote, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL );
 		textNote.setText(note);
 		superviceControl(textNote, 10000);
 
