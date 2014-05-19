@@ -58,6 +58,7 @@ public class PaymentEditor extends Editor {
 	private Text textDiscountDays;
 	private Text textNetDays;
 	private Text textPaid;
+	private Text textDepositPaid;
 	private Text textUnpaid;
 	private Combo comboCategory;
 
@@ -99,6 +100,7 @@ public class PaymentEditor extends Editor {
 		payment.setStringValueByKey("discountdays", textDiscountDays.getText());
 		payment.setStringValueByKey("netdays", textNetDays.getText());
 		payment.setStringValueByKey("paidtext", DataUtils.removeCR(textPaid.getText()));
+		payment.setStringValueByKey("deposittext", DataUtils.removeCR(textDepositPaid.getText()));
 		payment.setStringValueByKey("unpaidtext", DataUtils.removeCR(textUnpaid.getText()));
 
 		// If it is a new payment, add it to the payment list and
@@ -193,6 +195,7 @@ public class PaymentEditor extends Editor {
 		if (!payment.getStringValueByKey("netdays").equals(textNetDays.getText())) { return true; }
 		if (!payment.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("paidtext"), textPaid.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("deposittext"), textDepositPaid.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("unpaidtext"), textUnpaid.getText())) { return true; }
 
 		return false;
@@ -345,7 +348,24 @@ public class PaymentEditor extends Editor {
 		superviceControl(textPaid, 500);
 		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textPaid);
 
-		// Label for the "paid" text message
+		// Label for the "depositpaid" text message
+		Label labelDepositPaid = new Label(top, SWT.NONE);
+		//T: Payment Editor: Label for the text paid
+		labelDepositPaid.setText(_("Text 'deposit'"));
+		//T: Tool Tip Text
+		labelPaid.setToolTipText(_("Enter the text that appears in the document, if the invoice has a deposit. Placeholders can be used."));
+			
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDepositPaid);
+
+		// Create text field for the "depositpaid" text message
+		textDepositPaid = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		textDepositPaid.setText(DataUtils.makeOSLineFeeds(payment.getStringValueByKey("deposittext")));
+		textDepositPaid.setToolTipText(labelPaid.getToolTipText());
+		superviceControl(textDepositPaid, 500);
+		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textDepositPaid);
+
+		
+		// Label for the "unpaid" text message
 		Label labelUnpaid = new Label(top, SWT.NONE);
 		//T: Payment Editor: Label for the text unpaid
 		labelUnpaid.setText(_("Text 'unpaid'"));

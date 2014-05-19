@@ -55,6 +55,10 @@ public class DocumentSummary {
 	private PriceValue shippingVat;
 	private PriceValue shippingGross;
 
+	// deposit value
+	private PriceValue deposit;
+	private PriceValue finalPayment; 
+
 	/**
 	 * Default constructor. Resets all value to 0.
 	 */
@@ -76,6 +80,8 @@ public class DocumentSummary {
 		shippingNet = new PriceValue(0.0);
 		shippingVat = new PriceValue(0.0);
 		shippingGross = new PriceValue(0.0);
+		deposit = new PriceValue(0.0);
+		finalPayment = new PriceValue(0.0);
 	}
 
 	/**
@@ -101,10 +107,11 @@ public class DocumentSummary {
 	 * @param noVatDescription
 	 *            Name of the VAT, which is 0.
 	 * @param scaleFactor
+	 * 
+	 * @param deposit
 	 */
 	public void calculate(VatSummarySet globalVatSummarySet, DataSetArray<DataSetItem> items, double shippingValue, double shippingVatPercent,
-			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor, int netgross) {
-
+			String shippingVatDescription, int shippingAutoVat, Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor, int netgross, Double deposit) {
 		Double vatPercent;
 		String vatDescription;
 
@@ -408,6 +415,9 @@ public class DocumentSummary {
 			this.shippingVat.set(this.shippingGross.asDouble() - this.shippingVat.asDouble());
 		}
 
+		//calculate the final payment
+		this.deposit.set(deposit);
+		this.finalPayment.set(this.totalGross.asDouble() - deposit);
 
 		// Round also the Vat summaries
 		documentVatSummaryItems.roundAllEntries();
@@ -508,4 +518,21 @@ public class DocumentSummary {
 		return this.discountGross;
 	}
 
+	/**
+	 * Getter for the deposit
+	 * 
+	 * @return Sum as PriceValue
+	 */
+	public PriceValue getDeposit() {
+		return this.deposit;
+	}
+	
+	/**
+	 * Getter for the final payment
+	 * 
+	 * @return Sum as PriceValue
+	 */
+	public PriceValue getFinalPayment() {
+		return this.finalPayment;
+	} 
 }

@@ -21,6 +21,7 @@ import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
+import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.PlatformUI;
@@ -96,6 +97,10 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		//T: Preference page "Document" 
 		addField(new ComboFieldEditor("DOCUMENT_MESSAGES", _("No of message fields:"), new String[][] { { "1", "1" }, { "2", "2" }, { "3", "3" }
 			 }, getFieldEditorParent()));
+		//T: Preference page "Document"
+		addField(new StringFieldEditor("DEPOSIT_TEXT", _("Text in the deposit row"), getFieldEditorParent()));
+		//T: Preference page "Document"
+		addField(new StringFieldEditor("FINALPAYMENT_TEXT", _("Text in the final payment row"), getFieldEditorParent()));
 	}
 
 	/**
@@ -131,7 +136,8 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", write);
 		PreferencesInDatabase.syncWithPreferencesFromDatabase("DOCUMENT_MESSAGES", write);
-		
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("DEPOSIT_TEXT", write);
+		PreferencesInDatabase.syncWithPreferencesFromDatabase("FINALPAYMENT_TEXT", write);
 		}
 
 	/**
@@ -153,6 +159,7 @@ public class DocumentPreferencePage extends FieldEditorPreferencePage implements
 		node.putBoolean("DOCUMENT_CUSTOMER_STATISTICS_DIALOG", true);
 		node.put("DOCUMENT_CUSTOMER_STATISTICS_COMPARE_ADDRESS_FIELD", "1");
 		node.put("DOCUMENT_MESSAGES", "1");
+		node.put("DEPOSIT_TEXT", "Deposit");
+		node.put("FINALPAYMENT_TEXT", "Finalpayment");
 	}
-
 }

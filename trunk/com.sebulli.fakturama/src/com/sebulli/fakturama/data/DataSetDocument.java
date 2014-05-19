@@ -66,7 +66,7 @@ public class DataSetDocument extends UniDataSet {
 	 */
 	public DataSetDocument(DocumentType documentType, String webshopid, String webshopdate) {
 		this(-1, "000000", false, documentType, -1, "", "", "", 0, "", "", (new SimpleDateFormat("yyyy-MM-dd")).format(new Date()), (new SimpleDateFormat(
-				"yyyy-MM-dd")).format(new Date()), -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0, 0.0, "", 1, 0.0, "", 0, webshopid, webshopdate,
+				"yyyy-MM-dd")).format(new Date()), -1, "", 0, false, "2000-01-01", 0.0, "", "", 0, "", 0.0, 0.0, "", 1, 0.0, false, 0.0, "", 0, webshopid, webshopdate,
 				webshopdate, false, "", "", 
 				Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_USE_NET_GROSS") + 1,
 				0.0, 0, -1, "", "","","");
@@ -92,7 +92,7 @@ public class DataSetDocument extends UniDataSet {
 				parent.getBooleanValueByKey("paid"), parent.getStringValueByKey("paydate"), 0.0, parent.getStringValueByKey("paymenttext"), parent
 				.getStringValueByKey("items"), parent.getIntValueByKey("shippingid"), parent.getStringValueByKey("shippingname"), parent
 				.getDoubleValueByKey("shipping"), parent.getDoubleValueByKey("shippingvat"), parent.getStringValueByKey("shippingvatdescription"),
-				parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent.getStringValueByKey("message"), parent
+				parent.getIntValueByKey("shippingautovat"), parent.getDoubleValueByKey("total"), parent.getBooleanValueByKey("isdeposit"), parent.getDoubleValueByKey("deposit"), parent.getStringValueByKey("message"), parent
 						.getIntValueByKey("transaction"), parent.getStringValueByKey("webshopid"), parent.getStringValueByKey("webshopdate"), parent
 						.getStringValueByKey("orderdate"), parent.getBooleanValueByKey("novat"), parent.getStringValueByKey("novatname"), parent
 						.getStringValueByKey("novatdescription"), parent.getIntValueByKey("netgross"),
@@ -159,6 +159,8 @@ public class DataSetDocument extends UniDataSet {
 	 * @param shippingvatdescription
 	 * @param shippingautovat
 	 * @param total
+	 * @param isdeposit
+	 * @param deposit
 	 * @param message
 	 * @param transaction
 	 * @param webshopid
@@ -177,7 +179,7 @@ public class DataSetDocument extends UniDataSet {
 	public DataSetDocument(int id, String name, boolean deleted, DocumentType documentType, int addressid, String address, String deliveryaddress,
 			String addressfirstline, int progress, String customerref, String consultant, String date, String servicedate, int paymentid, String paymentname, int duedays,
 			boolean paid, String paydate, Double payvalue, String paymenttext, String items, int shippingid, String shippingname, Double shipping,
-			Double shippingvat, String shippingvatdescription, int shippingautovat, Double total, String message, int transaction, String webshopid,
+			Double shippingvat, String shippingvatdescription, int shippingautovat, Double total, boolean isdeposit, Double deposit, String message, int transaction, String webshopid,
 			String webshopdate, String orderdate, boolean noVat, String noVatName, String noVatDescription, int netgross, double itemsdiscount, int dunninglevel,
 			int invoiceid, String paymentdescription, String shippingdescription,
 			String message2, String message3 ) {
@@ -211,6 +213,8 @@ public class DataSetDocument extends UniDataSet {
 		this.hashMap.put("shippingvatdescription", new UniData(UniDataType.STRING, shippingvatdescription));
 		this.hashMap.put("shippingautovat", new UniData(UniDataType.INT, shippingautovat));
 		this.hashMap.put("total", new UniData(UniDataType.PRICE, total));
+		this.hashMap.put("isdeposit", new UniData(UniDataType.BOOLEAN, isdeposit));
+		this.hashMap.put("deposit", new UniData(UniDataType.PRICE, deposit));
 		this.hashMap.put("message", new UniData(UniDataType.TEXT, message));
 		this.hashMap.put("transaction", new UniData(UniDataType.INT, transaction));
 		this.hashMap.put("webshopid", new UniData(UniDataType.STRING, webshopid));
@@ -438,7 +442,7 @@ public class DataSetDocument extends UniDataSet {
 		int sign = DocumentType.getType(this.getIntValueByKey("category")).sign();
 		calculate(this.getItems(), this.getDoubleValueByKey("shipping") * sign, this.getDoubleValueByKey("shippingvat"),
 				this.getStringValueByKey("shippingvatdescription"), this.getIntValueByKey("shippingautovat"), this.getDoubleValueByKey("itemsdiscount"),
-				this.getBooleanValueByKey("novat"), this.getStringValueByKey("novatdescription"), 1.0, this.getIntValueByKey("netgross"));
+				this.getBooleanValueByKey("novat"), this.getStringValueByKey("novatdescription"), 1.0, this.getIntValueByKey("netgross"), this.getDoubleValueByKey("deposit"));
 	}
 
 	/**
@@ -464,8 +468,8 @@ public class DataSetDocument extends UniDataSet {
 	 *            should the values be rounded to optimal net or gross values
 	 */
 	public void calculate(DataSetArray<DataSetItem> items, double shippingNet, double shippingVat, String shippingVatDescription, int shippingAutoVat,
-			Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor, int netgross) {
-		summary.calculate(null, items, shippingNet, shippingVat, shippingVatDescription, shippingAutoVat, itemsDiscount, noVat, noVatDescription, scaleFactor, netgross);
+			Double itemsDiscount, boolean noVat, String noVatDescription, Double scaleFactor, int netgross, Double deposit) {
+		summary.calculate(null, items, shippingNet, shippingVat, shippingVatDescription, shippingAutoVat, itemsDiscount, noVat, noVatDescription, scaleFactor, netgross,deposit);
 	}
 
 	/**
