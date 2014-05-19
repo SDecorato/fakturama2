@@ -48,7 +48,7 @@ public class VatSummarySetManager {
 		summary.calculate(vatSummarySet, document.getItems(), document.getDoubleValueByKey("shipping") * parentSign,
 				document.getDoubleValueByKey("shippingvat"), document.getStringValueByKey("shippingvatdescription"),
 				document.getIntValueByKey("shippingautovat"), document.getDoubleValueByKey("itemsdiscount"), document.getBooleanValueByKey("novat"),
-				document.getStringValueByKey("novatdescription"), scaleFactor, document.getIntValueByKey("netgross"));
+ 			        document.getStringValueByKey("novatdescription"), scaleFactor, document.getIntValueByKey("netgross"), document.getDoubleValueByKey("deposit"));
 	}
 	
 	

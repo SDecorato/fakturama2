@@ -207,6 +207,8 @@ public enum Data {
 				_("Pay Cash"), 0.0, 0, 0, 
 				//T: Paid text of default payment entry
 				_("Thank you for the payment."), 
+				//T: Text of default deposit payment entry
+				_("Thank you for the payment."),
 				//T: Unpaid text of default payment entry
 				_("Payment due upon receipt of invoice."), false));
 

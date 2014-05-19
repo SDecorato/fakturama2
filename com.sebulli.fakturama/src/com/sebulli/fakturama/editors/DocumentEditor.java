@@ -135,6 +135,8 @@ public class DocumentEditor extends Editor {
 	private Composite paidDataContainer = null;
 	private Combo comboPayment;
 	private ComboViewer comboViewerPayment;
+	private Label warningDepositIcon;
+	private Label warningDepositText;
 	private Spinner spDueDays;
 	private DateTime dtIssueDate;
 	private DateTime dtPaidDate;
@@ -143,6 +145,7 @@ public class DocumentEditor extends Editor {
 	private Combo comboShipping;
 	private ComboViewer comboViewerShipping;
 	private Text shippingValue;
+	//private Text depositValue;
 	private Label vatValue;
 	private Label totalValue;
 	private Composite addressAndIconComposite;
@@ -181,6 +184,8 @@ public class DocumentEditor extends Editor {
 	private String shippingVatDescription = "";
 	private int shippingAutoVat = DataSetShipping.SHIPPINGVATGROSS;
 	private Double total = 0.0;
+	private Double deposit = 0.0;
+	//private Double finalPayment = 0.0;
 	private int dunningLevel = 0;
 	private int duedays;
 	private String billingAddress = "";
@@ -408,7 +413,13 @@ public class DocumentEditor extends Editor {
 				document.setBooleanValueByKey("paid", true);
 				document.setStringValueByKey("paydate", DataUtils.getDateTimeAsString(dtPaidDate));
 				document.setDoubleValueByKey("payvalue", paidValue.getValueAsDouble());
-				
+				deposit = 0.0;
+				//System.out.println(paidValue.getValueAsString());
+				if(paidValue.getValueAsDouble() < total){
+					deposit = paidValue.getValueAsDouble();
+					document.setBooleanValueByKey("isdeposit", true);
+					document.setBooleanValueByKey("paid", false);
+				}
 				if(documentType == DocumentType.INVOICE) {
 					// update dunnings
 					updateDunnings();
@@ -416,13 +427,20 @@ public class DocumentEditor extends Editor {
 
 				// Use the text for "paid" from the current payment
 				if (paymentId >= 0) {
+					if (document.getBooleanValueByKey("paid")){
 					paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("paidtext");
+				}
+					else
+						if (document.getBooleanValueByKey("deposit")){
+							paymentText = Data.INSTANCE.getPayments().getDatasetById(paymentId).getStringValueByKey("deposittext");
+						}
 				}
 
 			}
 			else {
 				document.setBooleanValueByKey("paid", false);
 				document.setDoubleValueByKey("payvalue", 0.0);
+				document.setBooleanValueByKey("isdeposit", false);
 
 				// Use the text for "unpaid" from the current payment
 				if (paymentId >= 0) {
@@ -466,6 +484,9 @@ public class DocumentEditor extends Editor {
 		// Set the total value.
 		document.setDoubleValueByKey("total", total);
 
+		//Set the deposit value
+		document.setDoubleValueByKey("deposit", deposit);
+		
 		// Set the message
 		document.setStringValueByKey("message", DataUtils.removeCR(txtMessage.getText()));
 		if (txtMessage2 != null)
@@ -949,6 +970,9 @@ public class DocumentEditor extends Editor {
 		
 		if (spDueDays != null)
 			if (document.getBooleanValueByKey("paid") != bPaid.getSelection()) { return true; }
+			else {
+				if (document.getBooleanValueByKey("isdeposit") != bPaid.getSelection()) { return true; }
+			}
 		if (bPaid != null) {
 			if (bPaid.getSelection()) {
 				if (!document.getStringValueByKey("paydate").equals(DataUtils.getDateTimeAsString(dtPaidDate))) { return true; }
@@ -970,6 +994,7 @@ public class DocumentEditor extends Editor {
 		if (!DataUtils.DoublesAreEqual(shippingVat, document.getDoubleValueByKey("shippingvat"))) { return true; }
 		if (comboShipping != null)
 			if (!document.getStringValueByKey("shippingdescription").equals(comboShipping.getText())) { return true; }
+		if (!DataUtils.DoublesAreEqual(deposit,  document.getDoubleValueByKey("deposit"))) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("message"), txtMessage.getText())) { return true; }
 		if (txtMessage2 != null)
 			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("message2"), txtMessage2.getText())) { return true; }
@@ -1141,7 +1166,7 @@ public class DocumentEditor extends Editor {
 
 		// Do the calculation
 		document.calculate(items, shipping * sign, shippingVat, shippingVatDescription, shippingAutoVat,
-				discount, noVat, noVatDescription, 1.0, netgross);
+				discount, noVat, noVatDescription, 1.0, netgross, deposit);
 
 		// Get the total result
 		total = document.getSummary().getTotalGross().asDouble();
@@ -1317,7 +1342,7 @@ public class DocumentEditor extends Editor {
 	 * @param paid
 	 *            If true, the widgets for "paid" are generated
 	 */
-	private void createPaidComposite(boolean paid, boolean clickedByUser) {
+	private void createPaidComposite(boolean paid, boolean isdeposit, boolean clickedByUser) {
 
 		// If this widget exists yet, remove it to create it new.
 		boolean changed = false;
@@ -1328,7 +1353,7 @@ public class DocumentEditor extends Editor {
 
 		// Create the new paid container
 		paidDataContainer = new Composite(paidContainer, SWT.NONE);
-		GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(4).applyTo(paidDataContainer);
+		GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(6).applyTo(paidDataContainer);
 		GridDataFactory.swtDefaults().align(SWT.BEGINNING, SWT.BOTTOM).applyTo(paidDataContainer);
 
 		// Should this container have the widgets for the state "paid" ?
@@ -1374,6 +1399,62 @@ public class DocumentEditor extends Editor {
 			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
 			
 
+		}
+		
+		else if (isdeposit) {
+
+			// Create the widget for the date, when the invoice was paid
+			Label paidDateLabel = new Label(paidDataContainer, SWT.NONE);
+			paidDateLabel.setText("am");
+			//T: Tool Tip Text
+			paidDateLabel.setToolTipText(_("Date of the payment"));
+
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidDateLabel);
+
+			dtPaidDate = new DateTime(paidDataContainer, SWT.DROP_DOWN);
+			dtPaidDate.setToolTipText(paidDateLabel.getToolTipText());
+			GridDataFactory.swtDefaults().applyTo(dtPaidDate);
+
+			// Set the paid date to the documents "paydate" parameter
+			GregorianCalendar calendar = new GregorianCalendar();
+			calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("paydate"));
+			dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+			superviceControl(dtPaidDate);
+
+			// Create the widget for the value
+			Label paidValueLabel = new Label(paidDataContainer, SWT.NONE);
+			
+			//T: Label in the document editor
+			paidValueLabel.setText(_("Value"));
+			//T: Tool Tip Text
+			paidValueLabel.setToolTipText(_("The paid value"));
+			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidValueLabel);
+
+			// If it's the first time, that this document is marked as paid
+			// (if the value is 0.0), then also set the date to "today"
+			if ((paidValue.getValueAsDouble() == 0.0) && clickedByUser) {
+				paidValue.setValue(total);
+				calendar = new GregorianCalendar();
+				dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			}
+			CurrencyText txtPayValue = new CurrencyText(this, paidDataContainer, SWT.BORDER | SWT.RIGHT, paidValue);
+			txtPayValue.setToolTipText(paidValueLabel.getToolTipText());
+			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
+			
+			// Add the attention sign if its a deposit
+			warningDepositIcon = new Label(paidDataContainer, SWT.NONE);
+				try {
+					warningDepositIcon.setImage((Activator.getImageDescriptor("/icons/32/warning_32.png").createImage()));
+					
+				}
+				catch (Exception e) {
+					Logger.logError(e, "Icon not found");
+				}
+			warningDepositText = new Label(paidDataContainer, SWT.NONE);
+			warningDepositText.setText(_("ANZAHLUNG"));
+			
+			
 		}
 		// The container is created with the widgets that are shown,
 		// if the invoice is not paid.
@@ -2796,7 +2877,13 @@ public class DocumentEditor extends Editor {
 
 				// The paid label
 				bPaid = new Button(top, SWT.CHECK | SWT.LEFT);
+				if (document.getBooleanValueByKey("paid")){
 				bPaid.setSelection(document.getBooleanValueByKey("paid"));
+				};
+				if (document.getBooleanValueByKey("isdeposit")){
+				bPaid.setSelection(document.getBooleanValueByKey("isdeposit"));	
+				};
+				
 				//T: Mark a paid document with this text.
 				bPaid.setText(_("paid"));
 				//T: Tool Tip Text
@@ -2814,7 +2901,7 @@ public class DocumentEditor extends Editor {
 
 					// ... Recreate the paid composite
 					public void widgetSelected(SelectionEvent e) {
-						createPaidComposite(bPaid.getSelection(), true);
+						createPaidComposite(bPaid.getSelection(), bPaid.getSelection(), true);
 						checkDirty();
 					}
 				});
@@ -2850,7 +2937,7 @@ public class DocumentEditor extends Editor {
 
 				// Create a default paid composite with the document's
 				// state for "paid"
-				createPaidComposite(document.getBooleanValueByKey("paid"), false);
+				createPaidComposite(document.getBooleanValueByKey("paid"), document.getBooleanValueByKey("isdeposit"), false);
 
 				// Set the combo
 				comboPayment.setText(document.getStringValueByKey("paymentdescription"));

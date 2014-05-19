@@ -241,7 +241,7 @@ public class OfficeDocument {
 			ITextTableCell itemCell = null;
 			ITextTableCell vatListCell = null;
 			ArrayList<ITextTableCell> discountCellList = new ArrayList<ITextTableCell>();
-
+			ArrayList<ITextTableCell> depositCellList = new ArrayList<ITextTableCell>();
 			
 			// Scan all placeholders to find the item and the vat table
 			for (int i = 0; i < placeholders.length; i++) {
@@ -266,7 +266,10 @@ public class OfficeDocument {
 				if (placeholderDisplayText.startsWith("<ITEMS.DISCOUNT.")) {
 					discountCellList.add(placeholder.getTextRange().getCell());
 				}
-
+				// Find the deposit placeholders
+				if (placeholderDisplayText.startsWith("<DOCUMENT.DEPOSIT.")) {
+					depositCellList.add(placeholder.getTextRange().getCell());
+				}
 			}
 
 			// Get the items of the UniDataSet document
@@ -373,6 +376,23 @@ public class OfficeDocument {
 				}
 			}
 
+			// Remove the Deposit & the Finalpayment Row if there is no Deposit
+			if (DataUtils.DoublesAreEqual(document.getSummary().getDeposit().asDouble(), 0.0)) {
+				for (int i = 0; i < depositCellList.size(); i++) {
+					ITextTableCell cell = depositCellList.get(i);
+					try {
+						if (cell != null) {
+							ITextTable table = cell.getTextTable();
+							if (table != null)
+								table.removeRow(cell.getName().getRowIndex()-1);
+								table.removeRow(cell.getName().getRowIndex());
+						}
+					}
+					catch (TextException te) {
+					}
+				}
+			}
+			
 			// Save the document
 			saveOODocument(textDocument);
 

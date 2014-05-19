@@ -84,6 +84,10 @@ public class Placeholders {
 			"DOCUMENT.TOTAL.NET",
 			"DOCUMENT.TOTAL.VAT",
 			"DOCUMENT.TOTAL.GROSS",
+			"DOCUMENT.DEPOSIT.DEPOSIT",
+			"DOCUMENT.DEPOSIT.FINALPAYMENT",
+			"DOCUMENT.DEPOSIT.DEP_TEXT",
+			"DOCUMENT.DEPOSIT.FINALPMT_TEXT",
 			"DOCUMENT.REFERENCE.OFFER",
 			"DOCUMENT.REFERENCE.ORDER",
 			"DOCUMENT.REFERENCE.CONFIRMATION",
@@ -809,6 +813,14 @@ public class Placeholders {
 		if (key.equals("DOCUMENT.TOTAL.VAT")) return document.getSummary().getTotalVat().asFormatedRoundedString();
 		if (key.equals("DOCUMENT.TOTAL.GROSS")) return document.getSummary().getTotalGross().asFormatedString();
 		if (key.equals("DOCUMENT.ITEMS.COUNT")) return String.format("%d", document.getItems().getActiveDatasets().size());
+
+		if (key.equals("DOCUMENT.DEPOSIT.DEPOSIT")) return document.getSummary().getDeposit().asFormatedString();
+		if (key.equals("DOCUMENT.DEPOSIT.FINALPAYMENT")) return document.getSummary().getFinalPayment().asFormatedString();
+		if (key.equals("DOCUMENT.DEPOSIT.DEP_TEXT")) return  Activator.getDefault().getPreferenceStore().getString("DEPOSIT_TEXT");
+		if (key.equals("DOCUMENT.DEPOSIT.FINALPMT_TEXT")) return  Activator.getDefault().getPreferenceStore().getString("FINALPAYMENT_TEXT");
+		if (key.equals("DOCUMENT.DEPOSIT.DEP_TEXT")) return  Activator.getDefault().getPreferenceStore().getString("DEPOSIT_TEXT");
+		if (key.equals("DOCUMENT.DEPOSIT.FINALPMT_TEXT")) return  Activator.getDefault().getPreferenceStore().getString("FINALPAYMENT_TEXT");
+
 		if (key.equals("ITEMS.DISCOUNT.PERCENT")) return document.getFormatedStringValueByKey("itemsdiscount");
 		if (key.equals("ITEMS.DISCOUNT.NET")) return document.getSummary().getDiscountNet().asFormatedRoundedString();
 		if (key.equals("ITEMS.DISCOUNT.GROSS")) return document.getSummary().getDiscountGross().asFormatedRoundedString();

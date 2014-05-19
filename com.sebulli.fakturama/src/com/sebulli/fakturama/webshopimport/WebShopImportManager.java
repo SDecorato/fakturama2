@@ -79,7 +79,6 @@ import com.sebulli.fakturama.misc.DocumentType;
  */
 public class WebShopImportManager extends Thread implements IRunnableWithProgress {
 
-	
 	/**
 	 * Runs the reading of a http stream in an extra thread.
 	 * So it can be interrupted by clicking the cancel button. 
@@ -1298,7 +1297,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 				// Add the payment to the data base, if it's a new one
 				DataSetPayment payment = Data.INSTANCE.getPayments().addNewDataSetIfNew(
-						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")", 0.0, 0, 0, "Zahlung dankend erhalten.", "", false));
+						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")", 0.0, 0, 0,"Zahlung dankend erhalten.", "","", false));
 				dataSetDocument.setIntValueByKey("paymentid", payment.getIntValueByKey("id"));
 				dataSetDocument.setStringValueByKey("paymentname", paymentName);
 				dataSetDocument.setStringValueByKey("paymentdescription", payment.getStringValueByKey("description"));
