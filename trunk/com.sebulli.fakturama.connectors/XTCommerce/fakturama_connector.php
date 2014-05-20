@@ -6,9 +6,9 @@
  * 
  * Web shop connector script
  */
-define ('FAKTURAMA_CONNECTOR_VERSION','1.5'); 
+define ('FAKTURAMA_CONNECTOR_VERSION','1.6.4'); 
 /* 
- * Date: 2011-12-15
+ * Date: 2014-04-18
  * 
  * This version is compatible to the same version of Fakturama
  *
@@ -44,14 +44,13 @@ define ('FAKTURAMA_WEBSHOP_CHARSET','ISO-8859-1');
 header("Content-Type: text/html; charset=utf-8" );
 
 // Some shop systems are based on osCommerce, some on xtCommerce
-if (FAKTURAMA_WEBSHOP == OSCOMMERCE) {
-	define ('FAKTURAMA_WEBSHOP_BASE','OSCOMMERCE');	
-} 
-else if (FAKTURAMA_WEBSHOP == XTCOMMERCE) {
-	define ('FAKTURAMA_WEBSHOP_BASE','XTCOMMERCE');	
-}
-else if (FAKTURAMA_WEBSHOP == XTCMODIFIED) {
-	define ('FAKTURAMA_WEBSHOP_BASE','XTCOMMERCE');	
+switch( FAKTURAMA_WEBSHOP ) {
+ case 'OSCOMMERCE': define('FAKTURAMA_WEBSHOP_BASE','OSCOMMERCE');
+ break;
+ case 'XTCOMMERCE': define('FAKTURAMA_WEBSHOP_BASE','XTCOMMERCE');
+ break;
+ case 'XTCMODIFIED': define('FAKTURAMA_WEBSHOP_BASE','XTCOMMERCE');
+ break;
 }
 
 
@@ -72,7 +71,7 @@ if (PHP_VERSION < 4.1) {
 // Include application configuration parameters
 require('includes/configure.php');
 
-if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
+if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') {
 	
 	// Define the project version
 	define('PROJECT_VERSION', 'osCommerce Online Merchant v2.x');
@@ -95,7 +94,7 @@ if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) {
 
 }
 
-if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
+if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') {
   // security
   define('_VALID_XTC',true);
 
@@ -114,6 +113,17 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
 
 
   // Include required functions
+  //  MODIFIED-SHOP
+  if (file_exists(DIR_FS_INC . 'html_encoding.php')) {
+    require_once(DIR_FS_INC . 'html_encoding.php');
+  }
+  //  GAMBIO
+  if (file_exists(DIR_FS_INC . 'htmlspecialchars_wrapper.inc.php')) {
+    require_once(DIR_FS_INC . 'htmlspecialchars_wrapper.inc.php'); 
+  }
+  if (file_exists(DIR_FS_INC . 'htmlentities_wrapper.inc.php')) {
+    require_once(DIR_FS_INC . 'htmlentities_wrapper.inc.php'); 
+  }
   require_once(DIR_FS_INC . 'xtc_db_connect.inc.php');
   require_once(DIR_FS_INC . 'xtc_db_close.inc.php');
   require_once(DIR_FS_INC . 'xtc_db_error.inc.php');
@@ -130,14 +140,13 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
   require_once(DIR_FS_INC . 'xtc_not_null.inc.php');
 
 
-  if (file_exists(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.26/Smarty.class.php')) {
-    require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.26/Smarty.class.php');
-  }
-  else if (file_exists(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.14/Smarty.class.php')) {
-      require(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty_2.6.14/Smarty.class.php');
+  if( count(glob(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty*/Smarty.class.php') == 1) ) {
+   foreach( glob(DIR_FS_CATALOG.DIR_WS_CLASSES . 'Smarty*/Smarty.class.php') as $smarty_version) {
+    require($smarty_version);
+   }
   }
   else
-  	exit_with_error("No valid Smarty.class.php found.");
+    exit_with_error( "No valid Smarty.class.php found." );
 
   require_once (DIR_FS_CATALOG.DIR_WS_CLASSES.'class.phpmailer.php');
   require_once (DIR_FS_INC.'xtc_php_mail.inc.php');
@@ -145,50 +154,48 @@ if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) {
 }
 
 
-
-
 function sbf_not_null($p) {
-	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_not_null($p);
-	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_not_null($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') return tep_not_null($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') return xtc_not_null($p);
 }
 
 function sbf_db_connect() {
-	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_connect();
-	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_connect();
+	if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') return tep_db_connect();
+	if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') return xtc_db_connect();
 }
 
 function sbf_db_query($p) {
-	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_query($p);
-	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_query($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') return tep_db_query($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') return xtc_db_query($p);
 }
 
 function sbf_db_fetch_array($p) {
-	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_fetch_array($p);
-	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_fetch_array($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') return tep_db_fetch_array($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') return xtc_db_fetch_array($p);
 }
 
 function sbf_db_prepare_input($p) {
-	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_prepare_input($p);
-	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_prepare_input($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') return tep_db_prepare_input($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') return xtc_db_prepare_input($p);
 }
 
 function sbf_db_input($p) {
-	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_input($p);
-	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_input($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') return tep_db_input($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') return xtc_db_input($p);
 }
 
 function sbf_db_output($p) {
-	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_output($p);
-	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_output($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') return tep_db_output($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') return xtc_db_output($p);
 }
 
 function sbf_db_num_rows($p) {
-	if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE) return tep_db_num_rows($p);
-	if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE) return xtc_db_num_rows($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'OSCOMMERCE') return tep_db_num_rows($p);
+	if (FAKTURAMA_WEBSHOP_BASE == 'XTCOMMERCE') return xtc_db_num_rows($p);
 }
 
 // Use the ean code or not
-if (FAKTURAMA_WEBSHOP == OSCOMMERCE) {
+if (FAKTURAMA_WEBSHOP == 'OSCOMMERCE') {
   $use_ean_code = false;
 } else {
   $use_ean_code = true;
@@ -1027,10 +1034,11 @@ if ($admin_valid != 1)
 		$notify_comments = substr($orders_status_tosync,1);
 	    }
  		
-	    if (startsWith($notify_comments,"*")) {
-	    
 	    // First character is the new status
 	    $orders_status_tosync = substr($orders_status_tosync,0,1);
+
+	    if (startsWith($notify_comments,"*")) {
+	    
 		
             // Remove the "*"
 	    $notify_comments = substr($notify_comments,1);
@@ -1124,6 +1132,8 @@ if ($admin_valid != 1)
 	    	
 	    	}
 
+	    }
+
 
 	    	if (($orders_id_tosync > 0) && ($orders_status_tosync >= 1) && ($orders_status_tosync <= 3)){
 			sbf_db_query("UPDATE
@@ -1139,8 +1149,6 @@ if ($admin_valid != 1)
 					  		now(), '" . $customer_notified . "', '" . $notify_comments  . "')");
 	    	}
 
-
-	    }
 
 	}
 
@@ -1353,7 +1361,8 @@ if ($admin_valid != 1)
 				if ($order->info['orders_status'] == 3) $order_status_text = "shipped";
 
 				$total = 0.0;
-				if (preg_match("/[0-9]+\.[0-9]+/", str_replace(",",".",strip_tags($check_orders['order_total']) ),$matches))
+				$replace_dot = array( "." => "", "," => ".");
+				if (preg_match("/[0-9]+\.[0-9]+/", strtr(strip_tags($check_orders['order_total']),$replace_dot) ,$matches))
 					$total = $matches[0];
 
 				echo ("currency=\"".$order->info['currency']."\" ");
@@ -1425,9 +1434,9 @@ if ($admin_valid != 1)
 					echo ("quantity=\"".my_encrypt($product['qty'])."\" ");
 					
 					if (FAKTURAMA_WEBSHOP_BASE == OSCOMMERCE)
-						echo ("gross=\"".my_encrypt(number_format( $product['price'] * (1+ $product['tax']/100), 2)) ."\" ");
+						echo ("gross=\"".my_encrypt(number_format( $product['price'] * (1+ $product['tax']/100), 2, '.', '')) ."\" ");
 					if (FAKTURAMA_WEBSHOP_BASE == XTCOMMERCE)
-						echo ("gross=\"".my_encrypt(number_format( $product['price'], 2)) ."\" ");
+						echo ("gross=\"".my_encrypt(number_format( $product['price'], 2, '.', '')) ."\" ");
 
 					echo ("vatpercent=\"". my_encrypt(number_format($product['tax'],2)) . "\">\n");
 
@@ -1555,7 +1564,7 @@ if ($admin_valid != 1)
 				
 				echo ("   <payment ");
 				echo ("type=\"". my_encode($payment_text) ."\" ");
-				echo ("total=\"".my_encrypt(number_format($total,2))."\">\n");
+				echo ("total=\"".my_encrypt(number_format($total, 2, '.', ''))."\">\n");
 				echo ("    <name>".my_encode($order->info['payment_method'])."</name>\n");
 				echo ("   </payment>\n");
 				

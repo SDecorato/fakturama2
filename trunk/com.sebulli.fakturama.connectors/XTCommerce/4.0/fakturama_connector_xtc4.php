@@ -8,14 +8,14 @@
  *
  * This script comes with no warranty.
  *
- * Date: 2013-10-30
+ * Date: 2014-04-18
  * 
  * Copy this file into the root folder of your webshop, where you 
  * find the index.php of your xt:Commerce 4.x installation
  * 
  */
 
-define('FAKTURAMA_CONNECTOR_VERSION', '1.6.2');
+define('FAKTURAMA_CONNECTOR_VERSION', '1.6.4');
 
 
 // set the timezone
@@ -29,7 +29,7 @@ date_default_timezone_set($set_timezone);
 // Only for debugging. All the data is encrypted.
 //define ('ENCRYPT_DATA',true);	
 
-error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ALL ^ (E_DEPRECATED | E_USER_DEPRECATED));
 ini_set("display_errors", "1");
 
 // Return true if $str starts with $sub
@@ -570,7 +570,7 @@ echo ("></webshop>\n");
 			if( $last_products_model_name != $products_model_name )
 			{
 			echo ("  <product ");
-			echo ("gross=\"". my_encode(number_format($products['products_price'], 2)) ."\" ");
+			echo ("gross=\"". my_encrypt(number_format( $products['products_price'] * (1+ $products['tax_rate']/100), 2) )."\" ");
 			echo ("vatpercent=\"". my_encode(number_format($products['tax_rate'], 2)) ."\" ");
 			echo ("quantity=\"". my_encode($products['products_quantity']) ."\" ");
 			echo ("id=\"". my_encode($products['products_id']) ."\" ");
