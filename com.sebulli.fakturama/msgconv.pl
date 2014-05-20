@@ -106,6 +106,8 @@ sub readPoFile($) {
 	close POFILE;
 }
 
+open (METAFILE, "> resources/messages.metaprops") || die;
+
 foreach my $file ("messages.pot", "messages_de.po", "messages_de_AT.po",
 "messages_de_CH.po", "messages_ru.po", "messages_ro.po", "messages_uk.po",
 "messages_hu.po", "messages_de_LI.po", "messages_it.po" ) {
@@ -135,8 +137,9 @@ foreach my $file ("messages.pot", "messages_de.po", "messages_de_AT.po",
 		        $occurenceString =~ s/\.java//g;
 		        push @occArray, $occurenceString;
 		    }
-		    $line .= "# used in: " . join(", ", @occArray) . "\n";
-		    $line .= $matchKey[0] . "." . $i . "=" . (($entry->{MESSAGE_I18N}) ? $entry->{MESSAGE_I18N} : $entry->{MESSAGE});
+		    my $propKey = $matchKey[0] . "." . $i;
+		    $line .= $propKey . "=" . (($entry->{MESSAGE_I18N}) ? $entry->{MESSAGE_I18N} : $entry->{MESSAGE});
+		    print METAFILE "$propKey.comment=used in: " . join(", ", @occArray) . "\n";
 	    } else {
 	        print STDERR $entry->{INFO}, " IS NOT DEFINED!!!\n";
 	    }

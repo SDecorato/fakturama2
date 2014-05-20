@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Fakturama" uid="Fakturama.ID" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="1.6.5" useFeatures="true" includeLaunchers="true">
+<product name="Fakturama" uid="Fakturama.ID" id="com.sebulli.fakturama.product" application="com.sebulli.fakturama.application" version="1.6.6" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="icons/app/about.png"/>
@@ -45,7 +45,7 @@
    </vm>
 
    <license>
-        <url>http://fakturama.sebulli.com</url>
+        <url>http://www.fakturama.org</url>
         <text>
    Eclipse Public License - v 1.0
 
