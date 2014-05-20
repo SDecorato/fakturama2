@@ -1656,7 +1656,6 @@ public class DocumentEditor extends Editor {
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-	@SuppressWarnings("deprecation")
 	public void createPartControl(Composite parent) {
 
 		// Printing an document from the document editor means:
@@ -2877,12 +2876,13 @@ public class DocumentEditor extends Editor {
 
 				// The paid label
 				bPaid = new Button(top, SWT.CHECK | SWT.LEFT);
-				if (document.getBooleanValueByKey("paid")){
-				bPaid.setSelection(document.getBooleanValueByKey("paid"));
-				};
-				if (document.getBooleanValueByKey("isdeposit")){
-				bPaid.setSelection(document.getBooleanValueByKey("isdeposit"));	
-				};
+				if (document.getBooleanValueByKey("paid")) {
+					bPaid.setSelection(document.getBooleanValueByKey("paid"));
+				}
+				if (document.getBooleanValueByKey("isdeposit")) {
+					bPaid.setSelection(document.getBooleanValueByKey("isdeposit"));
+				}
+				deposit = document.getDoubleValueByKey("deposit");
 				
 				//T: Mark a paid document with this text.
 				bPaid.setText(_("paid"));
