@@ -30,7 +30,7 @@ define ('FAKTURAMA_CONNECTOR_VERSION','1.6.4');
 // 'OSCOMMERCE'		// osCommerce	2.3.1			www.oscommerce.com
 // 'XTCOMMERCE'		// xt:Commerce	3.04 SP2.1		www.xt-commerce.com
 // 'XTCMODIFIED'	// xtcModified	1.04			www.xtc-modified.org
-define ('FAKTURAMA_WEBSHOP','OSCOMMERCE');	
+define ('FAKTURAMA_WEBSHOP','XTCMODIFIED');	
 
 // Character Set of the web shop. This is used to send notification comments.
 define ('FAKTURAMA_WEBSHOP_CHARSET','ISO-8859-1'); 
