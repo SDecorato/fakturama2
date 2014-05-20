@@ -79,6 +79,7 @@ import com.sebulli.fakturama.misc.DocumentType;
  */
 public class WebShopImportManager extends Thread implements IRunnableWithProgress {
 
+	
 	/**
 	 * Runs the reading of a http stream in an extra thread.
 	 * So it can be interrupted by clicking the cancel button. 
@@ -954,6 +955,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		String itemModel;
 		String itemName;
 		String itemGross;
+		String itemDiscount;
+		Double itemDiscountDouble = 0.0;
 		String itemCategory;
 		String itemVatpercent;
 		String itemVatname;
@@ -969,7 +972,8 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		// String currency;
 		String order_total;
 		Double order_totalDouble = 0.0;
-
+		String order_discount;
+		Double order_discountDouble = 0.0;
 		// Shipping data
 		String shipping_vatpercent;
 		String shipping_vatname;
@@ -1121,6 +1125,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				itemQuantity = getAttributeAsString(attributes, "quantity");
 				itemGross = getAttributeAsString(attributes, "gross");
 				itemVatpercent = getAttributeAsString(attributes, "vatpercent");
+				itemDiscount = getAttributeAsString(attributes, "discount");
 				productID = getAttributeAsID(attributes, "productid");
 				itemModel = getChildTextAsString(childnode, "model");
 				itemName = getChildTextAsString(childnode, "name");
@@ -1201,9 +1206,16 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 				// Get the picture from the existing product
 				product.setStringValueByKey("picturename", newOrExistingProduct.getStringValueByKey("picturename"));
-				
+
+				// Try to convert discount value to double
+				try {
+					itemDiscountDouble = Double.valueOf(itemDiscount).doubleValue();
+				}
+				catch (Exception e) {
+				}
+
 				// Add this product to the list of items
-				DataSetItem item = Data.INSTANCE.getItems().addNewDataSet(new DataSetItem(Double.valueOf(itemQuantity), product));
+				DataSetItem item = Data.INSTANCE.getItems().addNewDataSet(new DataSetItem(Double.valueOf(itemQuantity), product, itemDiscountDouble));
 				item.setIntValueByKey("owner", documentId);
 
 				// Update the modified item data
@@ -1284,9 +1296,17 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 
 			// Get the payment data
 			if (childnode.getNodeName().equalsIgnoreCase("payment")) {
+				order_discount = getAttributeAsString(attributes, "discount");
 				order_total = getAttributeAsString(attributes, "total");
 				paymentCode = getAttributeAsString(attributes, "type");
 				paymentName = getChildTextAsString(childnode, "name");
+
+				// Try to convert discount value to double
+				try {
+					order_discountDouble = Double.valueOf(order_discount).doubleValue();
+				}
+				catch (Exception e) {
+				}
 
 				// Get the value of the payment
 				try {
@@ -1314,6 +1334,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		dataSetDocument.setStringValueByKey("message", comment);
 
 		dataSetDocument.setStringValueByKey("items", itemString);
+		dataSetDocument.setDoubleValueByKey("itemsdiscount", order_discountDouble);
 		dataSetDocument.setDoubleValueByKey("total", order_totalDouble);
 
 		// There is no VAT used
