@@ -93,6 +93,23 @@ public class DataSetItem extends UniDataSet {
 	/**
 	 * Constructor Creates a new item from a product and the quantity
 	 * 
+	 * @param quantity
+	 *            Quantity of the new item
+	 * @param product
+	 *            Product
+	 * @param discount
+	 *            Discount of the new item
+	 */
+	public DataSetItem(Double quantity, DataSetProduct product, Double discount) {
+		this(-1, product.getStringValueByKey("name"), product.getIntValueByKey("id"), product.getStringValueByKey("itemnr"), false, "", -1, false, quantity,
+				product.getStringValueByKey("description"), product.getPriceByQuantity(quantity), product.getIntValueByKey("vatid"), discount, 0.0, "", "", false,
+				product.getStringValueByKey("picturename"), false, product.getStringValueByKey("qunit"));
+		this.setVat(product.getIntValueByKey("vatid"));
+	}
+
+	/**
+	 * Constructor Creates a new item from a product and the quantity
+	 * 
 	 * @param id
 	 * @param name
 	 * @param productid
