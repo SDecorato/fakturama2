@@ -173,7 +173,7 @@ public abstract class Editor extends EditorPart implements ISaveablePart2 {
 				public void widgetSelected(SelectionEvent e) {
 					if (uds.getIntValueByKey("id") >= 0) {
 						Data.INSTANCE.setProperty(propertyKey, uds.getStringValueByKey("id"));
-						txtStd.setText(thisDataset);
+						txtStd.setText(uds.getStringValueByKey("name"));
 						refreshView();
 					}
 				}

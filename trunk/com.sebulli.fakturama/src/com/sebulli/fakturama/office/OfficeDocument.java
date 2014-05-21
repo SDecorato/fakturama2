@@ -491,7 +491,9 @@ public class OfficeDocument {
 						FileOrganizer.PDF,
 						document)));
 				
-				textDocument.getPersistenceService().export(fs, new PDFFilter());
+				PDFFilter pdfFilter = new PDFFilter();
+				pdfFilter.getPDFFilterProperties().setPdfVersion(1);
+				textDocument.getPersistenceService().export(fs, pdfFilter);
 
 				wasSaved = true;
 

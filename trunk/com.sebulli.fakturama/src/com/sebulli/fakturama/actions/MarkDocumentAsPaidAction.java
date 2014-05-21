@@ -16,6 +16,8 @@ package com.sebulli.fakturama.actions;
 
 import static com.sebulli.fakturama.Translate._;
 
+import java.util.Iterator;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -116,27 +118,30 @@ public class MarkDocumentAsPaidAction extends Action {
 
 				if (selection != null && selection instanceof IStructuredSelection) {
 
-					Object obj = ((IStructuredSelection) selection).getFirstElement();
-
-					// If we had a selection let change the state
-					if (obj != null) {
-						DataSetDocument uds = (DataSetDocument) obj;
-						if (uds instanceof DataSetDocument) {
-
-							// Do it only, if it is allowed to mark this kind of document as paid.
-							if (DocumentType.getType(uds.getIntValueByKey("category")).hasPaid()) {
-
-								// change the state
-								uds.setPaid(paid);
-
-								// also in the database
-								Data.INSTANCE.updateDataSet(uds);
-
-								// Refresh the table with orders.
-								view.refresh();
+//					Object obj = ((IStructuredSelection) selection).getFirstElement();
+					Iterator iterator = ((IStructuredSelection) selection).iterator();
+					while(iterator.hasNext()) {
+						Object obj = iterator.next();
+						// If we had a selection let change the state
+//						if (obj != null) {
+							DataSetDocument uds = (DataSetDocument) obj;
+							if (uds instanceof DataSetDocument) {
+	
+								// Do it only, if it is allowed to mark this kind of document as paid.
+								if (DocumentType.getType(uds.getIntValueByKey("category")).hasPaid()) {
+	
+									// change the state
+									uds.setPaid(paid);
+	
+									// also in the database
+									Data.INSTANCE.updateDataSet(uds);
+								}
 							}
-						}
+//						}
 					}
+	
+					// Refresh the table with orders.
+					view.refresh();
 				}
 			}
 		}
