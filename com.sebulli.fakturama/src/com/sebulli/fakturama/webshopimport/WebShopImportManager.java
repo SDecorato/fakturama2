@@ -1306,6 +1306,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 					order_discountDouble = Double.valueOf(order_discount).doubleValue();
 				}
 				catch (Exception e) {
+// FIXME!!!
 				}
 
 				// Get the value of the payment
@@ -1313,6 +1314,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 					order_totalDouble = Double.valueOf(order_total).doubleValue();
 				}
 				catch (Exception e) {
+// FIXME!!!
 				}
 
 				// Add the payment to the data base, if it's a new one

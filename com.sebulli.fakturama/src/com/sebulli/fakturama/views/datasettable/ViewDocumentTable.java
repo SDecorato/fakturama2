@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.sebulli.fakturama.Activator;
 import com.sebulli.fakturama.ContextHelpConstants;
+import com.sebulli.fakturama.actions.CreateCollectiveInvoiceAction;
 import com.sebulli.fakturama.actions.DeleteDataSetAction;
 import com.sebulli.fakturama.actions.MarkDocumentAsPaidAction;
 import com.sebulli.fakturama.actions.MarkOrderAsAction;
@@ -150,6 +151,10 @@ public class ViewDocumentTable extends ViewDataSetTable {
 		menuManager.add(new NewDocumentAction(DocumentType.CREDIT));
 		menuManager.add(new NewDocumentAction(DocumentType.DUNNING));
 		menuManager.add(new NewDocumentAction(DocumentType.PROFORMA));
+		
+//		if(documentType.equals(DocumentType.DELIVERY)) {
+//			menuManager.add(new CreateCollectiveInvoiceAction());
+//		}
 
 		menuManager.add(new Separator());
 

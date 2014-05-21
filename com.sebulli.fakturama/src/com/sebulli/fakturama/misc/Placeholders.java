@@ -867,59 +867,7 @@ public class Placeholders {
 		
 		if (key.equals("PAYMENT.TEXT")) {
 			// Replace the placeholders in the payment text
-			String paymenttext = document.getStringValueByKey("paymenttext");
-			paymenttext = paymenttext.replace("<PAID.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
-			paymenttext = paymenttext.replace("<PAID.DATE>", document.getFormatedStringValueByKey("paydate"));
-			paymenttext = paymenttext.replace("<DUE.DAYS>", Integer.toString(document.getIntValueByKey("duedays")));
-			paymenttext = paymenttext.replace("<DUE.DATE>", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
-			
-			paymenttext = paymenttext.replace("<DUE.DISCOUNT.PERCENT>", DataUtils.DoubleToFormatedPercent(document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue")));
-			paymenttext = paymenttext.replace("<DUE.DISCOUNT.DAYS>", document.getStringValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays"));
-			paymenttext = paymenttext.replace("<DUE.DISCOUNT.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getSummary().getTotalGross().asDouble() * (1 - percent)));
-			paymenttext = paymenttext.replace("<DUE.DISCOUNT.DATE>", getDiscountDueDate(document));
-			
-			// 2011-06-24 sbauer@eumedio.de
-			// New placeholder for bank
-			paymenttext = paymenttext.replace("<BANK.ACCOUNT.HOLDER>", 
-					Activator.getDefault().getPreferenceStore().getString("BANK_ACCOUNT_HOLDER"));
-			paymenttext = paymenttext.replace("<BANK.ACCOUNT>", 
-					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR"));
-			paymenttext = paymenttext.replace("<BANK.IBAN>", 
-					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
-			paymenttext = paymenttext.replace("<BANK.BIC>", 
-					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BIC"));
-			paymenttext = paymenttext.replace("<BANK.NAME>", 
-					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANK"));
-			paymenttext = paymenttext.replace("<BANK.CODE>", 
-					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKCODE"));
-			paymenttext = paymenttext.replace("<YOURCOMPANY.CREDITORID>", 
-					Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_CREDITORID"));
-			
-			// 2011-06-24 sbauer@eumedio.de
-			// Additional placeholder for censored bank account
-			String censoredAccount = censorAccountNumber(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR"));
-			paymenttext = paymenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredAccount);
-			censoredAccount = censorAccountNumber(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
-			paymenttext = paymenttext.replace("<BANK.IBAN.CENSORED>", censoredAccount);
-			
-			// debitor's bank account
-			paymenttext = paymenttext.replace("<DEBITOR.BANK.ACCOUNT.HOLDER>", 
-					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:account_holder"));
-			paymenttext = paymenttext.replace("<DEBITOR.BANK.IBAN>", 
-					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:iban"));
-			paymenttext = paymenttext.replace("<DEBITOR.BANK.BIC>", 
-					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:bic"));
-			paymenttext = paymenttext.replace("<DEBITOR.BANK.NAME>", 
-					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:bank_name"));
-			paymenttext = paymenttext.replace("<DEBITOR.MANDATREF>", 
-					document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:mandat_ref"));
-			// Additional placeholder for censored bank account
-			censoredAccount = censorAccountNumber(document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:iban"));
-			paymenttext = paymenttext.replace("<DEBITOR.BANK.IBAN.CENSORED>", censoredAccount);
-			
-			// 2011-06-24 sbauer@eumedio.de
-			// New placeholder for total sum
-			paymenttext = paymenttext.replace("<DOCUMENT.TOTAL>", document.getSummary().getTotalGross().asFormatedString());
+			String paymenttext = createPaymentText(document, percent);
 			return paymenttext;
 		}
 		
@@ -1070,6 +1018,68 @@ public class Placeholders {
 
 		return null;
 	}
+
+	/**
+     * @param document
+     * @param percent
+     * @return
+     */
+    public static String createPaymentText(DataSetDocument document, double percent) {
+	    String paymenttext = document.getStringValueByKey("paymenttext");
+	    paymenttext = paymenttext.replace("<PAID.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getDoubleValueByKey("payvalue")));
+	    paymenttext = paymenttext.replace("<PAID.DATE>", document.getFormatedStringValueByKey("paydate"));
+	    paymenttext = paymenttext.replace("<DUE.DAYS>", Integer.toString(document.getIntValueByKey("duedays")));
+	    paymenttext = paymenttext.replace("<DUE.DATE>", DataUtils.DateAsLocalString(DataUtils.AddToDate(document.getStringValueByKey("date"), document.getIntValueByKey("duedays"))));
+	    
+	    paymenttext = paymenttext.replace("<DUE.DISCOUNT.PERCENT>", DataUtils.DoubleToFormatedPercent(document.getDoubleValueByKeyFromOtherTable("paymentid.PAYMENTS:discountvalue")));
+	    paymenttext = paymenttext.replace("<DUE.DISCOUNT.DAYS>", document.getStringValueByKeyFromOtherTable("paymentid.PAYMENTS:discountdays"));
+	    paymenttext = paymenttext.replace("<DUE.DISCOUNT.VALUE>", DataUtils.DoubleToFormatedPriceRound(document.getSummary().getTotalGross().asDouble() * (1 - percent)));
+	    paymenttext = paymenttext.replace("<DUE.DISCOUNT.DATE>", getDiscountDueDate(document));
+	    
+	    // 2011-06-24 sbauer@eumedio.de
+	    // New placeholder for bank
+	    paymenttext = paymenttext.replace("<BANK.ACCOUNT.HOLDER>", 
+	    		Activator.getDefault().getPreferenceStore().getString("BANK_ACCOUNT_HOLDER"));
+	    paymenttext = paymenttext.replace("<BANK.ACCOUNT>", 
+	    		Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR"));
+	    paymenttext = paymenttext.replace("<BANK.IBAN>", 
+	    		Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
+	    paymenttext = paymenttext.replace("<BANK.BIC>", 
+	    		Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BIC"));
+	    paymenttext = paymenttext.replace("<BANK.NAME>", 
+	    		Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANK"));
+	    paymenttext = paymenttext.replace("<BANK.CODE>", 
+	    		Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKCODE"));
+	    paymenttext = paymenttext.replace("<YOURCOMPANY.CREDITORID>", 
+	    		Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_CREDITORID"));
+	    
+	    // 2011-06-24 sbauer@eumedio.de
+	    // Additional placeholder for censored bank account
+	    String censoredAccount = censorAccountNumber(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_BANKACCOUNTNR"));
+	    paymenttext = paymenttext.replace("<BANK.ACCOUNT.CENSORED>", censoredAccount);
+	    censoredAccount = censorAccountNumber(Activator.getDefault().getPreferenceStore().getString("YOURCOMPANY_COMPANY_IBAN"));
+	    paymenttext = paymenttext.replace("<BANK.IBAN.CENSORED>", censoredAccount);
+	    
+	    // debitor's bank account
+	    paymenttext = paymenttext.replace("<DEBITOR.BANK.ACCOUNT.HOLDER>", 
+	    		document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:account_holder"));
+	    paymenttext = paymenttext.replace("<DEBITOR.BANK.IBAN>", 
+	    		document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:iban"));
+	    paymenttext = paymenttext.replace("<DEBITOR.BANK.BIC>", 
+	    		document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:bic"));
+	    paymenttext = paymenttext.replace("<DEBITOR.BANK.NAME>", 
+	    		document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:bank_name"));
+	    paymenttext = paymenttext.replace("<DEBITOR.MANDATREF>", 
+	    		document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:mandat_ref"));
+	    // Additional placeholder for censored bank account
+	    censoredAccount = censorAccountNumber(document.getStringValueByKeyFromOtherTable("addressid.CONTACTS:iban"));
+	    paymenttext = paymenttext.replace("<DEBITOR.BANK.IBAN.CENSORED>", censoredAccount);
+	    
+	    // 2011-06-24 sbauer@eumedio.de
+	    // New placeholder for total sum
+	    paymenttext = paymenttext.replace("<DOCUMENT.TOTAL>", document.getSummary().getTotalGross().asFormatedString());
+	    return paymenttext;
+    }
 
 	/**
 	 * @param paymenttext
