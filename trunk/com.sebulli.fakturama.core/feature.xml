@@ -104,7 +104,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <url>
-      <update label="Fakturama Update Site 1.6+" url="http://www.fakturama.org/update1_6/"/>
+      <update label="Fakturama Update Site 1.6+" url="http://www.fakturama.org/files/update1_6/"/>
       <discovery label="Fakturama Project Web Site" url="http://www.fakturama.org/"/>
    </url>
 
@@ -118,6 +118,10 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <includes
          id="org.eclipse.equinox.p2.rcp.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="org.eclipse.equinox.p2.user.ui"
          version="0.0.0"/>
 
    <requires>
@@ -669,6 +673,27 @@ This Agreement is governed by the laws of the State of New York and the intellec
          install-size="0"
          version="0.0.0"
          fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.p2.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.p2.ui.sdk"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.equinox.p2.ui.sdk.scheduler"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
