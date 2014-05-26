@@ -734,7 +734,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		try {
 			vatPercentDouble = Double.valueOf(productVatPercent).doubleValue() / 100;
 		}
-		catch (Exception e) {
+		catch (NumberFormatException e) {
 		}
 
 		// Convert the gross or net string to a double value
@@ -752,7 +752,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 			}
 
 		}
-		catch (Exception e) {
+		catch (NumberFormatException e) {
 		}
 
 		// Add the VAT value to the data base, if it is a new one 
@@ -797,7 +797,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 		try {
 			quantity = Double.valueOf(productQuantity).doubleValue();
 		}
-		catch (Exception e) {
+		catch (NumberFormatException e) {
 		}
 
 		// Create a new product object
@@ -1091,7 +1091,6 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				dataSetDocument.setStringValueByKey("address", contact.getAddress(false));
 				dataSetDocument.setStringValueByKey("deliveryaddress", contact.getAddress(true));
 				dataSetDocument.setStringValueByKey("addressfirstline", contact.getNameWithCompany(false));
-
 			}
 		}
 
@@ -1132,15 +1131,15 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				itemCategory = getChildTextAsString(childnode, "category");
 				itemVatname = getChildTextAsString(childnode, "vatname");
 				itemQUnit = getChildTextAsString(childnode, "qunit");
-
-				
 				
 				// Convert VAT percent value to a factor (100% -> 1.00)
 				Double vat_percentDouble = 0.0;
 				try {
 					vat_percentDouble = Double.valueOf(itemVatpercent).doubleValue() / 100;
 				}
-				catch (Exception e) {
+				catch (NumberFormatException e) {
+					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
+							+ vat_percentDouble + " (vat_percentDouble)" ));
 				}
 
 				// If one item has a vat value, reset the noVat flag
@@ -1157,7 +1156,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				try {
 					priceNet = Double.valueOf(itemGross).doubleValue() / (1 + vat_percentDouble);
 				}
-				catch (Exception e) {
+				catch (NumberFormatException e) {
+					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
+							+ priceNet + " (priceNet)" ));
 				}
 
 				// Add the VAT value to the data base, if it is a new one
@@ -1211,7 +1212,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				try {
 					itemDiscountDouble = Double.valueOf(itemDiscount).doubleValue();
 				}
-				catch (Exception e) {
+				catch (NumberFormatException e) {
+					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
+							+ itemDiscountDouble + " (itemDiscountDouble)" ));
 				}
 
 				// Add this product to the list of items
@@ -1247,7 +1250,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				try {
 					shippingvat_percentDouble = Double.valueOf(shipping_vatpercent).doubleValue() / 100;
 				}
-				catch (Exception e) {
+				catch (NumberFormatException e) {
+					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
+							+ shippingvat_percentDouble + " (shippingvat_percentDouble)" ));
 				}
 
 				// Get the shipping gross value
@@ -1255,7 +1260,9 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				try {
 					shippingGross = Double.valueOf(shipping_gross).doubleValue();
 				}
-				catch (Exception e) {
+				catch (NumberFormatException e) {
+					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
+							+ shippingGross + " (shippingGross)" ));
 				}
 
 				// Get the category of the imported shipping from the preferences
@@ -1305,16 +1312,18 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				try {
 					order_discountDouble = Double.valueOf(order_discount).doubleValue();
 				}
-				catch (Exception e) {
-// FIXME!!!
+				catch (NumberFormatException e) {
+					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
+							+ order_discount + " (order_discount)" ));
 				}
 
 				// Get the value of the payment
 				try {
 					order_totalDouble = Double.valueOf(order_total).doubleValue();
 				}
-				catch (Exception e) {
-// FIXME!!!
+				catch (NumberFormatException e) {
+					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
+							+ order_totalDouble + " (order_totalDouble)" ));
 				}
 
 				// Add the payment to the data base, if it's a new one

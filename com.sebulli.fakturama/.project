@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>com.sebulli.fakturama</name>
-	<comment></comment>
+	<comment>@key 32303037303533312D313020636F6D2E736562756C6C692E66616B747572616D612F7268657964656E72 </comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -24,5 +24,7 @@
 	<natures>
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>net.sf.eclipsensis.installoptions.InstallOptionsNature</nature>
+		<nature>com.soyatec.additional.Nature</nature>
 	</natures>
 </projectDescription>
