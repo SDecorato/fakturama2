@@ -6,7 +6,7 @@
     <property name='p2.timestamp' value='1243822502499'/>
   </properties>
  <children size='1'>
-    <child location='http://fakturama.googlecode.com/svn/trunk/com.sebulli.fakturama.repository/update'/>
-    <child location='http://fakturama.googlecode.com/svn/trunk/com.sebulli.fakturama.repository/update1_6'/>
+    <child location='http://sebulli.fakturama.com/update'/>
+    <child location='update1_6'/>
   </children>
 </repository>
