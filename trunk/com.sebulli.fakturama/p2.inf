@@ -1,3 +1,7 @@
 instructions.configure=\
-  addRepository(name:Fakturama Update Site,type:0,location:http${#58}//www.fakturama.org/files/update1_6/);\
-  addRepository(name:Fakturama Update Site,type:1,location:http${#58}//www.fakturama.org/files/update1_6/);
+  addRepository(name:Fakturama Update Site (Releases),type:0,location:http${#58}//www.fakturama.org/release/);\
+  addRepository(name:Fakturama Update Site (Releases),type:1,location:http${#58}//www.fakturama.org/release/);
+instructions.configure=\
+  addRepository(name:Fakturama Update Site (Snapshots),type:0,location:http${#58}//www.fakturama.org/snapshot/);\
+  addRepository(name:Fakturama Update Site (Snapshots),type:1,location:http${#58}//www.fakturama.org/snapshot/);
+  
