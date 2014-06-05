@@ -34,6 +34,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -485,7 +486,7 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 	@Override
 	public void createPartControl(Composite parent) {
 
-		// Some of this editos's control elements can be hidden.
+		// Some of this editors's control elements can be hidden.
 		// Get the these settings from the preference store
 		useDelivery = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_DELIVERY");
 		useBank = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_BANK");
@@ -497,9 +498,18 @@ public class ContactEditor extends Editor implements ISaveablePart2 {
 		useCompany = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_COMPANY");
 		useCountry = Activator.getDefault().getPreferenceStore().getBoolean("CONTACT_USE_COUNTRY");
 
+		// Create the ScrolledComposite to scroll horizontally and vertically
+	    ScrolledComposite scrollcomposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+
 		// Create the top Composite
-		top = new Composite(parent, SWT.NONE);
+		top = new Composite(scrollcomposite, SWT.NONE );  //was parent before 
 		GridLayoutFactory.swtDefaults().numColumns(1).applyTo(top);
+
+		scrollcomposite.setContent(top);
+		scrollcomposite.setMinSize(700, 400);   // 2nd entry should be adjusted to higher value when new fields will be added to composite 
+//		scrollcomposite.setAlwaysShowScrollBars(true);
+		scrollcomposite.setExpandHorizontal(true);
+		scrollcomposite.setExpandVertical(true);
 
 		// Create an invisible container for all hidden components
 		Composite invisible = new Composite(top, SWT.NONE);
