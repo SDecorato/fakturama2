@@ -566,9 +566,15 @@ public class DataUtils {
 	 * @return Date as formated String
 	 */
 	public static String DateAsISO8601String(String s) {
-		GregorianCalendar calendar = new GregorianCalendar();
-		calendar = getCalendarFromDateString(s);
-		return getDateTimeAsString(calendar);
+		GregorianCalendar calendar = null;
+		String retval;
+		if(s != null && s != "") {
+			calendar = getCalendarFromDateString(s);
+			retval = getDateTimeAsString(calendar);
+		} else {
+			retval = "";
+		}
+		return retval;
 	}
 
 	/**

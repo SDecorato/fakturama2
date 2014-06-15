@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Noa
 Bundle-SymbolicName: com.sebulli.fakturama.noa
-Bundle-Version: 2.2.304
+Bundle-Version: 2.2.404
 Bundle-ClassPath: noa.jar,
  lib/bootstrapconnector.jar,
  lib/java_uno.jar,
@@ -68,12 +68,10 @@ Export-Package: .,
  com.sun.star.chart,
  com.sun.star.chart2,
  com.sun.star.chart2.data,
- com.sun.star.comp,
  com.sun.star.comp.beans,
  com.sun.star.comp.bridgefactory,
  com.sun.star.comp.connections,
  com.sun.star.comp.helper,
- com.sun.star.comp.juhtest,
  com.sun.star.comp.loader,
  com.sun.star.comp.servicemanager,
  com.sun.star.comp.urlresolver,

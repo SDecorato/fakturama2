@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.Constants;
 
 import com.sebulli.fakturama.data.DataBaseConnectionState;
 import com.sebulli.fakturama.logger.Logger;
@@ -318,13 +320,8 @@ public enum Workspace {
 	 * Displays the current workspace in the title bar
 	 */
 	public void showWorkingDirInTitleBar() {
-		try {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText("Fakturama - " + workspace);
-		}
-		catch (Exception e) {
-		}
-		;
-
+		Bundle b = Activator.getDefault().getBundle();
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText(b.getHeaders().get(Constants.BUNDLE_NAME) + " - " + workspace);
 	}
 	
 	/**

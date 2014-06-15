@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: com.sebulli.fakturama 1.6.5\n"
 "Report-Msgid-Bugs-To: fakturamaATsebulli.com\n"
 "POT-Creation-Date: 2014-05-21 22:26+0200\n"
-"PO-Revision-Date: 2014-05-22 00:52+0100\n"
+"PO-Revision-Date: 2014-06-15 00:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: Gerd Bartelt, Ralf Heydenreich <fakturamaATsebulli.com>\n"
 "Language: de_DE\n"
@@ -2078,7 +2078,7 @@ msgstr ""
 #. T: Payment Editor: Label for the text paid
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:354
 msgid "Text 'deposit'"
-msgstr "Text 'bezahlt'"
+msgstr "Text 'angezahlt'"
 
 #. T: Tool Tip Text
 #: ../src/com/sebulli/fakturama/editors/PaymentEditor.java:356
@@ -2086,7 +2086,7 @@ msgid ""
 "Enter the text that appears in the document, if the invoice has a deposit. "
 "Placeholders can be used."
 msgstr ""
-"Text eingeben, der erscheint, wenn die Rechnung bezahlt wurde. Es können "
+"Text eingeben, der erscheint, wenn die Rechnung angezahlt wurde. Es können "
 "Platzhalter verwendet werden."
 
 #. T: Payment Editor: Label for the text unpaid

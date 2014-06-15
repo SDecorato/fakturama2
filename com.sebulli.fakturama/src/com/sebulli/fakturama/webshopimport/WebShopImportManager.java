@@ -492,7 +492,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 	 * the file system
 	 * 
 	 */
-	public static void readOrdersToSynchronize() {
+	private static void readOrdersToSynchronize() {
 		Reader reader = null;
 
 		orderstosynchronize = new Properties();
@@ -1209,13 +1209,7 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				product.setStringValueByKey("picturename", newOrExistingProduct.getStringValueByKey("picturename"));
 
 				// Try to convert discount value to double
-				try {
-					itemDiscountDouble = Double.valueOf(itemDiscount).doubleValue();
-				}
-				catch (NumberFormatException e) {
-					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
-							+ itemDiscountDouble + " (itemDiscountDouble)" ));
-				}
+				itemDiscountDouble = DataUtils.StringToDouble(itemDiscount);
 
 				// Add this product to the list of items
 				DataSetItem item = Data.INSTANCE.getItems().addNewDataSet(new DataSetItem(Double.valueOf(itemQuantity), product, itemDiscountDouble));
@@ -1309,26 +1303,14 @@ public class WebShopImportManager extends Thread implements IRunnableWithProgres
 				paymentName = getChildTextAsString(childnode, "name");
 
 				// Try to convert discount value to double
-				try {
-					order_discountDouble = Double.valueOf(order_discount).doubleValue();
-				}
-				catch (NumberFormatException e) {
-					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
-							+ order_discount + " (order_discount)" ));
-				}
+				order_discountDouble = DataUtils.StringToDouble(order_discount);
 
 				// Get the value of the payment
-				try {
-					order_totalDouble = Double.valueOf(order_total).doubleValue();
-				}
-				catch (NumberFormatException e) {
-					Logger.logError(e,_("can't convert a number while importing data from Webshop: " 
-							+ order_totalDouble + " (order_totalDouble)" ));
-				}
+				order_totalDouble = DataUtils.StringToDouble(order_total);
 
 				// Add the payment to the data base, if it's a new one
 				DataSetPayment payment = Data.INSTANCE.getPayments().addNewDataSetIfNew(
-						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")", 0.0, 0, 0,"Zahlung dankend erhalten.", "","", false));
+						new DataSetPayment(paymentName, "", paymentName + " (" + paymentCode + ")", 0.0, 0, 0,_("Thank you for the payment."), "","", false));
 				dataSetDocument.setIntValueByKey("paymentid", payment.getIntValueByKey("id"));
 				dataSetDocument.setStringValueByKey("paymentname", paymentName);
 				dataSetDocument.setStringValueByKey("paymentdescription", payment.getStringValueByKey("description"));

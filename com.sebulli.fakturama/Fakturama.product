@@ -189,11 +189,11 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <features>
       <feature id="com.sebulli.fakturama.core"/>
-      <feature id="com.sebulli.exporter.zugferd.feature" version="1.0.0.qualifier"/>
    </features>
 
    <configurations>
       <property name="eclipse.p2.data.area" value="@config.dir/../p2/" />
+      <property name="eclipse.p2.profile" value="profile" />
       <property name="osgi.instance.area" value="@user.home/.fakturama" />
    </configurations>
 
