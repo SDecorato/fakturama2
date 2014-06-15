@@ -196,7 +196,7 @@ public class PaymentEditor extends Editor {
 		if (!payment.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("paidtext"), textPaid.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("deposittext"), textDepositPaid.getText())) { return true; }
-//		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("unpaidtext"), textUnpaid.getText())) { return true; }
+		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("unpaidtext"), textUnpaid.getText())) { return true; }
 
 		return false;
 	}

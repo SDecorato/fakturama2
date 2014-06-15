@@ -321,7 +321,13 @@ public enum Workspace {
 	 */
 	public void showWorkingDirInTitleBar() {
 		Bundle b = Activator.getDefault().getBundle();
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText(b.getHeaders().get(Constants.BUNDLE_NAME) + " - " + workspace);
+		
+		try {
+	        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getWorkbenchWindow().getShell().setText(b.getHeaders().get(Constants.BUNDLE_NAME) + " - " + workspace);
+        }
+        catch (Exception e) {
+        	// silently ignore any Exception...
+        }
 	}
 	
 	/**
