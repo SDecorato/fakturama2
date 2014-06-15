@@ -104,7 +104,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    </license>
 
    <url>
-      <update label="Fakturama Update Site 1.6+" url="http://www.fakturama.org/files/update1_6/"/>
+      <update label="Fakturama Update Site 1.6+" url="http://www.fakturama.org/release"/>
       <discovery label="Fakturama Project Web Site" url="http://www.fakturama.org/"/>
    </url>
 

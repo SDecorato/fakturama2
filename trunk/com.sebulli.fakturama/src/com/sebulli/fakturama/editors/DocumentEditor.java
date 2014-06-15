@@ -969,10 +969,25 @@ public class DocumentEditor extends Editor {
 		
 		
 		if (spDueDays != null)
-			if (document.getBooleanValueByKey("paid") != bPaid.getSelection()) { return true; }
+			if (document.getBooleanValueByKey("paid") != bPaid.getSelection()
+			&& document.getBooleanValueByKey("isdeposit")
+			&& !DataUtils.DoublesAreEqual(deposit, paidValue.getValueAsDouble())
+			|| document.getBooleanValueByKey("paid") != bPaid.getSelection()
+			&& !document.getBooleanValueByKey("isdeposit")
+			&& !DataUtils.DoublesAreEqual(document.getDoubleValueByKey("payvalue"), paidValue.getValueAsDouble())) { return true; }
 			else {
 				if (document.getBooleanValueByKey("isdeposit") != bPaid.getSelection()) { return true; }
 			}
+		
+		/*
+		 * 				//System.out.println(paidValue.getValueAsString());
+				if(paidValue.getValueAsDouble() < total){
+					deposit = paidValue.getValueAsDouble();
+					document.setBooleanValueByKey("isdeposit", true);
+					document.setBooleanValueByKey("paid", false);
+				}
+
+		 */
 		if (bPaid != null) {
 			if (bPaid.getSelection()) {
 				if (!document.getStringValueByKey("paydate").equals(DataUtils.getDateTimeAsString(dtPaidDate))) { return true; }
@@ -994,7 +1009,7 @@ public class DocumentEditor extends Editor {
 		if (!DataUtils.DoublesAreEqual(shippingVat, document.getDoubleValueByKey("shippingvat"))) { return true; }
 		if (comboShipping != null)
 			if (!document.getStringValueByKey("shippingdescription").equals(comboShipping.getText())) { return true; }
-		if (!DataUtils.DoublesAreEqual(deposit,  document.getDoubleValueByKey("deposit"))) { return true; }
+		if (!DataUtils.DoublesAreEqual(deposit, document.getDoubleValueByKey("deposit"))) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("message"), txtMessage.getText())) { return true; }
 		if (txtMessage2 != null)
 			if (!DataUtils.MultiLineStringsAreEqual(document.getStringValueByKey("message2"), txtMessage2.getText())) { return true; }
@@ -1322,11 +1337,7 @@ public class DocumentEditor extends Editor {
 		// Set the shippingAutoVat to net or gross, depending on the
 		// settings of this editor.
 		if (!DataUtils.DoublesAreEqual(newShippingValue, shipping)) {
-			
-			if (useGross)
-				shippingAutoVat = DataSetShipping.SHIPPINGVATGROSS;
-			else
-				shippingAutoVat = DataSetShipping.SHIPPINGVATNET;
+			shippingAutoVat = useGross ? DataSetShipping.SHIPPINGVATGROSS : DataSetShipping.SHIPPINGVATNET;
 		}
 
 		// Recalculate the sum
@@ -1346,7 +1357,7 @@ public class DocumentEditor extends Editor {
 
 		// If this widget exists yet, remove it to create it new.
 		boolean changed = false;
-		if ((paidDataContainer != null) && (!paidDataContainer.isDisposed())) {
+		if (paidDataContainer != null && !paidDataContainer.isDisposed()) {
 			paidDataContainer.dispose();
 			changed = true;
 		}
@@ -1358,105 +1369,22 @@ public class DocumentEditor extends Editor {
 
 		// Should this container have the widgets for the state "paid" ?
 		if (paid) {
-
-			// Create the widget for the date, when the invoice was paid
-			Label paidDateLabel = new Label(paidDataContainer, SWT.NONE);
-			paidDateLabel.setText("am");
-			//T: Tool Tip Text
-			paidDateLabel.setToolTipText(_("Date of the payment"));
-
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidDateLabel);
-
-			dtPaidDate = new DateTime(paidDataContainer, SWT.DROP_DOWN);
-			dtPaidDate.setToolTipText(paidDateLabel.getToolTipText());
-			GridDataFactory.swtDefaults().applyTo(dtPaidDate);
-
-			// Set the paid date to the documents "paydate" parameter
-			GregorianCalendar calendar = new GregorianCalendar();
-			calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("paydate"));
-			dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-			superviceControl(dtPaidDate);
-
-			// Create the widget for the value
-			Label paidValueLabel = new Label(paidDataContainer, SWT.NONE);
-			
-			//T: Label in the document editor
-			paidValueLabel.setText(_("Value"));
-			//T: Tool Tip Text
-			paidValueLabel.setToolTipText(_("The paid value"));
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidValueLabel);
-
-			// If it's the first time, that this document is marked as paid
-			// (if the value is 0.0), then also set the date to "today"
-			if ((paidValue.getValueAsDouble() == 0.0) && clickedByUser) {
-				paidValue.setValue(total);
-				calendar = new GregorianCalendar();
-				dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-			}
-			CurrencyText txtPayValue = new CurrencyText(this, paidDataContainer, SWT.BORDER | SWT.RIGHT, paidValue);
-			txtPayValue.setToolTipText(paidValueLabel.getToolTipText());
-			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
-			
-
-		}
-		
-		else if (isdeposit) {
-
-			// Create the widget for the date, when the invoice was paid
-			Label paidDateLabel = new Label(paidDataContainer, SWT.NONE);
-			paidDateLabel.setText("am");
-			//T: Tool Tip Text
-			paidDateLabel.setToolTipText(_("Date of the payment"));
-
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidDateLabel);
-
-			dtPaidDate = new DateTime(paidDataContainer, SWT.DROP_DOWN);
-			dtPaidDate.setToolTipText(paidDateLabel.getToolTipText());
-			GridDataFactory.swtDefaults().applyTo(dtPaidDate);
-
-			// Set the paid date to the documents "paydate" parameter
-			GregorianCalendar calendar = new GregorianCalendar();
-			calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("paydate"));
-			dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-			superviceControl(dtPaidDate);
-
-			// Create the widget for the value
-			Label paidValueLabel = new Label(paidDataContainer, SWT.NONE);
-			
-			//T: Label in the document editor
-			paidValueLabel.setText(_("Value"));
-			//T: Tool Tip Text
-			paidValueLabel.setToolTipText(_("The paid value"));
-			GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidValueLabel);
-
-			// If it's the first time, that this document is marked as paid
-			// (if the value is 0.0), then also set the date to "today"
-			if ((paidValue.getValueAsDouble() == 0.0) && clickedByUser) {
-				paidValue.setValue(total);
-				calendar = new GregorianCalendar();
-				dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-			}
-			CurrencyText txtPayValue = new CurrencyText(this, paidDataContainer, SWT.BORDER | SWT.RIGHT, paidValue);
-			txtPayValue.setToolTipText(paidValueLabel.getToolTipText());
-			GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
+			createDepositContainer(clickedByUser);
+		} else if (isdeposit) {
+			createDepositContainer(clickedByUser);
 			
 			// Add the attention sign if its a deposit
 			warningDepositIcon = new Label(paidDataContainer, SWT.NONE);
 				try {
 					warningDepositIcon.setImage((Activator.getImageDescriptor("/icons/32/warning_32.png").createImage()));
-					
 				}
-				catch (Exception e) {
+				catch (IllegalArgumentException e) {
 					Logger.logError(e, "Icon not found");
 				}
 			warningDepositText = new Label(paidDataContainer, SWT.NONE);
 			warningDepositText.setText(_("ANZAHLUNG"));
-			
-			
 		}
-		// The container is created with the widgets that are shown,
+		// The container is created with the widgets that are shown
 		// if the invoice is not paid.
 		else {
 
@@ -1533,6 +1461,50 @@ public class DocumentEditor extends Editor {
 		// Resize the container
 		paidContainer.layout(changed);
 		paidContainer.pack(changed);
+	}
+
+	/**
+	 * @param clickedByUser
+	 */
+	private void createDepositContainer(boolean clickedByUser) {
+		// Create the widget for the date, when the invoice was paid
+		Label paidDateLabel = new Label(paidDataContainer, SWT.NONE);
+		paidDateLabel.setText("am");
+		//T: Tool Tip Text
+		paidDateLabel.setToolTipText(_("Date of the payment"));
+
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidDateLabel);
+
+		dtPaidDate = new DateTime(paidDataContainer, SWT.DROP_DOWN);
+		dtPaidDate.setToolTipText(paidDateLabel.getToolTipText());
+		GridDataFactory.swtDefaults().applyTo(dtPaidDate);
+
+		// Set the paid date to the documents "paydate" parameter
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar = DataUtils.getCalendarFromDateString(document.getStringValueByKey("paydate"));
+		dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+		superviceControl(dtPaidDate);
+
+		// Create the widget for the value
+		Label paidValueLabel = new Label(paidDataContainer, SWT.NONE);
+		
+		//T: Label in the document editor
+		paidValueLabel.setText(_("Value"));
+		//T: Tool Tip Text
+		paidValueLabel.setToolTipText(_("The paid value"));
+		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(paidValueLabel);
+
+		// If it's the first time, that this document is marked as paid
+		// (if the value is 0.0), then also set the date to "today"
+		if (paidValue.getValueAsDouble() == 0.0 && clickedByUser) {
+			paidValue.setValue(total);
+			calendar = new GregorianCalendar();
+			dtPaidDate.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+		}
+		CurrencyText txtPayValue = new CurrencyText(this, paidDataContainer, SWT.BORDER | SWT.RIGHT, paidValue);
+		txtPayValue.setToolTipText(paidValueLabel.getToolTipText());
+		GridDataFactory.swtDefaults().hint(60, SWT.DEFAULT).applyTo(txtPayValue.getText());
 	}
 	
 	/**
@@ -1807,7 +1779,7 @@ public class DocumentEditor extends Editor {
 		
 		
 		
-		// The titleComposite contains the tile and the document icon
+		// The titleComposite contains the title and the document icon
 		Composite titleComposite = new Composite(top, SWT.NONE);
 		GridLayoutFactory.fillDefaults().margins(0, 0).numColumns(2).applyTo(titleComposite);
 		GridDataFactory.fillDefaults().align(SWT.LEFT, SWT.BOTTOM).span(2, 1).grab(true, false).applyTo(titleComposite);
@@ -1827,7 +1799,7 @@ public class DocumentEditor extends Editor {
 			labelDocumentTypeIcon
 					.setImage((Activator.getImageDescriptor("/icons/32/" + documentType.getTypeAsString().toLowerCase() + "_32.png").createImage()));
 		}
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
 			Logger.logError(e, "Icon not found");
 		}
 		GridDataFactory.fillDefaults().align(SWT.CENTER, SWT.TOP).grab(true, false).applyTo(labelDocumentTypeIcon);
@@ -2389,7 +2361,7 @@ public class DocumentEditor extends Editor {
 			try {
 				deleteButton.setImage((Activator.getImageDescriptor("/icons/16/delete_16.png").createImage()));
 			}
-			catch (Exception e) {
+			catch (IllegalArgumentException e) {
 				Logger.logError(e, "Icon not found");
 			}
 			GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(deleteButton);
@@ -2526,9 +2498,6 @@ public class DocumentEditor extends Editor {
 			createContextMenu(tableViewerItems);
 		}
 
-		
-		
-		
 		// Container for the message label and the add button
 		Composite addMessageButtonComposite = new Composite(top, SWT.NONE | SWT.RIGHT);
 		GridLayoutFactory.fillDefaults().numColumns(1).applyTo(addMessageButtonComposite);
@@ -2560,7 +2529,7 @@ public class DocumentEditor extends Editor {
 		try {
 			addMessageButton.setImage((Activator.getImageDescriptor("/icons/20/list_20.png").createImage()));
 		}
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
 			Logger.logError(e, "Icon not found");
 		}
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(addMessageButton);
@@ -2602,11 +2571,11 @@ public class DocumentEditor extends Editor {
 						checkDirty();
 					}
 				}
-
 			}
 		});
 
 		int noOfMessageFields = Activator.getDefault().getPreferenceStore().getInt("DOCUMENT_MESSAGES");
+		
 		if (noOfMessageFields < 1)
 			noOfMessageFields = 1;
 		if (noOfMessageFields > 3)
@@ -2715,7 +2684,6 @@ public class DocumentEditor extends Editor {
 
 			if (Activator.getDefault().getPreferenceStore().getBoolean("DOCUMENT_USE_DISCOUNT_ALL_ITEMS") ||
 					!DataUtils.DoublesAreEqual(document.getDoubleValueByKey("itemsdiscount"), 0.0)) {
-
 				
 				// Label discount
 				Label discountLabel = new Label(totalComposite, SWT.NONE);
@@ -2724,7 +2692,6 @@ public class DocumentEditor extends Editor {
 				//T: Tool Tip Text, xgettext:no-c-format
 				discountLabel.setToolTipText(_("Enter a discount value in % for all items."));
 				GridDataFactory.swtDefaults().align(SWT.END, SWT.TOP).applyTo(discountLabel);
-
 				
 				// Discount field
 				itemsDiscount = new Text(totalComposite, SWT.NONE | SWT.RIGHT);
@@ -2758,9 +2725,6 @@ public class DocumentEditor extends Editor {
 
 			}
 					
-
-			
-
 			// Shipping composite contains label and combo.
 			Composite shippingComposite = new Composite(totalComposite, SWT.NONE);
 			GridLayoutFactory.swtDefaults().margins(0, 0).numColumns(2).applyTo(shippingComposite);

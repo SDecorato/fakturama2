@@ -196,7 +196,7 @@ public class PaymentEditor extends Editor {
 		if (!payment.getStringValueByKey("category").equals(comboCategory.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("paidtext"), textPaid.getText())) { return true; }
 		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("deposittext"), textDepositPaid.getText())) { return true; }
-		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("unpaidtext"), textUnpaid.getText())) { return true; }
+//		if (!DataUtils.MultiLineStringsAreEqual(payment.getStringValueByKey("unpaidtext"), textUnpaid.getText())) { return true; }
 
 		return false;
 	}
@@ -228,11 +228,6 @@ public class PaymentEditor extends Editor {
 
 		// Add context help reference 
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(top, ContextHelpConstants.PAYMENT_EDITOR);
-
-		// There is no invisible component, so no container has to be created
-		// Composite invisible = new Composite(top, SWT.NONE);
-		// invisible.setVisible(false);
-		// GridDataFactory.fillDefaults().hint(0, 0).span(2, 1).applyTo(invisible);
 
 		// Large payment label
 		Label labelTitle = new Label(top, SWT.NONE);
@@ -337,8 +332,7 @@ public class PaymentEditor extends Editor {
 		//T: Payment Editor: Label for the text paid
 		labelPaid.setText(_("Text 'paid'"));
 		//T: Tool Tip Text
-		labelPaid.setToolTipText(_("Enter the text that appears in the document, if the invoice is paid. Placeholders can be used."));
-		
+		labelPaid.setToolTipText(_("Enter the text that appears in the document, if the invoice is paid. Placeholders can be used."));		
 		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelPaid);
 
 		// Create text field for the "paid" text message
@@ -353,17 +347,16 @@ public class PaymentEditor extends Editor {
 		//T: Payment Editor: Label for the text paid
 		labelDepositPaid.setText(_("Text 'deposit'"));
 		//T: Tool Tip Text
-		labelPaid.setToolTipText(_("Enter the text that appears in the document, if the invoice has a deposit. Placeholders can be used."));
+		labelDepositPaid.setToolTipText(_("Enter the text that appears in the document, if the invoice has a deposit. Placeholders can be used."));
 			
-		GridDataFactory.swtDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDepositPaid);
+		GridDataFactory.fillDefaults().align(SWT.END, SWT.CENTER).applyTo(labelDepositPaid);
 
 		// Create text field for the "depositpaid" text message
 		textDepositPaid = new Text(top, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
 		textDepositPaid.setText(DataUtils.makeOSLineFeeds(payment.getStringValueByKey("deposittext")));
-		textDepositPaid.setToolTipText(labelPaid.getToolTipText());
+		textDepositPaid.setToolTipText(labelDepositPaid.getToolTipText());
 		superviceControl(textDepositPaid, 500);
 		GridDataFactory.fillDefaults().hint(SWT.DEFAULT, 200).grab(true, true).applyTo(textDepositPaid);
-
 		
 		// Label for the "unpaid" text message
 		Label labelUnpaid = new Label(top, SWT.NONE);
@@ -396,9 +389,12 @@ public class PaymentEditor extends Editor {
 		// Info label with the possible placeholders
 		Label labelPlaceholderInfo2 = new Label(top, SWT.WRAP);
 		//T: Label in the payment editor
-		labelPlaceholderInfo2.setText(_("Placeholder") + ": <DUE.DAYS>, <DUE.DATE>, <BANK.ACCOUNT.HOLDER>, <BANK.ACCOUNT>,\n<BANK.ACCOUNT.CENSORED>, <BANK.CODE>, <BANK.NAME>, <DOCUMENT.TOTAL>");
+		labelPlaceholderInfo2.setText(_("Placeholder") + ": <DUE.DAYS>, <DUE.DATE>, <DUE.DISCOUNT.PERCENT>, <DUE.DISCOUNT.DAYS>, <DUE.DISCOUNT.VALUE>, <DUE.DISCOUNT.DATE>,\n" +
+				"<BANK.ACCOUNT.HOLDER>, <BANK.ACCOUNT>, <BANK.ACCOUNT.CENSORED>, <BANK.IBAN>, <BANK.IBAN.CENSORED>, <BANK.BIC>, <BANK.CODE>,\n" +
+				"<BANK.NAME>, <DEBITOR.BANK.ACCOUNT.HOLDER>, <DEBITOR.BANK.IBAN>, <DEBITOR.BANK.IBAN.CENSORED>, <DEBITOR.BANK.BIC>,\n" +
+				"<DEBITOR.BANK.NAME>, <DEBITOR.MANDATREF>, <DOCUMENT.TOTAL>, <YOURCOMPANY.CREDITORID>");
 		makeSmallLabel(labelPlaceholderInfo2);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).applyTo(labelPlaceholderInfo2);
+		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.CENTER).span(3, 1).applyTo(labelPlaceholderInfo2);
 
 		// Create the composite to make this payment to the standard payment. 
 		Label labelStd = new Label(top, SWT.NONE);

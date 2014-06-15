@@ -53,7 +53,7 @@ public class Translate {
 		
 		String sout;
 		
-		if (messages == null) {
+		if (messages == null || messages.isEmpty()) {
 			messages = new Properties();
 			loadPoFile();
 		}
@@ -148,7 +148,7 @@ public class Translate {
 	 * @return
 	 * 			url of the resource to load
 	 */
-	public static void loadPoFile (URL url) {
+	private static void loadPoFile (URL url) {
 		states state = states.IDLE;
 		String msgCtxt = "";
 		String msgId = "";
@@ -251,14 +251,14 @@ public class Translate {
 	/**
 	 * Load a PO file from the resource and fill the properties
 	 */
-	public static void loadPoFile () {
+	private static void loadPoFile () {
 		// Open the resource message po file.
 		URL url;
 		boolean loadedLocalFile = false;
 		
 		// Get the language file path
 		String workspace = Activator.getDefault().getPreferenceStore().getString("GENERAL_WORKSPACE");
-		String langFilePath = workspace + "/Language/";
+		String langFilePath = workspace + File.separator + "Language" + File.separator;
 		
 		// Get the directory and find all files
 		File dir = new File(langFilePath);
